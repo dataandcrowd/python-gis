@@ -1,0 +1,19 @@
+# 3.5 Origin–destination analysis
+
+## Story problem
+
+**Where do people travel from and to?**
+
+- You build a simple OD table for Auckland zones.
+- You compute totals and top pairs.
+- You plan how to visualise it in the dashboard.
+
+## What you will learn
+
+- Represent OD pairs and aggregate by Auckland zones.
+- Produce an OD summary table suitable for a dashboard.
+- Design one clear visual that communicates movement.
+
+## Notes
+
+- _Add your narrative here._

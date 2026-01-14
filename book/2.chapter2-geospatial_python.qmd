@@ -1,0 +1,25 @@
+# Part 2: Geospatial Python
+
+## Story problem
+
+**Auckland choropleth in one reproducible pipeline**
+
+- You have Auckland zone boundaries (e.g., SA2) and a small population table.
+- Your goal is to produce a clean map and a short explanation that a policymaker can read.
+- You need your code to run again next week without guesswork.
+
+## What you will learn
+
+- Write readable Python for analysis pipelines.
+- Work with tables and joins using DataFrames.
+- Work with spatial data to build GIS indicators.
+
+## Quick preview
+
+```{python}
+print('Part 2: geospatial analysis pipeline')
+```
+
+## Notes
+
+- _Add your narrative here._

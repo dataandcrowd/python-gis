@@ -1,0 +1,33 @@
+# 3.2 Functions and reactivity
+
+## Story problem
+
+**Filter Auckland zones and update the map**
+
+- A user selects a subset of SA2s.
+- The summary table updates immediately.
+- The Folium map refreshes without recomputing everything.
+
+## What you will learn
+
+- Define inputs and outputs cleanly.
+- Use reactive calculations to avoid repeated computation.
+- Structure your app so the Folium map updates predictably.
+
+## App architecture
+
+- Load data once
+- Use pure functions for transformations
+- Use reactives for filtered views
+
+## Mini exercise
+
+- Create a reactive summary table from filtered data (placeholder).
+
+```{python}
+# Placeholder: implement with Shiny reactives
+```
+
+## Notes
+
+- _Add your narrative here._

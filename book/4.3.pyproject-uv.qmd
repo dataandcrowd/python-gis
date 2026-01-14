@@ -1,0 +1,19 @@
+# 4.3 pyproject.toml and uv workflow
+
+## Story problem
+
+**One command builds confidence**
+
+- A single `uv run pytest` tells you if the package is healthy.
+- A single `uv run python -c ...` smoke-tests imports.
+- You keep versions pinned so teaching environments are stable.
+
+## What you will learn
+
+- Write minimal metadata for an Auckland GIS package.
+- Manage dependencies with uv.
+- Use dev dependencies for tests and formatting.
+
+## Notes
+
+- _Add your narrative here._

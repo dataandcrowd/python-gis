@@ -1,0 +1,19 @@
+# Part 4: Python packaging for GIS (Auckland tools)
+
+## Story problem
+
+**From one-off Auckland script to a reusable toolkit**
+
+- You have good code from Parts 2 and 3.
+- Now you make it importable: `from auckland_gis import ...`
+- Your future self and your students will reuse it in new projects.
+
+## What you will learn
+
+- Turn your Auckland analysis into reusable functions.
+- Build a small package that loads Auckland boundaries and produces summaries.
+- Test, document, and publish a clean release.
+
+## Notes
+
+- _Add your narrative here._

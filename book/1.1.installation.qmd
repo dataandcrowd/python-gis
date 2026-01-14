@@ -1,0 +1,34 @@
+# 1.1 Installation
+
+## Story problem
+
+**The first successful GIS import**
+
+- You want to import GeoPandas without mysterious errors.
+- You want a terminal command that proves everything is working.
+- You want to keep the setup steps short and repeatable.
+
+## What you will learn
+
+- Install Python and a modern editor.
+- Install core geospatial dependencies safely.
+- Verify your GIS stack imports correctly.
+
+## Checklist
+
+- Python 3.11+ (recommend 3.12)
+- Editor (Positron or VS Code)
+- A terminal (PowerShell / Terminal)
+
+## Verification
+
+- Run a script that prints versions and confirms imports.
+
+```{python}
+import pandas as pd
+print('pandas', pd.__version__)
+```
+
+## Notes
+
+- _Add your narrative here._

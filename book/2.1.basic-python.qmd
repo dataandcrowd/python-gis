@@ -1,0 +1,36 @@
+# 2.1 Basic Python
+
+## Story problem
+
+**Turning a messy script into a reusable function**
+
+- Your first script works once.
+- You wrap logic into functions so it works for any Auckland suburb.
+- You can reuse it in Part 3 dashboards and Part 4 packaging.
+
+## What you will learn
+
+- Variables, types, and control flow for GIS scripts.
+- Functions as reusable units.
+- Reading and writing files with clear paths.
+
+## Must-know patterns
+
+- Small functions
+- Clear names
+- No hard-coded paths
+
+## Mini exercise
+
+- Standardise column names consistently.
+
+```{python}
+def standardise_columns(cols):
+    return [c.strip().lower().replace(' ', '_') for c in cols]
+
+print(standardise_columns(['SA2 Name', 'Pop Total']))
+```
+
+## Notes
+
+- _Add your narrative here._

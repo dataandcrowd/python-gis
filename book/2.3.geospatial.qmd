@@ -1,0 +1,36 @@
+# 2.3 Geospatial data
+
+## Story problem
+
+**Why your Auckland map looks shifted**
+
+- You plot the boundaries and something is off.
+- The issue is almost always CRS.
+- You learn to check CRS first and transform deliberately.
+
+## What you will learn
+
+- Read/write GeoPackage and GeoJSON.
+- CRS basics and transformations.
+- Make a quick static map for sanity checking.
+
+## GeoPandas essentials
+
+- Geometry column
+- CRS and `to_crs()`
+- Plotting for quick checks
+
+## Mini exercise
+
+- Read a file and print CRS (replace the path).
+
+```{python}
+import geopandas as gpd
+
+# gdf = gpd.read_file('data/auckland_sa2.gpkg')
+# print(gdf.crs)
+```
+
+## Notes
+
+- _Add your narrative here._

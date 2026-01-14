@@ -1,0 +1,19 @@
+# 3.6 Networks for GIS
+
+## Story problem
+
+**Auckland streets as a graph**
+
+- Nodes are intersections, edges are road segments.
+- Weights encode travel time or distance.
+- Network measures become inputs to mapping and dashboards.
+
+## What you will learn
+
+- Graph basics for streets and accessibility.
+- Relate network concepts to routing and congestion.
+- Identify which network measures are worth teaching early.
+
+## Notes
+
+- _Add your narrative here._

@@ -1,0 +1,19 @@
+# 4.2 Project structure that scales
+
+## Story problem
+
+**A repo layout students can understand in 60 seconds**
+
+- Students find code in `src/` and tests in `tests/`.
+- Docs live in `docs/` and are built from examples.
+- Data lives in `data/` and is clearly documented.
+
+## What you will learn
+
+- Use a src layout and keep imports clean.
+- Keep Auckland example data local and do not ship large files by default.
+- Make examples runnable from the repo root.
+
+## Notes
+
+- _Add your narrative here._

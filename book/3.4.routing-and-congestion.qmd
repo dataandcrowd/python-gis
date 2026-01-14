@@ -1,0 +1,19 @@
+# 3.4 Routing and congestion concepts
+
+## Story problem
+
+**Explaining Auckland congestion in simple indicators**
+
+- You need measures that connect behaviour to congestion.
+- You choose a small set of indicators for clarity.
+- You prepare them for mapping and dashboard display.
+
+## What you will learn
+
+- Origin-to-destination framing and route choice.
+- Congestion measures you can explain (V/C ratio, travel time index).
+- How to show congestion results on a map and in a table.
+
+## Notes
+
+- _Add your narrative here._

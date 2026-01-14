@@ -9,25 +9,39 @@ book:
     - index.qmd
     - syllabus.qmd
     - part: 1.chapter1-setup.qmd
-      chapters: 
+      chapters:
         - 1.1.installation.qmd
         - 1.2.uv.qmd
+        - 1.3.version-control.qmd
+
     - part: 2.chapter2-geospatial_python.qmd
-      chapters: 
+      chapters:
         - 2.1.basic-python.qmd
         - 2.2.dataframes.qmd
         - 2.3.geospatial.qmd
         - 2.4.urban-analytics.qmd
         - 2.5.midsemtest-assignment.qmd
+
     - part: 3.chapter3-shiny_python.qmd
       chapters:
-        - 3.1.WebGIS. Wasm and Shiny.qmd
-        - 3.2.Congestion.qmd
-        - 3.3.Origin-Destination.qmd
+        - 3.1.webgis-wasm-shiny.qmd
+        - 3.2.shiny-functions-reactivity.qmd
+        - 3.3.shiny-vs-fastapi.qmd
+        - 3.4.routing-and-congestion.qmd
+        - 3.5.origin-destination.qmd
+        - 3.6.networks.qmd
+        - 3.7.shiny-assignment.qmd
 
-
-
-
+    - part: 4.python-packaging.qmd
+      chapters:
+        - 4.1.packaging-why.qmd
+        - 4.2.project-structure.qmd
+        - 4.3.pyproject-uv.qmd
+        - 4.4.testing-and-quality.qmd
+        - 4.5.docs-and-quarto.qmd
+        - 4.6.geospatial-package-example.qmd
+        - 4.7.publish-pypi.qmd
+        - 4.8.packaging-assignment.qmd
     - references.qmd
 
 bibliography: references.bib

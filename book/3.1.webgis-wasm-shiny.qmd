@@ -1,0 +1,19 @@
+# 3.1 Web GIS, WASM, and Shiny
+
+## Story problem
+
+**Why does my dashboard feel slow?**
+
+- A Folium map loads quickly, then the app becomes sluggish.
+- You learn where computation happens and how to move work upstream.
+- You learn to keep packages and data lean for the web.
+
+## What you will learn
+
+- What runs in the browser versus on the server.
+- Why large Python packages slow down browser-based deployments.
+- How to choose a deployment approach for a Folium-first app.
+
+## Notes
+
+- _Add your narrative here._

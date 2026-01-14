@@ -1,0 +1,34 @@
+# 1.2 uv environments
+
+## Story problem
+
+**Reproducing your Auckland map on another machine**
+
+- Your colleague pulls your repo and runs one command.
+- They get the same package versions and the same output.
+- No manual troubleshooting and no missing dependencies.
+
+## What you will learn
+
+- Create and manage environments with uv.
+- Add packages and lock versions.
+- Run scripts consistently with `uv run`.
+
+## Key commands
+
+- `uv init` to start
+- `uv add` to install
+- `uv run` to execute inside env
+
+## Mini exercise
+
+- Create a new project and install `pandas`.
+
+```{python}
+import pandas as pd
+print(pd.DataFrame({'a':[1,2]}))
+```
+
+## Notes
+
+- _Add your narrative here._

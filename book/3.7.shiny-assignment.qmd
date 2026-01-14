@@ -1,0 +1,33 @@
+# 3.7 Shiny dashboard assignment (Folium-first)
+
+## Story problem
+
+**A dashboard a policymaker can use**
+
+- The map answers: where are the highest values?
+- The table answers: what changes when we filter?
+- The text answers: what does it mean and what are the caveats?
+
+## What you will learn
+
+- Build a Shiny app with a Folium map, filters, and summaries.
+- Use Auckland zones and at least one indicator from Part 2.
+- Write a short interpretation section that matches the visuals.
+
+## Required components
+
+- Folium map
+- At least one filter
+- Summary table or chart
+- Short narrative
+
+## Rubric
+
+- Correctness
+- Usability
+- Clarity
+- Reproducibility
+
+## Notes
+
+- _Add your narrative here._

@@ -1,0 +1,19 @@
+# 4.5 Documentation with Quarto
+
+## Story problem
+
+**Docs that teach, not just describe**
+
+- A student copies the example and it works.
+- A marker can trace method decisions from docs.
+- Future projects reuse the same documented workflow.
+
+## What you will learn
+
+- Write task-based docs: load Auckland SA2, join population, map indicator.
+- Include minimal examples with expected outputs.
+- Use Quarto pages as teaching notes and as package documentation.
+
+## Notes
+
+- _Add your narrative here._

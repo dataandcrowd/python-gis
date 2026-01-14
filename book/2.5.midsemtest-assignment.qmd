@@ -1,0 +1,32 @@
+# 2.5 Mid-semester test and assignment
+
+## Story problem
+
+**A submission that runs on the first try**
+
+- Markers should be able to run your repo with one command.
+- Your map must include a legend, units, and a clear caption.
+- Your interpretation must match the method you used.
+
+## What you will learn
+
+- What you must submit and how it will be marked.
+- Auckland dataset requirements and minimal outputs.
+- Checklist for maps, tables, and interpretation.
+
+## Deliverables
+
+- Quarto PDF
+- Repo link
+- One map + one table + one short interpretation
+
+## Rubric
+
+- Data handling
+- Spatial correctness
+- Communication
+- Reproducibility
+
+## Notes
+
+- _Add your narrative here._

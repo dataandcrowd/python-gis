@@ -1,0 +1,25 @@
+# Part 3: Shiny for Python and Web GIS
+
+## Story problem
+
+**An Auckland dashboard in the browser**
+
+- You already have a choropleth from Part 2.
+- Now you turn it into an interactive dashboard with filters.
+- Folium provides the map layer, Shiny provides the interaction.
+
+## What you will learn
+
+- Understand Shiny mental model: UI + server + reactivity.
+- Build interactive dashboards that communicate Auckland indicators.
+- Use Folium first for mapping, then add reactivity and summaries.
+
+## Quick preview
+
+```{python}
+print('Part 3: dashboards')
+```
+
+## Notes
+
+- _Add your narrative here._

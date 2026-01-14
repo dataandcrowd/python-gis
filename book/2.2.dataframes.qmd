@@ -1,0 +1,36 @@
+# 2.2 DataFrames
+
+## Story problem
+
+**Joining population to Auckland SA2**
+
+- You have an SA2 boundary file and a population table.
+- You must confirm join keys and check for missing matches.
+- You produce a clean summary table for mapping.
+
+## What you will learn
+
+- Load and inspect census-style tables.
+- Summarise with groupby operations.
+- Join population tables to Auckland boundaries safely.
+
+## Key skills
+
+- Filtering/selecting
+- Groupby aggregation
+- Join validation
+
+## Mini exercise
+
+- Create a simple grouped summary.
+
+```{python}
+import pandas as pd
+
+df = pd.DataFrame({'sa2':['Albany','Albany','Manurewa'], 'pop':[10,15,8]})
+print(df.groupby('sa2', as_index=False)['pop'].sum())
+```
+
+## Notes
+
+- _Add your narrative here._

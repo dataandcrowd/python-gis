@@ -1,0 +1,26 @@
+# Part 1: Setup
+
+## Story problem
+
+**Auckland project folder that never breaks**
+
+- You clone a repo onto a lab computer and it works immediately.
+- You can recreate the same environment on macOS and Windows.
+- You can explain exactly what changed between two results.
+
+## What you will learn
+
+- Get a working Python environment suitable for GIS.
+- Use `uv` to create reproducible environments.
+- Use Git to manage change and collaboration.
+
+## Quick preview
+
+```{python}
+import sys
+print(sys.version)
+```
+
+## Notes
+
+- _Add your narrative here._

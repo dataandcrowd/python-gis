@@ -1,0 +1,29 @@
+# 1.3 Version control with Git
+
+## Story problem
+
+**Explaining why your Auckland results changed**
+
+- You changed one line and the map looks different.
+- Git helps you pinpoint the exact change.
+- Your commit message becomes your research diary.
+
+## What you will learn
+
+- Understand commit, branch, push, pull in practice.
+- Structure a repo for a GIS project.
+- Avoid committing large or sensitive data.
+
+## Repo structure
+
+- `data/` (local, usually ignored)
+- `src/` (code)
+- `reports/` or `docs/` (outputs)
+
+## Mini exercise
+
+- Make a repo, commit a script, push to GitHub.
+
+## Notes
+
+- _Add your narrative here._

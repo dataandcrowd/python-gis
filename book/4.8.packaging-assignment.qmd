@@ -1,0 +1,27 @@
+# 4.8 Packaging assignment (Auckland focused)
+
+## Story problem
+
+**A package that produces a map**
+
+- A marker installs your package in a clean environment.
+- They run one example script and get a Folium map output.
+- They read your docs and understand your assumptions.
+
+## What you will learn
+
+- Build a package that supports Auckland zones and one indicator.
+- Write tests and documentation pages.
+- Provide a small example that generates a Folium map.
+
+## Deliverables
+
+- Repo with src layout
+- 3+ functions
+- 3+ tests
+- Docs page
+- One Folium example
+
+## Notes
+
+- _Add your narrative here._
