@@ -1,0 +1,57 @@
+## Lec 2: Software and Data Licensing
+
+### 1. Why Do Licences Matter in This Course?
+ 
+In this course, you will write code, analyse data, and produce outputs such as figures, reports, and notebooks.  
+A licence tells others **what they are allowed to do with your work** and **what they must not do**.
+
+Licences are not legal decoration. They are part of:
+- reproducible research
+- open science
+- professional research practice
+- ethical reuse of data and code
+
+If there is **no licence**, others technically have **no permission** to reuse the work.
+
+
+### 2. Code vs Data vs Teaching Materials
+
+Different outputs require different licences.
+
+| Output type | Examples | Typical licence |
+|---|---|---|
+| Code | Python scripts, notebooks, packages | MIT Licence |
+| Data | CSV, GeoJSON, shapefiles | CC BY 4.0 |
+| Teaching materials | Slides, notes, figures | CC BY 4.0 |
+
+This separation is intentional and important.
+
+
+### 3. What is the MIT Licence?
+
+The MIT Licence is a **permissive open source licence**.
+
+What it allows:
+
+- Use for any purpose
+- Modification
+- Redistribution
+- Commercial use
+
+What it requires:
+
+- Keep the copyright notice
+- Keep the licence text
+
+
+### 4. Licence for Data: Creative Commons BY 4.0 (CC BY 4.0)
+
+CC BY 4.0 is a licence for **data and content**, not software.
+
+What it allows:
+
+- Copying and redistribution
+- Data analysis
+- Visualisation
+- Use in reports, theses, and papers
+

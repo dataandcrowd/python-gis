@@ -1,0 +1,92 @@
+# Chapter 1: Python principles for Geospatial programming
+
+Let's go through python basics
+<!--**Get the lecture notes that you have already prepared for the last 2 years.**-->
+
+* Python Language Basics, IPython, and Jupyter Notebooks
+* Built-In Data Structures, Functions, and Files
+* NumPy Basics: Arrays and Vectorized Computation
+* Getting Started with pandas (**how to install packages**)
+* Data Loading, Storage, and File Formats
+* Data Cleaning and Preparation
+* Data Wrangling: Join, Combine, and Reshape
+* Plotting and Visualization
+* Data Aggregation and Group Operations
+* Time Series
+* Introduction to Modeling Libraries in Python
+
+[Python for Data Analysis, 3E](https://wesmckinney.com/book/)
+
+## To install packages
+
+> Traditional Python took a system-wide approach with global installations and limited isolation, leading to "works on my machine" problems, dependency conflicts, and difficult onboarding.
+
+
+### new in 2026 `uv` installation
+Traditionally, we used `pip`, `pip-tools`, `pipx`, `poetry`, `pyenv`, or `virtualenv` to install packages. And so have we taught `pip` (`!pip` in colab) for our GISCI 343 course.
+In the recent years, however, developers have used multi-thread languages such as **Rust** to speed up the installation process.
+
+Users have reported significant time savings when using uv pip install instead of pip install for such environments. 
+For example, one [benchmark](https://medium.com/@surendhan10/uv-vs-pip-a-professional-comparison-of-python-package-managers-8af6ab180cb1) installing the pandas package showed:
+
+* pip: 2.62 seconds
+* uv: 1.22 seconds 
+
+For a complex set of packages, uv installed the "transformers" library and its 18 *dependencies* in 1.77 seconds, while pip took nearly 50 seconds. 
+
+
+
+```python
+pip install uv 
+```
+
+
+
+## 3. installing `uv`
+
+You will have several options to install uv.
+
+**First option: `pip` and `pipx`**
+
+```python!
+pip3 install uv # on a local machine
+
+pipx install uv # system-wide
+```
+
+**Second option: Homebrew**
+
+```python!
+brew install uv
+```
+
+**third option: binary codes**
+
+```python!
+# Using the standalone installer (recommended on macOS/Linux)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+```
+
+For updates
+
+Standalone: `uv self update`
+pipx: `pipx upgrade uv`
+
+
+## Creating a virtual environment
+Using your terminal (or powershell on Windows), you can install your virtual environment `.venv` at the current folder using the following command:
+
+```bash
+uv venv
+```
+
+If you want to create a subfolder
+
+```bash
+uv venv my-dir # a subfolder called "my-dir"
+```
+

@@ -1,0 +1,169 @@
+
+
+# Useful Python Packages
+
+## 1. Core vector and raster foundations
+
+### GeoPandas
+
+Main argument: Geospatial analysis should feel like tabular data science. Spatial objects should behave like pandas DataFrames with geometry awareness.
+
+Why it is good:
+* Extremely low barrier for students already using pandas
+* Clean syntax for joins, buffers, overlays, dissolves
+* Strong ecosystem integration with Shapely, Fiona, PyProj
+* Ideal for reproducible workflows in urban and policy analysis
+
+Reference: https://geopandas.org
+
+### Shapely
+
+Main argument: Geometry operations should be explicit, precise, and mathematically grounded.
+
+Why it is good:
+
+* Robust implementation of computational geometry
+* Underpins almost all Python vector GIS stacks
+* Essential for buffering, intersections, topology checks
+* Makes spatial reasoning transparent rather than hidden
+
+Reference: https://shapely.readthedocs.io
+
+### Rasterio
+
+Main argument: Raster data should be treated as numerical arrays with spatial metadata, not opaque GIS files.
+
+Why it is good: 
+
+* Clean NumPy style access to raster values
+* Excellent support for GeoTIFF and remote sensing data
+* Well suited for environmental modelling and exposure analysis
+* Encourages explicit control of projections and transforms
+
+Reference: https://rasterio.readthedocs.io
+
+2. Spatial statistics and exploratory analysis - PySAL
+
+Main argument: Spatial dependence and spatial heterogeneity are fundamental properties, not optional add ons.
+
+Why it is good
+
+* Canonical implementation of spatial econometrics and ESDA
+* Supports spatial weights, Moran I, LISA, spatial regression
+* Research grade methods used in planning and economics
+* Encourages theory driven spatial inference
+
+Reference: https://pysal.org
+
+splot
+
+Main argument
+Spatial statistics need spatial visualisation, not generic plots.
+
+Why it is good
+
+Companion to PySAL for mapping spatial autocorrelation
+
+Makes abstract statistics interpretable to non technical audiences
+
+Useful in teaching spatial thinking
+
+Reference: https://splot.readthedocs.io
+
+3. Network and movement analysis
+OSMnx
+
+Main argument
+Urban networks should be downloaded, analysed, and modelled programmatically.
+
+Why it is good
+
+One line access to OpenStreetMap networks
+
+Built in routing, centrality, and network metrics
+
+Highly reproducible for transport and walkability studies
+
+Bridges GIS and network science cleanly
+
+Reference: https://osmnx.readthedocs.io
+
+NetworkX
+
+Main argument
+Spatial systems are graphs first, geography second.
+
+Why it is good
+
+Flexible graph algorithms for connectivity and flow
+
+Works seamlessly with OSMnx outputs
+
+Essential for accessibility, resilience, and routing research
+
+Reference: https://networkx.org
+
+4. Visualisation and web mapping
+Folium
+
+Main argument
+Interactive maps should be lightweight and browser native.
+
+Why it is good
+
+Python interface to Leaflet.js
+
+Very effective for communication with planners and stakeholders
+
+Excellent for dashboards and teaching demonstrations
+
+Reference: https://python-visualization.github.io/folium/
+
+Contextily
+
+Main argument
+Basemaps should be trivial to add and projection aware.
+
+Why it is good
+
+One line basemap support for GeoPandas plots
+
+High quality cartographic context
+
+Keeps analysis code clean and readable
+
+Reference: https://contextily.readthedocs.io
+
+5. Performance, scale, and modern data engineering
+Dask GeoPandas
+
+Main argument
+Geospatial analysis should scale beyond laptop memory.
+
+Why it is good
+
+Parallel and chunked spatial operations
+
+Enables national scale polygon and point analysis
+
+Critical for big mobility and census datasets
+
+Reference: https://dask-geopandas.readthedocs.io
+
+Xarray with rioxarray
+
+Main argument
+Multidimensional spatial data need labelled dimensions and coordinates.
+
+Why it is good
+
+Ideal for time series rasters and climate data
+
+Clean integration with NetCDF and cloud native formats
+
+Strong foundation for environmental modelling
+
+Reference: https://corteva.github.io/rioxarray/
+
+
+
