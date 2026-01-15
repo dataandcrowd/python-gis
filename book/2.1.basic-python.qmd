@@ -1,36 +1,470 @@
-# 2.1 Basic Python
-
-## Story problem
-
-**Turning a messy script into a reusable function**
-
-- Your first script works once.
-- You wrap logic into functions so it works for any Auckland suburb.
-- You can reuse it in Part 3 dashboards and Part 4 packaging.
+# 2.1 Basic Python {.unnumbered}
 
 ## What you will learn
 
+- learn how to write simple code to do simple calculations
 - Variables, types, and control flow for GIS scripts.
 - Functions as reusable units.
 - Reading and writing files with clear paths.
 
-## Must-know patterns
 
-- Small functions
-- Clear names
-- No hard-coded paths
-
-## Mini exercise
-
-- Standardise column names consistently.
+## First Code in Python - Print and Input
 
 ```{python}
-def standardise_columns(cols):
-    return [c.strip().lower().replace(' ', '_') for c in cols]
-
-print(standardise_columns(['SA2 Name', 'Pop Total']))
+print("Hello World")
 ```
 
-## Notes
+```{python}
+10 + 10
+```
 
-- _Add your narrative here._
+## Comments in Code
+
+They are added with the purpose of making the source code easier for humans to understand, They are ignored when programme is running
+
+```{python}
+# This is single line comment
+# I can write code
+
+'''
+This is multi line comment
+Line 1
+Line 2
+'''
+
+print('Hello World!')
+```
+
+```{python}
+print(1 + 1)
+print(5 * 7)
+print(2**3)
+print(10 % 3)
+```
+
+```{python}
+temperature = 15
+```
+
+```{python}
+temperature
+```
+
+## Whitespace
+
+```{python}
+```
+
+```{python}
+x=1+2
+x = 1 + 2
+x             =        1    +                2
+```
+
+## End-of-Line Terminates a Statement
+
+```{python}
+temperature = 5
+```
+
+## Multi-line Statements
+
+```{python}
+x = 1 + 2 + 3 + 4 +\
+    5 + 6 + 7 + 8
+```
+
+## Round brackets (Parentheses)
+
+```{python}
+2 * (3 + 4)
+```
+
+```{python}
+print('first value', 1)
+```
+
+```{python}
+L = [4,2,3,1]
+
+L.sort()
+
+print(L)
+```
+
+## Variable
+
+```{python}
+numbers = 100
+```
+
+```{python}
+Cumbers_343 = 200
+```
+
+```{python}
+x = 10
+y = "Lao"
+
+print(x)
+print(y)
+```
+
+```{python}
+weather = "Freezing"
+print(weather)
+```
+
+### Rules for Python variables
+
+* A variable name must start with a letter or the underscore character
+* A variable name cannot start with a number
+* A variable name can only contain alpha-numeric characters and underscores (A-z, 0-9, and _ )
+* Variable names are case-sensitive (age, name, and Name are three different variables)*
+
+### Variable as a pointer
+
+```{python}
+x = [1, 2, 3]
+
+y = x
+```
+
+```{python}
+x = 'something else'
+
+print(y)  # y is unchanged
+```
+
+## Everything is an object
+
+```{python}
+x = 4
+type(x)
+```
+
+```{python}
+x = 'hello'
+type(x)
+```
+
+```{python}
+x = 3.14159
+type(x)
+```
+
+```{python}
+print(5)
+```
+
+
+```{python}
+print((5).__str__())
+```
+
+```{python}
+L = [1, 2, 3]
+L.append(100)
+print(L)
+```
+
+## Operators
+
+```{python}
+# True division
+print(11 / 2)
+
+# Floor division
+print(11 // 2)
+```
+
+## Comparison Operations
+
+```{python}
+25 % 2 == 1 # is 25 an odd number?
+66 % 2 == 1 # is 66 an odd number?
+```
+
+## Data Types - Numbers and Strings
+
+### Numbers : represent numerical values
+- Integer - Examples: 5, 6000, 80, -1, -15, -5890, 0
+- Floats - Examples: -3.5, -400.8945, 50.1547
+- Complex Numbers - Examples: -3 + 2j, 10 + 1584j
+- Booleans - True, False
+
+```{python}
+type("4")
+```
+
+```{python}
+weatherForecast = "Freezing"
+type(weatherForecast)
+```
+
+```{python}
+print(weatherForecast+weatherForecast)
+print(5 * weatherForecast)
+```
+
+```{python}
+print(weatherForecast.upper())
+print(weatherForecast.lower())
+```
+
+```{python}
+x1 = 10
+x2 = 15.4
+x3 = 3+5j
+x4 = True
+
+print(x1)
+print(type(x1))
+print(x2)
+print(type(x2))
+print(x3)
+print(type(x3))
+print(x4)
+print(type(x4))
+```
+
+```{python}
+x = "My name is "
+y = "John"
+z =  x + y
+print(z)
+```
+
+```{python}
+a = "Hello, World!"
+
+'''string indexing
+first character is index zero, second character is index one, etc....
+'''
+
+print(a[1])
+print(a[2:5])
+
+'''Common operations with strings'''
+
+print(a.strip()) # removes any whitespace
+print(a.lower()) # returns the string in lower case
+print(a.upper()) # returns the string in upper case
+print(a.replace("H", "J")) # replace characters
+print(a.split(",")) # split string by a character
+```
+
+### Numeric
+
+```{python}
+my_int= 2
+my_float= 24.3
+my_int+my_float
+my_int-my_float
+```
+
+```{python}
+x = 5
+y = 17
+
+print(x+y) #Adding
+print(x-y) #Substracting
+print(x*y) #multiplication
+print(y/x) #division
+print(y%x) #modulo operation (remainder after division)
+print(x**2) #power
+```
+
+### Converting between Data Types (Casting)
+Sometimes, we have to force some data to be a particular data type. as example, when we input something to a programme, usually it comes as a text (string). so if we want to perform calculations on that, we have to convert that in to a numerical type such as int / float
+
+```{python}
+a = int(10.15)
+b = int("5")
+
+print(a, type(a))
+print(b, type(b))
+print('\n---------------------\n')
+
+a = float(12)
+b = float("15.9")
+
+print(a, type(a))
+print(b, type(b))
+
+print('\n---------------------\n')
+
+a = str(5)
+b = str(4.5)
+
+print(a, type(a))
+print(b, type(b))
+```
+
+## Lists
+
+```{python}
+top = ["socks", "underwear", "handkerchief"]
+middle = ["T-shirts", "Pajamas", "Trousers", "Shorts"]
+bottom = [30, 73, 100, 62]
+```
+
+```{python}
+top
+```
+
+**Modifying Lists**
+
+```{python}
+western_line = ["Britomart", "Parnell", "Newmarket", "Grafton",
+    "Mt Eden", "Kingsland", "Morningside", "Baldwin Ave"]
+
+print(western_line)
+```
+
+Indexing
+
+```{python}
+western_line[1]
+```
+
+```{python}
+western_line[2]
+western_line[2:5]
+western_line[-1]
+western_line[-8]
+```
+
+Modifying list values
+
+```{python}
+western_line[3] = 'Auckland City'
+western_line
+```
+
+```{python}
+western_line.append("new station")
+
+print(western_line)
+```
+
+### Exercise
+
+* Define western_line in your environment
+* Add Mt Albert, Avondale, New Lynn, Fruitvale Rd, Glen Eden as a list (you can Google “Auckland Western Line” and find the Wikipedia)
+* Assign that in your environment as `more_western`
+* This time, try using the function `extend` to combine the two lists
+
+```{python}
+western_line = ["Britomart", "Parnell", "Newmarket", "Grafton",
+    "Mt Eden", "Kingsland", "Morningside", "Baldwin Ave"]
+```
+
+```{python}
+more_western = ["Mt Albert", "Avondale"]
+```
+
+```{python}
+western_line.extend(more_western)
+```
+
+```{python}
+western_line
+```
+
+## Control Flow Statements
+### `for` Loop
+```{python}
+for name in western_line:
+    print(name)
+```
+
+```{python}
+european_cities = ["Amsterdam", "Brussels", "London", "Rome"]
+for city100 in european_cities:
+    print(city100)
+```
+
+### Using `range`
+```{python}
+for value in range(5):
+    print(value)
+```
+
+```{python}
+group1 = [1, 3, 5]
+group2 = [0, 1, 2]
+
+for i in range(2):
+    print(group1[i], 'gisci 343 lecture 2', group2[i])
+```
+
+### Exercise
+* The indices of the cities and countries are in the same order
+* For example, Helsinki and Finland are in index 0
+* Create a `for` loop that describes something like *Helsinki is the capital of Finland*
+
+```{python}
+cities = ["Helsinki", "Stockholm", "Oslo", "Reykjavik", "Copenhagen"]
+countries = ["Finland", "Sweden", "Norway", "Iceland", "Denmark"]
+```
+
+```{python}
+for gisci in range(5):
+  print(cities[gisci], "is the captial of", countries[gisci])
+```
+
+### `if-else` Statements
+
+```{python}
+temperature = 17
+if temperature > 25:
+    print(temperature, "is greater than 25")
+```
+
+```{python}
+temperature = 30
+if temperature > 25:
+    print("It is hot!")
+else:
+    print("It is not hot!")
+```
+
+### Boolean Conditions
+
+```{python}
+weather = "rainy"
+
+if weather == "rain":
+    print("Wear a raincoat!")
+else:
+    print("No raincoat needed.")
+```
+
+```{python}
+weather = "rain"
+wind_speed = 14
+
+if (weather == "rain") or (wind_speed >= 10):
+    print("Just stay at home")
+else:
+    print("Go out and enjoy the weather!")
+```
+
+```{python}
+temperatures = [0, 12, 17, 28, 30]
+
+
+
+# For each temperature, if the temperature is greater than 25, print "..is hot"
+
+for temperature in temperatures:
+
+    if temperature > 25:
+
+        print(temperature, "is hot")
+
+    else:
+
+        print(temperature, "is not hot")
+```

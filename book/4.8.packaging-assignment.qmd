@@ -1,4 +1,4 @@
-# 4.8 Packaging assignment (Auckland focused)
+# 4.8 Packaging assignment {.unnumbered}
 
 ## Story problem
 

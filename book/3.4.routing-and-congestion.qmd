@@ -1,4 +1,4 @@
-# 3.4 Routing and congestion concepts
+# 3.4 Routing and congestion concepts {.unnumbered}
 
 ## Story problem
 

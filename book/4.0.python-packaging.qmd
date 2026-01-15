@@ -1,4 +1,4 @@
-# Part 4: Python packaging for GIS (Auckland tools)
+# Part 4: Python packaging for GIS
 
 ## Story problem
 

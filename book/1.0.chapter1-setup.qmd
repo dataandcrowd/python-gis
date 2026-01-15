@@ -20,7 +20,3 @@
 import sys
 print(sys.version)
 ```
-
-## Notes
-
-- _Add your narrative here._

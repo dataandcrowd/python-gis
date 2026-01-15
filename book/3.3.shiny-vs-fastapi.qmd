@@ -1,4 +1,4 @@
-# 3.3 Shiny versus FastAPI
+# 3.3 Shiny versus FastAPI {.unnumbered}
 
 ## Story problem
 

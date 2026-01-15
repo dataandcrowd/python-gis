@@ -1,4 +1,4 @@
-# 2.3 Geospatial data
+# 2.3 Geospatial data {.unnumbered}
 
 ## Story problem
 

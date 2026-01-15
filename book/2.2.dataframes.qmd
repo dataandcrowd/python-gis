@@ -1,4 +1,4 @@
-# 2.2 DataFrames
+# 2.2 DataFrames {.unnumbered}
 
 ## Story problem
 
@@ -27,10 +27,323 @@
 ```{python}
 import pandas as pd
 
-df = pd.DataFrame({'sa2':['Albany','Albany','Manurewa'], 'pop':[10,15,8]})
+df = pd.DataFrame({'sa2':['Albany','Parnell','Remuera'], 'pop':[10,15,8]})
 print(df.groupby('sa2', as_index=False)['pop'].sum())
 ```
 
-## Notes
+You may have seen `import` somewhere, and `from` somewhere else. What is the difference?
+Take a look at this example below:
 
-- _Add your narrative here._
+```python
+from pandas import *
+df = DataFrame({"a": [1, 2, 3]})
+s = Series([10, 20, 30])
+read_csv("data.csv")
+```
+
+What is happening internally? This copies every public symbol from pandas into your current namespace.
+It is good when you are beginners and you merely want functions, not the package name itself.
+However, it becomes dangerous when you are using multiple packages and you don't know which arguments are coming from where.
+
+
+*Pandas import conventions https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html*
+*Python namespaces https://docs.python.org/3/tutorial/classes.html#python-scopes-and-namespaces*
+*PEP 8 import guidelines https://peps.python.org/pep-0008/#imports*
+
+```python
+from pandas import *
+from numpy import *
+
+mean([1,2,3])   # Which mean is this?
+```
+
+---
+
+## Dictionaries
+
+- Dictionaries are really useful as they create a bit more freedom in our data strucutre.
+- In comparison, in array its a really bad idea to have mixed data types and uneven arrays, however dictionaries are great for this type of data.
+- This moves us towards 'unstructured' data. Lots of the info we get from the web is fairly unstrucutred becasue it relies on non-complete datasets.
+  - For example: some data has geolocation, and some does not.
+- Having said that, using a dictionary doesn't mean _no_ structure, it just means that not all elements of the structure will be there.
+
+```{python}
+GISCI_dictionary = {
+            "apple":"a delicious round fruit",
+            "bench":"a place to sit next to the footpath",
+            "candy":"something thats tastey but causes cavities",
+            "door":"a portal to another room",
+            "entomologist":"somone that studies bugs",
+            "farce":"a sausage meat mixture",
+            "gas":"a petrochemical nearing end of life",
+            "hatchback":"a car with a rear that enitrely opens",
+            "ice":"the solid state of water",
+            "juice":"a sugary taste fruit drink",
+            "k****":"asdfasdf"
+                     }
+
+GISCI_dictionary["bench"]
+```
+
+## Dictionary functions
+- `mydict.keys()` gives you the 'key' of the key:value pairing
+- `mydict.items()` give you the contents as a list
+- `mydict.values()` gives you the values
+
+```{python}
+GISCI_dictionary.keys()
+GISCI_dictionary.values()
+GISCI_dictionary.items()
+```
+
+## Dictionaries are often multi layered (multi-dimensional)
+- Often dictionaries contain lists of dictionaries
+- Yes, it is confusing, but creates more freedom
+
+```{python}
+mydict = {"people":[
+            {
+                "name":"Hyesop",
+                 "role":"teacher"
+            },
+            {
+                "name":"Sila",
+                 "role":"teacher"
+            },
+
+            {
+                "name":"Hinami",
+                 "role":"tutor"
+            }
+            ]}
+
+# print(mydict)
+
+print(mydict["people"])
+```
+
+* We can add another dictionary within that first one, that contains a totally different set of information...
+
+```{python}
+mydict = {"people":[
+            {"name":"hyesop","role":"teacher"},
+            {"name":"sila","role":"teacher"},
+            {"name":"oliver","role":"tutor"},
+        ],
+         "mascots":[
+             {"name":"pepper","species":"dog"},
+             {"name":"pip","species":"dog"},
+             {"name":"harriet","species":"cat"}
+         ]}
+
+# print(mydict)
+print(mydict["people"])
+```
+
+## Install libraries (modules)
+
+In Python, you do need to specify which library the functions you are using come from, even after importing them. This is why every time you import a python library, you should give it a nickname so you don’t have to type out the entire library name each time you want to use a function from it.
+
+
+
+Fortunately, there are some generally agreed-upon nicknames that everyone uses. E.g. pandas’ nickname is “pd”, and NumPy’s nickname is “np”. (In Python people usually say ‘library’ instead of ‘package’.)
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns # not covered during the lecture but worth installing for future purpose
+```
+
+```{python}
+np.log(7)
+```
+
+
+# Getting started with Pandas
+* Reading in files
+* Filtering columns and rows
+* `Group by` and `Aggregation`
+* Merging dataframes
+* Visualisation
+
+## How to import dataset
+From a disk
+
+```{python}
+from google.colab import files
+uploaded = files.upload()
+```
+
+from url
+
+```{python}
+url = "https://gist.githubusercontent.com/slopp/ce3b90b9168f2f921784de84fa445651/raw/4ecf3041f0ed4913e7c230758733948bc561f434/penguins.csv"
+```
+
+```{python}
+# Load the dataset
+penguins_df = pd.read_csv(url)
+```
+
+## Understanding the data structure
+
+```{python}
+# intialise data of lists.
+data = {'Name':['Tom', 'nick', 'krish', 'jack'],
+        'Age':[20, 21, 19, 18]}
+classroom = pd.DataFrame(data) # Create DataFrame
+print(classroom) # Print the output.
+```
+
+```{python}
+#pandas_df.columns # print the pandas column names
+#pandas_df.shape # Dimension
+#pandas_df.type()
+#pandas_df.describe()
+#pandas_df.head()
+#pandas_df.tail()
+```
+
+```{python}
+pandas_df = pd.DataFrame({'a': [1,2,3,4],
+
+                          'b': [5,6,7,8]})
+pandas_df.mean()
+pandas_df.sum()
+```
+
+### Excersise
+Calculate the mean of the 'classroom' variable? If it doesn't, how do you make it work?
+
+## Indexing DataFrames
+
+Extracting columns
+
+```{python}
+pandas_df['a']
+```
+
+Pandas copy issue
+
+```{python}
+pandas_df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+pandas_df_new = pandas_df
+pandas_df_new['a'] = [10, 20, 30]
+```
+
+
+```{python}
+# Create a DataFrame
+pandas_df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+
+# Create a true copy
+pandas_df_new = pandas_df.copy()
+
+# Modify the new DataFrame
+pandas_df_new['a'] = [10, 20, 30]
+
+print("Original DataFrame:\n", pandas_df)
+print("\nNew DataFrame:\n", pandas_df_new)
+```
+
+### Your turn!
+* recreate a dataframe using the code below
+* copy the dataframe and assign the new dataframe as `pandas_df_new`
+* add a new column called 'c', with a list of [9,10,11,12]
+* print the result for both `pandas_df` and `pandas_df_new`
+
+## Filtering (subsetting rows)
+
+```{python}
+pandas_df['a'] > 1
+```
+
+```{python}
+pandas_df.loc[pandas_df.a > 1,:]
+```
+
+```{python}
+pandas_df.loc[pandas_df.a > 1,'b']
+```
+
+```{python}
+pandas_df.iloc[[1,2,3],1]
+```
+
+```{python}
+pandas_df.query('a > 1')
+```
+
+```{python}
+thresh = 1
+
+pandas_df.query('a > @thresh')
+```
+
+### Your turn
+
+1. Create a dictionary with New Zealand city names as keys and their populations as values.
+
+```python
+nz_cities = {
+    "Auckland": 1672000,
+    "Wellington": 217200,
+    "Christchurch": 389700,
+    "Hamilton": 185000,
+    "Tauranga": 158000,
+    "Dunedin": 134600
+}
+```
+
+2. Convert dictionary to a dataframe
+3. Use three methods to extract the Auckland population. Hint: use `loc`, `iloc`, and `query`
+
+## Grouping
+
+```{python}
+pandas_df = pd.DataFrame({'a': [1,2,3,4],
+                          'b': [5,6,7,8]})
+
+pandas_df["cat"] = ["red","red","yellow","yellow"] # add a new categorical column to pandas_df
+print(pandas_df)
+```
+
+# Data Vis
+
+```{python}
+import pandas as pd
+gapminder = pd.read_csv("https://raw.githubusercontent.com/rlbarter/gapminder-data/main/gapminder.csv")
+```
+
+```{python}
+gapminder.info()
+```
+
+```{python}
+gapminder.query('country == "Australia"')['lifeExp'].mean()
+```
+
+```{python}
+gdp_by_continent = gapminder.groupby('continent')['gdpPercap'].mean()
+print(gdp_by_continent)
+```
+
+```{python}
+gdp_by_continent.index
+```
+
+```{python}
+gdp_by_continent.plot()
+```
+
+```{python}
+gdp_by_continent.plot.bar()
+```
+
+```{python}
+gapminder.plot.scatter(x='gdpPercap', y='lifeExp')
+```
+
+
+

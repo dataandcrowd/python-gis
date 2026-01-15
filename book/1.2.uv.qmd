@@ -1,12 +1,4 @@
-# 1.2 uv environments
-
-## Story problem
-
-**Reproducing your Auckland map on another machine**
-
-- Your colleague pulls your repo and runs one command.
-- They get the same package versions and the same output.
-- No manual troubleshooting and no missing dependencies.
+# 1.2 uv environments {.unnumbered}
 
 ## What you will learn
 
@@ -28,7 +20,3 @@
 import pandas as pd
 print(pd.DataFrame({'a':[1,2]}))
 ```
-
-## Notes
-
-- _Add your narrative here._

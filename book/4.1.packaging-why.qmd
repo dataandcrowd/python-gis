@@ -1,4 +1,4 @@
-# 4.1 Why packaging is a core GIScience skill
+# 4.1 Why packaging is a core GIScience skill {.unnumbered}
 
 ## Story problem
 

@@ -1,0 +1,1692 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Python GIS at UoA",
+    "section": "",
+    "text": "GISCI 343 at UoA\nWelcome to the course!\nThis is an online workbook for the GISCI 343 course called Geospatial Data Science, launched in 2026.\nThis is course designed and delivered by Dr. Hyesop Shin from the School of Environment at the University of Auckland, New Zealand.\nUnlike conventional GIS coursework that focuses on tools or isolated techniques, this book goes beyond the standard GIS and Python combination. The emphasis is on building applied, production-oriented skills that reflect how geospatial data science is practised outside the classroom, particularly through dashboards and Python packaging.\nThe book is organised into three main parts:\nPart 1. Doing geospatial analysis using Python\nPart 2. Creating geospatial dashboards\nPart 3. Publishing Python packages with a geospatial focus\nThroughout the course, Positron is used as the primary development environment.",
+    "crumbs": [
+      "GISCI 343 at UoA"
+    ]
+  },
+  {
+    "objectID": "index.html#who-is-this-for",
+    "href": "index.html#who-is-this-for",
+    "title": "Python GIS at UoA",
+    "section": "Who is this for?",
+    "text": "Who is this for?\nThis book is designed for students and learners who already have foundational GIS knowledge, such as introductory GIS or remote sensing courses, but who have limited exposure to programming.\nIf you are familiar with any dataframe-based workflow, most examples should be approachable. Familiarity with Pandas will be particularly helpful, as all Polars examples are accompanied by equivalent Pandas implementations for comparison and learning.\nReading Modern Pandas is not required, although it is a recommended resource for those who wish to deepen their understanding.",
+    "crumbs": [
+      "GISCI 343 at UoA"
+    ]
+  },
+  {
+    "objectID": "index.html#why-this-approach",
+    "href": "index.html#why-this-approach",
+    "title": "Python GIS at UoA",
+    "section": "Why this approach?",
+    "text": "Why this approach?\nAlthough artificial intelligence has transformed how we learn, analyse data, and write code, reproducibility and sound practice in data science remain essential.\nSimply combining GIS and Python is no longer sufficient. This course therefore addresses broader and often overlooked questions:\n\nWhy do we use Git, and how does it support reproducible research?\n\nGit provides a transparent and traceable record of how a project evolves over time. Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.\nUsing Git encourages good research habits: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.\n\n\n\nWhy do we build dashboards, and how do they help communicate results to practitioners and decision makers?\n\nDashboards transform analytical outputs into interactive and interpretable artefacts. Rather than presenting static maps or tables, dashboards allow users to explore spatial patterns, filter scenarios, and ask their own questions. This is particularly important in applied geospatial work, where stakeholders may not be familiar with code but need to engage with evidence.\nBy building dashboards, students learn how to bridge the gap between analysis and communication. Dashboards force careful thinking about what results matter, how uncertainty is presented, and how spatial information can be explored intuitively. These skills are essential when working with planners, policymakers, and industry partners who rely on clear, actionable insights rather than raw analytical outputs.\n\n\n\nWhy do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?\n\nDeveloping a Python package shifts the focus from writing one-off scripts to building reusable, maintainable software. Packaging requires students to structure code logically, define clear interfaces, and think about how others will use their work. This naturally introduces object-oriented programming concepts, such as abstraction, encapsulation, and modular design, in a context where they serve a practical purpose.\nIn geospatial data science, packaging allows analytical workflows, spatial utilities, or modelling components to be shared, tested, and extended. The final package becomes a tangible output that can be included in a portfolio, reused in future projects, or published openly. This mirrors professional practice and helps students understand how geospatial tools are developed, maintained, and deployed in real-world environments.\n\nEach of these components is intentionally included to help students understand professional workflows and to produce outputs that can be shared beyond the university setting.\nThe three modules in this book are designed to be complete, reusable, and ready to engage with society, forming a practical portfolio that reflects contemporary geospatial data science practice.",
+    "crumbs": [
+      "GISCI 343 at UoA"
+    ]
+  },
+  {
+    "objectID": "index.html#running-the-code-yourself",
+    "href": "index.html#running-the-code-yourself",
+    "title": "Python GIS at UoA",
+    "section": "Running the code yourself",
+    "text": "Running the code yourself\nYou can install the following package versions and it should work:\npolars: 1.0.0\npyarrow: 10.0.1\npandas: 2.2.2\ngeopandas: 1.1.2\nnumpy: 1.26.4\nmatplotlib: 3.8.0\nseaborn: 0.13.2\nstatsmodels: 0.14.2\n\nData\nAll the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in here for posterity.",
+    "crumbs": [
+      "GISCI 343 at UoA"
+    ]
+  },
+  {
+    "objectID": "index.html#contributing",
+    "href": "index.html#contributing",
+    "title": "Python GIS at UoA",
+    "section": "Contributing",
+    "text": "Contributing\nThis book is free and open source, so please do open an issue if you notice a problem!",
+    "crumbs": [
+      "GISCI 343 at UoA"
+    ]
+  },
+  {
+    "objectID": "syllabus.html",
+    "href": "syllabus.html",
+    "title": "Syllabus",
+    "section": "",
+    "text": "Part 1\nWeek 1 - Introduction and Open Science\nWeek 2 - Spatial Data\nWeek 3 - Mapping Vector Data\nWeek 4 - Mapping Raster Data\nWeek 5 - Points\nWeek 6 - No Lecture & Clinic\nAssignment I: Programmed Map (40% of Final Grade)",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#part-2",
+    "href": "syllabus.html#part-2",
+    "title": "Syllabus",
+    "section": "Part 2",
+    "text": "Part 2\nWeek 7 - Spatial Weights\nWeek 8 - ESDA\nWeek 9 - Clustering\nWeek 10 - Spatial Network Analysis\nWeek 11 - No lecture & Clinic\nAssignment II: A computational essay (60% of Final Grade)",
+    "crumbs": [
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "1.0.chapter1-setup.html",
+    "href": "1.0.chapter1-setup.html",
+    "title": "Part 1: Setup",
+    "section": "",
+    "text": "Story problem\nAuckland project folder that never breaks",
+    "crumbs": [
+      "Part 1: Setup"
+    ]
+  },
+  {
+    "objectID": "1.0.chapter1-setup.html#story-problem",
+    "href": "1.0.chapter1-setup.html#story-problem",
+    "title": "Part 1: Setup",
+    "section": "",
+    "text": "You clone a repo onto a lab computer and it works immediately.\nYou can recreate the same environment on macOS and Windows.\nYou can explain exactly what changed between two results.",
+    "crumbs": [
+      "Part 1: Setup"
+    ]
+  },
+  {
+    "objectID": "1.0.chapter1-setup.html#what-you-will-learn",
+    "href": "1.0.chapter1-setup.html#what-you-will-learn",
+    "title": "Part 1: Setup",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nGet a working Python environment suitable for GIS.\nUse uv to create reproducible environments.\nUse Git to manage change and collaboration.",
+    "crumbs": [
+      "Part 1: Setup"
+    ]
+  },
+  {
+    "objectID": "1.0.chapter1-setup.html#quick-preview",
+    "href": "1.0.chapter1-setup.html#quick-preview",
+    "title": "Part 1: Setup",
+    "section": "Quick preview",
+    "text": "Quick preview\n\nimport sys\nprint(sys.version)\n\n3.12.3 (v3.12.3:f6650f9ad7, Apr  9 2024, 08:18:47) [Clang 13.0.0 (clang-1300.0.29.30)]",
+    "crumbs": [
+      "Part 1: Setup"
+    ]
+  },
+  {
+    "objectID": "1.0.chapter1-setup.html#notes",
+    "href": "1.0.chapter1-setup.html#notes",
+    "title": "Part 1: Setup",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 1: Setup"
+    ]
+  },
+  {
+    "objectID": "1.1.installation.html",
+    "href": "1.1.installation.html",
+    "title": "1.1 Installation",
+    "section": "",
+    "text": "Story problem\nThe first successful GIS import",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.1 Installation"
+    ]
+  },
+  {
+    "objectID": "1.1.installation.html#story-problem",
+    "href": "1.1.installation.html#story-problem",
+    "title": "1.1 Installation",
+    "section": "",
+    "text": "You want to import GeoPandas without mysterious errors.\nYou want a terminal command that proves everything is working.\nYou want to keep the setup steps short and repeatable.",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.1 Installation"
+    ]
+  },
+  {
+    "objectID": "1.1.installation.html#what-you-will-learn",
+    "href": "1.1.installation.html#what-you-will-learn",
+    "title": "1.1 Installation",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nInstall Python and a modern editor.\nInstall core geospatial dependencies safely.\nVerify your GIS stack imports correctly.",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.1 Installation"
+    ]
+  },
+  {
+    "objectID": "1.1.installation.html#checklist",
+    "href": "1.1.installation.html#checklist",
+    "title": "1.1 Installation",
+    "section": "Checklist",
+    "text": "Checklist\n\nPython 3.11+ (recommend 3.12)\nEditor (Positron or VS Code)\nA terminal (PowerShell / Terminal)",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.1 Installation"
+    ]
+  },
+  {
+    "objectID": "1.1.installation.html#verification",
+    "href": "1.1.installation.html#verification",
+    "title": "1.1 Installation",
+    "section": "Verification",
+    "text": "Verification\n\nRun a script that prints versions and confirms imports.\n\nimport pandas as pd\nprint('pandas', pd.__version__)",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.1 Installation"
+    ]
+  },
+  {
+    "objectID": "1.1.installation.html#notes",
+    "href": "1.1.installation.html#notes",
+    "title": "1  Installation",
+    "section": "1.5 Notes",
+    "text": "1.5 Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 1: Setup",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Installation</span>"
+    ]
+  },
+  {
+    "objectID": "1.2.uv.html",
+    "href": "1.2.uv.html",
+    "title": "1.2 uv environments",
+    "section": "",
+    "text": "Story problem\nReproducing your Auckland map on another machine",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.2 uv environments"
+    ]
+  },
+  {
+    "objectID": "1.2.uv.html#story-problem",
+    "href": "1.2.uv.html#story-problem",
+    "title": "1.2 uv environments",
+    "section": "",
+    "text": "Your colleague pulls your repo and runs one command.\nThey get the same package versions and the same output.\nNo manual troubleshooting and no missing dependencies.",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.2 uv environments"
+    ]
+  },
+  {
+    "objectID": "1.2.uv.html#what-you-will-learn",
+    "href": "1.2.uv.html#what-you-will-learn",
+    "title": "1.2 uv environments",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nCreate and manage environments with uv.\nAdd packages and lock versions.\nRun scripts consistently with uv run.",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.2 uv environments"
+    ]
+  },
+  {
+    "objectID": "1.2.uv.html#key-commands",
+    "href": "1.2.uv.html#key-commands",
+    "title": "1.2 uv environments",
+    "section": "Key commands",
+    "text": "Key commands\n\nuv init to start\nuv add to install\nuv run to execute inside env",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.2 uv environments"
+    ]
+  },
+  {
+    "objectID": "1.2.uv.html#mini-exercise",
+    "href": "1.2.uv.html#mini-exercise",
+    "title": "1.2 uv environments",
+    "section": "Mini exercise",
+    "text": "Mini exercise\n\nCreate a new project and install pandas.\n\n\nimport pandas as pd\nprint(pd.DataFrame({'a':[1,2]}))\n\n   a\n0  1\n1  2",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.2 uv environments"
+    ]
+  },
+  {
+    "objectID": "1.2.uv.html#notes",
+    "href": "1.2.uv.html#notes",
+    "title": "1.2 uv environments",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.2 uv environments"
+    ]
+  },
+  {
+    "objectID": "1.3.version-control.html",
+    "href": "1.3.version-control.html",
+    "title": "1.3 Version control with Git",
+    "section": "",
+    "text": "Story problem\nExplaining why your Auckland results changed",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.3 Version control with Git"
+    ]
+  },
+  {
+    "objectID": "1.3.version-control.html#story-problem",
+    "href": "1.3.version-control.html#story-problem",
+    "title": "1.3 Version control with Git",
+    "section": "",
+    "text": "You changed one line and the map looks different.\nGit helps you pinpoint the exact change.\nYour commit message becomes your research diary.",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.3 Version control with Git"
+    ]
+  },
+  {
+    "objectID": "1.3.version-control.html#what-you-will-learn",
+    "href": "1.3.version-control.html#what-you-will-learn",
+    "title": "1.3 Version control with Git",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nUnderstand commit, branch, push, pull in practice.\nStructure a repo for a GIS project.\nAvoid committing large or sensitive data.",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.3 Version control with Git"
+    ]
+  },
+  {
+    "objectID": "1.3.version-control.html#repo-structure",
+    "href": "1.3.version-control.html#repo-structure",
+    "title": "1.3 Version control with Git",
+    "section": "Repo structure",
+    "text": "Repo structure\n\ndata/ (local, usually ignored)\nsrc/ (code)\nreports/ or docs/ (outputs)",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.3 Version control with Git"
+    ]
+  },
+  {
+    "objectID": "1.3.version-control.html#mini-exercise",
+    "href": "1.3.version-control.html#mini-exercise",
+    "title": "1.3 Version control with Git",
+    "section": "Mini exercise",
+    "text": "Mini exercise\n\nMake a repo, commit a script, push to GitHub.",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.3 Version control with Git"
+    ]
+  },
+  {
+    "objectID": "1.3.version-control.html#notes",
+    "href": "1.3.version-control.html#notes",
+    "title": "3  Version control with Git",
+    "section": "3.5 Notes",
+    "text": "3.5 Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 1: Setup",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Version control with Git</span>"
+    ]
+  },
+  {
+    "objectID": "2.0.chapter2-geospatial_python.html",
+    "href": "2.0.chapter2-geospatial_python.html",
+    "title": "Part 2: Geospatial Python",
+    "section": "",
+    "text": "Python Language Basics, IPython, and Jupyter Notebooks\nBuilt-In Data Structures, Functions, and Files\nNumPy Basics: Arrays and Vectorized Computation\nGetting Started with pandas (how to install packages)\nData Loading, Storage, and File Formats\nData Cleaning and Preparation\nData Wrangling: Join, Combine, and Reshape\nPlotting and Visualisation\nData Aggregation and Group Operations\nTime Series\nIntroduction to Modelling Libraries in Python\n\nPython for Data Analysis, 3E",
+    "crumbs": [
+      "Part 2: Geospatial Python"
+    ]
+  },
+  {
+    "objectID": "2.0.chapter2-geospatial_python.html#story-problem",
+    "href": "2.0.chapter2-geospatial_python.html#story-problem",
+    "title": "Part 2: Geospatial Python",
+    "section": "",
+    "text": "You have Auckland zone boundaries (e.g., SA2) and a small population table.\nYour goal is to produce a clean map and a short explanation that a policymaker can read.\nYou need your code to run again next week without guesswork.",
+    "crumbs": [
+      "Part 2: Geospatial Python"
+    ]
+  },
+  {
+    "objectID": "2.0.chapter2-geospatial_python.html#what-you-will-learn",
+    "href": "2.0.chapter2-geospatial_python.html#what-you-will-learn",
+    "title": "Part 2: Geospatial Python",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nWrite readable Python for analysis pipelines.\nWork with tables and joins using DataFrames.\nWork with spatial data to build GIS indicators.",
+    "crumbs": [
+      "Part 2: Geospatial Python"
+    ]
+  },
+  {
+    "objectID": "2.0.chapter2-geospatial_python.html#quick-preview",
+    "href": "2.0.chapter2-geospatial_python.html#quick-preview",
+    "title": "Part 2: Geospatial Python",
+    "section": "Quick preview",
+    "text": "Quick preview\n\nprint('Part 2: geospatial analysis pipeline')\n\nPart 2: geospatial analysis pipeline",
+    "crumbs": [
+      "Part 2: Geospatial Python"
+    ]
+  },
+  {
+    "objectID": "2.0.chapter2-geospatial_python.html#notes",
+    "href": "2.0.chapter2-geospatial_python.html#notes",
+    "title": "Part 2: Geospatial Python",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 2: Geospatial Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html",
+    "href": "2.1.basic-python.html",
+    "title": "2.1 Basic Python",
+    "section": "",
+    "text": "What you will learn",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#story-problem",
+    "href": "2.1.basic-python.html#story-problem",
+    "title": "2.1 Basic Python",
+    "section": "",
+    "text": "Your first script works once.\nYou wrap logic into functions so it works for any Auckland suburb.\nYou can reuse it in Part 3 dashboards and Part 4 packaging.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#what-you-will-learn",
+    "href": "2.1.basic-python.html#what-you-will-learn",
+    "title": "2.1 Basic Python",
+    "section": "",
+    "text": "learn how to write simple code to do simple calculations\nVariables, types, and control flow for GIS scripts.\nFunctions as reusable units.\nReading and writing files with clear paths.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#must-know-patterns",
+    "href": "2.1.basic-python.html#must-know-patterns",
+    "title": "2.1 Basic Python",
+    "section": "Must-know patterns",
+    "text": "Must-know patterns\n\nSmall functions\nClear names\nNo hard-coded paths",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#mini-exercise",
+    "href": "2.1.basic-python.html#mini-exercise",
+    "title": "2.1 Basic Python",
+    "section": "Mini exercise",
+    "text": "Mini exercise\n\nStandardise column names consistently.\n\n\ndef standardise_columns(cols):\n    return [c.strip().lower().replace(' ', '_') for c in cols]\n\nprint(standardise_columns(['SA2 Name', 'Pop Total']))\n\n['sa2_name', 'pop_total']",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#notes",
+    "href": "2.1.basic-python.html#notes",
+    "title": "2.1 Basic Python",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html",
+    "href": "2.2.dataframes.html",
+    "title": "2.2 DataFrames",
+    "section": "",
+    "text": "Story problem\nJoining population to Auckland SA2",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.2 DataFrames"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#story-problem",
+    "href": "2.2.dataframes.html#story-problem",
+    "title": "2.2 DataFrames",
+    "section": "",
+    "text": "You have an SA2 boundary file and a population table.\nYou must confirm join keys and check for missing matches.\nYou produce a clean summary table for mapping.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.2 DataFrames"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#what-you-will-learn",
+    "href": "2.2.dataframes.html#what-you-will-learn",
+    "title": "2.2 DataFrames",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nLoad and inspect census-style tables.\nSummarise with groupby operations.\nJoin population tables to Auckland boundaries safely.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.2 DataFrames"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#key-skills",
+    "href": "2.2.dataframes.html#key-skills",
+    "title": "2.2 DataFrames",
+    "section": "Key skills",
+    "text": "Key skills\n\nFiltering/selecting\nGroupby aggregation\nJoin validation",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.2 DataFrames"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#mini-exercise",
+    "href": "2.2.dataframes.html#mini-exercise",
+    "title": "2.2 DataFrames",
+    "section": "Mini exercise",
+    "text": "Mini exercise\n\nCreate a simple grouped summary.\n\n\nimport pandas as pd\n\ndf = pd.DataFrame({'sa2':['Albany','Parnell','Remuera'], 'pop':[10,15,8]})\nprint(df.groupby('sa2', as_index=False)['pop'].sum())\n\n       sa2  pop\n0   Albany   10\n1  Parnell   15\n2  Remuera    8\n\n\nYou may have seen import somewhere, and from somewhere else. What is the difference? Take a look at this example below:\nfrom pandas import *\ndf = DataFrame({\"a\": [1, 2, 3]})\ns = Series([10, 20, 30])\nread_csv(\"data.csv\")\nWhat is happening internally? This copies every public symbol from pandas into your current namespace. It is good when you are beginners and you merely want functions, not the package name itself. However, it becomes dangerous when you are using multiple packages and you don’t know which arguments are coming from where.\nfrom pandas import *\nfrom numpy import *\n\nmean([1,2,3])   # Which mean is this?\nPandas import conventions https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html Python namespaces https://docs.python.org/3/tutorial/classes.html#python-scopes-and-namespaces PEP 8 import guidelines https://peps.python.org/pep-0008/#imports",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.2 DataFrames"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#notes",
+    "href": "2.2.dataframes.html#notes",
+    "title": "2.2 DataFrames",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.2 DataFrames"
+    ]
+  },
+  {
+    "objectID": "2.3.geospatial.html",
+    "href": "2.3.geospatial.html",
+    "title": "2.3 Geospatial data",
+    "section": "",
+    "text": "Story problem\nWhy your Auckland map looks shifted",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.3 Geospatial data"
+    ]
+  },
+  {
+    "objectID": "2.3.geospatial.html#story-problem",
+    "href": "2.3.geospatial.html#story-problem",
+    "title": "2.3 Geospatial data",
+    "section": "",
+    "text": "You plot the boundaries and something is off.\nThe issue is almost always CRS.\nYou learn to check CRS first and transform deliberately.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.3 Geospatial data"
+    ]
+  },
+  {
+    "objectID": "2.3.geospatial.html#what-you-will-learn",
+    "href": "2.3.geospatial.html#what-you-will-learn",
+    "title": "2.3 Geospatial data",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nRead/write GeoPackage and GeoJSON.\nCRS basics and transformations.\nMake a quick static map for sanity checking.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.3 Geospatial data"
+    ]
+  },
+  {
+    "objectID": "2.3.geospatial.html#geopandas-essentials",
+    "href": "2.3.geospatial.html#geopandas-essentials",
+    "title": "2.3 Geospatial data",
+    "section": "GeoPandas essentials",
+    "text": "GeoPandas essentials\n\nGeometry column\nCRS and to_crs()\nPlotting for quick checks",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.3 Geospatial data"
+    ]
+  },
+  {
+    "objectID": "2.3.geospatial.html#mini-exercise",
+    "href": "2.3.geospatial.html#mini-exercise",
+    "title": "2.3 Geospatial data",
+    "section": "Mini exercise",
+    "text": "Mini exercise\n\nRead a file and print CRS (replace the path).\n\n\nimport geopandas as gpd\n\n# gdf = gpd.read_file('data/auckland_sa2.gpkg')\n# print(gdf.crs)",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.3 Geospatial data"
+    ]
+  },
+  {
+    "objectID": "2.3.geospatial.html#notes",
+    "href": "2.3.geospatial.html#notes",
+    "title": "2.3 Geospatial data",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.3 Geospatial data"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html",
+    "href": "2.4.urban-analytics.html",
+    "title": "2.4 Urban analytics indicators",
+    "section": "",
+    "text": "Story problem\nAuckland: density and access that people can interpret",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#story-problem",
+    "href": "2.4.urban-analytics.html#story-problem",
+    "title": "2.4 Urban analytics indicators",
+    "section": "",
+    "text": "You need indicators that are simple, defensible, and mappable.\nYou choose units and document assumptions.\nYou make one table and one figure that tell a coherent story.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#what-you-will-learn",
+    "href": "2.4.urban-analytics.html#what-you-will-learn",
+    "title": "2.4 Urban analytics indicators",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nCompute interpretable Auckland indicators (density, access proxies).\nAggregate to zones and compare across space.\nExplain results with units and caveats.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#example-indicators",
+    "href": "2.4.urban-analytics.html#example-indicators",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Example indicators",
+    "text": "Example indicators\n\nPopulation density per km²\nNearest park distance proxy\nOptional: network centrality",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#communication",
+    "href": "2.4.urban-analytics.html#communication",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Communication",
+    "text": "Communication\n\nAlways show units\nExplain assumptions\nUse captions that state method",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#notes",
+    "href": "2.4.urban-analytics.html#notes",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.5.midsemtest-assignment.html",
+    "href": "2.5.midsemtest-assignment.html",
+    "title": "2.5 Mid-semester test and assignment",
+    "section": "",
+    "text": "Story problem\nA submission that runs on the first try",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.5 Mid-semester test and assignment"
+    ]
+  },
+  {
+    "objectID": "2.5.midsemtest-assignment.html#story-problem",
+    "href": "2.5.midsemtest-assignment.html#story-problem",
+    "title": "2.5 Mid-semester test and assignment",
+    "section": "",
+    "text": "Markers should be able to run your repo with one command.\nYour map must include a legend, units, and a clear caption.\nYour interpretation must match the method you used.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.5 Mid-semester test and assignment"
+    ]
+  },
+  {
+    "objectID": "2.5.midsemtest-assignment.html#what-you-will-learn",
+    "href": "2.5.midsemtest-assignment.html#what-you-will-learn",
+    "title": "2.5 Mid-semester test and assignment",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nWhat you must submit and how it will be marked.\nAuckland dataset requirements and minimal outputs.\nChecklist for maps, tables, and interpretation.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.5 Mid-semester test and assignment"
+    ]
+  },
+  {
+    "objectID": "2.5.midsemtest-assignment.html#deliverables",
+    "href": "2.5.midsemtest-assignment.html#deliverables",
+    "title": "2.5 Mid-semester test and assignment",
+    "section": "Deliverables",
+    "text": "Deliverables\n\nQuarto PDF\nRepo link\nOne map + one table + one short interpretation",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.5 Mid-semester test and assignment"
+    ]
+  },
+  {
+    "objectID": "2.5.midsemtest-assignment.html#rubric",
+    "href": "2.5.midsemtest-assignment.html#rubric",
+    "title": "2.5 Mid-semester test and assignment",
+    "section": "Rubric",
+    "text": "Rubric\n\nData handling\nSpatial correctness\nCommunication\nReproducibility",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.5 Mid-semester test and assignment"
+    ]
+  },
+  {
+    "objectID": "2.5.midsemtest-assignment.html#notes",
+    "href": "2.5.midsemtest-assignment.html#notes",
+    "title": "2.5 Mid-semester test and assignment",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.5 Mid-semester test and assignment"
+    ]
+  },
+  {
+    "objectID": "3.0.chapter3-shiny_python.html",
+    "href": "3.0.chapter3-shiny_python.html",
+    "title": "Part 3: Shiny for Python and Web GIS",
+    "section": "",
+    "text": "Story problem\nAn Auckland dashboard in the browser",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS"
+    ]
+  },
+  {
+    "objectID": "3.0.chapter3-shiny_python.html#story-problem",
+    "href": "3.0.chapter3-shiny_python.html#story-problem",
+    "title": "Part 3: Shiny for Python and Web GIS",
+    "section": "",
+    "text": "You already have a choropleth from Part 2.\nNow you turn it into an interactive dashboard with filters.\nFolium provides the map layer, Shiny provides the interaction.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS"
+    ]
+  },
+  {
+    "objectID": "3.0.chapter3-shiny_python.html#what-you-will-learn",
+    "href": "3.0.chapter3-shiny_python.html#what-you-will-learn",
+    "title": "Part 3: Shiny for Python and Web GIS",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nUnderstand Shiny mental model: UI + server + reactivity.\nBuild interactive dashboards that communicate Auckland indicators.\nUse Folium first for mapping, then add reactivity and summaries.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS"
+    ]
+  },
+  {
+    "objectID": "3.0.chapter3-shiny_python.html#quick-preview",
+    "href": "3.0.chapter3-shiny_python.html#quick-preview",
+    "title": "Part 3: Shiny for Python and Web GIS",
+    "section": "Quick preview",
+    "text": "Quick preview\n\nprint('Part 3: dashboards')\n\nPart 3: dashboards",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS"
+    ]
+  },
+  {
+    "objectID": "3.0.chapter3-shiny_python.html#notes",
+    "href": "3.0.chapter3-shiny_python.html#notes",
+    "title": "Part 3: Shiny for Python and Web GIS",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS"
+    ]
+  },
+  {
+    "objectID": "3.1.webgis-wasm-shiny.html",
+    "href": "3.1.webgis-wasm-shiny.html",
+    "title": "3.1 Web GIS, WASM, and Shiny",
+    "section": "",
+    "text": "Story problem\nWhy does my dashboard feel slow?",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.1 Web GIS, WASM, and Shiny"
+    ]
+  },
+  {
+    "objectID": "3.1.webgis-wasm-shiny.html#story-problem",
+    "href": "3.1.webgis-wasm-shiny.html#story-problem",
+    "title": "3.1 Web GIS, WASM, and Shiny",
+    "section": "",
+    "text": "A Folium map loads quickly, then the app becomes sluggish.\nYou learn where computation happens and how to move work upstream.\nYou learn to keep packages and data lean for the web.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.1 Web GIS, WASM, and Shiny"
+    ]
+  },
+  {
+    "objectID": "3.1.webgis-wasm-shiny.html#what-you-will-learn",
+    "href": "3.1.webgis-wasm-shiny.html#what-you-will-learn",
+    "title": "3.1 Web GIS, WASM, and Shiny",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nWhat runs in the browser versus on the server.\nWhy large Python packages slow down browser-based deployments.\nHow to choose a deployment approach for a Folium-first app.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.1 Web GIS, WASM, and Shiny"
+    ]
+  },
+  {
+    "objectID": "3.1.webgis-wasm-shiny.html#notes",
+    "href": "3.1.webgis-wasm-shiny.html#notes",
+    "title": "3.1 Web GIS, WASM, and Shiny",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.1 Web GIS, WASM, and Shiny"
+    ]
+  },
+  {
+    "objectID": "3.2.shiny-functions-reactivity.html",
+    "href": "3.2.shiny-functions-reactivity.html",
+    "title": "3.2 Functions and reactivity",
+    "section": "",
+    "text": "Story problem\nFilter Auckland zones and update the map",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.2 Functions and reactivity"
+    ]
+  },
+  {
+    "objectID": "3.2.shiny-functions-reactivity.html#story-problem",
+    "href": "3.2.shiny-functions-reactivity.html#story-problem",
+    "title": "3.2 Functions and reactivity",
+    "section": "",
+    "text": "A user selects a subset of SA2s.\nThe summary table updates immediately.\nThe Folium map refreshes without recomputing everything.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.2 Functions and reactivity"
+    ]
+  },
+  {
+    "objectID": "3.2.shiny-functions-reactivity.html#what-you-will-learn",
+    "href": "3.2.shiny-functions-reactivity.html#what-you-will-learn",
+    "title": "3.2 Functions and reactivity",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nDefine inputs and outputs cleanly.\nUse reactive calculations to avoid repeated computation.\nStructure your app so the Folium map updates predictably.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.2 Functions and reactivity"
+    ]
+  },
+  {
+    "objectID": "3.2.shiny-functions-reactivity.html#app-architecture",
+    "href": "3.2.shiny-functions-reactivity.html#app-architecture",
+    "title": "3.2 Functions and reactivity",
+    "section": "App architecture",
+    "text": "App architecture\n\nLoad data once\nUse pure functions for transformations\nUse reactives for filtered views",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.2 Functions and reactivity"
+    ]
+  },
+  {
+    "objectID": "3.2.shiny-functions-reactivity.html#mini-exercise",
+    "href": "3.2.shiny-functions-reactivity.html#mini-exercise",
+    "title": "3.2 Functions and reactivity",
+    "section": "Mini exercise",
+    "text": "Mini exercise\n\nCreate a reactive summary table from filtered data (placeholder).\n\n\n# Placeholder: implement with Shiny reactives",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.2 Functions and reactivity"
+    ]
+  },
+  {
+    "objectID": "3.2.shiny-functions-reactivity.html#notes",
+    "href": "3.2.shiny-functions-reactivity.html#notes",
+    "title": "3.2 Functions and reactivity",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.2 Functions and reactivity"
+    ]
+  },
+  {
+    "objectID": "3.3.shiny-vs-fastapi.html",
+    "href": "3.3.shiny-vs-fastapi.html",
+    "title": "3.3 Shiny versus FastAPI",
+    "section": "",
+    "text": "Story problem\nSeparating computation from presentation",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.3 Shiny versus FastAPI"
+    ]
+  },
+  {
+    "objectID": "3.3.shiny-vs-fastapi.html#story-problem",
+    "href": "3.3.shiny-vs-fastapi.html#story-problem",
+    "title": "3.3 Shiny versus FastAPI",
+    "section": "",
+    "text": "Your indicator computation becomes heavy.\nFastAPI serves computed results, Shiny renders UI and Folium map.\nYou keep interactivity fast and reliable.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.3 Shiny versus FastAPI"
+    ]
+  },
+  {
+    "objectID": "3.3.shiny-vs-fastapi.html#what-you-will-learn",
+    "href": "3.3.shiny-vs-fastapi.html#what-you-will-learn",
+    "title": "3.3 Shiny versus FastAPI",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nWhen a dashboard is enough and when you need an API.\nHow to keep Folium-first dashboards lightweight by outsourcing heavy tasks.\nA minimal request-response mental model.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.3 Shiny versus FastAPI"
+    ]
+  },
+  {
+    "objectID": "3.3.shiny-vs-fastapi.html#notes",
+    "href": "3.3.shiny-vs-fastapi.html#notes",
+    "title": "3.3 Shiny versus FastAPI",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.3 Shiny versus FastAPI"
+    ]
+  },
+  {
+    "objectID": "3.4.routing-and-congestion.html",
+    "href": "3.4.routing-and-congestion.html",
+    "title": "3.4 Routing and congestion concepts",
+    "section": "",
+    "text": "Story problem\nExplaining Auckland congestion in simple indicators",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.4 Routing and congestion concepts"
+    ]
+  },
+  {
+    "objectID": "3.4.routing-and-congestion.html#story-problem",
+    "href": "3.4.routing-and-congestion.html#story-problem",
+    "title": "3.4 Routing and congestion concepts",
+    "section": "",
+    "text": "You need measures that connect behaviour to congestion.\nYou choose a small set of indicators for clarity.\nYou prepare them for mapping and dashboard display.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.4 Routing and congestion concepts"
+    ]
+  },
+  {
+    "objectID": "3.4.routing-and-congestion.html#what-you-will-learn",
+    "href": "3.4.routing-and-congestion.html#what-you-will-learn",
+    "title": "3.4 Routing and congestion concepts",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nOrigin-to-destination framing and route choice.\nCongestion measures you can explain (V/C ratio, travel time index).\nHow to show congestion results on a map and in a table.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.4 Routing and congestion concepts"
+    ]
+  },
+  {
+    "objectID": "3.4.routing-and-congestion.html#notes",
+    "href": "3.4.routing-and-congestion.html#notes",
+    "title": "3.4 Routing and congestion concepts",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.4 Routing and congestion concepts"
+    ]
+  },
+  {
+    "objectID": "3.5.origin-destination.html",
+    "href": "3.5.origin-destination.html",
+    "title": "3.5 Origin–destination analysis",
+    "section": "",
+    "text": "Story problem\nWhere do people travel from and to?",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.5 Origin–destination analysis"
+    ]
+  },
+  {
+    "objectID": "3.5.origin-destination.html#story-problem",
+    "href": "3.5.origin-destination.html#story-problem",
+    "title": "3.5 Origin–destination analysis",
+    "section": "",
+    "text": "You build a simple OD table for Auckland zones.\nYou compute totals and top pairs.\nYou plan how to visualise it in the dashboard.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.5 Origin–destination analysis"
+    ]
+  },
+  {
+    "objectID": "3.5.origin-destination.html#what-you-will-learn",
+    "href": "3.5.origin-destination.html#what-you-will-learn",
+    "title": "3.5 Origin–destination analysis",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nRepresent OD pairs and aggregate by Auckland zones.\nProduce an OD summary table suitable for a dashboard.\nDesign one clear visual that communicates movement.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.5 Origin–destination analysis"
+    ]
+  },
+  {
+    "objectID": "3.5.origin-destination.html#notes",
+    "href": "3.5.origin-destination.html#notes",
+    "title": "3.5 Origin–destination analysis",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.5 Origin–destination analysis"
+    ]
+  },
+  {
+    "objectID": "3.6.networks.html",
+    "href": "3.6.networks.html",
+    "title": "3.6 Networks for GIS",
+    "section": "",
+    "text": "Story problem\nAuckland streets as a graph",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.6 Networks for GIS"
+    ]
+  },
+  {
+    "objectID": "3.6.networks.html#story-problem",
+    "href": "3.6.networks.html#story-problem",
+    "title": "3.6 Networks for GIS",
+    "section": "",
+    "text": "Nodes are intersections, edges are road segments.\nWeights encode travel time or distance.\nNetwork measures become inputs to mapping and dashboards.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.6 Networks for GIS"
+    ]
+  },
+  {
+    "objectID": "3.6.networks.html#what-you-will-learn",
+    "href": "3.6.networks.html#what-you-will-learn",
+    "title": "3.6 Networks for GIS",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nGraph basics for streets and accessibility.\nRelate network concepts to routing and congestion.\nIdentify which network measures are worth teaching early.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.6 Networks for GIS"
+    ]
+  },
+  {
+    "objectID": "3.6.networks.html#notes",
+    "href": "3.6.networks.html#notes",
+    "title": "3.6 Networks for GIS",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.6 Networks for GIS"
+    ]
+  },
+  {
+    "objectID": "3.7.shiny-assignment.html",
+    "href": "3.7.shiny-assignment.html",
+    "title": "3.7 Shiny dashboard assignment",
+    "section": "",
+    "text": "Story problem\nA dashboard a policymaker can use",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.7 Shiny dashboard assignment"
+    ]
+  },
+  {
+    "objectID": "3.7.shiny-assignment.html#story-problem",
+    "href": "3.7.shiny-assignment.html#story-problem",
+    "title": "3.7 Shiny dashboard assignment",
+    "section": "",
+    "text": "The map answers: where are the highest values?\nThe table answers: what changes when we filter?\nThe text answers: what does it mean and what are the caveats?",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.7 Shiny dashboard assignment"
+    ]
+  },
+  {
+    "objectID": "3.7.shiny-assignment.html#what-you-will-learn",
+    "href": "3.7.shiny-assignment.html#what-you-will-learn",
+    "title": "3.7 Shiny dashboard assignment",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nBuild a Shiny app with a Folium map, filters, and summaries.\nUse Auckland zones and at least one indicator from Part 2.\nWrite a short interpretation section that matches the visuals.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.7 Shiny dashboard assignment"
+    ]
+  },
+  {
+    "objectID": "3.7.shiny-assignment.html#required-components",
+    "href": "3.7.shiny-assignment.html#required-components",
+    "title": "3.7 Shiny dashboard assignment",
+    "section": "Required components",
+    "text": "Required components\n\nFolium map\nAt least one filter\nSummary table or chart\nShort narrative",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.7 Shiny dashboard assignment"
+    ]
+  },
+  {
+    "objectID": "3.7.shiny-assignment.html#rubric",
+    "href": "3.7.shiny-assignment.html#rubric",
+    "title": "3.7 Shiny dashboard assignment",
+    "section": "Rubric",
+    "text": "Rubric\n\nCorrectness\nUsability\nClarity\nReproducibility",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.7 Shiny dashboard assignment"
+    ]
+  },
+  {
+    "objectID": "3.7.shiny-assignment.html#notes",
+    "href": "3.7.shiny-assignment.html#notes",
+    "title": "3.7 Shiny dashboard assignment",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.7 Shiny dashboard assignment"
+    ]
+  },
+  {
+    "objectID": "4.0.python-packaging.html",
+    "href": "4.0.python-packaging.html",
+    "title": "Part 4: Python packaging for GIS",
+    "section": "",
+    "text": "Story problem\nFrom one-off Auckland script to a reusable toolkit",
+    "crumbs": [
+      "Part 4: Python packaging for GIS"
+    ]
+  },
+  {
+    "objectID": "4.0.python-packaging.html#story-problem",
+    "href": "4.0.python-packaging.html#story-problem",
+    "title": "Part 4: Python packaging for GIS",
+    "section": "",
+    "text": "You have good code from Parts 2 and 3.\nNow you make it importable: from auckland_gis import ...\nYour future self and your students will reuse it in new projects.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS"
+    ]
+  },
+  {
+    "objectID": "4.0.python-packaging.html#what-you-will-learn",
+    "href": "4.0.python-packaging.html#what-you-will-learn",
+    "title": "Part 4: Python packaging for GIS",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nTurn your Auckland analysis into reusable functions.\nBuild a small package that loads Auckland boundaries and produces summaries.\nTest, document, and publish a clean release.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS"
+    ]
+  },
+  {
+    "objectID": "4.0.python-packaging.html#notes",
+    "href": "4.0.python-packaging.html#notes",
+    "title": "Part 4: Python packaging for GIS",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS"
+    ]
+  },
+  {
+    "objectID": "4.1.packaging-why.html",
+    "href": "4.1.packaging-why.html",
+    "title": "4.1 Why packaging is a core GIScience skill",
+    "section": "",
+    "text": "Story problem\nAuckland utilities you can import in every project",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.1 Why packaging is a core GIScience skill"
+    ]
+  },
+  {
+    "objectID": "4.1.packaging-why.html#story-problem",
+    "href": "4.1.packaging-why.html#story-problem",
+    "title": "4.1 Why packaging is a core GIScience skill",
+    "section": "",
+    "text": "You stop copying and pasting code between repos.\nYour join keys and CRS checks become standardised.\nYour analysis becomes easier to teach and review.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.1 Why packaging is a core GIScience skill"
+    ]
+  },
+  {
+    "objectID": "4.1.packaging-why.html#what-you-will-learn",
+    "href": "4.1.packaging-why.html#what-you-will-learn",
+    "title": "4.1 Why packaging is a core GIScience skill",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nModule vs package vs distribution in everyday terms.\nWhy packaging matters for Auckland workflows (teaching, labs, sharing).\nGIS pitfalls: CRS, binaries, and data size.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.1 Why packaging is a core GIScience skill"
+    ]
+  },
+  {
+    "objectID": "4.1.packaging-why.html#notes",
+    "href": "4.1.packaging-why.html#notes",
+    "title": "4.1 Why packaging is a core GIScience skill",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.1 Why packaging is a core GIScience skill"
+    ]
+  },
+  {
+    "objectID": "4.2.project-structure.html",
+    "href": "4.2.project-structure.html",
+    "title": "4.2 Project structure that scales",
+    "section": "",
+    "text": "Story problem\nA repo layout students can understand in 60 seconds",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.2 Project structure that scales"
+    ]
+  },
+  {
+    "objectID": "4.2.project-structure.html#story-problem",
+    "href": "4.2.project-structure.html#story-problem",
+    "title": "4.2 Project structure that scales",
+    "section": "",
+    "text": "Students find code in src/ and tests in tests/.\nDocs live in docs/ and are built from examples.\nData lives in data/ and is clearly documented.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.2 Project structure that scales"
+    ]
+  },
+  {
+    "objectID": "4.2.project-structure.html#what-you-will-learn",
+    "href": "4.2.project-structure.html#what-you-will-learn",
+    "title": "4.2 Project structure that scales",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nUse a src layout and keep imports clean.\nKeep Auckland example data local and do not ship large files by default.\nMake examples runnable from the repo root.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.2 Project structure that scales"
+    ]
+  },
+  {
+    "objectID": "4.2.project-structure.html#notes",
+    "href": "4.2.project-structure.html#notes",
+    "title": "4.2 Project structure that scales",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.2 Project structure that scales"
+    ]
+  },
+  {
+    "objectID": "4.3.pyproject-uv.html",
+    "href": "4.3.pyproject-uv.html",
+    "title": "4.3 pyproject.toml and uv workflow",
+    "section": "",
+    "text": "Story problem\nOne command builds confidence",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.3 pyproject.toml and uv workflow"
+    ]
+  },
+  {
+    "objectID": "4.3.pyproject-uv.html#story-problem",
+    "href": "4.3.pyproject-uv.html#story-problem",
+    "title": "4.3 pyproject.toml and uv workflow",
+    "section": "",
+    "text": "A single uv run pytest tells you if the package is healthy.\nA single uv run python -c ... smoke-tests imports.\nYou keep versions pinned so teaching environments are stable.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.3 pyproject.toml and uv workflow"
+    ]
+  },
+  {
+    "objectID": "4.3.pyproject-uv.html#what-you-will-learn",
+    "href": "4.3.pyproject-uv.html#what-you-will-learn",
+    "title": "4.3 pyproject.toml and uv workflow",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nWrite minimal metadata for an Auckland GIS package.\nManage dependencies with uv.\nUse dev dependencies for tests and formatting.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.3 pyproject.toml and uv workflow"
+    ]
+  },
+  {
+    "objectID": "4.3.pyproject-uv.html#notes",
+    "href": "4.3.pyproject-uv.html#notes",
+    "title": "4.3 pyproject.toml and uv workflow",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.3 pyproject.toml and uv workflow"
+    ]
+  },
+  {
+    "objectID": "4.4.testing-and-quality.html",
+    "href": "4.4.testing-and-quality.html",
+    "title": "4.4 Testing and code quality",
+    "section": "",
+    "text": "Story problem\nPreventing silent GIS errors",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.4 Testing and code quality"
+    ]
+  },
+  {
+    "objectID": "4.4.testing-and-quality.html#story-problem",
+    "href": "4.4.testing-and-quality.html#story-problem",
+    "title": "4.4 Testing and code quality",
+    "section": "",
+    "text": "A join drops 5 zones and nobody notices.\nA CRS mismatch shifts geometry and distorts distances.\nTests catch these before the map reaches the report.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.4 Testing and code quality"
+    ]
+  },
+  {
+    "objectID": "4.4.testing-and-quality.html#what-you-will-learn",
+    "href": "4.4.testing-and-quality.html#what-you-will-learn",
+    "title": "4.4 Testing and code quality",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nTest join key validation for Auckland zones.\nTest CRS conversion behaviour.\nTest one indicator function end-to-end.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.4 Testing and code quality"
+    ]
+  },
+  {
+    "objectID": "4.4.testing-and-quality.html#notes",
+    "href": "4.4.testing-and-quality.html#notes",
+    "title": "4.4 Testing and code quality",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.4 Testing and code quality"
+    ]
+  },
+  {
+    "objectID": "4.5.docs-and-quarto.html",
+    "href": "4.5.docs-and-quarto.html",
+    "title": "4.5 Documentation with Quarto",
+    "section": "",
+    "text": "Story problem\nDocs that teach, not just describe",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.5 Documentation with Quarto"
+    ]
+  },
+  {
+    "objectID": "4.5.docs-and-quarto.html#story-problem",
+    "href": "4.5.docs-and-quarto.html#story-problem",
+    "title": "4.5 Documentation with Quarto",
+    "section": "",
+    "text": "A student copies the example and it works.\nA marker can trace method decisions from docs.\nFuture projects reuse the same documented workflow.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.5 Documentation with Quarto"
+    ]
+  },
+  {
+    "objectID": "4.5.docs-and-quarto.html#what-you-will-learn",
+    "href": "4.5.docs-and-quarto.html#what-you-will-learn",
+    "title": "4.5 Documentation with Quarto",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nWrite task-based docs: load Auckland SA2, join population, map indicator.\nInclude minimal examples with expected outputs.\nUse Quarto pages as teaching notes and as package documentation.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.5 Documentation with Quarto"
+    ]
+  },
+  {
+    "objectID": "4.5.docs-and-quarto.html#notes",
+    "href": "4.5.docs-and-quarto.html#notes",
+    "title": "4.5 Documentation with Quarto",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.5 Documentation with Quarto"
+    ]
+  },
+  {
+    "objectID": "4.6.geospatial-package-example.html",
+    "href": "4.6.geospatial-package-example.html",
+    "title": "4.6 Package example: Auckland boundaries + population",
+    "section": "",
+    "text": "Story problem\nAuckland SA2 toolkit",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.6 Package example: Auckland boundaries + population"
+    ]
+  },
+  {
+    "objectID": "4.6.geospatial-package-example.html#story-problem",
+    "href": "4.6.geospatial-package-example.html#story-problem",
+    "title": "4.6 Package example: Auckland boundaries + population",
+    "section": "",
+    "text": "Load auckland_sa2.gpkg and confirm CRS.\nJoin population.csv by SA2 code and validate matches.\nCompute a density field ready for choropleths.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.6 Package example: Auckland boundaries + population"
+    ]
+  },
+  {
+    "objectID": "4.6.geospatial-package-example.html#what-you-will-learn",
+    "href": "4.6.geospatial-package-example.html#what-you-will-learn",
+    "title": "4.6 Package example: Auckland boundaries + population",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nImplement a small library for Auckland zone analysis.\nKeep geometry in GeoPandas, summarise in Pandas or Polars.\nReturn tidy outputs that feed Folium maps and Shiny apps.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.6 Package example: Auckland boundaries + population"
+    ]
+  },
+  {
+    "objectID": "4.6.geospatial-package-example.html#suggested-functions",
+    "href": "4.6.geospatial-package-example.html#suggested-functions",
+    "title": "4.6 Package example: Auckland boundaries + population",
+    "section": "Suggested functions",
+    "text": "Suggested functions\n\nread_sa2(path) -&gt; GeoDataFrame\nvalidate_join(gdf, df, key) -&gt; (GeoDataFrame, report)\npopulation_density(gdf, pop_col) -&gt; GeoDataFrame\nchoropleth_ready(gdf, value_col) -&gt; GeoDataFrame",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.6 Package example: Auckland boundaries + population"
+    ]
+  },
+  {
+    "objectID": "4.6.geospatial-package-example.html#notes",
+    "href": "4.6.geospatial-package-example.html#notes",
+    "title": "4.6 Package example: Auckland boundaries + population",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.6 Package example: Auckland boundaries + population"
+    ]
+  },
+  {
+    "objectID": "4.7.publish-pypi.html",
+    "href": "4.7.publish-pypi.html",
+    "title": "4.7 Publishing to PyPI",
+    "section": "",
+    "text": "Story problem\nSharing your toolkit with a cohort",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.7 Publishing to PyPI"
+    ]
+  },
+  {
+    "objectID": "4.7.publish-pypi.html#story-problem",
+    "href": "4.7.publish-pypi.html#story-problem",
+    "title": "4.7 Publishing to PyPI",
+    "section": "",
+    "text": "Students install your package with one command.\nEveryone uses the same API and reduces setup friction.\nYou can update versions between semesters with clear release notes.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.7 Publishing to PyPI"
+    ]
+  },
+  {
+    "objectID": "4.7.publish-pypi.html#what-you-will-learn",
+    "href": "4.7.publish-pypi.html#what-you-will-learn",
+    "title": "4.7 Publishing to PyPI",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nVersion and release your Auckland GIS package.\nBuild a distribution and confirm it installs.\nDo a clean import test and run a minimal example.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.7 Publishing to PyPI"
+    ]
+  },
+  {
+    "objectID": "4.7.publish-pypi.html#notes",
+    "href": "4.7.publish-pypi.html#notes",
+    "title": "4.7 Publishing to PyPI",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.7 Publishing to PyPI"
+    ]
+  },
+  {
+    "objectID": "4.8.packaging-assignment.html",
+    "href": "4.8.packaging-assignment.html",
+    "title": "4.8 Packaging assignment",
+    "section": "",
+    "text": "Story problem\nA package that produces a map",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.8 Packaging assignment"
+    ]
+  },
+  {
+    "objectID": "4.8.packaging-assignment.html#story-problem",
+    "href": "4.8.packaging-assignment.html#story-problem",
+    "title": "4.8 Packaging assignment",
+    "section": "",
+    "text": "A marker installs your package in a clean environment.\nThey run one example script and get a Folium map output.\nThey read your docs and understand your assumptions.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.8 Packaging assignment"
+    ]
+  },
+  {
+    "objectID": "4.8.packaging-assignment.html#what-you-will-learn",
+    "href": "4.8.packaging-assignment.html#what-you-will-learn",
+    "title": "4.8 Packaging assignment",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nBuild a package that supports Auckland zones and one indicator.\nWrite tests and documentation pages.\nProvide a small example that generates a Folium map.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.8 Packaging assignment"
+    ]
+  },
+  {
+    "objectID": "4.8.packaging-assignment.html#deliverables",
+    "href": "4.8.packaging-assignment.html#deliverables",
+    "title": "4.8 Packaging assignment",
+    "section": "Deliverables",
+    "text": "Deliverables\n\nRepo with src layout\n3+ functions\n3+ tests\nDocs page\nOne Folium example",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.8 Packaging assignment"
+    ]
+  },
+  {
+    "objectID": "4.8.packaging-assignment.html#notes",
+    "href": "4.8.packaging-assignment.html#notes",
+    "title": "4.8 Packaging assignment",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 4: Python packaging for GIS",
+      "4.8 Packaging assignment"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#first-code-in-python---print-and-input",
+    "href": "2.1.basic-python.html#first-code-in-python---print-and-input",
+    "title": "2.1 Basic Python",
+    "section": "First Code in Python - Print and Input",
+    "text": "First Code in Python - Print and Input\n\nprint(\"Hello World\")\n\nHello World\n\n\n\n10 + 10\n\n20",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#comments-in-code",
+    "href": "2.1.basic-python.html#comments-in-code",
+    "title": "2.1 Basic Python",
+    "section": "Comments in Code",
+    "text": "Comments in Code\nThey are added with the purpose of making the source code easier for humans to understand, They are ignored when programme is running\n\n# This is single line comment\n# I can write code\n\n'''\nThis is multi line comment\nLine 1\nLine 2\n'''\n\nprint('Hello World!')\n\nHello World!\n\n\n\nprint(1 + 1)\nprint(5 * 7)\nprint(2**3)\nprint(10 % 3)\n\n2\n35\n8\n1\n\n\n\ntemperature = 15\n\n\ntemperature\n\n15",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#whitespace",
+    "href": "2.1.basic-python.html#whitespace",
+    "title": "2.1 Basic Python",
+    "section": "Whitespace",
+    "text": "Whitespace\n\nx=1+2\nx = 1 + 2\nx             =        1    +                2",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#end-of-line-terminates-a-statement",
+    "href": "2.1.basic-python.html#end-of-line-terminates-a-statement",
+    "title": "2.1 Basic Python",
+    "section": "End-of-Line Terminates a Statement",
+    "text": "End-of-Line Terminates a Statement\n\ntemperature = 5",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#multi-line-statements",
+    "href": "2.1.basic-python.html#multi-line-statements",
+    "title": "2.1 Basic Python",
+    "section": "Multi-line Statements",
+    "text": "Multi-line Statements\n\nx = 1 + 2 + 3 + 4 +\\\n    5 + 6 + 7 + 8",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#round-brackets-parentheses",
+    "href": "2.1.basic-python.html#round-brackets-parentheses",
+    "title": "2.1 Basic Python",
+    "section": "Round brackets (Parentheses)",
+    "text": "Round brackets (Parentheses)\n\n2 * (3 + 4)\n\n14\n\n\n\nprint('first value', 1)\n\nfirst value 1\n\n\n\nL = [4,2,3,1]\n\nL.sort()\n\nprint(L)\n\n[1, 2, 3, 4]",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#variable",
+    "href": "2.1.basic-python.html#variable",
+    "title": "2.1 Basic Python",
+    "section": "Variable",
+    "text": "Variable\n\nnumbers = 100\n\n\nCumbers_343 = 200\n\n\nx = 10\ny = \"Lao\"\n\nprint(x)\nprint(y)\n\n10\nLao\n\n\n\nweather = \"Freezing\"\nprint(weather)\n\nFreezing\n\n\n\nRules for Python variables\n\nA variable name must start with a letter or the underscore character\nA variable name cannot start with a number\nA variable name can only contain alpha-numeric characters and underscores (A-z, 0-9, and _ )\nVariable names are case-sensitive (age, name, and Name are three different variables)*\n\n\n\nVariable as a pointer\n\nx = [1, 2, 3]\n\ny = x\n\n\nx = 'something else'\n\nprint(y)  # y is unchanged\n\n[1, 2, 3]",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#everything-is-an-object",
+    "href": "2.1.basic-python.html#everything-is-an-object",
+    "title": "2.1 Basic Python",
+    "section": "Everything is an object",
+    "text": "Everything is an object\n\nx = 4\ntype(x)\n\nint\n\n\n\nx = 'hello'\ntype(x)\n\nstr\n\n\n\nx = 3.14159\ntype(x)\n\nfloat\n\n\n\nprint(5)\n\n5\n\n\n\nprint((5).__str__())\n\n5\n\n\n\nL = [1, 2, 3]\nL.append(100)\nprint(L)\n\n[1, 2, 3, 100]",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#operators",
+    "href": "2.1.basic-python.html#operators",
+    "title": "2.1 Basic Python",
+    "section": "Operators",
+    "text": "Operators\n\n# True division\nprint(11 / 2)\n\n# Floor division\nprint(11 // 2)\n\n5.5\n5",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#comparison-operations",
+    "href": "2.1.basic-python.html#comparison-operations",
+    "title": "2.1 Basic Python",
+    "section": "Comparison Operations",
+    "text": "Comparison Operations\n\n25 % 2 == 1 # is 25 an odd number?\n66 % 2 == 1 # is 66 an odd number?\n\nFalse",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#data-types---numbers-and-strings",
+    "href": "2.1.basic-python.html#data-types---numbers-and-strings",
+    "title": "2.1 Basic Python",
+    "section": "Data Types - Numbers and Strings",
+    "text": "Data Types - Numbers and Strings\n\nNumbers : represent numerical values\n\nInteger - Examples: 5, 6000, 80, -1, -15, -5890, 0\nFloats - Examples: -3.5, -400.8945, 50.1547\nComplex Numbers - Examples: -3 + 2j, 10 + 1584j\nBooleans - True, False\n\n\ntype(\"4\")\n\nstr\n\n\n\nweatherForecast = \"Freezing\"\ntype(weatherForecast)\n\nstr\n\n\n\nprint(weatherForecast+weatherForecast)\nprint(5 * weatherForecast)\n\nFreezingFreezing\nFreezingFreezingFreezingFreezingFreezing\n\n\n\nprint(weatherForecast.upper())\nprint(weatherForecast.lower())\n\nFREEZING\nfreezing\n\n\n\nx1 = 10\nx2 = 15.4\nx3 = 3+5j\nx4 = True\n\nprint(x1)\nprint(type(x1))\nprint(x2)\nprint(type(x2))\nprint(x3)\nprint(type(x3))\nprint(x4)\nprint(type(x4))\n\n10\n&lt;class 'int'&gt;\n15.4\n&lt;class 'float'&gt;\n(3+5j)\n&lt;class 'complex'&gt;\nTrue\n&lt;class 'bool'&gt;\n\n\n\nx = \"My name is \"\ny = \"John\"\nz =  x + y\nprint(z)\n\nMy name is John\n\n\n\na = \"Hello, World!\"\n\n'''string indexing\nfirst character is index zero, second character is index one, etc....\n'''\n\nprint(a[1])\nprint(a[2:5])\n\n'''Common operations with strings'''\n\nprint(a.strip()) # removes any whitespace\nprint(a.lower()) # returns the string in lower case\nprint(a.upper()) # returns the string in upper case\nprint(a.replace(\"H\", \"J\")) # replace characters\nprint(a.split(\",\")) # split string by a character\n\ne\nllo\nHello, World!\nhello, world!\nHELLO, WORLD!\nJello, World!\n['Hello', ' World!']\n\n\n\n\nNumeric\n\nmy_int= 2\nmy_float= 24.3\nmy_int+my_float\nmy_int-my_float\n\n-22.3\n\n\n\nx = 5\ny = 17\n\nprint(x+y) #Adding\nprint(x-y) #Substracting\nprint(x*y) #multiplication\nprint(y/x) #division\nprint(y%x) #modulo operation (remainder after division)\nprint(x**2) #power\n\n22\n-12\n85\n3.4\n2\n25\n\n\n\n\nConverting between Data Types (Casting)\nSometimes, we have to force some data to be a particular data type. as example, when we input something to a programme, usually it comes as a text (string). so if we want to perform calculations on that, we have to convert that in to a numerical type such as int / float\n\na = int(10.15)\nb = int(\"5\")\n\nprint(a, type(a))\nprint(b, type(b))\nprint('\\n---------------------\\n')\n\na = float(12)\nb = float(\"15.9\")\n\nprint(a, type(a))\nprint(b, type(b))\n\nprint('\\n---------------------\\n')\n\na = str(5)\nb = str(4.5)\n\nprint(a, type(a))\nprint(b, type(b))\n\n10 &lt;class 'int'&gt;\n5 &lt;class 'int'&gt;\n\n---------------------\n\n12.0 &lt;class 'float'&gt;\n15.9 &lt;class 'float'&gt;\n\n---------------------\n\n5 &lt;class 'str'&gt;\n4.5 &lt;class 'str'&gt;",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#lists",
+    "href": "2.1.basic-python.html#lists",
+    "title": "2.1 Basic Python",
+    "section": "Lists",
+    "text": "Lists\n\ntop = [\"socks\", \"underwear\", \"handkerchief\"]\nmiddle = [\"T-shirts\", \"Pajamas\", \"Trousers\", \"Shorts\"]\nbottom = [30, 73, 100, 62]\n\n\ntop\n\n['socks', 'underwear', 'handkerchief']\n\n\nModifying Lists\n\nwestern_line = [\"Britomart\", \"Parnell\", \"Newmarket\", \"Grafton\",\n    \"Mt Eden\", \"Kingsland\", \"Morningside\", \"Baldwin Ave\"]\n\nprint(western_line)\n\n['Britomart', 'Parnell', 'Newmarket', 'Grafton', 'Mt Eden', 'Kingsland', 'Morningside', 'Baldwin Ave']\n\n\nIndexing\n\nwestern_line[1]\n\n'Parnell'\n\n\n\nwestern_line[2]\nwestern_line[2:5]\nwestern_line[-1]\nwestern_line[-8]\n\n'Britomart'\n\n\nModifying list values\n\nwestern_line[3] = 'Auckland City'\nwestern_line\n\n['Britomart',\n 'Parnell',\n 'Newmarket',\n 'Auckland City',\n 'Mt Eden',\n 'Kingsland',\n 'Morningside',\n 'Baldwin Ave']\n\n\n\nwestern_line.append(\"new station\")\n\nprint(western_line)\n\n['Britomart', 'Parnell', 'Newmarket', 'Auckland City', 'Mt Eden', 'Kingsland', 'Morningside', 'Baldwin Ave', 'new station']\n\n\n\nExercise\n\nDefine western_line in your environment\nAdd Mt Albert, Avondale, New Lynn, Fruitvale Rd, Glen Eden as a list (you can Google “Auckland Western Line” and find the Wikipedia)\nAssign that in your environment as more_western\nThis time, try using the function extend to combine the two lists\n\n\nwestern_line = [\"Britomart\", \"Parnell\", \"Newmarket\", \"Grafton\",\n    \"Mt Eden\", \"Kingsland\", \"Morningside\", \"Baldwin Ave\"]\n\n\nmore_western = [\"Mt Albert\", \"Avondale\"]\n\n\nwestern_line.extend(more_western)\n\n\nwestern_line\n\n['Britomart',\n 'Parnell',\n 'Newmarket',\n 'Grafton',\n 'Mt Eden',\n 'Kingsland',\n 'Morningside',\n 'Baldwin Ave',\n 'Mt Albert',\n 'Avondale']",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "2.1.basic-python.html#control-flow-statements",
+    "href": "2.1.basic-python.html#control-flow-statements",
+    "title": "2.1 Basic Python",
+    "section": "Control Flow Statements",
+    "text": "Control Flow Statements\n\nfor Loop\n\nfor name in western_line:\n    print(name)\n\nBritomart\nParnell\nNewmarket\nGrafton\nMt Eden\nKingsland\nMorningside\nBaldwin Ave\nMt Albert\nAvondale\n\n\n\neuropean_cities = [\"Amsterdam\", \"Brussels\", \"London\", \"Rome\"]\nfor city100 in european_cities:\n    print(city100)\n\nAmsterdam\nBrussels\nLondon\nRome\n\n\n\n\nUsing range\n\nfor value in range(5):\n    print(value)\n\n0\n1\n2\n3\n4\n\n\n\ngroup1 = [1, 3, 5]\ngroup2 = [0, 1, 2]\n\nfor i in range(2):\n    print(group1[i], 'gisci 343 lecture 2', group2[i])\n\n1 gisci 343 lecture 2 0\n3 gisci 343 lecture 2 1\n\n\n\n\nExercise\n\nThe indices of the cities and countries are in the same order\nFor example, Helsinki and Finland are in index 0\nCreate a for loop that describes something like Helsinki is the capital of Finland\n\n\ncities = [\"Helsinki\", \"Stockholm\", \"Oslo\", \"Reykjavik\", \"Copenhagen\"]\ncountries = [\"Finland\", \"Sweden\", \"Norway\", \"Iceland\", \"Denmark\"]\n\n\nfor gisci in range(5):\n  print(cities[gisci], \"is the captial of\", countries[gisci])\n\nHelsinki is the captial of Finland\nStockholm is the captial of Sweden\nOslo is the captial of Norway\nReykjavik is the captial of Iceland\nCopenhagen is the captial of Denmark\n\n\n\n\nif-else Statements\n\ntemperature = 17\nif temperature &gt; 25:\n    print(temperature, \"is greater than 25\")\n\n\ntemperature = 30\nif temperature &gt; 25:\n    print(\"It is hot!\")\nelse:\n    print(\"It is not hot!\")\n\nIt is hot!\n\n\n\n\nBoolean Conditions\n\nweather = \"rainy\"\n\nif weather == \"rain\":\n    print(\"Wear a raincoat!\")\nelse:\n    print(\"No raincoat needed.\")\n\nNo raincoat needed.\n\n\n\nweather = \"rain\"\nwind_speed = 14\n\nif (weather == \"rain\") or (wind_speed &gt;= 10):\n    print(\"Just stay at home\")\nelse:\n    print(\"Go out and enjoy the weather!\")\n\nJust stay at home\n\n\n\ntemperatures = [0, 12, 17, 28, 30]\n\n\n\n# For each temperature, if the temperature is greater than 25, print \"..is hot\"\n\nfor temperature in temperatures:\n\n    if temperature &gt; 25:\n\n        print(temperature, \"is hot\")\n\n    else:\n\n        print(temperature, \"is not hot\")\n\n0 is not hot\n12 is not hot\n17 is not hot\n28 is hot\n30 is hot",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.1 Basic Python"
+    ]
+  },
+  {
+    "objectID": "1.1.installation.html#to-install-packages",
+    "href": "1.1.installation.html#to-install-packages",
+    "title": "1.1 Installation",
+    "section": "To install packages",
+    "text": "To install packages\n\nTraditional Python took a system-wide approach with global installations and limited isolation, leading to “works on my machine” problems, dependency conflicts, and difficult onboarding.\n\n\nnew in 2026 uv installation\nTraditionally, we used pip, pip-tools, pipx, poetry, pyenv, or virtualenv to install packages. And so have we taught pip (!pip in colab) for our GISCI 343 course. In the recent years, however, developers have used multi-thread languages such as Rust to speed up the installation process.\nUsers have reported significant time savings when using uv pip install instead of pip install for such environments. For example, one benchmark installing the pandas package showed:\n\npip: 2.62 seconds\nuv: 1.22 seconds\n\nFor a complex set of packages, uv installed the “transformers” library and its 18 dependencies in 1.77 seconds, while pip took nearly 50 seconds.\npip install uv",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.1 Installation"
+    ]
+  },
+  {
+    "objectID": "1.1.installation.html#installing-uv",
+    "href": "1.1.installation.html#installing-uv",
+    "title": "1.1 Installation",
+    "section": "3. installing uv",
+    "text": "3. installing uv\nYou will have several options to install uv.\nFirst option: pip and pipx\npip3 install uv # on a local machine\n\npipx install uv # system-wide\nSecond option: Homebrew\nbrew install uv\nthird option: binary codes\n# Using the standalone installer (recommended on macOS/Linux)\ncurl -LsSf https://astral.sh/uv/install.sh | sh\n\n# Windows\npowershell -ExecutionPolicy ByPass -c \"irm https://astral.sh/uv/install.ps1 | iex\"\n\nFor updates\nStandalone: uv self update pipx: pipx upgrade uv",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.1 Installation"
+    ]
+  },
+  {
+    "objectID": "1.3.version-control.html#creating-a-virtual-environment",
+    "href": "1.3.version-control.html#creating-a-virtual-environment",
+    "title": "1.3 Version control with Git",
+    "section": "Creating a virtual environment",
+    "text": "Creating a virtual environment\nUsing your terminal (or powershell on Windows), you can install your virtual environment .venv at the current folder using the following command:\nuv venv\nIf you want to create a subfolder\nuv venv my-dir # a subfolder called \"my-dir\"",
+    "crumbs": [
+      "Part 1: Setup",
+      "1.3 Version control with Git"
+    ]
+  }
+]

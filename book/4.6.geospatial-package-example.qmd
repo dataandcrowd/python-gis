@@ -1,4 +1,4 @@
-# 4.6 Package example: Auckland boundaries + population
+# 4.6 Package example: Auckland boundaries + population {.unnumbered}
 
 ## Story problem
 

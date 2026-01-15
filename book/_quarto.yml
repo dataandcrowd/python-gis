@@ -1,28 +1,29 @@
 project:
   type: book
+  output-dir: ../docs
 
 book:
-  title: "Python GIS"
+  title: "Python GIS at UoA"
   author: "Hyesop Shin"
   date: 1/14/26
+  
   chapters:
     - index.qmd
     - syllabus.qmd
-    - part: 1.chapter1-setup.qmd
+    - part: 1.0.chapter1-setup.qmd
       chapters:
         - 1.1.installation.qmd
         - 1.2.uv.qmd
         - 1.3.version-control.qmd
-
-    - part: 2.chapter2-geospatial_python.qmd
+        
+    - part: 2.0.chapter2-geospatial_python.qmd
       chapters:
         - 2.1.basic-python.qmd
         - 2.2.dataframes.qmd
         - 2.3.geospatial.qmd
         - 2.4.urban-analytics.qmd
         - 2.5.midsemtest-assignment.qmd
-
-    - part: 3.chapter3-shiny_python.qmd
+    - part: 3.0.chapter3-shiny_python.qmd
       chapters:
         - 3.1.webgis-wasm-shiny.qmd
         - 3.2.shiny-functions-reactivity.qmd
@@ -31,8 +32,7 @@ book:
         - 3.5.origin-destination.qmd
         - 3.6.networks.qmd
         - 3.7.shiny-assignment.qmd
-
-    - part: 4.python-packaging.qmd
+    - part: 4.0.python-packaging.qmd
       chapters:
         - 4.1.packaging-why.qmd
         - 4.2.project-structure.qmd
@@ -43,8 +43,9 @@ book:
         - 4.7.publish-pypi.qmd
         - 4.8.packaging-assignment.qmd
     - references.qmd
-
 bibliography: references.bib
+page-navigation: true
+  
 
 format:
   html:

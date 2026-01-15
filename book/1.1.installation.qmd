@@ -1,4 +1,4 @@
-# 1.1 Installation
+# 1.1 Installation {.unnumbered}
 
 ## Story problem
 
@@ -20,15 +20,71 @@
 - Editor (Positron or VS Code)
 - A terminal (PowerShell / Terminal)
 
+## To install packages
+
+> Traditional Python took a system-wide approach with global installations and limited isolation, leading to "works on my machine" problems, dependency conflicts, and difficult onboarding.
+
+
+### new in 2026 `uv` installation
+Traditionally, we used `pip`, `pip-tools`, `pipx`, `poetry`, `pyenv`, or `virtualenv` to install packages. And so have we taught `pip` (`!pip` in colab) for our GISCI 343 course.
+In the recent years, however, developers have used multi-thread languages such as **Rust** to speed up the installation process.
+
+Users have reported significant time savings when using uv pip install instead of pip install for such environments. 
+For example, one [benchmark](https://medium.com/@surendhan10/uv-vs-pip-a-professional-comparison-of-python-package-managers-8af6ab180cb1) installing the pandas package showed:
+
+* pip: 2.62 seconds
+* uv: 1.22 seconds 
+
+For a complex set of packages, uv installed the "transformers" library and its 18 *dependencies* in 1.77 seconds, while pip took nearly 50 seconds. 
+
+```python
+pip install uv 
+```
+
+## 3. installing `uv`
+
+You will have several options to install uv.
+
+**First option: `pip` and `pipx`**
+
+```python!
+pip3 install uv # on a local machine
+
+pipx install uv # system-wide
+```
+
+**Second option: Homebrew**
+
+```python!
+brew install uv
+```
+
+**third option: binary codes**
+
+```python!
+# Using the standalone installer (recommended on macOS/Linux)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+```
+
+For updates
+
+Standalone: `uv self update`
+pipx: `pipx upgrade uv`
+
+
 ## Verification
 
 - Run a script that prints versions and confirms imports.
 
-```{python}
+```python
 import pandas as pd
 print('pandas', pd.__version__)
 ```
 
-## Notes
 
-- _Add your narrative here._
+
+

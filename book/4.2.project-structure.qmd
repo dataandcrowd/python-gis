@@ -1,4 +1,4 @@
-# 4.2 Project structure that scales
+# 4.2 Project structure that scales {.unnumbered}
 
 ## Story problem
 

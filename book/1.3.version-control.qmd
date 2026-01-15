@@ -1,4 +1,4 @@
-# 1.3 Version control with Git
+# 1.3 Version control with Git {.unnumbered}
 
 ## Story problem
 
@@ -24,6 +24,15 @@
 
 - Make a repo, commit a script, push to GitHub.
 
-## Notes
+## Creating a virtual environment
+Using your terminal (or powershell on Windows), you can install your virtual environment `.venv` at the current folder using the following command:
 
-- _Add your narrative here._
+```bash
+uv venv
+```
+
+If you want to create a subfolder
+
+```bash
+uv venv my-dir # a subfolder called "my-dir"
+```

@@ -1,4 +1,4 @@
-# 3.2 Functions and reactivity
+# 3.2 Functions and reactivity {.unnumbered}
 
 ## Story problem
 

@@ -1,4 +1,4 @@
-# 3.1 Web GIS, WASM, and Shiny
+# 3.1 Web GIS, WASM, and Shiny {.unnumbered}
 
 ## Story problem
 

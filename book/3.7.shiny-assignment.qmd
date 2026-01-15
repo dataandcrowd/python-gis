@@ -1,4 +1,4 @@
-# 3.7 Shiny dashboard assignment (Folium-first)
+# 3.7 Shiny dashboard assignment {.unnumbered}
 
 ## Story problem
 

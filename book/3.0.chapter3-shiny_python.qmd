@@ -1,4 +1,4 @@
-# Part 3: Shiny for Python and Web GIS
+# Part 3: Shiny for Python and Web GIS 
 
 ## Story problem
 

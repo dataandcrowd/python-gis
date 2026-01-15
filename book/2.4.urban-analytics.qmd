@@ -1,12 +1,4 @@
-# 2.4 Urban analytics indicators
-
-## Story problem
-
-**Auckland: density and access that people can interpret**
-
-- You need indicators that are simple, defensible, and mappable.
-- You choose units and document assumptions.
-- You make one table and one figure that tell a coherent story.
+# 2.4 Urban analytics indicators {.unnumbered}
 
 ## What you will learn
 
@@ -16,7 +8,7 @@
 
 ## Example indicators
 
-- Population density per km²
+- Population density per km^2^
 - Nearest park distance proxy
 - Optional: network centrality
 
@@ -26,6 +18,3 @@
 - Explain assumptions
 - Use captions that state method
 
-## Notes
-
-- _Add your narrative here._

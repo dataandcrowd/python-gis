@@ -1,0 +1,15 @@
+# Part 2: Geospatial Python
+
+* Python Language Basics, IPython, and Jupyter Notebooks
+* Built-In Data Structures, Functions, and Files
+* ~~NumPy Basics: Arrays and Vectorized Computation~~
+* Getting Started with pandas (**how to install packages**)
+* Data Loading, Storage, and File Formats
+* Data Cleaning and Preparation
+* Data Wrangling: Join, Combine, and Reshape
+* Plotting and Visualisation
+* Data Aggregation and Group Operations
+* Time Series
+* Introduction to Modelling Libraries in Python
+
+[Python for Data Analysis, 3E](https://wesmckinney.com/book/)
