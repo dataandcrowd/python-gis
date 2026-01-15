@@ -31,6 +31,3 @@ import geopandas as gpd
 # print(gdf.crs)
 ```
 
-## Notes
-
-- _Add your narrative here._

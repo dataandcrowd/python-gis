@@ -10,6 +10,7 @@ book:
   chapters:
     - index.qmd
     - syllabus.qmd
+    - assignments.qmd
     - part: 1.0.chapter1-setup.qmd
       chapters:
         - 1.1.installation.qmd
@@ -22,16 +23,17 @@ book:
         - 2.2.dataframes.qmd
         - 2.3.geospatial.qmd
         - 2.4.urban-analytics.qmd
-        - 2.5.midsemtest-assignment.qmd
+        #- 2.5.midsemtest-assignment.qmd
+    
     - part: 3.0.chapter3-shiny_python.qmd
       chapters:
         - 3.1.webgis-wasm-shiny.qmd
         - 3.2.shiny-functions-reactivity.qmd
-        - 3.3.shiny-vs-fastapi.qmd
-        - 3.4.routing-and-congestion.qmd
-        - 3.5.origin-destination.qmd
-        - 3.6.networks.qmd
-        - 3.7.shiny-assignment.qmd
+        - 3.3.routing-and-congestion.qmd
+        - 3.4.origin-destination.qmd
+        - 3.5.networks.qmd
+        #- 3.7.shiny-assignment.qmd
+    
     - part: 4.0.python-packaging.qmd
       chapters:
         - 4.1.packaging-why.qmd
@@ -41,7 +43,21 @@ book:
         - 4.5.docs-and-quarto.qmd
         - 4.6.geospatial-package-example.qmd
         - 4.7.publish-pypi.qmd
-        - 4.8.packaging-assignment.qmd
+        #- 4.8.packaging-assignment.qmd
+  
+    - part: labs.qmd
+      chapters: 
+        - labs/lab-week01.qmd
+        - labs/lab-week02.qmd
+        - labs/lab-week03.qmd
+        - labs/lab-week04.qmd
+        - labs/lab-week05.qmd
+        - labs/lab-week06.qmd
+        - labs/lab-week07.qmd
+        - labs/lab-week08.qmd
+        - labs/lab-week09.qmd
+        - labs/lab-week10.qmd
+
     - references.qmd
 bibliography: references.bib
 page-navigation: true

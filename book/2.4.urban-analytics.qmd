@@ -12,9 +12,4 @@
 - Nearest park distance proxy
 - Optional: network centrality
 
-## Communication
-
-- Always show units
-- Explain assumptions
-- Use captions that state method
-
+## Urban morphology using `momepy` package

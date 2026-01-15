@@ -482,7 +482,7 @@
     "href": "2.2.dataframes.html#mini-exercise",
     "title": "2.2 DataFrames",
     "section": "Mini exercise",
-    "text": "Mini exercise\n\nCreate a simple grouped summary.\n\n\nimport pandas as pd\n\ndf = pd.DataFrame({'sa2':['Albany','Parnell','Remuera'], 'pop':[10,15,8]})\nprint(df.groupby('sa2', as_index=False)['pop'].sum())\n\n       sa2  pop\n0   Albany   10\n1  Parnell   15\n2  Remuera    8\n\n\nYou may have seen import somewhere, and from somewhere else. What is the difference? Take a look at this example below:\nfrom pandas import *\ndf = DataFrame({\"a\": [1, 2, 3]})\ns = Series([10, 20, 30])\nread_csv(\"data.csv\")\nWhat is happening internally? This copies every public symbol from pandas into your current namespace. It is good when you are beginners and you merely want functions, not the package name itself. However, it becomes dangerous when you are using multiple packages and you don’t know which arguments are coming from where.\nfrom pandas import *\nfrom numpy import *\n\nmean([1,2,3])   # Which mean is this?\nPandas import conventions https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html Python namespaces https://docs.python.org/3/tutorial/classes.html#python-scopes-and-namespaces PEP 8 import guidelines https://peps.python.org/pep-0008/#imports",
+    "text": "Mini exercise\n\nCreate a simple grouped summary.\n\n\nimport pandas as pd\n\ndf = pd.DataFrame({'sa2':['Albany','Albany','Manurewa'], 'pop':[10,15,8]})\nprint(df.groupby('sa2', as_index=False)['pop'].sum())\n\n        sa2  pop\n0    Albany   25\n1  Manurewa    8",
     "crumbs": [
       "Part 2: Geospatial Python",
       "2.2 DataFrames"
