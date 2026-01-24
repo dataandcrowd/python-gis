@@ -1,6 +1,4 @@
 import geopandas as gpd
-import holoviews as hv
-import hvplot.pandas
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -21,4 +19,7 @@ earthquakes = gpd.read_file(endpoint_url)
 
 earthquakes.head()
 
-earthquakes.explore()
+#earthquakes.explore()
+
+
+
