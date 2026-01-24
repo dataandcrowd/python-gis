@@ -762,34 +762,22 @@
     "objectID": "3.1.webgis-wasm-shiny.html#story-problem",
     "href": "3.1.webgis-wasm-shiny.html#story-problem",
     "title": "3.1 Web GIS, WASM, and Shiny",
-    "section": "",
-    "text": "A Folium map loads quickly, then the app becomes sluggish.\nYou learn where computation happens and how to move work upstream.\nYou learn to keep packages and data lean for the web.",
-    "crumbs": [
-      "Part 3: Shiny for Python and Web GIS",
-      "3.1 Web GIS, WASM, and Shiny"
-    ]
+    "section": "Story problem",
+    "text": "Story problem\nWhy does my dashboard feel slow?\n\nA folium map loads quickly, then the app becomes sluggish.\nYou learn where computation happens and how to move work upstream.\nYou learn to keep packages and data lean for the web."
   },
   {
     "objectID": "3.1.webgis-wasm-shiny.html#what-you-will-learn",
     "href": "3.1.webgis-wasm-shiny.html#what-you-will-learn",
     "title": "3.1 Web GIS, WASM, and Shiny",
     "section": "What you will learn",
-    "text": "What you will learn\n\nWhat runs in the browser versus on the server.\nWhy large Python packages slow down browser-based deployments.\nHow to choose a deployment approach for a Folium-first app.",
-    "crumbs": [
-      "Part 3: Shiny for Python and Web GIS",
-      "3.1 Web GIS, WASM, and Shiny"
-    ]
+    "text": "What you will learn\n\nWhat runs in the browser versus on the server.\nWhy large Python packages slow down browser-based deployments.\nHow to choose a deployment approach for a Folium-first app."
   },
   {
     "objectID": "3.1.webgis-wasm-shiny.html#notes",
     "href": "3.1.webgis-wasm-shiny.html#notes",
     "title": "3.1 Web GIS, WASM, and Shiny",
     "section": "Notes",
-    "text": "Notes\n\nAdd your narrative here.",
-    "crumbs": [
-      "Part 3: Shiny for Python and Web GIS",
-      "3.1 Web GIS, WASM, and Shiny"
-    ]
+    "text": "Notes\n\nAdd your narrative here."
   },
   {
     "objectID": "3.2.shiny-functions-reactivity.html",
@@ -1688,5 +1676,26 @@
       "Part 1: Setup",
       "1.3 Version control with Git"
     ]
+  },
+  {
+    "objectID": "3.1.webgis-wasm-shiny.html#static-maps-why-we-still-use-them",
+    "href": "3.1.webgis-wasm-shiny.html#static-maps-why-we-still-use-them",
+    "title": "3.1 Web GIS, WASM, and Shiny",
+    "section": "Static Maps: Why We Still Use Them",
+    "text": "Static Maps: Why We Still Use Them\nThe good part about static maps is the author controls exactly what the viewer sees. Static mapping supports precise control over symbolisation, classification, layout, annotation, and visual hierarchy, which is central to cartographic design and thematic mapping. Moreover, because static maps serve as a fixed record. They are excellent for legal documents, historical archives, or reports where you need to show exactly what the data looked like on a specific date without it updating automatically.\nTake central Auckland as an example. You can see that the ‘Reds’ have a high population density and the ‘Greens’ have a low population density per mesh block (a small geographic unit used in the census), which fades away the further you go from the city.\n\nAnother advantage is that it provides one narrative message. No zooming or panning around, just print out and the map-maker can guide the viewer’s eye to the specific story or “message” of the map without distractions.\nNo internet required. Often times, we don’t realise that webmaps (OpenStreetMaps) run under the internet. But static maps, you only need a code chunk and a computer - that is it!"
+  },
+  {
+    "objectID": "3.1.webgis-wasm-shiny.html#static-maps---where-they-fall-short",
+    "href": "3.1.webgis-wasm-shiny.html#static-maps---where-they-fall-short",
+    "title": "3.1 Web GIS, WASM, and Shiny",
+    "section": "Static Maps - Where They Fall Short",
+    "text": "Static Maps - Where They Fall Short\nZero Interactivity: Users can’t click a feature to see more metadata, toggle layers on and off, or change the base map to get more context.\n“Frozen” Data: The moment a static map is exported, the data begins to age. If the underlying data changes (e.g., real-time traffic or weather), the map becomes obsolete almost instantly.\nScale Restrictions: You are stuck with the scale the creator chose. If you want to see the street-level detail on a national-level static map, you’re out of luck—it just becomes a blur of pixels.\nInformation Overload: Since you can’t “filter” a static map, trying to show too many variables at once often leads to a cluttered, unreadable mess."
+  },
+  {
+    "objectID": "3.1.webgis-wasm-shiny.html#seriously-which-files-should-i-use",
+    "href": "3.1.webgis-wasm-shiny.html#seriously-which-files-should-i-use",
+    "title": "3.1 Web GIS, WASM, and Shiny",
+    "section": "Seriously, which files should I use",
+    "text": "Seriously, which files should I use\nIt is a classic WebGIS dilemma: GeoJSON is technically “worse” (larger, slower, memory-heavy) but “better” for the web.\n\nIn the area of Geographic Information Systems (GIS), the choice of data format significantly impacts data management, interoperability, and overall project efficiency.\n\nAccording to the Medium blog by Felipe Limeira (medium blog, Oct 2024), while GeoPackage (GPKG) is the superior choice for comprehensive data management and performance, GeoJSON remains the “de facto” standard for web applications and real-time data exchange.\nHere is why GeoJSON is still the king of the web despite being “clunky”:\n\nIt Speaks “Native” JavaScript The “JSON” in GeoJSON stands for JavaScript Object Notation. Because almost all WebGIS applications (Leaflet, Mapbox, OpenLayers) are built with JavaScript, GeoJSON is natively understood.\n\nNo “Translator” needed: To use a GeoPackage in a browser, you often need a complex library (like sql.js) to “read” the SQLite database. With GeoJSON, the browser just sees it as a standard JavaScript object. It’s ready to use the moment it’s downloaded.\n\nHuman-Readability & Debugging If a web map isn’t loading correctly, you can open a GeoJSON file in any text editor (or the browser console) and read it like a sentence.\n\nInstant Verification: You can see exactly which attribute is broken or where a coordinate is misplaced. You can’t do that with the binary “blob” of a GeoPackage or the multiple cryptic files of a Shapefile.\n\nWeb API Dominance Most modern web services (APIs) communicate via JSON. If you are building a WebGIS that pulls live weather data, transit locations, or social media check-ins, that data is almost certainly arriving as GeoJSON. It fits perfectly into the “REST API” architecture of the modern internet.\nVersion Control Friendly (GitHub) Because GeoJSON is text-based, it works beautifully with version control systems like Git.\n\nTrack Changes: You can see exactly which line (feature) changed in a “diff.” Binary formats like GPKG or SHP are “black boxes” to Git; if you change one coordinate, the whole file looks different to the system.\n\nSimplicity for Small Datasets For a map showing 50 coffee shop locations, the overhead of setting up a SQLite-based GeoPackage is overkill. A GeoJSON is a single, “dumb” file that “just works.”\n\n\n\n\n\n\n\n\n\n\nFormat\nDescription\nKey Strengths\nKey Limitations\n\n\n\n\nShapefile (.shp)\nHistorically the dominant vector format in GIS, now largely obsolete but still widely used in legacy systems and data portals.\nBroad software support; simple and familiar format.\n2 GB file size limit; fragmented across multiple files (.shp, .dbf, .shx, .prj); limited attribute typing and encoding support; no native support for topology or multiple layers.\n\n\nGeoPackage (.gpkg)\nAn OGC standard built on SQLite, optimised for efficient storage, indexing, and local spatial analysis.\nCompact single-file container; fast read and write performance; supports multiple layers and spatial indexing; strong support in desktop GIS and Python workflows.\nNot natively readable by web browsers; requires server-side processing or conversion for WebGIS delivery.\n\n\nGeoJSON (.geojson)\nA JSON-based vector format designed for interoperability and web-based data exchange.\nNative compatibility with JavaScript and web mapping libraries; human-readable and easy to debug; ideal for APIs and lightweight data delivery.\nLarger file size; slower parsing and higher memory use; inefficient for large datasets and complex geometries.\n\n\n\n\n\n\nVideo preview"
   }
 ]
