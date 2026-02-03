@@ -1,19 +1,727 @@
-# 3.6 Networks for GIS {.unnumbered}
+# 3.5. Network Analysis for GIS {.unnumbered}
 
-## Story problem
+## Story Problem: Auckland Streets as a Graph
 
-**Auckland streets as a graph**
+**From Maps to Networks**
 
-- Nodes are intersections, edges are road segments.
-- Weights encode travel time or distance.
-- Network measures become inputs to mapping and dashboards.
+When you look at a street map of Auckland, you see roads, intersections, and neighbourhoods. But to a computer scientist or transport analyst, this is a **network** or **graph**:
 
-## What you will learn
+- **Nodes**: Intersections where streets meet
+- **Edges**: Road segments connecting intersections
+- **Weights**: Properties like distance, travel time, or congestion
 
-- Graph basics for streets and accessibility.
-- Relate network concepts to routing and congestion.
-- Identify which network measures are worth teaching early.
+This mathematical representation enables powerful analyses: finding optimal routes, measuring accessibility, identifying critical bottlenecks, and understanding urban connectivity patterns.
 
-## Notes
+## What You Will Learn
 
-- _Add your narrative here._
+- Graph theory basics for street networks
+- Extracting street networks from OpenStreetMap using OSMnx
+- Converting networks to graphs with city2graph
+- Calculating network measures: centrality, connectivity, and accessibility
+- Relating network topology to urban analytics questions
+- Visualising network properties in dashboards
+
+## Network Basics for Urban Analysis
+
+Street networks can be represented as **graphs** where:
+- **Nodes** = Intersections
+- **Edges** = Road segments
+- **Weights** = Properties like distance or travel time
+
+This representation enables powerful analyses beyond what's possible with simple map overlays.
+
+### Why Networks Matter
+
+Think about these urban questions:
+- Which intersections are most critical for traffic flow?
+- How accessible is a location from the rest of the city?
+- Where are the best locations for new services?
+- How connected is the street network?
+
+These all require network analysis.
+
+### Simple Network Example
+
+```
+    A ----10km---- B
+    |              |
+   5km            8km
+    |              |
+    C ----12km---- D
+```
+
+In Python (using NetworkX):
+
+```python
+import networkx as nx
+
+G = nx.Graph()
+G.add_edge('A', 'B', weight=10)
+G.add_edge('A', 'C', weight=5)
+G.add_edge('B', 'D', weight=8)
+G.add_edge('C', 'D', weight=12)
+
+# Shortest path from A to D
+path = nx.shortest_path(G, 'A', 'D', weight='weight')
+print(f"Route: {path}")  # Output: ['A', 'C', 'D']
+
+# Total distance
+distance = nx.shortest_path_length(G, 'A', 'D', weight='weight')
+print(f"Distance: {distance}km")  # Output: 17km
+```
+
+## OSMnx: OpenStreetMap for Networks
+
+### Introduction to OSMnx
+
+**OSMnx** (OpenStreetMap + NetworkX) is a Python library that downloads, constructs, analyses, and visualises street networks from OpenStreetMap data.
+
+Key capabilities:
+- Download street networks for any location
+- Convert to NetworkX graphs
+- Calculate network statistics
+- Analyse routing and accessibility
+- Project to appropriate coordinate systems
+- Export to various formats
+
+### Installation
+
+```python
+# Install OSMnx
+pip install osmnx
+
+# Import
+import osmnx as ox
+import networkx as nx
+import geopandas as gpd
+```
+
+### Basic Network Extraction
+
+**By Place Name**
+```python
+# Get street network for Auckland CBD
+G = ox.graph_from_place('Auckland CBD, New Zealand', network_type='drive')
+
+# Network types:
+# 'drive' - drivable roads
+# 'walk' - walkable paths and roads
+# 'bike' - bikeable paths and roads
+# 'all' - all ways
+# 'all_private' - including private roads
+```
+
+**By Point and Distance**
+```python
+# Centre point (Auckland Sky Tower)
+centre_point = (-36.8485, 174.7633)
+
+# Get network within 2km radius
+G = ox.graph_from_point(centre_point, dist=2000, network_type='walk')
+```
+
+**By Bounding Box**
+```python
+# Define bounding box: (north, south, east, west)
+bbox = (-36.80, -36.90, 174.80, 174.70)
+G = ox.graph_from_bbox(bbox=bbox, network_type='drive')
+```
+
+**By Polygon**
+```python
+# Load polygon (e.g., neighbourhood boundary)
+neighbourhood = gpd.read_file('neighbourhood.geojson')
+polygon = neighbourhood.geometry.iloc[0]
+
+# Get network within polygon
+G = ox.graph_from_polygon(polygon, network_type='bike')
+```
+
+### Network Properties
+
+```python
+# Basic statistics
+stats = ox.basic_stats(G)
+print(f"Nodes: {stats['n']}")
+print(f"Edges: {stats['m']}")
+print(f"Average node degree: {stats['k_avg']:.2f}")
+
+# Extended statistics (including geographical)
+stats_extended = ox.basic_stats(G, area=1000000)  # area in m²
+print(f"Edge density (m/m²): {stats_extended['edge_density_km']:.4f}")
+print(f"Street density (km/km²): {stats_extended['street_density_km']:.2f}")
+```
+
+### Converting to GeoDataFrames
+
+```python
+# Extract nodes as GeoDataFrame
+nodes, edges = ox.graph_to_gdfs(G)
+
+print(f"Nodes shape: {nodes.shape}")
+print(f"Edges shape: {edges.shape}")
+
+# View node attributes
+print(nodes.columns)
+# Output: ['y', 'x', 'street_count', 'geometry']
+
+# View edge attributes
+print(edges.columns)
+# Output: ['osmid', 'name', 'highway', 'length', 'geometry', ...]
+
+# Explore
+print(edges.head())
+```
+
+### Visualisation
+
+```python
+# Simple plot
+ox.plot_graph(G)
+
+# Customised plot
+fig, ax = ox.plot_graph(
+    G,
+    node_size=2,
+    edge_color='#333333',
+    edge_linewidth=0.5,
+    bgcolor='white',
+    figsize=(12, 12)
+)
+
+# Save high-resolution
+fig, ax = ox.plot_graph(
+    G,
+    filepath='auckland_network.png',
+    dpi=300,
+    save=True,
+    show=False,
+    close=True
+)
+```
+
+## city2graph: Network Analysis Made Simple
+
+### Introduction to city2graph
+
+**city2graph** is a Python library that extends OSMnx capabilities, making it easier to:
+- Download and process urban networks
+- Calculate connectivity measures
+- Analyse accessibility patterns
+- Integrate with pandas/geopandas workflows
+- Create production-ready visualisations
+
+### Installation and Setup
+
+```python
+pip install city2graph
+
+import city2graph as c2g
+import osmnx as ox
+import networkx as nx
+```
+
+### Basic Usage
+
+**Download Network**
+```python
+# Get network for analysis
+city = "Auckland, New Zealand"
+network = c2g.get_network(city, network_type='walk')
+
+# Alternatively, use OSMnx first then convert
+G = ox.graph_from_place(city, network_type='walk')
+network = c2g.from_osmnx(G)
+```
+
+**Network Properties**
+```python
+# Get basic properties
+props = network.properties()
+print(f"Nodes: {props['num_nodes']}")
+print(f"Edges: {props['num_edges']}")
+print(f"Connected components: {props['num_components']}")
+```
+
+### Calculating Network Measures
+
+**Betweenness Centrality**
+
+Measures how often a node appears on shortest paths between other nodes—identifies critical intersections and potential bottlenecks.
+
+```python
+# Calculate betweenness centrality for all nodes
+centrality = c2g.betweenness_centrality(network)
+
+# Add to nodes GeoDataFrame
+nodes_gdf = network.nodes_gdf.copy()
+nodes_gdf['betweenness'] = nodes_gdf.index.map(centrality)
+
+# Identify most central nodes
+top_central = nodes_gdf.nlargest(10, 'betweenness')
+print(top_central[['betweenness', 'geometry']])
+```
+
+**Closeness Centrality**
+
+Measures average distance from a node to all other nodes—identifies locations with best overall accessibility.
+
+```python
+closeness = c2g.closeness_centrality(network)
+nodes_gdf['closeness'] = nodes_gdf.index.map(closeness)
+
+# Find most accessible locations
+most_accessible = nodes_gdf.nlargest(10, 'closeness')
+```
+
+**Node Degree**
+
+Counts the number of edges connected to each node—identifies highly connected intersections.
+
+```python
+degree = dict(network.G.degree())
+nodes_gdf['degree'] = nodes_gdf.index.map(degree)
+
+# Find major intersections
+major_intersections = nodes_gdf[nodes_gdf['degree'] >= 4]
+```
+
+### Practical Example: Auckland CBD Network Analysis
+
+```python
+import city2graph as c2g
+import osmnx as ox
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 1. Download Auckland CBD network
+centre = (-36.8485, 174.7633)  # Sky Tower
+G = ox.graph_from_point(centre, dist=2000, network_type='walk')
+
+# 2. Convert to city2graph
+network = c2g.from_osmnx(G)
+
+# 3. Calculate centrality measures
+betweenness = c2g.betweenness_centrality(network)
+closeness = c2g.closeness_centrality(network)
+degree = dict(network.G.degree())
+
+# 4. Create nodes GeoDataFrame with measures
+nodes_gdf = network.nodes_gdf.copy()
+nodes_gdf['betweenness'] = nodes_gdf.index.map(betweenness)
+nodes_gdf['closeness'] = nodes_gdf.index.map(closeness)
+nodes_gdf['degree'] = nodes_gdf.index.map(degree)
+
+# 5. Visualise betweenness centrality
+fig, ax = plt.subplots(figsize=(12, 12))
+
+# Plot edges
+edges_gdf = network.edges_gdf
+edges_gdf.plot(ax=ax, linewidth=0.5, color='lightgrey')
+
+# Plot nodes coloured by betweenness
+nodes_gdf.plot(
+    ax=ax,
+    column='betweenness',
+    cmap='YlOrRd',
+    markersize=20,
+    alpha=0.7,
+    legend=True,
+    legend_kwds={'label': 'Betweenness Centrality'}
+)
+
+# Highlight top 5 most central nodes
+top_5 = nodes_gdf.nlargest(5, 'betweenness')
+top_5.plot(
+    ax=ax,
+    color='darkred',
+    markersize=100,
+    marker='*',
+    edgecolor='yellow',
+    linewidth=2
+)
+
+ax.set_title('Auckland CBD: Betweenness Centrality', fontsize=16)
+ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+
+# 6. Statistical summary
+print("\n=== Network Statistics ===")
+print(f"Total nodes: {len(nodes_gdf)}")
+print(f"Total edges: {len(edges_gdf)}")
+print(f"\nBetweenness Centrality:")
+print(f"  Mean: {nodes_gdf['betweenness'].mean():.6f}")
+print(f"  Max: {nodes_gdf['betweenness'].max():.6f}")
+print(f"\nDegree Distribution:")
+print(nodes_gdf['degree'].value_counts().sort_index())
+```
+
+### Accessibility Analysis
+
+**Isochrone Analysis**: Areas reachable within time/distance threshold
+
+```python
+# Calculate isochrones from a point
+origin_node = ox.distance.nearest_nodes(G, 174.7633, -36.8485)
+
+# Travel times: 5, 10, 15 minutes walking
+travel_times = [5, 10, 15]  # minutes
+walk_speed = 4.5  # km/h
+
+isochrones = []
+for time in travel_times:
+    # Distance in metres
+    distance = (time / 60) * walk_speed * 1000
+    
+    # Get subgraph within distance
+    subgraph = nx.ego_graph(G, origin_node, radius=distance, distance='length')
+    
+    # Extract nodes
+    nodes = list(subgraph.nodes())
+    isochrones.append({
+        'time': time,
+        'nodes': nodes,
+        'count': len(nodes)
+    })
+
+print("Isochrone Analysis (from Sky Tower):")
+for iso in isochrones:
+    print(f"  {iso['time']} min walk: {iso['count']} reachable intersections")
+```
+
+### Routing Analysis
+
+**Shortest Path**
+```python
+# Find shortest path between two points
+origin = ox.distance.nearest_nodes(G, 174.7633, -36.8485)  # Sky Tower
+destination = ox.distance.nearest_nodes(G, 174.7680, -36.8447)  # University
+
+# Calculate shortest path
+route = nx.shortest_path(G, origin, destination, weight='length')
+
+# Get route geometry
+route_edges = ox.utils_graph.get_route_edge_attributes(G, route, 'geometry')
+
+# Calculate route length
+route_length = sum(ox.utils_graph.get_route_edge_attributes(G, route, 'length'))
+print(f"Route length: {route_length:.0f} metres")
+
+# Plot route
+fig, ax = ox.plot_graph_route(G, route, node_size=0)
+```
+
+## Integrating Networks with Dashboards
+
+### Shiny Dashboard with Network Analysis
+
+```python
+from shiny import App, ui, render, reactive
+import osmnx as ox
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# UI
+app_ui = ui.page_fluid(
+    ui.h2("Auckland Network Analysis"),
+    
+    ui.layout_sidebar(
+        ui.panel_sidebar(
+            ui.input_select(
+                "network_type",
+                "Network Type",
+                choices=["walk", "drive", "bike"]
+            ),
+            
+            ui.input_slider(
+                "radius",
+                "Radius (km)",
+                min=0.5,
+                max=5,
+                value=2,
+                step=0.5
+            ),
+            
+            ui.input_select(
+                "centrality_type",
+                "Centrality Measure",
+                choices=["betweenness", "closeness", "degree"]
+            )
+        ),
+        
+        ui.panel_main(
+            ui.output_plot("network_map"),
+            ui.output_text("network_stats")
+        )
+    )
+)
+
+# Server
+def server(input, output, session):
+    
+    @reactive.Calc
+    def network():
+        """Download and process network"""
+        centre = (-36.8485, 174.7633)
+        radius_m = input.radius() * 1000
+        
+        G = ox.graph_from_point(
+            centre,
+            dist=radius_m,
+            network_type=input.network_type()
+        )
+        return G
+    
+    @reactive.Calc
+    def centrality_data():
+        """Calculate centrality measures"""
+        G = network()
+        
+        centrality_type = input.centrality_type()
+        
+        if centrality_type == "betweenness":
+            values = nx.betweenness_centrality(G)
+        elif centrality_type == "closeness":
+            values = nx.closeness_centrality(G)
+        else:  # degree
+            values = dict(G.degree())
+        
+        return values
+    
+    @output
+    @render.plot
+    def network_map():
+        """Plot network with centrality"""
+        G = network()
+        centrality = centrality_data()
+        
+        # Get node colors based on centrality
+        node_colors = [centrality.get(node, 0) for node in G.nodes()]
+        
+        # Plot
+        fig, ax = ox.plot_graph(
+            G,
+            node_color=node_colors,
+            node_size=20,
+            edge_color='#333333',
+            edge_linewidth=0.5,
+            bgcolor='white',
+            cmap='YlOrRd',
+            show=False,
+            close=False
+        )
+        
+        ax.set_title(f'{input.centrality_type().title()} Centrality')
+        return fig
+    
+    @output
+    @render.text
+    def network_stats():
+        """Display network statistics"""
+        G = network()
+        centrality = centrality_data()
+        
+        stats = ox.basic_stats(G)
+        
+        return f"""
+Network Statistics:
+  Nodes: {stats['n']:,}
+  Edges: {stats['m']:,}
+  Average degree: {stats['k_avg']:.2f}
+  
+Centrality ({input.centrality_type()}):
+  Mean: {sum(centrality.values()) / len(centrality):.4f}
+  Max: {max(centrality.values()):.4f}
+        """.strip()
+
+app = App(app_ui, server)
+```
+
+## Understanding Network Measures
+
+### Three Key Measures for Urban Planning
+
+**1. Betweenness Centrality: Critical Intersections**
+
+*Question*: Which intersections are most important for traffic flow?
+
+```python
+# Calculate betweenness
+betweenness = nx.betweenness_centrality(G, weight='length')
+
+# Interpretation:
+# High betweenness = Many shortest paths go through here
+# These are potential bottlenecks
+# Priority locations for traffic management
+```
+
+**2. Closeness Centrality: Accessible Locations**
+
+*Question*: Which locations can reach everywhere else most easily?
+
+```python
+# Calculate closeness
+closeness = nx.closeness_centrality(G, distance='length')
+
+# Interpretation:
+# High closeness = Short average distance to all other locations
+# Good locations for services (shops, clinics, etc.)
+# Easy to reach from anywhere in the network
+```
+
+**3. Degree: Connectivity**
+
+*Question*: How many roads meet at each intersection?
+
+```python
+# Calculate degree
+degree = dict(G.degree())
+
+# Interpretation:
+# High degree = Many connecting roads
+# Major intersections and hubs
+# More route options for drivers
+```
+
+### Quick Reference Table
+
+| Measure | Answers | Use For |
+|---------|---------|---------|
+| **Betweenness** | "Which intersections carry most through-traffic?" | Bottleneck identification, traffic management priorities |
+| **Closeness** | "Which locations are most accessible?" | Facility location, accessibility planning |
+| **Degree** | "How well-connected is each intersection?" | Network resilience, connectivity assessment |
+
+## Practical Applications
+
+### 15-Minute City Analysis
+
+Calculate how many amenities are reachable within 15-minute walk:
+
+```python
+# Define walking parameters
+walk_speed_kmh = 4.5
+time_minutes = 15
+max_distance_m = (time_minutes / 60) * walk_speed_kmh * 1000
+
+# Get amenities (parks, shops, etc.)
+amenities = ox.geometries_from_place(
+    'Auckland CBD, New Zealand',
+    tags={'amenity': True}
+)
+
+# For each residential location, count reachable amenities
+results = []
+for node in residential_nodes:
+    # Get nodes within walking distance
+    subgraph = nx.ego_graph(G, node, radius=max_distance_m, distance='length')
+    
+    # Count amenities within reach
+    reachable_count = count_amenities_near_nodes(subgraph.nodes(), amenities)
+    
+    results.append({
+        'node': node,
+        'amenities_15min': reachable_count
+    })
+```
+
+### Walkability Index
+
+Combine multiple network measures:
+
+```python
+def calculate_walkability_index(G, node):
+    """
+    Walkability index combining:
+    - Intersection density (degree)
+    - Connectivity (betweenness)
+    - Street network density
+    """
+    
+    # Node degree (number of connecting streets)
+    degree = G.degree(node)
+    
+    # Betweenness centrality
+    betweenness = nx.betweenness_centrality(G)[node]
+    
+    # Local street density
+    ego = nx.ego_graph(G, node, radius=500, distance='length')  # 500m radius
+    local_edge_length = sum(nx.get_edge_attributes(ego, 'length').values())
+    local_area = np.pi * (500 ** 2)  # Circle area
+    density = local_edge_length / local_area
+    
+    # Combine metrics (normalised)
+    walkability = (
+        0.4 * (degree / max_degree) +
+        0.3 * (betweenness / max_betweenness) +
+        0.3 * (density / max_density)
+    )
+    
+    return walkability
+```
+
+### Transport Network Resilience
+
+Identify critical nodes whose removal would most impact connectivity:
+
+```python
+# Calculate network efficiency
+original_efficiency = nx.global_efficiency(G)
+
+# Test removing each node
+criticality = {}
+for node in G.nodes():
+    # Create network without this node
+    G_minus = G.copy()
+    G_minus.remove_node(node)
+    
+    # Calculate new efficiency
+    if nx.is_connected(G_minus.to_undirected()):
+        new_efficiency = nx.global_efficiency(G_minus)
+        impact = original_efficiency - new_efficiency
+    else:
+        impact = original_efficiency  # Complete disconnection
+    
+    criticality[node] = impact
+
+# Find most critical nodes
+most_critical = sorted(criticality.items(), key=lambda x: x[1], reverse=True)[:10]
+```
+
+## Summary
+
+In this section, you've learned:
+
+- **Graph theory basics**: Nodes, edges, weights, and network representations
+- **OSMnx**: Downloading and analysing street networks from OpenStreetMap
+- **city2graph**: Simplified network analysis and integration
+- **Centrality measures**: Betweenness, closeness, and degree centrality
+- **Accessibility analysis**: Isochrones and reachability calculations
+- **Routing**: Finding shortest paths and analysing route properties
+- **Dashboard integration**: Adding network analysis to Shiny applications
+- **Practical applications**: 15-minute cities, walkability, resilience analysis
+
+## Practice Exercises
+
+1. **Download and Visualise**: Get the street network for your neighbourhood and visualise it with different network types (walk, drive, bike)
+
+2. **Calculate Centrality**: Compute betweenness, closeness, and degree centrality for Auckland CBD. Identify the 10 most central intersections.
+
+3. **Accessibility Analysis**: Calculate 10-minute walking isochrones from 5 different locations. Compare the areas and populations reached.
+
+4. **Routing Comparison**: Find shortest paths between two points using distance and time as weights. Compare the routes.
+
+5. **Walkability Assessment**: Create a walkability index combining multiple network measures. Map the results and identify best/worst areas.
+
+## Next Steps
+
+You now understand how to analyse urban networks. In @sec-shiny-assignment, you'll learn how to integrate these analyses into a complete dashboard for Assignment 2.
+
+## Further Reading
+
+- [OSMnx Documentation](https://osmnx.readthedocs.io/)
+- [city2graph Repository](https://github.com/cbuiles/city2graph)
+- [NetworkX Documentation](https://networkx.org/documentation/stable/)
+- [Network Science Book](http://networksciencebook.com/)
+- [The Structure of Spatial Networks](https://www.nature.com/articles/nphys1746)

@@ -22,8 +22,10 @@ book:
         - 2.1.basic-python.qmd
         - 2.2.dataframes.qmd
         - 2.3.geospatial.qmd
-        - 2.4.urban-analytics.qmd
-        #- 2.5.midsemtest-assignment.qmd
+        - 2.4.data-visualisation.qmd
+        - 2.5.creating-functions.qmd
+        - 2.6.urban-analytics.qmd
+        #- 2.7.geospatial-assignment.qmd
     
     - part: 3.0.chapter3-shiny_python.qmd
       chapters:
@@ -32,7 +34,7 @@ book:
         - 3.3.routing-and-congestion.qmd
         - 3.4.origin-destination.qmd
         - 3.5.networks.qmd
-        #- 3.7.shiny-assignment.qmd
+        #- 3.6.shiny-assignment.qmd
     
     - part: 4.0.python-packaging.qmd
       chapters:

@@ -1,4 +1,4 @@
-# Geospatial Python Programming {#sec-geospatial-python}
+# 2. Geospatial Python Programming {#sec-geospatial-python}
 
 ## Overview
 

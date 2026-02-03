@@ -1,33 +1,702 @@
-# 3.2 Functions and reactivity {.unnumbered}
+# 3.2. Shiny Functions and Reactivity {.unnumbered}
 
-## Story problem
+## Story Problem: Filter Auckland Zones and Update the Map
 
-**Filter Auckland zones and update the map**
+Imagine building a dashboard for Auckland Council planners:
 
-- A user selects a subset of SA2s.
-- The summary table updates immediately.
-- The Folium map refreshes without recomputing everything.
+- **The Challenge**: A user selects a subset of SA2 areas using a dropdown menu
+- **The Expectation**: The summary table updates immediately with statistics for selected areas
+- **The Magic**: The map refreshes showing only selected regions—without recomputing everything
+- **The Reality**: This "just works" through Shiny's reactive programming model
 
-## What you will learn
+This section teaches you how to build applications that feel responsive and intelligent, updating only what's necessary when users interact with controls.
 
-- Define inputs and outputs cleanly.
-- Use reactive calculations to avoid repeated computation.
-- Structure your app so the Folium map updates predictably.
+## What You Will Learn
 
-## App architecture
+- Define clean, maintainable UI and server functions
+- Use reactive calculations to avoid repeated computation
+- Structure applications so maps and tables update predictably
+- Implement efficient filtering and data transformation patterns
+- Build multi-output dashboards with shared reactive data
 
-- Load data once
-- Use pure functions for transformations
-- Use reactives for filtered views
+## The Shiny Architecture
 
-## Mini exercise
+### Three-Layer Model
 
-- Create a reactive summary table from filtered data (placeholder).
+Every Shiny application has three components:
 
-```{python}
-# Placeholder: implement with Shiny reactives
+```python
+from shiny import App, ui
+
+# 1. UI: What users see
+app_ui = ui.page_fluid(
+    ui.h2("My Dashboard"),
+    ui.input_slider("value", "Select", 0, 100, 50),
+    ui.output_text("result")
+)
+
+# 2. Server: What happens behind the scenes
+def server(input, output, session):
+    @output
+    @render.text
+    def result():
+        return f"You selected: {input.value()}"
+
+# 3. App: Combining UI and server
+app = App(app_ui, server)
 ```
 
-## Notes
+### Key Principles
 
-- _Add your narrative here._
+**1. Load Data Once**
+```python
+# Load outside server function - happens once at startup
+regions = gpd.read_file('data/auckland_sa2.gpkg')
+
+def server(input, output, session):
+    # Data already loaded - use it here
+    pass
+```
+
+**2. Use Pure Functions for Transformations**
+```python
+def calculate_density(gdf, pop_column='population'):
+    """Pure function: same inputs → same outputs"""
+    gdf = gdf.copy()
+    gdf['area_km2'] = gdf.geometry.area / 1_000_000
+    gdf['density'] = gdf[pop_column] / gdf['area_km2']
+    return gdf
+
+# Use in server
+def server(input, output, session):
+    @reactive.Calc
+    def processed_data():
+        return calculate_density(regions)
+```
+
+**3. Use Reactives for Filtered Views**
+```python
+@reactive.Calc
+def filtered_regions():
+    """Reactive calculation: updates when inputs change"""
+    selected = input.region_filter()
+    return regions[regions['SA2_name'].isin(selected)]
+```
+
+## Understanding Reactivity
+
+### The Reactive Graph
+
+Shiny automatically tracks dependencies between inputs, calculations, and outputs:
+
+```
+[Input: region_filter] ──→ [@reactive.Calc: filtered_regions] ──→ [Output: map]
+                      ──→                                       ──→ [Output: table]
+```
+
+When `region_filter` changes:
+1. `filtered_regions()` recalculates automatically
+2. Both `map` and `table` outputs update
+3. Other unaffected outputs remain unchanged
+
+### Reactive Building Blocks
+
+**1. Inputs** - User controls
+
+```python
+app_ui = ui.page_fluid(
+    # Text input
+    ui.input_text("location", "Location Name", "Auckland CBD"),
+    
+    # Numeric slider
+    ui.input_slider("radius", "Radius (km)", 1, 20, 5),
+    
+    # Select dropdown
+    ui.input_select(
+        "indicator",
+        "Choose Indicator",
+        choices=["Population", "Income", "Age"]
+    ),
+    
+    # Multiple selection
+    ui.input_selectize(
+        "regions",
+        "Select Regions",
+        choices=region_names,
+        multiple=True
+    ),
+    
+    # Date input
+    ui.input_date("start_date", "Start Date"),
+    
+    # Checkbox
+    ui.input_checkbox("include_weekends", "Include Weekends", True),
+    
+    # Radio buttons
+    ui.input_radio_buttons(
+        "time_period",
+        "Time Period",
+        choices=["Morning", "Afternoon", "Evening"]
+    )
+)
+```
+
+**2. Reactive Calculations** - Shared computations
+
+```python
+def server(input, output, session):
+    
+    @reactive.Calc
+    def base_data():
+        """Load and process base data"""
+        gdf = gpd.read_file('data/regions.gpkg')
+        return calculate_density(gdf)
+    
+    @reactive.Calc
+    def filtered_data():
+        """Filter based on user inputs - depends on base_data"""
+        data = base_data()  # Uses reactive
+        selected = input.regions()
+        return data[data['name'].isin(selected)]
+    
+    @reactive.Calc
+    def summary_stats():
+        """Calculate statistics - depends on filtered_data"""
+        data = filtered_data()  # Uses another reactive
+        return {
+            'count': len(data),
+            'mean_density': data['density'].mean(),
+            'total_pop': data['population'].sum()
+        }
+```
+
+**3. Outputs** - What users see
+
+```python
+@output
+@render.plot
+def density_map():
+    """Render matplotlib plot"""
+    data = filtered_data()
+    fig, ax = plt.subplots()
+    data.plot(column='density', ax=ax, legend=True)
+    return fig
+
+@output
+@render.table
+def summary_table():
+    """Render pandas DataFrame"""
+    return filtered_data()[['name', 'population', 'density']]
+
+@output
+@render.text
+def stats_text():
+    """Render formatted text"""
+    stats = summary_stats()
+    return f"Selected {stats['count']} regions with mean density {stats['mean_density']:.1f}"
+
+@output
+@render.ui
+def dynamic_controls():
+    """Render dynamic UI elements"""
+    data = base_data()
+    choices = data['name'].tolist()
+    return ui.input_selectize("regions", "Regions", choices=choices, multiple=True)
+```
+
+## Practical Example: Auckland SA2 Dashboard
+
+Let's build a complete example filtering Auckland SA2 areas:
+
+```python
+from shiny import App, ui, render, reactive
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Load data once at startup
+auckland_sa2 = gpd.read_file('data/auckland_sa2.gpkg')
+auckland_sa2['area_km2'] = auckland_sa2.geometry.area / 1_000_000
+auckland_sa2['pop_density'] = auckland_sa2['population'] / auckland_sa2['area_km2']
+
+# Get unique SA2 names for dropdown
+sa2_names = sorted(auckland_sa2['SA2_name'].unique().tolist())
+
+# UI Definition
+app_ui = ui.page_fluid(
+    ui.h2("Auckland SA2 Dashboard"),
+    
+    ui.layout_sidebar(
+        ui.panel_sidebar(
+            ui.h4("Filters"),
+            
+            ui.input_selectize(
+                "selected_sa2",
+                "Select SA2 Areas",
+                choices=sa2_names,
+                multiple=True,
+                selected=sa2_names[:5]  # Default to first 5
+            ),
+            
+            ui.input_slider(
+                "min_population",
+                "Minimum Population",
+                min=0,
+                max=int(auckland_sa2['population'].max()),
+                value=0,
+                step=1000
+            ),
+            
+            ui.input_checkbox(
+                "show_labels",
+                "Show Area Names on Map",
+                value=False
+            ),
+            
+            ui.hr(),
+            ui.h4("Summary Statistics"),
+            ui.output_text_verbatim("stats_summary")
+        ),
+        
+        ui.panel_main(
+            ui.navset_tab(
+                ui.nav("Map", ui.output_plot("choropleth_map")),
+                ui.nav("Table", ui.output_table("data_table")),
+                ui.nav("Chart", ui.output_plot("density_chart"))
+            )
+        )
+    )
+)
+
+# Server Function
+def server(input, output, session):
+    
+    # Reactive calculation: filtered dataset
+    @reactive.Calc
+    def filtered_data():
+        """Filter SA2 areas based on user selections"""
+        data = auckland_sa2.copy()
+        
+        # Filter by selected SA2 names
+        selected = input.selected_sa2()
+        if selected:  # Only filter if something selected
+            data = data[data['SA2_name'].isin(selected)]
+        
+        # Filter by minimum population
+        data = data[data['population'] >= input.min_population()]
+        
+        return data
+    
+    # Reactive calculation: summary statistics
+    @reactive.Calc
+    def summary_statistics():
+        """Calculate summary stats for filtered data"""
+        data = filtered_data()
+        
+        if len(data) == 0:
+            return {
+                'count': 0,
+                'total_pop': 0,
+                'mean_density': 0,
+                'max_density': 0
+            }
+        
+        return {
+            'count': len(data),
+            'total_pop': int(data['population'].sum()),
+            'mean_density': data['pop_density'].mean(),
+            'max_density': data['pop_density'].max(),
+            'total_area': data['area_km2'].sum()
+        }
+    
+    # Output: Summary statistics text
+    @output
+    @render.text
+    def stats_summary():
+        """Display formatted summary statistics"""
+        stats = summary_statistics()
+        
+        if stats['count'] == 0:
+            return "No areas match the current filters"
+        
+        return f"""
+Selected Areas: {stats['count']}
+Total Population: {stats['total_pop']:,}
+Total Area: {stats['total_area']:.1f} km²
+Mean Density: {stats['mean_density']:.1f} people/km²
+Max Density: {stats['max_density']:.1f} people/km²
+        """.strip()
+    
+    # Output: Choropleth map
+    @output
+    @render.plot
+    def choropleth_map():
+        """Create choropleth map of population density"""
+        data = filtered_data()
+        
+        if len(data) == 0:
+            # Return empty plot with message
+            fig, ax = plt.subplots(figsize=(10, 8))
+            ax.text(0.5, 0.5, 'No data to display',
+                   ha='center', va='center', fontsize=16)
+            ax.set_xlim(0, 1)
+            ax.set_ylim(0, 1)
+            ax.axis('off')
+            return fig
+        
+        # Create map
+        fig, ax = plt.subplots(figsize=(10, 8))
+        data.plot(
+            column='pop_density',
+            ax=ax,
+            legend=True,
+            cmap='YlOrRd',
+            edgecolor='black',
+            linewidth=0.5,
+            legend_kwds={
+                'label': 'Population Density (per km²)',
+                'orientation': 'horizontal'
+            }
+        )
+        
+        # Add labels if requested
+        if input.show_labels():
+            for idx, row in data.iterrows():
+                centroid = row.geometry.centroid
+                ax.annotate(
+                    row['SA2_name'],
+                    xy=(centroid.x, centroid.y),
+                    fontsize=6,
+                    ha='center'
+                )
+        
+        ax.set_title('Population Density by SA2', fontsize=14, fontweight='bold')
+        ax.set_axis_off()
+        plt.tight_layout()
+        
+        return fig
+    
+    # Output: Data table
+    @output
+    @render.table
+    def data_table():
+        """Display filtered data as table"""
+        data = filtered_data()
+        
+        if len(data) == 0:
+            return pd.DataFrame({'Message': ['No data matches filters']})
+        
+        # Select and format columns
+        display_cols = ['SA2_name', 'population', 'area_km2', 'pop_density']
+        table_data = data[display_cols].copy()
+        
+        # Rename for display
+        table_data.columns = ['SA2 Name', 'Population', 'Area (km²)', 'Density (per km²)']
+        
+        # Sort by density
+        table_data = table_data.sort_values('Density (per km²)', ascending=False)
+        
+        # Format numbers
+        table_data['Population'] = table_data['Population'].apply(lambda x: f"{int(x):,}")
+        table_data['Area (km²)'] = table_data['Area (km²)'].apply(lambda x: f"{x:.2f}")
+        table_data['Density (per km²)'] = table_data['Density (per km²)'].apply(lambda x: f"{x:.1f}")
+        
+        return table_data
+    
+    # Output: Density chart
+    @output
+    @render.plot
+    def density_chart():
+        """Create bar chart of top densities"""
+        data = filtered_data()
+        
+        if len(data) == 0:
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.text(0.5, 0.5, 'No data to display',
+                   ha='center', va='center', fontsize=16)
+            ax.axis('off')
+            return fig
+        
+        # Get top 10 by density
+        top_data = data.nlargest(10, 'pop_density')
+        
+        # Create horizontal bar chart
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.barh(
+            range(len(top_data)),
+            top_data['pop_density'],
+            color='steelblue',
+            alpha=0.7
+        )
+        ax.set_yticks(range(len(top_data)))
+        ax.set_yticklabels(top_data['SA2_name'])
+        ax.set_xlabel('Population Density (per km²)')
+        ax.set_title('Top 10 Highest Density SA2 Areas', fontweight='bold')
+        ax.grid(axis='x', alpha=0.3)
+        plt.tight_layout()
+        
+        return fig
+
+# Create app
+app = App(app_ui, server)
+```
+
+## Advanced Reactive Patterns
+
+### Pattern 1: Debouncing Rapid Changes
+
+Prevent excessive recalculation when inputs change rapidly:
+
+```python
+@reactive.Calc
+def filtered_data():
+    """Only recalculate after user stops adjusting slider"""
+    with reactive.isolate():
+        # Wait until user finishes moving slider
+        min_val = input.min_value()
+    return data[data['value'] >= min_val]
+```
+
+### Pattern 2: Conditional Reactivity
+
+Only trigger updates when relevant inputs change:
+
+```python
+@reactive.Effect
+@reactive.event(input.update_button)  # Only run when button clicked
+def update_data():
+    """Manual update triggered by button"""
+    new_data = fetch_fresh_data()
+    # Process and update
+```
+
+### Pattern 3: Reactive Values
+
+Create reactive values that can be programmatically updated:
+
+```python
+from shiny import reactive
+
+def server(input, output, session):
+    # Create a reactive value
+    selected_features = reactive.Value([])
+    
+    @reactive.Effect
+    @reactive.event(input.map_click)
+    def handle_click():
+        """Update selected features when map is clicked"""
+        current = selected_features()
+        current.append(input.map_click())
+        selected_features.set(current)
+    
+    @output
+    @render.text
+    def selection_count():
+        return f"Selected {len(selected_features())} features"
+```
+
+### Pattern 4: Progress Indicators
+
+Show progress for long-running operations:
+
+```python
+from shiny import ui
+
+@output
+@render.plot
+async def complex_analysis():
+    """Show progress during computation"""
+    with ui.Progress(min=0, max=100) as progress:
+        progress.set(message="Loading data")
+        data = load_large_dataset()
+        
+        progress.set(50, message="Processing")
+        result = expensive_calculation(data)
+        
+        progress.set(100, message="Rendering")
+        return create_plot(result)
+```
+
+## Performance Optimisation
+
+### Strategy 1: Cache Expensive Calculations
+
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def calculate_network_centrality(location, radius):
+    """Cache results for common parameter combinations"""
+    graph = ox.graph_from_point(location, dist=radius)
+    return nx.betweenness_centrality(graph)
+
+def server(input, output, session):
+    @reactive.Calc
+    def centrality():
+        loc = (input.lat(), input.lon())
+        return calculate_network_centrality(loc, input.radius())
+```
+
+### Strategy 2: Pre-Process Data
+
+```python
+# Outside server function - runs once
+data = gpd.read_file('large_dataset.gpkg')
+data = data.to_crs('EPSG:4326')  # Reproject once
+data['area'] = data.geometry.area  # Calculate once
+
+# Simplify geometries for faster rendering
+data['geometry'] = data.geometry.simplify(0.001)
+```
+
+### Strategy 3: Lazy Loading
+
+```python
+@reactive.Calc
+def expensive_data():
+    """Only load when actually needed"""
+    if not input.show_detailed_view():
+        return None  # Don't load if not viewing
+    
+    return load_detailed_dataset()
+
+@output
+@render.plot
+def detailed_map():
+    data = expensive_data()
+    if data is None:
+        return simple_overview_plot()
+    return detailed_plot(data)
+```
+
+## Multi-Page Applications
+
+Organise complex dashboards with navigation panels:
+
+```python
+app_ui = ui.page_navbar(
+    ui.nav("Overview",
+        ui.h2("Dashboard Overview"),
+        ui.output_plot("overview_map")
+    ),
+    
+    ui.nav("Analysis",
+        ui.h2("Detailed Analysis"),
+        ui.layout_sidebar(
+            ui.panel_sidebar(
+                ui.input_slider("param", "Parameter", 0, 100, 50)
+            ),
+            ui.panel_main(
+                ui.output_plot("analysis_plot")
+            )
+        )
+    ),
+    
+    ui.nav("About",
+        ui.h2("About This Dashboard"),
+        ui.markdown("""
+        This dashboard analyses Auckland SA2 areas...
+        """)
+    ),
+    
+    title="Auckland Analytics"
+)
+```
+
+## Testing and Debugging
+
+### Print Reactive Values
+
+```python
+@reactive.Effect
+def _():
+    """Debug reactive values"""
+    print(f"Current selection: {input.regions()}")
+    print(f"Filtered count: {len(filtered_data())}")
+```
+
+### Validate Inputs
+
+```python
+@reactive.Calc
+def validated_radius():
+    """Ensure input is within valid range"""
+    radius = input.radius()
+    if radius < 1:
+        return 1
+    elif radius > 50:
+        return 50
+    return radius
+```
+
+### Error Handling
+
+```python
+@output
+@render.plot
+def safe_map():
+    """Handle errors gracefully"""
+    try:
+        data = filtered_data()
+        if len(data) == 0:
+            return empty_plot_message("No data")
+        return create_map(data)
+    except Exception as e:
+        print(f"Error creating map: {e}")
+        return error_plot(str(e))
+```
+
+## Summary
+
+In this section, you've learned:
+
+- **Shiny architecture**: UI, server, and reactive components
+- **Reactive programming**: How inputs, calculations, and outputs connect
+- **Input controls**: Various types for user interaction
+- **Reactive calculations**: Efficient shared computations with `@reactive.Calc`
+- **Output rendering**: Plots, tables, text, and dynamic UI
+- **Advanced patterns**: Debouncing, conditional reactivity, progress indicators
+- **Performance optimisation**: Caching, pre-processing, lazy loading
+- **Multi-page apps**: Organising complex dashboards
+- **Debugging**: Testing and validation strategies
+
+## Practice Exercises
+
+1. **Build a Simple Filter Dashboard**
+   - Load Auckland pedestrian count data
+   - Add filters for day of week and hour
+   - Display filtered data in a table
+   - Show a bar chart of hourly averages
+
+2. **Create a Multi-Output Dashboard**
+   - Single reactive calculation for filtered data
+   - Three outputs using the same filtered data:
+     - Summary statistics text
+     - Histogram of distribution
+     - Data table
+
+3. **Implement Conditional Updates**
+   - Add an "Update" button
+   - Only recalculate when button is clicked
+   - Show loading message during processing
+
+4. **Build a Multi-Page Application**
+   - Overview page with summary statistics
+   - Analysis page with interactive filters
+   - About page with documentation
+
+5. **Optimise Performance**
+   - Load and pre-process a large spatial dataset
+   - Implement caching for expensive calculations
+   - Add progress indicators
+
+## Next Steps
+
+Now that you understand Shiny's reactive architecture, you're ready to learn about routing and congestion analysis in @sec-routing-congestion, where you'll apply these concepts to transport network analysis.
+
+## Further Reading
+
+- [Shiny for Python: Reactivity](https://shiny.posit.co/py/docs/reactive-programming.html)
+- [Reactive Calculations Guide](https://shiny.posit.co/py/docs/reactive-calculations.html)
+- [UI Components Reference](https://shiny.posit.co/py/api/ui/)
+- [Output Renderers](https://shiny.posit.co/py/api/render/)

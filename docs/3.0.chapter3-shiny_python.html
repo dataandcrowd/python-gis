@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Part 3: Shiny for Python and Web GIS – Python GIS at UoA</title>
+<title>Interactive Dashboards with Shiny for Python – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./3.1.webgis-wasm-shiny.html" rel="next">
-<link href="./2.5.midsemtest-assignment.html" rel="prev">
+<link href="./2.4.urban-analytics.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3: Shiny for Python and Web GIS</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Interactive Dashboards with Shiny for Python</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -154,6 +154,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./assignments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Assignments</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./1.0.chapter1-setup.html" class="sidebar-item-text sidebar-link">
@@ -186,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Part 2: Geospatial Python</span></a>
+ <span class="menu-text">Geospatial Python Programming</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -195,19 +201,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.1.basic-python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.1 Basic Python</span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Basic Python</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.2.dataframes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.2 DataFrames</span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">DataFrames</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.3.geospatial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.3 Geospatial data</span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Geospatial Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -216,18 +222,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">2.4 Urban analytics indicators</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./2.5.midsemtest-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.5 Mid-semester test and assignment</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./3.0.chapter3-shiny_python.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Part 3: Shiny for Python and Web GIS</span></a>
+ <span class="menu-text">Interactive Dashboards with Shiny for Python</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -242,37 +242,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3.2.shiny-functions-reactivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.2 Functions and reactivity</span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Shiny Functions and Reactivity</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.3.shiny-vs-fastapi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.3 Shiny versus FastAPI</span></a>
+  <a href="./3.3.routing-and-congestion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing and Congestion Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.4.routing-and-congestion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.4 Routing and congestion concepts</span></a>
+  <a href="./3.4.origin-destination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Origin-Destination Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.5.origin-destination.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.5 Origin–destination analysis</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.6.networks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.6 Networks for GIS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.7.shiny-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.7 Shiny dashboard assignment</span></a>
+  <a href="./3.5.networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Network Analysis for GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -328,10 +316,75 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">4.7 Publishing to PyPI</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">labs.html</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.8.packaging-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.8 Packaging assignment</span></a>
+  <a href="./labs/lab-week01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab Week 01</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Week 02</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Week 03</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lab Week 04</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Lab Week 05</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Lab Week 06</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Lab Week 07</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Lab Week 08</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Lab Week 09</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Lab Week 10</span></span></a>
   </div>
 </li>
       </ul>
@@ -352,10 +405,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#story-problem" id="toc-story-problem" class="nav-link active" data-scroll-target="#story-problem">Story problem</a></li>
-  <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn">What you will learn</a></li>
-  <li><a href="#quick-preview" id="toc-quick-preview" class="nav-link" data-scroll-target="#quick-preview">Quick preview</a></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#story-problem-an-auckland-dashboard" id="toc-story-problem-an-auckland-dashboard" class="nav-link" data-scroll-target="#story-problem-an-auckland-dashboard">Story Problem: An Auckland Dashboard</a></li>
+  <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn">What You Will Learn</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#why-shiny-for-python" id="toc-why-shiny-for-python" class="nav-link" data-scroll-target="#why-shiny-for-python">Why Shiny for Python?</a>
+  <ul class="collapse">
+  <li><a href="#advantages" id="toc-advantages" class="nav-link" data-scroll-target="#advantages">Advantages</a></li>
+  <li><a href="#use-cases-in-urban-analytics" id="toc-use-cases-in-urban-analytics" class="nav-link" data-scroll-target="#use-cases-in-urban-analytics">Use Cases in Urban Analytics</a></li>
+  </ul></li>
+  <li><a href="#chapter-structure" id="toc-chapter-structure" class="nav-link" data-scroll-target="#chapter-structure">Chapter Structure</a>
+  <ul class="collapse">
+  <li><a href="#part-1-foundations-week-6" id="toc-part-1-foundations-week-6" class="nav-link" data-scroll-target="#part-1-foundations-week-6">Part 1: Foundations (Week 6)</a></li>
+  <li><a href="#part-2-development-week-7" id="toc-part-2-development-week-7" class="nav-link" data-scroll-target="#part-2-development-week-7">Part 2: Development (Week 7)</a></li>
+  <li><a href="#part-3-advanced-features-week-8" id="toc-part-3-advanced-features-week-8" class="nav-link" data-scroll-target="#part-3-advanced-features-week-8">Part 3: Advanced Features (Week 8)</a></li>
+  </ul></li>
+  <li><a href="#the-shiny-mental-model" id="toc-the-shiny-mental-model" class="nav-link" data-scroll-target="#the-shiny-mental-model">The Shiny Mental Model</a>
+  <ul class="collapse">
+  <li><a href="#user-interface-ui" id="toc-user-interface-ui" class="nav-link" data-scroll-target="#user-interface-ui">1. User Interface (UI)</a></li>
+  <li><a href="#server-function" id="toc-server-function" class="nav-link" data-scroll-target="#server-function">2. Server Function</a></li>
+  <li><a href="#reactivity" id="toc-reactivity" class="nav-link" data-scroll-target="#reactivity">3. Reactivity</a></li>
+  </ul></li>
+  <li><a href="#technology-stack" id="toc-technology-stack" class="nav-link" data-scroll-target="#technology-stack">Technology Stack</a>
+  <ul class="collapse">
+  <li><a href="#required-libraries" id="toc-required-libraries" class="nav-link" data-scroll-target="#required-libraries">Required Libraries</a></li>
+  <li><a href="#deployment-options" id="toc-deployment-options" class="nav-link" data-scroll-target="#deployment-options">Deployment Options</a></li>
+  </ul></li>
+  <li><a href="#quick-preview-a-minimal-shiny-app" id="toc-quick-preview-a-minimal-shiny-app" class="nav-link" data-scroll-target="#quick-preview-a-minimal-shiny-app">Quick Preview: A Minimal Shiny App</a></li>
+  <li><a href="#guest-lecture-real-world-transport-analytics" id="toc-guest-lecture-real-world-transport-analytics" class="nav-link" data-scroll-target="#guest-lecture-real-world-transport-analytics">Guest Lecture: Real-World Transport Analytics</a></li>
+  <li><a href="#assignment-2-preview" id="toc-assignment-2-preview" class="nav-link" data-scroll-target="#assignment-2-preview">Assignment 2 Preview</a></li>
+  <li><a href="#key-concepts-to-master" id="toc-key-concepts-to-master" class="nav-link" data-scroll-target="#key-concepts-to-master">Key Concepts to Master</a></li>
+  <li><a href="#development-workflow" id="toc-development-workflow" class="nav-link" data-scroll-target="#development-workflow">Development Workflow</a></li>
+  <li><a href="#performance-considerations" id="toc-performance-considerations" class="nav-link" data-scroll-target="#performance-considerations">Performance Considerations</a></li>
+  <li><a href="#looking-ahead" id="toc-looking-ahead" class="nav-link" data-scroll-target="#looking-ahead">Looking Ahead</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further Reading</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
   </ul>
 </nav>
     </div>
@@ -364,7 +448,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Part 3: Shiny for Python and Web GIS</h1>
+<h1 class="title"><span id="sec-shiny-python" class="quarto-section-identifier">Interactive Dashboards with Shiny for Python</span></h1>
 </div>
 
 
@@ -381,37 +465,339 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="story-problem" class="level2">
-<h2 class="anchored" data-anchor-id="story-problem">Story problem</h2>
-<p><strong>An Auckland dashboard in the browser</strong></p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Web-based dashboards have revolutionised how we communicate geospatial analysis. Instead of static maps and reports, dashboards allow users to explore data dynamically—filtering, zooming, and interacting with visualisations in real time. This chapter introduces <strong>Shiny for Python</strong>, a powerful framework for building interactive web applications without requiring extensive web development experience.</p>
+<p>You’ll learn to create professional dashboards that combine interactive maps, responsive controls, and analytical outputs—perfect for communicating urban analytics insights to policymakers, stakeholders, and the public.</p>
+</section>
+<section id="story-problem-an-auckland-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="story-problem-an-auckland-dashboard">Story Problem: An Auckland Dashboard</h2>
+<p><strong>From Static to Interactive</strong></p>
+<p>In Chapter 2, you created choropleth maps showing urban indicators across Auckland. These maps told a clear story, but were limited:</p>
 <ul>
-<li>You already have a choropleth from Part 2.</li>
-<li>Now you turn it into an interactive dashboard with filters.</li>
-<li>Folium provides the map layer, Shiny provides the interaction.</li>
+<li>Users couldn’t filter by time period or neighbourhood</li>
+<li>Comparisons required creating multiple separate maps</li>
+<li>Stakeholders couldn’t explore patterns themselves</li>
+</ul>
+<p><strong>The Solution: Interactive Dashboards</strong></p>
+<p>Transform your analysis into a web dashboard where users can:</p>
+<ul>
+<li><strong>Filter</strong> data by date, location, or other variables</li>
+<li><strong>Compare</strong> different time periods or scenarios</li>
+<li><strong>Explore</strong> patterns through interactive maps and charts</li>
+<li><strong>Download</strong> data or export visualisations</li>
+<li><strong>Access</strong> everything through a web browser—no software installation required</li>
 </ul>
 </section>
 <section id="what-you-will-learn" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-will-learn">What you will learn</h2>
+<h2 class="anchored" data-anchor-id="what-you-will-learn">What You Will Learn</h2>
+<p>This chapter covers:</p>
+<ol type="1">
+<li><p><strong>WebGIS Fundamentals</strong> (<span class="quarto-unresolved-ref">?sec-webgis-wasm-shiny</span>): Understanding web mapping, file formats, and WebAssembly (WASM) for browser-based applications</p></li>
+<li><p><strong>Shiny Architecture</strong> (<a href="3.2.shiny-functions-reactivity.html" class="quarto-xref"><span>5&nbsp; Shiny Functions and Reactivity</span></a>): The UI/server model, reactive programming, and building responsive interfaces</p></li>
+<li><p><strong>Routing and Congestion</strong> (<a href="3.3.routing-and-congestion.html" class="quarto-xref"><span>6&nbsp; Routing and Congestion Analysis</span></a>): Analysing transport networks, travel times, and congestion indicators</p></li>
+<li><p><strong>Origin-Destination Analysis</strong> (<a href="3.4.origin-destination.html" class="quarto-xref"><span>7&nbsp; Origin-Destination Analysis</span></a>): Understanding and visualising movement patterns between locations</p></li>
+<li><p><strong>Network Analysis</strong> (<a href="3.5.networks.html" class="quarto-xref"><span>8&nbsp; Network Analysis for GIS</span></a>): Working with street networks using OSMnx and city2graph for accessibility analysis</p></li>
+<li><p><strong>Dashboard Development</strong> (<span class="quarto-unresolved-ref">?sec-shiny-assignment</span>): Building and deploying complete multi-page applications</p></li>
+</ol>
+</section>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will:</p>
 <ul>
-<li>Understand Shiny mental model: UI + server + reactivity.</li>
-<li>Build interactive dashboards that communicate Auckland indicators.</li>
-<li>Use Folium first for mapping, then add reactivity and summaries.</li>
+<li>Understand the Shiny mental model: UI, server, and reactivity</li>
+<li>Build interactive dashboards with maps, charts, and controls</li>
+<li>Deploy applications using shinylive (no server required!)</li>
+<li>Perform network analysis for routing and accessibility</li>
+<li>Analyse origin-destination flows and visualise movement</li>
+<li>Create professional, user-friendly interfaces for urban analytics</li>
 </ul>
 </section>
-<section id="quick-preview" class="level2">
-<h2 class="anchored" data-anchor-id="quick-preview">Quick preview</h2>
-<div id="878f17d7" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Part 3: dashboards'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Part 3: dashboards</code></pre>
+<section id="why-shiny-for-python" class="level2">
+<h2 class="anchored" data-anchor-id="why-shiny-for-python">Why Shiny for Python?</h2>
+<section id="advantages" class="level3">
+<h3 class="anchored" data-anchor-id="advantages">Advantages</h3>
+<p><strong>No Web Development Required</strong> - Write pure Python—no HTML, CSS, or JavaScript needed - Focus on analysis and visualisation, not web technologies - Automatic responsive design</p>
+<p><strong>Reactive Programming</strong> - Outputs update automatically when inputs change - Efficient—only recalculates what’s needed - Intuitive mental model for data analysis</p>
+<p><strong>Easy Deployment</strong> - Traditional: Deploy to servers (shinyapps.io, Posit Connect) - Modern: Deploy with shinylive using WebAssembly - Host for free on GitHub Pages as static files</p>
+<p><strong>Python Ecosystem Integration</strong> - Use familiar libraries: pandas, geopandas, matplotlib, seaborn - Combine with spatial tools: folium, ipyleaflet, OSMnx - Access the full Python scientific stack</p>
+</section>
+<section id="use-cases-in-urban-analytics" class="level3">
+<h3 class="anchored" data-anchor-id="use-cases-in-urban-analytics">Use Cases in Urban Analytics</h3>
+<p>Shiny dashboards are perfect for:</p>
+<ul>
+<li><strong>15-Minute City Analysis</strong>: Interactive accessibility maps showing amenities within walking/cycling distance</li>
+<li><strong>Pedestrian Flow Monitoring</strong>: Real-time or historical footfall patterns with temporal controls</li>
+<li><strong>Transport Network Performance</strong>: Visualising congestion, travel times, and route options</li>
+<li><strong>Green Space Access</strong>: Calculating and mapping park proximity for different neighbourhoods</li>
+<li><strong>Air Quality Monitoring</strong>: Temporal and spatial patterns with filtering by pollutant type</li>
+<li><strong>E-Scooter Demand Analysis</strong>: Trip patterns by time of day and location</li>
+<li><strong>Before/After Policy Evaluation</strong>: Comparing urban indicators pre- and post-intervention</li>
+</ul>
+</section>
+</section>
+<section id="chapter-structure" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-structure">Chapter Structure</h2>
+<section id="part-1-foundations-week-6" class="level3">
+<h3 class="anchored" data-anchor-id="part-1-foundations-week-6">Part 1: Foundations (Week 6)</h3>
+<p>Build your first Shiny application and understand core concepts:</p>
+<ul>
+<li>WebGIS principles and file format choices</li>
+<li>WebAssembly and browser-based computation</li>
+<li>Shiny UI and server architecture</li>
+<li>Reactive programming patterns</li>
+<li>Interactive maps with ipyleaflet</li>
+</ul>
+<p><strong>Deliverable</strong>: Working local Shiny app with interactive map and basic controls</p>
+</section>
+<section id="part-2-development-week-7" class="level3">
+<h3 class="anchored" data-anchor-id="part-2-development-week-7">Part 2: Development (Week 7)</h3>
+<p>Intensive development week during ANZAC break:</p>
+<ul>
+<li>Multi-page application structure</li>
+<li>Network analysis with OSMnx</li>
+<li>Origin-destination flow visualisation</li>
+<li>Temporal controls and animation</li>
+<li>Performance optimisation</li>
+</ul>
+<p><strong>Focus</strong>: Building your Assignment 2 dashboard with instructor support</p>
+</section>
+<section id="part-3-advanced-features-week-8" class="level3">
+<h3 class="anchored" data-anchor-id="part-3-advanced-features-week-8">Part 3: Advanced Features (Week 8)</h3>
+<p>Polish and deploy your professional dashboard:</p>
+<ul>
+<li>Advanced Shiny patterns and best practices</li>
+<li>Deployment with shinylive (WebAssembly)</li>
+<li>Temporal-spatial analysis and animation</li>
+<li>User experience and interface design</li>
+<li>Performance testing and optimisation</li>
+</ul>
+<p><strong>Deliverable</strong>: Complete multi-page dashboard deployed publicly via shinylive</p>
+</section>
+</section>
+<section id="the-shiny-mental-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-shiny-mental-model">The Shiny Mental Model</h2>
+<p>Understanding three core concepts is essential:</p>
+<section id="user-interface-ui" class="level3">
+<h3 class="anchored" data-anchor-id="user-interface-ui">1. User Interface (UI)</h3>
+<p>The <strong>frontend</strong> that users see and interact with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> ui</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    ui.h2(<span class="st">"Auckland Pedestrian Dashboard"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"hour"</span>, <span class="st">"Hour of Day"</span>, <span class="dv">0</span>, <span class="dv">23</span>, <span class="dv">12</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    ui.output_plot(<span class="st">"hourly_plot"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The UI defines: - Layout and structure - Input controls (sliders, dropdowns, date pickers) - Output placeholders (maps, plots, tables)</p>
+</section>
+<section id="server-function" class="level3">
+<h3 class="anchored" data-anchor-id="server-function">2. Server Function</h3>
+<p>The <strong>backend</strong> that processes data and generates outputs:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@output</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> hourly_plot():</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># This code runs reactively when input.hour() changes</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        filtered_data <span class="op">=</span> data[data[<span class="st">'hour'</span>] <span class="op">==</span> <span class="bu">input</span>.hour()]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> create_plot(filtered_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The server: - Reads input values - Performs calculations and analysis - Generates outputs (plots, tables, maps)</p>
+</section>
+<section id="reactivity" class="level3">
+<h3 class="anchored" data-anchor-id="reactivity">3. Reactivity</h3>
+<p>The <strong>magic</strong> that connects inputs to outputs:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.Calc</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filtered_data():</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Recalculates automatically when inputs change</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> data[data[<span class="st">'hour'</span>] <span class="op">==</span> <span class="bu">input</span>.hour()]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">@output</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">@render.table</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summary_table():</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Uses the reactive calculation</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> filtered_data()</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Reactivity ensures: - Outputs update automatically when inputs change - Only necessary calculations are performed - Multiple outputs can depend on the same reactive calculation</p>
+</section>
+</section>
+<section id="technology-stack" class="level2">
+<h2 class="anchored" data-anchor-id="technology-stack">Technology Stack</h2>
+<section id="required-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="required-libraries">Required Libraries</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shiny framework</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial data</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point, LineString</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Mapping</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, Marker, basemaps</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Network analysis</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Data manipulation</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualisation</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="deployment-options" class="level3">
+<h3 class="anchored" data-anchor-id="deployment-options">Deployment Options</h3>
+<p><strong>Option 1: Traditional Server (shinyapps.io)</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Deploy to Posit's hosting service</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rsconnect</span> deploy shiny .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Option 2: Shinylive (WebAssembly)</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export for static hosting</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">shinylive</span> export myapp site</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Host on GitHub Pages, Netlify, etc.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="quick-preview-a-minimal-shiny-app" class="level2">
+<h2 class="anchored" data-anchor-id="quick-preview-a-minimal-shiny-app">Quick Preview: A Minimal Shiny App</h2>
+<p>Here’s a complete working example:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. UI Definition</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    ui.h2(<span class="st">"Simple Shiny Dashboard"</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"n_points"</span>, <span class="st">"Number of Points"</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">50</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    ui.output_plot(<span class="st">"scatter_plot"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Server Function</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">@output</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> scatter_plot():</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate random data based on slider value</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="bu">input</span>.n_points()</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> np.random.randn(n)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> np.random.randn(n)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create plot</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        ax.scatter(x, y, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">'X'</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">'Y'</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f'Scatter Plot with </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> Points'</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        ax.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Create App</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>What happens when you run this:</strong></p>
+<ol type="1">
+<li>Shiny displays a webpage with a slider and empty plot area</li>
+<li>User moves the slider to, say, 75</li>
+<li>The <code>scatter_plot()</code> function automatically executes with <code>n=75</code></li>
+<li>A new plot with 75 points appears</li>
+<li>No page reload required—everything updates smoothly</li>
+</ol>
+</section>
+<section id="guest-lecture-real-world-transport-analytics" class="level2">
+<h2 class="anchored" data-anchor-id="guest-lecture-real-world-transport-analytics">Guest Lecture: Real-World Transport Analytics</h2>
+<p><strong>Alex Raichev (MRCagney Corp)</strong></p>
+<p>During Week 6, we’ll hear from industry practitioner Alex Raichev about:</p>
+<ul>
+<li>Real-world applications of transport analytics dashboards</li>
+<li>Industry perspectives on geospatial visualisation</li>
+<li>Best practices for stakeholder communication</li>
+<li>Career opportunities in urban analytics</li>
+</ul>
+<p>This provides valuable context for how the skills you’re learning are applied in professional settings.</p>
+</section>
+<section id="assignment-2-preview" class="level2">
+<h2 class="anchored" data-anchor-id="assignment-2-preview">Assignment 2 Preview</h2>
+<p>Throughout this chapter, you’ll work toward Assignment 2: a comprehensive Shiny dashboard addressing an urban analytics question.</p>
+<p><strong>Requirements:</strong> - Multi-page application (3+ analysis modules) - Interactive map with user-controlled filters - Temporal or comparative analysis component - Network analysis (if applicable to your topic) - Deployed using shinylive - Professional interface design - User documentation</p>
+<p><strong>Suggested Topics:</strong> - Pedestrian flow patterns and urban vitality - Green space accessibility analysis - Transport network performance over time - E-scooter trip analysis - Air quality monitoring - 15-minute city accessibility</p>
+<p><strong>Timeline:</strong> - Week 6: Learn fundamentals, start planning - Week 7: Intensive development with instructor support - Week 8: Polish, deploy, and submit (due 8 May)</p>
+</section>
+<section id="key-concepts-to-master" class="level2">
+<h2 class="anchored" data-anchor-id="key-concepts-to-master">Key Concepts to Master</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Essential Skills
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>UI/Server Separation</strong>: Understanding the frontend/backend split</li>
+<li><strong>Reactive Programming</strong>: How outputs automatically update</li>
+<li><strong>Input Controls</strong>: Sliders, dropdowns, date pickers, text boxes</li>
+<li><strong>Output Types</strong>: Plots, tables, maps, text, UI elements</li>
+<li><strong>Reactive Calculations</strong>: Efficient data processing with <code>@reactive.Calc</code></li>
+<li><strong>Multi-page Apps</strong>: Organising complex dashboards with <code>ui.nav_panel()</code></li>
+<li><strong>Deployment</strong>: Both traditional and shinylive approaches</li>
+</ol>
 </div>
 </div>
 </section>
-<section id="notes" class="level2">
-<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<section id="development-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="development-workflow">Development Workflow</h2>
+<p>A typical dashboard development process:</p>
+<ol type="1">
+<li><strong>Plan</strong>: Define your question, data, and target audience</li>
+<li><strong>Prototype</strong>: Build a simple single-page version</li>
+<li><strong>Analyse</strong>: Add data processing and visualisations</li>
+<li><strong>Iterate</strong>: Test with users, refine interface</li>
+<li><strong>Expand</strong>: Add pages, features, and polish</li>
+<li><strong>Deploy</strong>: Test deployment, optimise performance</li>
+<li><strong>Document</strong>: Write user guide and code comments</li>
+</ol>
+</section>
+<section id="performance-considerations" class="level2">
+<h2 class="anchored" data-anchor-id="performance-considerations">Performance Considerations</h2>
+<p>Dashboards must be responsive. Key strategies:</p>
+<p><strong>Data Optimisation</strong> - Pre-process large datasets before deployment - Use appropriate file formats (GeoJSON for web) - Simplify geometries where appropriate - Cache expensive calculations</p>
+<p><strong>Reactivity Design</strong> - Use <code>@reactive.Calc</code> for shared calculations - Avoid redundant data processing - Debounce rapid input changes - Show loading indicators for long operations</p>
+<p><strong>Deployment Optimisation</strong> - Minimise package dependencies - Compress data files - Test on different devices and connections - Use efficient spatial data structures</p>
+</section>
+<section id="looking-ahead" class="level2">
+<h2 class="anchored" data-anchor-id="looking-ahead">Looking Ahead</h2>
+<p>Over the next three weeks, you’ll progress from basic concepts to a fully-deployed professional dashboard. The skills you develop—reactive programming, interactive visualisation, and web deployment—are highly valuable in industry and research.</p>
+<p>By the end of this chapter, you’ll have:</p>
 <ul>
-<li><em>Add your narrative here.</em></li>
+<li>A deep understanding of reactive programming</li>
+<li>Experience building multi-page web applications</li>
+<li>Skills in network analysis and spatial visualisation</li>
+<li>A portfolio-worthy dashboard deployed publicly</li>
+<li>Confidence to build interactive tools for any spatial analysis project</li>
 </ul>
+<p>Let’s begin by understanding web GIS fundamentals and the technology that makes browser-based applications possible in <span class="quarto-unresolved-ref">?sec-webgis-wasm-shiny</span>.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further Reading</h2>
+<ul>
+<li><a href="https://shiny.posit.co/py/">Shiny for Python Documentation</a></li>
+<li><a href="https://shiny.posit.co/py/docs/shinylive.html">Shinylive Documentation</a></li>
+<li><a href="https://ipyleaflet.readthedocs.io/">ipyleaflet Documentation</a></li>
+<li><a href="https://osmnx.readthedocs.io/">OSMnx Documentation</a></li>
+<li><a href="https://webassembly.org/">WebAssembly Overview</a></li>
+</ul>
+</section>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<p>Before starting this chapter, ensure you’re comfortable with:</p>
+<ul>
+<li>Python basics (variables, functions, loops)</li>
+<li>Pandas DataFrames (filtering, grouping, merging)</li>
+<li>GeoPandas (reading spatial data, basic operations)</li>
+<li>Creating static maps (matplotlib, folium)</li>
+</ul>
+<p>If you need to review these topics, revisit Chapter 2 (<span class="quarto-unresolved-ref">?sec-geospatial-python</span>).</p>
 
 
 </section>
@@ -818,8 +1204,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./2.5.midsemtest-assignment.html" class="pagination-link" aria-label="2.5 Mid-semester test and assignment">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.5 Mid-semester test and assignment</span>
+      <a href="./2.4.urban-analytics.html" class="pagination-link" aria-label="2.4 Urban analytics indicators">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.4 Urban analytics indicators</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

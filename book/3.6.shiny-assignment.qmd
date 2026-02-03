@@ -1,33 +1,602 @@
-# 3.7 Shiny dashboard assignment {.unnumbered}
+# Shiny Dashboard Assignment {#sec-shiny-assignment}
 
-## Story problem
+## Assignment Overview: A Dashboard a Policymaker Can Use
 
-**A dashboard a policymaker can use**
+**Due: 8 May 2026 (Thursday, Week 8)**
 
-- The map answers: where are the highest values?
-- The table answers: what changes when we filter?
-- The text answers: what does it mean and what are the caveats?
+Create and deploy a comprehensive Shiny dashboard that addresses an urban analytics question. Your dashboard should be a tool that policymakers, planners, or researchers could actually use to explore data and gain insights.
 
-## What you will learn
+## The Three Essential Questions
 
-- Build a Shiny app with a Folium map, filters, and summaries.
-- Use Auckland zones and at least one indicator from Part 2.
-- Write a short interpretation section that matches the visuals.
+Your dashboard must answer:
 
-## Required components
+1. **Where are the highest/lowest values?** → Interactive map
+2. **What changes when we filter?** → Reactive tables and charts
+3. **What does it mean?** → Interpretive text and context
 
-- Folium map
-- At least one filter
-- Summary table or chart
-- Short narrative
+## Required Components
 
-## Rubric
+### 1. Multi-Page Application (3+ Analysis Modules)
 
-- Correctness
-- Usability
-- Clarity
-- Reproducibility
+Use `ui.nav_panel()` to create at least three distinct pages:
 
-## Notes
+```python
+from shiny import ui
 
-- _Add your narrative here._
+app_ui = ui.page_navbar(
+    ui.nav("Overview",
+        # Summary statistics and key findings
+    ),
+    
+    ui.nav("Spatial Analysis",
+        # Interactive map with filters
+    ),
+    
+    ui.nav("Temporal Patterns",
+        # Time-based analysis
+    ),
+    
+    ui.nav("About",
+        # Documentation and methodology
+    ),
+    
+    title="Your Dashboard Title"
+)
+```
+
+### 2. Interactive Map with User-Controlled Filters
+
+**Minimum Requirements:**
+- Choropleth or point map showing your key indicator
+- At least two filters (e.g., time period, location type, threshold)
+- Legend and clear labelling
+- Responsive to user input
+
+**Example Filters:**
+```python
+ui.input_selectize("regions", "Select Regions", choices=region_list, multiple=True)
+ui.input_slider("min_value", "Minimum Value", min=0, max=100, value=0)
+ui.input_date_range("date_range", "Date Range")
+ui.input_radio_buttons("indicator", "Indicator", choices=["Pop", "Density", "Income"])
+```
+
+### 3. Temporal or Comparative Analysis
+
+Choose at least one:
+
+**Temporal Analysis:**
+- Time series showing trends over months/years
+- Animation or time slider
+- Before/after comparison
+- Seasonal patterns
+
+**Comparative Analysis:**
+- Compare different locations side-by-side
+- Benchmark against citywide averages
+- Multiple scenarios or policy options
+
+### 4. Network Analysis (If Applicable)
+
+If your topic involves movement, accessibility, or connectivity:
+
+**Options:**
+- Street network centrality analysis
+- Routing and travel time calculations
+- Accessibility isochrones (15-minute city)
+- Origin-destination flow visualisation
+
+**Not Required If:**
+- Your topic doesn't involve spatial networks
+- You have strong spatial+temporal analysis instead
+
+### 5. Professional Interface Design
+
+**Layout Requirements:**
+- Clear page structure with sidebar and main panel
+- Consistent styling and colours
+- Appropriate use of space (not cluttered)
+- Responsive to different screen sizes
+
+**User Experience:**
+- Intuitive controls with clear labels
+- Helpful tooltips or instructions
+- Loading indicators for slow operations
+- Meaningful error messages
+
+### 6. Documentation
+
+**In-App (About Page):**
+- Data sources and dates
+- Methodology explanation
+- Known limitations
+- How to use the dashboard
+- Contact information
+
+**README.md:**
+- Project description
+- Installation instructions
+- How to run locally
+- Deployment URL
+- Data sources and citations
+
+## Deployment: Using Shinylive
+
+Your dashboard **must** be deployed using shinylive and accessible via URL.
+
+### Deployment Process
+
+**1. Prepare Your App**
+
+Ensure your app structure:
+```
+my_dashboard/
+├── app.py          # Main Shiny app
+├── requirements.txt # Python dependencies
+├── data/           # Data files (keep small!)
+│   └── processed_data.gpkg
+└── README.md
+```
+
+**2. Test Locally**
+
+```bash
+# Run locally first
+python -m shiny run app.py --reload
+```
+
+**3. Export to Shinylive**
+
+```bash
+# Install shinylive
+pip install shinylive
+
+# Export your app
+shinylive export my_dashboard site
+
+# Test the export
+python -m http.server --directory site 8008
+# Visit http://localhost:8008
+```
+
+**4. Deploy to GitHub Pages**
+
+```bash
+# Create gh-pages branch
+git checkout -b gh-pages
+
+# Add the site folder
+git add site/
+git commit -m "Deploy dashboard"
+git push origin gh-pages
+
+# Enable GitHub Pages in repository settings
+# Your URL will be: https://username.github.io/repository/
+```
+
+### Deployment Checklist
+
+- [ ] App runs without errors locally
+- [ ] All data files are included and < 10MB total
+- [ ] Only necessary packages in requirements.txt
+- [ ] Shinylive export completes successfully
+- [ ] Deployed app loads within 30 seconds
+- [ ] All features work in deployed version
+- [ ] URL is accessible publicly
+
+## Suggested Topics
+
+Choose one or propose your own (requires approval):
+
+### 1. Pedestrian Flow Patterns and Urban Vitality
+
+**Question:** How do pedestrian patterns reveal urban vitality in Auckland?
+
+**Data:**
+- Auckland pedestrian count sensors
+- Street network (OSMnx)
+- SA2 boundaries
+
+**Analyses:**
+- Temporal patterns (hourly, daily, seasonal)
+- Spatial distribution across CBD
+- Relationship to street connectivity
+- Before/after COVID comparison
+
+### 2. Green Space Accessibility Analysis
+
+**Question:** Who has access to parks within walking distance?
+
+**Data:**
+- Parks and green spaces (Auckland Council)
+- Population by SA2 (Census)
+- Street network
+
+**Analyses:**
+- 10-minute walking isochrones from parks
+- Population with access by demographic
+- Equity analysis (income, age groups)
+- Service gaps identification
+
+### 3. Transport Network Performance Over Time
+
+**Question:** How has congestion changed on key corridors?
+
+**Data:**
+- Travel time data (if available) or simulated
+- Road network
+- Traffic count sensors
+
+**Analyses:**
+- Travel time reliability by corridor
+- Peak vs off-peak comparisons
+- Temporal trends
+- Bottleneck identification
+
+### 4. E-Scooter Trip Analysis
+
+**Question:** Where and when are e-scooters used most?
+
+**Data:**
+- E-scooter trip data (start/end locations)
+- Network for routing
+- Points of interest
+
+**Analyses:**
+- Origin-destination patterns
+- Temporal usage (hourly, daily)
+- Trip distance distribution
+- Integration with PT stations
+
+### 5. 15-Minute City Accessibility
+
+**Question:** Which neighbourhoods have access to essential amenities?
+
+**Data:**
+- Amenity locations (shops, schools, healthcare)
+- Population distribution
+- Walking network
+
+**Analyses:**
+- Isochrone analysis (5, 10, 15 minutes)
+- Amenity accessibility scores
+- Gaps in service coverage
+- Comparison by neighbourhood type
+
+### 6. Air Quality Monitoring
+
+**Question:** How do air quality patterns vary spatially and temporally?
+
+**Data:**
+- Air quality sensor data
+- Population density
+- Traffic volumes
+
+**Analyses:**
+- Temporal patterns (hourly, seasonal)
+- Spatial distribution
+- Population exposure estimates
+- Exceedance days by location
+
+## Evaluation Criteria (35% of Course Grade)
+
+### Functionality and Analytical Depth (15%)
+
+**Excellent (13-15 points):**
+- Complex multi-step analysis with clear logic
+- Appropriate statistical methods
+- Insightful findings beyond basic description
+- Handles edge cases and data issues well
+
+**Good (10-12 points):**
+- Solid analysis answering key questions
+- Appropriate methods, minor issues
+- Clear findings with some depth
+- Most cases handled correctly
+
+**Adequate (7-9 points):**
+- Basic analysis, meets minimum requirements
+- Simple methods, some questionable choices
+- Surface-level findings
+- Some errors or missing cases
+
+### Interactivity and Reactivity (8%)
+
+**Excellent (7-8 points):**
+- Highly responsive with smooth updates
+- Efficient reactive calculations
+- Multiple interconnected outputs
+- No unnecessary recomputation
+
+**Good (5-6 points):**
+- Responsive with occasional delays
+- Good use of reactivity
+- Outputs update correctly
+- Minor inefficiencies
+
+**Adequate (3-4 points):**
+- Basic reactivity working
+- Some delays or clunky updates
+- Minimal interconnection
+- Notable inefficiencies
+
+### User Interface and Design (7%)
+
+**Excellent (6-7 points):**
+- Professional, polished appearance
+- Intuitive navigation and controls
+- Excellent use of space and colour
+- Consistent styling throughout
+- Mobile-friendly
+
+**Good (4-5 points):**
+- Clean, functional design
+- Clear navigation
+- Good use of space
+- Mostly consistent styling
+
+**Adequate (2-3 points):**
+- Basic layout, meets requirements
+- Functional but not polished
+- Some layout or styling issues
+- Limited attention to UX
+
+### Deployment and Accessibility (5%)
+
+**Excellent (4-5 points):**
+- Deploys flawlessly via shinylive
+- Loads quickly (< 15 seconds)
+- No console errors
+- Works on multiple browsers
+- Comprehensive documentation
+
+**Good (3 points):**
+- Deploys successfully
+- Loads in reasonable time
+- Minor warnings only
+- Good documentation
+
+**Adequate (1-2 points):**
+- Deploys with issues
+- Slow loading
+- Some errors present
+- Minimal documentation
+
+## Common Pitfalls to Avoid
+
+### Technical Issues
+
+**❌ Large Data Files**
+- Problem: 50MB GeoPackage causes slow loading
+- Solution: Simplify geometries, aggregate data, use GeoJSON
+
+**❌ Inefficient Reactivity**
+- Problem: Recalculating network centrality on every slider move
+- Solution: Use `@reactive.Calc` and debounce inputs
+
+**❌ Missing Error Handling**
+- Problem: App crashes when no data matches filters
+- Solution: Check for empty results, show helpful messages
+
+**❌ Hardcoded Paths**
+- Problem: `pd.read_csv('/Users/me/Desktop/data.csv')`
+- Solution: Use relative paths: `pd.read_csv('data/data.csv')`
+
+### Design Issues
+
+**❌ Information Overload**
+- Problem: 20 controls on one page
+- Solution: Group related controls, use tabs
+
+**❌ Unclear Purpose**
+- Problem: User doesn't know what dashboard does
+- Solution: Clear title, intro text, about page
+
+**❌ No Context**
+- Problem: Map shows numbers without explanation
+- Solution: Add legend, units, interpretation
+
+## Development Timeline
+
+### Week 6 (20-26 April)
+
+- [ ] Choose topic and get approval
+- [ ] Gather and clean data
+- [ ] Create basic single-page app locally
+- [ ] Test core functionality
+
+### Week 7 (27 April - 3 May)
+
+- [ ] Expand to multi-page structure
+- [ ] Add network/OD analysis (if applicable)
+- [ ] Implement all filters and outputs
+- [ ] Test and refine reactivity
+- [ ] Seek feedback in lab sessions
+
+### Week 8 (4-8 May)
+
+- [ ] Polish user interface
+- [ ] Write documentation
+- [ ] Optimize performance
+- [ ] Deploy via shinylive
+- [ ] Final testing
+- [ ] Submit by 8 May
+
+## Submission Requirements
+
+Submit via Canvas:
+
+1. **Dashboard URL** (shinylive deployment)
+2. **GitHub Repository Link** (public, with code and README)
+3. **Brief Report (PDF, 300-500 words):**
+   - Research question and motivation
+   - Data sources and processing
+   - Key findings
+   - Technical challenges and solutions
+   - Future improvements
+
+## Getting Help
+
+**Lab Sessions (Week 7):**
+- Wednesday 12-2pm: Intensive support
+- Roving instructor and tutors
+- One-on-one consultations
+- Peer code reviews
+
+**Discussion Forum:**
+- Ed for technical questions
+- Post code snippets (not entire apps)
+- Help classmates
+
+**Office Hours:**
+- By appointment
+- Book via Canvas
+
+**Example Code:**
+- Template repositories provided
+- Sample dashboards for reference
+- Skills documentation on Canvas
+
+## Example Dashboard Structure
+
+```python
+from shiny import App, ui, render, reactive
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Load data once at startup
+regions = gpd.read_file('data/regions.gpkg')
+timeseries = pd.read_csv('data/timeseries.csv')
+
+# UI Definition
+app_ui = ui.page_navbar(
+    # Overview Page
+    ui.nav("Overview",
+        ui.h2("Dashboard Title"),
+        ui.p("Brief description of what this dashboard shows."),
+        ui.layout_sidebar(
+            ui.panel_sidebar(
+                ui.h4("Key Statistics"),
+                ui.output_text_verbatim("summary_stats")
+            ),
+            ui.panel_main(
+                ui.output_plot("overview_map")
+            )
+        )
+    ),
+    
+    # Analysis Page
+    ui.nav("Detailed Analysis",
+        ui.layout_sidebar(
+            ui.panel_sidebar(
+                ui.input_selectize("regions", "Regions", choices=[], multiple=True),
+                ui.input_slider("year", "Year", 2019, 2024, 2024),
+                ui.input_select("indicator", "Indicator", choices=[])
+            ),
+            ui.panel_main(
+                ui.navset_tab(
+                    ui.nav("Map", ui.output_plot("analysis_map")),
+                    ui.nav("Chart", ui.output_plot("analysis_chart")),
+                    ui.nav("Table", ui.output_table("analysis_table"))
+                )
+            )
+        )
+    ),
+    
+    # About Page
+    ui.nav("About",
+        ui.h2("About This Dashboard"),
+        ui.markdown("""
+        ## Purpose
+        This dashboard...
+        
+        ## Data Sources
+        - Source 1: Description
+        - Source 2: Description
+        
+        ## Methodology
+        Brief explanation...
+        
+        ## Contact
+        Your name and email
+        """)
+    ),
+    
+    title="Your Dashboard Title"
+)
+
+# Server Function
+def server(input, output, session):
+    
+    # Reactive: filtered data
+    @reactive.Calc
+    def filtered_data():
+        data = regions.copy()
+        if input.regions():
+            data = data[data['name'].isin(input.regions())]
+        return data
+    
+    # Output: map
+    @output
+    @render.plot
+    def analysis_map():
+        data = filtered_data()
+        fig, ax = plt.subplots(figsize=(10, 8))
+        data.plot(column=input.indicator(), ax=ax, legend=True)
+        ax.set_title(f"{input.indicator()} - {input.year()}")
+        return fig
+    
+    # More outputs...
+
+# Create app
+app = App(app_ui, server)
+```
+
+## Final Checklist
+
+Before submission:
+
+### Functionality
+- [ ] All three required pages work
+- [ ] Map displays correctly with filters
+- [ ] Temporal/comparative analysis present
+- [ ] Network analysis (if applicable)
+- [ ] No errors in console
+
+### Code Quality
+- [ ] Code is well-organized
+- [ ] Functions have docstrings
+- [ ] Variables have clear names
+- [ ] No unnecessary code duplication
+
+### Documentation
+- [ ] README explains project
+- [ ] About page describes methodology
+- [ ] Data sources cited
+- [ ] Installation instructions clear
+
+### Deployment
+- [ ] App loads in < 30 seconds
+- [ ] All features work when deployed
+- [ ] No console errors
+- [ ] Accessible at public URL
+
+### Submission
+- [ ] URL submitted via Canvas
+- [ ] GitHub link provided
+- [ ] Brief report (300-500 words) included
+- [ ] Submitted before deadline
+
+## Good Luck!
+
+This assignment demonstrates your ability to:
+- Build professional web applications
+- Communicate spatial analysis effectively
+- Apply reactive programming concepts
+- Deploy data products for public use
+
+Take pride in your work—this is a portfolio piece that showcases your urban analytics skills!
+
+## Questions?
+
+Post on Ed discussion or ask in lab sessions. We're here to help you succeed!

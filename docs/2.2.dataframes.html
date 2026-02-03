@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2.2 DataFrames – Python GIS at UoA</title>
+<title>3&nbsp; DataFrames – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2.0.chapter2-geospatial_python.html">Part 2: Geospatial Python</a></li><li class="breadcrumb-item"><a href="./2.2.dataframes.html">2.2 DataFrames</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2.0.chapter2-geospatial_python.html">Geospatial Python Programming</a></li><li class="breadcrumb-item"><a href="./2.2.dataframes.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">DataFrames</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -154,6 +154,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./assignments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Assignments</span></span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./1.0.chapter1-setup.html" class="sidebar-item-text sidebar-link">
@@ -186,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Part 2: Geospatial Python</span></a>
+ <span class="menu-text">Geospatial Python Programming</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -195,19 +201,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.1.basic-python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.1 Basic Python</span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Basic Python</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.2.dataframes.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">2.2 DataFrames</span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">DataFrames</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.3.geospatial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.3 Geospatial data</span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Geospatial Data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -216,18 +222,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">2.4 Urban analytics indicators</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./2.5.midsemtest-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.5 Mid-semester test and assignment</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./3.0.chapter3-shiny_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Part 3: Shiny for Python and Web GIS</span></a>
+ <span class="menu-text">Interactive Dashboards with Shiny for Python</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -242,37 +242,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3.2.shiny-functions-reactivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.2 Functions and reactivity</span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Shiny Functions and Reactivity</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.3.shiny-vs-fastapi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.3 Shiny versus API</span></a>
+  <a href="./3.3.routing-and-congestion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Routing and Congestion Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.4.routing-and-congestion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.4 Routing and congestion concepts</span></a>
+  <a href="./3.4.origin-destination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Origin-Destination Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.5.origin-destination.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.5 Origin–destination analysis</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.6.networks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.6 Networks for GIS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.7.shiny-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.7 Shiny dashboard assignment</span></a>
+  <a href="./3.5.networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Network Analysis for GIS</span></span></a>
   </div>
 </li>
       </ul>
@@ -328,12 +316,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">4.7 Publishing to PyPI</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./4.8.packaging-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.8 Packaging assignment</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -348,61 +330,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Lab Week 01</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab Week 01</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab Week 02</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Week 02</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Lab Week 03</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Week 03</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Lab Week 04</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Lab Week 04</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Lab Week 05</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Lab Week 05</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lab Week 06</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Lab Week 06</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Lab Week 07</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Lab Week 07</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Lab Week 08</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Lab Week 08</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab Week 09</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Lab Week 09</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Week 10</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Lab Week 10</span></span></a>
   </div>
 </li>
       </ul>
@@ -423,20 +405,93 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#story-problem" id="toc-story-problem" class="nav-link active" data-scroll-target="#story-problem">Story problem</a></li>
-  <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn">What you will learn</a></li>
-  <li><a href="#key-skills" id="toc-key-skills" class="nav-link" data-scroll-target="#key-skills">Key skills</a></li>
-  <li><a href="#mini-exercise" id="toc-mini-exercise" class="nav-link" data-scroll-target="#mini-exercise">Mini exercise</a></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">3.1</span> Introduction</a></li>
+  <li><a href="#what-is-a-dataframe" id="toc-what-is-a-dataframe" class="nav-link" data-scroll-target="#what-is-a-dataframe"><span class="header-section-number">3.2</span> What is a DataFrame?</a></li>
+  <li><a href="#dictionaries-building-blocks" id="toc-dictionaries-building-blocks" class="nav-link" data-scroll-target="#dictionaries-building-blocks"><span class="header-section-number">3.3</span> Dictionaries: Building Blocks</a>
+  <ul class="collapse">
+  <li><a href="#dictionary-basics" id="toc-dictionary-basics" class="nav-link" data-scroll-target="#dictionary-basics"><span class="header-section-number">3.3.1</span> Dictionary Basics</a></li>
+  <li><a href="#dictionary-methods" id="toc-dictionary-methods" class="nav-link" data-scroll-target="#dictionary-methods"><span class="header-section-number">3.3.2</span> Dictionary Methods</a></li>
+  <li><a href="#iterating-through-dictionaries" id="toc-iterating-through-dictionaries" class="nav-link" data-scroll-target="#iterating-through-dictionaries"><span class="header-section-number">3.3.3</span> Iterating Through Dictionaries</a></li>
+  <li><a href="#nested-dictionaries" id="toc-nested-dictionaries" class="nav-link" data-scroll-target="#nested-dictionaries"><span class="header-section-number">3.3.4</span> Nested Dictionaries</a></li>
+  </ul></li>
+  <li><a href="#getting-started-with-pandas" id="toc-getting-started-with-pandas" class="nav-link" data-scroll-target="#getting-started-with-pandas"><span class="header-section-number">3.4</span> Getting Started with Pandas</a>
+  <ul class="collapse">
+  <li><a href="#installation-and-import" id="toc-installation-and-import" class="nav-link" data-scroll-target="#installation-and-import"><span class="header-section-number">3.4.1</span> Installation and Import</a></li>
+  </ul></li>
+  <li><a href="#creating-dataframes" id="toc-creating-dataframes" class="nav-link" data-scroll-target="#creating-dataframes"><span class="header-section-number">3.5</span> Creating DataFrames</a>
+  <ul class="collapse">
+  <li><a href="#from-a-dictionary" id="toc-from-a-dictionary" class="nav-link" data-scroll-target="#from-a-dictionary"><span class="header-section-number">3.5.1</span> From a Dictionary</a></li>
+  <li><a href="#from-lists" id="toc-from-lists" class="nav-link" data-scroll-target="#from-lists"><span class="header-section-number">3.5.2</span> From Lists</a></li>
+  </ul></li>
+  <li><a href="#reading-data-files" id="toc-reading-data-files" class="nav-link" data-scroll-target="#reading-data-files"><span class="header-section-number">3.6</span> Reading Data Files</a>
+  <ul class="collapse">
+  <li><a href="#csv-files" id="toc-csv-files" class="nav-link" data-scroll-target="#csv-files"><span class="header-section-number">3.6.1</span> CSV Files</a></li>
+  <li><a href="#google-colab-file-access" id="toc-google-colab-file-access" class="nav-link" data-scroll-target="#google-colab-file-access"><span class="header-section-number">3.6.2</span> Google Colab File Access</a></li>
+  <li><a href="#other-file-formats" id="toc-other-file-formats" class="nav-link" data-scroll-target="#other-file-formats"><span class="header-section-number">3.6.3</span> Other File Formats</a></li>
+  </ul></li>
+  <li><a href="#exploring-dataframes" id="toc-exploring-dataframes" class="nav-link" data-scroll-target="#exploring-dataframes"><span class="header-section-number">3.7</span> Exploring DataFrames</a>
+  <ul class="collapse">
+  <li><a href="#essential-methods" id="toc-essential-methods" class="nav-link" data-scroll-target="#essential-methods"><span class="header-section-number">3.7.1</span> Essential Methods</a></li>
+  <li><a href="#example-exploring-auckland-pedestrian-data" id="toc-example-exploring-auckland-pedestrian-data" class="nav-link" data-scroll-target="#example-exploring-auckland-pedestrian-data"><span class="header-section-number">3.7.2</span> Example: Exploring Auckland Pedestrian Data</a></li>
+  </ul></li>
+  <li><a href="#selecting-data" id="toc-selecting-data" class="nav-link" data-scroll-target="#selecting-data"><span class="header-section-number">3.8</span> Selecting Data</a>
+  <ul class="collapse">
+  <li><a href="#selecting-columns" id="toc-selecting-columns" class="nav-link" data-scroll-target="#selecting-columns"><span class="header-section-number">3.8.1</span> Selecting Columns</a></li>
+  <li><a href="#selecting-rows" id="toc-selecting-rows" class="nav-link" data-scroll-target="#selecting-rows"><span class="header-section-number">3.8.2</span> Selecting Rows</a></li>
+  <li><a href="#boolean-indexing-filtering" id="toc-boolean-indexing-filtering" class="nav-link" data-scroll-target="#boolean-indexing-filtering"><span class="header-section-number">3.8.3</span> Boolean Indexing (Filtering)</a></li>
+  <li><a href="#the-query-method" id="toc-the-query-method" class="nav-link" data-scroll-target="#the-query-method"><span class="header-section-number">3.8.4</span> The Query Method</a></li>
+  <li><a href="#practical-example-filtering-pedestrian-data" id="toc-practical-example-filtering-pedestrian-data" class="nav-link" data-scroll-target="#practical-example-filtering-pedestrian-data"><span class="header-section-number">3.8.5</span> Practical Example: Filtering Pedestrian Data</a></li>
+  </ul></li>
+  <li><a href="#adding-and-modifying-columns" id="toc-adding-and-modifying-columns" class="nav-link" data-scroll-target="#adding-and-modifying-columns"><span class="header-section-number">3.9</span> Adding and Modifying Columns</a>
+  <ul class="collapse">
+  <li><a href="#creating-new-columns" id="toc-creating-new-columns" class="nav-link" data-scroll-target="#creating-new-columns"><span class="header-section-number">3.9.1</span> Creating New Columns</a></li>
+  <li><a href="#practical-example-processing-pedestrian-data" id="toc-practical-example-processing-pedestrian-data" class="nav-link" data-scroll-target="#practical-example-processing-pedestrian-data"><span class="header-section-number">3.9.2</span> Practical Example: Processing Pedestrian Data</a></li>
+  </ul></li>
+  <li><a href="#grouping-and-aggregation" id="toc-grouping-and-aggregation" class="nav-link" data-scroll-target="#grouping-and-aggregation"><span class="header-section-number">3.10</span> Grouping and Aggregation</a>
+  <ul class="collapse">
+  <li><a href="#basic-grouping" id="toc-basic-grouping" class="nav-link" data-scroll-target="#basic-grouping"><span class="header-section-number">3.10.1</span> Basic Grouping</a></li>
+  <li><a href="#common-aggregation-functions" id="toc-common-aggregation-functions" class="nav-link" data-scroll-target="#common-aggregation-functions"><span class="header-section-number">3.10.2</span> Common Aggregation Functions</a></li>
+  <li><a href="#practical-example-analysing-pedestrian-patterns" id="toc-practical-example-analysing-pedestrian-patterns" class="nav-link" data-scroll-target="#practical-example-analysing-pedestrian-patterns"><span class="header-section-number">3.10.3</span> Practical Example: Analysing Pedestrian Patterns</a></li>
+  </ul></li>
+  <li><a href="#reshaping-data-melt-and-pivot" id="toc-reshaping-data-melt-and-pivot" class="nav-link" data-scroll-target="#reshaping-data-melt-and-pivot"><span class="header-section-number">3.11</span> Reshaping Data: Melt and Pivot</a>
+  <ul class="collapse">
+  <li><a href="#melt-wide-to-long-format" id="toc-melt-wide-to-long-format" class="nav-link" data-scroll-target="#melt-wide-to-long-format"><span class="header-section-number">3.11.1</span> Melt: Wide to Long Format</a></li>
+  <li><a href="#pivot-long-to-wide-format" id="toc-pivot-long-to-wide-format" class="nav-link" data-scroll-target="#pivot-long-to-wide-format"><span class="header-section-number">3.11.2</span> Pivot: Long to Wide Format</a></li>
+  </ul></li>
+  <li><a href="#handling-missing-data" id="toc-handling-missing-data" class="nav-link" data-scroll-target="#handling-missing-data"><span class="header-section-number">3.12</span> Handling Missing Data</a>
+  <ul class="collapse">
+  <li><a href="#detecting-missing-data" id="toc-detecting-missing-data" class="nav-link" data-scroll-target="#detecting-missing-data"><span class="header-section-number">3.12.1</span> Detecting Missing Data</a></li>
+  <li><a href="#removing-missing-data" id="toc-removing-missing-data" class="nav-link" data-scroll-target="#removing-missing-data"><span class="header-section-number">3.12.2</span> Removing Missing Data</a></li>
+  <li><a href="#filling-missing-data" id="toc-filling-missing-data" class="nav-link" data-scroll-target="#filling-missing-data"><span class="header-section-number">3.12.3</span> Filling Missing Data</a></li>
+  <li><a href="#practical-example-cleaning-pedestrian-data" id="toc-practical-example-cleaning-pedestrian-data" class="nav-link" data-scroll-target="#practical-example-cleaning-pedestrian-data"><span class="header-section-number">3.12.4</span> Practical Example: Cleaning Pedestrian Data</a></li>
+  </ul></li>
+  <li><a href="#merging-and-joining-dataframes" id="toc-merging-and-joining-dataframes" class="nav-link" data-scroll-target="#merging-and-joining-dataframes"><span class="header-section-number">3.13</span> Merging and Joining DataFrames</a>
+  <ul class="collapse">
+  <li><a href="#types-of-joins" id="toc-types-of-joins" class="nav-link" data-scroll-target="#types-of-joins"><span class="header-section-number">3.13.1</span> Types of Joins</a></li>
+  <li><a href="#merge-example" id="toc-merge-example" class="nav-link" data-scroll-target="#merge-example"><span class="header-section-number">3.13.2</span> Merge Example</a></li>
+  <li><a href="#practical-example-combining-pedestrian-and-location-data" id="toc-practical-example-combining-pedestrian-and-location-data" class="nav-link" data-scroll-target="#practical-example-combining-pedestrian-and-location-data"><span class="header-section-number">3.13.3</span> Practical Example: Combining Pedestrian and Location Data</a></li>
+  </ul></li>
+  <li><a href="#data-visualisation" id="toc-data-visualisation" class="nav-link" data-scroll-target="#data-visualisation"><span class="header-section-number">3.14</span> Data Visualisation</a>
+  <ul class="collapse">
+  <li><a href="#built-in-pandas-plotting" id="toc-built-in-pandas-plotting" class="nav-link" data-scroll-target="#built-in-pandas-plotting"><span class="header-section-number">3.14.1</span> Built-in Pandas Plotting</a></li>
+  <li><a href="#using-seaborn" id="toc-using-seaborn" class="nav-link" data-scroll-target="#using-seaborn"><span class="header-section-number">3.14.2</span> Using Seaborn</a></li>
+  <li><a href="#practical-example-visualising-pedestrian-patterns" id="toc-practical-example-visualising-pedestrian-patterns" class="nav-link" data-scroll-target="#practical-example-visualising-pedestrian-patterns"><span class="header-section-number">3.14.3</span> Practical Example: Visualising Pedestrian Patterns</a></li>
+  </ul></li>
+  <li><a href="#practical-workflow-example" id="toc-practical-workflow-example" class="nav-link" data-scroll-target="#practical-workflow-example"><span class="header-section-number">3.15</span> Practical Workflow Example</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">3.16</span> Summary</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways"><span class="header-section-number">3.17</span> Key Takeaways</a></li>
+  <li><a href="#practice-exercises" id="toc-practice-exercises" class="nav-link" data-scroll-target="#practice-exercises"><span class="header-section-number">3.18</span> Practice Exercises</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">3.19</span> Further Reading</a></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps"><span class="header-section-number">3.20</span> Next Steps</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2.0.chapter2-geospatial_python.html">Part 2: Geospatial Python</a></li><li class="breadcrumb-item"><a href="./2.2.dataframes.html">2.2 DataFrames</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2.0.chapter2-geospatial_python.html">Geospatial Python Programming</a></li><li class="breadcrumb-item"><a href="./2.2.dataframes.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">DataFrames</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">2.2 DataFrames</h1>
+<h1 class="title"><span id="sec-dataframes" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">DataFrames</span></span></h1>
 </div>
 
 
@@ -453,53 +508,1036 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="story-problem" class="level2">
-<h2 class="anchored" data-anchor-id="story-problem">Story problem</h2>
-<p><strong>Joining population to Auckland SA2</strong></p>
-<ul>
-<li>You have an SA2 boundary file and a population table.</li>
-<li>You must confirm join keys and check for missing matches.</li>
-<li>You produce a clean summary table for mapping.</li>
-</ul>
+<section id="introduction" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
+<p>Working with tabular data is fundamental to geospatial analysis. Most spatial datasets combine attribute data (stored in tables) with geographic information. This section introduces <strong>pandas</strong>, Python’s powerful library for data manipulation, which forms the foundation for working with <strong>geopandas</strong> (spatial data) later in this course.</p>
 </section>
-<section id="what-you-will-learn" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-will-learn">What you will learn</h2>
-<ul>
-<li>Load and inspect census-style tables.</li>
-<li>Summarise with groupby operations.</li>
-<li>Join population tables to Auckland boundaries safely.</li>
-</ul>
+<section id="what-is-a-dataframe" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="what-is-a-dataframe"><span class="header-section-number">3.2</span> What is a DataFrame?</h2>
+<p>A DataFrame is a two-dimensional tabular data structure with labelled rows and columns—essentially a spreadsheet in Python. It’s the most common way to work with structured data.</p>
+<div id="fig-dataframe-structure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dataframe-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/finallpandas.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dataframe-structure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: DataFrame structure showing rows (observations) and columns (variables)
+</figcaption>
+</figure>
+</div>
+<p>DataFrames can be thought of as: - A table with rows and columns - A collection of Series (columns) that share an index - A dictionary where each key is a column name</p>
 </section>
-<section id="key-skills" class="level2">
-<h2 class="anchored" data-anchor-id="key-skills">Key skills</h2>
-<ul>
-<li>Filtering/selecting</li>
-<li>Groupby aggregation</li>
-<li>Join validation</li>
-</ul>
+<section id="dictionaries-building-blocks" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="dictionaries-building-blocks"><span class="header-section-number">3.3</span> Dictionaries: Building Blocks</h2>
+<p>Before diving into DataFrames, let’s understand <strong>dictionaries</strong>—Python’s key-value data structure that underpins much of pandas.</p>
+<section id="dictionary-basics" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="dictionary-basics"><span class="header-section-number">3.3.1</span> Dictionary Basics</h3>
+<p>A dictionary stores data as <strong>key:value</strong> pairs:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dictionary</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>city_populations <span class="op">=</span> {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Auckland"</span>: <span class="dv">1672000</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Wellington"</span>: <span class="dv">217200</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Christchurch"</span>: <span class="dv">389700</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Access values by key</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city_populations[<span class="st">"Auckland"</span>])  <span class="co"># Output: 1672000</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a new entry</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>city_populations[<span class="st">"Hamilton"</span>] <span class="op">=</span> <span class="dv">185000</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify an existing value</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>city_populations[<span class="st">"Auckland"</span>] <span class="op">=</span> <span class="dv">1700000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="mini-exercise" class="level2">
-<h2 class="anchored" data-anchor-id="mini-exercise">Mini exercise</h2>
-<ul>
-<li>Create a simple grouped summary.</li>
-</ul>
-<div id="a1abafd4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({<span class="st">'sa2'</span>:[<span class="st">'Albany'</span>,<span class="st">'Albany'</span>,<span class="st">'Manurewa'</span>], <span class="st">'pop'</span>:[<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">8</span>]})</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.groupby(<span class="st">'sa2'</span>, as_index<span class="op">=</span><span class="va">False</span>)[<span class="st">'pop'</span>].<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>        sa2  pop
-0    Albany   25
-1  Manurewa    8</code></pre>
+<section id="dictionary-methods" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="dictionary-methods"><span class="header-section-number">3.3.2</span> Dictionary Methods</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get all keys</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>city_populations.keys()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: dict_keys(['Auckland', 'Wellington', 'Christchurch', 'Hamilton'])</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Get all values</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>city_populations.values()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: dict_values([1700000, 217200, 389700, 185000])</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Get key-value pairs</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>city_populations.items()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: dict_items([('Auckland', 1700000), ('Wellington', 217200), ...])</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="iterating-through-dictionaries" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="iterating-through-dictionaries"><span class="header-section-number">3.3.3</span> Iterating Through Dictionaries</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through keys</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> city <span class="kw">in</span> city_populations.keys():</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(city)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate through key-value pairs</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> city, population <span class="kw">in</span> city_populations.items():</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>city<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>population<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Auckland: 1,700,000</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Wellington: 217,200</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Christchurch: 389,700</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Hamilton: 185,000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="nested-dictionaries" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="nested-dictionaries"><span class="header-section-number">3.3.4</span> Nested Dictionaries</h3>
+<p>Dictionaries can contain other dictionaries or lists—useful for complex data:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>staff <span class="op">=</span> {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"people"</span>: [</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"name"</span>: <span class="st">"Hyesop"</span>, <span class="st">"role"</span>: <span class="st">"lecturer"</span>},</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"name"</span>: <span class="st">"Sila"</span>, <span class="st">"role"</span>: <span class="st">"lecturer"</span>},</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"name"</span>: <span class="st">"Oliver"</span>, <span class="st">"role"</span>: <span class="st">"tutor"</span>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pets"</span>: [</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"name"</span>: <span class="st">"Pepper"</span>, <span class="st">"species"</span>: <span class="st">"dog"</span>},</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"name"</span>: <span class="st">"Pip"</span>, <span class="st">"species"</span>: <span class="st">"dog"</span>},</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"name"</span>: <span class="st">"Harriet"</span>, <span class="st">"species"</span>: <span class="st">"cat"</span>}</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Access nested data</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(staff[<span class="st">"people"</span>][<span class="dv">0</span>][<span class="st">"name"</span>])  <span class="co"># Output: Hyesop</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why Dictionaries Matter for GIS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Geospatial data formats like GeoJSON are built on nested dictionaries:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"type"</span>: <span class="st">"Feature"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"geometry"</span>: {<span class="st">"type"</span>: <span class="st">"Point"</span>, <span class="st">"coordinates"</span>: [<span class="fl">174.76</span>, <span class="op">-</span><span class="fl">36.85</span>]},</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"properties"</span>: {<span class="st">"name"</span>: <span class="st">"Auckland"</span>, <span class="st">"population"</span>: <span class="dv">1672000</span>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
-<section id="notes" class="level2">
-<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+</section>
+<section id="getting-started-with-pandas" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="getting-started-with-pandas"><span class="header-section-number">3.4</span> Getting Started with Pandas</h2>
+<section id="installation-and-import" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="installation-and-import"><span class="header-section-number">3.4.1</span> Installation and Import</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In Google Colab (already installed)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Local installation via pip</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># !pip install pandas</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Import with standard alias</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  <span class="co"># Often used together</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Standard Aliases
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Python community uses standard aliases: - <code>pandas</code> → <code>pd</code> - <code>numpy</code> → <code>np</code> - <code>matplotlib.pyplot</code> → <code>plt</code> - <code>seaborn</code> → <code>sns</code></p>
+<p>Using these makes your code more readable to others.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="creating-dataframes" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="creating-dataframes"><span class="header-section-number">3.5</span> Creating DataFrames</h2>
+<section id="from-a-dictionary" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="from-a-dictionary"><span class="header-section-number">3.5.1</span> From a Dictionary</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simple DataFrame</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'a'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>],</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'b'</span>: [<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Output:</p>
+<pre><code>   a  b
+0  1  5
+1  2  6
+2  3  7
+3  4  8</code></pre>
+</section>
+<section id="from-lists" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="from-lists"><span class="header-section-number">3.5.2</span> From Lists</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create from lists</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Tom'</span>, <span class="st">'Nick'</span>, <span class="st">'Krish'</span>, <span class="st">'Jack'</span>],</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">19</span>, <span class="dv">18</span>],</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'City'</span>: [<span class="st">'Auckland'</span>, <span class="st">'Wellington'</span>, <span class="st">'Christchurch'</span>, <span class="st">'Hamilton'</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Output:</p>
+<pre><code>    Name  Age         City
+0    Tom   20     Auckland
+1   Nick   21   Wellington
+2  Krish   19  Christchurch
+3   Jack   18     Hamilton</code></pre>
+</section>
+</section>
+<section id="reading-data-files" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="reading-data-files"><span class="header-section-number">3.6</span> Reading Data Files</h2>
+<section id="csv-files" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="csv-files"><span class="header-section-number">3.6.1</span> CSV Files</h3>
+<p>CSV (Comma-Separated Values) is the most common tabular data format:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read from local file</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data.csv'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Read from URL</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/data.csv'</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify delimiter for other formats</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data.txt'</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>)  <span class="co"># Tab-separated</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Skip rows</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data.csv'</span>, skiprows<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify data types</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data.csv'</span>, dtype<span class="op">=</span>{<span class="st">'population'</span>: <span class="bu">int</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="google-colab-file-access" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="google-colab-file-access"><span class="header-section-number">3.6.2</span> Google Colab File Access</h3>
+<p>In Google Colab, access files from Google Drive:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Read file from Drive</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'/content/drive/My Drive/data/pedestrians.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or upload files directly:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> files</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>uploaded <span class="op">=</span> files.upload()  <span class="co"># Opens file picker</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Then read the uploaded file</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(io.BytesIO(uploaded[<span class="st">'filename.csv'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="other-file-formats" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="other-file-formats"><span class="header-section-number">3.6.3</span> Other File Formats</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Excel files</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_excel(<span class="st">'data.xlsx'</span>, sheet_name<span class="op">=</span><span class="st">'Sheet1'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># JSON files</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_json(<span class="st">'data.json'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Write to files</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">'output.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>df.to_excel(<span class="st">'output.xlsx'</span>, sheet_name<span class="op">=</span><span class="st">'Data'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="exploring-dataframes" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="exploring-dataframes"><span class="header-section-number">3.7</span> Exploring DataFrames</h2>
+<section id="essential-methods" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="essential-methods"><span class="header-section-number">3.7.1</span> Essential Methods</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First/last rows</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df.head()      <span class="co"># First 5 rows</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">10</span>)    <span class="co"># First 10 rows</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>df.tail()      <span class="co"># Last 5 rows</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic information</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>df.shape       <span class="co"># Dimensions: (rows, columns)</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>df.columns     <span class="co"># Column names</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>df.dtypes      <span class="co"># Data types of each column</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>df.info()      <span class="co"># Comprehensive summary</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>df.describe()  <span class="co"># Count, mean, std, min, quartiles, max</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()  <span class="co"># Count of missing values per column</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()    <span class="co"># Alias for isnull()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="example-exploring-auckland-pedestrian-data" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="example-exploring-auckland-pedestrian-data"><span class="header-section-number">3.7.2</span> Example: Exploring Auckland Pedestrian Data</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read pedestrian count data</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>pedestrians <span class="op">=</span> pd.read_csv(<span class="st">'auckland_pedestrian_counts.csv'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Explore the data</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset shape:"</span>, pedestrians.shape)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Column names:"</span>, pedestrians.columns.tolist())</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">First few rows:"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pedestrians.head())</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Data types:"</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pedestrians.dtypes)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Summary statistics:"</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pedestrians.describe())</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Missing values:"</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pedestrians.isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="selecting-data" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="selecting-data"><span class="header-section-number">3.8</span> Selecting Data</h2>
+<section id="selecting-columns" class="level3" data-number="3.8.1">
+<h3 data-number="3.8.1" class="anchored" data-anchor-id="selecting-columns"><span class="header-section-number">3.8.1</span> Selecting Columns</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Single column (returns Series)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ages <span class="op">=</span> df[<span class="st">'Age'</span>]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple columns (returns DataFrame)</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>subset <span class="op">=</span> df[[<span class="st">'Name'</span>, <span class="st">'City'</span>]]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Using dot notation (only for valid Python identifiers)</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>ages <span class="op">=</span> df.Age</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="selecting-rows" class="level3" data-number="3.8.2">
+<h3 data-number="3.8.2" class="anchored" data-anchor-id="selecting-rows"><span class="header-section-number">3.8.2</span> Selecting Rows</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># By position using iloc</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>first_row <span class="op">=</span> df.iloc[<span class="dv">0</span>]           <span class="co"># First row</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>first_three <span class="op">=</span> df.iloc[<span class="dv">0</span>:<span class="dv">3</span>]       <span class="co"># First 3 rows</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>specific_rows <span class="op">=</span> df.iloc[[<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">4</span>]]  <span class="co"># Rows 0, 2, 4</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># By label using loc</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>row_by_label <span class="op">=</span> df.loc[<span class="dv">0</span>]         <span class="co"># Row with index 0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="boolean-indexing-filtering" class="level3" data-number="3.8.3">
+<h3 data-number="3.8.3" class="anchored" data-anchor-id="boolean-indexing-filtering"><span class="header-section-number">3.8.3</span> Boolean Indexing (Filtering)</h3>
+<p>Filter rows based on conditions:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple filter</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>high_age <span class="op">=</span> df[df[<span class="st">'Age'</span>] <span class="op">&gt;</span> <span class="dv">20</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions with &amp;, |</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>filtered <span class="op">=</span> df[(df[<span class="st">'Age'</span>] <span class="op">&gt;</span> <span class="dv">18</span>) <span class="op">&amp;</span> (df[<span class="st">'City'</span>] <span class="op">==</span> <span class="st">'Auckland'</span>)]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Using isin for multiple values</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>cities_subset <span class="op">=</span> df[df[<span class="st">'City'</span>].isin([<span class="st">'Auckland'</span>, <span class="st">'Wellington'</span>])]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># String methods</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>starts_with_a <span class="op">=</span> df[df[<span class="st">'Name'</span>].<span class="bu">str</span>.startswith(<span class="st">'A'</span>)]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>contains_ck <span class="op">=</span> df[df[<span class="st">'City'</span>].<span class="bu">str</span>.contains(<span class="st">'ck'</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Boolean Operators
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
-<li><em>Add your narrative here.</em></li>
+<li><code>&amp;</code> for AND (not <code>and</code>)</li>
+<li><code>|</code> for OR (not <code>or</code>)</li>
+<li><code>~</code> for NOT (not <code>not</code>)</li>
+<li>Always use parentheses around each condition!</li>
 </ul>
+</div>
+</div>
+</section>
+<section id="the-query-method" class="level3" data-number="3.8.4">
+<h3 data-number="3.8.4" class="anchored" data-anchor-id="the-query-method"><span class="header-section-number">3.8.4</span> The Query Method</h3>
+<p>A more readable alternative to boolean indexing:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple query</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>filtered <span class="op">=</span> df.query(<span class="st">'Age &gt; 20'</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>filtered <span class="op">=</span> df.query(<span class="st">'Age &gt; 18 and City == "Auckland"'</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Using variables with @</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>min_age <span class="op">=</span> <span class="dv">18</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>filtered <span class="op">=</span> df.query(<span class="st">'Age &gt; @min_age'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="practical-example-filtering-pedestrian-data" class="level3" data-number="3.8.5">
+<h3 data-number="3.8.5" class="anchored" data-anchor-id="practical-example-filtering-pedestrian-data"><span class="header-section-number">3.8.5</span> Practical Example: Filtering Pedestrian Data</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>pedestrians <span class="op">=</span> pd.read_csv(<span class="st">'pedestrian_counts.csv'</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for weekdays only</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>weekdays <span class="op">=</span> pedestrians[pedestrians[<span class="st">'day_of_week'</span>] <span class="op">&lt;</span> <span class="dv">5</span>]</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for high foot traffic</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>high_traffic <span class="op">=</span> pedestrians[pedestrians[<span class="st">'count'</span>] <span class="op">&gt;</span> <span class="dv">1000</span>]</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions: weekday mornings with high traffic</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>morning_rush <span class="op">=</span> pedestrians[</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    (pedestrians[<span class="st">'day_of_week'</span>] <span class="op">&lt;</span> <span class="dv">5</span>) <span class="op">&amp;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    (pedestrians[<span class="st">'hour'</span>] <span class="op">&gt;=</span> <span class="dv">7</span>) <span class="op">&amp;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    (pedestrians[<span class="st">'hour'</span>] <span class="op">&lt;=</span> <span class="dv">9</span>) <span class="op">&amp;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    (pedestrians[<span class="st">'count'</span>] <span class="op">&gt;</span> <span class="dv">500</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Find specific location</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>queen_street <span class="op">=</span> pedestrians.query(<span class="st">'location == "Queen Street"'</span>)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by date range</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>recent <span class="op">=</span> pedestrians[pedestrians[<span class="st">'date'</span>] <span class="op">&gt;=</span> <span class="st">'2023-01-01'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="adding-and-modifying-columns" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="adding-and-modifying-columns"><span class="header-section-number">3.9</span> Adding and Modifying Columns</h2>
+<section id="creating-new-columns" class="level3" data-number="3.9.1">
+<h3 data-number="3.9.1" class="anchored" data-anchor-id="creating-new-columns"><span class="header-section-number">3.9.1</span> Creating New Columns</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># From calculation</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age_in_months'</span>] <span class="op">=</span> df[<span class="st">'Age'</span>] <span class="op">*</span> <span class="dv">12</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># From existing columns</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Full_info'</span>] <span class="op">=</span> df[<span class="st">'Name'</span>] <span class="op">+</span> <span class="st">' from '</span> <span class="op">+</span> df[<span class="st">'City'</span>]</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditional values</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Category'</span>] <span class="op">=</span> <span class="st">'Adult'</span>  <span class="co"># Set all to 'Adult'</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>df.loc[df[<span class="st">'Age'</span>] <span class="op">&lt;</span> <span class="dv">18</span>, <span class="st">'Category'</span>] <span class="op">=</span> <span class="st">'Minor'</span>  <span class="co"># Override for minors</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Using apply with a function</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> age_group(age):</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> age <span class="op">&lt;</span> <span class="dv">18</span>:</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Youth'</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> age <span class="op">&lt;</span> <span class="dv">65</span>:</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Adult'</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Senior'</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age_Group'</span>] <span class="op">=</span> df[<span class="st">'Age'</span>].<span class="bu">apply</span>(age_group)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="practical-example-processing-pedestrian-data" class="level3" data-number="3.9.2">
+<h3 data-number="3.9.2" class="anchored" data-anchor-id="practical-example-processing-pedestrian-data"><span class="header-section-number">3.9.2</span> Practical Example: Processing Pedestrian Data</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate hourly average from minute counts</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'hourly_average'</span>] <span class="op">=</span> pedestrians[<span class="st">'total_count'</span>] <span class="op">/</span> <span class="dv">60</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create time period categories</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_time(hour):</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="dv">6</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">9</span>:</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Morning Rush'</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">9</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">12</span>:</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Morning'</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">12</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">14</span>:</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Lunch'</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">14</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">17</span>:</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Afternoon'</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">17</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">20</span>:</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Evening Rush'</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Night'</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'time_period'</span>] <span class="op">=</span> pedestrians[<span class="st">'hour'</span>].<span class="bu">apply</span>(classify_time)</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag weekends</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'is_weekend'</span>] <span class="op">=</span> pedestrians[<span class="st">'day_of_week'</span>] <span class="op">&gt;=</span> <span class="dv">5</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate change from previous measurement</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'count_change'</span>] <span class="op">=</span> pedestrians[<span class="st">'count'</span>].diff()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="grouping-and-aggregation" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="grouping-and-aggregation"><span class="header-section-number">3.10</span> Grouping and Aggregation</h2>
+<p>Grouping is one of pandas’ most powerful features—it follows a split-apply-combine strategy:</p>
+<ol type="1">
+<li><strong>Split</strong> data into groups based on criteria</li>
+<li><strong>Apply</strong> a function to each group</li>
+<li><strong>Combine</strong> results into a data structure</li>
+</ol>
+<div id="fig-split-apply-combine" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-split-apply-combine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiUr0NSceFvB3vYV39lO01DRDld0HGEONzBiPZZCGUUQ&amp;s.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-split-apply-combine-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: The split-apply-combine strategy
+</figcaption>
+</figure>
+</div>
+<section id="basic-grouping" class="level3" data-number="3.10.1">
+<h3 data-number="3.10.1" class="anchored" data-anchor-id="basic-grouping"><span class="header-section-number">3.10.1</span> Basic Grouping</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by single column and calculate mean</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>city_stats <span class="op">=</span> df.groupby(<span class="st">'City'</span>)[<span class="st">'Age'</span>].mean()</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple aggregations</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>city_summary <span class="op">=</span> df.groupby(<span class="st">'City'</span>).agg({</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="st">'mean'</span>, <span class="st">'min'</span>, <span class="st">'max'</span>],</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: <span class="st">'count'</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by multiple columns</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>df.groupby([<span class="st">'City'</span>, <span class="st">'Category'</span>])[<span class="st">'Age'</span>].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="common-aggregation-functions" class="level3" data-number="3.10.2">
+<h3 data-number="3.10.2" class="anchored" data-anchor-id="common-aggregation-functions"><span class="header-section-number">3.10.2</span> Common Aggregation Functions</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>count()</code></td>
+<td>Count non-null values</td>
+</tr>
+<tr class="even">
+<td><code>sum()</code></td>
+<td>Sum of values</td>
+</tr>
+<tr class="odd">
+<td><code>mean()</code></td>
+<td>Average value</td>
+</tr>
+<tr class="even">
+<td><code>median()</code></td>
+<td>Median value</td>
+</tr>
+<tr class="odd">
+<td><code>min()</code></td>
+<td>Minimum value</td>
+</tr>
+<tr class="even">
+<td><code>max()</code></td>
+<td>Maximum value</td>
+</tr>
+<tr class="odd">
+<td><code>std()</code></td>
+<td>Standard deviation</td>
+</tr>
+<tr class="even">
+<td><code>var()</code></td>
+<td>Variance</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="practical-example-analysing-pedestrian-patterns" class="level3" data-number="3.10.3">
+<h3 data-number="3.10.3" class="anchored" data-anchor-id="practical-example-analysing-pedestrian-patterns"><span class="header-section-number">3.10.3</span> Practical Example: Analysing Pedestrian Patterns</h3>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average count by location</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>location_avg <span class="op">=</span> pedestrians.groupby(<span class="st">'location'</span>)[<span class="st">'count'</span>].mean()</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(location_avg.sort_values(ascending<span class="op">=</span><span class="va">False</span>).head())</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Statistics by time of day</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>time_stats <span class="op">=</span> pedestrians.groupby(<span class="st">'time_period'</span>).agg({</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'count'</span>: [<span class="st">'mean'</span>, <span class="st">'std'</span>, <span class="st">'max'</span>],</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'location'</span>: <span class="st">'count'</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Weekend vs weekday comparison</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>day_type_comparison <span class="op">=</span> pedestrians.groupby(<span class="st">'is_weekend'</span>)[<span class="st">'count'</span>].agg([</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mean'</span>, <span class="st">'median'</span>, <span class="st">'max'</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>]).<span class="bu">round</span>(<span class="dv">0</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Hourly patterns by location</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>hourly_patterns <span class="op">=</span> pedestrians.groupby([<span class="st">'location'</span>, <span class="st">'hour'</span>])[<span class="st">'count'</span>].mean()</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Find peak hour for each location</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>peak_hours <span class="op">=</span> pedestrians.groupby(<span class="st">'location'</span>).<span class="bu">apply</span>(</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: x.loc[x[<span class="st">'count'</span>].idxmax(), <span class="st">'hour'</span>]</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Multi-level grouping: location and time period</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>detailed_stats <span class="op">=</span> pedestrians.groupby([<span class="st">'location'</span>, <span class="st">'time_period'</span>]).agg({</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'count'</span>: [<span class="st">'mean'</span>, <span class="st">'max'</span>],</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'date'</span>: <span class="st">'count'</span>  <span class="co"># Number of observations</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>}).<span class="bu">round</span>(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="reshaping-data-melt-and-pivot" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="reshaping-data-melt-and-pivot"><span class="header-section-number">3.11</span> Reshaping Data: Melt and Pivot</h2>
+<section id="melt-wide-to-long-format" class="level3" data-number="3.11.1">
+<h3 data-number="3.11.1" class="anchored" data-anchor-id="melt-wide-to-long-format"><span class="header-section-number">3.11.1</span> Melt: Wide to Long Format</h3>
+<p>Convert wide data (multiple value columns) to long format:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Wide format</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df_wide <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'City'</span>: [<span class="st">'Auckland'</span>, <span class="st">'Wellington'</span>, <span class="st">'Christchurch'</span>],</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Jan_Temp'</span>: [<span class="dv">25</span>, <span class="dv">22</span>, <span class="dv">20</span>],</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Feb_Temp'</span>: [<span class="dv">24</span>, <span class="dv">21</span>, <span class="dv">19</span>],</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Mar_Temp'</span>: [<span class="dv">23</span>, <span class="dv">20</span>, <span class="dv">18</span>]</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to long format</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>df_long <span class="op">=</span> pd.melt(</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    df_wide,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span>[<span class="st">'City'</span>],           <span class="co"># Columns to keep</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">'Month'</span>,            <span class="co"># Name for variable column</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    value_name<span class="op">=</span><span class="st">'Temperature'</span>     <span class="co"># Name for value column</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Output:</p>
+<pre><code>          City      Month  Temperature
+0     Auckland   Jan_Temp           25
+1   Wellington   Jan_Temp           22
+2  Christchurch   Jan_Temp           20
+3     Auckland   Feb_Temp           24
+4   Wellington   Feb_Temp           21
+...</code></pre>
+</section>
+<section id="pivot-long-to-wide-format" class="level3" data-number="3.11.2">
+<h3 data-number="3.11.2" class="anchored" data-anchor-id="pivot-long-to-wide-format"><span class="header-section-number">3.11.2</span> Pivot: Long to Wide Format</h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert back to wide format</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df_pivot <span class="op">=</span> df_long.pivot(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="st">'City'</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span><span class="st">'Month'</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'Temperature'</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+When to Melt
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Melting is useful when: - You have multiple columns representing the same type of data - You want to use groupby or plot with seaborn - Your data needs to be in “tidy” format for analysis</p>
+</div>
+</div>
+</section>
+</section>
+<section id="handling-missing-data" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="handling-missing-data"><span class="header-section-number">3.12</span> Handling Missing Data</h2>
+<p>Real-world data often has missing values. Pandas provides tools to handle them:</p>
+<section id="detecting-missing-data" class="level3" data-number="3.12.1">
+<h3 data-number="3.12.1" class="anchored" data-anchor-id="detecting-missing-data"><span class="header-section-number">3.12.1</span> Detecting Missing Data</h3>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for any missing values</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">any</span>()        <span class="co"># Any missing per column?</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()        <span class="co"># Count missing per column</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>().<span class="bu">sum</span>()  <span class="co"># Total missing values</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check specific column</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].isnull()       <span class="co"># Boolean mask</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].isnull().<span class="bu">sum</span>() <span class="co"># Count</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="removing-missing-data" class="level3" data-number="3.12.2">
+<h3 data-number="3.12.2" class="anchored" data-anchor-id="removing-missing-data"><span class="header-section-number">3.12.2</span> Removing Missing Data</h3>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with any missing values</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df.dropna()</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows with missing values in specific columns</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df.dropna(subset<span class="op">=</span>[<span class="st">'Age'</span>, <span class="st">'City'</span>])</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop columns with any missing values</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df.dropna(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop rows where all values are missing</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>df_clean <span class="op">=</span> df.dropna(how<span class="op">=</span><span class="st">'all'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="filling-missing-data" class="level3" data-number="3.12.3">
+<h3 data-number="3.12.3" class="anchored" data-anchor-id="filling-missing-data"><span class="header-section-number">3.12.3</span> Filling Missing Data</h3>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill with a specific value</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].fillna(<span class="dv">0</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill with mean</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].fillna(df[<span class="st">'Age'</span>].mean())</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill with median</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].fillna(df[<span class="st">'Age'</span>].median())</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Forward fill (use previous value)</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].fillna(method<span class="op">=</span><span class="st">'ffill'</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Backward fill (use next value)</span></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].fillna(method<span class="op">=</span><span class="st">'bfill'</span>)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill with interpolation</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].interpolate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="practical-example-cleaning-pedestrian-data" class="level3" data-number="3.12.4">
+<h3 data-number="3.12.4" class="anchored" data-anchor-id="practical-example-cleaning-pedestrian-data"><span class="header-section-number">3.12.4</span> Practical Example: Cleaning Pedestrian Data</h3>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Missing values per column:"</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pedestrians.isnull().<span class="bu">sum</span>())</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Count-specific cleaning</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: Remove rows with missing counts</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>pedestrians_clean <span class="op">=</span> pedestrians.dropna(subset<span class="op">=</span>[<span class="st">'count'</span>])</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: Fill with median (more robust than mean for outliers)</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>median_count <span class="op">=</span> pedestrians[<span class="st">'count'</span>].median()</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'count'</span>].fillna(median_count, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 3: Forward fill for time series data</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>pedestrians_sorted <span class="op">=</span> pedestrians.sort_values([<span class="st">'location'</span>, <span class="st">'datetime'</span>])</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>pedestrians_sorted[<span class="st">'count'</span>].fillna(method<span class="op">=</span><span class="st">'ffill'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill location names</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'location'</span>].fillna(<span class="st">'Unknown'</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify cleaning</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">After cleaning:"</span>)</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pedestrians.isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="merging-and-joining-dataframes" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="merging-and-joining-dataframes"><span class="header-section-number">3.13</span> Merging and Joining DataFrames</h2>
+<p>Combining data from multiple sources is common in geospatial analysis.</p>
+<section id="types-of-joins" class="level3" data-number="3.13.1">
+<h3 data-number="3.13.1" class="anchored" data-anchor-id="types-of-joins"><span class="header-section-number">3.13.1</span> Types of Joins</h3>
+<div id="fig-join-types" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-join-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/joinimages.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-join-types-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Different types of joins
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><strong>Inner</strong>: Only matching rows from both DataFrames</li>
+<li><strong>Left</strong>: All rows from left DataFrame, matching from right</li>
+<li><strong>Right</strong>: All rows from right DataFrame, matching from left</li>
+<li><strong>Outer</strong>: All rows from both DataFrames</li>
+</ul>
+</section>
+<section id="merge-example" class="level3" data-number="3.13.2">
+<h3 data-number="3.13.2" class="anchored" data-anchor-id="merge-example"><span class="header-section-number">3.13.2</span> Merge Example</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create two DataFrames</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ID'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>],</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Name'</span>: [<span class="st">'Tom'</span>, <span class="st">'Nick'</span>, <span class="st">'Krish'</span>, <span class="st">'Jack'</span>],</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: [<span class="dv">20</span>, <span class="dv">21</span>, <span class="dv">19</span>, <span class="dv">18</span>]</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ID'</span>: [<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>],</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Subject'</span>: [<span class="st">'Maths'</span>, <span class="st">'English'</span>, <span class="st">'Science'</span>, <span class="st">'History'</span>],</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Score'</span>: [<span class="dv">88</span>, <span class="dv">75</span>, <span class="dv">90</span>, <span class="dv">85</span>]</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Inner join (only matching IDs: 3, 4)</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>inner <span class="op">=</span> pd.merge(df1, df2, on<span class="op">=</span><span class="st">'ID'</span>, how<span class="op">=</span><span class="st">'inner'</span>)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Left join (all from df1)</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>left <span class="op">=</span> pd.merge(df1, df2, on<span class="op">=</span><span class="st">'ID'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Outer join (all from both)</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>outer <span class="op">=</span> pd.merge(df1, df2, on<span class="op">=</span><span class="st">'ID'</span>, how<span class="op">=</span><span class="st">'outer'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="practical-example-combining-pedestrian-and-location-data" class="level3" data-number="3.13.3">
+<h3 data-number="3.13.3" class="anchored" data-anchor-id="practical-example-combining-pedestrian-and-location-data"><span class="header-section-number">3.13.3</span> Practical Example: Combining Pedestrian and Location Data</h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pedestrian counts</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'location_id'</span>: [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>],</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'hour'</span>: [<span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">9</span>],</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'count'</span>: [<span class="dv">150</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">350</span>, <span class="dv">100</span>, <span class="dv">120</span>]</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Location details</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>locations <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'location_id'</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>],</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'location_name'</span>: [<span class="st">'Queen St'</span>, <span class="st">'Karangahape Rd'</span>, <span class="st">'Ponsonby Rd'</span>, <span class="st">'Broadway'</span>],</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'district'</span>: [<span class="st">'CBD'</span>, <span class="st">'CBD'</span>, <span class="st">'Ponsonby'</span>, <span class="st">'Newmarket'</span>]</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge to add location names</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>merged <span class="op">=</span> pd.merge(counts, locations, on<span class="op">=</span><span class="st">'location_id'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(merged)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="data-visualisation" class="level2" data-number="3.14">
+<h2 data-number="3.14" class="anchored" data-anchor-id="data-visualisation"><span class="header-section-number">3.14</span> Data Visualisation</h2>
+<section id="built-in-pandas-plotting" class="level3" data-number="3.14.1">
+<h3 data-number="3.14.1" class="anchored" data-anchor-id="built-in-pandas-plotting"><span class="header-section-number">3.14.1</span> Built-in Pandas Plotting</h3>
+<p>Pandas DataFrames have built-in plotting methods using matplotlib:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Line plot</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].plot()</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Age Distribution'</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Age'</span>].plot(kind<span class="op">=</span><span class="st">'hist'</span>, bins<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Age Histogram'</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>city_counts <span class="op">=</span> df[<span class="st">'City'</span>].value_counts()</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>city_counts.plot(kind<span class="op">=</span><span class="st">'bar'</span>)</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Count by City'</span>)</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot</span></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>df.boxplot(column<span class="op">=</span><span class="st">'Age'</span>, by<span class="op">=</span><span class="st">'City'</span>)</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="using-seaborn" class="level3" data-number="3.14.2">
+<h3 data-number="3.14.2" class="anchored" data-anchor-id="using-seaborn"><span class="header-section-number">3.14.2</span> Using Seaborn</h3>
+<p>Seaborn provides more attractive statistical visualisations:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set style</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">'whitegrid'</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram with KDE</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>sns.histplot(df[<span class="st">'Age'</span>], kde<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Age Distribution'</span>)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Box plot</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'City'</span>, y<span class="op">=</span><span class="st">'Age'</span>)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Age by City'</span>)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>df, x<span class="op">=</span><span class="st">'Age'</span>, y<span class="op">=</span><span class="st">'Score'</span>, hue<span class="op">=</span><span class="st">'City'</span>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Age vs Score by City'</span>)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="practical-example-visualising-pedestrian-patterns" class="level3" data-number="3.14.3">
+<h3 data-number="3.14.3" class="anchored" data-anchor-id="practical-example-visualising-pedestrian-patterns"><span class="header-section-number">3.14.3</span> Practical Example: Visualising Pedestrian Patterns</h3>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set style</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">'whitegrid'</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Time series of counts</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>hourly_avg <span class="op">=</span> pedestrians.groupby(<span class="st">'hour'</span>)[<span class="st">'count'</span>].mean()</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>hourly_avg.plot()</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Pedestrian Count by Hour'</span>)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Hour of Day'</span>)</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Average Count'</span>)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Compare weekday vs weekend</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>pedestrians.boxplot(column<span class="op">=</span><span class="st">'count'</span>, by<span class="op">=</span><span class="st">'is_weekend'</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Pedestrian Count: Weekday vs Weekend'</span>)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">''</span>)  <span class="co"># Remove default title</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Is Weekend'</span>)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Count'</span>)</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Heatmap of location x hour</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>pivot_data <span class="op">=</span> pedestrians.pivot_table(</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'count'</span>,</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="st">'location'</span>,</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span><span class="st">'hour'</span>,</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>    aggfunc<span class="op">=</span><span class="st">'mean'</span></span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">6</span>))</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>sns.heatmap(pivot_data, cmap<span class="op">=</span><span class="st">'YlOrRd'</span>, cbar_kws<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Average Count'</span>})</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Pedestrian Count by Location and Hour'</span>)</span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Hour of Day'</span>)</span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Location'</span>)</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Compare time periods</span></span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a>period_stats <span class="op">=</span> pedestrians.groupby(<span class="st">'time_period'</span>)[<span class="st">'count'</span>].mean().sort_values()</span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a>period_stats.plot(kind<span class="op">=</span><span class="st">'barh'</span>, color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
+<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Average Pedestrian Count by Time Period'</span>)</span>
+<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Average Count'</span>)</span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Time Period'</span>)</span>
+<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="practical-workflow-example" class="level2" data-number="3.15">
+<h2 data-number="3.15" class="anchored" data-anchor-id="practical-workflow-example"><span class="header-section-number">3.15</span> Practical Workflow Example</h2>
+<p>Here’s a complete workflow analysing Auckland pedestrian data:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Read and explore data</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>pedestrians <span class="op">=</span> pd.read_csv(<span class="st">'auckland_pedestrian_counts.csv'</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dataset shape:"</span>, pedestrians.shape)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">First few rows:"</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pedestrians.head())</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Data cleaning</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Missing values:"</span>)</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pedestrians.isnull().<span class="bu">sum</span>())</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill missing counts with median</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'count'</span>].fillna(pedestrians[<span class="st">'count'</span>].median(), inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove any remaining rows with critical missing data</span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a>pedestrians.dropna(subset<span class="op">=</span>[<span class="st">'location'</span>, <span class="st">'datetime'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Feature engineering</span></span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert datetime</span></span>
+<span id="cb38-24"><a href="#cb38-24" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'datetime'</span>] <span class="op">=</span> pd.to_datetime(pedestrians[<span class="st">'datetime'</span>])</span>
+<span id="cb38-25"><a href="#cb38-25" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'hour'</span>] <span class="op">=</span> pedestrians[<span class="st">'datetime'</span>].dt.hour</span>
+<span id="cb38-26"><a href="#cb38-26" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'day_of_week'</span>] <span class="op">=</span> pedestrians[<span class="st">'datetime'</span>].dt.dayofweek</span>
+<span id="cb38-27"><a href="#cb38-27" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'is_weekend'</span>] <span class="op">=</span> pedestrians[<span class="st">'day_of_week'</span>] <span class="op">&gt;=</span> <span class="dv">5</span></span>
+<span id="cb38-28"><a href="#cb38-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-29"><a href="#cb38-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Create time period categories</span></span>
+<span id="cb38-30"><a href="#cb38-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_time(hour):</span>
+<span id="cb38-31"><a href="#cb38-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="dv">6</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">9</span>:</span>
+<span id="cb38-32"><a href="#cb38-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Morning Rush'</span></span>
+<span id="cb38-33"><a href="#cb38-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">9</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">12</span>:</span>
+<span id="cb38-34"><a href="#cb38-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Morning'</span></span>
+<span id="cb38-35"><a href="#cb38-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">12</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">14</span>:</span>
+<span id="cb38-36"><a href="#cb38-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Lunch'</span></span>
+<span id="cb38-37"><a href="#cb38-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">14</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">17</span>:</span>
+<span id="cb38-38"><a href="#cb38-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Afternoon'</span></span>
+<span id="cb38-39"><a href="#cb38-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="dv">17</span> <span class="op">&lt;=</span> hour <span class="op">&lt;</span> <span class="dv">20</span>:</span>
+<span id="cb38-40"><a href="#cb38-40" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Evening Rush'</span></span>
+<span id="cb38-41"><a href="#cb38-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb38-42"><a href="#cb38-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Night'</span></span>
+<span id="cb38-43"><a href="#cb38-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-44"><a href="#cb38-44" aria-hidden="true" tabindex="-1"></a>pedestrians[<span class="st">'time_period'</span>] <span class="op">=</span> pedestrians[<span class="st">'hour'</span>].<span class="bu">apply</span>(classify_time)</span>
+<span id="cb38-45"><a href="#cb38-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-46"><a href="#cb38-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Analysis</span></span>
+<span id="cb38-47"><a href="#cb38-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Find busiest locations</span></span>
+<span id="cb38-48"><a href="#cb38-48" aria-hidden="true" tabindex="-1"></a>busiest_locations <span class="op">=</span> pedestrians.groupby(<span class="st">'location'</span>)[<span class="st">'count'</span>].agg([</span>
+<span id="cb38-49"><a href="#cb38-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mean'</span>, <span class="st">'median'</span>, <span class="st">'max'</span>, <span class="st">'count'</span></span>
+<span id="cb38-50"><a href="#cb38-50" aria-hidden="true" tabindex="-1"></a>]).sort_values(<span class="st">'mean'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb38-51"><a href="#cb38-51" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Busiest locations:"</span>)</span>
+<span id="cb38-52"><a href="#cb38-52" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(busiest_locations.head())</span>
+<span id="cb38-53"><a href="#cb38-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-54"><a href="#cb38-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare weekday vs weekend</span></span>
+<span id="cb38-55"><a href="#cb38-55" aria-hidden="true" tabindex="-1"></a>day_type_stats <span class="op">=</span> pedestrians.groupby(<span class="st">'is_weekend'</span>)[<span class="st">'count'</span>].agg([</span>
+<span id="cb38-56"><a href="#cb38-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">'mean'</span>, <span class="st">'median'</span>, <span class="st">'std'</span></span>
+<span id="cb38-57"><a href="#cb38-57" aria-hidden="true" tabindex="-1"></a>]).<span class="bu">round</span>(<span class="dv">0</span>)</span>
+<span id="cb38-58"><a href="#cb38-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Weekday vs Weekend:"</span>)</span>
+<span id="cb38-59"><a href="#cb38-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(day_type_stats)</span>
+<span id="cb38-60"><a href="#cb38-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-61"><a href="#cb38-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Peak hours by location</span></span>
+<span id="cb38-62"><a href="#cb38-62" aria-hidden="true" tabindex="-1"></a>peak_hours <span class="op">=</span> pedestrians.groupby(<span class="st">'location'</span>).<span class="bu">apply</span>(</span>
+<span id="cb38-63"><a href="#cb38-63" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: x.loc[x[<span class="st">'count'</span>].idxmax(), [<span class="st">'hour'</span>, <span class="st">'count'</span>]]</span>
+<span id="cb38-64"><a href="#cb38-64" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-65"><a href="#cb38-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Peak hours by location:"</span>)</span>
+<span id="cb38-66"><a href="#cb38-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(peak_hours)</span>
+<span id="cb38-67"><a href="#cb38-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-68"><a href="#cb38-68" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Visualisation</span></span>
+<span id="cb38-69"><a href="#cb38-69" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">10</span>))</span>
+<span id="cb38-70"><a href="#cb38-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-71"><a href="#cb38-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Hourly pattern</span></span>
+<span id="cb38-72"><a href="#cb38-72" aria-hidden="true" tabindex="-1"></a>hourly_avg <span class="op">=</span> pedestrians.groupby(<span class="st">'hour'</span>)[<span class="st">'count'</span>].mean()</span>
+<span id="cb38-73"><a href="#cb38-73" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(hourly_avg.index, hourly_avg.values, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb38-74"><a href="#cb38-74" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">'Average Count by Hour'</span>)</span>
+<span id="cb38-75"><a href="#cb38-75" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Hour of Day'</span>)</span>
+<span id="cb38-76"><a href="#cb38-76" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Average Count'</span>)</span>
+<span id="cb38-77"><a href="#cb38-77" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb38-78"><a href="#cb38-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-79"><a href="#cb38-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Top locations</span></span>
+<span id="cb38-80"><a href="#cb38-80" aria-hidden="true" tabindex="-1"></a>top_10 <span class="op">=</span> busiest_locations.head(<span class="dv">10</span>)[<span class="st">'mean'</span>]</span>
+<span id="cb38-81"><a href="#cb38-81" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].barh(<span class="bu">range</span>(<span class="bu">len</span>(top_10)), top_10.values)</span>
+<span id="cb38-82"><a href="#cb38-82" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(top_10)))</span>
+<span id="cb38-83"><a href="#cb38-83" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_yticklabels(top_10.index)</span>
+<span id="cb38-84"><a href="#cb38-84" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">'Top 10 Busiest Locations'</span>)</span>
+<span id="cb38-85"><a href="#cb38-85" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'Average Count'</span>)</span>
+<span id="cb38-86"><a href="#cb38-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-87"><a href="#cb38-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Weekday vs weekend distribution</span></span>
+<span id="cb38-88"><a href="#cb38-88" aria-hidden="true" tabindex="-1"></a>pedestrians.boxplot(column<span class="op">=</span><span class="st">'count'</span>, by<span class="op">=</span><span class="st">'is_weekend'</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb38-89"><a href="#cb38-89" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">'Weekday vs Weekend Distribution'</span>)</span>
+<span id="cb38-90"><a href="#cb38-90" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Is Weekend'</span>)</span>
+<span id="cb38-91"><a href="#cb38-91" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Count'</span>)</span>
+<span id="cb38-92"><a href="#cb38-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-93"><a href="#cb38-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Time period comparison</span></span>
+<span id="cb38-94"><a href="#cb38-94" aria-hidden="true" tabindex="-1"></a>period_avg <span class="op">=</span> pedestrians.groupby(<span class="st">'time_period'</span>)[<span class="st">'count'</span>].mean().sort_values()</span>
+<span id="cb38-95"><a href="#cb38-95" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].barh(<span class="bu">range</span>(<span class="bu">len</span>(period_avg)), period_avg.values, color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
+<span id="cb38-96"><a href="#cb38-96" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(period_avg)))</span>
+<span id="cb38-97"><a href="#cb38-97" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_yticklabels(period_avg.index)</span>
+<span id="cb38-98"><a href="#cb38-98" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">'Average Count by Time Period'</span>)</span>
+<span id="cb38-99"><a href="#cb38-99" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'Average Count'</span>)</span>
+<span id="cb38-100"><a href="#cb38-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-101"><a href="#cb38-101" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb38-102"><a href="#cb38-102" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb38-103"><a href="#cb38-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-104"><a href="#cb38-104" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Export results</span></span>
+<span id="cb38-105"><a href="#cb38-105" aria-hidden="true" tabindex="-1"></a><span class="co"># Save cleaned data</span></span>
+<span id="cb38-106"><a href="#cb38-106" aria-hidden="true" tabindex="-1"></a>pedestrians.to_csv(<span class="st">'pedestrians_cleaned.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb38-107"><a href="#cb38-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-108"><a href="#cb38-108" aria-hidden="true" tabindex="-1"></a><span class="co"># Save summary statistics</span></span>
+<span id="cb38-109"><a href="#cb38-109" aria-hidden="true" tabindex="-1"></a>busiest_locations.to_csv(<span class="st">'location_summary.csv'</span>)</span>
+<span id="cb38-110"><a href="#cb38-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-111"><a href="#cb38-111" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Analysis complete!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="summary" class="level2" data-number="3.16">
+<h2 data-number="3.16" class="anchored" data-anchor-id="summary"><span class="header-section-number">3.16</span> Summary</h2>
+<p>In this section, you’ve learned:</p>
+<ul>
+<li><strong>Dictionaries</strong>: Key-value data structures and nested dictionaries</li>
+<li><strong>pandas basics</strong>: Creating and exploring DataFrames</li>
+<li><strong>Reading data</strong>: CSV, Excel, JSON files</li>
+<li><strong>Selecting data</strong>: Columns, rows, boolean indexing, query method</li>
+<li><strong>Data manipulation</strong>: Creating columns, transforming values</li>
+<li><strong>Grouping</strong>: Split-apply-combine for aggregated analysis</li>
+<li><strong>Reshaping</strong>: Melt and pivot for data format conversion</li>
+<li><strong>Missing data</strong>: Detection, removal, and imputation strategies</li>
+<li><strong>Merging</strong>: Combining DataFrames with different join types</li>
+<li><strong>Visualisation</strong>: Creating plots with pandas, matplotlib, and seaborn</li>
+<li><strong>Complete workflow</strong>: From raw data to insights and visualisations</li>
+</ul>
+</section>
+<section id="key-takeaways" class="level2" data-number="3.17">
+<h2 data-number="3.17" class="anchored" data-anchor-id="key-takeaways"><span class="header-section-number">3.17</span> Key Takeaways</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Essential Skills
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Groupby is powerful</strong>: Master it for aggregating and summarising data</li>
+<li><strong>Boolean indexing</strong>: The primary way to filter DataFrames</li>
+<li><strong>Handle missing data thoughtfully</strong>: Choose appropriate strategies (drop, fill, interpolate)</li>
+<li><strong>Merge strategically</strong>: Understand join types and use the appropriate one</li>
+<li><strong>Visualise early and often</strong>: Use plots to understand your data before deep analysis</li>
+<li><strong>Chain operations</strong>: Combine multiple operations for efficient data processing</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="practice-exercises" class="level2" data-number="3.18">
+<h2 data-number="3.18" class="anchored" data-anchor-id="practice-exercises"><span class="header-section-number">3.18</span> Practice Exercises</h2>
+<ol type="1">
+<li><strong>Load and explore</strong> a pedestrian count dataset:
+<ul>
+<li>Read the CSV file</li>
+<li>Examine shape, columns, and data types</li>
+<li>Check for missing values</li>
+<li>Calculate basic statistics</li>
+</ul></li>
+<li><strong>Filter and aggregate</strong>:
+<ul>
+<li>Find all counts above a threshold</li>
+<li>Calculate average count by location</li>
+<li>Find the busiest hour of day</li>
+<li>Compare weekday vs weekend patterns</li>
+</ul></li>
+<li><strong>Create visualisations</strong>:
+<ul>
+<li>Line plot of hourly averages</li>
+<li>Bar chart of top 10 locations</li>
+<li>Box plot comparing time periods</li>
+<li>Heatmap of location × hour patterns</li>
+</ul></li>
+<li><strong>Handle missing data</strong>:
+<ul>
+<li>Identify columns with missing values</li>
+<li>Implement at least two different imputation strategies</li>
+<li>Compare results and document your choice</li>
+</ul></li>
+<li><strong>Merge datasets</strong>:
+<ul>
+<li>Combine pedestrian counts with location metadata</li>
+<li>Add weather data (temperature, rainfall) by date</li>
+<li>Analyse if weather affects pedestrian counts</li>
+</ul></li>
+</ol>
+</section>
+<section id="further-reading" class="level2" data-number="3.19">
+<h2 data-number="3.19" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">3.19</span> Further Reading</h2>
+<ul>
+<li><a href="https://pandas.pydata.org/docs/">Pandas Documentation</a></li>
+<li><a href="https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf">Pandas Cheat Sheet</a></li>
+<li><a href="https://jakevdp.github.io/PythonDataScienceHandbook/">Python Data Science Handbook</a></li>
+<li><a href="https://realpython.com/learning-paths/pandas-data-science/">Real Python Pandas Tutorials</a></li>
+</ul>
+</section>
+<section id="next-steps" class="level2" data-number="3.20">
+<h2 data-number="3.20" class="anchored" data-anchor-id="next-steps"><span class="header-section-number">3.20</span> Next Steps</h2>
+<p>With solid pandas skills, you’re ready to move on to geospatial data in <a href="2.3.geospatial.html" class="quarto-xref"><span>Chapter 4</span></a>, where you’ll learn to work with geographic information using geopandas—essentially pandas with spatial superpowers!</p>
 
 
 </section>
@@ -906,13 +1944,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./2.1.basic-python.html" class="pagination-link" aria-label="2.1 Basic Python">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">2.1 Basic Python</span>
+      <a href="./2.1.basic-python.html" class="pagination-link" aria-label="Basic Python">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Basic Python</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./2.3.geospatial.html" class="pagination-link" aria-label="2.3 Geospatial data">
-        <span class="nav-page-text">2.3 Geospatial data</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./2.3.geospatial.html" class="pagination-link" aria-label="Geospatial Data">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Geospatial Data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

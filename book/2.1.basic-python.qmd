@@ -1,4 +1,4 @@
-# Basic Python {#sec-basic-python}
+# 2.1. Basic Python {.unnumbered}
 
 ## Introduction
 

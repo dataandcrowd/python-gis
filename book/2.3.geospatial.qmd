@@ -1,4 +1,4 @@
-# Geospatial Data {#sec-geospatial}
+# 2.3. Geospatial Data {.unnumbered}
 
 ## Introduction
 
