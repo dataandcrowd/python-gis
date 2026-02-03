@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>week9-lab-guide-building-packages</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="week9-lab-guide-building-packages_files/libs/clipboard/clipboard.min.js"></script>
+<script src="week9-lab-guide-building-packages_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="week9-lab-guide-building-packages_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="week9-lab-guide-building-packages_files/libs/quarto-html/popper.min.js"></script>
+<script src="week9-lab-guide-building-packages_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="week9-lab-guide-building-packages_files/libs/quarto-html/anchor.min.js"></script>
+<link href="week9-lab-guide-building-packages_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="week9-lab-guide-building-packages_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="week9-lab-guide-building-packages_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="week9-lab-guide-building-packages_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="week9-lab-guide-building-packages_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="week-9-lab-building-your-first-python-package" class="level1">
+<h1>Week 9 Lab: Building Your First Python Package</h1>
+<p><strong>GISCI 343 - Week 9 Lab Activity</strong></p>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">🎯 Learning Objectives</h2>
+<p>By the end of this lab, you will: - Create a proper Python package structure using <code>uv</code> - Understand the <code>src/</code> layout and why it’s best practice - Configure package metadata in <code>pyproject.toml</code> - Build wheel and source distributions - Test your package locally before publishing - Prepare for next week’s TestPyPI publication</p>
+<p><strong>Time</strong>: 2 hours <strong>What you’ll build</strong>: <code>geohello-yourname</code> - a simple geospatial greeting package</p>
+<p><strong>Important</strong>: We will NOT publish to PyPI this week. Week 10 is for that!</p>
+<hr>
+</section>
+<section id="key-vocabulary" class="level2">
+<h2 class="anchored" data-anchor-id="key-vocabulary">📚 Key Vocabulary</h2>
+<p>Before we start, understand these terms:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Package</strong></td>
+<td>A collection of Python modules that can be installed and reused</td>
+</tr>
+<tr class="even">
+<td><strong>Module</strong></td>
+<td>A single <code>.py</code> file containing Python code</td>
+</tr>
+<tr class="odd">
+<td><strong>src/ layout</strong></td>
+<td>A package structure with code in a <code>src/</code> directory (best practice)</td>
+</tr>
+<tr class="even">
+<td><strong>Wheel</strong></td>
+<td>A pre-built package format (<code>.whl</code> file) that installs quickly</td>
+</tr>
+<tr class="odd">
+<td><strong>Source Distribution (sdist)</strong></td>
+<td>Package source code in <code>.tar.gz</code> format</td>
+</tr>
+<tr class="even">
+<td><strong>pyproject.toml</strong></td>
+<td>Configuration file that describes your package</td>
+</tr>
+<tr class="odd">
+<td><strong>Distribution</strong></td>
+<td>A packaged version of your code ready for installation</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="part-1-create-your-package-structure-20-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-create-your-package-structure-20-minutes">Part 1: Create Your Package Structure (20 minutes)</h2>
+<section id="step-1-initialize-a-new-library-project" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-initialize-a-new-library-project">Step 1: Initialize a New Library Project</h3>
+<p>Open your terminal and run:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/Documents/GISCI343  <span class="co"># Or wherever you keep course work</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--lib</span> geohello-yourname</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> geohello-yourname</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Replace <code>yourname</code></strong> with your actual name or student ID. Examples: - <code>geohello-alice</code> - <code>geohello-12345678</code> - <code>geohello-asmith</code></p>
+<p><strong>What just happened?</strong> - <code>uv init --lib</code> created a <strong>library</strong> project (code for others to use) - The <code>--lib</code> flag sets up the <code>src/</code> layout automatically - This is different from <code>uv init</code> which creates an application</p>
+<hr>
+</section>
+<section id="step-2-explore-the-created-structure" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-explore-the-created-structure">Step 2: Explore the Created Structure</h3>
+<p>Run:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-R</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should see:</p>
+<pre><code>.
+├── .git/                    # Git repository (version control)
+├── .python-version          # Python version for this project
+├── pyproject.toml           # Package configuration (IMPORTANT!)
+├── README.md                # Package description
+└── src/
+    └── geohello_yourname/   # Your package code goes here
+        ├── __init__.py      # Makes this directory a package
+        └── py.typed         # Indicates package has type hints</code></pre>
+<p><strong>✅ Checkpoint 1</strong>: Do you see this structure? If not, ask for help!</p>
+<hr>
+</section>
+<section id="step-3-understand-the-src-layout" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-understand-the-src-layout">Step 3: Understand the src/ Layout</h3>
+<p><strong>Question</strong>: Why is our code in <code>src/geohello_yourname/</code> instead of just <code>geohello_yourname/</code>?</p>
+<p><strong>Answer</strong>: The <code>src/</code> layout is best practice because: 1. <strong>Forces you to install the package</strong> - can’t accidentally import from local directory 2. <strong>Catches import errors</strong> - ensures package structure is correct 3. <strong>Cleaner testing</strong> - separates source code from tests 4. <strong>Industry standard</strong> - professional packages use this layout</p>
+<p><strong>Key files</strong>: - <code>src/geohello_yourname/__init__.py</code> - Code here is available when someone imports your package - <code>pyproject.toml</code> - Package metadata and configuration - <code>README.md</code> - Documentation shown on PyPI</p>
+<hr>
+</section>
+</section>
+<section id="part-2-write-your-package-code-15-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-write-your-package-code-15-minutes">Part 2: Write Your Package Code (15 minutes)</h2>
+<section id="step-4-add-your-first-function" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-add-your-first-function">Step 4: Add Your First Function</h3>
+<p>Open <code>src/geohello_yourname/__init__.py</code> in your editor (Positron, VS Code, etc.)</p>
+<p><strong>Replace</strong> all content with:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""A simple geospatial greeting library for urban analytics."""</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>__version__ <span class="op">=</span> <span class="st">"0.1.0"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hello(place: <span class="bu">str</span> <span class="op">=</span> <span class="st">"Auckland"</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Generate a greeting for a specific place.</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">    This is a simple example function for learning Python packaging.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">    In your Assignment 3 package, you'll have much more complex</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">    geospatial functions!</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">    place : str, optional</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">        The location to greet from, by default "Auckland"</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">    str</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">        A greeting message</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">    Examples</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">    --------</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">    &gt;&gt;&gt; hello()</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">    'Hello from Auckland!'</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">    &gt;&gt;&gt; hello("Tokyo")</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">    'Hello from Tokyo!'</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"Hello from </span><span class="sc">{</span>place<span class="sc">}</span><span class="ss">!"</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> greeting_with_coords(place: <span class="bu">str</span>, lat: <span class="bu">float</span>, lon: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co">    Generate a greeting with coordinates.</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co">    place : str</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="co">        The place name</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="co">    lat : float</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="co">        Latitude</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co">    lon : float</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">        Longitude</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a><span class="co">    str</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="co">        Greeting with coordinates</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">    Examples</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">    --------</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">    &gt;&gt;&gt; greeting_with_coords("Auckland", -36.8485, 174.7633)</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a><span class="co">    'Hello from Auckland at (-36.8485, 174.7633)!'</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"Hello from </span><span class="sc">{</span>place<span class="sc">}</span><span class="ss"> at (</span><span class="sc">{</span>lat<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>lon<span class="sc">}</span><span class="ss">)!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Save the file.</strong></p>
+<p><strong>💡 Notice</strong>: - We defined <code>__version__</code> - this will be your package version number - We wrote <strong>docstrings</strong> - documentation for each function - We used <strong>type hints</strong> - <code>place: str</code>, <code>-&gt; str</code> - We included <strong>examples</strong> - helps users understand how to use functions</p>
+<hr>
+</section>
+<section id="step-5-test-locally-before-building" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-test-locally-before-building">Step 5: Test Locally (Before Building)</h3>
+<p>Let’s make sure your code works before building:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"import geohello_yourname; print(geohello_yourname.hello())"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Expected output</strong>:</p>
+<pre><code>Hello from Auckland!</code></pre>
+<p><strong>Try with a custom place</strong>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"import geohello_yourname; print(geohello_yourname.hello('Paris'))"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Expected output</strong>:</p>
+<pre><code>Hello from Paris!</code></pre>
+<p><strong>Try the coordinates function</strong>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"import geohello_yourname; print(geohello_yourname.greeting_with_coords('Auckland', -36.8485, 174.7633))"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Expected output</strong>:</p>
+<pre><code>Hello from Auckland at (-36.8485, 174.7633)!</code></pre>
+<p><strong>✅ Checkpoint 2</strong>: All three commands work? Great! If not, check for typos.</p>
+<hr>
+</section>
+</section>
+<section id="part-3-configure-package-metadata-20-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-configure-package-metadata-20-minutes">Part 3: Configure Package Metadata (20 minutes)</h2>
+<section id="step-6-edit-pyproject.toml" class="level3">
+<h3 class="anchored" data-anchor-id="step-6-edit-pyproject.toml">Step 6: Edit pyproject.toml</h3>
+<p>Open <code>pyproject.toml</code> in your editor. You’ll see something like:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">"geohello-yourname"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">"0.1.0"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">"Add your description here"</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="dt">readme</span> <span class="op">=</span> <span class="st">"README.md"</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="dt">requires-python</span> <span class="op">=</span> <span class="st">"&gt;=3.9"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Update it to</strong>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">"geohello-yourname"</span>         <span class="co"># CHANGE: Use your actual name/ID</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">"0.1.0"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">"A simple geospatial greeting library for learning Python packaging"</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="dt">readme</span> <span class="op">=</span> <span class="st">"README.md"</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="dt">requires-python</span> <span class="op">=</span> <span class="st">"&gt;=3.9"</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="dt">authors</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">{ </span><span class="dt">name</span><span class="op"> =</span> <span class="st">"Your Name"</span><span class="op">, </span><span class="dt">email</span><span class="op"> =</span> <span class="st">"your.email@auckland.ac.nz"</span><span class="op"> }</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="dt">keywords</span> <span class="op">=</span> <span class="op">[</span><span class="st">"geospatial"</span><span class="op">,</span> <span class="st">"urban-analytics"</span><span class="op">,</span> <span class="st">"learning"</span><span class="op">]</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="dt">classifiers</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Development Status :: 3 - Alpha"</span><span class="op">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Intended Audience :: Education"</span><span class="op">,</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Programming Language :: Python :: 3"</span><span class="op">,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Programming Language :: Python :: 3.9"</span><span class="op">,</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Programming Language :: Python :: 3.10"</span><span class="op">,</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Programming Language :: Python :: 3.11"</span><span class="op">,</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.urls]</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="dt">Homepage</span> <span class="op">=</span> <span class="st">"https://github.com/yourusername/geohello-yourname"</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="dt">Repository</span> <span class="op">=</span> <span class="st">"https://github.com/yourusername/geohello-yourname"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Important changes</strong>: 1. <strong>name</strong>: Must match your folder name 2. <strong>description</strong>: Short summary (appears on PyPI) 3. <strong>authors</strong>: Your name and email 4. <strong>keywords</strong>: Help people find your package 5. <strong>classifiers</strong>: Categorize your package 6. <strong>urls</strong>: Links to your code (update when you create GitHub repo)</p>
+<hr>
+</section>
+<section id="understanding-pyproject.toml-fields" class="level3">
+<h3 class="anchored" data-anchor-id="understanding-pyproject.toml-fields">Understanding pyproject.toml Fields</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name</code></td>
+<td>Package name (must be unique on PyPI)</td>
+<td><code>"geohello-alice"</code></td>
+</tr>
+<tr class="even">
+<td><code>version</code></td>
+<td>Current version (semantic versioning)</td>
+<td><code>"0.1.0"</code></td>
+</tr>
+<tr class="odd">
+<td><code>description</code></td>
+<td>One-line summary</td>
+<td><code>"A greeting library"</code></td>
+</tr>
+<tr class="even">
+<td><code>readme</code></td>
+<td>Long description file</td>
+<td><code>"README.md"</code></td>
+</tr>
+<tr class="odd">
+<td><code>requires-python</code></td>
+<td>Minimum Python version</td>
+<td><code>"&gt;=3.9"</code></td>
+</tr>
+<tr class="even">
+<td><code>dependencies</code></td>
+<td>Required packages</td>
+<td><code>["geopandas", "shapely"]</code></td>
+</tr>
+<tr class="odd">
+<td><code>authors</code></td>
+<td>Package creators</td>
+<td><code>[{name = "Alice"}]</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>For Assignment 3</strong>, you’ll add dependencies like:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geopandas&gt;=0.14.0"</span><span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"shapely&gt;=2.0.0"</span><span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pandas&gt;=2.0.0"</span><span class="op">,</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="step-7-improve-your-readme" class="level3">
+<h3 class="anchored" data-anchor-id="step-7-improve-your-readme">Step 7: Improve Your README</h3>
+<p>Open <code>README.md</code> and replace content with:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># GeoHello</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>A simple Python package for generating geospatial greetings.</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>This package was created as part of GISCI 343 (Python for Urban Analytics) at the University of Auckland to learn Python packaging and publishing workflows.</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installation</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>**Note**: This package is not yet published. Installation instructions will be added after Week 10.</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>For now, install locally:</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/yourusername/geohello-yourname</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> geohello-yourname</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="quick-start" class="level2">
+<h2 class="anchored" data-anchor-id="quick-start">Quick Start</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geohello_yourname</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic greeting</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(geohello_yourname.hello())</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: Hello from Auckland!</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom place</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(geohello_yourname.hello(<span class="st">"Tokyo"</span>))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: Hello from Tokyo!</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># With coordinates</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(geohello_yourname.greeting_with_coords(<span class="st">"Auckland"</span>, <span class="op">-</span><span class="fl">36.8485</span>, <span class="fl">174.7633</span>))</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: Hello from Auckland at (-36.8485, 174.7633)!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="about" class="level2">
+<h2 class="anchored" data-anchor-id="about">About</h2>
+<p>Created for GISCI 343: Python for Urban Analytics University of Auckland, 2026</p>
+</section>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>MIT License (see LICENSE file)</p>
+<pre><code>
+**Why README matters**:
+- First thing people see on GitHub and PyPI
+- Explains how to install and use your package
+- For Assignment 3, this is critical for users to understand your urban analytics tools
+
+**✅ Checkpoint 3**: README updated? Good!
+
+---
+
+## Part 4: Build Your Package (25 minutes)
+
+### Step 8: Build Distributions
+
+Now for the exciting part - building your package!
+
+```bash
+uv build</code></pre>
+<p><strong>What happens</strong>: 1. uv reads <code>pyproject.toml</code> 2. Finds your code in <code>src/geohello_yourname/</code> 3. Creates two distribution formats: - <strong>Wheel</strong> (<code>.whl</code>) - pre-built, fast to install - <strong>Source distribution</strong> (<code>.tar.gz</code>) - source code, built during install</p>
+<p><strong>Expected output</strong>:</p>
+<pre><code>Building geohello-yourname
+  - Building wheel...
+  - Built geohello_yourname-0.1.0-py3-none-any.whl
+  - Building source distribution...
+  - Built geohello_yourname-0.1.0.tar.gz
+
+Successfully built geohello-yourname</code></pre>
+<hr>
+<section id="step-9-verify-build-outputs" class="level3">
+<h3 class="anchored" data-anchor-id="step-9-verify-build-outputs">Step 9: Verify Build Outputs</h3>
+<p>Check what was created:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> dist/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>You should see</strong>:</p>
+<pre><code>geohello_yourname-0.1.0-py3-none-any.whl
+geohello_yourname-0.1.0.tar.gz</code></pre>
+<p><strong>Understanding the wheel filename</strong>: - <code>geohello_yourname</code> - your package name - <code>0.1.0</code> - version number - <code>py3</code> - Python 3 compatible - <code>none</code> - no specific ABI - <code>any</code> - works on any platform (Windows, Mac, Linux)</p>
+<p>This means your package is <strong>pure Python</strong> and platform-independent!</p>
+<hr>
+</section>
+<section id="step-10-understanding-whats-inside" class="level3">
+<h3 class="anchored" data-anchor-id="step-10-understanding-whats-inside">Step 10: Understanding What’s Inside</h3>
+<p>Let’s peek inside the wheel:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> <span class="at">-l</span> dist/geohello_yourname-0.1.0-py3-none-any.whl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>You’ll see</strong>:</p>
+<pre><code>Archive:  dist/geohello_yourname-0.1.0-py3-none-any.whl
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+     xxxx  2026-05-11 13:00   geohello_yourname/__init__.py
+     xxxx  2026-05-11 13:00   geohello_yourname/py.typed
+     xxxx  2026-05-11 13:00   geohello_yourname-0.1.0.dist-info/METADATA
+     ...</code></pre>
+<p><strong>This is your packaged code</strong> ready to be installed anywhere!</p>
+<p><strong>✅ Checkpoint 4</strong>: Two files in <code>dist/</code>? Perfect!</p>
+<hr>
+</section>
+</section>
+<section id="part-5-test-installation-locally-30-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-test-installation-locally-30-minutes">Part 5: Test Installation Locally (30 minutes)</h2>
+<section id="step-11-create-a-test-environment" class="level3">
+<h3 class="anchored" data-anchor-id="step-11-create-a-test-environment">Step 11: Create a Test Environment</h3>
+<p>Let’s test if your package installs correctly. Create a <strong>separate</strong> test directory:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..  <span class="co"># Go back up one level</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> test-geohello-install</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> test-geohello-install</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Why separate directory?</strong> - Tests installation from scratch - Simulates a user downloading your package - Catches import errors you might miss in development environment</p>
+<hr>
+</section>
+<section id="step-12-install-your-package-locally" class="level3">
+<h3 class="anchored" data-anchor-id="step-12-install-your-package-locally">Step 12: Install Your Package Locally</h3>
+<p>Now install your package from the wheel you built:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--bare</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install ../geohello-yourname/dist/geohello_yourname-0.1.0-py3-none-any.whl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>What happens</strong>: 1. <code>uv init --bare</code> creates a minimal project 2. <code>uv pip install</code> installs your wheel file 3. Your package is now available to import!</p>
+<hr>
+</section>
+<section id="step-13-test-the-installed-package" class="level3">
+<h3 class="anchored" data-anchor-id="step-13-test-the-installed-package">Step 13: Test the Installed Package</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"import geohello_yourname; print(geohello_yourname.hello())"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Expected</strong>: <code>Hello from Auckland!</code></p>
+<p><strong>Try more tests</strong>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test custom place</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"import geohello_yourname; print(geohello_yourname.hello('Berlin'))"</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test coordinates function</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"import geohello_yourname; print(geohello_yourname.greeting_with_coords('Wellington', -41.2924, 174.7787))"</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check version</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"import geohello_yourname; print(geohello_yourname.__version__)"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>All working?</strong> 🎉 <strong>Your package is properly built!</strong></p>
+<hr>
+</section>
+<section id="step-14-interactive-testing" class="level3">
+<h3 class="anchored" data-anchor-id="step-14-interactive-testing">Step 14: Interactive Testing</h3>
+<p>Create a small test script:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'import geohello_yourname</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st"># Test all functions</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">print(geohello_yourname.hello())</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">print(geohello_yourname.hello("London"))</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">print(geohello_yourname.greeting_with_coords("Sydney", -33.8688, 151.2093))</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="st">print(f"Package version: {geohello_yourname.__version__}")</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="st">'</span> <span class="op">&gt;</span> test_package.py</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python test_package.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Expected output</strong>:</p>
+<pre><code>Hello from Auckland!
+Hello from London!
+Hello from Sydney at (-33.8688, 151.2093)!
+Package version: 0.1.0</code></pre>
+<p><strong>✅ Checkpoint 5</strong>: Everything works? Excellent!</p>
+<hr>
+</section>
+</section>
+<section id="part-6-version-control-20-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-6-version-control-20-minutes">Part 6: Version Control (20 minutes)</h2>
+<section id="step-15-initialize-git-repository" class="level3">
+<h3 class="anchored" data-anchor-id="step-15-initialize-git-repository">Step 15: Initialize Git Repository</h3>
+<p>Go back to your package directory:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../geohello-yourname</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Check if git is already initialized:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If not initialized (unlikely with <code>uv init</code>), run:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="step-16-create-.gitignore" class="level3">
+<h3 class="anchored" data-anchor-id="step-16-create-.gitignore">Step 16: Create .gitignore</h3>
+<p><strong>Important</strong>: Don’t commit build artifacts!</p>
+<p>Check if <code>.gitignore</code> exists:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .gitignore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If it doesn’t have these entries, add them:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">'# Python</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="st">__pycache__/</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="st">*.py[cod]</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="st">*$py.class</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="st">*.so</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="st">.Python</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="st">env/</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="st">venv/</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="st">.venv/</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="st"># Distribution / packaging</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="st">dist/</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="st">build/</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="st">*.egg-info/</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="st">.eggs/</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="st"># uv</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="st">.python-version</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="st"># IDEs</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="st">.vscode/</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="st">.idea/</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="st">*.swp</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a><span class="st"># OS</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a><span class="st">.DS_Store</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="st">Thumbs.db</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a><span class="st">'</span> <span class="op">&gt;&gt;</span> .gitignore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Why .gitignore?</strong> - <code>dist/</code> contains build artifacts (regenerated each build) - <code>__pycache__/</code> is temporary Python bytecode - These bloat your repository and cause conflicts</p>
+<hr>
+</section>
+<section id="step-17-make-your-first-commit" class="level3">
+<h3 class="anchored" data-anchor-id="step-17-make-your-first-commit">Step 17: Make Your First Commit</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial package structure for geohello</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="st">- Created package with uv init --lib</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="st">- Added hello() and greeting_with_coords() functions</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="st">- Configured pyproject.toml metadata</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="st">- Added comprehensive README</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="st">- Successfully built wheel and sdist</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>✅ Checkpoint 6</strong>: Commit successful? Great!</p>
+<hr>
+</section>
+<section id="step-18-create-github-repository-optional-but-recommended" class="level3">
+<h3 class="anchored" data-anchor-id="step-18-create-github-repository-optional-but-recommended">Step 18: Create GitHub Repository (Optional but Recommended)</h3>
+<ol type="1">
+<li>Go to https://github.com/new</li>
+<li>Repository name: <code>geohello-yourname</code></li>
+<li>Description: “A simple geospatial greeting library for learning Python packaging”</li>
+<li><strong>Public</strong> (required for PyPI)</li>
+<li><strong>Don’t</strong> initialize with README (you already have one)</li>
+<li>Create repository</li>
+</ol>
+<p>Then push your code:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> remote add origin https://github.com/YOUR-USERNAME/geohello-yourname.git</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> branch <span class="at">-M</span> main</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Update URLs in pyproject.toml</strong> with your actual GitHub URL.</p>
+<hr>
+</section>
+</section>
+<section id="part-7-reflection-and-next-steps-10-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-7-reflection-and-next-steps-10-minutes">Part 7: Reflection and Next Steps (10 minutes)</h2>
+<section id="what-you-accomplished-today" class="level3">
+<h3 class="anchored" data-anchor-id="what-you-accomplished-today">What You Accomplished Today</h3>
+<p>✅ Created a properly structured Python package ✅ Wrote functions with docstrings and type hints ✅ Configured package metadata in <code>pyproject.toml</code> ✅ Built wheel and source distributions ✅ Tested installation locally ✅ Version controlled your code with git ✅ (Optional) Published code to GitHub</p>
+<p><strong>This is a complete, working Python package!</strong> Just not published yet.</p>
+<hr>
+</section>
+<section id="week-9-lab-submission-due-end-of-week-9-or-friday-15-may-5pm" class="level3">
+<h3 class="anchored" data-anchor-id="week-9-lab-submission-due-end-of-week-9-or-friday-15-may-5pm">Week 9 Lab Submission (Due: End of Week 9 or Friday 15 May, 5pm)</h3>
+<p>Submit to Canvas:</p>
+<ol type="1">
+<li><strong>Screenshot 1</strong>: Successful <code>uv build</code> output showing both <code>.whl</code> and <code>.tar.gz</code> created</li>
+<li><strong>Screenshot 2</strong>: Successful import test: <code>uv run python -c "import geohello_yourname; print(geohello_yourname.hello())"</code></li>
+<li><strong>Screenshot 3</strong>: <code>ls dist/</code> showing your two distribution files</li>
+<li><strong>Reflection</strong> (100-150 words):
+<ul>
+<li>What did you learn about Python package structure?</li>
+<li>What surprised you?</li>
+<li>How will this help with Assignment 3?</li>
+</ul></li>
+</ol>
+<p><strong>Grading</strong>: Completion credit (ungraded, but required for Week 10)</p>
+<hr>
+</section>
+<section id="whats-next-week-10" class="level3">
+<h3 class="anchored" data-anchor-id="whats-next-week-10">What’s Next: Week 10</h3>
+<p>Next week we’ll add: - <strong>Tests</strong> with pytest - <strong>Documentation</strong> with proper docstrings - <strong>Publication</strong> to TestPyPI - <strong>Verification</strong> of installation from TestPyPI</p>
+<p><strong>Preparation for Week 10</strong>: - [ ] Create TestPyPI account: https://test.pypi.org/account/register/ - [ ] Verify email address - [ ] Keep your <code>geohello-yourname</code> package - we’ll use it next week!</p>
+<hr>
+</section>
+</section>
+<section id="understanding-check-self-quiz" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-check-self-quiz">🎓 Understanding Check (Self-Quiz)</h2>
+<p>Test your understanding:</p>
+<ol type="1">
+<li><strong>What’s the difference between a wheel and source distribution?</strong>
+<details>
+<summary>
+Answer
+</summary>
+Wheel (.whl) is pre-built and installs fast. Source distribution (.tar.gz) contains source code that’s built during installation.
+</details></li>
+<li><strong>Why do we use the src/ layout?</strong>
+<details>
+<summary>
+Answer
+</summary>
+Forces proper installation, catches import errors, separates source from tests, industry standard.
+</details></li>
+<li><strong>What does pyproject.toml do?</strong>
+<details>
+<summary>
+Answer
+</summary>
+Describes package metadata (name, version, dependencies, authors) and configuration for build tools.
+</details></li>
+<li><strong>Why test installation in a separate directory?</strong>
+<details>
+<summary>
+Answer
+</summary>
+Simulates a fresh user environment, catches packaging errors you might miss in development directory.
+</details></li>
+<li><strong>What would happen if we forgot <code>__init__.py</code>?</strong>
+<details>
+<summary>
+Answer
+</summary>
+Python wouldn’t recognize the directory as a package - imports would fail.
+</details></li>
+</ol>
+<hr>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">🆘 Troubleshooting</h2>
+<section id="problem-modulenotfounderror-no-module-named-geohello_yourname" class="level3">
+<h3 class="anchored" data-anchor-id="problem-modulenotfounderror-no-module-named-geohello_yourname">Problem: “ModuleNotFoundError: No module named ‘geohello_yourname’”</h3>
+<p><strong>Solution</strong>: 1. Check you’re in the right directory: <code>pwd</code> 2. Try: <code>uv run python -c "import geohello_yourname"</code> (not just <code>python</code>) 3. Verify <code>__init__.py</code> exists: <code>ls src/geohello_yourname/</code></p>
+<hr>
+</section>
+<section id="problem-uv-build-fails-with-syntax-error" class="level3">
+<h3 class="anchored" data-anchor-id="problem-uv-build-fails-with-syntax-error">Problem: “uv build” fails with syntax error</h3>
+<p><strong>Solution</strong>: 1. Check your Python code for syntax errors 2. Test manually: <code>uv run python -c "import geohello_yourname"</code> 3. Fix any import errors before building</p>
+<hr>
+</section>
+<section id="problem-package-name-contains-hyphens-but-import-uses-underscores" class="level3">
+<h3 class="anchored" data-anchor-id="problem-package-name-contains-hyphens-but-import-uses-underscores">Problem: Package name contains hyphens but import uses underscores</h3>
+<p><strong>This is normal!</strong> - Package name (PyPI): <code>geohello-yourname</code> (hyphens OK) - Import name (Python): <code>geohello_yourname</code> (must use underscores) - Python converts hyphens to underscores automatically</p>
+<hr>
+</section>
+<section id="problem-dist-folder-doesnt-exist" class="level3">
+<h3 class="anchored" data-anchor-id="problem-dist-folder-doesnt-exist">Problem: “dist/” folder doesn’t exist</h3>
+<p><strong>Solution</strong>:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create it explicitly</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> dist</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="additional-resources" class="level2">
+<h2 class="anchored" data-anchor-id="additional-resources">📚 Additional Resources</h2>
+<p><strong>For deeper understanding</strong>: - Python Packaging Guide: https://packaging.python.org/ - uv documentation: https://docs.astral.sh/uv/ - PEP 621 (pyproject.toml): https://peps.python.org/pep-0621/ - Semantic Versioning: https://semver.org/</p>
+<p><strong>Example packages to study</strong>: - GeoPandas: https://github.com/geopandas/geopandas - Shapely: https://github.com/shapely/shapely - OSMnx: https://github.com/gboeing/osmnx</p>
+<hr>
+</section>
+<section id="thinking-ahead-assignment-3" class="level2">
+<h2 class="anchored" data-anchor-id="thinking-ahead-assignment-3">💡 Thinking Ahead: Assignment 3</h2>
+<p>Your Assignment 3 package will be similar in structure, but with: - <strong>More complex functions</strong> (geospatial analysis, not greetings!) - <strong>Dependencies</strong> (geopandas, shapely, etc.) - <strong>Multiple modules</strong> (e.g., <code>analysis.py</code>, <code>visualization.py</code>, <code>utils.py</code>) - <strong>Comprehensive tests</strong> (Week 10 topic) - <strong>Full documentation</strong> (Week 10 topic)</p>
+<p><strong>Example Assignment 3 structure</strong>:</p>
+<pre><code>escooter-analytics/
+├── pyproject.toml
+├── README.md
+├── LICENSE
+├── src/
+│   └── escooter_analytics/
+│       ├── __init__.py
+│       ├── trips.py          # Trip analysis functions
+│       ├── geofencing.py     # Geofence validation
+│       ├── networks.py       # Network analysis
+│       └── visualization.py  # Mapping functions
+├── tests/
+│   ├── test_trips.py
+│   ├── test_geofencing.py
+│   └── test_networks.py
+├── examples/
+│   └── demo.ipynb
+└── docs/
+    └── index.md</code></pre>
+<hr>
+<p><strong>Congratulations!</strong> 🎉 <strong>You’ve built your first Python package!</strong></p>
+<p><strong>Next week</strong>: Testing, documentation, and TestPyPI publication.</p>
+<hr>
+<p><strong>Last Updated</strong>: May 2026 <strong>Course</strong>: GISCI 343 - Python for Urban Analytics <strong>University of Auckland</strong></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
