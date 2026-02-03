@@ -570,7 +570,7 @@
     "href": "2.4.urban-analytics.html",
     "title": "2.4 Urban analytics indicators",
     "section": "",
-    "text": "Story problem\nAuckland: density and access that people can interpret",
+    "text": "What you will learn",
     "crumbs": [
       "Part 2: Geospatial Python",
       "2.4 Urban analytics indicators"
@@ -591,8 +591,8 @@
     "objectID": "2.4.urban-analytics.html#what-you-will-learn",
     "href": "2.4.urban-analytics.html#what-you-will-learn",
     "title": "2.4 Urban analytics indicators",
-    "section": "What you will learn",
-    "text": "What you will learn\n\nCompute interpretable Auckland indicators (density, access proxies).\nAggregate to zones and compare across space.\nExplain results with units and caveats.",
+    "section": "",
+    "text": "Compute interpretable Auckland indicators (density, access proxies)\nAggregate to zones and compare across space\nExplain results with units and caveats\nApply morphological analysis using momepy",
     "crumbs": [
       "Part 2: Geospatial Python",
       "2.4 Urban analytics indicators"
@@ -603,7 +603,7 @@
     "href": "2.4.urban-analytics.html#example-indicators",
     "title": "2.4 Urban analytics indicators",
     "section": "Example indicators",
-    "text": "Example indicators\n\nPopulation density per km²\nNearest park distance proxy\nOptional: network centrality",
+    "text": "Example indicators\nWe’ll explore three fundamental types of urban indicators:\n\nPopulation density – How many people live in an area?\nNearest park distance – How accessible is green space?\nNetwork centrality (optional) – Which streets are most important for movement?\n\nEach of these tells us something different about urban form and function. Let’s work through them systematically.",
     "crumbs": [
       "Part 2: Geospatial Python",
       "2.4 Urban analytics indicators"
@@ -1697,5 +1697,247 @@
     "title": "3.1 Web GIS, WASM, and Shiny",
     "section": "Seriously, which files should I use",
     "text": "Seriously, which files should I use\nIt is a classic WebGIS dilemma: GeoJSON is technically “worse” (larger, slower, memory-heavy) but “better” for the web.\n\nIn the area of Geographic Information Systems (GIS), the choice of data format significantly impacts data management, interoperability, and overall project efficiency.\n\nAccording to the Medium blog by Felipe Limeira (medium blog, Oct 2024), while GeoPackage (GPKG) is the superior choice for comprehensive data management and performance, GeoJSON remains the “de facto” standard for web applications and real-time data exchange.\nHere is why GeoJSON is still the king of the web despite being “clunky”:\n\nIt Speaks “Native” JavaScript The “JSON” in GeoJSON stands for JavaScript Object Notation. Because almost all WebGIS applications (Leaflet, Mapbox, OpenLayers) are built with JavaScript, GeoJSON is natively understood.\n\nNo “Translator” needed: To use a GeoPackage in a browser, you often need a complex library (like sql.js) to “read” the SQLite database. With GeoJSON, the browser just sees it as a standard JavaScript object. It’s ready to use the moment it’s downloaded.\n\nHuman-Readability & Debugging If a web map isn’t loading correctly, you can open a GeoJSON file in any text editor (or the browser console) and read it like a sentence.\n\nInstant Verification: You can see exactly which attribute is broken or where a coordinate is misplaced. You can’t do that with the binary “blob” of a GeoPackage or the multiple cryptic files of a Shapefile.\n\nWeb API Dominance Most modern web services (APIs) communicate via JSON. If you are building a WebGIS that pulls live weather data, transit locations, or social media check-ins, that data is almost certainly arriving as GeoJSON. It fits perfectly into the “REST API” architecture of the modern internet.\nVersion Control Friendly (GitHub) Because GeoJSON is text-based, it works beautifully with version control systems like Git.\n\nTrack Changes: You can see exactly which line (feature) changed in a “diff.” Binary formats like GPKG or SHP are “black boxes” to Git; if you change one coordinate, the whole file looks different to the system.\n\nSimplicity for Small Datasets For a map showing 50 coffee shop locations, the overhead of setting up a SQLite-based GeoPackage is overkill. A GeoJSON is a single, “dumb” file that “just works.”\n\n\n\n\n\n\n\n\n\n\nFormat\nDescription\nKey Strengths\nKey Limitations\n\n\n\n\nShapefile (.shp)\nHistorically the dominant vector format in GIS, now largely obsolete but still widely used in legacy systems and data portals.\nBroad software support; simple and familiar format.\n2 GB file size limit; fragmented across multiple files (.shp, .dbf, .shx, .prj); limited attribute typing and encoding support; no native support for topology or multiple layers.\n\n\nGeoPackage (.gpkg)\nAn OGC standard built on SQLite, optimised for efficient storage, indexing, and local spatial analysis.\nCompact single-file container; fast read and write performance; supports multiple layers and spatial indexing; strong support in desktop GIS and Python workflows.\nNot natively readable by web browsers; requires server-side processing or conversion for WebGIS delivery.\n\n\nGeoJSON (.geojson)\nA JSON-based vector format designed for interoperability and web-based data exchange.\nNative compatibility with JavaScript and web mapping libraries; human-readable and easy to debug; ideal for APIs and lightweight data delivery.\nLarger file size; slower parsing and higher memory use; inefficient for large datasets and complex geometries.\n\n\n\n\n\n\nVideo preview"
+  },
+  {
+    "objectID": "3.3.routing-and-congestion.html",
+    "href": "3.3.routing-and-congestion.html",
+    "title": "3.4 Routing and congestion concepts",
+    "section": "",
+    "text": "Story problem\nExplaining Auckland congestion in simple indicators",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.4 Routing and congestion concepts"
+    ]
+  },
+  {
+    "objectID": "3.3.routing-and-congestion.html#story-problem",
+    "href": "3.3.routing-and-congestion.html#story-problem",
+    "title": "3.4 Routing and congestion concepts",
+    "section": "",
+    "text": "You need measures that connect behaviour to congestion.\nYou choose a small set of indicators for clarity.\nYou prepare them for mapping and dashboard display.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.4 Routing and congestion concepts"
+    ]
+  },
+  {
+    "objectID": "3.3.routing-and-congestion.html#what-you-will-learn",
+    "href": "3.3.routing-and-congestion.html#what-you-will-learn",
+    "title": "3.4 Routing and congestion concepts",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nOrigin-to-destination framing and route choice.\nCongestion measures you can explain (V/C ratio, travel time index).\nHow to show congestion results on a map and in a table.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.4 Routing and congestion concepts"
+    ]
+  },
+  {
+    "objectID": "3.3.routing-and-congestion.html#notes",
+    "href": "3.3.routing-and-congestion.html#notes",
+    "title": "3.4 Routing and congestion concepts",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.4 Routing and congestion concepts"
+    ]
+  },
+  {
+    "objectID": "3.4.origin-destination.html",
+    "href": "3.4.origin-destination.html",
+    "title": "3.5 Origin–destination analysis",
+    "section": "",
+    "text": "Story problem\nWhere do people travel from and to?",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.5 Origin–destination analysis"
+    ]
+  },
+  {
+    "objectID": "3.4.origin-destination.html#story-problem",
+    "href": "3.4.origin-destination.html#story-problem",
+    "title": "3.5 Origin–destination analysis",
+    "section": "",
+    "text": "You build a simple OD table for Auckland zones.\nYou compute totals and top pairs.\nYou plan how to visualise it in the dashboard.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.5 Origin–destination analysis"
+    ]
+  },
+  {
+    "objectID": "3.4.origin-destination.html#what-you-will-learn",
+    "href": "3.4.origin-destination.html#what-you-will-learn",
+    "title": "3.5 Origin–destination analysis",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nRepresent OD pairs and aggregate by Auckland zones.\nProduce an OD summary table suitable for a dashboard.\nDesign one clear visual that communicates movement.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.5 Origin–destination analysis"
+    ]
+  },
+  {
+    "objectID": "3.4.origin-destination.html#notes",
+    "href": "3.4.origin-destination.html#notes",
+    "title": "3.5 Origin–destination analysis",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.5 Origin–destination analysis"
+    ]
+  },
+  {
+    "objectID": "3.5.networks.html",
+    "href": "3.5.networks.html",
+    "title": "3.6 Networks for GIS",
+    "section": "",
+    "text": "Story problem\nAuckland streets as a graph",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.6 Networks for GIS"
+    ]
+  },
+  {
+    "objectID": "3.5.networks.html#story-problem",
+    "href": "3.5.networks.html#story-problem",
+    "title": "3.6 Networks for GIS",
+    "section": "",
+    "text": "Nodes are intersections, edges are road segments.\nWeights encode travel time or distance.\nNetwork measures become inputs to mapping and dashboards.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.6 Networks for GIS"
+    ]
+  },
+  {
+    "objectID": "3.5.networks.html#what-you-will-learn",
+    "href": "3.5.networks.html#what-you-will-learn",
+    "title": "3.6 Networks for GIS",
+    "section": "What you will learn",
+    "text": "What you will learn\n\nGraph basics for streets and accessibility.\nRelate network concepts to routing and congestion.\nIdentify which network measures are worth teaching early.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.6 Networks for GIS"
+    ]
+  },
+  {
+    "objectID": "3.5.networks.html#notes",
+    "href": "3.5.networks.html#notes",
+    "title": "3.6 Networks for GIS",
+    "section": "Notes",
+    "text": "Notes\n\nAdd your narrative here.",
+    "crumbs": [
+      "Part 3: Shiny for Python and Web GIS",
+      "3.6 Networks for GIS"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#introduction",
+    "href": "2.4.urban-analytics.html#introduction",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Introduction",
+    "text": "Introduction\nUrban indicators are the building blocks of understanding how cities work. Think of them as the vital signs of urban life – just as a doctor measures heart rate and blood pressure, urban analysts measure density, accessibility, and connectivity to diagnose how well a city is functioning. In this chapter, we’ll focus on computing meaningful indicators for Auckland and learning how to interpret them responsibly.\nWhy does this matter? Well-chosen indicators can reveal patterns invisible to the naked eye: which neighbourhoods lack green space access, where pedestrian activity concentrates, or how street networks facilitate movement. These insights directly inform urban planning decisions – from where to build new parks to how to design low-emission zones (shin2022assessing?).",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#population-density-the-foundation",
+    "href": "2.4.urban-analytics.html#population-density-the-foundation",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Population density: The foundation",
+    "text": "Population density: The foundation\nPopulation density is perhaps the most fundamental urban indicator. It’s simply the number of people per unit area, typically expressed as persons per km². But simple doesn’t mean simplistic – density reveals patterns of urbanisation, housing pressure, and service demand.\n\nComputing density\nLet’s calculate population density for Auckland meshblocks:\n\nimport geopandas as gpd\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n\n# Load Auckland census data\nmeshblocks = gpd.read_file(\"data/auckland_meshblocks.gpkg\")\n\n# Calculate area in km²\nmeshblocks['area_km2'] = meshblocks.geometry.area / 1_000_000\n\n# Calculate population density\nmeshblocks['pop_density'] = meshblocks['population'] / meshblocks['area_km2']\n\n# View the results\nprint(meshblocks[['meshblock_id', 'population', 'area_km2', 'pop_density']].head())\n\n\n\n\n\n\n\nImportant caveats\n\n\n\n\nUnits matter! Always check whether your coordinates are in metres, degrees, or something else. For Auckland, NZGD2000 / New Zealand Transverse Mercator 2000 (EPSG:2193) uses metres.\nZero-area problem: Some meshblocks might have very small areas, leading to unrealistic density values. Filter these out or handle them carefully.\nResidential vs. total area: Density can be misleading in industrial or commercial zones with few residents but large areas.\n\n\n\n\n\nVisualising density\n\n\n\nfig, ax = plt.subplots(1, 1, figsize=(12, 10))\n\nmeshblocks.plot(column='pop_density', \n                ax=ax,\n                legend=True,\n                scheme='quantiles',  # Use quantiles for better distribution\n                k=5,  # 5 classes\n                cmap='YlOrRd',\n                edgecolor='grey',\n                linewidth=0.1)\n\nax.set_title('Population Density in Auckland (persons/km²)', fontsize=14)\nax.set_axis_off()\n\nplt.tight_layout()\nplt.show()\n\n\nFigure 1\n\n\n\n\n\n\n\n\n\nInterpretation tip\n\n\n\nHigh density doesn’t automatically mean “bad” or “good”. Auckland’s CBD shows extremely high density, which supports walkability and public transport viability. Conversely, some suburban areas have very low density, which can make service provision expensive but offers larger living spaces. Context is everything.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#access-to-green-space-distance-proxies",
+    "href": "2.4.urban-analytics.html#access-to-green-space-distance-proxies",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Access to green space: Distance proxies",
+    "text": "Access to green space: Distance proxies\nAccess to parks and green spaces is crucial for physical activity, mental health, and urban liveability (who2016urban?). We can approximate access by calculating the distance from each residential area to the nearest park.\n\nFinding nearest park distance\n\nfrom scipy.spatial import cKDTree\n\n# Load parks data\nparks = gpd.read_file(\"data/auckland_parks.gpkg\")\n\n# Ensure both datasets use the same CRS\nmeshblocks = meshblocks.to_crs(epsg=2193)\nparks = parks.to_crs(epsg=2193)\n\n# Get centroids of meshblocks\nmeshblock_points = np.array(list(meshblocks.geometry.centroid.apply(lambda x: (x.x, x.y))))\npark_points = np.array(list(parks.geometry.centroid.apply(lambda x: (x.x, x.y))))\n\n# Build KD-tree for efficient nearest neighbour search\ntree = cKDTree(park_points)\n\n# Find nearest park for each meshblock\ndistances, indices = tree.query(meshblock_points, k=1)\n\n# Add distance to dataframe (in metres)\nmeshblocks['nearest_park_m'] = distances\n\n# Convert to kilometres for readability\nmeshblocks['nearest_park_km'] = meshblocks['nearest_park_m'] / 1000\n\nprint(f\"Mean distance to nearest park: {meshblocks['nearest_park_km'].mean():.2f} km\")\nprint(f\"Median distance to nearest park: {meshblocks['nearest_park_km'].median():.2f} km\")\n\n\n\nCaveats and limitations\nThis “straight-line” distance (Euclidean distance) is a proxy for true accessibility. Real-world access involves:\n\nNetwork distance: How far you actually walk along streets (usually 20-40% longer than straight-line distance)\nBarriers: Motorways, rivers, and railways can make nearby parks difficult to reach\nPark quality: A tiny pocket park and a large regional park both count as “nearest park”\nPerceptions: Perceived safety and amenities affect whether people actually use parks\n\n\n\n\n\n\n\nNote\n\n\n\nFor your assignment on pedestrian footfall, consider: Do areas with better park access show different pedestrian patterns? Could parks act as destinations or origins for walking trips?",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#aggregating-to-larger-zones",
+    "href": "2.4.urban-analytics.html#aggregating-to-larger-zones",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Aggregating to larger zones",
+    "text": "Aggregating to larger zones\nOften we want to summarise indicators at larger geographical units – suburbs, wards, or custom analysis zones. Here’s how to aggregate meshblock data to suburbs:\n\n# Load suburbs boundaries\nsuburbs = gpd.read_file(\"data/auckland_suburbs.gpkg\")\n\n# Spatial join: which meshblocks fall in which suburbs?\nmeshblocks_with_suburb = gpd.sjoin(meshblocks, suburbs, how='left', predicate='within')\n\n# Aggregate to suburb level\nsuburb_summary = meshblocks_with_suburb.groupby('suburb_name').agg({\n    'population': 'sum',\n    'area_km2': 'sum',\n    'nearest_park_km': 'mean',  # Mean distance across meshblocks\n}).reset_index()\n\n# Recalculate density at suburb level\nsuburb_summary['pop_density'] = suburb_summary['population'] / suburb_summary['area_km2']\n\nprint(suburb_summary.sort_values('pop_density', ascending=False).head())\n\nThis aggregation lets you compare suburbs:\n\n# Compare CBD suburbs vs suburban areas\ncbd_suburbs = suburb_summary[suburb_summary['suburb_name'].isin(['Auckland Central', 'Grafton', 'Newmarket'])]\nsuburban = suburb_summary[suburb_summary['suburb_name'].isin(['Albany', 'Howick', 'Papakura'])]\n\nprint(\"\\nCBD areas:\")\nprint(cbd_suburbs[['suburb_name', 'pop_density', 'nearest_park_km']])\n\nprint(\"\\nSuburban areas:\")\nprint(suburban[['suburb_name', 'pop_density', 'nearest_park_km']])",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#urban-morphology-using-momepy",
+    "href": "2.4.urban-analytics.html#urban-morphology-using-momepy",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Urban morphology using momepy",
+    "text": "Urban morphology using momepy\nUrban morphology studies the form and structure of cities. The momepy package (fleischmann2019momepy?) provides tools to quantify urban form characteristics like street connectivity, building patterns, and block structure. This is particularly relevant for understanding pedestrian movement – more connected street networks generally support more walkability.\n\nInstalling and importing momepy\n\n# Install if needed: pip install momepy\nimport momepy\nimport networkx as nx\n\n\n\nStreet network analysis\nLet’s analyse Auckland’s street network to identify which streets are most important for pedestrian movement:\n\n# Load street network (you might use OSMnx to download this)\nimport osmnx as ox\n\n# Download Auckland CBD street network\nplace_name = \"Auckland CBD, New Zealand\"\nG = ox.graph_from_place(place_name, network_type='walk')\n\n# Convert to GeoDataFrame\nedges = ox.graph_to_gdfs(G, nodes=False)\nnodes = ox.graph_to_gdfs(G, nodes=True)\n\n# Calculate basic network metrics\nedges['length'] = edges.geometry.length\n\n# Calculate betweenness centrality - which streets are on the most paths?\n# This can take a while for large networks\nbetweenness = nx.betweenness_centrality(G, weight='length', normalized=True)\n\n# Add centrality to edges\nnodes['betweenness'] = nodes.index.map(betweenness)\n\n\n\n\n# Visualise\nfig, ax = plt.subplots(1, 1, figsize=(12, 12))\n\nedges.plot(ax=ax, color='lightgrey', linewidth=0.5)\nnodes.plot(column='betweenness', \n           ax=ax, \n           cmap='Reds', \n           markersize=20,\n           legend=True)\n\nax.set_title('Street Betweenness Centrality in Auckland CBD', fontsize=14)\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\n\nFigure 2\n\n\n\n\n\n\n\n\n\nWhat does betweenness centrality tell us?\n\n\n\nStreets with high betweenness centrality are “important” in the network – many shortest paths pass through them. In pedestrian studies, these are the streets where you’d expect to see the most footfall, all else being equal. Sound familiar? This connects directly to your assignment!\n\n\n\n\nCalculating reach and closeness\n\n# Reach: How many other nodes can you reach within a given distance?\n# This simulates walkable catchment areas\n\ndef calculate_reach(G, distance=800):  # 800m = ~10 minute walk\n    \"\"\"Calculate how many destinations reachable within distance\"\"\"\n    reach = {}\n    for node in G.nodes():\n        # Get all nodes within distance\n        reachable = nx.single_source_dijkstra_path_length(\n            G, node, cutoff=distance, weight='length'\n        )\n        reach[node] = len(reachable)\n    return reach\n\n# Calculate 800m reach (roughly 10-minute walk)\nnodes['reach_800m'] = nodes.index.map(calculate_reach(G, distance=800))\n\n\n\n\n# Visualise\nfig, ax = plt.subplots(1, 1, figsize=(12, 12))\n\nedges.plot(ax=ax, color='lightgrey', linewidth=0.5)\nnodes.plot(column='reach_800m', \n           ax=ax, \n           cmap='viridis', \n           markersize=20,\n           legend=True,\n           legend_kwds={'label': 'Number of reachable nodes (800m)'})\n\nax.set_title('Walkable Reach in Auckland CBD', fontsize=14)\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\n\nFigure 3\n\n\n\nHigh-reach locations are well-connected – you can walk to many destinations from there. These locations often show higher pedestrian activity because they’re convenient starting points or destinations.\n\n\nBuilding footprint analysis (optional)\nIf you have building footprint data, momepy can calculate building-level metrics:\n\n# Load buildings\nbuildings = gpd.read_file(\"data/auckland_buildings.gpkg\")\n\n# Calculate building area\nbuildings['area'] = buildings.geometry.area\n\n# Calculate perimeter\nbuildings['perimeter'] = buildings.geometry.length\n\n# Calculate form factor (compactness)\n# More compact = closer to circular\nbuildings['form_factor'] = (4 * np.pi * buildings['area']) / (buildings['perimeter'] ** 2)\n\n# Calculate orientation\nbuildings['orientation'] = momepy.Orientation(buildings).series\n\n# Buildings elongated north-south vs east-west can affect microclimates\n# and walking comfort",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#connecting-to-your-assignment",
+    "href": "2.4.urban-analytics.html#connecting-to-your-assignment",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Connecting to your assignment",
+    "text": "Connecting to your assignment\nLet’s bring this together for analysing pedestrian footfall:\nHypothesis generation: Based on the indicators we’ve computed, we can form testable hypotheses:\n\nDensity hypothesis: Areas with higher population density should show higher pedestrian footfall (more nearby residents).\nCentrality hypothesis: Streets with higher betweenness centrality should show higher footfall (more through-traffic).\nAccess hypothesis: Areas near parks or other amenities might show different temporal patterns (weekend spikes?).\n\n\nExample analysis workflow\n\n# Load your pedestrian count data\nfootfall = pd.read_csv(\"data/pedestrian_counts_2023.csv\")\n\n# Join with street network centrality data\nfootfall_with_centrality = footfall.merge(\n    nodes[['betweenness', 'reach_800m']], \n    left_on='sensor_location',\n    right_index=True,\n    how='left'\n)\n\n\n\n\n# Analyse relationship\nimport seaborn as sns\n\nfig, axes = plt.subplots(1, 2, figsize=(14, 5))\n\n# Plot 1: Centrality vs footfall\nsns.scatterplot(data=footfall_with_centrality, \n                x='betweenness', \n                y='daily_count',\n                alpha=0.6,\n                ax=axes[0])\naxes[0].set_xlabel('Betweenness Centrality')\naxes[0].set_ylabel('Daily Pedestrian Count')\naxes[0].set_title('Network Centrality vs Footfall')\n\n# Plot 2: Reach vs footfall\nsns.scatterplot(data=footfall_with_centrality, \n                x='reach_800m', \n                y='daily_count',\n                alpha=0.6,\n                ax=axes[1])\naxes[1].set_xlabel('Walkable Reach (800m)')\naxes[1].set_ylabel('Daily Pedestrian Count')\naxes[1].set_title('Walkable Accessibility vs Footfall')\n\nplt.tight_layout()\nplt.show()\n\n# Calculate correlation\nprint(f\"Correlation with betweenness: {footfall_with_centrality[['betweenness', 'daily_count']].corr().iloc[0,1]:.3f}\")\nprint(f\"Correlation with reach: {footfall_with_centrality[['reach_800m', 'daily_count']].corr().iloc[0,1]:.3f}\")\n\n\nFigure 4\n\n\n\n\n\n\n\n\n\nFor your blog post\n\n\n\nYou might write something like:\n\n“Queen Street shows consistently higher footfall than other CBD locations, which makes sense given its network position. Our analysis reveals a betweenness centrality score of 0.28, compared to an average of 0.12 for other CBD streets – meaning it sits on 2.3 times more shortest paths through the network. This isn’t just about people shopping on Queen Street; it’s about everyone who needs to get through the CBD.”",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#key-takeaways-and-responsible-interpretation",
+    "href": "2.4.urban-analytics.html#key-takeaways-and-responsible-interpretation",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Key takeaways and responsible interpretation",
+    "text": "Key takeaways and responsible interpretation\n\nAlways state your units. Is that persons/km² or persons/hectare? Metres or kilometres?\nAcknowledge limitations. Straight-line distance isn’t walking distance. Betweenness centrality assumes people take shortest paths (they don’t always).\nContext matters. A “walkable” distance in Auckland might differ from Singapore or Helsinki based on climate, culture, and urban form.\nCorrelation ≠ causation. High centrality streets might have high footfall, but this doesn’t mean improving centrality will automatically increase pedestrian activity.\nTemporal dynamics. Urban indicators are often static (density, network structure), but phenomena like pedestrian movement are highly dynamic. Your assignment asks you to explore these temporal patterns – which is where things get really interesting!",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#further-reading",
+    "href": "2.4.urban-analytics.html#further-reading",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Further reading",
+    "text": "Further reading",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#exercises",
+    "href": "2.4.urban-analytics.html#exercises",
+    "title": "2.4 Urban analytics indicators",
+    "section": "Exercises",
+    "text": "Exercises\n\nCalculate population density for your assigned Auckland area. What’s the range? Are there any outliers?\nFind the suburb with the worst park access. How might this relate to health outcomes?\nDownload the street network for a location with pedestrian count data. Calculate betweenness centrality. Do high-centrality streets show higher footfall?\nCreate a function that categorises locations as “high footfall potential” based on density, centrality, and park access. Test your predictions against real data.\n\n\n\n\n\n\n\n\nFor your assignment\n\n\n\nThink about how these indicators might have changed between 2019 and 2023. Did COVID-19 affect how network centrality relates to footfall? Did certain types of streets recover faster than others? These morphological characteristics are relatively stable, making them excellent controls for understanding what changed about human behaviour rather than the city itself.",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.4.urban-analytics.html#references",
+    "href": "2.4.urban-analytics.html#references",
+    "title": "2.4 Urban analytics indicators",
+    "section": "References",
+    "text": "References\n\n\nFleischmann, M. (2019). momepy: Urban Morphology Measuring Toolkit. Journal of Open Source Software, 4(43), 1807. https://doi.org/10.21105/joss.01807\nShin, H., Shaban-Nejad, A., Bierman, A. S., Cressman, T., Dunn, J. R., & Sutherland, J. (2022). Assessing the impact of low emission zones on air quality: A case study of Glasgow, UK. Environment International, 158, 107010.\nWorld Health Organization. (2016). Urban green spaces and health. WHO Regional Office for Europe.\nBoeing, G. (2017). OSMnx: New methods for acquiring, constructing, analyzing, and visualizing complex street networks. Computers, Environment and Urban Systems, 65, 126-139.\n\n\n```",
+    "crumbs": [
+      "Part 2: Geospatial Python",
+      "2.4 Urban analytics indicators"
+    ]
   }
 ]

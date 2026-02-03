@@ -1,0 +1,606 @@
+# Creating Functions {#sec-creating-functions}
+
+## Introduction
+
+Functions are fundamental building blocks in Python programming. They allow you to:
+
+- Write code once and reuse it multiple times
+- Make your analysis more readable and maintainable
+- Reduce errors through standardisation
+- Share functionality across projects
+
+In geospatial analysis, functions are particularly useful for repetitive tasks like data cleaning, coordinate transformations, spatial calculations, and map generation.
+
+## Why Create Functions?
+
+Consider this scenario: you need to calculate population density for multiple regions:
+
+**Without functions** (repetitive):
+```python
+# Calculate density for Auckland
+auckland_density = auckland_pop / auckland_area
+
+# Calculate density for Wellington
+wellington_density = wellington_pop / wellington_area
+
+# Calculate density for Christchurch
+christchurch_density = christchurch_pop / christchurch_area
+```
+
+**With a function** (reusable):
+```python
+def calculate_density(population, area):
+    """Calculate population density."""
+    return population / area
+
+auckland_density = calculate_density(auckland_pop, auckland_area)
+wellington_density = calculate_density(wellington_pop, wellington_area)
+christchurch_density = calculate_density(christchurch_pop, christchurch_area)
+```
+
+## Function Basics
+
+### Defining Functions
+
+The basic syntax for creating a function:
+
+```python
+def function_name(parameter1, parameter2):
+    """
+    Docstring: Brief description of what the function does.
+    
+    Parameters:
+    -----------
+    parameter1 : type
+        Description of parameter1
+    parameter2 : type
+        Description of parameter2
+        
+    Returns:
+    --------
+    type
+        Description of return value
+    """
+    # Function body
+    result = parameter1 + parameter2
+    return result
+```
+
+Key components:
+
+- `def`: Keyword to define a function
+- `function_name`: Descriptive name (use lowercase with underscores)
+- `parameters`: Inputs to the function (optional)
+- `docstring`: Documentation (highly recommended)
+- `return`: Output from the function (optional)
+
+### Simple Example
+
+```python
+def greet(name):
+    """Return a greeting message."""
+    return f"Hello, {name}!"
+
+# Use the function
+message = greet("Auckland")
+print(message)  # Output: Hello, Auckland!
+```
+
+## Parameters and Arguments
+
+### Positional Arguments
+
+```python
+def calculate_area(length, width):
+    """Calculate area of a rectangle."""
+    return length * width
+
+area = calculate_area(10, 5)  # length=10, width=5
+```
+
+### Keyword Arguments
+
+```python
+# More explicit - order doesn't matter
+area = calculate_area(width=5, length=10)
+```
+
+### Default Parameters
+
+```python
+def calculate_buffer(geometry, distance=1000, resolution=16):
+    """
+    Create a buffer around a geometry.
+    
+    Parameters:
+    -----------
+    geometry : shapely geometry
+        The geometry to buffer
+    distance : float, default 1000
+        Buffer distance in map units (metres)
+    resolution : int, default 16
+        Number of segments per quarter circle
+    """
+    return geometry.buffer(distance, resolution=resolution)
+
+# Use default distance and resolution
+buffered1 = calculate_buffer(point)
+
+# Override distance but use default resolution
+buffered2 = calculate_buffer(point, distance=500)
+
+# Override both
+buffered3 = calculate_buffer(point, distance=500, resolution=32)
+```
+
+## Return Values
+
+### Single Return Value
+
+```python
+def get_area(gdf):
+    """Calculate total area of geometries."""
+    return gdf.geometry.area.sum()
+```
+
+### Multiple Return Values
+
+```python
+def calculate_statistics(gdf, column):
+    """
+    Calculate basic statistics for a column.
+    
+    Returns: mean, median, std_dev
+    """
+    mean_val = gdf[column].mean()
+    median_val = gdf[column].median()
+    std_val = gdf[column].std()
+    
+    return mean_val, median_val, std_val
+
+# Unpack the returned values
+mean, median, std = calculate_statistics(regions, 'population')
+```
+
+### Returning Different Types
+
+```python
+def analyse_region(gdf):
+    """Return a dictionary of region statistics."""
+    return {
+        'count': len(gdf),
+        'total_area': gdf.geometry.area.sum(),
+        'mean_pop': gdf['population'].mean(),
+        'geometries': gdf.geometry
+    }
+
+results = analyse_region(nz_regions)
+print(f"Total regions: {results['count']}")
+```
+
+## Geospatial Function Examples
+
+### Example 1: Calculate Centroid Coordinates
+
+```python
+def get_centroid_coords(geometry):
+    """
+    Extract centroid coordinates from a geometry.
+    
+    Parameters:
+    -----------
+    geometry : shapely geometry
+        Input geometry
+        
+    Returns:
+    --------
+    tuple
+        (x, y) coordinates of centroid
+    """
+    centroid = geometry.centroid
+    return centroid.x, centroid.y
+
+# Usage
+for idx, row in gdf.iterrows():
+    x, y = get_centroid_coords(row.geometry)
+    print(f"Region {row['name']}: ({x:.2f}, {y:.2f})")
+```
+
+### Example 2: Reproject GeoDataFrame
+
+```python
+def reproject_gdf(gdf, target_crs='EPSG:2193'):
+    """
+    Reproject a GeoDataFrame to a target CRS.
+    
+    Parameters:
+    -----------
+    gdf : GeoDataFrame
+        Input GeoDataFrame
+    target_crs : str, default 'EPSG:2193'
+        Target coordinate reference system
+        
+    Returns:
+    --------
+    GeoDataFrame
+        Reprojected GeoDataFrame
+    """
+    if gdf.crs is None:
+        raise ValueError("Input GeoDataFrame has no CRS defined")
+    
+    if gdf.crs == target_crs:
+        print(f"Already in {target_crs}")
+        return gdf
+    
+    print(f"Reprojecting from {gdf.crs} to {target_crs}")
+    return gdf.to_crs(target_crs)
+
+# Usage
+nz_regions_nztm = reproject_gdf(nz_regions, 'EPSG:2193')
+```
+
+### Example 3: Calculate Distance Between Points
+
+```python
+def calculate_distance(point1, point2, crs='EPSG:2193'):
+    """
+    Calculate distance between two points.
+    
+    Parameters:
+    -----------
+    point1, point2 : tuple
+        (x, y) coordinates
+    crs : str, default 'EPSG:2193'
+        Coordinate system (must be projected for accurate distances)
+        
+    Returns:
+    --------
+    float
+        Distance in map units (metres for EPSG:2193)
+    """
+    from shapely.geometry import Point
+    import geopandas as gpd
+    
+    # Create Point geometries
+    p1 = Point(point1)
+    p2 = Point(point2)
+    
+    # Calculate distance
+    return p1.distance(p2)
+
+# Usage
+auckland = (1756673, 5917750)  # NZTM coordinates
+wellington = (1748894, 5427483)
+distance_km = calculate_distance(auckland, wellington) / 1000
+print(f"Distance: {distance_km:.1f} km")
+```
+
+### Example 4: Create Buffers with Multiple Distances
+
+```python
+def create_multi_ring_buffer(geometry, distances, crs='EPSG:2193'):
+    """
+    Create multiple buffer rings around a geometry.
+    
+    Parameters:
+    -----------
+    geometry : shapely geometry
+        Center geometry
+    distances : list
+        List of buffer distances in metres
+    crs : str
+        Coordinate reference system
+        
+    Returns:
+    --------
+    GeoDataFrame
+        GeoDataFrame with buffer rings
+    """
+    import geopandas as gpd
+    
+    buffers = []
+    for dist in distances:
+        buffer_geom = geometry.buffer(dist)
+        buffers.append({
+            'distance': dist,
+            'geometry': buffer_geom
+        })
+    
+    return gpd.GeoDataFrame(buffers, crs=crs)
+
+# Usage
+city_center = Point(1756673, 5917750)  # Auckland in NZTM
+buffer_rings = create_multi_ring_buffer(
+    city_center, 
+    distances=[1000, 5000, 10000, 20000]  # 1, 5, 10, 20 km
+)
+
+# Visualise
+buffer_rings.plot(column='distance', cmap='Reds', alpha=0.5)
+```
+
+### Example 5: Standardised Choropleth Map
+
+```python
+def create_choropleth(gdf, column, title, 
+                      scheme='quantiles', k=5, 
+                      cmap='YlOrRd', figsize=(10, 8)):
+    """
+    Create a standardised choropleth map.
+    
+    Parameters:
+    -----------
+    gdf : GeoDataFrame
+        Input geographic data
+    column : str
+        Column name to map
+    title : str
+        Map title
+    scheme : str, default 'quantiles'
+        Classification scheme (quantiles, equal_interval, natural_breaks)
+    k : int, default 5
+        Number of classes
+    cmap : str, default 'YlOrRd'
+        Colour map
+    figsize : tuple, default (10, 8)
+        Figure size
+        
+    Returns:
+    --------
+    matplotlib Figure and Axes objects
+    """
+    import matplotlib.pyplot as plt
+    
+    fig, ax = plt.subplots(figsize=figsize)
+    
+    gdf.plot(ax=ax,
+             column=column,
+             scheme=scheme,
+             k=k,
+             cmap=cmap,
+             legend=True,
+             edgecolor='black',
+             linewidth=0.5,
+             legend_kwds={'title': column, 
+                          'loc': 'lower left'})
+    
+    ax.set_title(title, fontsize=14, fontweight='bold')
+    ax.set_axis_off()
+    
+    return fig, ax
+
+# Usage
+fig, ax = create_choropleth(
+    nz_regions,
+    column='pop_density',
+    title='New Zealand Population Density by Region',
+    scheme='natural_breaks',
+    k=5
+)
+plt.show()
+```
+
+## Error Handling in Functions
+
+### Using Try-Except
+
+```python
+def safe_divide(numerator, denominator):
+    """
+    Safely divide two numbers with error handling.
+    
+    Returns None if division is not possible.
+    """
+    try:
+        result = numerator / denominator
+        return result
+    except ZeroDivisionError:
+        print("Warning: Division by zero")
+        return None
+    except TypeError:
+        print("Warning: Invalid data types for division")
+        return None
+
+# Usage
+print(safe_divide(10, 2))    # 5.0
+print(safe_divide(10, 0))    # Warning message, returns None
+```
+
+### Input Validation
+
+```python
+def calculate_population_density(gdf, pop_column='population'):
+    """
+    Calculate population density for regions.
+    
+    Parameters:
+    -----------
+    gdf : GeoDataFrame
+        Must contain a population column and be in a projected CRS
+    pop_column : str
+        Name of the population column
+        
+    Returns:
+    --------
+    GeoDataFrame
+        Original GeoDataFrame with added 'pop_density' column
+    """
+    # Validate inputs
+    if not isinstance(gdf, gpd.GeoDataFrame):
+        raise TypeError("Input must be a GeoDataFrame")
+    
+    if pop_column not in gdf.columns:
+        raise ValueError(f"Column '{pop_column}' not found in GeoDataFrame")
+    
+    if gdf.crs is None:
+        raise ValueError("GeoDataFrame must have a CRS defined")
+    
+    if not gdf.crs.is_projected:
+        raise ValueError("GeoDataFrame must be in a projected CRS for accurate area calculation")
+    
+    # Calculate density
+    gdf = gdf.copy()
+    gdf['area_km2'] = gdf.geometry.area / 1_000_000
+    gdf['pop_density'] = gdf[pop_column] / gdf['area_km2']
+    
+    return gdf
+
+# Usage with proper error handling
+try:
+    result = calculate_population_density(nz_regions)
+except (TypeError, ValueError) as e:
+    print(f"Error: {e}")
+```
+
+## Best Practices
+
+### 1. Write Clear Docstrings
+
+```python
+def good_function(param1, param2):
+    """
+    One-line summary of what the function does.
+    
+    More detailed explanation if needed. Describe the purpose,
+    any assumptions, and what the function does.
+    
+    Parameters:
+    -----------
+    param1 : type
+        Description of first parameter
+    param2 : type
+        Description of second parameter
+        
+    Returns:
+    --------
+    type
+        Description of return value
+        
+    Examples:
+    ---------
+    >>> result = good_function(value1, value2)
+    >>> print(result)
+    Expected output
+    """
+    pass
+```
+
+### 2. Keep Functions Focused
+
+Each function should do one thing well:
+
+```python
+# Good: Single, clear purpose
+def calculate_area_km2(geometry):
+    """Calculate area in square kilometres."""
+    return geometry.area / 1_000_000
+
+# Less good: Doing too many things
+def process_everything(gdf):
+    """Calculate area, reproject, filter, plot..."""
+    # Too many responsibilities
+    pass
+```
+
+### 3. Use Meaningful Names
+
+```python
+# Good: Descriptive names
+def calculate_population_density(population, area):
+    return population / area
+
+# Poor: Unclear names
+def calc(p, a):
+    return p / a
+```
+
+### 4. Avoid Global Variables
+
+```python
+# Poor: Relies on global variable
+base_year = 2023
+def calculate_years_since(year):
+    return base_year - year
+
+# Good: All inputs are parameters
+def calculate_years_between(start_year, end_year):
+    return end_year - start_year
+```
+
+## Creating a Personal GIS Toolkit
+
+Build your own library of reusable functions:
+
+```python
+# my_gis_tools.py
+
+import geopandas as gpd
+from shapely.geometry import Point
+import matplotlib.pyplot as plt
+
+def load_and_reproject(filepath, target_crs='EPSG:2193'):
+    """Load and reproject spatial data."""
+    gdf = gpd.read_file(filepath)
+    return gdf.to_crs(target_crs)
+
+def quick_map(gdf, column=None, title='Map'):
+    """Create a quick choropleth map."""
+    fig, ax = plt.subplots(figsize=(10, 8))
+    if column:
+        gdf.plot(ax=ax, column=column, legend=True)
+    else:
+        gdf.plot(ax=ax)
+    ax.set_title(title)
+    ax.set_axis_off()
+    return fig, ax
+
+def measure_distance_km(point1, point2):
+    """Calculate distance in kilometres between two points."""
+    p1 = Point(point1)
+    p2 = Point(point2)
+    return p1.distance(p2) / 1000
+
+# More functions...
+```
+
+Use your toolkit in other scripts:
+
+```python
+# In your analysis script
+from my_gis_tools import load_and_reproject, quick_map
+
+# Use your custom functions
+data = load_and_reproject('regions.shp')
+quick_map(data, column='population', title='Population Map')
+```
+
+## Summary
+
+In this section, you've learned:
+
+- How to define and use functions in Python
+- The importance of parameters, return values, and docstrings
+- How to create geospatial functions for common tasks
+- Error handling and input validation
+- Best practices for writing maintainable code
+- How to build a personal toolkit of reusable functions
+
+Functions are powerful tools that will make your geospatial analysis more efficient, reliable, and shareable. As you continue working with Python, you'll develop your own collection of frequently-used functions.
+
+## Practice Exercises
+
+1. Write a function that takes a GeoDataFrame and returns basic statistics (count, total area, mean population)
+
+2. Create a function that filters a GeoDataFrame to only include features within a specified distance of a point
+
+3. Write a function that creates a grid of points within a bounding box
+
+4. Develop a function that standardises column names in a GeoDataFrame (e.g., converts all to lowercase, replaces spaces with underscores)
+
+5. Create a function that generates a series of maps showing different classification schemes for the same dataset
+
+## Further Reading
+
+- [Python Functions Tutorial](https://docs.python.org/3/tutorial/controlflow.html#defining-functions)
+- [Writing Clean Python Functions](https://realpython.com/defining-your-own-python-function/)
+- [Docstring Conventions (PEP 257)](https://peps.python.org/pep-0257/)

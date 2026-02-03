@@ -1,15 +1,465 @@
 # 2.4 Urban analytics indicators {.unnumbered}
 
-## What you will learn
+## What you will learn {.unnumbered}
 
-- Compute interpretable Auckland indicators (density, access proxies).
-- Aggregate to zones and compare across space.
-- Explain results with units and caveats.
+- Compute interpretable Auckland indicators (density, access proxies)
+- Aggregate to zones and compare across space
+- Explain results with units and caveats
+- Apply morphological analysis using `momepy`
+
+## Introduction
+
+Urban indicators are the building blocks of understanding how cities work. Think of them as the vital signs of urban life – just as a doctor measures heart rate and blood pressure, urban analysts measure density, accessibility, and connectivity to diagnose how well a city is functioning. In this chapter, we'll focus on computing meaningful indicators for Auckland and learning how to interpret them responsibly.
+
+Why does this matter? Well-chosen indicators can reveal patterns invisible to the naked eye: which neighbourhoods lack green space access, where pedestrian activity concentrates, or how street networks facilitate movement. These insights directly inform urban planning decisions – from where to build new parks to how to design low-emission zones [@shin2022assessing].
 
 ## Example indicators
 
-- Population density per km^2^
-- Nearest park distance proxy
-- Optional: network centrality
+We'll explore three fundamental types of urban indicators:
 
-## Urban morphology using `momepy` package
+1. **Population density** – How many people live in an area?
+2. **Nearest park distance** – How accessible is green space?
+3. **Network centrality** (optional) – Which streets are most important for movement?
+
+Each of these tells us something different about urban form and function. Let's work through them systematically.
+
+## Population density: The foundation
+
+Population density is perhaps the most fundamental urban indicator. It's simply the number of people per unit area, typically expressed as persons per km². But simple doesn't mean simplistic – density reveals patterns of urbanisation, housing pressure, and service demand.
+
+### Computing density
+
+Let's calculate population density for Auckland meshblocks:
+
+```{python}
+#| label: load-libraries
+#| message: false
+#| warning: false
+
+import geopandas as gpd
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+```
+
+```{python}
+#| label: calculate-density
+#| eval: false
+
+# Load Auckland census data
+meshblocks = gpd.read_file("data/auckland_meshblocks.gpkg")
+
+# Calculate area in km²
+meshblocks['area_km2'] = meshblocks.geometry.area / 1_000_000
+
+# Calculate population density
+meshblocks['pop_density'] = meshblocks['population'] / meshblocks['area_km2']
+
+# View the results
+print(meshblocks[['meshblock_id', 'population', 'area_km2', 'pop_density']].head())
+```
+
+::: {.callout-important}
+## Important caveats
+
+- **Units matter!** Always check whether your coordinates are in metres, degrees, or something else. For Auckland, NZGD2000 / New Zealand Transverse Mercator 2000 (EPSG:2193) uses metres.
+- **Zero-area problem:** Some meshblocks might have very small areas, leading to unrealistic density values. Filter these out or handle them carefully.
+- **Residential vs. total area:** Density can be misleading in industrial or commercial zones with few residents but large areas.
+:::
+
+### Visualising density
+
+```{python}
+#| label: fig-density-map
+#| fig-cap: "Population density across Auckland meshblocks"
+#| eval: false
+
+fig, ax = plt.subplots(1, 1, figsize=(12, 10))
+
+meshblocks.plot(column='pop_density', 
+                ax=ax,
+                legend=True,
+                scheme='quantiles',  # Use quantiles for better distribution
+                k=5,  # 5 classes
+                cmap='YlOrRd',
+                edgecolor='grey',
+                linewidth=0.1)
+
+ax.set_title('Population Density in Auckland (persons/km²)', fontsize=14)
+ax.set_axis_off()
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-tip}
+## Interpretation tip
+High density doesn't automatically mean "bad" or "good". Auckland's CBD shows extremely high density, which supports walkability and public transport viability. Conversely, some suburban areas have very low density, which can make service provision expensive but offers larger living spaces. Context is everything.
+:::
+
+## Access to green space: Distance proxies
+
+Access to parks and green spaces is crucial for physical activity, mental health, and urban liveability [@who2016urban]. We can approximate access by calculating the distance from each residential area to the nearest park.
+
+### Finding nearest park distance
+
+```{python}
+#| label: nearest-park
+#| eval: false
+
+from scipy.spatial import cKDTree
+
+# Load parks data
+parks = gpd.read_file("data/auckland_parks.gpkg")
+
+# Ensure both datasets use the same CRS
+meshblocks = meshblocks.to_crs(epsg=2193)
+parks = parks.to_crs(epsg=2193)
+
+# Get centroids of meshblocks
+meshblock_points = np.array(list(meshblocks.geometry.centroid.apply(lambda x: (x.x, x.y))))
+park_points = np.array(list(parks.geometry.centroid.apply(lambda x: (x.x, x.y))))
+
+# Build KD-tree for efficient nearest neighbour search
+tree = cKDTree(park_points)
+
+# Find nearest park for each meshblock
+distances, indices = tree.query(meshblock_points, k=1)
+
+# Add distance to dataframe (in metres)
+meshblocks['nearest_park_m'] = distances
+
+# Convert to kilometres for readability
+meshblocks['nearest_park_km'] = meshblocks['nearest_park_m'] / 1000
+
+print(f"Mean distance to nearest park: {meshblocks['nearest_park_km'].mean():.2f} km")
+print(f"Median distance to nearest park: {meshblocks['nearest_park_km'].median():.2f} km")
+```
+
+### Caveats and limitations
+
+This "straight-line" distance (Euclidean distance) is a **proxy** for true accessibility. Real-world access involves:
+
+- **Network distance:** How far you actually walk along streets (usually 20-40% longer than straight-line distance)
+- **Barriers:** Motorways, rivers, and railways can make nearby parks difficult to reach
+- **Park quality:** A tiny pocket park and a large regional park both count as "nearest park"
+- **Perceptions:** Perceived safety and amenities affect whether people actually use parks
+
+::: {.callout-note}
+For your assignment on pedestrian footfall, consider: Do areas with better park access show different pedestrian patterns? Could parks act as destinations or origins for walking trips?
+:::
+
+## Aggregating to larger zones
+
+Often we want to summarise indicators at larger geographical units – suburbs, wards, or custom analysis zones. Here's how to aggregate meshblock data to suburbs:
+
+```{python}
+#| label: aggregate-suburbs
+#| eval: false
+
+# Load suburbs boundaries
+suburbs = gpd.read_file("data/auckland_suburbs.gpkg")
+
+# Spatial join: which meshblocks fall in which suburbs?
+meshblocks_with_suburb = gpd.sjoin(meshblocks, suburbs, how='left', predicate='within')
+
+# Aggregate to suburb level
+suburb_summary = meshblocks_with_suburb.groupby('suburb_name').agg({
+    'population': 'sum',
+    'area_km2': 'sum',
+    'nearest_park_km': 'mean',  # Mean distance across meshblocks
+}).reset_index()
+
+# Recalculate density at suburb level
+suburb_summary['pop_density'] = suburb_summary['population'] / suburb_summary['area_km2']
+
+print(suburb_summary.sort_values('pop_density', ascending=False).head())
+```
+
+This aggregation lets you compare suburbs:
+
+```{python}
+#| label: compare-suburbs
+#| eval: false
+
+# Compare CBD suburbs vs suburban areas
+cbd_suburbs = suburb_summary[suburb_summary['suburb_name'].isin(['Auckland Central', 'Grafton', 'Newmarket'])]
+suburban = suburb_summary[suburb_summary['suburb_name'].isin(['Albany', 'Howick', 'Papakura'])]
+
+print("\nCBD areas:")
+print(cbd_suburbs[['suburb_name', 'pop_density', 'nearest_park_km']])
+
+print("\nSuburban areas:")
+print(suburban[['suburb_name', 'pop_density', 'nearest_park_km']])
+```
+
+## Urban morphology using `momepy`
+
+Urban morphology studies the form and structure of cities. The `momepy` package [@fleischmann2019momepy] provides tools to quantify urban form characteristics like street connectivity, building patterns, and block structure. This is particularly relevant for understanding pedestrian movement – more connected street networks generally support more walkability.
+
+### Installing and importing momepy
+
+```{python}
+#| label: import-momepy
+#| eval: false
+
+# Install if needed: pip install momepy
+import momepy
+import networkx as nx
+```
+
+### Street network analysis
+
+Let's analyse Auckland's street network to identify which streets are most important for pedestrian movement:
+
+```{python}
+#| label: street-network
+#| eval: false
+
+# Load street network (you might use OSMnx to download this)
+import osmnx as ox
+
+# Download Auckland CBD street network
+place_name = "Auckland CBD, New Zealand"
+G = ox.graph_from_place(place_name, network_type='walk')
+
+# Convert to GeoDataFrame
+edges = ox.graph_to_gdfs(G, nodes=False)
+nodes = ox.graph_to_gdfs(G, nodes=True)
+
+# Calculate basic network metrics
+edges['length'] = edges.geometry.length
+
+# Calculate betweenness centrality - which streets are on the most paths?
+# This can take a while for large networks
+betweenness = nx.betweenness_centrality(G, weight='length', normalized=True)
+
+# Add centrality to edges
+nodes['betweenness'] = nodes.index.map(betweenness)
+```
+
+```{python}
+#| label: fig-betweenness
+#| fig-cap: "Street betweenness centrality in Auckland CBD"
+#| eval: false
+
+# Visualise
+fig, ax = plt.subplots(1, 1, figsize=(12, 12))
+
+edges.plot(ax=ax, color='lightgrey', linewidth=0.5)
+nodes.plot(column='betweenness', 
+           ax=ax, 
+           cmap='Reds', 
+           markersize=20,
+           legend=True)
+
+ax.set_title('Street Betweenness Centrality in Auckland CBD', fontsize=14)
+ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-note}
+## What does betweenness centrality tell us?
+Streets with high betweenness centrality are "important" in the network – many shortest paths pass through them. In pedestrian studies, these are the streets where you'd expect to see the most footfall, all else being equal. Sound familiar? This connects directly to your assignment!
+:::
+
+### Calculating reach and closeness
+
+```{python}
+#| label: calculate-reach
+#| eval: false
+
+# Reach: How many other nodes can you reach within a given distance?
+# This simulates walkable catchment areas
+
+def calculate_reach(G, distance=800):  # 800m = ~10 minute walk
+    """Calculate how many destinations reachable within distance"""
+    reach = {}
+    for node in G.nodes():
+        # Get all nodes within distance
+        reachable = nx.single_source_dijkstra_path_length(
+            G, node, cutoff=distance, weight='length'
+        )
+        reach[node] = len(reachable)
+    return reach
+
+# Calculate 800m reach (roughly 10-minute walk)
+nodes['reach_800m'] = nodes.index.map(calculate_reach(G, distance=800))
+```
+
+```{python}
+#| label: fig-reach
+#| fig-cap: "Walkable reach within 800m in Auckland CBD"
+#| eval: false
+
+# Visualise
+fig, ax = plt.subplots(1, 1, figsize=(12, 12))
+
+edges.plot(ax=ax, color='lightgrey', linewidth=0.5)
+nodes.plot(column='reach_800m', 
+           ax=ax, 
+           cmap='viridis', 
+           markersize=20,
+           legend=True,
+           legend_kwds={'label': 'Number of reachable nodes (800m)'})
+
+ax.set_title('Walkable Reach in Auckland CBD', fontsize=14)
+ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+```
+
+High-reach locations are well-connected – you can walk to many destinations from there. These locations often show higher pedestrian activity because they're convenient starting points or destinations.
+
+### Building footprint analysis (optional)
+
+If you have building footprint data, `momepy` can calculate building-level metrics:
+
+```{python}
+#| label: building-analysis
+#| eval: false
+
+# Load buildings
+buildings = gpd.read_file("data/auckland_buildings.gpkg")
+
+# Calculate building area
+buildings['area'] = buildings.geometry.area
+
+# Calculate perimeter
+buildings['perimeter'] = buildings.geometry.length
+
+# Calculate form factor (compactness)
+# More compact = closer to circular
+buildings['form_factor'] = (4 * np.pi * buildings['area']) / (buildings['perimeter'] ** 2)
+
+# Calculate orientation
+buildings['orientation'] = momepy.Orientation(buildings).series
+
+# Buildings elongated north-south vs east-west can affect microclimates
+# and walking comfort
+```
+
+## Connecting to your assignment
+
+Let's bring this together for analysing pedestrian footfall:
+
+**Hypothesis generation:** Based on the indicators we've computed, we can form testable hypotheses:
+
+1. **Density hypothesis:** Areas with higher population density should show higher pedestrian footfall (more nearby residents).
+
+2. **Centrality hypothesis:** Streets with higher betweenness centrality should show higher footfall (more through-traffic).
+
+3. **Access hypothesis:** Areas near parks or other amenities might show different temporal patterns (weekend spikes?).
+
+### Example analysis workflow
+
+```{python}
+#| label: footfall-analysis
+#| eval: false
+
+# Load your pedestrian count data
+footfall = pd.read_csv("data/pedestrian_counts_2023.csv")
+
+# Join with street network centrality data
+footfall_with_centrality = footfall.merge(
+    nodes[['betweenness', 'reach_800m']], 
+    left_on='sensor_location',
+    right_index=True,
+    how='left'
+)
+```
+
+```{python}
+#| label: fig-centrality-footfall
+#| fig-cap: "Relationship between network metrics and pedestrian footfall"
+#| fig-width: 14
+#| fig-height: 5
+#| eval: false
+
+# Analyse relationship
+import seaborn as sns
+
+fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+
+# Plot 1: Centrality vs footfall
+sns.scatterplot(data=footfall_with_centrality, 
+                x='betweenness', 
+                y='daily_count',
+                alpha=0.6,
+                ax=axes[0])
+axes[0].set_xlabel('Betweenness Centrality')
+axes[0].set_ylabel('Daily Pedestrian Count')
+axes[0].set_title('Network Centrality vs Footfall')
+
+# Plot 2: Reach vs footfall
+sns.scatterplot(data=footfall_with_centrality, 
+                x='reach_800m', 
+                y='daily_count',
+                alpha=0.6,
+                ax=axes[1])
+axes[1].set_xlabel('Walkable Reach (800m)')
+axes[1].set_ylabel('Daily Pedestrian Count')
+axes[1].set_title('Walkable Accessibility vs Footfall')
+
+plt.tight_layout()
+plt.show()
+
+# Calculate correlation
+print(f"Correlation with betweenness: {footfall_with_centrality[['betweenness', 'daily_count']].corr().iloc[0,1]:.3f}")
+print(f"Correlation with reach: {footfall_with_centrality[['reach_800m', 'daily_count']].corr().iloc[0,1]:.3f}")
+```
+
+::: {.callout-tip}
+## For your blog post
+You might write something like:
+
+> "Queen Street shows consistently higher footfall than other CBD locations, which makes sense given its network position. Our analysis reveals a betweenness centrality score of 0.28, compared to an average of 0.12 for other CBD streets – meaning it sits on 2.3 times more shortest paths through the network. This isn't just about people shopping on Queen Street; it's about everyone who needs to get *through* the CBD."
+:::
+
+## Key takeaways and responsible interpretation
+
+1. **Always state your units.** Is that persons/km² or persons/hectare? Metres or kilometres?
+
+2. **Acknowledge limitations.** Straight-line distance isn't walking distance. Betweenness centrality assumes people take shortest paths (they don't always).
+
+3. **Context matters.** A "walkable" distance in Auckland might differ from Singapore or Helsinki based on climate, culture, and urban form.
+
+4. **Correlation ≠ causation.** High centrality streets might have high footfall, but this doesn't mean improving centrality will automatically increase pedestrian activity.
+
+5. **Temporal dynamics.** Urban indicators are often static (density, network structure), but phenomena like pedestrian movement are highly dynamic. Your assignment asks you to explore these temporal patterns – which is where things get really interesting!
+
+## Further reading
+
+::: {#refs}
+:::
+
+## Exercises
+
+1. Calculate population density for your assigned Auckland area. What's the range? Are there any outliers?
+
+2. Find the suburb with the worst park access. How might this relate to health outcomes?
+
+3. Download the street network for a location with pedestrian count data. Calculate betweenness centrality. Do high-centrality streets show higher footfall?
+
+4. Create a function that categorises locations as "high footfall potential" based on density, centrality, and park access. Test your predictions against real data.
+
+---
+
+::: {.callout-important}
+## For your assignment
+Think about how these indicators might have changed between 2019 and 2023. Did COVID-19 affect how network centrality relates to footfall? Did certain types of streets recover faster than others? These morphological characteristics are relatively stable, making them excellent controls for understanding what changed about human behaviour rather than the city itself.
+:::
+
+## References
+
+::: {#refs}
+- Fleischmann, M. (2019). momepy: Urban Morphology Measuring Toolkit. *Journal of Open Source Software*, 4(43), 1807. https://doi.org/10.21105/joss.01807
+
+- Shin, H., Shaban-Nejad, A., Bierman, A. S., Cressman, T., Dunn, J. R., & Sutherland, J. (2022). Assessing the impact of low emission zones on air quality: A case study of Glasgow, UK. *Environment International*, 158, 107010.
+
+- World Health Organization. (2016). *Urban green spaces and health*. WHO Regional Office for Europe.
+
+- Boeing, G. (2017). OSMnx: New methods for acquiring, constructing, analyzing, and visualizing complex street networks. *Computers, Environment and Urban Systems*, 65, 126-139.
+:::
+```

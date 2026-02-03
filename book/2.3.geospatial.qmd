@@ -1,33 +1,427 @@
-# 2.3 Geospatial data {.unnumbered}
+# Geospatial Data {#sec-geospatial}
 
-## Story problem
+## Introduction
 
-**Why your Auckland map looks shifted**
+Geographic Information Systems (GIS) combine spatial data (where things are) with attribute data (what things are). In this section, you'll learn the fundamentals of working with geospatial data in Python, focusing on vector data analysis using the geopandas library.
 
-- You plot the boundaries and something is off.
-- The issue is almost always CRS.
-- You learn to check CRS first and transform deliberately.
+## What is GIS?
 
-## What you will learn
+Roger Tomlinson coined the term "GIS" (Geographic Information Systems), defining it as:
 
-- Read/write GeoPackage and GeoJSON.
-- CRS basics and transformations.
-- Make a quick static map for sanity checking.
+> A computer system for capturing, storing, checking, and displaying data related to positions on Earth's surface.
 
-## GeoPandas essentials
+All data in GIS are **georeferenced**, meaning each feature has:
 
-- Geometry column
-- CRS and `to_crs()`
-- Plotting for quick checks
+- **Attribute information**: What it is (name, type, value, etc.)
+- **Spatial information**: Where it is (coordinates, location)
 
-## Mini exercise
+### GIS Applications
 
-- Read a file and print CRS (replace the path).
+GIS enables us to answer complex spatial questions. For example, with crime data we can explore:
 
-```{python}
+- Where are the most vulnerable communities located?
+- Why do crimes occur in one area and not another?
+- How do offenders travel to crime locations?
+- Where are there more or fewer stop and searches than expected?
+
+## Types of Maps
+
+### Reference Maps
+
+Reference maps are used to communicate location and static data points:
+
+- Purpose: To 'pin point' data on a map
+- Nature: Descriptive
+- Examples: Road maps, topographic maps, navigation tools
+
+### Thematic Maps
+
+Thematic maps highlight spatial relationships and patterns:
+
+- Purpose: To 'study a theme' within spatial data
+- Nature: Explanatory
+- Examples: Choropleth maps, heat maps, cartograms
+
+::: {.callout-note}
+## Rail Maps: Reference or Thematic?
+
+Transport maps like Auckland's rail network can be both:
+
+- **Reference**: They show station locations and line routes
+- **Thematic**: They can reveal patterns in life expectancy, poverty, or house prices along transport corridors
+:::
+
+## Geospatial Data Types
+
+### Vector Data
+
+Vector data represents discrete features using points, lines, and polygons:
+
+- **Points**: Individual locations (cities, sensors, trees)
+- **Lines**: Linear features (roads, rivers, routes)
+- **Polygons**: Areas with boundaries (parcels, countries, lakes)
+
+Vector data is preferred in social sciences because human settlements and processes tend to have discrete borders.
+
+### Raster Data
+
+Raster data represents continuous surfaces using a grid of pixels:
+
+- Each pixel has a value
+- Commonly used for: satellite imagery, elevation models, temperature surfaces
+- Dominated in environmental sciences due to remote sensing
+
+## File Formats
+
+### Vector Formats
+
+- **Shapefile (.shp)**: Traditional GIS format (requires multiple files: .shp, .shx, .dbf, .prj)
+- **GeoJSON (.geojson)**: Web-friendly, human-readable format
+- **GeoPackage (.gpkg)**: Modern, single-file format supporting multiple layers
+- **KML/KMZ**: Google Earth format
+
+### Raster Formats
+
+- **GeoTIFF (.tif)**: Standard format with embedded spatial information
+- **NetCDF**: Multi-dimensional arrays (climate data)
+- **HDF5**: Hierarchical data format
+
+## Coordinate Reference Systems (CRS)
+
+### Understanding Projections
+
+The Earth is a 3D sphere (technically an oblate spheroid), but maps are 2D. This creates **distortion**.
+
+Common CRS systems:
+
+- **EPSG:4326 (WGS84)**: Unprojected geographic coordinates (latitude/longitude in degrees)
+- **EPSG:3857**: Web Mercator (used by Google Maps, metres)
+- **EPSG:2193**: NZTM (New Zealand Transverse Mercator, metres)
+
+::: {.callout-important}
+## CRS Matters!
+
+Always check and match CRS when combining datasets. Mixing CRS will give incorrect results.
+:::
+
+## Working with GeoPandas
+
+### Installation and Setup
+
+```python
 import geopandas as gpd
-
-# gdf = gpd.read_file('data/auckland_sa2.gpkg')
-# print(gdf.crs)
+import matplotlib.pyplot as plt
+from shapely.geometry import Point, LineString, Polygon
 ```
 
+### Reading Spatial Data
+
+```python
+# Read from various formats
+countries = gpd.read_file('countries.shp')
+cities = gpd.read_file('cities.geojson')
+regions = gpd.read_file('regions.gpkg')
+
+# Read from URL
+url = 'https://example.com/data.geojson'
+gdf = gpd.read_file(url)
+```
+
+### Exploring GeoDataFrames
+
+```python
+# View first few rows
+countries.head()
+
+# Check the CRS
+countries.crs
+
+# Get column information
+countries.columns
+
+# Summary statistics
+countries.describe()
+
+# Access geometry column
+countries.geometry
+```
+
+### Basic Operations
+
+#### Filtering Data
+
+```python
+# Filter by attribute
+oceania = countries[countries['continent'] == 'Oceania']
+
+# Filter by spatial relationship
+# Select countries that contain a specific point
+auckland = Point(174.76, -36.85)
+nz = countries[countries.contains(auckland)]
+```
+
+#### Creating Geometries
+
+```python
+# Create a point
+point = Point(174.76, -36.85)
+
+# Create a line
+line = LineString([(174.76, -36.85), (174.77, -36.86)])
+
+# Create a polygon
+polygon = Polygon([(0, 0), (1, 0), (1, 1), (0, 1)])
+
+# Create a GeoDataFrame from scratch
+gdf = gpd.GeoDataFrame(
+    {'name': ['Auckland'], 
+     'population': [1672000]},
+    geometry=[Point(174.76, -36.85)],
+    crs='EPSG:4326'
+)
+```
+
+## Spatial Relationships
+
+GeoPandas provides functions to test spatial relationships:
+
+- `contains()`: Does geometry A contain geometry B?
+- `within()`: Is geometry A within geometry B?
+- `intersects()`: Do geometries A and B intersect?
+- `touches()`: Do geometries share a boundary but not area?
+- `crosses()`: Do geometries cross each other?
+- `overlaps()`: Do geometries overlap partially?
+- `disjoint()`: Are geometries completely separate?
+
+### Example: Finding Which Country Contains a City
+
+```python
+# Create a point for New York
+new_york = Point(-74.006, 40.7128)
+
+# Find the country containing New York
+country_with_ny = countries[countries.contains(new_york)]
+print(country_with_ny['name'].values)  # Output: ['United States']
+
+# Test if New York is within the USA
+usa = countries[countries['name'] == 'United States'].geometry.iloc[0]
+new_york.within(usa)  # Returns: True
+```
+
+## Spatial Joins
+
+Spatial joins combine attributes from two datasets based on spatial relationships:
+
+```python
+# Join cities to countries based on spatial location
+joined = gpd.sjoin(
+    cities,           # Left GeoDataFrame
+    countries,        # Right GeoDataFrame
+    predicate='within',  # Spatial relationship
+    how='left'        # Join type (left, right, inner)
+)
+
+# Now cities have country attributes
+print(joined[['city_name', 'country_name', 'continent']])
+```
+
+### Common Spatial Join Use Cases
+
+- Assigning census data to geographic units
+- Finding which administrative area a point falls within
+- Counting features within polygons
+- Aggregating data by spatial location
+
+## Coordinate Transformations
+
+### Reprojecting Data
+
+```python
+# Check current CRS
+print(gdf.crs)
+
+# Reproject to a different CRS
+gdf_projected = gdf.to_crs('EPSG:3857')  # Web Mercator
+
+# Reproject to match another dataset
+gdf_matched = gdf.to_crs(other_gdf.crs)
+```
+
+::: {.callout-tip}
+## When to Reproject
+
+- For distance/area calculations: Use a projected CRS (in metres)
+- For web mapping: Use EPSG:3857
+- For spatial operations: Ensure all datasets have the same CRS
+:::
+
+## Geometric Operations
+
+### Buffering
+
+Create a zone around features:
+
+```python
+# Create 10km buffer around cities (data must be in metres)
+cities_projected = cities.to_crs('EPSG:3857')
+cities_buffered = cities_projected.copy()
+cities_buffered['geometry'] = cities_buffered.buffer(10000)  # 10km in metres
+```
+
+### Dissolve
+
+Combine features based on an attribute:
+
+```python
+# Dissolve countries by continent
+continents = countries.dissolve(by='continent', aggfunc='sum')
+```
+
+### Overlay Operations
+
+Combine geometries from two datasets:
+
+```python
+# Intersection: areas where both datasets overlap
+intersection = gpd.overlay(gdf1, gdf2, how='intersection')
+
+# Union: all areas from both datasets
+union = gpd.overlay(gdf1, gdf2, how='union')
+
+# Difference: areas in gdf1 not in gdf2
+difference = gpd.overlay(gdf1, gdf2, how='difference')
+```
+
+## Visualisation
+
+### Basic Plotting
+
+```python
+# Simple plot
+countries.plot()
+
+# Customised plot
+fig, ax = plt.subplots(figsize=(10, 10))
+countries.plot(ax=ax, 
+               column='pop_est',      # Colour by population
+               cmap='YlOrRd',         # Colour scheme
+               legend=True,           # Show legend
+               edgecolor='black')     # Border colour
+ax.set_title('World Population by Country')
+plt.show()
+```
+
+### Choropleth Maps
+
+```python
+# Create a classified choropleth map
+countries.plot(column='gdp_per_capita',
+               scheme='quantiles',     # Classification scheme
+               k=5,                    # Number of classes
+               cmap='viridis',
+               legend=True,
+               legend_kwds={'title': 'GDP per Capita (Quantiles)'})
+```
+
+### Multiple Layers
+
+```python
+# Plot multiple layers together
+fig, ax = plt.subplots(figsize=(12, 8))
+
+# Base layer
+countries.plot(ax=ax, color='lightgrey', edgecolor='black')
+
+# Add cities
+cities.plot(ax=ax, color='red', markersize=20, alpha=0.6)
+
+ax.set_title('World Countries and Major Cities')
+ax.set_axis_off()
+plt.show()
+```
+
+## The Modifiable Areal Unit Problem (MAUP)
+
+MAUP refers to the sensitivity of statistical results to the choice of spatial units:
+
+- **Scale Effect**: Changing the size of spatial units affects results
+- **Zoning Effect**: Different arrangements of the same-sized units produce different results
+
+::: {.callout-warning}
+## Be Aware of MAUP
+
+When aggregating or analysing spatial data, remember that your choice of geographic units can influence your findings. Always consider whether your results might change with different spatial aggregations.
+:::
+
+## Practical Exercise
+
+### Example: Analysing New Zealand Regions
+
+```python
+# Load NZ regional data
+nz_regions = gpd.read_file('nz_regions.gpkg')
+
+# Check CRS
+print(nz_regions.crs)
+
+# Reproject to NZTM for accurate measurements
+nz_regions = nz_regions.to_crs('EPSG:2193')
+
+# Calculate area in square kilometres
+nz_regions['area_km2'] = nz_regions.geometry.area / 1_000_000
+
+# Calculate population density
+nz_regions['pop_density'] = (nz_regions['population'] / 
+                               nz_regions['area_km2'])
+
+# Find regions within 100km of Auckland
+auckland_point = gpd.GeoDataFrame(
+    {'name': ['Auckland']},
+    geometry=[Point(1756673, 5917750)],  # NZTM coordinates
+    crs='EPSG:2193'
+)
+
+# Buffer Auckland
+auckland_buffer = auckland_point.buffer(100000)  # 100km
+
+# Spatial join
+nearby_regions = nz_regions[
+    nz_regions.intersects(auckland_buffer.iloc[0])
+]
+
+# Visualise
+fig, ax = plt.subplots(figsize=(10, 12))
+nz_regions.plot(ax=ax, column='pop_density', 
+                cmap='YlOrRd', legend=True)
+auckland_buffer.plot(ax=ax, facecolor='none', 
+                     edgecolor='blue', linewidth=2)
+plt.title('NZ Population Density and 100km Buffer from Auckland')
+plt.show()
+```
+
+## Summary
+
+In this section, you've learned:
+
+- Core GIS concepts and the difference between vector and raster data
+- How to work with geospatial data using geopandas
+- Coordinate reference systems and why they matter
+- Spatial relationships and how to test them
+- Common spatial operations: buffers, dissolves, overlays
+- How to create effective maps and visualisations
+- The importance of considering spatial scale (MAUP)
+
+## Further Reading
+
+- [GeoPandas Documentation](https://geopandas.org/)
+- [Shapely Manual](https://shapely.readthedocs.io/)
+- Geocomputation with Python: https://py.geocompx.org/
+- Geographic Data Science with Python: https://geographicdata.science/book
+
+## Practice Exercises
+
+1. Load a shapefile of your choice and explore its attributes and geometry
+2. Reproject the data to at least two different CRS and observe the differences
+3. Create a 5km buffer around all points in a dataset
+4. Perform a spatial join to combine two datasets
+5. Create a choropleth map showing a variable of interest with a suitable classification scheme

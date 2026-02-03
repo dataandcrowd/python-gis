@@ -1,470 +1,738 @@
-# 2.1 Basic Python {.unnumbered}
+# Basic Python {#sec-basic-python}
 
-## What you will learn
+## Introduction
 
-- learn how to write simple code to do simple calculations
-- Variables, types, and control flow for GIS scripts.
-- Functions as reusable units.
-- Reading and writing files with clear paths.
+Python is one of the most popular programming languages for data science and geospatial analysis. Its clear syntax, extensive libraries, and active community make it an ideal choice for GIS work. This section introduces the fundamental Python concepts you'll need for geospatial programming.
 
+::: {.callout-note}
+## Getting Started
+We'll use Google Colab by default: [https://colab.research.google.com](https://colab.research.google.com)
 
-## First Code in Python - Print and Input
+No installation required—just sign in with your Google account and start coding!
+:::
 
-```{python}
+## Your First Python Code
+
+Let's start with the traditional first programme:
+
+```python
 print("Hello World")
 ```
 
-```{python}
-10 + 10
-```
+This simple command displays text on the screen. The `print()` function is one of Python's most useful built-in functions.
 
-## Comments in Code
+### Adding Comments
 
-They are added with the purpose of making the source code easier for humans to understand, They are ignored when programme is running
+Comments help document your code. Python supports two types:
 
-```{python}
-# This is single line comment
-# I can write code
+```python
+# This is a single-line comment
 
 '''
-This is multi line comment
+This is a multi-line comment
 Line 1
 Line 2
+Line 3
 '''
 
-print('Hello World!')
+print('Hello World!')  # Comments can also appear at the end of lines
 ```
 
-```{python}
-print(1 + 1)
-print(5 * 7)
-print(2**3)
-print(10 % 3)
+::: {.callout-tip}
+## Write Clear Comments
+Good comments explain *why* you're doing something, not just *what* you're doing. Your code should be readable enough that the "what" is obvious.
+:::
+
+## Python as a Calculator
+
+Python can perform mathematical operations directly:
+
+```python
+# Addition
+1 + 1  # Returns: 2
+
+# Multiplication
+5 * 7  # Returns: 35
+
+# Exponentiation
+2**3  # Returns: 8
+
+# Modulus (remainder)
+10 % 2  # Returns: 0
 ```
 
-```{python}
-temperature = 15
+### More Mathematical Operators
+
+| Operation | Operator | Example | Result |
+|-----------|----------|---------|--------|
+| Addition | `+` | `5 + 3` | `8` |
+| Subtraction | `-` | `5 - 3` | `2` |
+| Multiplication | `*` | `5 * 3` | `15` |
+| Division | `/` | `11 / 2` | `5.5` |
+| Floor Division | `//` | `11 // 2` | `5` |
+| Modulus | `%` | `11 % 2` | `1` |
+| Exponentiation | `**` | `2 ** 3` | `8` |
+| Negation | `-` | `-5` | `-5` |
+
+```python
+# True division gives decimal result
+print(11 / 2)  # Output: 5.5
+
+# Floor division gives integer result (rounds down)
+print(11 // 2)  # Output: 5
 ```
 
-```{python}
-temperature
+## Python Syntax Essentials
+
+### End-of-Line Terminates Statements
+
+In Python, the end of a line marks the end of a statement:
+
+```python
+temperature = 5
 ```
 
-## Whitespace
+This is an **assignment operation**, where we create a variable named `temperature` and assign it the value `5`.
 
-```{python}
+If you need a statement to continue to the next line, use the backslash (`\`):
+
+```python
+x = 1 + 2 + 3 + 4 + \
+    5 + 6 + 7 + 8
 ```
 
-```{python}
+### Whitespace Within Lines
+
+Whitespace within lines doesn't matter for Python's interpretation:
+
+```python
 x=1+2
 x = 1 + 2
 x             =        1    +                2
 ```
 
-## End-of-Line Terminates a Statement
+All three lines are equivalent, but which is most **readable**? The second option with consistent spacing is preferred.
 
-```{python}
-temperature = 5
+### Indentation Matters!
+
+Unlike many languages, Python uses indentation to define code blocks:
+
+```python
+# Correct indentation
+if temperature > 25:
+    print("It's hot!")
+    print("Stay hydrated!")
+
+# Incorrect - will cause an error
+if temperature > 25:
+print("It's hot!")  # IndentationError!
 ```
 
-## Multi-line Statements
+::: {.callout-warning}
+## Consistent Indentation
+Always use 4 spaces for indentation (most editors can convert Tab to spaces automatically). Mixing tabs and spaces will cause errors.
+:::
 
-```{python}
-x = 1 + 2 + 3 + 4 +\
-    5 + 6 + 7 + 8
+### Parentheses (Round Brackets)
+
+Parentheses have multiple uses in Python:
+
+1. **Grouping mathematical operations**:
+```python
+2 * (3 + 4)  # Returns: 14
 ```
 
-## Round brackets (Parentheses)
-
-```{python}
-2 * (3 + 4)
+2. **Calling functions**:
+```python
+print('first value:', 1)
+len('Hello World')
 ```
 
-```{python}
-print('first value', 1)
+3. **Executing methods**:
+```python
+L = [4, 2, 3, 1]
+L.sort()  # Parentheses execute the sort method
+print(L)  # Output: [1, 2, 3, 4]
 ```
 
-```{python}
-L = [4,2,3,1]
+## Variables and Assignment
 
-L.sort()
+A **variable** stores values for later use. Think of it as a labelled box in computer memory.
 
-print(L)
-```
-
-## Variable
-
-```{python}
-numbers = 100
-```
-
-```{python}
-Cumbers_343 = 200
-```
-
-```{python}
-x = 10
-y = "Lao"
-
-print(x)
-print(y)
-```
-
-```{python}
+```python
 weather = "Freezing"
-print(weather)
+print(weather)  # Output: Freezing
+
+temperature = 15
+print(temperature)  # Output: 15
 ```
 
-### Rules for Python variables
+### Variables as Pointers
 
-* A variable name must start with a letter or the underscore character
-* A variable name cannot start with a number
-* A variable name can only contain alpha-numeric characters and underscores (A-z, 0-9, and _ )
-* Variable names are case-sensitive (age, name, and Name are three different variables)*
+Variables in Python are **references** (pointers) to objects in memory:
 
-### Variable as a pointer
-
-```{python}
+```python
 x = [1, 2, 3]
+y = x  # Both x and y point to the same list
 
-y = x
-```
+# Modifying the list through x
+x.append(4)
+print(y)  # Output: [1, 2, 3, 4] - y sees the change!
 
-```{python}
+# Reassigning x
 x = 'something else'
-
-print(y)  # y is unchanged
+print(y)  # Output: [1, 2, 3, 4] - y is unchanged
 ```
 
-## Everything is an object
+This behaviour is important when working with data structures in geospatial analysis.
 
-```{python}
+## Data Types
+
+### Everything Is an Object
+
+Python is an **object-oriented** language. Every entity has:
+
+- **Attributes**: Data associated with the object
+- **Methods**: Functions that operate on the object
+
+```python
 x = 4
-type(x)
-```
+type(x)  # Returns: <class 'int'>
 
-```{python}
 x = 'hello'
-type(x)
-```
+type(x)  # Returns: <class 'str'>
 
-```{python}
 x = 3.14159
-type(x)
+type(x)  # Returns: <class 'float'>
 ```
 
-```{python}
-print(5)
+### Basic Data Types
+
+Python has four fundamental data types:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `int` | Whole numbers | `4`, `-17`, `0` |
+| `float` | Decimal numbers | `3.1415`, `-2.5` |
+| `str` | Text strings | `'Hello'`, `"Auckland"` |
+| `bool` | True/False values | `True`, `False` |
+
+### Working with Strings
+
+Strings represent text data:
+
+```python
+city = "Auckland"
+print(city)  # Output: Auckland
+
+# Length of string
+len(city)  # Returns: 8
+
+# String concatenation
+greeting = "Hello, " + city
+print(greeting)  # Output: Hello, Auckland
+
+# String repetition
+print(city * 3)  # Output: AucklandAucklandAuckland
+
+# Case transformations
+print(city.upper())  # Output: AUCKLAND
+print(city.lower())  # Output: auckland
 ```
 
+::: {.callout-note}
+## String Methods
+Strings have many useful methods. Access them with dot notation:
+```python
+text = "  Hello World  "
+text.strip()     # Remove whitespace: "Hello World"
+text.replace("World", "Python")  # Replace text
+text.split()     # Split into list: ["Hello", "World"]
+```
+:::
 
-```{python}
-print((5).__str__())
+### Working with Numbers
+
+```python
+my_int = 2
+my_float = 24.3
+
+# Mixing int and float gives float
+my_int + my_float  # Returns: 26.3 (float)
+
+# Division always returns float
+10 / 5  # Returns: 2.0 (not 2)
+
+# Floor division returns int
+10 // 3  # Returns: 3
+
+# Modulus returns remainder
+10 % 3  # Returns: 1
+
+# Exponentiation
+2**3  # Returns: 8
 ```
 
-```{python}
-L = [1, 2, 3]
-L.append(100)
-print(L)
-```
+### Boolean Values
 
-## Operators
+Booleans represent truth values and are essential for conditional logic:
 
-```{python}
-# True division
-print(11 / 2)
-
-# Floor division
-print(11 // 2)
-```
-
-## Comparison Operations
-
-```{python}
-25 % 2 == 1 # is 25 an odd number?
-66 % 2 == 1 # is 66 an odd number?
-```
-
-## Data Types - Numbers and Strings
-
-### Numbers : represent numerical values
-- Integer - Examples: 5, 6000, 80, -1, -15, -5890, 0
-- Floats - Examples: -3.5, -400.8945, 50.1547
-- Complex Numbers - Examples: -3 + 2j, 10 + 1584j
-- Booleans - True, False
-
-```{python}
-type("4")
-```
-
-```{python}
-weatherForecast = "Freezing"
-type(weatherForecast)
-```
-
-```{python}
-print(weatherForecast+weatherForecast)
-print(5 * weatherForecast)
-```
-
-```{python}
-print(weatherForecast.upper())
-print(weatherForecast.lower())
-```
-
-```{python}
-x1 = 10
-x2 = 15.4
-x3 = 3+5j
-x4 = True
-
-print(x1)
-print(type(x1))
-print(x2)
-print(type(x2))
-print(x3)
-print(type(x3))
-print(x4)
-print(type(x4))
-```
-
-```{python}
-x = "My name is "
-y = "John"
-z =  x + y
-print(z)
-```
-
-```{python}
-a = "Hello, World!"
-
-'''string indexing
-first character is index zero, second character is index one, etc....
-'''
-
-print(a[1])
-print(a[2:5])
-
-'''Common operations with strings'''
-
-print(a.strip()) # removes any whitespace
-print(a.lower()) # returns the string in lower case
-print(a.upper()) # returns the string in upper case
-print(a.replace("H", "J")) # replace characters
-print(a.split(",")) # split string by a character
-```
-
-### Numeric
-
-```{python}
-my_int= 2
-my_float= 24.3
-my_int+my_float
-my_int-my_float
-```
-
-```{python}
+```python
 x = 5
-y = 17
+y = 4
 
-print(x+y) #Adding
-print(x-y) #Substracting
-print(x*y) #multiplication
-print(y/x) #division
-print(y%x) #modulo operation (remainder after division)
-print(x**2) #power
+# Comparison returns boolean
+print(x > y)      # Output: True
+print(not(x > y)) # Output: False
+print(x == y)     # Output: False
+print(x != y)     # Output: True
 ```
 
-### Converting between Data Types (Casting)
-Sometimes, we have to force some data to be a particular data type. as example, when we input something to a programme, usually it comes as a text (string). so if we want to perform calculations on that, we have to convert that in to a numerical type such as int / float
+## Comparison Operators
 
-```{python}
-a = int(10.15)
-b = int("5")
+Comparison operators evaluate relationships between values:
 
-print(a, type(a))
-print(b, type(b))
-print('\n---------------------\n')
+| Operator | Meaning | Example |
+|----------|---------|---------|
+| `==` | Equal to | `5 == 5` → `True` |
+| `!=` | Not equal to | `5 != 4` → `True` |
+| `<` | Less than | `3 < 5` → `True` |
+| `>` | Greater than | `5 > 3` → `True` |
+| `<=` | Less than or equal | `5 <= 5` → `True` |
+| `>=` | Greater than or equal | `5 >= 4` → `True` |
 
-a = float(12)
-b = float("15.9")
+```python
+# Check if a number is odd
+25 % 2 == 1  # Returns: True
 
-print(a, type(a))
-print(b, type(b))
+# Check if a number is even
+66 % 2 == 0  # Returns: True
+```
 
-print('\n---------------------\n')
+## Boolean Operations
 
-a = str(5)
-b = str(4.5)
+Combine boolean values with logical operators:
 
-print(a, type(a))
-print(b, type(b))
+| Operator | Description | Example |
+|----------|-------------|---------|
+| `and` | Both must be True | `True and False` → `False` |
+| `or` | At least one must be True | `True or False` → `True` |
+| `not` | Inverts the value | `not True` → `False` |
+
+```python
+x = 4
+
+# Both conditions must be true
+(x < 6) and (x > 2)  # Returns: True
+
+# At least one condition must be true
+(x > 10) or (x % 2 == 0)  # Returns: True
+
+# Invert the condition
+not (x < 6)  # Returns: False
 ```
 
 ## Lists
 
-```{python}
-top = ["socks", "underwear", "handkerchief"]
-middle = ["T-shirts", "Pajamas", "Trousers", "Shorts"]
-bottom = [30, 73, 100, 62]
+Lists are ordered collections that can hold multiple values:
+
+```python
+# Create a list
+cities = ["Auckland", "Wellington", "Christchurch"]
+
+# Access elements (zero-indexed)
+cities[0]  # Returns: "Auckland"
+cities[1]  # Returns: "Wellington"
+cities[-1] # Returns: "Christchurch" (last item)
+
+# List length
+len(cities)  # Returns: 3
 ```
 
-```{python}
-top
+### List Operations
+
+```python
+# Create a list of numbers
+numbers = [1, 2, 3, 4, 5]
+
+# Slicing: get a subset
+numbers[1:3]   # Returns: [2, 3]
+numbers[:3]    # Returns: [1, 2, 3] (first three)
+numbers[2:]    # Returns: [3, 4, 5] (from index 2 onwards)
+
+# Modify a list
+numbers[0] = 10
+print(numbers)  # Output: [10, 2, 3, 4, 5]
+
+# Append an item
+numbers.append(6)
+print(numbers)  # Output: [10, 2, 3, 4, 5, 6]
 ```
 
-**Modifying Lists**
+### More List Methods
 
-```{python}
+```python
+western_line = ["Britomart", "Parnell", "Newmarket", "Grafton"]
+
+# Add an item to the end
+western_line.append("Mt Eden")
+
+# Extend with another list
+more_stations = ["Kingsland", "Morningside", "Baldwin Ave"]
+western_line.extend(more_stations)
+
+# Insert at specific position
+western_line.insert(1, "Strand")
+
+# Remove an item
+western_line.remove("Strand")
+
+# Sort the list
+numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+numbers.sort()
+print(numbers)  # Output: [1, 1, 2, 3, 4, 5, 6, 9]
+```
+
+::: {.callout-note}
+## Lists are Versatile
+Lists can contain:
+- Different data types: `[1, "hello", 3.14, True]`
+- Other lists: `[[1, 2], [3, 4], [5, 6]]`
+- Any Python objects
+:::
+
+## For Loops
+
+Loops allow you to repeat operations efficiently. They're essential for processing multiple data items.
+
+### Basic For Loop Syntax
+
+```python
+for variable in collection:
+    do_something_with_variable
+```
+
+Key points:
+- The loop statement must end with a colon (`:`)
+- Code inside the loop must be indented (4 spaces)
+- No special end statement needed—just return to normal indentation
+
+### Example: Iterating Through a List
+
+```python
 western_line = ["Britomart", "Parnell", "Newmarket", "Grafton",
-    "Mt Eden", "Kingsland", "Morningside", "Baldwin Ave"]
+                "Mt Eden", "Kingsland", "Morningside", "Baldwin Ave"]
 
-print(western_line)
+for station in western_line:
+    print(station)
 ```
 
-Indexing
-
-```{python}
-western_line[1]
+Output:
+```
+Britomart
+Parnell
+Newmarket
+Grafton
+Mt Eden
+Kingsland
+Morningside
+Baldwin Ave
 ```
 
-```{python}
-western_line[2]
-western_line[2:5]
-western_line[-1]
-western_line[-8]
-```
+### Using Range
 
-Modifying list values
+The `range()` function generates sequences of numbers:
 
-```{python}
-western_line[3] = 'Auckland City'
-western_line
-```
-
-```{python}
-western_line.append("new station")
-
-print(western_line)
-```
-
-### Exercise
-
-* Define western_line in your environment
-* Add Mt Albert, Avondale, New Lynn, Fruitvale Rd, Glen Eden as a list (you can Google “Auckland Western Line” and find the Wikipedia)
-* Assign that in your environment as `more_western`
-* This time, try using the function `extend` to combine the two lists
-
-```{python}
-western_line = ["Britomart", "Parnell", "Newmarket", "Grafton",
-    "Mt Eden", "Kingsland", "Morningside", "Baldwin Ave"]
-```
-
-```{python}
-more_western = ["Mt Albert", "Avondale"]
-```
-
-```{python}
-western_line.extend(more_western)
-```
-
-```{python}
-western_line
-```
-
-## Control Flow Statements
-### `for` Loop
-```{python}
-for name in western_line:
-    print(name)
-```
-
-```{python}
-european_cities = ["Amsterdam", "Brussels", "London", "Rome"]
-for city100 in european_cities:
-    print(city100)
-```
-
-### Using `range`
-```{python}
+```python
+# Print numbers 0 to 4
 for value in range(5):
     print(value)
+
+# Output:
+# 0
+# 1
+# 2
+# 3
+# 4
 ```
 
-```{python}
-group1 = [1, 3, 5]
-group2 = [0, 1, 2]
+### Working with Multiple Lists
 
-for i in range(2):
-    print(group1[i], 'gisci 343 lecture 2', group2[i])
-```
-
-### Exercise
-* The indices of the cities and countries are in the same order
-* For example, Helsinki and Finland are in index 0
-* Create a `for` loop that describes something like *Helsinki is the capital of Finland*
-
-```{python}
+```python
 cities = ["Helsinki", "Stockholm", "Oslo", "Reykjavik", "Copenhagen"]
 countries = ["Finland", "Sweden", "Norway", "Iceland", "Denmark"]
+
+# Iterate using indices
+for i in range(len(cities)):
+    print(cities[i], "is the capital of", countries[i])
+
+# Output:
+# Helsinki is the capital of Finland
+# Stockholm is the capital of Sweden
+# Oslo is the capital of Norway
+# Reykjavik is the capital of Iceland
+# Copenhagen is the capital of Denmark
 ```
 
-```{python}
-for gisci in range(5):
-  print(cities[gisci], "is the captial of", countries[gisci])
-```
+::: {.callout-tip}
+## Real-World Application
+In geospatial analysis, you'll use loops to:
+- Process multiple data files
+- Calculate statistics for each region
+- Create maps for different time periods
+- Apply transformations to all features in a dataset
+:::
 
-### `if-else` Statements
+## Conditional Statements
 
-```{python}
+Conditional statements allow your code to make decisions based on conditions.
+
+### If-Else Structure
+
+```python
 temperature = 17
+
+if temperature > 25:
+    print("It's hot!")
+else:
+    print("It's not hot!")
+    
+# Output: It's not hot!
+```
+
+### If Without Else
+
+Sometimes you only need action when a condition is true:
+
+```python
+temperature = 17
+
 if temperature > 25:
     print(temperature, "is greater than 25")
+
+# No output because condition is False
 ```
 
-```{python}
-temperature = 30
-if temperature > 25:
-    print("It is hot!")
+### If-Elif-Else
+
+Use `elif` (else if) for multiple conditions:
+
+```python
+temperature = -3
+
+if temperature > 0:
+    print(temperature, "degrees celsius is above freezing")
+elif temperature == 0:
+    print(temperature, "degrees celsius is at the freezing point")
 else:
-    print("It is not hot!")
+    print(temperature, "degrees celsius is below freezing")
+
+# Output: -3 degrees celsius is below freezing
 ```
 
-### Boolean Conditions
+Python checks conditions in order and executes the first true block.
 
-```{python}
-weather = "rainy"
+### Comparison with Strings
+
+```python
+weather = "rain"
 
 if weather == "rain":
     print("Wear a raincoat!")
 else:
     print("No raincoat needed.")
+
+# Output: Wear a raincoat!
 ```
 
-```{python}
+## Combining Conditions
+
+Use `and` and `or` to create complex conditions:
+
+```python
 weather = "rain"
 wind_speed = 14
+comfort_limit = 10
 
-if (weather == "rain") or (wind_speed >= 10):
+# Multiple conditions with 'or'
+if (weather == "rain") or (wind_speed >= comfort_limit):
     print("Just stay at home")
 else:
     print("Go out and enjoy the weather!")
+
+# Output: Just stay at home
 ```
 
-```{python}
+## Combining Loops and Conditionals
+
+One of the most powerful patterns in programming:
+
+```python
 temperatures = [0, 12, 17, 28, 30]
 
-
-
-# For each temperature, if the temperature is greater than 25, print "..is hot"
-
+# Check each temperature
 for temperature in temperatures:
-
     if temperature > 25:
-
         print(temperature, "is hot")
-
     else:
-
         print(temperature, "is not hot")
+
+# Output:
+# 0 is not hot
+# 12 is not hot
+# 17 is not hot
+# 28 is hot
+# 30 is hot
 ```
+
+### Practical Example: Processing Sensor Data
+
+```python
+sensor_readings = [15.2, 23.1, 45.7, 12.8, 38.9]
+threshold = 30.0
+
+high_readings = []
+
+for reading in sensor_readings:
+    if reading > threshold:
+        high_readings.append(reading)
+        print(f"Alert: Reading {reading} exceeds threshold!")
+
+print(f"\nTotal high readings: {len(high_readings)}")
+```
+
+## Methods and Dot Notation
+
+Objects in Python have **methods**—functions that belong to the object:
+
+```python
+L = [1, 2, 3]
+
+# Append method adds an item
+L.append(100)
+print(L)  # Output: [1, 2, 3, 100]
+
+# Check if a float is an integer
+x = 4.5
+x.is_integer()  # Returns: False
+
+x = 4.0
+x.is_integer()  # Returns: True
+```
+
+The dot (`.`) connects the object to its method: `object.method()`
+
+## Getting Help
+
+You don't need to memorise everything! Resources for help:
+
+### Documentation
+- Official Python docs: [https://www.python.org/doc](https://www.python.org/doc)
+- Built-in help: `help(function_name)`
+- Function docstrings: `print(function_name.__doc__)`
+
+### Online Resources
+- Stack Overflow: Search for error messages and solutions
+- Real Python: Tutorials and guides
+- Python Package documentation
+
+### AI Assistance
+- ChatGPT and Gemini can help explain concepts
+- **Always understand the code they generate**
+- Don't blindly copy without learning
+
+::: {.callout-warning}
+## Understanding vs Copying
+While AI tools are helpful, make sure you understand how the code works. You'll need this understanding for debugging and adapting code to new situations.
+:::
+
+## Practical Exercise: Auckland Transport
+
+Let's combine everything we've learned:
+
+```python
+# Auckland transport data
+stations = ["Britomart", "Newmarket", "Mt Eden", "Henderson"]
+daily_passengers = [15000, 8500, 6200, 4100]
+target = 7000
+
+print("Auckland Transport Station Analysis")
+print("=" * 40)
+
+# Analyse each station
+for i in range(len(stations)):
+    station = stations[i]
+    passengers = daily_passengers[i]
+    
+    print(f"\n{station} Station:")
+    print(f"  Daily passengers: {passengers:,}")
+    
+    # Check if station meets target
+    if passengers >= target:
+        print(f"  ✓ Meets target ({target:,} passengers)")
+        
+        # Further categorisation
+        if passengers >= 10000:
+            print("  Status: High volume station")
+        else:
+            print("  Status: Medium volume station")
+    else:
+        shortfall = target - passengers
+        print(f"  ✗ Below target by {shortfall:,} passengers")
+        print("  Status: Low volume station")
+
+# Summary statistics
+total_passengers = sum(daily_passengers)
+average_passengers = total_passengers / len(daily_passengers)
+
+print("\n" + "=" * 40)
+print(f"Total daily passengers: {total_passengers:,}")
+print(f"Average per station: {average_passengers:,.0f}")
+```
+
+## Summary
+
+In this section, you've learned:
+
+- **Python basics**: Syntax, indentation, and code structure
+- **Data types**: Integers, floats, strings, booleans, lists
+- **Operators**: Mathematical, comparison, and boolean operations
+- **Variables**: Assignment and how Python references work
+- **Control flow**: For loops and conditional statements
+- **Combining concepts**: Using loops with conditionals for real analysis
+
+These fundamentals form the foundation for all Python programming in geospatial analysis.
+
+## Key Takeaways
+
+::: {.callout-important}
+## Essential Concepts
+1. **Indentation matters** in Python—it defines code structure
+2. **Variables are references** to objects in memory
+3. **Lists are mutable** and can be modified after creation
+4. **For loops** iterate through collections efficiently
+5. **Conditionals** enable decision-making in your code
+6. **Combine loops and conditionals** for powerful data processing
+:::
+
+## Practice Exercises
+
+1. **Temperature Converter**: Write a programme that converts a list of temperatures from Celsius to Fahrenheit using a for loop
+
+2. **Data Filtering**: Create a list of pedestrian counts for different streets. Use a loop with conditionals to find all streets with counts above a threshold
+
+3. **String Processing**: Given a list of street names, write code that:
+   - Converts all names to uppercase
+   - Counts how many contain the word "Street"
+   - Creates a new list with only names longer than 10 characters
+
+4. **Statistical Calculations**: For a list of numbers representing rainfall measurements:
+   - Calculate the total rainfall
+   - Find the maximum and minimum values
+   - Count how many days had rainfall above 50mm
+
+5. **Auckland Suburbs**: Create two lists—one with suburb names, one with populations. Write a programme that prints each suburb with its population and categorises them as small (<50,000), medium (50,000-100,000), or large (>100,000)
+
+## Next Steps
+
+Now that you understand Python basics, you're ready to work with tabular data in @sec-dataframes, where you'll learn to use pandas for data manipulation—an essential skill for geospatial analysis.

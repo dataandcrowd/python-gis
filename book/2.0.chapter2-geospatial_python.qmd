@@ -1,15 +1,79 @@
-# Part 2: Geospatial Python
+# Geospatial Python Programming {#sec-geospatial-python}
 
-* Python Language Basics, IPython, and Jupyter Notebooks
-* Built-In Data Structures, Functions, and Files
-* ~~NumPy Basics: Arrays and Vectorized Computation~~
-* Getting Started with pandas (**how to install packages**)
-* Data Loading, Storage, and File Formats
-* Data Cleaning and Preparation
-* Data Wrangling: Join, Combine, and Reshape
-* Plotting and Visualisation
-* Data Aggregation and Group Operations
-* Time Series
-* Introduction to Modelling Libraries in Python
+## Overview
 
-[Python for Data Analysis, 3E](https://wesmckinney.com/book/)
+This chapter introduces you to Python programming for geospatial analysis. Python has become the de facto standard for modern GIS work, offering powerful libraries for data manipulation, spatial analysis, and visualisation. You'll learn the essential Python skills needed for working with geographic data, from basic programming concepts to specialised geospatial operations.
+
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+- Write and execute Python code for geospatial analysis
+- Manipulate and analyse tabular data using pandas
+- Work with spatial data using geopandas
+- Perform common GIS operations programmatically
+- Create effective visualisations of spatial data
+- Structure code into reusable functions
+
+## Chapter Structure
+
+This chapter is organised into five main sections:
+
+1. **Basic Python** (@sec-basic-python): Core Python concepts including variables, data types, loops, and conditional statements
+2. **DataFrames** (@sec-dataframes): Working with tabular data using pandas, including data cleaning, filtering, and aggregation
+3. **Geospatial Data** (@sec-geospatial): Introduction to vector and raster data, coordinate systems, and spatial operations with geopandas
+4. **Urban Analytics** (@sec-urban-analytics): Applied examples using real geospatial datasets for urban and environmental analysis
+5. **Creating Functions** (@sec-creating-functions): Writing reusable code to make your analyses more efficient and reproducible
+
+## Why Python for GIS?
+
+Python has several advantages for geospatial analysis:
+
+- **Open source**: Free to use and modify
+- **Extensive libraries**: Rich ecosystem of spatial packages (geopandas, rasterio, shapely, etc.)
+- **Reproducibility**: Code-based workflows ensure your analysis can be repeated
+- **Integration**: Works seamlessly with other tools and platforms
+- **Community**: Large, active community providing support and new developments
+
+## Getting Started
+
+Throughout this chapter, we'll use Google Colab by default, which requires no local installation. However, you can also install Python locally if you prefer.
+
+### Using Google Colab
+
+1. Navigate to [https://colab.research.google.com](https://colab.research.google.com)
+2. Sign in with your Google account
+3. Create a new notebook or open an existing one
+4. You're ready to code!
+
+### Local Installation (Optional)
+
+If you prefer working locally:
+
+- Install Python via Anaconda or Miniconda
+- Use Jupyter Lab, VS Code, or another IDE
+- Install required packages using conda or pip
+
+## Key Python Packages for GIS
+
+This chapter focuses on these essential libraries:
+
+- **pandas**: Tabular data manipulation
+- **geopandas**: Spatial data operations
+- **matplotlib**: Basic plotting
+- **seaborn**: Statistical visualisation
+- **shapely**: Geometric operations
+- **momepy**: geomorphological analysis of urban form
+
+## Getting Help
+
+As you work through this chapter, remember:
+
+- Documentation is your friend: [https://www.python.org/doc](https://www.python.org/doc)
+- Stack Overflow is an excellent resource for troubleshooting
+- The Ed discussion forum for course-specific questions
+- Use AI assistants judiciously (ChatGPT, Gemini) but always understand the code they generate
+
+## Next Steps
+
+Let's begin with the fundamentals in @sec-basic-python, where you'll learn the core Python programming concepts needed for geospatial analysis.
