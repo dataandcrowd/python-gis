@@ -1,8 +1,8 @@
-# Shiny Dashboard Assignment {#sec-shiny-assignment}
+# 3.6. Shiny Dashboard Assignment {.unnumbered}
 
 ## Assignment Overview: A Dashboard a Policymaker Can Use
 
-**Due: 8 May 2026 (Thursday, Week 8)**
+**Due: 8 May 2026 (Friday, Week 8)**
 
 Create and deploy a comprehensive Shiny dashboard that addresses an urban analytics question. Your dashboard should be a tool that policymakers, planners, or researchers could actually use to explore data and gain insights.
 
