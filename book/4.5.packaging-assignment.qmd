@@ -1,0 +1,860 @@
+# 4.5 Packaging Assignment Guide {.unnumbered #sec-packaging-assignment}
+
+## Story problem
+
+**A package that produces a map**
+
+- A marker installs your package in a clean environment.
+- They run one example script and get a Folium map output.
+- They read your docs and understand your assumptions.
+
+## What you will learn
+
+- Build a package that supports Auckland zones and one indicator.
+- Write tests and documentation pages.
+- Provide a small example that generates a Folium map.
+- Present your work professionally.
+
+## Assignment 3 Overview
+
+**Weight**: 30% of final grade
+
+**Due**: Thursday 5 June, 5pm (Week 12)
+
+**Task**: Create, test, document, and publish a Python package containing reusable urban analytics functions
+
+**Additional**: Poster Showcase on 5 June (10% of grade)
+
+## Deliverables
+
+### 1. Published PyPI Package (2%)
+
+**Requirement**: Package must be published to **production PyPI** (not TestPyPI)
+
+**Verification**:
+```bash
+pip install your-package-name
+python -c "import your_package; print('Success!')"
+```
+
+**Submit**: PyPI URL (e.g., `https://pypi.org/project/your-package-name/`)
+
+**Common issues to avoid:**
+- ❌ Forgotten to publish
+- ❌ Published to TestPyPI instead
+- ❌ Package name typo in submission
+- ❌ Dependencies missing from `pyproject.toml`
+
+### 2. GitHub Repository with Source Code
+
+**Required structure**:
+```
+your-package/
+├── .github/
+│   └── workflows/
+│       └── test.yml           # CI/CD (optional but encouraged)
+├── src/
+│   └── your_package/
+│       ├── __init__.py
+│       ├── module1.py         # At least 3 modules
+│       ├── module2.py
+│       └── module3.py
+├── tests/
+│   ├── test_module1.py        # At least 3 meaningful tests per module
+│   ├── test_module2.py
+│   └── test_module3.py
+├── examples/
+│   └── usage_example.ipynb    # Jupyter notebook
+├── docs/                       # Optional but recommended
+│   ├── index.md
+│   └── api-reference.md
+├── .gitignore
+├── LICENSE                     # MIT or similar
+├── pyproject.toml
+├── README.md                   # Comprehensive
+└── CHANGELOG.md                # Optional but good practice
+```
+
+**README Requirements**:
+- Project description
+- Installation instructions
+- Quick start example
+- Features list
+- Usage examples with code
+- Development setup
+- License information
+- Contact/contribution info
+
+### 3. Test Coverage >80% (8%)
+
+**Run coverage**:
+```bash
+uv run pytest --cov=your_package --cov-report=term-missing
+```
+
+**Target output**:
+```
+----------- coverage: platform darwin, python 3.12.0 -----------
+Name                          Stmts   Miss  Cover   Missing
+-----------------------------------------------------------
+src/your_package/__init__.py      8      0   100%
+src/your_package/data.py         45      5    89%   78-82
+src/your_package/metrics.py     67      8    88%   134-141
+src/your_package/viz.py          34      2    94%   89-90
+-----------------------------------------------------------
+TOTAL                           154     15    90%
+```
+
+**Test quality matters**:
+- ✅ Test actual functionality, not just imports
+- ✅ Test edge cases (empty inputs, None values)
+- ✅ Test error handling
+- ✅ Test with realistic data
+- ❌ Don't write tests just to increase coverage
+
+### 4. Documentation (10%)
+
+**Docstrings** (NumPy style for all public functions):
+```python
+def calculate_accessibility(
+    origins_gdf,
+    destinations_gdf,
+    max_distance_m=800
+):
+    """
+    Calculate accessibility scores.
+    
+    Parameters
+    ----------
+    origins_gdf : GeoDataFrame
+        Origin locations
+    destinations_gdf : GeoDataFrame
+        Destination locations
+    max_distance_m : float, default 800
+        Maximum distance in metres
+    
+    Returns
+    -------
+    GeoDataFrame
+        Origins with accessibility scores
+    
+    Examples
+    --------
+    >>> homes = gpd.read_file('homes.gpkg')
+    >>> shops = gpd.read_file('shops.gpkg')
+    >>> result = calculate_accessibility(homes, shops)
+    >>> result['accessibility'].mean()
+    3.2
+    """
+    # Implementation
+```
+
+**README.md** must include:
+- What the package does
+- How to install
+- Basic usage example
+- Link to full documentation
+
+**Optional** (encouraged):
+- MkDocs documentation website
+- ReadTheDocs hosting
+- Tutorial notebooks
+- API reference
+
+### 5. Example Notebook
+
+**Jupyter notebook demonstrating**:
+- Installation verification
+- Basic usage
+- Real data analysis
+- Visualisation output
+- Clear narrative explaining what's happening
+
+**Example structure**:
+```markdown
+# Your Package Example
+
+## Installation
+
+...
+
+## Load Data
+
+...
+
+## Calculate Metrics
+
+...
+
+## Visualize Results
+
+...
+
+## Interpretation
+
+...
+```
+
+### 6. Brief Report (1-2 pages PDF)
+
+**Required sections**:
+
+1. **Package Overview**
+   - Name and purpose
+   - Key features (bullet points)
+   - Target users
+
+2. **Design Decisions**
+   - Why you structured it this way
+   - Trade-offs you made
+   - Assumptions in your code
+
+3. **Urban Analytics Application**
+   - What urban problem does it address?
+   - Example use cases
+   - Potential impact
+
+4. **Technical Challenges**
+   - What was difficult?
+   - How did you solve it?
+   - What would you do differently?
+
+5. **Future Development**
+   - Features you'd add next
+   - Known limitations
+   - Potential improvements
+
+**Format**: PDF, 1-2 pages (maximum 500 words)
+
+## Evaluation Rubric
+
+### Code Quality and Architecture (10%)
+
+**Excellent (9-10 points)**:
+- Clean, well-organized `src/` layout
+- Logical module separation
+- Functions are focused and reusable
+- Follows PEP 8 style
+- Type hints used appropriately
+- Proper error handling
+- No code duplication
+- Efficient algorithms
+
+**Good (7-8 points)**:
+- Clear structure with minor issues
+- Some functions too complex
+- Mostly follows PEP 8
+- Basic error handling
+- Some code duplication
+
+**Adequate (5-6 points)**:
+- Basic structure but disorganized
+- Functions do multiple things
+- Style inconsistencies
+- Minimal error handling
+- Significant code duplication
+
+**Poor (<5 points)**:
+- Flat layout or confusing structure
+- Code is hard to understand
+- No clear organization
+- No error handling
+- Major style violations
+
+### Documentation Completeness (10%)
+
+**Excellent (9-10 points)**:
+- All public functions have detailed docstrings
+- README is comprehensive and clear
+- Examples are thorough and working
+- Installation instructions tested
+- API documentation available
+- User guide or tutorials provided
+
+**Good (7-8 points)**:
+- Most functions documented
+- README has essential info
+- Examples work but basic
+- Installation instructions present
+
+**Adequate (5-6 points)**:
+- Some functions documented
+- README is minimal
+- Examples incomplete
+- Installation instructions unclear
+
+**Poor (<5 points)**:
+- Missing or poor docstrings
+- No README or very basic
+- Examples don't work
+- No installation guide
+
+### Test Coverage and Quality (8%)
+
+**Excellent (7-8 points)**:
+- Coverage >90%
+- Tests are meaningful and thorough
+- Edge cases tested
+- Error conditions tested
+- Geospatial operations tested correctly
+- CI/CD pipeline set up
+- Tests run fast
+
+**Good (5-6 points)**:
+- Coverage 80-90%
+- Tests cover main functionality
+- Some edge cases tested
+- Most tests meaningful
+
+**Adequate (3-4 points)**:
+- Coverage 70-80%
+- Basic tests present
+- Few edge cases
+- Some trivial tests
+
+**Poor (<3 points)**:
+- Coverage <70%
+- Only trivial tests
+- Tests don't work
+- No meaningful assertions
+
+### Successful PyPI Publication (2%)
+
+**Full credit (2 points)**:
+- Package published to production PyPI
+- Installable via `pip install package-name`
+- All dependencies specified correctly
+- Package works in fresh environment
+- Metadata accurate
+
+**Partial credit (1 point)**:
+- Published but with issues
+- Missing dependencies
+- Metadata incomplete
+
+**No credit (0 points)**:
+- Not published
+- Published to TestPyPI instead
+- Package doesn't install
+
+## Suggested Package Ideas
+
+### 1. Urban Accessibility Toolkit
+
+**Functionality**:
+```python
+from urban_access import (
+    calculate_isochrones,
+    fifteen_minute_city,
+    accessibility_score
+)
+
+# 10-minute walking isochrones
+isochrones = calculate_isochrones(origin_point, mode='walk', times=[5, 10, 15])
+
+# 15-minute city assessment
+score = fifteen_minute_city(residential_points, amenities_gdf)
+
+# Accessibility score
+access = accessibility_score(homes, ['shops', 'parks', 'schools'])
+```
+
+**Modules**:
+- `isochrones.py`: Time-distance polygons
+- `metrics.py`: Accessibility calculations
+- `viz.py`: Map generation
+
+**Data needs**: Street networks (OSMnx), amenity locations, residential points
+
+### 2. Pedestrian Flow Analysis
+
+**Functionality**:
+```python
+from pedestrian_analytics import (
+    load_sensor_data,
+    temporal_patterns,
+    hotspot_analysis
+)
+
+# Load and process
+data = load_sensor_data('counts_2024.csv')
+
+# Temporal patterns
+patterns = temporal_patterns(data, groupby=['hour', 'day_of_week'])
+
+# Hotspot detection
+hotspots = hotspot_analysis(sensor_locations, threshold='top_10_percent')
+```
+
+**Modules**:
+- `data.py`: Sensor data loading
+- `temporal.py`: Time series analysis
+- `spatial.py`: Spatial clustering
+
+**Data needs**: Pedestrian count sensors, locations, timestamps
+
+### 3. Micromobility Analytics (RECOMMENDED!)
+
+**Functionality**:
+```python
+from micromobility import (
+    process_trips,
+    geofence_validation,
+    od_flows,
+    mode_share
+)
+
+# Load e-scooter trips
+trips = process_trips('escooter_data.csv')
+
+# Validate geofencing
+violations = geofence_validation(trips, parking_zones_gdf)
+
+# Origin-destination flows
+flows = od_flows(trips, zones_gdf)
+
+# Calculate mode share
+shares = mode_share(trips, pt_data, bike_data)
+```
+
+**Modules**:
+- `trips.py`: Trip processing and cleaning
+- `geofencing.py`: Zone validation
+- `flows.py`: OD matrix generation
+- `viz.py`: Flow mapping
+
+**Data needs**: E-scooter trip data, zone boundaries, network data
+
+### 4. Street Network Metrics
+
+**Functionality**:
+```python
+from street_metrics import (
+    download_network,
+    connectivity_score,
+    walkability_index,
+    resilience_analysis
+)
+
+# Get street network
+G = download_network('Auckland CBD', network_type='walk')
+
+# Calculate metrics
+connectivity = connectivity_score(G)
+walkability = walkability_index(G, amenities_gdf)
+critical_nodes = resilience_analysis(G)
+```
+
+**Modules**:
+- `network.py`: OSMnx integration
+- `metrics.py`: Network measures
+- `resilience.py`: Vulnerability analysis
+
+**Data needs**: OSM networks, amenity data
+
+### 5. Urban Form Analysis
+
+**Functionality**:
+```python
+from urban_form import (
+    building_morphology,
+    street_patterns,
+    urban_grain
+)
+
+# Analyze building patterns
+morphology = building_morphology(buildings_gdf)
+
+# Street pattern classification
+patterns = street_patterns(street_network)
+
+# Calculate urban grain
+grain = urban_grain(parcels_gdf, measure='area')
+```
+
+**Modules**:
+- `buildings.py`: Building analysis
+- `streets.py`: Street patterns
+- `morphology.py`: Form metrics
+
+**Data needs**: Building footprints, parcels, street networks
+
+## Development Timeline
+
+### Weeks 9-10: Foundation (Build and Test)
+
+**Week 9**:
+- ✅ Choose topic and scope
+- ✅ Create package structure
+- ✅ Implement core functions (3-5)
+- ✅ Write basic tests
+- ✅ Publish to TestPyPI
+
+**Week 10**:
+- ✅ Add comprehensive tests (>80% coverage)
+- ✅ Write docstrings for all functions
+- ✅ Create example notebook
+- ✅ Improve README
+- ✅ Fix any TestPyPI issues
+
+### Week 11: Polish and Extend
+
+**Week 11**:
+- ⭐ Add advanced features
+- ⭐ Increase test coverage to 85%+
+- ⭐ Set up CI/CD (optional)
+- ⭐ Create documentation website (optional)
+- ⭐ **Design A1 poster**
+- ⭐ Publish to **real PyPI**
+
+### Week 12: Finalize
+
+**Week 12** (Final week):
+- 🎯 Final code refinement
+- 🎯 Complete documentation
+- 🎯 Write brief report
+- 🎯 Verify installation in fresh environment
+- 🎯 Print poster
+- 🎯 Prepare 2-minute pitch
+- 🎯 Submit all materials
+
+## Poster Showcase Requirements (10% of Grade)
+
+### Format
+
+**Size**: A1 (594mm × 841mm / 23.4" × 33.1")
+
+**Orientation**: Portrait (vertical)
+
+**File type**: PDF for printing
+
+### Content Requirements
+
+**Essential elements**:
+1. **Title**: Package name and tagline
+2. **Authors**: Your name and affiliation
+3. **Problem**: What urban challenge does it address?
+4. **Solution**: How does your package help?
+5. **Key Features**: Bullet points (3-5)
+6. **Code Example**: One clear usage example
+7. **Results**: Map, chart, or visualization
+8. **Impact**: Potential applications
+9. **Links**: QR code to PyPI/GitHub/docs
+10. **Contact**: Email or GitHub username
+
+**Design tips**:
+- Use large fonts (titles: 72pt+, body: 24pt+)
+- High contrast (dark text on light background)
+- Plenty of white space
+- One main message
+- Visual hierarchy clear
+- Professional color scheme
+
+### Example Poster Layout
+
+```
+┌─────────────────────────────────────────┐
+│  Micromobility Analytics Toolkit        │ ← Title (72pt)
+│  Your Name - University of Auckland     │ ← Author (36pt)
+├─────────────────────────────────────────┤
+│ THE PROBLEM                             │ ← Section (48pt)
+│ • E-scooters lack analysis tools        │
+│ • Trip data is messy and complex        │ ← Body (24pt)
+│ • Need standardised metrics             │
+├────────────────┬────────────────────────┤
+│  KEY FEATURES  │   CODE EXAMPLE         │
+│                │                        │
+│ • Trip process │ from micromobility...  │
+│ • Geofencing   │ trips = process_...    │
+│ • OD flows     │ flows = od_flows...    │
+│ • Viz tools    │                        │
+├────────────────┴────────────────────────┤
+│  [Large map visualization showing       │
+│   OD flows or geofencing results]       │
+│                                          │
+├──────────────────────────────────────────┤
+│ APPLICATIONS        LINKS                │
+│ • Urban planning   [QR code to PyPI]    │
+│ • Policy eval      [QR code to GitHub]  │
+│ • Research         your.email@auck...   │
+└──────────────────────────────────────────┘
+```
+
+### Printing
+
+**Recommended service**: University Print Centre
+- Website: printcentre.auckland.ac.nz
+- Cost: ~$25-30 for A1 color
+- Turnaround: 24-48 hours
+- **Print by**: 4 June (day before showcase)
+
+**Backup**: Bring PDF on USB drive to showcase
+
+### Presentation (2-minute pitch)
+
+**Structure**:
+1. **Hook** (15 sec): "E-scooters generate millions of trips, but how do we analyze them?"
+2. **Problem** (15 sec): What challenge does your package solve?
+3. **Solution** (30 sec): What does your package do?
+4. **Demo** (45 sec): Show one clear code example and result
+5. **Impact** (15 sec): Who benefits and how?
+
+**Tips**:
+- Practice timing (exactly 2 minutes)
+- Don't read from poster
+- Make eye contact
+- Show enthusiasm
+- Prepare for questions
+
+### Evaluation Criteria
+
+**Visual Design (4%)**
+- Professional appearance
+- Clear hierarchy
+- Readable from 2 metres away
+- Effective use of color and space
+
+**Content Quality (4%)**
+- Clear problem statement
+- Convincing solution
+- Accurate technical details
+- Appropriate visualizations
+
+**Communication (2%)**
+- Clear 2-minute pitch
+- Answers questions well
+- Engages with audience
+- Professional demeanor
+
+## Common Mistakes to Avoid
+
+### Code Quality
+
+❌ **Hardcoded paths**
+```python
+# Bad
+gdf = gpd.read_file('/Users/me/Desktop/data.gpkg')
+
+# Good
+from pathlib import Path
+data_dir = Path(__file__).parent / 'data'
+gdf = gpd.read_file(data_dir / 'boundaries.gpkg')
+```
+
+❌ **No error handling**
+```python
+# Bad
+def load_data(path):
+    return gpd.read_file(path)  # What if file doesn't exist?
+
+# Good
+def load_data(path):
+    if not Path(path).exists():
+        raise FileNotFoundError(f"Data file not found: {path}")
+    return gpd.read_file(path)
+```
+
+❌ **Print statements everywhere**
+```python
+# Bad
+def process(data):
+    print("Processing...")  # Remove debug prints
+    result = data.mean()
+    print(result)  # Remove debug prints
+    return result
+
+# Good
+def process(data):
+    return data.mean()
+```
+
+### Documentation
+
+❌ **Vague docstrings**
+```python
+# Bad
+def calculate(data):
+    """Calculates stuff."""
+    pass
+
+# Good
+def calculate_density(gdf, pop_col='population'):
+    """
+    Calculate population density per km².
+    
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Areas with population data
+    pop_col : str, default 'population'
+        Column containing population values
+    
+    Returns
+    -------
+    GeoDataFrame
+        Input with added 'density' column
+    """
+    pass
+```
+
+❌ **No examples in README**
+```markdown
+<!-- Bad -->
+# My Package
+
+Install: pip install my-package
+
+<!-- Good -->
+# My Package
+
+## Quick Start
+
+```python
+from my_package import analyze
+
+data = analyze('input.gpkg')
+print(data.head())
+```
+```
+
+### Testing
+
+❌ **Only testing imports**
+```python
+# Bad - doesn't test functionality
+def test_import():
+    from my_package import function
+    assert function is not None
+
+# Good - tests actual behavior
+def test_calculate_density():
+    gdf = create_test_data()
+    result = calculate_density(gdf)
+    assert 'density' in result.columns
+    assert result['density'].min() >= 0
+```
+
+❌ **No edge case testing**
+```python
+# Bad - only tests happy path
+def test_function():
+    result = function(good_input)
+    assert result is not None
+
+# Good - tests edge cases
+def test_function_with_empty_input():
+    result = function(pd.DataFrame())
+    assert len(result) == 0
+
+def test_function_with_invalid_crs():
+    with pytest.raises(ValueError):
+        function(gdf_with_no_crs)
+```
+
+## Getting Help
+
+### Office Hours
+- **When**: Week 11-12 lab sessions
+- **Where**: Regular lab venue
+- **What**: Code review, debugging, publication issues, poster feedback
+
+### Discussion Forum
+- Post questions on Ed
+- Help classmates
+- Share resources
+
+### Example Packages
+Review these for inspiration:
+- OSMnx: https://github.com/gboeing/osmnx
+- momepy: https://github.com/pysal/momepy
+- r5py: https://github.com/r5py/r5py
+
+## Submission Checklist
+
+One week before submission, verify:
+
+### Code
+- [ ] Package published to PyPI (not TestPyPI!)
+- [ ] GitHub repository public
+- [ ] `src/` layout used
+- [ ] At least 3 meaningful functions
+- [ ] All functions have docstrings
+- [ ] Tests achieve >80% coverage
+- [ ] CI/CD passing (if implemented)
+- [ ] No hardcoded paths
+- [ ] Error handling implemented
+
+### Documentation
+- [ ] README complete with examples
+- [ ] Installation instructions tested
+- [ ] Example notebook works
+- [ ] LICENSE file present
+- [ ] CHANGELOG.md (optional but good)
+
+### Testing
+- [ ] All tests pass locally
+- [ ] Coverage report generated
+- [ ] Tested in fresh environment
+- [ ] Edge cases covered
+
+### Submission Files
+- [ ] PyPI URL
+- [ ] GitHub URL
+- [ ] Documentation URL (if applicable)
+- [ ] Brief report PDF (1-2 pages)
+- [ ] Example notebook (.ipynb)
+
+### Poster
+- [ ] A1 size (594mm × 841mm)
+- [ ] PDF exported
+- [ ] Printed (or ready to print)
+- [ ] 2-minute pitch practiced
+- [ ] QR codes tested
+
+## Final Tips
+
+**Start early**:
+- Week 9: Choose topic and create structure
+- Week 10: Build functionality and tests
+- Week 11: Polish and create poster
+- Week 12: Final refinements only
+
+**Keep it simple**:
+- 3-5 well-implemented functions beat 10 half-done ones
+- Focus on quality over quantity
+- Make one thing work really well
+
+**Test thoroughly**:
+- Write tests as you code, not at the end
+- Test edge cases and error conditions
+- Aim for 85%+ coverage
+
+**Document clearly**:
+- Imagine explaining to yourself in 6 months
+- Provide examples for every function
+- Show the "why", not just the "what"
+
+**Ask for help**:
+- Don't struggle alone
+- Use office hours
+- Post on discussion forum
+- Review classmates' work
+
+**Be proud**:
+- You're creating something real
+- It's published and accessible to anyone
+- This is a portfolio piece
+- Celebrate your achievement!
+
+## Summary
+
+Assignment 3 is your opportunity to demonstrate everything you've learned:
+- Package architecture and structure
+- Testing and quality assurance
+- Documentation and communication
+- Publication and deployment
+- Professional presentation
+
+This assignment showcases your technical skills, analytical thinking, and ability to create tools others can use. It's not just about passing the course—it's about building something you'll be proud to show future employers and collaborators.
+
+Good luck, and enjoy the process of creating your first published Python package!

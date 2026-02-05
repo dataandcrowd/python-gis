@@ -1,0 +1,783 @@
+# 4.4 Publishing to PyPI {.unnumbered #sec-publish-pypi}
+
+## Story problem
+
+**Sharing your toolkit with a cohort**
+
+- Students install your package with one command.
+- Everyone uses the same API and reduces setup friction.
+- You can update versions between semesters with clear release notes.
+
+## What you will learn
+
+- Version and release your Auckland GIS package.
+- Build a distribution and confirm it installs.
+- Do a clean import test and run a minimal example.
+- Maintain and update published packages.
+- Handle community feedback and contributions.
+
+## From TestPyPI to Production PyPI
+
+You've successfully published to TestPyPI in Week 10. Now it's time for the real thing!
+
+### TestPyPI vs PyPI
+
+| Feature | TestPyPI | Production PyPI |
+|---------|----------|-----------------|
+| **Purpose** | Testing | Production use |
+| **URL** | test.pypi.org | pypi.org |
+| **Permanence** | Deleted after 6 months | Permanent |
+| **Dependencies** | Limited | Full ecosystem |
+| **Audience** | You (testing) | Everyone (real users) |
+| **Mistakes** | Don't matter | Very visible |
+
+**Key difference**: Once published to PyPI, you **cannot delete or modify** a release. You can only add new versions.
+
+## Pre-Publication Checklist
+
+Before publishing to production PyPI, ensure:
+
+### 1. Code Quality
+
+✅ **All tests passing**
+```bash
+uv run pytest
+# All tests must pass, no skips
+```
+
+✅ **High test coverage** (>80%)
+```bash
+uv run pytest --cov=your_package --cov-report=term-missing
+# Coverage: 85%+
+```
+
+✅ **No linting errors**
+```bash
+uv run ruff check src/
+# No errors, only warnings acceptable
+```
+
+### 2. Documentation
+
+✅ **README is complete**
+- Installation instructions
+- Quick start example
+- Links to docs
+- License clearly stated
+
+✅ **All functions have docstrings**
+```python
+def function():
+    """Every public function needs this."""
+    pass
+```
+
+✅ **CHANGELOG updated**
+```markdown
+## [1.0.0] - 2026-06-05
+
+### Added
+- Initial stable release
+- Complete API documentation
+- Example notebooks
+```
+
+### 3. Package Metadata
+
+✅ **Version number correct**
+```toml
+[project]
+version = "1.0.0"  # Semantic versioning
+```
+
+✅ **Dependencies accurate**
+```toml
+dependencies = [
+    "geopandas>=0.14.0",
+    "pandas>=2.0.0",
+]
+# Only list what you actually need!
+```
+
+✅ **Classifiers appropriate**
+```toml
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: GIS",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+```
+
+### 4. Legal
+
+✅ **License file present**
+```
+LICENSE  # MIT, Apache 2.0, GPL, BSD, etc.
+```
+
+✅ **Copyright notices**
+```python
+# src/your_package/__init__.py
+"""
+Your Package Name
+Copyright (c) 2026 Your Name
+
+Licensed under the MIT License.
+"""
+```
+
+### 5. Testing in Clean Environment
+
+✅ **Install from TestPyPI works**
+```bash
+pip install --index-url https://test.pypi.org/simple/ \
+    --extra-index-url https://pypi.org/simple/ \
+    your-package
+```
+
+✅ **Import and basic usage work**
+```python
+python -c "from your_package import main_function; main_function()"
+```
+
+## Creating PyPI Account
+
+### Step 1: Register
+
+1. Visit https://pypi.org/account/register/
+2. Use a **professional email** (not temporary)
+3. Strong password (password manager recommended)
+4. Verify email
+
+### Step 2: Enable Two-Factor Authentication
+
+**Required for all package maintainers!**
+
+1. Account Settings → Add 2FA
+2. Use authenticator app (Authy, Google Authenticator)
+3. **Save recovery codes** securely
+
+### Step 3: Generate API Token
+
+1. Account Settings → API Tokens
+2. Click "Add API token"
+3. **Token name**: Descriptive (e.g., "uv-publish-auckland-gis")
+4. **Scope**: "Project: your-package-name" (safer than account-wide)
+5. Click "Create token"
+6. **Copy token immediately** (starts with `pypi-...`)
+7. Store securely (password manager or environment variable)
+
+**⚠️ Critical**: You cannot view the token again after leaving the page!
+
+### Token Security
+
+**Good practices:**
+```bash
+# Store in environment variable
+export UV_PUBLISH_TOKEN=pypi-your-token-here
+
+# Or use .env file (add to .gitignore!)
+echo "UV_PUBLISH_TOKEN=pypi-your-token-here" >> .env
+```
+
+**Bad practices:**
+❌ Don't hardcode in scripts
+❌ Don't commit to Git
+❌ Don't share with others
+❌ Don't use account-wide scope unless necessary
+
+## Publishing to PyPI
+
+### Final Pre-Flight Check
+
+```bash
+# 1. Clean old builds
+rm -rf dist/
+
+# 2. Ensure version is unique
+grep "version" pyproject.toml
+# Verify this version doesn't exist on PyPI yet
+
+# 3. Run all tests one last time
+uv run pytest
+
+# 4. Check package metadata
+uv build
+# Inspect dist/ files
+
+# 5. Verify README renders correctly
+# View on GitHub or locally in Markdown preview
+```
+
+### The Publication Command
+
+```bash
+# Export token (if not in environment)
+export UV_PUBLISH_TOKEN=pypi-your-token-here
+
+# Publish to PyPI
+uv publish
+
+# Or specify token inline
+uv publish --token pypi-your-token-here
+```
+
+**⚠️ Important**: Unlike TestPyPI, you **cannot unpublish** from PyPI!
+
+### Success!
+
+```
+Uploading distributions to https://upload.pypi.org/legacy/
+Uploading your_package-1.0.0-py3-none-any.whl
+Uploading your_package-1.0.0.tar.gz
+✓ Successfully published
+
+View at: https://pypi.org/project/your-package/
+```
+
+Your package is now live!
+
+## Verifying Publication
+
+### Test Installation
+
+```bash
+# Create fresh environment
+python -m venv test-install
+source test-install/bin/activate
+
+# Install from PyPI (real!)
+pip install your-package
+
+# Verify import
+python -c "from your_package import __version__; print(__version__)"
+
+# Run example
+python -c "from your_package import main_function; main_function()"
+
+# Check dependencies installed
+pip list | grep geopandas
+```
+
+### Check PyPI Page
+
+Visit `https://pypi.org/project/your-package/`
+
+Verify:
+- ✅ README displays correctly (Markdown rendering)
+- ✅ Version number is correct
+- ✅ Install command shown
+- ✅ Dependencies listed
+- ✅ Classifiers correct
+- ✅ Project links work (GitHub, docs)
+
+### Test from Different Machine
+
+**Best practice**: Ask a friend to install and test:
+
+```bash
+pip install your-package
+python -c "import your_package; print('Success!')"
+```
+
+This catches issues with:
+- Missing dependencies
+- Platform-specific problems
+- Installation instructions
+
+## Version Management
+
+### Semantic Versioning (SemVer)
+
+Format: `MAJOR.MINOR.PATCH`
+
+**MAJOR** version (1.0.0 → 2.0.0)
+- Breaking changes
+- Changed API
+- Removed functions
+- Different behaviour
+
+Example:
+```python
+# Version 1.x
+result = calculate_density(gdf)  # Returns DataFrame
+
+# Version 2.0.0 (breaking change!)
+result, metadata = calculate_density(gdf)  # Returns tuple now
+```
+
+**MINOR** version (1.0.0 → 1.1.0)
+- New features
+- Backwards compatible
+- New functions
+- Additional parameters (with defaults)
+
+Example:
+```python
+# Version 1.0.0
+def load_sa2(path):
+    ...
+
+# Version 1.1.0 (new parameter, backwards compatible)
+def load_sa2(path, validate=True):  # New param has default
+    ...
+```
+
+**PATCH** version (1.0.0 → 1.0.1)
+- Bug fixes only
+- No new features
+- No breaking changes
+- Performance improvements
+
+Example:
+```python
+# Version 1.0.0 (bug)
+def calculate_density(gdf):
+    area = gdf.geometry.area / 1000  # Wrong! Should be 1_000_000
+
+# Version 1.0.1 (bug fixed)
+def calculate_density(gdf):
+    area = gdf.geometry.area / 1_000_000  # Corrected
+```
+
+### Pre-release Versions
+
+For testing before stable release:
+
+```toml
+[project]
+version = "1.0.0a1"  # Alpha
+version = "1.0.0b2"  # Beta
+version = "1.0.0rc3" # Release candidate
+version = "1.0.0"    # Stable
+```
+
+Users can install pre-releases:
+```bash
+pip install --pre your-package  # Install latest pre-release
+pip install your-package==1.0.0b2  # Specific beta
+```
+
+### Release Workflow
+
+**For each new version:**
+
+1. **Update version** in `pyproject.toml`
+   ```toml
+   version = "1.1.0"
+   ```
+
+2. **Update CHANGELOG.md**
+   ```markdown
+   ## [1.1.0] - 2026-06-15
+   
+   ### Added
+   - New `calculate_accessibility()` function
+   
+   ### Fixed
+   - CRS validation now handles None gracefully
+   ```
+
+3. **Commit changes**
+   ```bash
+   git add pyproject.toml CHANGELOG.md
+   git commit -m "Bump version to 1.1.0"
+   ```
+
+4. **Create Git tag**
+   ```bash
+   git tag v1.1.0
+   git push origin v1.1.0
+   ```
+
+5. **Build and publish**
+   ```bash
+   rm -rf dist/
+   uv build
+   uv publish
+   ```
+
+6. **Create GitHub release**
+   - Go to GitHub → Releases → New Release
+   - Select tag `v1.1.0`
+   - Title: "Version 1.1.0"
+   - Copy CHANGELOG content
+   - Publish release
+
+## Maintaining Your Package
+
+### Responding to Issues
+
+When users report bugs:
+
+1. **Acknowledge quickly**
+   ```markdown
+   Thanks for reporting this! I'll investigate and get back to you.
+   ```
+
+2. **Reproduce the issue**
+   ```python
+   # Create minimal reproduction
+   from your_package import problematic_function
+   result = problematic_function(test_data)
+   # Expected: X, Got: Y
+   ```
+
+3. **Fix and test**
+   ```python
+   # Add test that catches the bug
+   def test_issue_42():
+       """Regression test for issue #42."""
+       result = problematic_function(edge_case_data)
+       assert result == expected_value
+   ```
+
+4. **Release patch version**
+   ```toml
+   version = "1.1.1"  # Patch version bump
+   ```
+
+5. **Close issue with reference**
+   ```markdown
+   Fixed in version 1.1.1. Thanks for reporting!
+   
+   Install the fix:
+   ```bash
+   pip install --upgrade your-package
+   ```
+
+### Deprecation Strategy
+
+When removing features:
+
+**Bad** (breaks users' code):
+```python
+# Version 2.0.0
+# Removed old_function() without warning
+```
+
+**Good** (gives users time to migrate):
+```python
+# Version 1.9.0 (warning)
+import warnings
+
+def old_function():
+    """Deprecated: Use new_function() instead."""
+    warnings.warn(
+        "old_function() is deprecated and will be removed in version 2.0.0. "
+        "Use new_function() instead.",
+        DeprecationWarning,
+        stacklevel=2
+    )
+    return new_function()
+
+# Version 2.0.0 (removed)
+# old_function() no longer exists
+```
+
+### Handling Pull Requests
+
+When others contribute:
+
+1. **Review code carefully**
+   - Does it maintain quality?
+   - Are there tests?
+   - Is documentation updated?
+
+2. **Be kind and constructive**
+   ```markdown
+   Thanks for the PR! This is a useful feature.
+   
+   Could you add:
+   - A test in tests/test_new_feature.py
+   - A docstring example
+   - An entry in CHANGELOG.md
+   
+   Let me know if you need any help!
+   ```
+
+3. **Merge and credit**
+   ```bash
+   git merge pr-branch
+   git commit -m "Add feature X (thanks @contributor)"
+   ```
+
+### Security Updates
+
+If a dependency has a security vulnerability:
+
+1. **Update immediately**
+   ```toml
+   [project]
+   dependencies = [
+       "vulnerable-package>=1.2.3",  # Update to patched version
+   ]
+   ```
+
+2. **Release patch version**
+   ```bash
+   # Even if you changed nothing else, release a patch
+   version = "1.1.2"
+   ```
+
+3. **Announce on GitHub**
+   ```markdown
+   ## Security Update: Version 1.1.2
+   
+   Updates `vulnerable-package` to patch CVE-2026-XXXXX.
+   
+   All users should upgrade immediately:
+   ```bash
+   pip install --upgrade your-package
+   ```
+
+## Package Statistics
+
+### Tracking Downloads
+
+View download statistics:
+- PyPI Stats: https://pypistats.org/packages/your-package
+- Libraries.io: https://libraries.io/pypi/your-package
+
+Example stats:
+```
+Last month: 1,234 downloads
+Total: 45,678 downloads
+Python versions: 3.10 (45%), 3.11 (35%), 3.12 (20%)
+```
+
+### Understanding Users
+
+Look at:
+- **GitHub stars**: Interest level
+- **GitHub issues**: User problems
+- **Dependents**: Who's using your package
+- **Fork count**: Developer interest
+
+## Assignment 3: Final Package
+
+### Requirements (30% of Grade)
+
+**Due**: Thursday 5 June, 5pm
+
+**Deliverables:**
+
+1. **Published to PyPI**
+   - Accessible at `https://pypi.org/project/your-package/`
+   - Installable via `pip install your-package`
+
+2. **GitHub Repository**
+   - `src/` layout
+   - Comprehensive tests (>80% coverage)
+   - Clear README with examples
+   - MIT or similar open source license
+   - CI/CD pipeline (optional but encouraged)
+
+3. **Documentation**
+   - Docstrings for all public functions
+   - Installation guide
+   - Usage examples
+   - API reference
+
+4. **Example Usage**
+   - Jupyter notebook demonstrating key features
+   - Real urban analytics application
+   - Clear, reproducible results
+
+5. **Brief Report** (1-2 pages)
+   - Package functionality and design decisions
+   - Potential applications
+   - Challenges and solutions
+   - Future development plans
+
+### Evaluation Criteria
+
+**Code Quality (10%)**
+- Clean, well-organized structure
+- Follows PEP 8 style guide
+- Type hints used appropriately
+- Error handling implemented
+- No code smells or anti-patterns
+
+**Documentation (10%)**
+- Complete docstrings (NumPy style)
+- Comprehensive README
+- Clear installation instructions
+- Usage examples provided
+- API documentation available
+
+**Testing (8%)**
+- Test coverage >80%
+- Meaningful test cases
+- Tests for edge cases
+- Geospatial operations tested correctly
+- CI/CD passing (if implemented)
+
+**Publication (2%)**
+- Successfully published to PyPI
+- Package installable
+- Metadata correct
+- Dependencies accurate
+- Version appropriate (1.0.0+ for production)
+
+### Suggested Package Topics
+
+**Urban Accessibility**
+- Isochrone calculation
+- 15-minute city assessment
+- Multi-modal accessibility metrics
+
+**Pedestrian Analytics**
+- Footfall data processing
+- Temporal pattern analysis
+- Flow visualization
+
+**Micromobility** (recommended!)
+- E-scooter trip analysis
+- Geofencing validation
+- OD flow calculations
+- Mode share analysis
+
+**Urban Form**
+- Street connectivity metrics
+- Building morphology
+- Walkability scoring
+- Network resilience
+
+**Transport**
+- Travel time analysis
+- Route optimization
+- Congestion assessment
+- PT accessibility
+
+### Time Management
+
+**Weeks 9-10**: Foundation
+- Choose topic
+- Implement core functions
+- Write basic tests
+- Publish to TestPyPI
+
+**Week 11**: Refinement
+- Add advanced features
+- Increase test coverage
+- Improve documentation
+- Set up CI/CD
+- Design poster
+
+**Week 12**: Finalization
+- Final testing
+- Publish to PyPI
+- Complete documentation
+- Submit materials
+- Prepare showcase presentation
+
+## Poster Showcase (10% of Grade)
+
+**Date**: Thursday 5 June (same as Assignment 3 due date)
+
+**Format**: A1 poster (594mm × 841mm)
+
+**Content**:
+- Package name and purpose
+- Key features with code examples
+- Use cases and results
+- Visual outputs (maps, charts)
+- PyPI URL and QR code
+- Your contact information
+
+**Presentation**:
+- 2-minute pitch
+- Explain package to diverse audience
+- Answer questions from faculty and peers
+- Professional communication
+
+**Evaluation**:
+- Visual design and clarity (4%)
+- Content quality (4%)
+- Communication effectiveness (2%)
+
+## Going Beyond
+
+### Optional Enhancements
+
+**Documentation Website** (e.g., Read the Docs)
+```yaml
+# .readthedocs.yml
+version: 2
+build:
+  os: ubuntu-22.04
+  tools:
+    python: "3.12"
+python:
+  install:
+    - method: pip
+      path: .
+```
+
+**Conda Package** (for conda-forge)
+```yaml
+# meta.yaml
+package:
+  name: your-package
+  version: 1.0.0
+```
+
+**Docker Container**
+```dockerfile
+FROM python:3.12-slim
+RUN pip install your-package
+CMD ["python"]
+```
+
+### Long-term Maintenance
+
+**Stay active:**
+- Respond to issues promptly
+- Update dependencies regularly
+- Follow Python ecosystem changes
+- Consider adding collaborators
+
+**Archive if needed:**
+```markdown
+# README.md
+## ⚠️ Archived
+
+This package is no longer actively maintained.
+
+Consider using [alternative-package] instead.
+```
+
+## Summary
+
+You've learned:
+
+- **PyPI publication**: Real production deployment
+- **Version management**: Semantic versioning strategy
+- **Package maintenance**: Updates, issues, PRs
+- **Security**: Token management and updates
+- **Assignment 3**: Complete requirements and timeline
+- **Poster showcase**: Professional presentation
+
+**You are now a published Python package author!**
+
+Congratulations on completing this journey from scripts to published software. The skills you've gained—packaging, testing, documentation, publication—are valuable across all areas of programming and will serve you throughout your career.
+
+## Further Reading
+
+- PyPI Help: https://pypi.org/help/
+- Packaging Guide: https://packaging.python.org/
+- Semantic Versioning: https://semver.org/
+- Open Source Guides: https://opensource.guide/
+- Python Package Index: https://pypi.org/
+- Conda Forge: https://conda-forge.org/
+
+## Celebrate Your Achievement! 🎉
+
+You've built something real, tested it thoroughly, documented it clearly, and shared it with the world. Your package is now part of the global Python ecosystem, available to anyone who needs it.
+
+This is not the end—it's the beginning of your journey as an open source contributor. Keep building, keep learning, and keep sharing!

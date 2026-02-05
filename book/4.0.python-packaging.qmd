@@ -1,19 +1,486 @@
-# Part 4: Python packaging for GIS
+# Python Package Development {#sec-python-packaging}
 
-## Story problem
+## Overview
 
-**From one-off Auckland script to a reusable toolkit**
+You've built powerful analyses throughout this course—pedestrian flow dashboards, network accessibility tools, and spatial data pipelines. But what happens when you want to reuse these tools in future projects? When you want to share them with colleagues? When you want to build upon your own work months later?
 
-- You have good code from Parts 2 and 3.
-- Now you make it importable: `from auckland_gis import ...`
-- Your future self and your students will reuse it in new projects.
+The answer is **Python packaging**—transforming your analysis scripts into reusable, installable, shareable software. This final chapter teaches you to create professional Python packages that you and others can install with a simple `pip install your-package`.
 
-## What you will learn
+## From Scripts to Packages
 
-- Turn your Auckland analysis into reusable functions.
-- Build a small package that loads Auckland boundaries and produces summaries.
-- Test, document, and publish a clean release.
+### The Problem: Copy-Paste Hell
 
-## Notes
+Consider this scenario:
 
-- _Add your narrative here._
+```python
+# project1/analysis.py
+def calculate_walkability(streets_gdf, amenities_gdf, buffer_m=800):
+    """Calculate walkability scores..."""
+    # 50 lines of well-crafted code
+
+# Months later in project2/analysis.py
+def calculate_walkability(streets_gdf, amenities_gdf, buffer_m=800):
+    """Calculate walkability scores..."""
+    # Same 50 lines, copied and pasted
+    # But you fixed a bug in project1 and forgot to update project2...
+```
+
+### The Solution: Packaged Code
+
+```python
+# Once, in your package
+pip install my-urban-toolkit
+
+# Forever, in any project
+from my_urban_toolkit import calculate_walkability
+
+walkability = calculate_walkability(streets, amenities)
+```
+
+## What You Will Learn
+
+This chapter covers the complete package development lifecycle:
+
+### Week 9: Structure and Building (@sec-package-fundamentals)
+- Why packaging matters for urban analytics
+- Package architecture: the `src/` layout
+- Understanding `pyproject.toml`
+- Building distributions with `uv`
+- Testing packages locally
+
+### Week 10: Testing and Publishing (@sec-testing-quality)
+- Writing tests with pytest
+- Testing geospatial operations
+- Documentation strategies
+- Publishing to TestPyPI
+- Troubleshooting publication issues
+
+### Week 11: Production Quality (@sec-geospatial-package-example)
+- Real-world package examples
+- CI/CD with GitHub Actions  
+- Publishing to PyPI
+- Creating professional documentation
+
+### Week 12: Publishing to PyPI (@sec-publish-pypi)
+- Production PyPI publication
+- Version management
+- Package maintenance
+- Community engagement
+
+## Story Problem: The Auckland GIS Toolkit
+
+Throughout this chapter, we'll develop `auckland-gis`—a package that:
+
+**Provides reusable functions** you've built across assignments:
+- Loading and validating Auckland SA2 boundaries
+- Calculating accessibility metrics
+- Processing pedestrian count data
+- Generating standard choropleth maps
+- Computing urban form indicators
+
+**Solves common problems**:
+- Students stop copying code between projects
+- CRS validation becomes standardized
+- Analysis becomes easier to teach and review
+- Results are reproducible
+
+**Enables future work**:
+- Import in Jupyter notebooks: `from auckland_gis import load_sa2`
+- Use in dashboards: `from auckland_gis.viz import create_choropleth`
+- Share with colleagues: `pip install auckland-gis`
+
+## The Journey: Scripts → Package → Publication
+
+### Phase 1: From Notebook to Module (Week 9)
+
+**Starting point**: Scattered code across notebooks and scripts
+
+```
+my_analysis/
+├── load_data.py
+├── process_pedestrians.py
+├── calculate_metrics.py
+└── make_maps.py
+```
+
+**Week 9 deliverable**: Organized package structure
+
+```
+auckland-gis/
+├── src/
+│   └── auckland_gis/
+│       ├── __init__.py
+│       ├── data.py
+│       ├── metrics.py
+│       └── viz.py
+├── tests/
+│   └── test_data.py
+├── pyproject.toml
+└── README.md
+```
+
+### Phase 2: Add Quality Assurance (Week 10)
+
+**Tests ensure correctness**:
+```python
+def test_load_sa2():
+    """Test SA2 loading validates CRS"""
+    gdf = load_sa2('data/auckland_sa2.gpkg')
+    assert gdf.crs == 'EPSG:2193'
+    assert len(gdf) > 0
+```
+
+**Documentation aids users**:
+```python
+def calculate_density(gdf, pop_column='population'):
+    """
+    Calculate population density per km².
+    
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Must contain geometry and population data
+    pop_column : str, default 'population'
+        Name of population column
+    
+    Returns
+    -------
+    GeoDataFrame
+        Input GDF with added 'density' column
+    """
+```
+
+### Phase 3: Share with the World (Weeks 10-11)
+
+**TestPyPI (Week 10)**: Practice publishing safely
+```bash
+uv publish --index testpypi
+# Your package is now at: test.pypi.org/project/auckland-gis/
+```
+
+**Real PyPI (Week 11)**: Production release
+```bash
+uv publish
+# Anyone can now: pip install auckland-gis
+```
+
+## Learning Objectives
+
+By the end of this chapter, you will be able to:
+
+**Technical Skills:**
+- Structure Python packages using best practices
+- Write `pyproject.toml` configuration
+- Build wheel and source distributions
+- Write comprehensive tests with pytest
+- Generate documentation with docstrings
+- Publish packages to PyPI
+- Set up CI/CD pipelines
+- Version packages semantically
+
+**Geospatial Skills:**
+- Test spatial operations correctly
+- Handle CRS validation in packages
+- Package spatial data appropriately
+- Manage geospatial dependencies
+- Create reusable GIS workflows
+
+**Professional Skills:**
+- Write code others can understand and use
+- Document for diverse audiences
+- Troubleshoot publication issues
+- Maintain open source projects
+- Communicate technical work effectively
+
+## Why This Matters for Urban Analytics
+
+### 1. Reproducibility
+
+Published packages ensure analyses can be reproduced:
+
+```python
+# Requirements file for research paper
+auckland-gis==1.2.0  # Exact version locks analysis
+geopandas==0.14.0
+```
+
+Anyone can recreate your analysis with the same tools.
+
+### 2. Collaboration
+
+Teams work more efficiently with shared tools:
+
+```python
+# Everyone uses the same validated functions
+from auckland_gis import load_sa2, validate_join
+
+sa2 = load_sa2('data/boundaries.gpkg')
+data = validate_join(sa2, census_df, key='SA2_code')
+```
+
+No more "it works on my machine" problems.
+
+### 3. Teaching
+
+Packages make teaching cleaner:
+
+```python
+# In your course materials
+pip install auckland-gis
+
+# Students focus on analysis, not data wrangling
+from auckland_gis import load_pedestrian_counts
+data = load_pedestrian_counts('2023-03')
+```
+
+### 4. Career Development
+
+**Employability**: Employers value developers who can create reusable tools
+
+**Portfolio**: Published packages demonstrate your skills publicly
+
+**Community**: Contributing to open source builds professional networks
+
+**Impact**: Your tools can influence research and practice beyond your direct work
+
+## Urban Analytics Package Ecosystem
+
+You'll join a rich ecosystem of geospatial packages:
+
+**Foundation Libraries** (what you'll depend on):
+- `geopandas`: Spatial DataFrames
+- `shapely`: Geometric operations
+- `osmnx`: Street networks
+- `r5py`: Routing and accessibility
+- `folium`: Interactive maps
+
+**Your Package** (what you'll create):
+- `auckland-gis`: Auckland-specific utilities
+- Or: `urban-walkability`: Walkability assessment tools
+- Or: `escooter-analytics`: Micromobility analysis
+- Or: `accessibility-metrics`: Transport accessibility
+
+**Impact**: Your package could become someone else's foundation library!
+
+## Assessment Overview
+
+Package development spans the final four weeks:
+
+| Week | Activity | Weight |
+|------|----------|--------|
+| **9** | Build first package locally | Completion credit |
+| **10** | Publish to TestPyPI | 5% |
+| **11** | Refinement and CI/CD | Part of Assignment 3 |
+| **12** | **Assignment 3**: PyPI publication | 30% |
+| **12** | **Poster showcase** | 10% |
+
+**Total**: 45% of final grade
+
+## Chapter Structure
+
+### @sec-package-fundamentals: Package Structure and Building
+
+Learn the fundamentals:
+- Why packaging matters for GIS workflows
+- Package architecture (`src/` layout best practices)
+- Understanding `pyproject.toml` configuration
+- Building distributions with `uv`
+- Local testing before publication
+
+**Week 9 focus**: Get everyone building packages successfully
+
+### @sec-testing-quality: Testing and Quality Assurance  
+
+Add robustness:
+- Writing tests with pytest
+- Testing geospatial operations
+- Handling edge cases (empty geometries, CRS issues)
+- Documentation strategies
+- TestPyPI publication
+
+**Week 10 focus**: Practice publication in safe environment
+
+### @sec-geospatial-package-example: Real-World Package Examples
+
+See it in action:
+- Complete package walkthroughs
+- Auckland utilities toolkit
+- Micromobility analysis example
+- CI/CD setup with GitHub Actions
+- Advanced packaging patterns
+
+**Week 11 focus**: Polish for production release
+
+### @sec-publish-pypi: Publishing to Production PyPI
+
+Final release:
+- Real PyPI publication process
+- Semantic versioning strategies
+- Release notes and changelogs
+- Package maintenance
+- Community engagement
+
+**Week 12 focus**: Complete Assignment 3 and showcase
+
+## Real-World Applications
+
+### Example 1: Research Lab Toolkit
+
+```python
+# The problem: Lab members copy code between projects
+# The solution: 
+pip install lab-spatial-toolkit
+
+from lab_spatial_toolkit import (
+    load_study_area,
+    calculate_accessibility,
+    generate_report
+)
+```
+
+### Example 2: Consulting Deliverable
+
+```python
+# The problem: Clients need reproducible analysis
+# The solution: Deliver code as a package
+pip install auckland-transport-analysis==2.1.0
+
+# Client can reproduce all report figures
+from auckland_transport_analysis import generate_figures
+figures = generate_figures('data/')
+```
+
+### Example 3: Course Infrastructure
+
+```python
+# The problem: Students struggle with data loading
+# The solution: Package handles complexity
+pip install gisci343-toolkit
+
+from gisci343_toolkit import load_assignment_data
+pedestrians, boundaries, network = load_assignment_data(assignment=2)
+```
+
+## Getting Started
+
+Before you begin:
+
+**Prerequisites:**
+- Python 3.10 or later
+- uv installed: `pip install uv`
+- Git and GitHub account
+- TestPyPI account (create in Week 10)
+- PyPI account (create in Week 11)
+
+**Development Tools:**
+- Code editor (VS Code, PyCharm, or similar)
+- Terminal/command line
+- Git for version control
+
+**Conceptual Knowledge:**
+- Python modules and imports
+- Functions and classes
+- Command line basics
+- Git fundamentals
+
+## Mindset for Package Development
+
+**Think like a library author:**
+- "Will this make sense to someone else?"
+- "What might go wrong with this input?"
+- "How do I explain this clearly?"
+
+**Embrace iteration:**
+- Version 1.0 doesn't need to be perfect
+- Release early, improve based on feedback
+- Documentation can always improve
+
+**Value reproducibility:**
+- Pin dependencies
+- Test thoroughly
+- Document assumptions
+- Version thoughtfully
+
+## Looking Ahead: Assignment 3
+
+Throughout these weeks, you'll work toward Assignment 3: a complete, published Python package. Suggested scopes:
+
+**Urban Accessibility:**
+- Isochrone calculation tools
+- 15-minute city assessment
+- Multi-modal accessibility metrics
+
+**Micromobility Analysis:**
+- E-scooter trip analysis
+- Geofencing validation
+- OD flow calculations
+- Mode share analytics
+
+**Urban Form:**
+- Street connectivity metrics
+- Building morphology analysis
+- Walkability scoring
+- Network resilience measures
+
+**Transport Analytics:**
+- Travel time calculations
+- Route choice modeling
+- Congestion assessment
+- Public transport accessibility
+
+Choose something that:
+1. **Solves a real problem** (yours or others')
+2. **Builds on your assignments** (reuse working code)
+3. **Interests you** (you'll work on this for 3-4 weeks)
+4. **Has clear scope** (achievable in time available)
+
+## Course Wrap-Up: Poster Showcase
+
+The course culminates in a **poster showcase** where you'll present your package:
+
+**Format**: A1 poster (594mm × 841mm)
+**Content**: Package purpose, features, use cases, results
+**Audience**: Faculty, students, potential employers
+**Opportunity**: Network, get feedback, showcase skills
+
+This is your chance to demonstrate everything you've learned: technical skills, analytical thinking, and professional communication.
+
+## Let's Begin
+
+Package development transforms you from a code user to a code creator. You'll learn to build tools that last, share knowledge effectively, and contribute to the broader geospatial community.
+
+Ready to publish your first package? Let's start with the fundamentals in @sec-package-fundamentals.
+
+## Resources
+
+**Essential Reading:**
+- Python Packaging Guide: https://packaging.python.org/
+- uv documentation: https://docs.astral.sh/uv/
+- pytest documentation: https://docs.pytest.org/
+- Real Python - Python Packages: https://realpython.com/python-modules-packages/
+
+**Example Packages to Study:**
+- osmnx: https://github.com/gboeing/osmnx
+- geopandas: https://github.com/geopandas/geopandas
+- momepy: https://github.com/pysal/momepy
+- r5py: https://github.com/r5py/r5py
+
+**Community:**
+- Python Packaging Discord: https://discord.gg/pypa
+- PyPI: https://pypi.org/
+- TestPyPI: https://test.pypi.org/
+
+## What Success Looks Like
+
+By Week 12, you'll be able to say:
+
+✅ "I am a published Python package author"
+✅ "My code is tested and documented"
+✅ "Anyone can install my package with pip"
+✅ "I understand package architecture and best practices"
+✅ "I can maintain and version my package"
+✅ "I've contributed to the open source ecosystem"
+
+Most importantly: **You'll have created something that outlasts the course—a tool that you and others can use for years to come.**
+
+Let's build something great.

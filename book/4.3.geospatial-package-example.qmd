@@ -1,0 +1,884 @@
+# 4.3 Geospatial Package Example: Auckland GIS Toolkit {.unnumbered #sec-geospatial-package-example}
+
+## Story problem
+
+**Auckland SA2 toolkit**
+
+- Load `auckland_sa2.gpkg` and confirm CRS.
+- Join `population.csv` by SA2 code and validate matches.
+- Compute a density field ready for choropleths.
+
+## What you will learn
+
+- Implement a small library for Auckland zone analysis.
+- Keep geometry in GeoPandas, summarise in Pandas or Polars.
+- Return tidy outputs that feed Folium maps and Shiny apps.
+- Set up CI/CD with GitHub Actions.
+- Apply production-quality packaging practices.
+
+## Complete Package Example: `auckland-gis`
+
+Let's build a complete, production-ready geospatial package step by step.
+
+### Package Overview
+
+**Purpose**: Reusable utilities for Auckland urban analytics
+
+**Functionality**:
+- Load and validate Auckland SA2 boundaries
+- Process census data
+- Calculate urban metrics (density, accessibility)
+- Create standard visualisations
+- Export data for dashboards
+
+**Repository**: `github.com/yourusername/auckland-gis`
+
+### Project Structure
+
+```
+auckland-gis/
+├── .github/
+│   └── workflows/
+│       └── test.yml               # CI/CD workflow
+├── src/
+│   └── auckland_gis/
+│       ├── __init__.py            # Package initialization
+│       ├── data.py                # Data loading and validation
+│       ├── metrics.py             # Urban metrics calculations
+│       ├── viz.py                 # Visualisation utilities
+│       └── utils.py               # Helper functions
+├── tests/
+│   ├── __init__.py
+│   ├── test_data.py
+│   ├── test_metrics.py
+│   ├── test_viz.py
+│   └── fixtures/
+│       ├── sample_sa2.gpkg
+│       └── sample_census.csv
+├── docs/
+│   ├── index.md
+│   ├── quickstart.md
+│   ├── api-reference.md
+│   └── examples.md
+├── examples/
+│   ├── basic_usage.ipynb
+│   └── dashboard_integration.py
+├── .gitignore
+├── .pre-commit-config.yaml        # Code quality hooks
+├── LICENSE
+├── pyproject.toml
+└── README.md
+```
+
+## Suggested functions
+
+### Data Module (`data.py`)
+
+**Function 1: `load_sa2()`**
+
+```python
+"""Data loading and validation functions."""
+
+import geopandas as gpd
+from pathlib import Path
+from typing import Optional
+import warnings
+
+def load_sa2(path: Optional[str] = None, validate: bool = True) -> gpd.GeoDataFrame:
+    """
+    Load Auckland SA2 boundaries.
+    
+    Parameters
+    ----------
+    path : str, optional
+        Path to SA2 GeoPackage file. If None, downloads from
+        data repository.
+    validate : bool, default True
+        Whether to validate CRS and geometry
+    
+    Returns
+    -------
+    GeoDataFrame
+        SA2 boundaries in NZTM (EPSG:2193)
+    
+    Raises
+    ------
+    FileNotFoundError
+        If path provided but file doesn't exist
+    ValueError
+        If validation fails
+    
+    Examples
+    --------
+    >>> gdf = load_sa2()
+    >>> gdf.crs
+    CRS.from_epsg(2193)
+    >>> len(gdf)
+    104  # Number of SA2 areas in Auckland
+    """
+    if path is None:
+        path = _download_sa2_boundaries()
+    
+    path = Path(path)
+    if not path.exists():
+        raise FileNotFoundError(f"SA2 file not found: {path}")
+    
+    gdf = gpd.read_file(path)
+    
+    if validate:
+        gdf = _validate_sa2(gdf)
+    
+    return gdf
+
+def _download_sa2_boundaries() -> Path:
+    """Download SA2 boundaries if not cached."""
+    cache_dir = Path.home() / '.auckland_gis' / 'data'
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    
+    local_path = cache_dir / 'auckland_sa2.gpkg'
+    
+    if local_path.exists():
+        return local_path
+    
+    # Download from repository
+    url = "https://example.com/data/auckland_sa2.gpkg"
+    import urllib.request
+    
+    print(f"Downloading SA2 boundaries to {local_path}...")
+    urllib.request.urlretrieve(url, local_path)
+    
+    return local_path
+
+def _validate_sa2(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    """Validate SA2 GeoDataFrame."""
+    # Check CRS
+    if gdf.crs is None:
+        raise ValueError("GeoDataFrame has no CRS defined")
+    
+    if gdf.crs != 'EPSG:2193':
+        warnings.warn(
+            f"Converting from {gdf.crs} to EPSG:2193 (NZTM)",
+            UserWarning
+        )
+        gdf = gdf.to_crs('EPSG:2193')
+    
+    # Check required columns
+    required = ['SA2_code', 'SA2_name', 'geometry']
+    missing = set(required) - set(gdf.columns)
+    if missing:
+        raise ValueError(f"Missing required columns: {missing}")
+    
+    # Check geometry validity
+    invalid = ~gdf.geometry.is_valid
+    if invalid.any():
+        warnings.warn(
+            f"Found {invalid.sum()} invalid geometries. "
+            "Consider using .make_valid()",
+            UserWarning
+        )
+    
+    return gdf
+```
+
+**Function 2: `validate_join()`**
+
+```python
+from typing import Tuple, Dict, Any
+import pandas as pd
+
+def validate_join(
+    gdf: gpd.GeoDataFrame,
+    df: pd.DataFrame,
+    key: str,
+    how: str = 'left'
+) -> Tuple[gpd.GeoDataFrame, Dict[str, Any]]:
+    """
+    Join DataFrames with validation reporting.
+    
+    Performs a spatial join and reports on match quality,
+    helping detect data issues before they cause silent failures.
+    
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Left DataFrame (typically boundaries)
+    df : DataFrame
+        Right DataFrame (typically attributes)
+    key : str
+        Column name to join on (must exist in both)
+    how : str, default 'left'
+        Type of join ('left', 'right', 'inner', 'outer')
+    
+    Returns
+    -------
+    result : GeoDataFrame
+        Joined GeoDataFrame
+    report : dict
+        Validation report with keys:
+        - all_matched: bool, True if all records matched
+        - unmatched_count: int, number of unmatched records
+        - unmatched_keys: list, keys that didn't match
+        - duplicate_keys: list, any duplicate keys found
+    
+    Raises
+    ------
+    ValueError
+        If key column missing or if duplicates found in right DataFrame
+    
+    Examples
+    --------
+    >>> boundaries = load_sa2()
+    >>> census = pd.read_csv('census_2023.csv')
+    >>> result, report = validate_join(boundaries, census, key='SA2_code')
+    >>> if not report['all_matched']:
+    ...     print(f"Warning: {report['unmatched_count']} zones missing data")
+    """
+    # Validate inputs
+    if key not in gdf.columns:
+        raise ValueError(f"Key '{key}' not in GeoDataFrame columns")
+    if key not in df.columns:
+        raise ValueError(f"Key '{key}' not in DataFrame columns")
+    
+    # Check for duplicates in df (common issue!)
+    duplicates = df[key].duplicated()
+    if duplicates.any():
+        dup_keys = df.loc[duplicates, key].tolist()
+        raise ValueError(
+            f"Duplicate keys found in right DataFrame: {dup_keys[:5]}..."
+        )
+    
+    # Store original keys for reporting
+    left_keys = set(gdf[key].unique())
+    right_keys = set(df[key].unique())
+    
+    # Perform join
+    result = gdf.merge(df, on=key, how=how)
+    
+    # Generate report
+    unmatched = left_keys - right_keys
+    report = {
+        'all_matched': len(unmatched) == 0,
+        'unmatched_count': len(unmatched),
+        'unmatched_keys': sorted(list(unmatched)),
+        'left_count': len(gdf),
+        'right_count': len(df),
+        'result_count': len(result),
+    }
+    
+    return result, report
+```
+
+### Metrics Module (`metrics.py`)
+
+**Function 3: `calculate_density()`**
+
+```python
+"""Urban metrics calculations."""
+
+import geopandas as gpd
+import numpy as np
+from typing import Optional
+
+def calculate_density(
+    gdf: gpd.GeoDataFrame,
+    value_col: str = 'population',
+    area_col: Optional[str] = None
+) -> gpd.GeoDataFrame:
+    """
+    Calculate density (value per km²).
+    
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Input geodata, must be in projected CRS (metres)
+    value_col : str, default 'population'
+        Column containing values to calculate density for
+    area_col : str, optional
+        Column containing area in km². If None, calculates from geometry.
+    
+    Returns
+    -------
+    GeoDataFrame
+        Input GDF with added 'density' column
+    
+    Raises
+    ------
+    ValueError
+        If CRS is not projected (must be in metres)
+    
+    Examples
+    --------
+    >>> sa2 = load_sa2()
+    >>> census = pd.read_csv('population.csv')
+    >>> joined, _ = validate_join(sa2, census, 'SA2_code')
+    >>> result = calculate_density(joined, value_col='population')
+    >>> result['density'].describe()
+    count    104.0
+    mean     2156.3
+    std      2891.5
+    min         12.1
+    max     14205.8
+    """
+    result = gdf.copy()
+    
+    # Validate CRS
+    if result.crs is None:
+        raise ValueError("GeoDataFrame must have CRS defined")
+    
+    if result.crs.is_geographic:
+        raise ValueError(
+            "CRS must be projected (in metres), not geographic. "
+            "Use gdf.to_crs('EPSG:2193') first."
+        )
+    
+    # Calculate area if not provided
+    if area_col is None:
+        result['area_km2'] = result.geometry.area / 1_000_000
+        area_col = 'area_km2'
+    
+    # Calculate density, handling division by zero
+    result['density'] = np.where(
+        result[area_col] > 0,
+        result[value_col] / result[area_col],
+        0
+    )
+    
+    return result
+```
+
+**Function 4: `calculate_accessibility()`**
+
+```python
+def calculate_accessibility(
+    origins_gdf: gpd.GeoDataFrame,
+    destinations_gdf: gpd.GeoDataFrame,
+    max_distance_m: float = 800,
+    id_col: str = 'id'
+) -> gpd.GeoDataFrame:
+    """
+    Calculate accessibility as count of nearby destinations.
+    
+    For each origin, counts destinations within walking distance.
+    Uses Euclidean distance (for network-based, use r5py instead).
+    
+    Parameters
+    ----------
+    origins_gdf : GeoDataFrame
+        Point locations (e.g., homes, offices)
+    destinations_gdf : GeoDataFrame
+        Point locations (e.g., shops, parks)
+    max_distance_m : float, default 800
+        Maximum distance in metres (default: 10 min walk)
+    id_col : str, default 'id'
+        Column name for origin IDs
+    
+    Returns
+    -------
+    GeoDataFrame
+        Origins with 'accessibility_score' column
+    
+    Examples
+    --------
+    >>> homes = gpd.read_file('residential_points.gpkg')
+    >>> supermarkets = gpd.read_file('supermarkets.gpkg')
+    >>> access = calculate_accessibility(homes, supermarkets, max_distance_m=1600)
+    >>> access['accessibility_score'].mean()
+    2.4  # Average 2.4 supermarkets within 1.6km
+    """
+    # Ensure both in same CRS
+    if origins_gdf.crs != destinations_gdf.crs:
+        destinations_gdf = destinations_gdf.to_crs(origins_gdf.crs)
+    
+    # Create buffer around each origin
+    origins_buffered = origins_gdf.copy()
+    origins_buffered['geometry'] = origins_buffered.geometry.buffer(max_distance_m)
+    
+    # Spatial join to count destinations within buffer
+    joined = gpd.sjoin(
+        origins_buffered,
+        destinations_gdf,
+        how='left',
+        predicate='intersects'
+    )
+    
+    # Count destinations per origin
+    counts = joined.groupby(id_col).size()
+    
+    # Add to original origins
+    result = origins_gdf.copy()
+    result['accessibility_score'] = result[id_col].map(counts).fillna(0).astype(int)
+    
+    return result
+```
+
+### Visualisation Module (`viz.py`)
+
+**Function 5: `create_choropleth()`**
+
+```python
+"""Visualisation utilities."""
+
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from typing import Optional, Tuple
+
+def create_choropleth(
+    gdf: gpd.GeoDataFrame,
+    column: str,
+    title: Optional[str] = None,
+    cmap: str = 'YlOrRd',
+    figsize: Tuple[int, int] = (12, 10),
+    scheme: Optional[str] = None,
+    k: int = 5,
+    legend_kwds: Optional[dict] = None
+) -> Tuple[plt.Figure, plt.Axes]:
+    """
+    Create standardised choropleth map.
+    
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Data to plot
+    column : str
+        Column to visualise
+    title : str, optional
+        Map title. If None, uses column name.
+    cmap : str, default 'YlOrRd'
+        Matplotlib colormap name
+    figsize : tuple, default (12, 10)
+        Figure size in inches
+    scheme : str, optional
+        Classification scheme: 'quantiles', 'equal_interval', 
+        'natural_breaks'. If None, uses continuous scale.
+    k : int, default 5
+        Number of classes for classification
+    legend_kwds : dict, optional
+        Additional legend parameters
+    
+    Returns
+    -------
+    fig : Figure
+        Matplotlib figure
+    ax : Axes
+        Matplotlib axes
+    
+    Examples
+    --------
+    >>> sa2_density = calculate_density(sa2_census)
+    >>> fig, ax = create_choropleth(
+    ...     sa2_density,
+    ...     column='density',
+    ...     title='Population Density (per km²)',
+    ...     scheme='quantiles'
+    ... )
+    >>> plt.savefig('density_map.png', dpi=300, bbox_inches='tight')
+    """
+    fig, ax = plt.subplots(figsize=figsize)
+    
+    # Set defaults
+    if title is None:
+        title = column.replace('_', ' ').title()
+    
+    if legend_kwds is None:
+        legend_kwds = {}
+    
+    legend_kwds.setdefault('label', column.replace('_', ' ').title())
+    legend_kwds.setdefault('orientation', 'horizontal')
+    
+    # Plot
+    gdf.plot(
+        column=column,
+        ax=ax,
+        cmap=cmap,
+        scheme=scheme,
+        k=k,
+        legend=True,
+        edgecolor='black',
+        linewidth=0.5,
+        legend_kwds=legend_kwds
+    )
+    
+    ax.set_title(title, fontsize=16, fontweight='bold', pad=20)
+    ax.set_axis_off()
+    
+    # Add source note
+    ax.text(
+        0.99, 0.01,
+        'Source: Stats NZ, Census 2023',
+        transform=ax.transAxes,
+        ha='right',
+        va='bottom',
+        fontsize=8,
+        color='grey'
+    )
+    
+    plt.tight_layout()
+    
+    return fig, ax
+```
+
+### Complete Package Code
+
+**`__init__.py`**
+
+```python
+"""
+Auckland GIS Toolkit
+====================
+
+Reusable utilities for Auckland urban analytics.
+
+Modules
+-------
+data : Data loading and validation
+metrics : Urban metrics calculations
+viz : Visualisation utilities
+
+Examples
+--------
+>>> from auckland_gis import load_sa2, calculate_density, create_choropleth
+>>> sa2 = load_sa2()
+>>> sa2_density = calculate_density(sa2)
+>>> fig, ax = create_choropleth(sa2_density, column='density')
+"""
+
+__version__ = "0.2.0"
+
+from .data import load_sa2, validate_join
+from .metrics import calculate_density, calculate_accessibility
+from .viz import create_choropleth
+
+__all__ = [
+    "load_sa2",
+    "validate_join",
+    "calculate_density",
+    "calculate_accessibility",
+    "create_choropleth",
+]
+```
+
+## CI/CD with GitHub Actions
+
+### Why Continuous Integration?
+
+**CI/CD ensures:**
+- Tests run automatically on every commit
+- Code quality maintained
+- Breaking changes caught early
+- Confidence in package stability
+
+### GitHub Actions Workflow
+
+Create `.github/workflows/test.yml`:
+
+```yaml
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.10', '3.11', '3.12']
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install uv
+      run: pip install uv
+    
+    - name: Install dependencies
+      run: |
+        uv pip install -e ".[dev]"
+    
+    - name: Run tests with coverage
+      run: |
+        uv run pytest --cov=auckland_gis --cov-report=xml
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-${{ matrix.os }}-py${{ matrix.python-version }}
+```
+
+### Pre-commit Hooks
+
+Create `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+      - id: black
+        language_version: python3.12
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.13
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=5000']
+```
+
+Install:
+```bash
+uv pip install pre-commit
+pre-commit install
+```
+
+Now code is automatically formatted before each commit!
+
+### README Badges
+
+Add status badges to `README.md`:
+
+```markdown
+# Auckland GIS Toolkit
+
+[![Tests](https://github.com/yourusername/auckland-gis/workflows/Tests/badge.svg)](https://github.com/yourusername/auckland-gis/actions)
+[![codecov](https://codecov.io/gh/yourusername/auckland-gis/branch/main/graph/badge.svg)](https://codecov.io/gh/yourusername/auckland-gis)
+[![PyPI version](https://badge.fury.io/py/auckland-gis.svg)](https://badge.fury.io/py/auckland-gis)
+[![Python versions](https://img.shields.io/pypi/pyversions/auckland-gis.svg)](https://pypi.org/project/auckland-gis/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+```
+
+## Production-Quality Practices
+
+### Semantic Versioning
+
+Follow SemVer (MAJOR.MINOR.PATCH):
+
+```
+1.2.3
+│ │ └─ Patch: Bug fixes, no breaking changes
+│ └─── Minor: New features, backwards compatible
+└───── Major: Breaking changes
+```
+
+Examples:
+- `0.1.0` → `0.1.1`: Fixed CRS validation bug
+- `0.1.1` → `0.2.0`: Added accessibility function
+- `0.2.0` → `1.0.0`: Changed API, breaking change
+
+### Changelog
+
+Maintain `CHANGELOG.md`:
+
+```markdown
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [0.2.0] - 2026-05-20
+
+### Added
+- `calculate_accessibility()` function for proximity analysis
+- Support for custom distance thresholds
+- Example notebook for accessibility analysis
+
+### Fixed
+- CRS validation now handles missing CRS gracefully
+- `validate_join()` reports duplicate keys correctly
+
+### Changed
+- `load_sa2()` now caches downloaded data
+
+## [0.1.0] - 2026-05-10
+
+### Added
+- Initial release
+- Basic SA2 loading functionality
+- Density calculation
+- Choropleth visualization
+```
+
+### Type Hints
+
+Use type hints for better IDE support:
+
+```python
+from typing import Optional, Tuple, Dict, Any
+import geopandas as gpd
+import pandas as pd
+
+def validate_join(
+    gdf: gpd.GeoDataFrame,
+    df: pd.DataFrame,
+    key: str,
+    how: str = 'left'
+) -> Tuple[gpd.GeoDataFrame, Dict[str, Any]]:
+    """Function with complete type hints."""
+    pass
+```
+
+### Error Messages
+
+Provide helpful error messages:
+
+```python
+# Bad
+raise ValueError("Invalid CRS")
+
+# Good
+raise ValueError(
+    f"CRS must be projected (in metres), not geographic. "
+    f"Current CRS: {gdf.crs}. "
+    f"Try: gdf.to_crs('EPSG:2193')"
+)
+```
+
+## Example Usage
+
+### Complete Workflow
+
+```python
+"""Example: Population density analysis."""
+
+from auckland_gis import (
+    load_sa2,
+    validate_join,
+    calculate_density,
+    create_choropleth
+)
+import pandas as pd
+
+# 1. Load boundaries
+print("Loading SA2 boundaries...")
+sa2 = load_sa2()
+print(f"Loaded {len(sa2)} SA2 areas")
+
+# 2. Load census data
+census = pd.read_csv('census_2023.csv')
+print(f"Loaded census data: {len(census)} records")
+
+# 3. Join with validation
+print("\nJoining data...")
+result, report = validate_join(sa2, census, key='SA2_code')
+
+if not report['all_matched']:
+    print(f"⚠️  Warning: {report['unmatched_count']} zones missing census data")
+    print(f"Unmatched: {report['unmatched_keys'][:5]}")
+else:
+    print("✓ All zones matched successfully")
+
+# 4. Calculate density
+print("\nCalculating density...")
+result = calculate_density(result, value_col='population')
+print(f"Mean density: {result['density'].mean():.1f} people/km²")
+
+# 5. Create map
+print("\nCreating map...")
+fig, ax = create_choropleth(
+    result,
+    column='density',
+    title='Auckland Population Density (2023)',
+    scheme='quantiles',
+    k=5
+)
+
+# 6. Save
+fig.savefig('density_map.png', dpi=300, bbox_inches='tight')
+print("✓ Map saved to density_map.png")
+
+# 7. Export for dashboard
+result.to_file('sa2_density.gpkg', driver='GPKG')
+print("✓ Data exported to sa2_density.gpkg")
+```
+
+### Integration with Shiny Dashboard
+
+```python
+"""Use auckland-gis in Shiny dashboard."""
+
+from shiny import App, ui, render
+from auckland_gis import load_sa2, calculate_density, create_choropleth
+import matplotlib.pyplot as plt
+
+# Load data once at startup
+sa2_data = load_sa2()
+
+app_ui = ui.page_fluid(
+    ui.h2("Auckland Density Explorer"),
+    ui.input_slider("min_density", "Minimum Density", 0, 10000, 0),
+    ui.output_plot("density_map")
+)
+
+def server(input, output, session):
+    @output
+    @render.plot
+    def density_map():
+        # Filter by user input
+        filtered = sa2_data[sa2_data['density'] >= input.min_density()]
+        
+        # Use auckland-gis plotting
+        fig, ax = create_choropleth(filtered, column='density')
+        return fig
+
+app = App(app_ui, server)
+```
+
+## Week 11 Focus
+
+Week 11 labs provide flexible time for:
+
+**Option A: Assignment 3 Development** (most students)
+- Apply patterns from this example
+- Build your own package functionality
+- Improve test coverage and documentation
+
+**Option B: CI/CD Setup** (advanced students)
+- Implement GitHub Actions workflow
+- Set up pre-commit hooks
+- Add badges to README
+
+**Option C: Real PyPI Publication** (ready students)
+- Final quality check
+- Publish to production PyPI
+- Prepare for showcase
+
+**Option D: Poster Design** (required for all)
+- Create A1 poster showing your package
+- Prepare 2-minute pitch
+
+## Summary
+
+You've learned:
+
+- **Complete package structure**: Real-world example with all components
+- **Production patterns**: Data loading, validation, metrics, viz
+- **CI/CD**: GitHub Actions, pre-commit hooks, automated testing
+- **Best practices**: Semantic versioning, type hints, error messages
+- **Integration**: Using packages in workflows and dashboards
+
+**Next**: In @sec-publish-pypi, learn to publish to production PyPI and maintain your package.
+
+## Further Reading
+
+- GitHub Actions: https://docs.github.com/en/actions
+- pre-commit: https://pre-commit.com/
+- Semantic Versioning: https://semver.org/
+- Type Hints: https://docs.python.org/3/library/typing.html
+- PEP 8 Style Guide: https://pep8.org/
