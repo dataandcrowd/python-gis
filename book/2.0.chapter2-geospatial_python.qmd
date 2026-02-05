@@ -1,4 +1,4 @@
-# 2. Geospatial Python Programming {#sec-geospatial-python}
+# 2. Geospatial Python Programming {.unnumbered #sec-geospatial-python}
 
 ## Overview
 
@@ -22,8 +22,8 @@ This chapter is organised into five main sections:
 1. **Basic Python** (@sec-basic-python): Core Python concepts including variables, data types, loops, and conditional statements
 2. **DataFrames** (@sec-dataframes): Working with tabular data using pandas, including data cleaning, filtering, and aggregation
 3. **Geospatial Data** (@sec-geospatial): Introduction to vector and raster data, coordinate systems, and spatial operations with geopandas
-4. **Urban Analytics** (@sec-urban-analytics): Applied examples using real geospatial datasets for urban and environmental analysis
-5. **Creating Functions** (@sec-creating-functions): Writing reusable code to make your analyses more efficient and reproducible
+4. **Creating Functions** (@sec-creating-functions): Writing reusable code to make your analyses more efficient and reproducible
+5. **Urban Analytics** (@sec-urban-analytics): Applied examples using real geospatial datasets for urban and environmental analysis
 
 ## Why Python for GIS?
 

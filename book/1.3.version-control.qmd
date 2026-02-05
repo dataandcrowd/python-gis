@@ -4,35 +4,984 @@
 
 **Explaining why your Auckland results changed**
 
-- You changed one line and the map looks different.
-- Git helps you pinpoint the exact change.
-- Your commit message becomes your research diary.
+You're analysing transport accessibility in Auckland. You run your script on Monday and get a certain result. On Friday, you run the same script and the map looks completely different.
+
+**Questions arise**:
+- What changed?
+- Which version was correct?
+- Can you go back to Monday's version?
+- How do you collaborate without overwriting each other's work?
+
+**Answer**: Git tracks every change and becomes your research diary.
 
 ## What you will learn
 
-- Understand commit, branch, push, pull in practice.
-- Structure a repo for a GIS project.
-- Avoid committing large or sensitive data.
+- Understand what Git is and why it matters
+- Use commit, branch, push, pull in practice
+- Structure a Git repository for a GIS project
+- Collaborate using GitHub
+- Avoid committing large or sensitive data
 
-## Repo structure
+---
 
-- `data/` (local, usually ignored)
-- `src/` (code)
-- `reports/` or `docs/` (outputs)
+## Understanding version control
+
+### The problem: Manual version control
+
+Without Git, people often do this:
+
+```
+project/
+├── analysis.py
+├── analysis_v2.py
+├── analysis_final.py
+├── analysis_final_REALLY.py
+├── analysis_final_2024-01-15.py
+└── analysis_final_after_supervisor_comments.py
+```
+
+**Problems**:
+- Which version is actually the latest?
+- What changed between versions?
+- How do you merge two versions?
+- How do you collaborate?
+
+### The solution: Git
+
+Git tracks every change in a structured way:
+
+```
+project/
+└── analysis.py  ← One file, entire history tracked
+
+Git history:
+├── 2024-01-10: "Initial analysis script"
+├── 2024-01-12: "Fixed coordinate projection bug"
+├── 2024-01-15: "Added population weighting"
+└── 2024-01-18: "Implemented supervisor's feedback"
+```
+
+**Benefits**:
+- Complete history of every change
+- See exactly what changed when
+- Revert to any previous version
+- Multiple people can work simultaneously
+- Collaborate via GitHub/GitLab
+
+---
+
+## Core Git concepts
+
+### Repository (repo)
+
+A project tracked by Git. Contains:
+- Your files
+- Complete history of changes
+- Branches for parallel work
+
+### Commit
+
+A snapshot of your project at a specific time. Think of it as saving a checkpoint in a video game.
+
+```
+Commit = snapshot + message + author + timestamp
+```
+
+### Branch
+
+A parallel line of development. The default branch is usually `main`.
+
+```
+main:    A → B → C → D
+                  ↓
+feature:          E → F
+```
+
+### Remote
+
+A version of your repository hosted online (e.g., GitHub). Enables:
+- Backup
+- Collaboration
+- Sharing
+
+---
+
+## Installing Git
+
+### Check if Git is installed
+
+::: {.panel-tabset}
+
+## macOS
+```bash
+git --version
+```
+
+Usually pre-installed on macOS.
+
+## Windows
+```powershell
+git --version
+```
+
+If not installed, download from [git-scm.com](https://git-scm.com)
+
+:::
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing git --version output on both platforms]**
+:::
+
+### Install Git (if needed)
+
+::: {.panel-tabset}
+
+## macOS
+
+**Usually pre-installed**. If not:
+
+```bash
+brew install git
+```
+
+## Windows
+
+1. Download from [git-scm.com](https://git-scm.com)
+2. Run installer
+3. Use default options (or select VS Code as default editor)
+
+:::
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Git for Windows installer showing editor selection]**
+:::
+
+### Configure Git (first time only)
+
+Tell Git who you are:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "your.email@auckland.ac.nz"
+```
+
+Verify configuration:
+
+```bash
+git config --list
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing git config output]**
+:::
+
+---
+
+## Your first Git repository
+
+### Step 1: Create a project
+
+Let's track the Auckland green spaces project from Section 1.2:
+
+```bash
+cd ~/Documents/auckland-greenspaces
+```
+
+### Step 2: Initialise Git
+
+```bash
+git init
+```
+
+Output:
+```
+Initialized empty Git repository in /Users/you/Documents/auckland-greenspaces/.git/
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing git init output]**
+:::
+
+This creates a hidden `.git` folder that stores all version history.
+
+### Step 3: Create `.gitignore`
+
+**Critical step**: Tell Git to ignore certain files.
+
+Create `.gitignore`:
+
+```gitignore
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# Data files (often too large)
+data/raw/
+data/*.csv
+*.shp
+*.shx
+*.dbf
+*.tif
+*.geotiff
+*.gpkg
+
+# Outputs (can be regenerated)
+outputs/
+figures/
+*.png
+*.pdf
+*.jpg
+reports/*.html
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Credentials (NEVER commit these!)
+*.env
+.env
+secrets.json
+credentials.json
+*.key
+```
+
+::: {.callout-important}
+**Always create `.gitignore` before your first commit!**
+:::
+
+### Step 4: Check status
+
+```bash
+git status
+```
+
+Output shows untracked files:
+
+```
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+        .python-version
+        README.md
+        pyproject.toml
+        uv.lock
+        hello.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing git status with untracked files in red]**
+:::
+
+### Step 5: Stage files
+
+Add files to the staging area:
+
+```bash
+git add .
+```
+
+This stages all files (except those in `.gitignore`).
+
+Check status again:
+
+```bash
+git status
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing git status with staged files in green]**
+:::
+
+### Step 6: Make first commit
+
+```bash
+git commit -m "Initial commit: set up project with uv"
+```
+
+Output:
+```
+[main (root-commit) a1b2c3d] Initial commit: set up project with uv
+ 5 files changed, 245 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 .python-version
+ create mode 100644 README.md
+ create mode 100644 pyproject.toml
+ create mode 100644 uv.lock
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing successful git commit output]**
+:::
+
+::: {.callout-tip title="Writing good commit messages"}
+**Good messages**:
+- ✅ "Add data loading function for shapefile import"
+- ✅ "Fix coordinate projection bug in Auckland layer"
+- ✅ "Update analysis to include 2024 census data"
+
+**Bad messages**:
+- ❌ "Update"
+- ❌ "Fix stuff"
+- ❌ "asdfasdf"
+:::
+
+---
+
+## Git workflow
+
+### The cycle: Edit → Stage → Commit
+
+```
+┌─────────────┐
+│  Working    │  ← Edit your files
+│  Directory  │
+└──────┬──────┘
+       │ git add
+       ▼
+┌─────────────┐
+│   Staging   │  ← Files ready to commit
+│     Area    │
+└──────┬──────┘
+       │ git commit
+       ▼
+┌─────────────┐
+│  Repository │  ← Permanent snapshot
+│   (History) │
+└─────────────┘
+```
+
+### Example workflow
+
+Edit `analysis.py`:
+
+```python
+import geopandas as gpd
+
+# Load Auckland suburbs
+suburbs = gpd.read_file('data/auckland_suburbs.gpkg')
+print(f"Loaded {len(suburbs)} suburbs")
+```
+
+Check what changed:
+
+```bash
+git status
+```
+
+See detailed changes:
+
+```bash
+git diff analysis.py
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing git diff with red/green highlighting of changes]**
+:::
+
+Stage and commit:
+
+```bash
+git add analysis.py
+git commit -m "Add suburb loading function"
+```
+
+---
+
+## Viewing history
+
+### See commit log
+
+```bash
+git log
+```
+
+Output:
+```
+commit a1b2c3d4e5f6... (HEAD -> main)
+Author: Your Name <your.email@auckland.ac.nz>
+Date:   Mon Jan 15 14:23:00 2024 +1300
+
+    Add suburb loading function
+
+commit 7g8h9i0j1k2l...
+Author: Your Name <your.email@auckland.ac.nz>
+Date:   Mon Jan 15 09:15:00 2024 +1300
+
+    Initial commit: set up project with uv
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing git log output]**
+:::
+
+### Prettier log format
+
+```bash
+git log --oneline --graph --all
+```
+
+Output:
+```
+* a1b2c3d (HEAD -> main) Add suburb loading function
+* 7g8h9i0 Initial commit: set up project with uv
+```
+
+### See what changed in a commit
+
+```bash
+git show a1b2c3d
+```
+
+---
+
+## Branching
+
+### Why branches?
+
+Branches let you:
+- Experiment without breaking working code
+- Work on features in parallel
+- Collaborate without conflicts
+
+### Create a branch
+
+```bash
+git branch feature-add-population
+```
+
+### Switch to branch
+
+```bash
+git checkout feature-add-population
+```
+
+Or create and switch in one command:
+
+```bash
+git checkout -b feature-add-population
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing branch creation and checkout]**
+:::
+
+### Work on the branch
+
+Make changes, then commit:
+
+```bash
+git add .
+git commit -m "Add population data to analysis"
+```
+
+### Merge branch back to main
+
+Switch back to main:
+
+```bash
+git checkout main
+```
+
+Merge the feature branch:
+
+```bash
+git merge feature-add-population
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing successful merge]**
+:::
+
+Delete the feature branch (optional):
+
+```bash
+git branch -d feature-add-population
+```
+
+---
+
+## Working with GitHub
+
+### Step 1: Create GitHub repository
+
+1. Go to [github.com](https://github.com)
+2. Click "New repository"
+3. Name it `auckland-greenspaces`
+4. **Don't** initialise with README (you already have files)
+5. Click "Create repository"
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: GitHub new repository page]**
+:::
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: GitHub showing empty repository with setup commands]**
+:::
+
+### Step 2: Connect local repo to GitHub
+
+GitHub will show you commands. Run them:
+
+```bash
+git remote add origin https://github.com/yourusername/auckland-greenspaces.git
+git branch -M main
+git push -u origin main
+```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: Terminal showing git push uploading files]**
+:::
+
+::: {.callout-tip title="Authentication"}
+GitHub no longer accepts passwords. You need to:
+
+1. Create a Personal Access Token:
+   - GitHub → Settings → Developer settings → Personal access tokens
+   - Generate new token (classic)
+   - Select `repo` scope
+   - Copy the token
+
+2. When prompted for password, paste the token instead
+:::
+
+### Step 3: Verify on GitHub
+
+Refresh your GitHub repository page. You should see your files!
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: GitHub repository showing committed files]**
+:::
+
+---
+
+## Collaborating with Git
+
+### Clone a repository
+
+Your colleague wants to work on the project:
+
+```bash
+git clone https://github.com/yourusername/auckland-greenspaces.git
+cd auckland-greenspaces
+```
+
+They now have a complete copy, including all history.
+
+### Pull latest changes
+
+Before starting work, always pull:
+
+```bash
+git pull
+```
+
+This downloads new commits from GitHub.
+
+### Push your changes
+
+After committing locally:
+
+```bash
+git push
+```
+
+This uploads your commits to GitHub.
+
+### Typical collaborative workflow
+
+```bash
+# Start of day
+git pull                    # Get latest changes
+
+# Work
+# ... edit files ...
+git add .
+git commit -m "Your changes"
+
+# End of day
+git pull                    # Get any changes from colleagues
+git push                    # Share your changes
+```
+
+---
+
+## Repository structure for GIS projects
+
+### Recommended structure
+
+```
+auckland-transport-study/
+├── .git/                   # Git history (hidden)
+├── .gitignore             # Ignored files
+├── .venv/                 # Virtual environment (ignored)
+├── README.md              # Project documentation
+├── pyproject.toml         # Dependencies (tracked)
+├── uv.lock               # Locked versions (tracked)
+├── data/
+│   ├── README.md         # Data sources and descriptions
+│   ├── raw/              # Original data (ignored if large)
+│   └── processed/        # Cleaned data (tracked if <10MB)
+├── src/                  # Python source code (tracked)
+│   ├── __init__.py
+│   ├── data_loader.py
+│   ├── analysis.py
+│   └── visualisation.py
+├── notebooks/            # Jupyter notebooks (tracked)
+│   ├── 01-exploration.ipynb
+│   └── 02-analysis.ipynb
+├── tests/                # Unit tests (tracked)
+│   └── test_analysis.py
+├── outputs/              # Generated files (ignored)
+│   ├── figures/
+│   └── tables/
+├── reports/              # Reports and papers (tracked)
+│   └── draft.qmd
+└── docs/                 # Documentation (tracked)
+    └── methodology.md
+```
+
+### What to commit vs ignore
+
+**Commit (track in Git)**:
+- ✅ Source code (`.py`, `.R`, `.qmd`)
+- ✅ Configuration (`pyproject.toml`, `uv.lock`)
+- ✅ Documentation (`README.md`, `.md` files)
+- ✅ Small data files (<10MB)
+- ✅ Jupyter notebooks (carefully - see note below)
+- ✅ Analysis results (if reproducible and small)
+
+**Ignore (add to `.gitignore`)**:
+- ❌ Virtual environments (`.venv/`)
+- ❌ Large data files (>10MB)
+- ❌ Binary outputs (`.png`, `.pdf`, `.html`)
+- ❌ Cache files (`__pycache__/`, `.ipynb_checkpoints/`)
+- ❌ Credentials and API keys
+- ❌ Personal IDE settings
+
+::: {.callout-warning title="Jupyter notebooks"}
+Notebooks can be tricky because they contain outputs. Options:
+
+1. **Clear outputs before committing**:
+   ```bash
+   jupyter nbconvert --clear-output --inplace notebook.ipynb
+   ```
+
+2. **Use version control for notebooks**:
+   ```bash
+   uv add nbstripout
+   nbstripout --install
+   ```
+   This automatically clears outputs on commit.
+:::
+
+---
+
+## Best practices
+
+### 1. Commit often
+
+Make small, focused commits:
+
+```bash
+# Good: small focused commits
+git commit -m "Add function to load shapefile"
+git commit -m "Fix projection to NZGD2000"
+git commit -m "Add docstrings to data_loader.py"
+
+# Bad: one huge commit
+git commit -m "Add everything"
+```
+
+### 2. Write meaningful commit messages
+
+**Format**:
+```
+<type>: <short description>
+
+<optional detailed description>
+```
+
+**Types**:
+- `feat:` New feature
+- `fix:` Bug fix
+- `docs:` Documentation
+- `refactor:` Code restructuring
+- `test:` Adding tests
+- `data:` Data updates
+
+**Examples**:
+```bash
+git commit -m "feat: add population weighting to accessibility analysis"
+
+git commit -m "fix: correct EPSG code for Auckland projection"
+
+git commit -m "docs: update README with installation instructions"
+```
+
+### 3. Pull before you push
+
+Always pull before pushing:
+
+```bash
+git pull
+# Resolve any conflicts
+git push
+```
+
+### 4. Use branches for experiments
+
+```bash
+# Create branch for risky changes
+git checkout -b experiment-new-method
+
+# If it works:
+git checkout main
+git merge experiment-new-method
+
+# If it doesn't work:
+git checkout main
+git branch -D experiment-new-method  # Delete without merging
+```
+
+### 5. Never commit sensitive data
+
+Never commit:
+- Passwords
+- API keys
+- Database credentials
+- Personal data
+
+Use environment variables instead:
+
+```python
+# Bad
+api_key = "sk-abc123def456..."  # Never hardcode!
+
+# Good
+import os
+api_key = os.getenv('OPENAI_API_KEY')
+```
+
+Store in `.env` (which is in `.gitignore`):
+```
+OPENAI_API_KEY=sk-abc123def456...
+```
+
+---
+
+## Advanced: Undoing changes
+
+### Discard uncommitted changes
+
+```bash
+git checkout -- filename.py  # Discard changes to one file
+git checkout -- .           # Discard all changes
+```
+
+### Undo last commit (keep changes)
+
+```bash
+git reset --soft HEAD~1
+```
+
+### Undo last commit (discard changes)
+
+```bash
+git reset --hard HEAD~1
+```
+
+::: {.callout-warning}
+`git reset --hard` permanently deletes changes. Use with caution!
+:::
+
+### Revert a commit (safe)
+
+```bash
+git revert a1b2c3d
+```
+
+This creates a new commit that undoes the changes.
+
+---
 
 ## Mini exercise
 
-- Make a repo, commit a script, push to GitHub.
+### Exercise 1: Track a GIS analysis
 
-## Creating a virtual environment
-Using your terminal (or powershell on Windows), you can install your virtual environment `.venv` at the current folder using the following command:
+1. Create a new directory `wellington-parks`
+2. Initialise Git: `git init`
+3. Create `.gitignore` (use template from earlier)
+4. Create a Python script that loads Wellington parks data
+5. Make your first commit
+6. Edit the script to add a visualisation
+7. Make a second commit
+8. View your history with `git log`
 
+### Exercise 2: GitHub workflow
+
+1. Create a GitHub repository
+2. Push your local repository
+3. Clone it to a different directory (simulate a colleague)
+4. Make a change in the clone
+5. Push the change
+6. Pull the change in the original directory
+
+### Exercise 3: Branching
+
+1. Create a branch `feature-add-buffer`
+2. Add code to buffer park polygons by 100m
+3. Commit your changes
+4. Switch back to `main`
+5. Merge your feature branch
+6. Delete the feature branch
+
+---
+
+## Troubleshooting
+
+### Merge conflicts
+
+**Problem**: Git can't automatically merge changes
+
+**Solution**:
+1. Open conflicted files (marked with `<<<<<<<`, `=======`, `>>>>>>>`)
+2. Manually resolve conflicts
+3. Remove conflict markers
+4. Stage and commit:
+   ```bash
+   git add .
+   git commit -m "Resolve merge conflict"
+   ```
+
+::: {.callout-note title="Screenshot placeholder"}
+**[SCREENSHOT NEEDED: VS Code showing merge conflict with conflict markers]**
+:::
+
+### Accidentally committed large file
+
+**Problem**: Committed a 500MB GeoTIFF
+
+**Solution**:
 ```bash
-uv venv
+# Remove from Git but keep file locally
+git rm --cached large_file.tif
+
+# Add to .gitignore
+echo "*.tif" >> .gitignore
+
+# Commit the removal
+git commit -m "Remove large TIF file from Git"
 ```
 
-If you want to create a subfolder
+### Authentication failures
+
+**Problem**: GitHub rejecting password
+
+**Solution**: Use Personal Access Token (see earlier section)
+
+### Detached HEAD state
+
+**Problem**: `You are in 'detached HEAD' state`
+
+**Solution**:
+```bash
+git checkout main  # Return to main branch
+```
+
+---
+
+## Summary
+
+You've learnt:
+
+- [x] What Git is and why it matters
+- [x] How to initialise a repository
+- [x] The commit workflow (edit → stage → commit)
+- [x] How to view history and changes
+- [x] How to use branches
+- [x] How to collaborate via GitHub
+- [x] Best practices for GIS projects
+
+**Key insight**: Git is your time machine and collaboration tool.
+
+**Next step**: Combine UV environments + Git = perfectly reproducible GIS projects!
+
+---
+
+## Quick reference
 
 ```bash
-uv venv my-dir # a subfolder called "my-dir"
+# Setup
+git init                              # Initialise repository
+git config --global user.name "Name"
+git config --global user.email "email"
+
+# Basic workflow
+git status                            # Check status
+git add .                            # Stage all changes
+git commit -m "message"              # Commit with message
+git log                              # View history
+
+# Branching
+git branch feature-name              # Create branch
+git checkout feature-name            # Switch to branch
+git checkout -b feature-name         # Create and switch
+git merge feature-name               # Merge branch
+
+# Remote (GitHub)
+git remote add origin <url>          # Connect to GitHub
+git push -u origin main              # First push
+git push                             # Subsequent pushes
+git pull                             # Download changes
+git clone <url>                      # Clone repository
+
+# Undoing
+git checkout -- file                 # Discard changes
+git reset --soft HEAD~1              # Undo last commit
+git revert <commit>                  # Safe undo
 ```
+
+---
+
+## Resources
+
+- [GitHub Learning Lab](https://lab.github.com/)
+- [Pro Git Book](https://git-scm.com/book/en/v2) (free)
+- [GitHub Student Developer Pack](https://education.github.com/pack) (free resources)
+- [GitKraken](https://www.gitkraken.com/) (visual Git client)
+
+---
+
+**Congratulations!** You now have a complete reproducible workflow:
+
+```
+Project setup → UV environment → Git tracking → GitHub collaboration
+```
+
+You're ready to build robust, reproducible GIS analyses! 🎉

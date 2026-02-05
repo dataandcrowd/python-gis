@@ -4,19 +4,100 @@
 
 **Auckland project folder that never breaks**
 
-- You clone a repo onto a lab computer and it works immediately.
-- You can recreate the same environment on macOS and Windows.
-- You can explain exactly what changed between two results.
+You're working on a GIS analysis of Auckland's transport network. You:
+
+- Clone a repository onto a lab computer and it works immediately
+- Share the project with a teammate on Windows whilst you use macOS
+- Can recreate the exact same environment months later
+- Can explain precisely what changed between two different results
+
+This chapter teaches you how to build reproducible Python environments that work reliably across platforms and time.
 
 ## What you will learn
 
-- Get a working Python environment suitable for GIS.
-- Use `uv` to create reproducible environments.
-- Use Git to manage change and collaboration.
+By the end of this chapter, you will be able to:
+
+- Set up a working Python environment suitable for GIS analysis
+- Use `uv` to create fast, reproducible environments
+- Manage project dependencies that work on any machine
+- Use Git to track changes and collaborate effectively
+- Structure a GIS project for reproducibility
+
+## The traditional problem
+
+Traditional Python development often led to "works on my machine" syndrome:
+
+- **Global installations** meant packages from different projects could conflict
+- **Manual dependency tracking** made it difficult to share projects
+- **Slow installation** with pip frustrated students and researchers
+- **Environment drift** meant projects broke over time
+- **Platform differences** between macOS and Windows caused headaches
+
+## The modern solution
+
+We'll use three tools that solve these problems:
+
+1. **`uv`** - A fast, reliable package manager (replacing pip)
+2. **Virtual environments** - Isolated spaces for each project
+3. **Git** - Version control to track every change
+
+## What success looks like
+
+At the end of this chapter, you should be able to:
+
+```bash
+# Clone a project
+git clone https://github.com/username/auckland-gis.git
+cd auckland-gis
+
+# Set up environment
+uv venv
+uv sync
+
+# Run analysis
+uv run python src/analyse_transport.py
+```
+
+And it **just works** - on any computer, any time.
 
 ## Quick preview
 
+Here's what a working Python environment looks like:
+
 ```{python}
+#| echo: true
+#| eval: false
+
 import sys
-print(sys.version)
+import pandas as pd
+import geopandas as gpd
+
+print(f"Python version: {sys.version}")
+print(f"pandas version: {pd.__version__}")
+print(f"geopandas version: {gpd.__version__}")
 ```
+
+Expected output:
+```
+Python version: 3.12.x
+pandas version: 2.x.x
+geopandas version: 1.x.x
+```
+
+## Chapter structure
+
+This chapter is divided into three practical sections:
+
+**1.1 Installation** - Get Python, uv, and an editor working on your system
+
+**1.2 UV environments** - Create isolated, reproducible project environments  
+
+**1.3 Version control** - Use Git to track changes and collaborate
+
+Each section includes:
+- Step-by-step instructions for macOS and Windows
+- Screenshots showing what you should see
+- Mini exercises to practise
+- Troubleshooting tips
+
+Let's begin with installation.

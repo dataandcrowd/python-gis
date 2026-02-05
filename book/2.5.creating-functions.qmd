@@ -1,4 +1,4 @@
-# 2.5. Creating Functions {.unnumbered}
+# 2.5. Creating Functions {.unnumbered #sec-creating-functions}
 
 ## Introduction
 

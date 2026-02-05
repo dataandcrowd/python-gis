@@ -10,7 +10,6 @@ book:
   chapters:
     - index.qmd
     - syllabus.qmd
-    - assignments.qmd
     - part: 1.0.chapter1-setup.qmd
       chapters:
         - 1.1.installation.qmd
@@ -38,13 +37,10 @@ book:
     
     - part: 4.0.python-packaging.qmd
       chapters:
-        - 4.1.packaging-why.qmd
-        - 4.2.project-structure.qmd
-        - 4.3.pyproject-uv.qmd
-        - 4.4.testing-and-quality.qmd
-        - 4.5.docs-and-quarto.qmd
-        - 4.6.geospatial-package-example.qmd
-        - 4.7.publish-pypi.qmd
+        - 4.1.package-fundamentals.qmd
+        - 4.2.testing-and-quality.qmd
+        - 4.3.geospatial-package-example.qmd
+        - 4.4.publish-pypi.qmd
         #- 4.8.packaging-assignment.qmd
   
     - part: labs.qmd

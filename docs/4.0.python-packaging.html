@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Part 4: Python packaging for GIS – Python GIS at UoA</title>
+<title>Python Package Development – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./4.1.packaging-why.html" rel="next">
-<link href="./3.7.shiny-assignment.html" rel="prev">
+<link href="./4.1.package-fundamentals.html" rel="next">
+<link href="./3.5.networks.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4: Python packaging for GIS</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Python Package Development</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -116,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Syllabus</span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Syllabus (Semester 1, 2026)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -151,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Part 2: Geospatial Python</span></a>
+ <span class="menu-text">2. Geospatial Python Programming</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -160,31 +195,37 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.1.basic-python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.1 Basic Python</span></a>
+ <span class="menu-text">2.1. Basic Python</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.2.dataframes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.2 DataFrames</span></a>
+ <span class="menu-text">2.2. DataFrames</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.3.geospatial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.3 Geospatial data</span></a>
+ <span class="menu-text">2.3. Geospatial Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2.4.urban-analytics.html" class="sidebar-item-text sidebar-link">
+  <a href="./2.4.data-visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.4. Data Visualisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2.5.creating-functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.5. Creating Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2.6.urban-analytics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.4 Urban analytics indicators</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./2.5.midsemtest-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.5 Mid-semester test and assignment</span></a>
   </div>
 </li>
       </ul>
@@ -192,7 +233,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./3.0.chapter3-shiny_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Part 3: Shiny for Python and Web GIS</span></a>
+ <span class="menu-text">Interactive Dashboards with Shiny for Python</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -207,37 +248,25 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3.2.shiny-functions-reactivity.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.2 Functions and reactivity</span></a>
+ <span class="menu-text">3.2. Shiny Functions and Reactivity</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.3.shiny-vs-fastapi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.3 Shiny versus FastAPI</span></a>
+  <a href="./3.3.routing-and-congestion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.3. Routing and Congestion Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.4.routing-and-congestion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.4 Routing and congestion concepts</span></a>
+  <a href="./3.4.origin-destination.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.4. Origin-Destination Analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.5.origin-destination.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.5 Origin–destination analysis</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.6.networks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.6 Networks for GIS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.7.shiny-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.7 Shiny dashboard assignment</span></a>
+  <a href="./3.5.networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.5. Network Analysis for GIS</span></a>
   </div>
 </li>
       </ul>
@@ -245,7 +274,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./4.0.python-packaging.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Part 4: Python packaging for GIS</span></a>
+ <span class="menu-text">Python Package Development</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -253,50 +282,97 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.1.packaging-why.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.1 Why packaging is a core GIScience skill</span></a>
+  <a href="./4.1.package-fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.1. Package Fundamentals: Structure, Configuration, and Building</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.2.project-structure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.2 Project structure that scales</span></a>
+  <a href="./4.2.testing-and-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.2 Testing and Code Quality</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.3.pyproject-uv.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.3 pyproject.toml and uv workflow</span></a>
+  <a href="./4.3.geospatial-package-example.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.3 Geospatial Package Example: Auckland GIS Toolkit</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.4.testing-and-quality.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.4 Testing and code quality</span></a>
+  <a href="./4.4.publish-pypi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.4 Publishing to PyPI</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./labs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">labs.html</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab Week 01</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.5.docs-and-quarto.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.5 Documentation with Quarto</span></a>
+  <a href="./labs/lab-week02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Lab Week 02</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.6.geospatial-package-example.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.6 Package example: Auckland boundaries + population</span></a>
+  <a href="./labs/lab-week03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Lab Week 03</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.7.publish-pypi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.7 Publishing to PyPI</span></a>
+  <a href="./labs/lab-week04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Lab Week 04</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.8.packaging-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.8 Packaging assignment</span></a>
+  <a href="./labs/lab-week05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lab Week 05</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Lab Week 06</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Lab Week 07</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab Week 08</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Week 09</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Week 10</span></span></a>
   </div>
 </li>
       </ul>
@@ -317,9 +393,56 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#story-problem" id="toc-story-problem" class="nav-link active" data-scroll-target="#story-problem">Story problem</a></li>
-  <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn">What you will learn</a></li>
-  <li><a href="#notes" id="toc-notes" class="nav-link" data-scroll-target="#notes">Notes</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#from-scripts-to-packages" id="toc-from-scripts-to-packages" class="nav-link" data-scroll-target="#from-scripts-to-packages">From Scripts to Packages</a>
+  <ul class="collapse">
+  <li><a href="#the-problem-copy-paste-hell" id="toc-the-problem-copy-paste-hell" class="nav-link" data-scroll-target="#the-problem-copy-paste-hell">The Problem: Copy-Paste Hell</a></li>
+  <li><a href="#the-solution-packaged-code" id="toc-the-solution-packaged-code" class="nav-link" data-scroll-target="#the-solution-packaged-code">The Solution: Packaged Code</a></li>
+  </ul></li>
+  <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn">What You Will Learn</a>
+  <ul class="collapse">
+  <li><a href="#week-9-structure-and-building-sec-package-fundamentals" id="toc-week-9-structure-and-building-sec-package-fundamentals" class="nav-link" data-scroll-target="#week-9-structure-and-building-sec-package-fundamentals">Week 9: Structure and Building (<span class="quarto-unresolved-ref">sec-package-fundamentals</span>)</a></li>
+  <li><a href="#week-10-testing-and-publishing-sec-testing-quality" id="toc-week-10-testing-and-publishing-sec-testing-quality" class="nav-link" data-scroll-target="#week-10-testing-and-publishing-sec-testing-quality">Week 10: Testing and Publishing (<span class="quarto-unresolved-ref">sec-testing-quality</span>)</a></li>
+  <li><a href="#week-11-production-quality-sec-geospatial-package-example" id="toc-week-11-production-quality-sec-geospatial-package-example" class="nav-link" data-scroll-target="#week-11-production-quality-sec-geospatial-package-example">Week 11: Production Quality (<span class="quarto-unresolved-ref">sec-geospatial-package-example</span>)</a></li>
+  <li><a href="#week-12-publishing-to-pypi-sec-publish-pypi" id="toc-week-12-publishing-to-pypi-sec-publish-pypi" class="nav-link" data-scroll-target="#week-12-publishing-to-pypi-sec-publish-pypi">Week 12: Publishing to PyPI (<span class="quarto-unresolved-ref">sec-publish-pypi</span>)</a></li>
+  </ul></li>
+  <li><a href="#story-problem-the-auckland-gis-toolkit" id="toc-story-problem-the-auckland-gis-toolkit" class="nav-link" data-scroll-target="#story-problem-the-auckland-gis-toolkit">Story Problem: The Auckland GIS Toolkit</a></li>
+  <li><a href="#the-journey-scripts-package-publication" id="toc-the-journey-scripts-package-publication" class="nav-link" data-scroll-target="#the-journey-scripts-package-publication">The Journey: Scripts → Package → Publication</a>
+  <ul class="collapse">
+  <li><a href="#phase-1-from-notebook-to-module-week-9" id="toc-phase-1-from-notebook-to-module-week-9" class="nav-link" data-scroll-target="#phase-1-from-notebook-to-module-week-9">Phase 1: From Notebook to Module (Week 9)</a></li>
+  <li><a href="#phase-2-add-quality-assurance-week-10" id="toc-phase-2-add-quality-assurance-week-10" class="nav-link" data-scroll-target="#phase-2-add-quality-assurance-week-10">Phase 2: Add Quality Assurance (Week 10)</a></li>
+  <li><a href="#phase-3-share-with-the-world-weeks-10-11" id="toc-phase-3-share-with-the-world-weeks-10-11" class="nav-link" data-scroll-target="#phase-3-share-with-the-world-weeks-10-11">Phase 3: Share with the World (Weeks 10-11)</a></li>
+  </ul></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#why-this-matters-for-urban-analytics" id="toc-why-this-matters-for-urban-analytics" class="nav-link" data-scroll-target="#why-this-matters-for-urban-analytics">Why This Matters for Urban Analytics</a>
+  <ul class="collapse">
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility">1. Reproducibility</a></li>
+  <li><a href="#collaboration" id="toc-collaboration" class="nav-link" data-scroll-target="#collaboration">2. Collaboration</a></li>
+  <li><a href="#teaching" id="toc-teaching" class="nav-link" data-scroll-target="#teaching">3. Teaching</a></li>
+  <li><a href="#career-development" id="toc-career-development" class="nav-link" data-scroll-target="#career-development">4. Career Development</a></li>
+  </ul></li>
+  <li><a href="#urban-analytics-package-ecosystem" id="toc-urban-analytics-package-ecosystem" class="nav-link" data-scroll-target="#urban-analytics-package-ecosystem">Urban Analytics Package Ecosystem</a></li>
+  <li><a href="#assessment-overview" id="toc-assessment-overview" class="nav-link" data-scroll-target="#assessment-overview">Assessment Overview</a></li>
+  <li><a href="#chapter-structure" id="toc-chapter-structure" class="nav-link" data-scroll-target="#chapter-structure">Chapter Structure</a>
+  <ul class="collapse">
+  <li><a href="#sec-package-fundamentals-package-structure-and-building" id="toc-sec-package-fundamentals-package-structure-and-building" class="nav-link" data-scroll-target="#sec-package-fundamentals-package-structure-and-building"><span class="quarto-unresolved-ref">sec-package-fundamentals</span>: Package Structure and Building</a></li>
+  <li><a href="#sec-testing-quality-testing-and-quality-assurance" id="toc-sec-testing-quality-testing-and-quality-assurance" class="nav-link" data-scroll-target="#sec-testing-quality-testing-and-quality-assurance"><span class="quarto-unresolved-ref">sec-testing-quality</span>: Testing and Quality Assurance</a></li>
+  <li><a href="#sec-geospatial-package-example-real-world-package-examples" id="toc-sec-geospatial-package-example-real-world-package-examples" class="nav-link" data-scroll-target="#sec-geospatial-package-example-real-world-package-examples"><span class="quarto-unresolved-ref">sec-geospatial-package-example</span>: Real-World Package Examples</a></li>
+  <li><a href="#sec-publish-pypi-publishing-to-production-pypi" id="toc-sec-publish-pypi-publishing-to-production-pypi" class="nav-link" data-scroll-target="#sec-publish-pypi-publishing-to-production-pypi"><span class="quarto-unresolved-ref">sec-publish-pypi</span>: Publishing to Production PyPI</a></li>
+  </ul></li>
+  <li><a href="#real-world-applications" id="toc-real-world-applications" class="nav-link" data-scroll-target="#real-world-applications">Real-World Applications</a>
+  <ul class="collapse">
+  <li><a href="#example-1-research-lab-toolkit" id="toc-example-1-research-lab-toolkit" class="nav-link" data-scroll-target="#example-1-research-lab-toolkit">Example 1: Research Lab Toolkit</a></li>
+  <li><a href="#example-2-consulting-deliverable" id="toc-example-2-consulting-deliverable" class="nav-link" data-scroll-target="#example-2-consulting-deliverable">Example 2: Consulting Deliverable</a></li>
+  <li><a href="#example-3-course-infrastructure" id="toc-example-3-course-infrastructure" class="nav-link" data-scroll-target="#example-3-course-infrastructure">Example 3: Course Infrastructure</a></li>
+  </ul></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
+  <li><a href="#mindset-for-package-development" id="toc-mindset-for-package-development" class="nav-link" data-scroll-target="#mindset-for-package-development">Mindset for Package Development</a></li>
+  <li><a href="#looking-ahead-assignment-3" id="toc-looking-ahead-assignment-3" class="nav-link" data-scroll-target="#looking-ahead-assignment-3">Looking Ahead: Assignment 3</a></li>
+  <li><a href="#course-wrap-up-poster-showcase" id="toc-course-wrap-up-poster-showcase" class="nav-link" data-scroll-target="#course-wrap-up-poster-showcase">Course Wrap-Up: Poster Showcase</a></li>
+  <li><a href="#lets-begin" id="toc-lets-begin" class="nav-link" data-scroll-target="#lets-begin">Let’s Begin</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  <li><a href="#what-success-looks-like" id="toc-what-success-looks-like" class="nav-link" data-scroll-target="#what-success-looks-like">What Success Looks Like</a></li>
   </ul>
 </nav>
     </div>
@@ -328,7 +451,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Part 4: Python packaging for GIS</h1>
+<h1 class="title"><span id="sec-python-packaging" class="quarto-section-identifier">Python Package Development</span></h1>
 </div>
 
 
@@ -345,28 +468,342 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="story-problem" class="level2">
-<h2 class="anchored" data-anchor-id="story-problem">Story problem</h2>
-<p><strong>From one-off Auckland script to a reusable toolkit</strong></p>
-<ul>
-<li>You have good code from Parts 2 and 3.</li>
-<li>Now you make it importable: <code>from auckland_gis import ...</code></li>
-<li>Your future self and your students will reuse it in new projects.</li>
-</ul>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>You’ve built powerful analyses throughout this course—pedestrian flow dashboards, network accessibility tools, and spatial data pipelines. But what happens when you want to reuse these tools in future projects? When you want to share them with colleagues? When you want to build upon your own work months later?</p>
+<p>The answer is <strong>Python packaging</strong>—transforming your analysis scripts into reusable, installable, shareable software. This final chapter teaches you to create professional Python packages that you and others can install with a simple <code>pip install your-package</code>.</p>
+</section>
+<section id="from-scripts-to-packages" class="level2">
+<h2 class="anchored" data-anchor-id="from-scripts-to-packages">From Scripts to Packages</h2>
+<section id="the-problem-copy-paste-hell" class="level3">
+<h3 class="anchored" data-anchor-id="the-problem-copy-paste-hell">The Problem: Copy-Paste Hell</h3>
+<p>Consider this scenario:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># project1/analysis.py</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_walkability(streets_gdf, amenities_gdf, buffer_m<span class="op">=</span><span class="dv">800</span>):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate walkability scores..."""</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 50 lines of well-crafted code</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Months later in project2/analysis.py</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_walkability(streets_gdf, amenities_gdf, buffer_m<span class="op">=</span><span class="dv">800</span>):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate walkability scores..."""</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Same 50 lines, copied and pasted</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># But you fixed a bug in project1 and forgot to update project2...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-solution-packaged-code" class="level3">
+<h3 class="anchored" data-anchor-id="the-solution-packaged-code">The Solution: Packaged Code</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Once, in your package</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pip install my<span class="op">-</span>urban<span class="op">-</span>toolkit</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Forever, in any project</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> my_urban_toolkit <span class="im">import</span> calculate_walkability</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>walkability <span class="op">=</span> calculate_walkability(streets, amenities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 <section id="what-you-will-learn" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-will-learn">What you will learn</h2>
+<h2 class="anchored" data-anchor-id="what-you-will-learn">What You Will Learn</h2>
+<p>This chapter covers the complete package development lifecycle:</p>
+<section id="week-9-structure-and-building-sec-package-fundamentals" class="level3">
+<h3 class="anchored" data-anchor-id="week-9-structure-and-building-sec-package-fundamentals">Week 9: Structure and Building (<a href="#sec-package-fundamentals" class="quarto-xref"><span class="quarto-unresolved-ref">sec-package-fundamentals</span></a>)</h3>
 <ul>
-<li>Turn your Auckland analysis into reusable functions.</li>
-<li>Build a small package that loads Auckland boundaries and produces summaries.</li>
-<li>Test, document, and publish a clean release.</li>
+<li>Why packaging matters for urban analytics</li>
+<li>Package architecture: the <code>src/</code> layout</li>
+<li>Understanding <code>pyproject.toml</code></li>
+<li>Building distributions with <code>uv</code></li>
+<li>Testing packages locally</li>
 </ul>
 </section>
-<section id="notes" class="level2">
-<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<section id="week-10-testing-and-publishing-sec-testing-quality" class="level3">
+<h3 class="anchored" data-anchor-id="week-10-testing-and-publishing-sec-testing-quality">Week 10: Testing and Publishing (<a href="#sec-testing-quality" class="quarto-xref"><span class="quarto-unresolved-ref">sec-testing-quality</span></a>)</h3>
 <ul>
-<li><em>Add your narrative here.</em></li>
+<li>Writing tests with pytest</li>
+<li>Testing geospatial operations</li>
+<li>Documentation strategies</li>
+<li>Publishing to TestPyPI</li>
+<li>Troubleshooting publication issues</li>
 </ul>
+</section>
+<section id="week-11-production-quality-sec-geospatial-package-example" class="level3">
+<h3 class="anchored" data-anchor-id="week-11-production-quality-sec-geospatial-package-example">Week 11: Production Quality (<a href="#sec-geospatial-package-example" class="quarto-xref"><span class="quarto-unresolved-ref">sec-geospatial-package-example</span></a>)</h3>
+<ul>
+<li>Real-world package examples</li>
+<li>CI/CD with GitHub Actions<br>
+</li>
+<li>Publishing to PyPI</li>
+<li>Creating professional documentation</li>
+</ul>
+</section>
+<section id="week-12-publishing-to-pypi-sec-publish-pypi" class="level3">
+<h3 class="anchored" data-anchor-id="week-12-publishing-to-pypi-sec-publish-pypi">Week 12: Publishing to PyPI (<a href="#sec-publish-pypi" class="quarto-xref"><span class="quarto-unresolved-ref">sec-publish-pypi</span></a>)</h3>
+<ul>
+<li>Production PyPI publication</li>
+<li>Version management</li>
+<li>Package maintenance</li>
+<li>Community engagement</li>
+</ul>
+</section>
+</section>
+<section id="story-problem-the-auckland-gis-toolkit" class="level2">
+<h2 class="anchored" data-anchor-id="story-problem-the-auckland-gis-toolkit">Story Problem: The Auckland GIS Toolkit</h2>
+<p>Throughout this chapter, we’ll develop <code>auckland-gis</code>—a package that:</p>
+<p><strong>Provides reusable functions</strong> you’ve built across assignments: - Loading and validating Auckland SA2 boundaries - Calculating accessibility metrics - Processing pedestrian count data - Generating standard choropleth maps - Computing urban form indicators</p>
+<p><strong>Solves common problems</strong>: - Students stop copying code between projects - CRS validation becomes standardized - Analysis becomes easier to teach and review - Results are reproducible</p>
+<p><strong>Enables future work</strong>: - Import in Jupyter notebooks: <code>from auckland_gis import load_sa2</code> - Use in dashboards: <code>from auckland_gis.viz import create_choropleth</code> - Share with colleagues: <code>pip install auckland-gis</code></p>
+</section>
+<section id="the-journey-scripts-package-publication" class="level2">
+<h2 class="anchored" data-anchor-id="the-journey-scripts-package-publication">The Journey: Scripts → Package → Publication</h2>
+<section id="phase-1-from-notebook-to-module-week-9" class="level3">
+<h3 class="anchored" data-anchor-id="phase-1-from-notebook-to-module-week-9">Phase 1: From Notebook to Module (Week 9)</h3>
+<p><strong>Starting point</strong>: Scattered code across notebooks and scripts</p>
+<pre><code>my_analysis/
+├── load_data.py
+├── process_pedestrians.py
+├── calculate_metrics.py
+└── make_maps.py</code></pre>
+<p><strong>Week 9 deliverable</strong>: Organized package structure</p>
+<pre><code>auckland-gis/
+├── src/
+│   └── auckland_gis/
+│       ├── __init__.py
+│       ├── data.py
+│       ├── metrics.py
+│       └── viz.py
+├── tests/
+│   └── test_data.py
+├── pyproject.toml
+└── README.md</code></pre>
+</section>
+<section id="phase-2-add-quality-assurance-week-10" class="level3">
+<h3 class="anchored" data-anchor-id="phase-2-add-quality-assurance-week-10">Phase 2: Add Quality Assurance (Week 10)</h3>
+<p><strong>Tests ensure correctness</strong>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_load_sa2():</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Test SA2 loading validates CRS"""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> load_sa2(<span class="st">'data/auckland_sa2.gpkg'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> gdf.crs <span class="op">==</span> <span class="st">'EPSG:2193'</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(gdf) <span class="op">&gt;</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Documentation aids users</strong>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_density(gdf, pop_column<span class="op">=</span><span class="st">'population'</span>):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate population density per km².</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">    gdf : GeoDataFrame</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">        Must contain geometry and population data</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    pop_column : str, default 'population'</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">        Name of population column</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    GeoDataFrame</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">        Input GDF with added 'density' column</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="phase-3-share-with-the-world-weeks-10-11" class="level3">
+<h3 class="anchored" data-anchor-id="phase-3-share-with-the-world-weeks-10-11">Phase 3: Share with the World (Weeks 10-11)</h3>
+<p><strong>TestPyPI (Week 10)</strong>: Practice publishing safely</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish <span class="at">--index</span> testpypi</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Your package is now at: test.pypi.org/project/auckland-gis/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Real PyPI (Week 11)</strong>: Production release</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Anyone can now: pip install auckland-gis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<p><strong>Technical Skills:</strong> - Structure Python packages using best practices - Write <code>pyproject.toml</code> configuration - Build wheel and source distributions - Write comprehensive tests with pytest - Generate documentation with docstrings - Publish packages to PyPI - Set up CI/CD pipelines - Version packages semantically</p>
+<p><strong>Geospatial Skills:</strong> - Test spatial operations correctly - Handle CRS validation in packages - Package spatial data appropriately - Manage geospatial dependencies - Create reusable GIS workflows</p>
+<p><strong>Professional Skills:</strong> - Write code others can understand and use - Document for diverse audiences - Troubleshoot publication issues - Maintain open source projects - Communicate technical work effectively</p>
+</section>
+<section id="why-this-matters-for-urban-analytics" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-matters-for-urban-analytics">Why This Matters for Urban Analytics</h2>
+<section id="reproducibility" class="level3">
+<h3 class="anchored" data-anchor-id="reproducibility">1. Reproducibility</h3>
+<p>Published packages ensure analyses can be reproduced:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Requirements file for research paper</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>auckland<span class="op">-</span>gis<span class="op">==</span><span class="fl">1.2.0</span>  <span class="co"># Exact version locks analysis</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>geopandas<span class="op">==</span><span class="fl">0.14.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Anyone can recreate your analysis with the same tools.</p>
+</section>
+<section id="collaboration" class="level3">
+<h3 class="anchored" data-anchor-id="collaboration">2. Collaboration</h3>
+<p>Teams work more efficiently with shared tools:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Everyone uses the same validated functions</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> auckland_gis <span class="im">import</span> load_sa2, validate_join</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>sa2 <span class="op">=</span> load_sa2(<span class="st">'data/boundaries.gpkg'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> validate_join(sa2, census_df, key<span class="op">=</span><span class="st">'SA2_code'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>No more “it works on my machine” problems.</p>
+</section>
+<section id="teaching" class="level3">
+<h3 class="anchored" data-anchor-id="teaching">3. Teaching</h3>
+<p>Packages make teaching cleaner:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In your course materials</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pip install auckland<span class="op">-</span>gis</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Students focus on analysis, not data wrangling</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> auckland_gis <span class="im">import</span> load_pedestrian_counts</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> load_pedestrian_counts(<span class="st">'2023-03'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="career-development" class="level3">
+<h3 class="anchored" data-anchor-id="career-development">4. Career Development</h3>
+<p><strong>Employability</strong>: Employers value developers who can create reusable tools</p>
+<p><strong>Portfolio</strong>: Published packages demonstrate your skills publicly</p>
+<p><strong>Community</strong>: Contributing to open source builds professional networks</p>
+<p><strong>Impact</strong>: Your tools can influence research and practice beyond your direct work</p>
+</section>
+</section>
+<section id="urban-analytics-package-ecosystem" class="level2">
+<h2 class="anchored" data-anchor-id="urban-analytics-package-ecosystem">Urban Analytics Package Ecosystem</h2>
+<p>You’ll join a rich ecosystem of geospatial packages:</p>
+<p><strong>Foundation Libraries</strong> (what you’ll depend on): - <code>geopandas</code>: Spatial DataFrames - <code>shapely</code>: Geometric operations - <code>osmnx</code>: Street networks - <code>r5py</code>: Routing and accessibility - <code>folium</code>: Interactive maps</p>
+<p><strong>Your Package</strong> (what you’ll create): - <code>auckland-gis</code>: Auckland-specific utilities - Or: <code>urban-walkability</code>: Walkability assessment tools - Or: <code>escooter-analytics</code>: Micromobility analysis - Or: <code>accessibility-metrics</code>: Transport accessibility</p>
+<p><strong>Impact</strong>: Your package could become someone else’s foundation library!</p>
+</section>
+<section id="assessment-overview" class="level2">
+<h2 class="anchored" data-anchor-id="assessment-overview">Assessment Overview</h2>
+<p>Package development spans the final four weeks:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Activity</th>
+<th>Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>9</strong></td>
+<td>Build first package locally</td>
+<td>Completion credit</td>
+</tr>
+<tr class="even">
+<td><strong>10</strong></td>
+<td>Publish to TestPyPI</td>
+<td>5%</td>
+</tr>
+<tr class="odd">
+<td><strong>11</strong></td>
+<td>Refinement and CI/CD</td>
+<td>Part of Assignment 3</td>
+</tr>
+<tr class="even">
+<td><strong>12</strong></td>
+<td><strong>Assignment 3</strong>: PyPI publication</td>
+<td>30%</td>
+</tr>
+<tr class="odd">
+<td><strong>12</strong></td>
+<td><strong>Poster showcase</strong></td>
+<td>10%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total</strong>: 45% of final grade</p>
+</section>
+<section id="chapter-structure" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-structure">Chapter Structure</h2>
+<section id="sec-package-fundamentals-package-structure-and-building" class="level3">
+<h3 class="anchored" data-anchor-id="sec-package-fundamentals-package-structure-and-building"><a href="#sec-package-fundamentals" class="quarto-xref"><span class="quarto-unresolved-ref">sec-package-fundamentals</span></a>: Package Structure and Building</h3>
+<p>Learn the fundamentals: - Why packaging matters for GIS workflows - Package architecture (<code>src/</code> layout best practices) - Understanding <code>pyproject.toml</code> configuration - Building distributions with <code>uv</code> - Local testing before publication</p>
+<p><strong>Week 9 focus</strong>: Get everyone building packages successfully</p>
+</section>
+<section id="sec-testing-quality-testing-and-quality-assurance" class="level3">
+<h3 class="anchored" data-anchor-id="sec-testing-quality-testing-and-quality-assurance"><a href="#sec-testing-quality" class="quarto-xref"><span class="quarto-unresolved-ref">sec-testing-quality</span></a>: Testing and Quality Assurance</h3>
+<p>Add robustness: - Writing tests with pytest - Testing geospatial operations - Handling edge cases (empty geometries, CRS issues) - Documentation strategies - TestPyPI publication</p>
+<p><strong>Week 10 focus</strong>: Practice publication in safe environment</p>
+</section>
+<section id="sec-geospatial-package-example-real-world-package-examples" class="level3">
+<h3 class="anchored" data-anchor-id="sec-geospatial-package-example-real-world-package-examples"><a href="#sec-geospatial-package-example" class="quarto-xref"><span class="quarto-unresolved-ref">sec-geospatial-package-example</span></a>: Real-World Package Examples</h3>
+<p>See it in action: - Complete package walkthroughs - Auckland utilities toolkit - Micromobility analysis example - CI/CD setup with GitHub Actions - Advanced packaging patterns</p>
+<p><strong>Week 11 focus</strong>: Polish for production release</p>
+</section>
+<section id="sec-publish-pypi-publishing-to-production-pypi" class="level3">
+<h3 class="anchored" data-anchor-id="sec-publish-pypi-publishing-to-production-pypi"><a href="#sec-publish-pypi" class="quarto-xref"><span class="quarto-unresolved-ref">sec-publish-pypi</span></a>: Publishing to Production PyPI</h3>
+<p>Final release: - Real PyPI publication process - Semantic versioning strategies - Release notes and changelogs - Package maintenance - Community engagement</p>
+<p><strong>Week 12 focus</strong>: Complete Assignment 3 and showcase</p>
+</section>
+</section>
+<section id="real-world-applications" class="level2">
+<h2 class="anchored" data-anchor-id="real-world-applications">Real-World Applications</h2>
+<section id="example-1-research-lab-toolkit" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-research-lab-toolkit">Example 1: Research Lab Toolkit</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The problem: Lab members copy code between projects</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The solution: </span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>pip install lab<span class="op">-</span>spatial<span class="op">-</span>toolkit</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lab_spatial_toolkit <span class="im">import</span> (</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    load_study_area,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    calculate_accessibility,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    generate_report</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="example-2-consulting-deliverable" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-consulting-deliverable">Example 2: Consulting Deliverable</h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The problem: Clients need reproducible analysis</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The solution: Deliver code as a package</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>pip install auckland<span class="op">-</span>transport<span class="op">-</span>analysis<span class="op">==</span><span class="fl">2.1.0</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Client can reproduce all report figures</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> auckland_transport_analysis <span class="im">import</span> generate_figures</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>figures <span class="op">=</span> generate_figures(<span class="st">'data/'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="example-3-course-infrastructure" class="level3">
+<h3 class="anchored" data-anchor-id="example-3-course-infrastructure">Example 3: Course Infrastructure</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The problem: Students struggle with data loading</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The solution: Package handles complexity</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>pip install gisci343<span class="op">-</span>toolkit</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gisci343_toolkit <span class="im">import</span> load_assignment_data</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>pedestrians, boundaries, network <span class="op">=</span> load_assignment_data(assignment<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
+<p>Before you begin:</p>
+<p><strong>Prerequisites:</strong> - Python 3.10 or later - uv installed: <code>pip install uv</code> - Git and GitHub account - TestPyPI account (create in Week 10) - PyPI account (create in Week 11)</p>
+<p><strong>Development Tools:</strong> - Code editor (VS Code, PyCharm, or similar) - Terminal/command line - Git for version control</p>
+<p><strong>Conceptual Knowledge:</strong> - Python modules and imports - Functions and classes - Command line basics - Git fundamentals</p>
+</section>
+<section id="mindset-for-package-development" class="level2">
+<h2 class="anchored" data-anchor-id="mindset-for-package-development">Mindset for Package Development</h2>
+<p><strong>Think like a library author:</strong> - “Will this make sense to someone else?” - “What might go wrong with this input?” - “How do I explain this clearly?”</p>
+<p><strong>Embrace iteration:</strong> - Version 1.0 doesn’t need to be perfect - Release early, improve based on feedback - Documentation can always improve</p>
+<p><strong>Value reproducibility:</strong> - Pin dependencies - Test thoroughly - Document assumptions - Version thoughtfully</p>
+</section>
+<section id="looking-ahead-assignment-3" class="level2">
+<h2 class="anchored" data-anchor-id="looking-ahead-assignment-3">Looking Ahead: Assignment 3</h2>
+<p>Throughout these weeks, you’ll work toward Assignment 3: a complete, published Python package. Suggested scopes:</p>
+<p><strong>Urban Accessibility:</strong> - Isochrone calculation tools - 15-minute city assessment - Multi-modal accessibility metrics</p>
+<p><strong>Micromobility Analysis:</strong> - E-scooter trip analysis - Geofencing validation - OD flow calculations - Mode share analytics</p>
+<p><strong>Urban Form:</strong> - Street connectivity metrics - Building morphology analysis - Walkability scoring - Network resilience measures</p>
+<p><strong>Transport Analytics:</strong> - Travel time calculations - Route choice modeling - Congestion assessment - Public transport accessibility</p>
+<p>Choose something that: 1. <strong>Solves a real problem</strong> (yours or others’) 2. <strong>Builds on your assignments</strong> (reuse working code) 3. <strong>Interests you</strong> (you’ll work on this for 3-4 weeks) 4. <strong>Has clear scope</strong> (achievable in time available)</p>
+</section>
+<section id="course-wrap-up-poster-showcase" class="level2">
+<h2 class="anchored" data-anchor-id="course-wrap-up-poster-showcase">Course Wrap-Up: Poster Showcase</h2>
+<p>The course culminates in a <strong>poster showcase</strong> where you’ll present your package:</p>
+<p><strong>Format</strong>: A1 poster (594mm × 841mm) <strong>Content</strong>: Package purpose, features, use cases, results <strong>Audience</strong>: Faculty, students, potential employers <strong>Opportunity</strong>: Network, get feedback, showcase skills</p>
+<p>This is your chance to demonstrate everything you’ve learned: technical skills, analytical thinking, and professional communication.</p>
+</section>
+<section id="lets-begin" class="level2">
+<h2 class="anchored" data-anchor-id="lets-begin">Let’s Begin</h2>
+<p>Package development transforms you from a code user to a code creator. You’ll learn to build tools that last, share knowledge effectively, and contribute to the broader geospatial community.</p>
+<p>Ready to publish your first package? Let’s start with the fundamentals in <a href="#sec-package-fundamentals" class="quarto-xref"><span class="quarto-unresolved-ref">sec-package-fundamentals</span></a>.</p>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<p><strong>Essential Reading:</strong> - Python Packaging Guide: https://packaging.python.org/ - uv documentation: https://docs.astral.sh/uv/ - pytest documentation: https://docs.pytest.org/ - Real Python - Python Packages: https://realpython.com/python-modules-packages/</p>
+<p><strong>Example Packages to Study:</strong> - osmnx: https://github.com/gboeing/osmnx - geopandas: https://github.com/geopandas/geopandas - momepy: https://github.com/pysal/momepy - r5py: https://github.com/r5py/r5py</p>
+<p><strong>Community:</strong> - Python Packaging Discord: https://discord.gg/pypa - PyPI: https://pypi.org/ - TestPyPI: https://test.pypi.org/</p>
+</section>
+<section id="what-success-looks-like" class="level2">
+<h2 class="anchored" data-anchor-id="what-success-looks-like">What Success Looks Like</h2>
+<p>By Week 12, you’ll be able to say:</p>
+<p>✅ “I am a published Python package author” ✅ “My code is tested and documented” ✅ “Anyone can install my package with pip” ✅ “I understand package architecture and best practices” ✅ “I can maintain and version my package” ✅ “I’ve contributed to the open source ecosystem”</p>
+<p>Most importantly: <strong>You’ll have created something that outlasts the course—a tool that you and others can use for years to come.</strong></p>
+<p>Let’s build something great.</p>
 
 
 </section>
@@ -773,13 +1210,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3.7.shiny-assignment.html" class="pagination-link" aria-label="3.7 Shiny dashboard assignment">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.7 Shiny dashboard assignment</span>
+      <a href="./3.5.networks.html" class="pagination-link" aria-label="3.5. Network Analysis for GIS">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.5. Network Analysis for GIS</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./4.1.packaging-why.html" class="pagination-link" aria-label="4.1 Why packaging is a core GIScience skill">
-        <span class="nav-page-text">4.1 Why packaging is a core GIScience skill</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./4.1.package-fundamentals.html" class="pagination-link" aria-label="4.1. Package Fundamentals: Structure, Configuration, and Building">
+        <span class="nav-page-text">4.1. Package Fundamentals: Structure, Configuration, and Building</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

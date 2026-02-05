@@ -12,16 +12,16 @@ The emphasis is on building applied, production-oriented skills that reflect how
 
 The book is organised into three main parts:
 
-[**Part 1.** Doing geospatial analysis using Python](https://hackmd.io/Psm72Fo0QBuB6Ut8UGH4Lw)
+**Part 1.** Doing geospatial analysis using Python (Weeks 1-5)
 
-**Part 2.** Creating geospatial dashboards
+**Part 2.** Creating geospatial dashboards (Weeks 6-8)
 
-**Part 3.** Publishing Python packages with a geospatial focus
+**Part 3.** Publishing Python packages with a geospatial focus (Weeks 9-12)
 
 
 Throughout the course, **Positron** is used as the primary development environment. 
 
-![Visit https://positron.posit.co/download.html for download](positron.png)
+![Visit https://positron.posit.co/download.html for download](positron.png){width=60%}
 
 
 ## Who is this for?
@@ -42,17 +42,19 @@ Simply combining GIS and Python is no longer sufficient. This course therefore a
 
 ### Why do we use Git, and how does it support reproducible research?
 
-:::info 
+::: {.callout-note} 
 
-Git provides a transparent and traceable record of how a project evolves over time. Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.
+Git provides a transparent and traceable record of how a project evolves over time. 
+Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. 
+This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.
 
-Using Git encourages good research habits: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.
+Using **Git encourages good research habits**: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.
 :::
 
 
 ### Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?
 
-:::info
+::: {.callout-note}
 Dashboards transform analytical outputs into interactive and interpretable artefacts. Rather than presenting static maps or tables, dashboards allow users to explore spatial patterns, filter scenarios, and ask their own questions. This is particularly important in applied geospatial work, where stakeholders may not be familiar with code but need to engage with evidence.
 
 By building dashboards, students learn how to bridge the gap between analysis and communication. Dashboards force careful thinking about what results matter, how uncertainty is presented, and how spatial information can be explored intuitively. These skills are essential when working with planners, policymakers, and industry partners who rely on clear, actionable insights rather than raw analytical outputs.
@@ -61,8 +63,7 @@ By building dashboards, students learn how to bridge the gap between analysis an
 
 ### Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?
 
-
-:::info
+::: {.callout-note}
 Developing a Python package shifts the focus from writing one-off scripts to building reusable, maintainable software. Packaging requires students to structure code logically, define clear interfaces, and think about how others will use their work. This naturally introduces object-oriented programming concepts, such as abstraction, encapsulation, and modular design, in a context where they serve a practical purpose.
 
 In geospatial data science, packaging allows analytical workflows, spatial utilities, or modelling components to be shared, tested, and extended. The final package becomes a tangible output that can be included in a portfolio, reused in future projects, or published openly. This mirrors professional practice and helps students understand how geospatial tools are developed, maintained, and deployed in real-world environments.
@@ -81,24 +82,57 @@ The three modules in this book are designed to be complete, reusable, and ready 
 
 You can install the following package versions and it should work:
 
-```         
-polars: 1.0.0
-pyarrow: 10.0.1
-pandas: 2.2.2
-geopandas: 1.1.2
-numpy: 1.26.4
-matplotlib: 3.8.0
-seaborn: 0.13.2
-statsmodels: 0.14.2
 ```
+polars
+pyarrow
+pandas
+geopandas
+numpy
+matplotlib
+seaborn
+statsmodels
+```
+
+Once saved, install the dependencies using one of the following methods.
+
+**Using pip**:
+
+```
+pip install -r requirements.txt
+```
+
+**Using uv (recommended if you are working inside a uv-managed virtual environment)**:
+
+```
+uv pip install -r requirements.txt
+"""
+This keeps the environment flexible and avoids version pinning unless it becomes necessary later for reproducibility or debugging.
+"""
+```
+
 
 ### Data
 
-All the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in [here](https://github.com/dataandcrowd/GISCI343/tree/master/data) for posterity.
+All the data fetching code is included, but will eventually break as websites change or shut down. 
+The smaller datasets have been checked in [here](https://github.com/dataandcrowd/python-gis/tree/main/data) for posterity.
+
+
+## Acknowledgements
+This course builds upon the excellent work of several open educational resources in geographic and geospatial data science. 
+
+I am particularly grateful to stand on the shoulders of:
+
+* The Geographic Data Science course developed by the Geographic Data Science Lab at the University of Liverpool https://gdsl-ul.github.io/gds/
+* The Geospatial Data Science course from the Master of Urban Spatial Analytics (MUSA) programme at the University of Pennsylvania https://musa-550-fall-2023.github.io/
+* The Geo-Python course from the University of Helsinki https://geo-python-site.readthedocs.io/en/latest/
+
+These resources have been instrumental in shaping the structure, content, and pedagogical approach of this material. Their commitment to open education and sharing knowledge has made it possible to develop and deliver quality geographic data science education to students worldwide.
+
+
 
 ## Contributing
 
-This book is free and open source, so please do [open an issue](https://github.com/dataandcrowd/GISCI343/issues/new) if you notice a problem!
+This book is free and open source, so please do [open an issue](https://github.com/dataandcrowd/python-gis/issues/new) if you notice a problem!
 
 
 

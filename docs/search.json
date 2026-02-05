@@ -34,7 +34,7 @@
     "href": "index.html#running-the-code-yourself",
     "title": "Python GIS at UoA",
     "section": "Running the code yourself",
-    "text": "Running the code yourself\nYou can install the following package versions and it should work:\npolars: 1.0.0\npyarrow: 10.0.1\npandas: 2.2.2\ngeopandas: 1.1.2\nnumpy: 1.26.4\nmatplotlib: 3.8.0\nseaborn: 0.13.2\nstatsmodels: 0.14.2\n\nData\nAll the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in here for posterity.",
+    "text": "Running the code yourself\nYou can install the following package versions and it should work:\npolars\npyarrow\npandas\ngeopandas\nnumpy\nmatplotlib\nseaborn\nstatsmodels\nOnce saved, install the dependencies using one of the following methods.\nUsing pip:\npip install -r requirements.txt\nUsing uv (recommended if you are working inside a uv-managed virtual environment):\nuv pip install -r requirements.txt\n\"\"\"\nThis keeps the environment flexible and avoids version pinning unless it becomes necessary later for reproducibility or debugging.\n\"\"\"\n\nData\nAll the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in here for posterity.",
     "crumbs": [
       "GISCI 343 at UoA"
     ]
@@ -52,11 +52,11 @@
   {
     "objectID": "syllabus.html",
     "href": "syllabus.html",
-    "title": "Syllabus",
+    "title": "1  Syllabus (Semester 1, 2026)",
     "section": "",
-    "text": "Part 1\nWeek 1 - Introduction and Open Science\nWeek 2 - Spatial Data\nWeek 3 - Mapping Vector Data\nWeek 4 - Mapping Raster Data\nWeek 5 - Points\nWeek 6 - No Lecture & Clinic\nAssignment I: Programmed Map (40% of Final Grade)",
+    "text": "1.1 Interactive Dashboards and Research Software Development\nUniversity of Auckland, 2026\nInstructor: Dr Hyesop Shin\nSemester 1: 12 weeks (2 March - 2 June 2026)",
     "crumbs": [
-      "Syllabus"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
     ]
   },
   {
@@ -370,12 +370,12 @@
   {
     "objectID": "2.1.basic-python.html",
     "href": "2.1.basic-python.html",
-    "title": "2  Basic Python",
+    "title": "2.1. Basic Python",
     "section": "",
-    "text": "2.1 Introduction\nPython is one of the most popular programming languages for data science and geospatial analysis. Its clear syntax, extensive libraries, and active community make it an ideal choice for GIS work. This section introduces the fundamental Python concepts you’ll need for geospatial programming.",
+    "text": "Introduction\nPython is one of the most popular programming languages for data science and geospatial analysis. Its clear syntax, extensive libraries, and active community make it an ideal choice for GIS work. This section introduces the fundamental Python concepts you’ll need for geospatial programming.",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
@@ -1625,12 +1625,12 @@
   {
     "objectID": "2.1.basic-python.html#lists",
     "href": "2.1.basic-python.html#lists",
-    "title": "2  Basic Python",
-    "section": "2.9 Lists",
-    "text": "2.9 Lists\nLists are ordered collections that can hold multiple values:\n# Create a list\ncities = [\"Auckland\", \"Wellington\", \"Christchurch\"]\n\n# Access elements (zero-indexed)\ncities[0]  # Returns: \"Auckland\"\ncities[1]  # Returns: \"Wellington\"\ncities[-1] # Returns: \"Christchurch\" (last item)\n\n# List length\nlen(cities)  # Returns: 3\n\n2.9.1 List Operations\n# Create a list of numbers\nnumbers = [1, 2, 3, 4, 5]\n\n# Slicing: get a subset\nnumbers[1:3]   # Returns: [2, 3]\nnumbers[:3]    # Returns: [1, 2, 3] (first three)\nnumbers[2:]    # Returns: [3, 4, 5] (from index 2 onwards)\n\n# Modify a list\nnumbers[0] = 10\nprint(numbers)  # Output: [10, 2, 3, 4, 5]\n\n# Append an item\nnumbers.append(6)\nprint(numbers)  # Output: [10, 2, 3, 4, 5, 6]\n\n\n2.9.2 More List Methods\nwestern_line = [\"Britomart\", \"Parnell\", \"Newmarket\", \"Grafton\"]\n\n# Add an item to the end\nwestern_line.append(\"Mt Eden\")\n\n# Extend with another list\nmore_stations = [\"Kingsland\", \"Morningside\", \"Baldwin Ave\"]\nwestern_line.extend(more_stations)\n\n# Insert at specific position\nwestern_line.insert(1, \"Strand\")\n\n# Remove an item\nwestern_line.remove(\"Strand\")\n\n# Sort the list\nnumbers = [3, 1, 4, 1, 5, 9, 2, 6]\nnumbers.sort()\nprint(numbers)  # Output: [1, 1, 2, 3, 4, 5, 6, 9]\n\n\n\n\n\n\nLists are Versatile\n\n\n\nLists can contain: - Different data types: [1, \"hello\", 3.14, True] - Other lists: [[1, 2], [3, 4], [5, 6]] - Any Python objects",
+    "title": "2.1. Basic Python",
+    "section": "Lists",
+    "text": "Lists\nLists are ordered collections that can hold multiple values:\n# Create a list\ncities = [\"Auckland\", \"Wellington\", \"Christchurch\"]\n\n# Access elements (zero-indexed)\ncities[0]  # Returns: \"Auckland\"\ncities[1]  # Returns: \"Wellington\"\ncities[-1] # Returns: \"Christchurch\" (last item)\n\n# List length\nlen(cities)  # Returns: 3\n\nList Operations\n# Create a list of numbers\nnumbers = [1, 2, 3, 4, 5]\n\n# Slicing: get a subset\nnumbers[1:3]   # Returns: [2, 3]\nnumbers[:3]    # Returns: [1, 2, 3] (first three)\nnumbers[2:]    # Returns: [3, 4, 5] (from index 2 onwards)\n\n# Modify a list\nnumbers[0] = 10\nprint(numbers)  # Output: [10, 2, 3, 4, 5]\n\n# Append an item\nnumbers.append(6)\nprint(numbers)  # Output: [10, 2, 3, 4, 5, 6]\n\n\nMore List Methods\nwestern_line = [\"Britomart\", \"Parnell\", \"Newmarket\", \"Grafton\"]\n\n# Add an item to the end\nwestern_line.append(\"Mt Eden\")\n\n# Extend with another list\nmore_stations = [\"Kingsland\", \"Morningside\", \"Baldwin Ave\"]\nwestern_line.extend(more_stations)\n\n# Insert at specific position\nwestern_line.insert(1, \"Strand\")\n\n# Remove an item\nwestern_line.remove(\"Strand\")\n\n# Sort the list\nnumbers = [3, 1, 4, 1, 5, 9, 2, 6]\nnumbers.sort()\nprint(numbers)  # Output: [1, 1, 2, 3, 4, 5, 6, 9]\n\n\n\n\n\n\nLists are Versatile\n\n\n\nLists can contain: - Different data types: [1, \"hello\", 3.14, True] - Other lists: [[1, 2], [3, 4], [5, 6]] - Any Python objects",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
@@ -2013,210 +2013,210 @@
   {
     "objectID": "2.1.basic-python.html#introduction",
     "href": "2.1.basic-python.html#introduction",
-    "title": "2  Basic Python",
+    "title": "2.1. Basic Python",
     "section": "",
     "text": "Getting Started\n\n\n\nWe’ll use Google Colab by default: https://colab.research.google.com\nNo installation required—just sign in with your Google account and start coding!",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#your-first-python-code",
     "href": "2.1.basic-python.html#your-first-python-code",
-    "title": "2  Basic Python",
-    "section": "2.2 Your First Python Code",
-    "text": "2.2 Your First Python Code\nLet’s start with the traditional first programme:\nprint(\"Hello World\")\nThis simple command displays text on the screen. The print() function is one of Python’s most useful built-in functions.\n\n2.2.1 Adding Comments\nComments help document your code. Python supports two types:\n# This is a single-line comment\n\n'''\nThis is a multi-line comment\nLine 1\nLine 2\nLine 3\n'''\n\nprint('Hello World!')  # Comments can also appear at the end of lines\n\n\n\n\n\n\nWrite Clear Comments\n\n\n\nGood comments explain why you’re doing something, not just what you’re doing. Your code should be readable enough that the “what” is obvious.",
+    "title": "2.1. Basic Python",
+    "section": "Your First Python Code",
+    "text": "Your First Python Code\nLet’s start with the traditional first programme:\nprint(\"Hello World\")\nThis simple command displays text on the screen. The print() function is one of Python’s most useful built-in functions.\n\nAdding Comments\nComments help document your code. Python supports two types:\n# This is a single-line comment\n\n'''\nThis is a multi-line comment\nLine 1\nLine 2\nLine 3\n'''\n\nprint('Hello World!')  # Comments can also appear at the end of lines\n\n\n\n\n\n\nWrite Clear Comments\n\n\n\nGood comments explain why you’re doing something, not just what you’re doing. Your code should be readable enough that the “what” is obvious.",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#python-as-a-calculator",
     "href": "2.1.basic-python.html#python-as-a-calculator",
-    "title": "2  Basic Python",
-    "section": "2.3 Python as a Calculator",
-    "text": "2.3 Python as a Calculator\nPython can perform mathematical operations directly:\n# Addition\n1 + 1  # Returns: 2\n\n# Multiplication\n5 * 7  # Returns: 35\n\n# Exponentiation\n2**3  # Returns: 8\n\n# Modulus (remainder)\n10 % 2  # Returns: 0\n\n2.3.1 More Mathematical Operators\n\n\n\nOperation\nOperator\nExample\nResult\n\n\n\n\nAddition\n+\n5 + 3\n8\n\n\nSubtraction\n-\n5 - 3\n2\n\n\nMultiplication\n*\n5 * 3\n15\n\n\nDivision\n/\n11 / 2\n5.5\n\n\nFloor Division\n//\n11 // 2\n5\n\n\nModulus\n%\n11 % 2\n1\n\n\nExponentiation\n**\n2 ** 3\n8\n\n\nNegation\n-\n-5\n-5\n\n\n\n# True division gives decimal result\nprint(11 / 2)  # Output: 5.5\n\n# Floor division gives integer result (rounds down)\nprint(11 // 2)  # Output: 5",
+    "title": "2.1. Basic Python",
+    "section": "Python as a Calculator",
+    "text": "Python as a Calculator\nPython can perform mathematical operations directly:\n# Addition\n1 + 1  # Returns: 2\n\n# Multiplication\n5 * 7  # Returns: 35\n\n# Exponentiation\n2**3  # Returns: 8\n\n# Modulus (remainder)\n10 % 2  # Returns: 0\n\nMore Mathematical Operators\n\n\n\nOperation\nOperator\nExample\nResult\n\n\n\n\nAddition\n+\n5 + 3\n8\n\n\nSubtraction\n-\n5 - 3\n2\n\n\nMultiplication\n*\n5 * 3\n15\n\n\nDivision\n/\n11 / 2\n5.5\n\n\nFloor Division\n//\n11 // 2\n5\n\n\nModulus\n%\n11 % 2\n1\n\n\nExponentiation\n**\n2 ** 3\n8\n\n\nNegation\n-\n-5\n-5\n\n\n\n# True division gives decimal result\nprint(11 / 2)  # Output: 5.5\n\n# Floor division gives integer result (rounds down)\nprint(11 // 2)  # Output: 5",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#python-syntax-essentials",
     "href": "2.1.basic-python.html#python-syntax-essentials",
-    "title": "2  Basic Python",
-    "section": "2.4 Python Syntax Essentials",
-    "text": "2.4 Python Syntax Essentials\n\n2.4.1 End-of-Line Terminates Statements\nIn Python, the end of a line marks the end of a statement:\ntemperature = 5\nThis is an assignment operation, where we create a variable named temperature and assign it the value 5.\nIf you need a statement to continue to the next line, use the backslash (\\):\nx = 1 + 2 + 3 + 4 + \\\n    5 + 6 + 7 + 8\n\n\n2.4.2 Whitespace Within Lines\nWhitespace within lines doesn’t matter for Python’s interpretation:\nx=1+2\nx = 1 + 2\nx             =        1    +                2\nAll three lines are equivalent, but which is most readable? The second option with consistent spacing is preferred.\n\n\n2.4.3 Indentation Matters!\nUnlike many languages, Python uses indentation to define code blocks:\n# Correct indentation\nif temperature &gt; 25:\n    print(\"It's hot!\")\n    print(\"Stay hydrated!\")\n\n# Incorrect - will cause an error\nif temperature &gt; 25:\nprint(\"It's hot!\")  # IndentationError!\n\n\n\n\n\n\nConsistent Indentation\n\n\n\nAlways use 4 spaces for indentation (most editors can convert Tab to spaces automatically). Mixing tabs and spaces will cause errors.\n\n\n\n\n2.4.4 Parentheses (Round Brackets)\nParentheses have multiple uses in Python:\n\nGrouping mathematical operations:\n\n2 * (3 + 4)  # Returns: 14\n\nCalling functions:\n\nprint('first value:', 1)\nlen('Hello World')\n\nExecuting methods:\n\nL = [4, 2, 3, 1]\nL.sort()  # Parentheses execute the sort method\nprint(L)  # Output: [1, 2, 3, 4]",
+    "title": "2.1. Basic Python",
+    "section": "Python Syntax Essentials",
+    "text": "Python Syntax Essentials\n\nEnd-of-Line Terminates Statements\nIn Python, the end of a line marks the end of a statement:\ntemperature = 5\nThis is an assignment operation, where we create a variable named temperature and assign it the value 5.\nIf you need a statement to continue to the next line, use the backslash (\\):\nx = 1 + 2 + 3 + 4 + \\\n    5 + 6 + 7 + 8\n\n\nWhitespace Within Lines\nWhitespace within lines doesn’t matter for Python’s interpretation:\nx=1+2\nx = 1 + 2\nx             =        1    +                2\nAll three lines are equivalent, but which is most readable? The second option with consistent spacing is preferred.\n\n\nIndentation Matters!\nUnlike many languages, Python uses indentation to define code blocks:\n# Correct indentation\nif temperature &gt; 25:\n    print(\"It's hot!\")\n    print(\"Stay hydrated!\")\n\n# Incorrect - will cause an error\nif temperature &gt; 25:\nprint(\"It's hot!\")  # IndentationError!\n\n\n\n\n\n\nConsistent Indentation\n\n\n\nAlways use 4 spaces for indentation (most editors can convert Tab to spaces automatically). Mixing tabs and spaces will cause errors.\n\n\n\n\nParentheses (Round Brackets)\nParentheses have multiple uses in Python:\n\nGrouping mathematical operations:\n\n2 * (3 + 4)  # Returns: 14\n\nCalling functions:\n\nprint('first value:', 1)\nlen('Hello World')\n\nExecuting methods:\n\nL = [4, 2, 3, 1]\nL.sort()  # Parentheses execute the sort method\nprint(L)  # Output: [1, 2, 3, 4]",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#variables-and-assignment",
     "href": "2.1.basic-python.html#variables-and-assignment",
-    "title": "2  Basic Python",
-    "section": "2.5 Variables and Assignment",
-    "text": "2.5 Variables and Assignment\nA variable stores values for later use. Think of it as a labelled box in computer memory.\nweather = \"Freezing\"\nprint(weather)  # Output: Freezing\n\ntemperature = 15\nprint(temperature)  # Output: 15\n\n2.5.1 Variables as Pointers\nVariables in Python are references (pointers) to objects in memory:\nx = [1, 2, 3]\ny = x  # Both x and y point to the same list\n\n# Modifying the list through x\nx.append(4)\nprint(y)  # Output: [1, 2, 3, 4] - y sees the change!\n\n# Reassigning x\nx = 'something else'\nprint(y)  # Output: [1, 2, 3, 4] - y is unchanged\nThis behaviour is important when working with data structures in geospatial analysis.",
+    "title": "2.1. Basic Python",
+    "section": "Variables and Assignment",
+    "text": "Variables and Assignment\nA variable stores values for later use. Think of it as a labelled box in computer memory.\nweather = \"Freezing\"\nprint(weather)  # Output: Freezing\n\ntemperature = 15\nprint(temperature)  # Output: 15\n\nVariables as Pointers\nVariables in Python are references (pointers) to objects in memory:\nx = [1, 2, 3]\ny = x  # Both x and y point to the same list\n\n# Modifying the list through x\nx.append(4)\nprint(y)  # Output: [1, 2, 3, 4] - y sees the change!\n\n# Reassigning x\nx = 'something else'\nprint(y)  # Output: [1, 2, 3, 4] - y is unchanged\nThis behaviour is important when working with data structures in geospatial analysis.",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#data-types",
     "href": "2.1.basic-python.html#data-types",
-    "title": "2  Basic Python",
-    "section": "2.6 Data Types",
-    "text": "2.6 Data Types\n\n2.6.1 Everything Is an Object\nPython is an object-oriented language. Every entity has:\n\nAttributes: Data associated with the object\nMethods: Functions that operate on the object\n\nx = 4\ntype(x)  # Returns: &lt;class 'int'&gt;\n\nx = 'hello'\ntype(x)  # Returns: &lt;class 'str'&gt;\n\nx = 3.14159\ntype(x)  # Returns: &lt;class 'float'&gt;\n\n\n2.6.2 Basic Data Types\nPython has four fundamental data types:\n\n\n\nType\nDescription\nExample\n\n\n\n\nint\nWhole numbers\n4, -17, 0\n\n\nfloat\nDecimal numbers\n3.1415, -2.5\n\n\nstr\nText strings\n'Hello', \"Auckland\"\n\n\nbool\nTrue/False values\nTrue, False\n\n\n\n\n\n2.6.3 Working with Strings\nStrings represent text data:\ncity = \"Auckland\"\nprint(city)  # Output: Auckland\n\n# Length of string\nlen(city)  # Returns: 8\n\n# String concatenation\ngreeting = \"Hello, \" + city\nprint(greeting)  # Output: Hello, Auckland\n\n# String repetition\nprint(city * 3)  # Output: AucklandAucklandAuckland\n\n# Case transformations\nprint(city.upper())  # Output: AUCKLAND\nprint(city.lower())  # Output: auckland\n\n\n\n\n\n\nString Methods\n\n\n\nStrings have many useful methods. Access them with dot notation:\ntext = \"  Hello World  \"\ntext.strip()     # Remove whitespace: \"Hello World\"\ntext.replace(\"World\", \"Python\")  # Replace text\ntext.split()     # Split into list: [\"Hello\", \"World\"]\n\n\n\n\n2.6.4 Working with Numbers\nmy_int = 2\nmy_float = 24.3\n\n# Mixing int and float gives float\nmy_int + my_float  # Returns: 26.3 (float)\n\n# Division always returns float\n10 / 5  # Returns: 2.0 (not 2)\n\n# Floor division returns int\n10 // 3  # Returns: 3\n\n# Modulus returns remainder\n10 % 3  # Returns: 1\n\n# Exponentiation\n2**3  # Returns: 8\n\n\n2.6.5 Boolean Values\nBooleans represent truth values and are essential for conditional logic:\nx = 5\ny = 4\n\n# Comparison returns boolean\nprint(x &gt; y)      # Output: True\nprint(not(x &gt; y)) # Output: False\nprint(x == y)     # Output: False\nprint(x != y)     # Output: True",
+    "title": "2.1. Basic Python",
+    "section": "Data Types",
+    "text": "Data Types\n\nEverything Is an Object\nPython is an object-oriented language. Every entity has:\n\nAttributes: Data associated with the object\nMethods: Functions that operate on the object\n\nx = 4\ntype(x)  # Returns: &lt;class 'int'&gt;\n\nx = 'hello'\ntype(x)  # Returns: &lt;class 'str'&gt;\n\nx = 3.14159\ntype(x)  # Returns: &lt;class 'float'&gt;\n\n\nBasic Data Types\nPython has four fundamental data types:\n\n\n\nType\nDescription\nExample\n\n\n\n\nint\nWhole numbers\n4, -17, 0\n\n\nfloat\nDecimal numbers\n3.1415, -2.5\n\n\nstr\nText strings\n'Hello', \"Auckland\"\n\n\nbool\nTrue/False values\nTrue, False\n\n\n\n\n\nWorking with Strings\nStrings represent text data:\ncity = \"Auckland\"\nprint(city)  # Output: Auckland\n\n# Length of string\nlen(city)  # Returns: 8\n\n# String concatenation\ngreeting = \"Hello, \" + city\nprint(greeting)  # Output: Hello, Auckland\n\n# String repetition\nprint(city * 3)  # Output: AucklandAucklandAuckland\n\n# Case transformations\nprint(city.upper())  # Output: AUCKLAND\nprint(city.lower())  # Output: auckland\n\n\n\n\n\n\nString Methods\n\n\n\nStrings have many useful methods. Access them with dot notation:\ntext = \"  Hello World  \"\ntext.strip()     # Remove whitespace: \"Hello World\"\ntext.replace(\"World\", \"Python\")  # Replace text\ntext.split()     # Split into list: [\"Hello\", \"World\"]\n\n\n\n\nWorking with Numbers\nmy_int = 2\nmy_float = 24.3\n\n# Mixing int and float gives float\nmy_int + my_float  # Returns: 26.3 (float)\n\n# Division always returns float\n10 / 5  # Returns: 2.0 (not 2)\n\n# Floor division returns int\n10 // 3  # Returns: 3\n\n# Modulus returns remainder\n10 % 3  # Returns: 1\n\n# Exponentiation\n2**3  # Returns: 8\n\n\nBoolean Values\nBooleans represent truth values and are essential for conditional logic:\nx = 5\ny = 4\n\n# Comparison returns boolean\nprint(x &gt; y)      # Output: True\nprint(not(x &gt; y)) # Output: False\nprint(x == y)     # Output: False\nprint(x != y)     # Output: True",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#comparison-operators",
     "href": "2.1.basic-python.html#comparison-operators",
-    "title": "2  Basic Python",
-    "section": "2.7 Comparison Operators",
-    "text": "2.7 Comparison Operators\nComparison operators evaluate relationships between values:\n\n\n\nOperator\nMeaning\nExample\n\n\n\n\n==\nEqual to\n5 == 5 → True\n\n\n!=\nNot equal to\n5 != 4 → True\n\n\n&lt;\nLess than\n3 &lt; 5 → True\n\n\n&gt;\nGreater than\n5 &gt; 3 → True\n\n\n&lt;=\nLess than or equal\n5 &lt;= 5 → True\n\n\n&gt;=\nGreater than or equal\n5 &gt;= 4 → True\n\n\n\n# Check if a number is odd\n25 % 2 == 1  # Returns: True\n\n# Check if a number is even\n66 % 2 == 0  # Returns: True",
+    "title": "2.1. Basic Python",
+    "section": "Comparison Operators",
+    "text": "Comparison Operators\nComparison operators evaluate relationships between values:\n\n\n\nOperator\nMeaning\nExample\n\n\n\n\n==\nEqual to\n5 == 5 → True\n\n\n!=\nNot equal to\n5 != 4 → True\n\n\n&lt;\nLess than\n3 &lt; 5 → True\n\n\n&gt;\nGreater than\n5 &gt; 3 → True\n\n\n&lt;=\nLess than or equal\n5 &lt;= 5 → True\n\n\n&gt;=\nGreater than or equal\n5 &gt;= 4 → True\n\n\n\n# Check if a number is odd\n25 % 2 == 1  # Returns: True\n\n# Check if a number is even\n66 % 2 == 0  # Returns: True",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#boolean-operations",
     "href": "2.1.basic-python.html#boolean-operations",
-    "title": "2  Basic Python",
-    "section": "2.8 Boolean Operations",
-    "text": "2.8 Boolean Operations\nCombine boolean values with logical operators:\n\n\n\nOperator\nDescription\nExample\n\n\n\n\nand\nBoth must be True\nTrue and False → False\n\n\nor\nAt least one must be True\nTrue or False → True\n\n\nnot\nInverts the value\nnot True → False\n\n\n\nx = 4\n\n# Both conditions must be true\n(x &lt; 6) and (x &gt; 2)  # Returns: True\n\n# At least one condition must be true\n(x &gt; 10) or (x % 2 == 0)  # Returns: True\n\n# Invert the condition\nnot (x &lt; 6)  # Returns: False",
+    "title": "2.1. Basic Python",
+    "section": "Boolean Operations",
+    "text": "Boolean Operations\nCombine boolean values with logical operators:\n\n\n\nOperator\nDescription\nExample\n\n\n\n\nand\nBoth must be True\nTrue and False → False\n\n\nor\nAt least one must be True\nTrue or False → True\n\n\nnot\nInverts the value\nnot True → False\n\n\n\nx = 4\n\n# Both conditions must be true\n(x &lt; 6) and (x &gt; 2)  # Returns: True\n\n# At least one condition must be true\n(x &gt; 10) or (x % 2 == 0)  # Returns: True\n\n# Invert the condition\nnot (x &lt; 6)  # Returns: False",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#for-loops",
     "href": "2.1.basic-python.html#for-loops",
-    "title": "2  Basic Python",
-    "section": "2.10 For Loops",
-    "text": "2.10 For Loops\nLoops allow you to repeat operations efficiently. They’re essential for processing multiple data items.\n\n2.10.1 Basic For Loop Syntax\nfor variable in collection:\n    do_something_with_variable\nKey points: - The loop statement must end with a colon (:) - Code inside the loop must be indented (4 spaces) - No special end statement needed—just return to normal indentation\n\n\n2.10.2 Example: Iterating Through a List\nwestern_line = [\"Britomart\", \"Parnell\", \"Newmarket\", \"Grafton\",\n                \"Mt Eden\", \"Kingsland\", \"Morningside\", \"Baldwin Ave\"]\n\nfor station in western_line:\n    print(station)\nOutput:\nBritomart\nParnell\nNewmarket\nGrafton\nMt Eden\nKingsland\nMorningside\nBaldwin Ave\n\n\n2.10.3 Using Range\nThe range() function generates sequences of numbers:\n# Print numbers 0 to 4\nfor value in range(5):\n    print(value)\n\n# Output:\n# 0\n# 1\n# 2\n# 3\n# 4\n\n\n2.10.4 Working with Multiple Lists\ncities = [\"Helsinki\", \"Stockholm\", \"Oslo\", \"Reykjavik\", \"Copenhagen\"]\ncountries = [\"Finland\", \"Sweden\", \"Norway\", \"Iceland\", \"Denmark\"]\n\n# Iterate using indices\nfor i in range(len(cities)):\n    print(cities[i], \"is the capital of\", countries[i])\n\n# Output:\n# Helsinki is the capital of Finland\n# Stockholm is the capital of Sweden\n# Oslo is the capital of Norway\n# Reykjavik is the capital of Iceland\n# Copenhagen is the capital of Denmark\n\n\n\n\n\n\nReal-World Application\n\n\n\nIn geospatial analysis, you’ll use loops to: - Process multiple data files - Calculate statistics for each region - Create maps for different time periods - Apply transformations to all features in a dataset",
+    "title": "2.1. Basic Python",
+    "section": "For Loops",
+    "text": "For Loops\nLoops allow you to repeat operations efficiently. They’re essential for processing multiple data items.\n\nBasic For Loop Syntax\nfor variable in collection:\n    do_something_with_variable\nKey points: - The loop statement must end with a colon (:) - Code inside the loop must be indented (4 spaces) - No special end statement needed—just return to normal indentation\n\n\nExample: Iterating Through a List\nwestern_line = [\"Britomart\", \"Parnell\", \"Newmarket\", \"Grafton\",\n                \"Mt Eden\", \"Kingsland\", \"Morningside\", \"Baldwin Ave\"]\n\nfor station in western_line:\n    print(station)\nOutput:\nBritomart\nParnell\nNewmarket\nGrafton\nMt Eden\nKingsland\nMorningside\nBaldwin Ave\n\n\nUsing Range\nThe range() function generates sequences of numbers:\n# Print numbers 0 to 4\nfor value in range(5):\n    print(value)\n\n# Output:\n# 0\n# 1\n# 2\n# 3\n# 4\n\n\nWorking with Multiple Lists\ncities = [\"Helsinki\", \"Stockholm\", \"Oslo\", \"Reykjavik\", \"Copenhagen\"]\ncountries = [\"Finland\", \"Sweden\", \"Norway\", \"Iceland\", \"Denmark\"]\n\n# Iterate using indices\nfor i in range(len(cities)):\n    print(cities[i], \"is the capital of\", countries[i])\n\n# Output:\n# Helsinki is the capital of Finland\n# Stockholm is the capital of Sweden\n# Oslo is the capital of Norway\n# Reykjavik is the capital of Iceland\n# Copenhagen is the capital of Denmark\n\n\n\n\n\n\nReal-World Application\n\n\n\nIn geospatial analysis, you’ll use loops to: - Process multiple data files - Calculate statistics for each region - Create maps for different time periods - Apply transformations to all features in a dataset",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#conditional-statements",
     "href": "2.1.basic-python.html#conditional-statements",
-    "title": "2  Basic Python",
-    "section": "2.11 Conditional Statements",
-    "text": "2.11 Conditional Statements\nConditional statements allow your code to make decisions based on conditions.\n\n2.11.1 If-Else Structure\ntemperature = 17\n\nif temperature &gt; 25:\n    print(\"It's hot!\")\nelse:\n    print(\"It's not hot!\")\n    \n# Output: It's not hot!\n\n\n2.11.2 If Without Else\nSometimes you only need action when a condition is true:\ntemperature = 17\n\nif temperature &gt; 25:\n    print(temperature, \"is greater than 25\")\n\n# No output because condition is False\n\n\n2.11.3 If-Elif-Else\nUse elif (else if) for multiple conditions:\ntemperature = -3\n\nif temperature &gt; 0:\n    print(temperature, \"degrees celsius is above freezing\")\nelif temperature == 0:\n    print(temperature, \"degrees celsius is at the freezing point\")\nelse:\n    print(temperature, \"degrees celsius is below freezing\")\n\n# Output: -3 degrees celsius is below freezing\nPython checks conditions in order and executes the first true block.\n\n\n2.11.4 Comparison with Strings\nweather = \"rain\"\n\nif weather == \"rain\":\n    print(\"Wear a raincoat!\")\nelse:\n    print(\"No raincoat needed.\")\n\n# Output: Wear a raincoat!",
+    "title": "2.1. Basic Python",
+    "section": "Conditional Statements",
+    "text": "Conditional Statements\nConditional statements allow your code to make decisions based on conditions.\n\nIf-Else Structure\ntemperature = 17\n\nif temperature &gt; 25:\n    print(\"It's hot!\")\nelse:\n    print(\"It's not hot!\")\n    \n# Output: It's not hot!\n\n\nIf Without Else\nSometimes you only need action when a condition is true:\ntemperature = 17\n\nif temperature &gt; 25:\n    print(temperature, \"is greater than 25\")\n\n# No output because condition is False\n\n\nIf-Elif-Else\nUse elif (else if) for multiple conditions:\ntemperature = -3\n\nif temperature &gt; 0:\n    print(temperature, \"degrees celsius is above freezing\")\nelif temperature == 0:\n    print(temperature, \"degrees celsius is at the freezing point\")\nelse:\n    print(temperature, \"degrees celsius is below freezing\")\n\n# Output: -3 degrees celsius is below freezing\nPython checks conditions in order and executes the first true block.\n\n\nComparison with Strings\nweather = \"rain\"\n\nif weather == \"rain\":\n    print(\"Wear a raincoat!\")\nelse:\n    print(\"No raincoat needed.\")\n\n# Output: Wear a raincoat!",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#combining-conditions",
     "href": "2.1.basic-python.html#combining-conditions",
-    "title": "2  Basic Python",
-    "section": "2.12 Combining Conditions",
-    "text": "2.12 Combining Conditions\nUse and and or to create complex conditions:\nweather = \"rain\"\nwind_speed = 14\ncomfort_limit = 10\n\n# Multiple conditions with 'or'\nif (weather == \"rain\") or (wind_speed &gt;= comfort_limit):\n    print(\"Just stay at home\")\nelse:\n    print(\"Go out and enjoy the weather!\")\n\n# Output: Just stay at home",
+    "title": "2.1. Basic Python",
+    "section": "Combining Conditions",
+    "text": "Combining Conditions\nUse and and or to create complex conditions:\nweather = \"rain\"\nwind_speed = 14\ncomfort_limit = 10\n\n# Multiple conditions with 'or'\nif (weather == \"rain\") or (wind_speed &gt;= comfort_limit):\n    print(\"Just stay at home\")\nelse:\n    print(\"Go out and enjoy the weather!\")\n\n# Output: Just stay at home",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#combining-loops-and-conditionals",
     "href": "2.1.basic-python.html#combining-loops-and-conditionals",
-    "title": "2  Basic Python",
-    "section": "2.13 Combining Loops and Conditionals",
-    "text": "2.13 Combining Loops and Conditionals\nOne of the most powerful patterns in programming:\ntemperatures = [0, 12, 17, 28, 30]\n\n# Check each temperature\nfor temperature in temperatures:\n    if temperature &gt; 25:\n        print(temperature, \"is hot\")\n    else:\n        print(temperature, \"is not hot\")\n\n# Output:\n# 0 is not hot\n# 12 is not hot\n# 17 is not hot\n# 28 is hot\n# 30 is hot\n\n2.13.1 Practical Example: Processing Sensor Data\nsensor_readings = [15.2, 23.1, 45.7, 12.8, 38.9]\nthreshold = 30.0\n\nhigh_readings = []\n\nfor reading in sensor_readings:\n    if reading &gt; threshold:\n        high_readings.append(reading)\n        print(f\"Alert: Reading {reading} exceeds threshold!\")\n\nprint(f\"\\nTotal high readings: {len(high_readings)}\")",
+    "title": "2.1. Basic Python",
+    "section": "Combining Loops and Conditionals",
+    "text": "Combining Loops and Conditionals\nOne of the most powerful patterns in programming:\ntemperatures = [0, 12, 17, 28, 30]\n\n# Check each temperature\nfor temperature in temperatures:\n    if temperature &gt; 25:\n        print(temperature, \"is hot\")\n    else:\n        print(temperature, \"is not hot\")\n\n# Output:\n# 0 is not hot\n# 12 is not hot\n# 17 is not hot\n# 28 is hot\n# 30 is hot\n\nPractical Example: Processing Sensor Data\nsensor_readings = [15.2, 23.1, 45.7, 12.8, 38.9]\nthreshold = 30.0\n\nhigh_readings = []\n\nfor reading in sensor_readings:\n    if reading &gt; threshold:\n        high_readings.append(reading)\n        print(f\"Alert: Reading {reading} exceeds threshold!\")\n\nprint(f\"\\nTotal high readings: {len(high_readings)}\")",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#methods-and-dot-notation",
     "href": "2.1.basic-python.html#methods-and-dot-notation",
-    "title": "2  Basic Python",
-    "section": "2.14 Methods and Dot Notation",
-    "text": "2.14 Methods and Dot Notation\nObjects in Python have methods—functions that belong to the object:\nL = [1, 2, 3]\n\n# Append method adds an item\nL.append(100)\nprint(L)  # Output: [1, 2, 3, 100]\n\n# Check if a float is an integer\nx = 4.5\nx.is_integer()  # Returns: False\n\nx = 4.0\nx.is_integer()  # Returns: True\nThe dot (.) connects the object to its method: object.method()",
+    "title": "2.1. Basic Python",
+    "section": "Methods and Dot Notation",
+    "text": "Methods and Dot Notation\nObjects in Python have methods—functions that belong to the object:\nL = [1, 2, 3]\n\n# Append method adds an item\nL.append(100)\nprint(L)  # Output: [1, 2, 3, 100]\n\n# Check if a float is an integer\nx = 4.5\nx.is_integer()  # Returns: False\n\nx = 4.0\nx.is_integer()  # Returns: True\nThe dot (.) connects the object to its method: object.method()",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#getting-help",
     "href": "2.1.basic-python.html#getting-help",
-    "title": "2  Basic Python",
-    "section": "2.15 Getting Help",
-    "text": "2.15 Getting Help\nYou don’t need to memorise everything! Resources for help:\n\n2.15.1 Documentation\n\nOfficial Python docs: https://www.python.org/doc\nBuilt-in help: help(function_name)\nFunction docstrings: print(function_name.__doc__)\n\n\n\n2.15.2 Online Resources\n\nStack Overflow: Search for error messages and solutions\nReal Python: Tutorials and guides\nPython Package documentation\n\n\n\n2.15.3 AI Assistance\n\nChatGPT and Gemini can help explain concepts\nAlways understand the code they generate\nDon’t blindly copy without learning\n\n\n\n\n\n\n\nUnderstanding vs Copying\n\n\n\nWhile AI tools are helpful, make sure you understand how the code works. You’ll need this understanding for debugging and adapting code to new situations.",
+    "title": "2.1. Basic Python",
+    "section": "Getting Help",
+    "text": "Getting Help\nYou don’t need to memorise everything! Resources for help:\n\nDocumentation\n\nOfficial Python docs: https://www.python.org/doc\nBuilt-in help: help(function_name)\nFunction docstrings: print(function_name.__doc__)\n\n\n\nOnline Resources\n\nStack Overflow: Search for error messages and solutions\nReal Python: Tutorials and guides\nPython Package documentation\n\n\n\nAI Assistance\n\nChatGPT and Gemini can help explain concepts\nAlways understand the code they generate\nDon’t blindly copy without learning\n\n\n\n\n\n\n\nUnderstanding vs Copying\n\n\n\nWhile AI tools are helpful, make sure you understand how the code works. You’ll need this understanding for debugging and adapting code to new situations.",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#practical-exercise-auckland-transport",
     "href": "2.1.basic-python.html#practical-exercise-auckland-transport",
-    "title": "2  Basic Python",
-    "section": "2.16 Practical Exercise: Auckland Transport",
-    "text": "2.16 Practical Exercise: Auckland Transport\nLet’s combine everything we’ve learned:\n# Auckland transport data\nstations = [\"Britomart\", \"Newmarket\", \"Mt Eden\", \"Henderson\"]\ndaily_passengers = [15000, 8500, 6200, 4100]\ntarget = 7000\n\nprint(\"Auckland Transport Station Analysis\")\nprint(\"=\" * 40)\n\n# Analyse each station\nfor i in range(len(stations)):\n    station = stations[i]\n    passengers = daily_passengers[i]\n    \n    print(f\"\\n{station} Station:\")\n    print(f\"  Daily passengers: {passengers:,}\")\n    \n    # Check if station meets target\n    if passengers &gt;= target:\n        print(f\"  ✓ Meets target ({target:,} passengers)\")\n        \n        # Further categorisation\n        if passengers &gt;= 10000:\n            print(\"  Status: High volume station\")\n        else:\n            print(\"  Status: Medium volume station\")\n    else:\n        shortfall = target - passengers\n        print(f\"  ✗ Below target by {shortfall:,} passengers\")\n        print(\"  Status: Low volume station\")\n\n# Summary statistics\ntotal_passengers = sum(daily_passengers)\naverage_passengers = total_passengers / len(daily_passengers)\n\nprint(\"\\n\" + \"=\" * 40)\nprint(f\"Total daily passengers: {total_passengers:,}\")\nprint(f\"Average per station: {average_passengers:,.0f}\")",
+    "title": "2.1. Basic Python",
+    "section": "Practical Exercise: Auckland Transport",
+    "text": "Practical Exercise: Auckland Transport\nLet’s combine everything we’ve learned:\n# Auckland transport data\nstations = [\"Britomart\", \"Newmarket\", \"Mt Eden\", \"Henderson\"]\ndaily_passengers = [15000, 8500, 6200, 4100]\ntarget = 7000\n\nprint(\"Auckland Transport Station Analysis\")\nprint(\"=\" * 40)\n\n# Analyse each station\nfor i in range(len(stations)):\n    station = stations[i]\n    passengers = daily_passengers[i]\n    \n    print(f\"\\n{station} Station:\")\n    print(f\"  Daily passengers: {passengers:,}\")\n    \n    # Check if station meets target\n    if passengers &gt;= target:\n        print(f\"  ✓ Meets target ({target:,} passengers)\")\n        \n        # Further categorisation\n        if passengers &gt;= 10000:\n            print(\"  Status: High volume station\")\n        else:\n            print(\"  Status: Medium volume station\")\n    else:\n        shortfall = target - passengers\n        print(f\"  ✗ Below target by {shortfall:,} passengers\")\n        print(\"  Status: Low volume station\")\n\n# Summary statistics\ntotal_passengers = sum(daily_passengers)\naverage_passengers = total_passengers / len(daily_passengers)\n\nprint(\"\\n\" + \"=\" * 40)\nprint(f\"Total daily passengers: {total_passengers:,}\")\nprint(f\"Average per station: {average_passengers:,.0f}\")",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#summary",
     "href": "2.1.basic-python.html#summary",
-    "title": "2  Basic Python",
-    "section": "2.17 Summary",
-    "text": "2.17 Summary\nIn this section, you’ve learned:\n\nPython basics: Syntax, indentation, and code structure\nData types: Integers, floats, strings, booleans, lists\nOperators: Mathematical, comparison, and boolean operations\nVariables: Assignment and how Python references work\nControl flow: For loops and conditional statements\nCombining concepts: Using loops with conditionals for real analysis\n\nThese fundamentals form the foundation for all Python programming in geospatial analysis.",
+    "title": "2.1. Basic Python",
+    "section": "Summary",
+    "text": "Summary\nIn this section, you’ve learned:\n\nPython basics: Syntax, indentation, and code structure\nData types: Integers, floats, strings, booleans, lists\nOperators: Mathematical, comparison, and boolean operations\nVariables: Assignment and how Python references work\nControl flow: For loops and conditional statements\nCombining concepts: Using loops with conditionals for real analysis\n\nThese fundamentals form the foundation for all Python programming in geospatial analysis.",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#key-takeaways",
     "href": "2.1.basic-python.html#key-takeaways",
-    "title": "2  Basic Python",
-    "section": "2.18 Key Takeaways",
-    "text": "2.18 Key Takeaways\n\n\n\n\n\n\nEssential Concepts\n\n\n\n\nIndentation matters in Python—it defines code structure\nVariables are references to objects in memory\nLists are mutable and can be modified after creation\nFor loops iterate through collections efficiently\nConditionals enable decision-making in your code\nCombine loops and conditionals for powerful data processing",
+    "title": "2.1. Basic Python",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\n\n\n\n\nEssential Concepts\n\n\n\n\nIndentation matters in Python—it defines code structure\nVariables are references to objects in memory\nLists are mutable and can be modified after creation\nFor loops iterate through collections efficiently\nConditionals enable decision-making in your code\nCombine loops and conditionals for powerful data processing",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#practice-exercises",
     "href": "2.1.basic-python.html#practice-exercises",
-    "title": "2  Basic Python",
-    "section": "2.19 Practice Exercises",
-    "text": "2.19 Practice Exercises\n\nTemperature Converter: Write a programme that converts a list of temperatures from Celsius to Fahrenheit using a for loop\nData Filtering: Create a list of pedestrian counts for different streets. Use a loop with conditionals to find all streets with counts above a threshold\nString Processing: Given a list of street names, write code that:\n\nConverts all names to uppercase\nCounts how many contain the word “Street”\nCreates a new list with only names longer than 10 characters\n\nStatistical Calculations: For a list of numbers representing rainfall measurements:\n\nCalculate the total rainfall\nFind the maximum and minimum values\nCount how many days had rainfall above 50mm\n\nAuckland Suburbs: Create two lists—one with suburb names, one with populations. Write a programme that prints each suburb with its population and categorises them as small (&lt;50,000), medium (50,000-100,000), or large (&gt;100,000)",
+    "title": "2.1. Basic Python",
+    "section": "Practice Exercises",
+    "text": "Practice Exercises\n\nTemperature Converter: Write a programme that converts a list of temperatures from Celsius to Fahrenheit using a for loop\nData Filtering: Create a list of pedestrian counts for different streets. Use a loop with conditionals to find all streets with counts above a threshold\nString Processing: Given a list of street names, write code that:\n\nConverts all names to uppercase\nCounts how many contain the word “Street”\nCreates a new list with only names longer than 10 characters\n\nStatistical Calculations: For a list of numbers representing rainfall measurements:\n\nCalculate the total rainfall\nFind the maximum and minimum values\nCount how many days had rainfall above 50mm\n\nAuckland Suburbs: Create two lists—one with suburb names, one with populations. Write a programme that prints each suburb with its population and categorises them as small (&lt;50,000), medium (50,000-100,000), or large (&gt;100,000)",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
     "objectID": "2.1.basic-python.html#next-steps",
     "href": "2.1.basic-python.html#next-steps",
-    "title": "2  Basic Python",
-    "section": "2.20 Next Steps",
-    "text": "2.20 Next Steps\nNow that you understand Python basics, you’re ready to work with tabular data in Chapter 3, where you’ll learn to use pandas for data manipulation—an essential skill for geospatial analysis.",
+    "title": "2.1. Basic Python",
+    "section": "Next Steps",
+    "text": "Next Steps\nNow that you understand Python basics, you’re ready to work with tabular data in ?sec-dataframes, where you’ll learn to use pandas for data manipulation—an essential skill for geospatial analysis.",
     "crumbs": [
-      "Geospatial Python Programming",
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Basic Python</span>"
+      "2. Geospatial Python Programming",
+      "2.1. Basic Python"
     ]
   },
   {
@@ -3203,6 +3203,176 @@
     "crumbs": [
       "Interactive Dashboards with Shiny for Python",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Network Analysis for GIS</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-overview",
+    "href": "syllabus.html#course-overview",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.2 Course Overview",
+    "text": "1.2 Course Overview\nThis course provides comprehensive training in Python for urban analytics, progressing from foundational geospatial programming to production-ready research software. Students will learn to analyse urban data, create interactive web dashboards using Shiny for Python, and publish Python packages to PyPI. The course emphasises reproducible research, open science practices, and software development skills essential for modern geospatial research and practice.\nLevel: Intermediate to Advanced\nContact Hours: - Lecture: 2 hours per week (Monday 13:00-15:00) - Lab: 2 hours per week (Tuesday 13:00-15:00)\nPrerequisites: - Nothing in principle - Redommended - Basic programming experience (any language) - Familiarity with GIS concepts - Statistical thinking",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#learning-objectives",
+    "href": "syllabus.html#learning-objectives",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.3 Learning Objectives",
+    "text": "1.3 Learning Objectives\nBy the end of this course, students will be able to:\n\nManipulate and analyse geospatial data using Python (GeoPandas, rasterio, OSMnx)\nApply spatial analysis techniques to urban analytics problems\nDesign and build interactive web dashboards using Shiny for Python\nStructure, document, and test Python packages following best practices\nPublish Python packages to PyPI using modern tooling (uv)\nDeploy web applications to production environments\nApply reproducible research workflows and version control\nCommunicate spatial analysis results through visualisations, dashboards, and blog posts",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#software-requirements",
+    "href": "syllabus.html#software-requirements",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.4 Software Requirements",
+    "text": "1.4 Software Requirements\nEssential: - Python 3.10 or higher - Positron IDE (or VS Code/PyCharm) - Quarto for literate programming - uv for package management - Git and GitHub account - TestPyPI and PyPI accounts (free registration)\nPython Libraries (managed via uv): - Core geospatial: geopandas, shapely, pyproj, rasterio, contextily - Network analysis: osmnx, networkx, momepy - Dashboard: shiny, shinylive, ipyleaflet, plotly, shinyswatch - Development: pytest, pytest-cov, ruff, mypy, black - Documentation: mkdocs, mkdocs-material, mkdocstrings\nPlatforms: - shinylive account for dashboard hosting - GitHub for version control - Substack account for blogging (Assignment 1)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#assessment-structure",
+    "href": "syllabus.html#assessment-structure",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.5 Assessment Structure",
+    "text": "1.5 Assessment Structure\n\n\n\nAssessment\nWeight\nDue Date\n\n\n\n\nAssignment 1: Data Blog Post\n20%\n3 April (Friday, Week 5)\n\n\nCanvas Mid-term Test\n15%\n27-29 March (Week 4)\n\n\nAssignment 2: Shiny Dashboard\n25%\n8 May (Friday, Week 8)\n\n\nPoster Showcase\n10%\n5 June (Week 12, separate venue)\n\n\nAssignment 3: PyPI Package\n30%\n5 June (Friday, Week 12)\n\n\n\nTotal: 100%\nNote on Assignment 2: Due date adjusted to 8 May (instead of 1 May) to account for ANZAC Day week having no lecture. Students receive Week 7 (ANZAC week) as dedicated lab time for dashboard development.\nNote on Poster Showcase: Students will present a poster describing their PyPI package at a designated showcase event (venue and time to be announced). Posters should be A1 size and visually communicate the package’s purpose, key features, and applications. This is an opportunity to practice science communication and share your work with the broader university community.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-schedule",
+    "href": "syllabus.html#course-schedule",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.6 Course Schedule",
+    "text": "1.6 Course Schedule",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#part-1-introduction-to-geospatial-analysis-in-python",
+    "href": "syllabus.html#part-1-introduction-to-geospatial-analysis-in-python",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.7 Part 1: Introduction to Geospatial Analysis in Python",
+    "text": "1.7 Part 1: Introduction to Geospatial Analysis in Python\n\n1.7.1 Week 1: Course Introduction and Python Setup (2 March)\nLecture Topics: - Course overview and expectations - Python for geospatial analysis: why and how? - Python fundamentals review: modules, packages, environments - Introduction to Quarto for literate programming - Modern package management with uv (in lab session)\nLab Activities: - Install Python, Positron, and Quarto on your machine - Set up development environment with uv - Install essential geospatial packages - Create your first Quarto document - Test installations with simple examples\nLearning Resources: - uv documentation: https://docs.astral.sh/uv/ - Quarto documentation: https://quarto.org/docs/get-started/ - Python refresher materials (provided)\nKey Skills: Environment setup, package management, Quarto basics\n\n\n\n1.7.2 Week 2: Fundamentals of Geospatial Python (9 March)\nLecture Topics (2 hours):\nPython Skills (1 hour): - Importing geospatial datasets (GeoJSON, Shapefiles, GeoPackage) - Data structures: long vs wide formatting - Data manipulation fundamentals: filtering, selecting, sorting - Pandas operations: groupby, merge, join - Calculating basic distance measures (Euclidean, haversine) - Point-in-polygon operations and spatial joins - Vector and raster data visualization with GeoPandas and matplotlib - Module imports: import, from...import, import...as - Exploratory Spatial Data Analysis (ESDA) basics\nUrban Analytics Context (45 mins): - Descriptive statistics in spatial data: why they matter - Identifying outliers and missing data in urban datasets - Understanding spatial and non-spatial patterns - Data quality issues in real-world urban data - Statistical imputation methods: mean, median, interpolation - Working with census geographies (SA2 level in NZ)\nLab Activities: - Install and configure Git for version control - Practice long/wide data formatting with urban datasets - Data manipulation exercises: filtering, groupby, merge operations - Calculate distances between points (pedestrian sensors to amenities) - Aggregate data by SA2 areas (count points within polygons) - Work with “dirty” pedestrian count data (introduction to Assignment 1 dataset) - Practice statistical imputation: handling missing values with mean/median/forward fill - Calculate descriptive statistics: mean, median, min, max, quartiles - Create exploratory visualizations (histograms, boxplots) - Introduction to folium for interactive web maps - Write your first Python module\nKey Skills: Data wrangling, pandas manipulation, distance calculations, spatial aggregation, exploratory analysis, handling messy data, basic statistics, imputation methods\n\n\n\n1.7.3 Week 3: Advanced Geospatial Operations (16 March)\nLecture Topics (2 hours):\nPython Skills: - Map visualization best practices: colour schemes, classifications - Choropleth mapping and data classification methods (Jenks Natural Breaks, quantiles, equal interval) - Interactive web mapping with folium - Spatial aggregation: counting points within polygons (SA2 level) - Spatial joins: linking data between different geographic levels - Distance-based analysis: buffers, proximity calculations - Core GIS operations in Python: buffers, spatial joins, overlay operations - Working with coordinate reference systems - Spatial indexing for performance\nUrban Analytics Context: - The 15-minute city concept and quality of urban life - Measuring accessibility and walkability - Introduction to urban morphology: street connectivity, building density - Walkability indices: Lynch’s urban design principles, walkability scores - Using momepy for morphological analysis: street network measures, building form - Pedestrian flow analysis - Census geography in NZ: SA1, SA2, SA3 levels and their uses - Aggregating urban phenomena by administrative boundaries**\nLab Activities: - Download SA2 boundaries for Auckland (Stats NZ) - Count pedestrian sensors by SA2 area - Calculate average footfall by SA2 using spatial joins - Create distance matrix between sensors and key destinations - Introduction to momepy: calculate basic morphological measures - Street connectivity metrics: node degree, betweenness centrality - Relate morphology to footfall: do more connected streets have more pedestrians? - Map street network centrality using OSMnx - Create choropleth maps with Jenks Natural Breaks classification - Build interactive folium maps with popups and tooltips - Overlay sensor locations with street networks - Compare high and low footfall streets - Practise groupby operations: finding maximum values by category - Analyse pedestrian patterns in urban space - Begin developing Assignment 1 analysis\nExample Exercise: “Count how many pedestrian sensors fall within each SA2 area, then calculate the average footfall per SA2 and map it as a choropleth. Calculate street connectivity using momepy and test if higher connectivity correlates with higher footfall.”\nCase Study: Pedestrian accessibility and urban vitality at the SA2 level\nKey Skills: Spatial operations, counting by geographic areas, distance calculations, spatial joins, network analysis, momepy morphometrics, walkability assessment, accessibility metrics, choropleth mapping\n\n\n\n1.7.4 Week 4: Urban Morphology and Mid-term Assessment (23 March)\nGuest Lecture: Shriv - Urban Morphology using momepy - Time: Monday 23 March, 1-2pm - Topics: - Urban form analysis with momepy - Measuring urban topology, scale, entropy, and fractality - Street network measures: connectivity, centrality, reach - Building morphometrics: coverage, alignment, orientation - Relating urban form to urban function (walkability, activity) - Applications to 15-minute cities and walkability assessment - Computational approaches to understanding city structure\nRegular Lecture Topics (Tuesday 24 March): - Review and consolidation of Weeks 1-3 - Connecting morphology to pedestrian behaviour - Walkability frameworks: composite indices, accessibility measures - Using momepy with real data: street networks, building footprints - Test preparation guidance - Understanding city form concepts - Python decorators and advanced functions (preview for Week 5)\nLab: Assignment 1 work session and test preparation\nLab Focus on Momepy: - Calculate morphological measures for Auckland streets - Connect street connectivity to pedestrian footfall data - Explore relationship between urban form and activity - Statistical analysis: correlation between morphology and footfall\nTest Preparation Topics: - Review Python debugging and logic errors - Practise pandas data manipulation (filtering, groupby, statistics) - Create boxplots and other statistical visualisations - Build folium maps with different classification methods - Work through practise problems similar to test format - Momepy basics may appear in test (e.g., “what does street connectivity measure?”)\nCanvas Test: 27-29 March (3-hour window, 1 attempt) - Coverage: Weeks 1-4 content - Format: Practical Python coding assessment - Topics: - Python algorithms and debugging (identifying logic errors) - Data import with pandas/polars - Statistical analysis: mean, median, min, max - Data manipulation: filtering, grouping, finding maxima - Data visualisation: boxplots - Geospatial mapping with folium and Jenks Natural Breaks classification - Working with pedestrian count data (similar to Assignment 1 dataset)\nTest Structure: - Section 1: Algorithms - Section 2: Python data import and analysis - Section 3: Statistics in data manipulation\nKey Skills: Urban morphology analysis, test preparation\n\nLecture Topics: - Understanding city form: topology, scale, entropy, fractality - 15-minute cities: measurement and application - Walkability indices and metrics - Applying momepy to Assignment 1: connecting morphology to your story - Creating narrative from numbers: turning analysis into insight - Python decorators and their applications - Writing effective functions in Python - Best practices for code organisation - For loops for temporal analysis: comparing multiple time periods - Functions for finding extremes: maximum and minimum values - GitHub workflows: version control for reproducible research\nLab Activities: - Advanced function writing workshop - Creating reusable functions for your blog: calculate_footfall_change(), find_peak_streets() - Implementing for loops to compare years: before vs after COVID - Using momepy for walkability analysis in Assignment 1 - Decorators in practise - Code review and refactoring - GitHub repository setup for Assignment 1 - Quarto document structure and formatting - Assignment 1 final work session\n\nAssignment 1 Due (3 April, end of Week 5):\nWrite a compelling blog post on Substack using Python and Quarto, analysing pedestrian footfall data from Auckland CBD. Create a narrative that tells a story about urban change and pedestrian behaviour.\nData Source: https://www.hotcity.co.nz/city-centre/results-and-statistics/pedestrian-counts\nTopic Provided: “Pedestrian Footfall Patterns in Auckland CBD: Understanding Urban Vitality Through Data”\nYour Task: While the topic is provided, your blog can expand beyond this. Tell a story: Which streets have more footfall than others? Why does this matter? How has it changed over time? What does this tell us about Auckland’s urban life?\nRequired Analysis: 1. Temporal Comparison: Import 2-3 years of pedestrian count data (e.g., 2019, 2021, 2023) 2. Compare Same Time Periods: Analyse the same months/seasons across years (e.g., March 2019 vs March 2021 vs March 2023) 3. Before vs After COVID: Examine changes in pedestrian behaviour pre-pandemic, during restrictions, and recovery 4. Provide Evidence: Use statistical measures, visualisations, and morphological analysis to support your narrative 5. Create Narrative: Transform data into a compelling story about urban change\nTechnical Requirements: - Use for loops: Process multiple years of data consistently - Create functions: Write reusable functions to find maximum and minimum footfall by location, time, or conditions ```python def find_peak_hours(data, location): # Returns hour with maximum footfall for given location pass\ndef calculate_change(year1_data, year2_data): # Calculates percentage change between years pass ``` - GitHub repository: Share your code with clear documentation - Quarto documentation: Use Quarto for literate programming with embedded Python visualisations - Momepy analysis (optional but encouraged): Calculate street connectivity and relate to footfall patterns\nContent Requirements: - Data cleaning and wrangling - Exploratory spatial data analysis - Clear visualisations (maps, time series, comparisons) - Written narrative connecting analysis to urban issues - Published on Substack with embedded Python visualisations - 1500-2000 words + visualisations - Evidence-based arguments with statistical support - Discussion of urban planning/policy implications\nSubmission: - Substack blog post URL - GitHub repository with Quarto source files and Python code - Brief reflection (200 words) on your analytical approach and key findings\nEvaluation Criteria: - Data analysis quality and rigour (6%) - Visualisation effectiveness (5%) - Narrative quality and storytelling (4%) - Technical implementation (for loops, functions, code quality) (3%) - Reproducibility (GitHub, Quarto documentation) (2%)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#part-2-deploying-geospatial-work-online",
+    "href": "syllabus.html#part-2-deploying-geospatial-work-online",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.8 Part 2: Deploying Geospatial Work Online",
+    "text": "1.8 Part 2: Deploying Geospatial Work Online\nEaster/Mid-Semester Break: 3-17 April 2026 (two weeks) - No classes from Friday 3 April through Friday 17 April - Good Friday: 3 April - Easter Monday: 6 April - Classes resume Monday 20 April (Week 6)\n\n\n1.8.1 Week 6: Introduction to WebGIS and Shiny (20 April)\nFirst Week Back from Easter Break\nLecture Topics: - WebGIS fundamentals - WebAssembly (Wasm) and modern web applications - Introduction to Shiny for Python - Shiny architecture: UI and server functions - Reactive programming concepts - Building interactive maps with ipyleaflet\nGuest Lecture: Alex Raichev (MRCagney Corp) - Real-world transport analytics applications - Industry perspectives on geospatial dashboards - Time: 14:15-15:00\nLab Activities: - Set up your first Shiny app (desktop version) - Create reactive outputs: maps, plots, tables - Build simple interactive controls (sliders, dropdowns) - Test reactivity with urban data\nDeliverables: Working local Shiny app demonstrating reactivity\nKey Skills: Shiny basics, reactive programming, interactive maps\n\n\n\n1.8.2 Week 7: Dashboard Work Session - ANZAC Day Week (27 April)\nANZAC Day Public Holiday: Monday 27 April 2026 No Lecture: Tuesday 28 April (public holiday observed) Labs Operate: All scheduled lab sessions run as normal\nLab Activities: This week is dedicated to intensive dashboard development with no formal lecture.\n\nExtended dashboard work session: Students use this time to build and refine their multi-page dashboards\nOne-on-one consultations: Roving instructor and tutors provide individual help\nPeer code review: Students share progress and give feedback\nTechnical troubleshooting: Focus on deployment issues, performance optimisation\nOSM data workshop: Help students download and process street network data\nNetwork analysis support: Assist with routing, OD flows, centrality calculations\n\nTopics Covered in Labs: - Downloading OSM data for neighbourhoods using the API - Building network analysis dashboards - Creating routing visualisations - Implementing OD flow mapping - Adding temporal controls (time sliders, animation) - Deployment preparation for shinylive\nAssignment 2 Preparation: Students should aim to have: - [ ] All data collected and processed - [ ] At least 2 of 3 analysis modules working - [ ] Basic dashboard structure deployed locally - [ ] Started working on shinylive deployment\nSupport Available: - Lab tutors for technical questions - Instructor office hours for project consultation - Discussion forum for peer support - Example code and templates provided\n\n\n\n1.8.3 Week 8: Advanced Dashboards, Networks, and Temporal Analysis (4 May)\nNote: This week falls during Graduation Week (4-7 May), but lectures and labs continue as normal.\nLecture Topics: - Shiny app architecture and best practices - Multi-page applications with ui.nav_panel() - Deploying Shiny apps with shinylive (WASM deployment) - Streets as networks: OpenStreetMap analysis with OSMnx - Routing and Origin-Destination (OD) flow analysis - Temporal-spatial analysis: tracking urban phenomena over time - Time series visualisation in interactive dashboards - Animated maps and temporal sliders in Shiny - Dashboard design principles and user experience best practices\nLab Activities: - Final dashboard refinement workshop - Advanced network visualisations (centrality, flows, routing) - Adding temporal controls (date ranges, time sliders, animation) - Deployment troubleshooting and optimisation - Performance testing with larger spatial datasets - Final code review and polish - Submission preparation\nTechnical Focus: - OSMnx for street network extraction and analysis - Network centrality measures and flow mapping - Interactive route selection and OD matrices - Shinylive deployment workflow - Animation and temporal visualisation techniques - Performance optimisation for spatial data\nCase Studies: - Air quality patterns over time (seasonal/daily variations) - Pedestrian flow temporal patterns - E-scooter demand by time of day - Before/after policy analysis\nAssignment 2 Due (8 May, Thursday of Week 8): Create and deploy a Shiny dashboard addressing an urban analytics question.\nRequirements: - Multi-page application with at least 3 analysis modules - Interactive map with user-controlled filters - Temporal or comparative analysis component (if applicable) - Network analysis component (if applicable) - Deployed using shinylive and publicly accessible - Clean, professional interface design - Documentation for users (README and in-app instructions)\nSuggested Topics: - Pedestrian flow patterns and urban vitality - Green space accessibility analysis - Transport network performance over time - Micromobility (e-scooter) trip analysis - Air quality monitoring and exposure - 15-minute city accessibility assessment\nEvaluation Criteria: - Functionality and analytical depth (15%) - Interactivity and reactivity (8%) - User interface and design (7%) - Deployment and accessibility (5%)\nKey Skills: Advanced Shiny development, network analysis, temporal visualisation, deployment, professional dashboard design",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#part-3.-deploying-your-first-python-package",
+    "href": "syllabus.html#part-3.-deploying-your-first-python-package",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.9 Part 3. Deploying your first python Package",
+    "text": "1.9 Part 3. Deploying your first python Package\n\n1.9.1 Week 9: Cities as Networks and Micromobility Analysis (11 May)\nLecture Topics:\nUrban Analytics Context (45 mins): - Cities as networks: flows, connectivity, resilience - Micromobility revolution: e-scooters and urban transport - E-scooter trip patterns and network analysis - Origin-destination flows for shared micromobility - Geofencing and parking zone analysis - Integration with public transport networks - Policy challenges: safety, equity, clutter\nPython Package Development (45 mins): - From analysis scripts to Python packages - Package architecture: structure and organisation - The src layout vs flat layout - Introduction to pyproject.toml (PEP 621) - Modular code design principles - Case study: Building a micromobility analysis toolkit\nLab Activities: - Analyse urban networks: e-scooter trip flows, pedestrian routes, transport connectivity - Work with origin-destination (OD) matrices from e-scooter data - Calculate network metrics: betweenness centrality, flow density - Identify key corridors and nodes for micromobility - Initialize package structure with uv (uv init) - organise your dashboard code into modules (e.g., trips.py, geofencing.py, visualisation.py) - Set up proper package directory structure - Configure pyproject.toml with metadata - Create __init__.py and module files\nExample Dataset: E-scooter trip data (anonymized) showing: - Trip origins and destinations - Trip duration and distance - Time of day patterns - Spatial distribution\nPackage Structure Introduced:\nyour-package/\n├── pyproject.toml\n├── README.md\n├── licence\n├── src/\n│   └── your_package/\n│       ├── __init__.py\n│       ├── trips.py          # E-scooter trip analysis\n│       ├── networks.py       # Network connectivity\n│       ├── geofencing.py     # Spatial boundary checking\n│       ├── visualisation.py  # Mapping and plotting\n│       └── utils.py\n├── tests/\n│   └── test_trips.py\n├── examples/\n│   └── escooter_analysis.py\n└── docs/\nReal-World Applications: - Auckland Transport e-scooter data analysis - optimising e-scooter deployment locations - Identifying unsafe riding corridors - Measuring first-mile/last-mile connectivity - Policy evaluation: geofencing effectiveness\nKey Skills: Network flow analysis, OD matrices, package initialization, modular code design\n\n\n\n1.9.2 Week 10: Testing Geospatial Code and Micromobility Applications (18 May)\nLecture Topics:\nUrban Analytics Context (30 mins): - Real-world micromobility analysis challenges - Data quality issues in e-scooter datasets (GPS accuracy, trip chaining) - Testing spatial functions: why it matters for policy - Case study: Testing geofencing accuracy for e-scooter compliance - Validating trip distance calculations - Ensuring equitable service area coverage\nTesting and Documentation (1 hour): - Testing geospatial code with pytest - Unit tests, integration tests, fixtures - Testing spatial operations: geometries, transformations, calculations - Test coverage and continuous testing - Documentation strategies: docstrings, tutorials, API references - MkDocs for documentation websites - Type hints and their benefits - Code quality tools: ruff, black, mypy\nLab Activities: - Write tests for micromobility analysis functions: - Test geofencing: is a point inside a polygon? - Test trip distance calculations (with GPS noise) - Test origin-destination aggregation - Test network connectivity checks - Create test fixtures for e-scooter trip data - Set up pytest configuration - Write docstrings following NumPy/Google style for micromobility functions - Initialize MkDocs documentation - Create user guide: “How to analyse e-scooter data” - Create tutorial: “Evaluating geofencing compliance” - Generate API documentation from docstrings\nTesting Spatial Code for Micromobility:\n# Example test: Geofencing accuracy\ndef test_point_in_geofence():\n    \"\"\"Test if trip endpoints respect geofencing boundaries\"\"\"\n    geofence = create_test_polygon()  # CBD boundary\n    valid_point = Point(174.7633, -36.8485)  # Inside CBD\n    invalid_point = Point(174.9, -36.9)     # Outside CBD\n    \n    assert is_within_geofence(valid_point, geofence)\n    assert not is_within_geofence(invalid_point, geofence)\n\n# Example test: Trip distance with GPS noise\ndef test_trip_distance_calculation():\n    \"\"\"Test trip distance handles GPS accuracy tolerance\"\"\"\n    origin = Point(174.76, -36.84)\n    destination = Point(174.77, -36.85)\n    \n    distance = calculate_trip_distance(origin, destination)\n    \n    # Should be approximately 1.5 km ± 100m tolerance for GPS noise\n    assert 1.4 &lt;= distance &lt;= 1.6\nTesting Edge Cases: - Empty geometries (trips with missing coordinates) - Invalid coordinates (GPS errors, out of bounds) - Trips that cross geofence boundaries - Very short trips (&lt; 100m) that might be false starts - Overlapping service zones\nDocumentation Components for Micromobility Package: - README with installation and quick start: “Analysing E-Scooter Data in 5 Minutes” - User guide with worked examples: - “Calculating Daily Trip Statistics” - “Mapping Trip Flows” - “Evaluating Geofencing Compliance” - “Identifying High-Demand Zones” - API reference (auto-generated from docstrings) - Data requirements and expected formats - Changelog - Contributing guidelines\nReal-World Testing Scenarios: - Does your package correctly identify geofencing violations? - Are trip distances accurate despite GPS drift? - Does the OD aggregation handle edge cases (missing data, duplicate trips)? - Can policy analysts use your package without Python expertise?\nKey Skills: Unit testing spatial functions, test coverage, documentation writing, MkDocs, handling real-world data quality issues\n\n\n\n1.9.3 Week 11: Continuous Integration and Pre-publication (25 May)\nLecture Topics: - Continuous Integration/Continuous Deployment (CI/CD) - GitHub Actions for automated testing - Pre-commit hooks for code quality - Building packages with uv - TestPyPI: testing before official publication - Version control best practices - Semantic versioning (SemVer) - Licensing for open source software - Final publication workflow to PyPI - Creating effective academic posters for technical projects\nLab Activities: - Set up GitHub Actions workflow for testing - Configure pre-commit hooks (ruff, black, mypy) - Build your package: uv build - Publish to TestPyPI: uv publish --publish-url https://test.pypi.org/legacy/ - Test installation from TestPyPI - Fix any issues identified during TestPyPI deployment - Begin poster design for showcase - Review code coverage reports\nPoster Design Guidance: - A1 size (594mm × 841mm or 23.4” × 33.1”) - Clear title and your name - Package name and PyPI URL - Visual demonstration of key features - Example use cases with code snippets - Results/outputs (maps, plots, analyses) - QR code linking to documentation - Professional design (use templates if needed)\nCI/CD Pipeline Example:\nname: Tests and Build\non: [push, pull_request]\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: astral-sh/setup-uv@v1\n      - run: uv sync\n      - run: uv run pytest --cov\n      - run: uv build\nPackage Quality Checklist: - [ ] All functions have docstrings - [ ] Test coverage &gt;80% - [ ] Documentation website builds successfully - [ ] CI/CD pipeline passes - [ ] README is clear and comprehensive - [ ] licence file included - [ ] Version number set correctly (1.0.0 for initial release) - [ ] All dependencies specified in pyproject.toml - [ ] Published to TestPyPI and tested - [ ] Ready for PyPI publication\nKey Skills: CI/CD setup, automated testing, TestPyPI publication, quality assurance, poster design\n\n\n\n1.9.4 Week 12: Final Publication and Poster Showcase (1 June)\nKing’s Birthday Public Holiday: Monday 1 June 2026 No Lecture: Tuesday 2 June (public holiday observed) Labs Operate: All scheduled lab sessions run as normal\nLab Activities: - Final package refinement and troubleshooting - Publish to PyPI: uv publish (if not done in Week 11) - Verify PyPI listing and installation - Complete final documentation - Create demonstration notebook - Finalize poster for showcase - Print posters (printing services info provided) - Prepare 2-minute poster pitch - Optional: practise presentations with peers\nAssignment 3 Due (5 June, Thursday of Week 12): Publish a Python package to PyPI containing reusable urban analytics functions.\nRequirements: - Published to PyPI and installable via pip install your-package - Proper package structure with src layout - Test coverage &gt;80% with pytest - Comprehensive documentation (MkDocs or Sphinx) - Passing CI/CD pipeline on GitHub - Example notebooks demonstrating usage - Can be used by your Shiny dashboard (or standalone) - Clear README with installation and usage instructions - Appropriate open source licence (MIT, BSD, or Apache 2.0)\nSuggested Package Scopes: - Urban accessibility metrics calculator - Pedestrian flow analysis toolkit - Micromobility analysis toolkit (e-scooter trip analysis, geofencing, OD flows) - Street network analysis utilities - 15-minute city assessment tools - Air quality exposure calculation - Green space accessibility metrics - Transport mode share analysis\nAssignment 3 Evaluation Criteria: - Code quality and architecture (10%) - Documentation completeness (10%) - Test coverage and quality (8%) - Successful PyPI publication (2%)\nPackage Submission (via Canvas by 5 June): - PyPI package URL (e.g., https://pypi.org/project/your-package/) - GitHub repository URL with CI/CD badges - Documentation website URL (if using MkDocs/ReadTheDocs) - Brief report (1-2 pages) describing: - Package functionality and key features - Design decisions and architecture choices - Potential applications in urban analytics - Challenges encountered and solutions - Future development plans\n\nPoster Showcase (5 June, separate venue TBA):\nPresent an A1 poster describing your PyPI package to the university community.\nPoster Requirements: - A1 size (594mm × 841mm) - Professional design and layout - Clear visual communication of package purpose and features - Include: title, your name, package name, PyPI URL/QR code - Show example use cases with code snippets and outputs - Display key results (maps, plots, analyses) - Designed for both technical and non-technical audiences\nShowcase Format: - Poster exhibition (venue and time to be announced) - 2-minute pitch to explain your package - Q&A with attendees - Networking with other students, faculty, and potential employers\nPoster Evaluation Criteria (5%): - Visual design and clarity (2%) - Content quality and accuracy (2%) - Communication effectiveness (1%)\nPoster Printing: - University print services information will be provided - Recommended to print by 4 June - Digital backup on USB recommended for showcase\nKey Activities: Final PyPI publication, poster design and printing, showcase preparation, course completion",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-policies",
+    "href": "syllabus.html#course-policies",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.10 Course Policies",
+    "text": "1.10 Course Policies\n\n1.10.1 Open Science and Reproducibility\nAll code must be version controlled using Git from Week 1. Students are required to make their packages open source under an appropriate licence (MIT, BSD, or Apache 2.0 recommended). Dashboards and blog posts should be publicly accessible unless they contain sensitive data.\n\n\n1.10.2 Code Quality Standards\nCode submitted for Assignments 2 and 3 must: - Pass automated linting (ruff/black) - Include type hints for public functions (Assignment 3) - Have comprehensive docstrings - Follow PEP 8 style guidelines - Be properly documented\n\n\n1.10.3 Academic Integrity\nStandard university academic integrity policies apply. All work must be your own. You may: - Discuss concepts and approaches with peers - Use AI assistants (GitHub Copilot, ChatGPT, Claude) for debugging and learning - Reference external code with proper attribution\nYou may not: - Copy code from peers or external sources without attribution - Submit work that you don’t understand - Share solution code before deadlines\n\n\n1.10.4 Data Ethics\nWhen working with urban data: - Respect individual privacy (avoid identifying individuals) - Consider impacts on communities represented in data - Acknowledge data sources and limitations - Be transparent about assumptions and uncertainties - Include ethical reflection in project documentation\n\n\n1.10.5 Accessibility\nDashboards must consider accessibility: - Colourblind-safe palettes - Keyboard navigation - Clear labels and instructions - Responsive design\n\n\n1.10.6 Late Submissions\n\nLate submissions incur 5% penalty per day (including weekends)\nExtensions available for documented circumstances (apply in advance)\nTechnical issues: contact instructor immediately, not after deadline\n\n\n\n1.10.7 Use of AI Tools\nAI tools are permitted for: - Debugging and error resolution - Learning new concepts - Documentation writing - Code suggestions and completion\nHowever: - You must understand all code you submit - Document AI tool usage in development notes - Creative design and analytical approach must be your own - Over-reliance on AI without understanding is apparent and penalized",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#weekly-time-expectations",
+    "href": "syllabus.html#weekly-time-expectations",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.11 Weekly Time Expectations",
+    "text": "1.11 Weekly Time Expectations\nStudents should expect to spend approximately 10-12 hours per week: - Lecture: 1.75 hours - Lab: 2 hours - Independent work: 6-8 hours (readings, assignments, practise)\nPeak workload weeks: - Week 5: Assignment 1 completion (12-15 hours) - Week 8: Assignment 2 completion (12-15 hours) - Week 11-12: Assignment 3 completion (15-18 hours)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#learning-resources",
+    "href": "syllabus.html#learning-resources",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.12 Learning Resources",
+    "text": "1.12 Learning Resources\n\n1.12.1 Essential Documentation\n\nGeoPandas: https://geopandas.org/\nShiny for Python: https://shiny.posit.co/py/\nuv Documentation: https://docs.astral.sh/uv/\nOSMnx: https://osmnx.readthedocs.io/\nQuarto: https://quarto.org/\nPython Packaging Guide: https://packaging.python.org/\npytest: https://docs.pytest.org/\nMkDocs: https://www.mkdocs.org/\n\n\n\n1.12.2 Recommended Books\n\nRey, S.J., Arribas-Bel, D., & Wolf, L.J. (2020). Geographic Data Science with Python. Available online.\nPercival, H. (2017). Test-Driven Development with Python. O’Reilly.\nThe Turing Way: https://the-turing-way.netlify.app/\n\n\n\n1.12.3 Data Sources\n\nOpenStreetMap (via OSMnx or Overpass API)\nStats NZ (New Zealand census and geographic data)\nAuckland Council open data portal\nUrban Observatory platforms\nNatural Earth (global datasets)\n\n\n\n1.12.4 Example Projects\n\nAwesome Geospatial: https://github.com/sacridini/Awesome-Geospatial\nPython for Geographic Data Science course materials\nPyPI urban analytics packages: momepy, urbanaccess, pandana",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#technical-support-and-troubleshooting",
+    "href": "syllabus.html#technical-support-and-troubleshooting",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.13 Technical Support and Troubleshooting",
+    "text": "1.13 Technical Support and Troubleshooting\n\n1.13.1 Getting Help\nBefore Asking: 1. Check official documentation 2. Search Stack Overflow and GitHub issues 3. Review lecture materials and labs 4. Try debugging with print statements or debugger\nWhen Asking: 1. Canvas Discussion Forum: General questions, peer support (response: 24-48 hours) 2. Lab Sessions: Hands-on help from tutors and instructor 3. Office Hours: Dr Shin - Fridays 2-4pm (by appointment) 4. Email: h.shin@auckland.ac.nz (allow 48 hours for response)\nFor Technical Issues: - ITS Service Desk: Software installation problems - Course tutors: Python/GIS questions - Instructor: Project-specific guidance, conceptual questions\n\n\n1.13.2 Common Issues\nuv Problems: - Update: uv self update - Clear cache: uv cache clean - Check Python version compatibility\nShiny Deployment: - Test locally first - Check file sizes (shinylive has limits) - Use relative paths, not absolute - Verify all dependencies\nTesting Spatial Data: - Use appropriate geometric tolerances - Mock external data sources - Create small test fixtures - Test edge cases\nPyPI Publication: - Test on TestPyPI first - Ensure unique package name - Complete all metadata in pyproject.toml - Verify README renders correctly",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#technical-prerequisites-check",
+    "href": "syllabus.html#technical-prerequisites-check",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.14 Technical Prerequisites Check",
+    "text": "1.14 Technical Prerequisites Check\nBefore Week 1, ensure you can: - [ ] Access a computer with Python 3.10+ - [ ] Install software (admin rights may be needed) - [ ] Create GitHub account - [ ] Basic command line usage - [ ] Understand basic Git concepts (or willing to learn)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#contact-information",
+    "href": "syllabus.html#contact-information",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.15 Contact Information",
+    "text": "1.15 Contact Information\nInstructor: Dr Hyesop Shin\nEmail: hyesop.shin@auckland.ac.nz\nOffice: Room 301-529B, Building 301\nOffice Hours: Mondays 3-5pm (drop-in or book via email)\nCourse Materials: - Canvas: Main course hub for announcements, assignments, and resources - GitHub Organisation: [Course repository link - to be provided Week 1] - Discussion Forum: Canvas discussion board\nGetting Help: - During Lab Sessions: Ask tutors and instructor for immediate help - Canvas Discussion Forum: Post questions for peer and instructor support (24-48 hour response) - Office Hours: Drop in Mondays 3-5pm or email to arrange another time - Email: For personal matters or urgent issues (allow 48 hours for response)",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#course-schedule-summary",
+    "href": "syllabus.html#course-schedule-summary",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.16 Course Schedule Summary",
+    "text": "1.16 Course Schedule Summary\nImportant Dates: - Easter/Mid-Semester Break: 3 April - 17 April 2026 (two weeks, no classes) - ANZAC Day: Monday 27 April 2026 (no lecture) - Graduation Week: 4-7 May 2026 (lectures continue as normal) - King’s Birthday: Monday 1 June 2026\n\n\n\n\n\n\n\n\n\nWeek\nDates\nTopic\nAssessment\n\n\n\n\n1\n2 Mar\nCourse intro, Python setup\n-\n\n\n2\n9 Mar\nGeospatial Python fundamentals\n-\n\n\n3\n16 Mar\nAdvanced geospatial operations\n-\n\n\n4\n23 Mar\nUrban morphology + Shriv guest (1-2pm)\nCanvas Test (27-28 Mar)\n\n\n5\n30 Mar\nFunctions and workflows\nA1 Due (3 Apr)\n\n\n-\n3-17 Apr\nEASTER/MID-SEMESTER BREAK\n-\n\n\n6\n20 Apr\nWebGIS and Shiny intro (+ Guest)\n-\n\n\n7\n27 Apr\nNO LECTURE (ANZAC Day) - Labs only\n-\n\n\n8\n4 May\nAdvanced dashboards and networks\nA2 Due (8 May)\n\n\n9\n11 May\nMicromobility and package structure\n-\n\n\n10\n18 May\nTesting and documentation\nPoster Due\n\n\n11\n25 May\nCI/CD and TestPyPI\n-\n\n\n12\n1 June\nNO LECTURE (King’s Birthday) - Labs only\nPackage submission due\n\n\n\nNote on Assignment 2: Due date moved to 8 May (Thursday of Week 8) to account for ANZAC Day week having no lecture. Students get Week 7 labs to work on dashboards.\nNote on Assignment 3 & Poster: Both due 5 June (Thursday of Week 12). Poster showcase event at separate venue (details to be announced).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "syllabus.html#statement-on-course-evolution",
+    "href": "syllabus.html#statement-on-course-evolution",
+    "title": "1  Syllabus (Semester 1, 2026)",
+    "section": "1.17 Statement on Course Evolution",
+    "text": "1.17 Statement on Course Evolution\nThis syllabus reflects the current course plan. Minor adjustments may be made based on class progress, student needs, or external factors. Significant changes will be communicated via Canvas with adequate notice. Students will always be notified of any modifications to assessment requirements or due dates.\nThe integration of modern tools (uv, Positron, shinylive) represents the evolving landscape of geospatial Python. We embrace these changes to ensure students learn current best practices.\n\nLast Updated: January 2026\nVersion: 1.0 (Full Semester Course)\nThis course emphasizes practical skills for urban analytics research, planning, and policy support. The combination of spatial analysis, interactive visualisation, and software development prepares students for careers in academia, government, consulting, and technology sectors.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Syllabus (Semester 1, 2026)</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#acknowledgements",
+    "href": "index.html#acknowledgements",
+    "title": "Python GIS at UoA",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\nThis course builds upon the excellent work of several open educational resources in geographic and geospatial data science.\nI am particularly grateful to stand on the shoulders of:\n\nThe Geographic Data Science course developed by the Geographic Data Science Lab at the University of Liverpool https://gdsl-ul.github.io/gds/\nThe Geospatial Data Science course from the Master of Urban Spatial Analytics (MUSA) programme at the University of Pennsylvania https://musa-550-fall-2023.github.io/\nThe Geo-Python course from the University of Helsinki https://geo-python-site.readthedocs.io/en/latest/\n\nThese resources have been instrumental in shaping the structure, content, and pedagogical approach of this material. Their commitment to open education and sharing knowledge has made it possible to develop and deliver quality geographic data science education to students worldwide.",
+    "crumbs": [
+      "GISCI 343 at UoA"
     ]
   }
 ]
