@@ -112,7 +112,7 @@ This creates:
 - `README.md` - Documentation
 - `.python-version` - specifies Python version
 
-![](figs/uv_init.png)
+![](figs/part1/uv_init.png)
 
 
 
@@ -150,7 +150,7 @@ Creating virtual environment at: .venv
 Activate with: source .venv/bin/activate (Linux/macOS) or .venv\Scripts\activate (Windows)
 ```
 
-![](figs/uv_venv.png)
+![](figs/part1/uv_venv.png)
 
 The `.venv` folder contains:
 
@@ -167,7 +167,7 @@ The `.venv` folder can be large (100MB+). You'll add it to `.gitignore` later so
 We will do this later when we learn git!
 :::
 
-![](figs/uv_source.png)
+![](figs/part1/uv_source.png)
 
 To see the list structure of the code, hit:
 
@@ -218,7 +218,7 @@ uv add geopandas matplotlib
 
 Watch as `uv` quickly installs each package and its dependencies!
 
-![](figs/uv_add.png)
+![](figs/part1/uv_add.png)
 
 
 Each `uv add` command:
@@ -328,7 +328,7 @@ Run the verification script:
 uv run python verify_setup.py
 ```
 
-![](figs/uv_verify_setup.png)
+![](figs/part1/uv_verify_setup.png)
 
 Expected output should show:
 - Python 3.12.x

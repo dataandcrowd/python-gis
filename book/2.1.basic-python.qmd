@@ -1,17 +1,5 @@
 # 2.1. Basic Python {.unnumbered}
 
-## Introduction
-
-Python is one of the most popular programming languages for data science and geospatial analysis. Its clear syntax, extensive libraries, and active community make it an ideal choice for GIS work. This section introduces the fundamental Python concepts you'll need for geospatial programming.
-
-::: {.callout-note}
-## Getting Started
-We'll use positron by default, but just to reduce the installation process, please use google colab for today
-
-[https://colab.research.google.com](https://colab.research.google.com)
-
-No installation required—just sign in with your Google account and start coding!
-:::
 
 ## Your First Python Code
 

@@ -124,7 +124,7 @@ You work locally with Git, then "push" to GitHub to share and backup.
 3. Verify you're a student (upload student ID if needed)
 4. Get access to premium tools worth $200,000+!
 
-![](figs/github_student_pack.png)
+![](figs/part1/github_student_pack.png)
 
 ---
 
@@ -229,7 +229,7 @@ GitHub Desktop:
 
 Let's explore what you're seeing:
 
-![](figs/github_desktop.png)
+![](figs/part1/github_desktop.png)
 
 **Left panel - Changes**:
 
@@ -345,7 +345,7 @@ Now let's share your project on GitHub!
 
 1. Click **Publish repository** button (top right)
 
-![](figs/github_push.png)
+![](figs/part1/github_push.png)
 
 A dialog appears:
 
@@ -361,7 +361,7 @@ A dialog appears:
 
 1. Click **Repository → View on GitHub**
 
-![](figs/github_gotoweb.png)
+![](figs/part1/github_gotoweb.png)
 
 Your browser opens to your GitHub repository. You can see:
 - Your files
@@ -420,7 +420,7 @@ Don't commit:
 
 On your github site (https://github.com/your-user-id), you can see a time series waffle plot that keeps track of your **"commits"**.
 
-![](figs/github_waffle-commits.png)
+![](figs/part1/github_waffle-commits.png)
 
 
 ---

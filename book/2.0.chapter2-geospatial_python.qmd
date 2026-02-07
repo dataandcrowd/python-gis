@@ -1,4 +1,4 @@
-# 2. Geospatial Python Programming {.unnumbered}
+# 2.4. Geospatial Python Programming {.unnumbered}
 
 ## Overview
 
@@ -66,4 +66,4 @@ As you work through this chapter, remember:
 
 ## Next Steps
 
-Let's begin with the fundamentals in @sec-basic-python, where you'll learn the core Python programming concepts needed for geospatial analysis.
+Let's begin with the fundamentals in Section 2.1 Basic Python, where you'll learn the core Python programming concepts needed for geospatial analysis.

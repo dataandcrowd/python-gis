@@ -3,3 +3,4 @@ title: "Lab Week 01"
 format: html
 ---
 
+Make sure you finish your **Part 1: Setup** process!

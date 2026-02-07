@@ -1,4 +1,4 @@
-# 2.4. Data Visualisation {.unnumbered}
+# 2.3. Data Visualisation {.unnumbered}
 
 ## Introduction
 
@@ -54,11 +54,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Install seaborn if needed
-# pip install seaborn
+# uv pip install seaborn
 import seaborn as sns
 
 # Install plotly if needed
-# pip install plotly
+# uv pip install plotly
 import plotly.express as px
 ```
 

@@ -34,7 +34,7 @@ Before you begin, ensure you have:
 
 ### Why Python 3.12? (H's subjective opinion)
 
-![](figs/python312.png)
+![](figs/part1/python312.png)
 
 Python 3.12 offers:
 - Improved performance (up to 25% faster)
@@ -53,7 +53,7 @@ Python 3.12 offers:
 
 ![](https://devguide.python.org/_static/release-cycle.svg)
 
-![](figs/download.png)
+![](figs/part1/download.png)
 
 
 If you have Homebrew installed:
@@ -151,7 +151,7 @@ VS Code is widely used and has excellent Python support.
    - Install the Microsoft Python extension
 
 ::: {.callout-note title="VS Code download page"}
-![](figs/vscode.png)
+![](figs/part1/vscode.png)
 :::
 
 ---
@@ -233,7 +233,7 @@ In your terminal:
 uv --version
 ```
 
-![](figs/uv_version.png)
+![](figs/part1/uv_version.png)
 
 ---
 

@@ -2,15 +2,19 @@
 
 ## Introduction
 
-Working with tabular data is fundamental to geospatial analysis. Most spatial datasets combine attribute data (stored in tables) with geographic information. This section introduces **pandas**, Python's powerful library for data manipulation, which forms the foundation for working with **geopandas** (spatial data) later in this course.
+Working with tabular data is fundamental to geospatial analysis. 
+Most spatial datasets combine attribute data (stored in tables) with geographic information. 
+This section introduces **pandas**, Python's powerful library for data manipulation, which forms the foundation for working with **geopandas** (spatial data) later in this course.
 
 ## What is a DataFrame?
 
-A DataFrame is a two-dimensional tabular data structure with labelled rows and columns—essentially a spreadsheet in Python. It's the most common way to work with structured data.
+A DataFrame is a two-dimensional tabular data structure with labelled rows and columns—essentially a spreadsheet in Python. 
+It's the most common way to work with structured data.
 
 ![DataFrame structure showing rows (observations) and columns (variables)](https://media.geeksforgeeks.org/wp-content/uploads/finallpandas.png){#fig-dataframe-structure}
 
 DataFrames can be thought of as:
+
 - A table with rows and columns
 - A collection of Series (columns) that share an index
 - A dictionary where each key is a column name
@@ -84,7 +88,7 @@ staff = {
     "people": [
         {"name": "Hyesop", "role": "lecturer"},
         {"name": "Sila", "role": "lecturer"},
-        {"name": "Oliver", "role": "tutor"}
+        {"name": "Hinami", "role": "tutor"}
     ],
     "pets": [
         {"name": "Pepper", "species": "dog"},
@@ -109,18 +113,115 @@ Geospatial data formats like GeoJSON are built on nested dictionaries:
 ```
 :::
 
+---
+
+## Module Imports
+
+Before working with pandas, you need to understand how Python imports external code.
+In other words, you need to know the correct ways to use `import` and `from ... import` when working with multiple Python files. 
+A **module** is simply a `.py` file containing functions, classes, or variables. A **package** is a collection of modules (e.g. `pandas` is a package with many modules inside it).
+
+### 1. Folder Structure
+
+Each `.py` file is a module.  
+If files are in the same folder, they can import from each other directly.
+
+```
+my_project/
+│
+├── main.py
+└── utils.py
+```
+
+- `utils.py` contains reusable functions or variables  
+- `main.py` uses them
+
+
+### 2. File You Import From: `utils.py`
+
+```python
+# utils.py
+
+def add(a, b):
+    return a + b
+
+def multiply(a, b):
+    return a * b
+
+PI = 3.14159
+```
+
+This file defines functions and variables only.
+
+### 3. Importing in Another File: main.py
+**Option A. Import the whole module**
+
+```python
+# main.py
+
+import utils
+
+result1 = utils.add(2, 3)
+result2 = utils.multiply(4, 5)
+circle = utils.PI * 10**2
+
+print(result1, result2, circle)
+```
+
+How this works
+
+* utils is the module name
+* You access everything via utils.
+* This is the safest and clearest style most purposes.
+
+
+**Option B. Import specific objects**
+
+```python
+# main.py
+
+from utils import add, multiply, PI
+
+result1 = add(2, 3)
+result2 = multiply(4, 5)
+circle = PI * 10**2
+
+print(result1, result2, circle)
+```
+
+How this works
+
+* You pull names directly into the current namespace
+* No utils. prefix needed
+
+This is concise but easier to misuse in large projects.
+
+**Option C. Import with an alias**
+
+```python
+# main.py
+import utils as ut
+
+print(ut.add(1, 2))
+```
+
+
+::: {.callout-important "Which style should you use?"}
+
+Use `import module as alias` for large packages (`pd`, `np`, `plt`, `gpd`). Use `from module import name` when you need only one or two specific items. 
+
+Avoid `from module import *` because it makes it unclear where names come from.
+:::
+
+
+---
+
 ## Getting Started with Pandas
 
 ### Installation and Import
 
 ```python
-# In Google Colab (already installed)
-import pandas as pd
-
-# Local installation via pip
-# !pip install pandas
-
-# Import with standard alias
+# once you have loaded uv
 import pandas as pd
 import numpy as np  # Often used together
 ```
@@ -206,27 +307,23 @@ df = pd.read_csv('data.csv', skiprows=1)
 df = pd.read_csv('data.csv', dtype={'population': int})
 ```
 
-### Google Colab File Access
+### GitHub Access
 
-In Google Colab, access files from Google Drive:
+In GitHub, you can access files by using:
 
-```python
-from google.colab import drive
-drive.mount('/content/drive')
-
-# Read file from Drive
-df = pd.read_csv('/content/drive/My Drive/data/pedestrians.csv')
 ```
+# Step 1
+https://download-directory.github.io
 
-Or upload files directly:
+# Step 2
+Go to the folder you need for your Lab. For example copy: 
+https://github.com/dataandcrowd/tree/main/data
 
-```python
-from google.colab import files
-uploaded = files.upload()  # Opens file picker
+# Step 3
+Paste it in the green box… give it a few minutes
 
-# Then read the uploaded file
-import io
-df = pd.read_csv(io.BytesIO(uploaded['filename.csv']))
+# Step 4
+Check your downloads file and unzip
 ```
 
 ### Other File Formats
@@ -363,7 +460,7 @@ filtered = df.query('Age > @min_age')
 
 ```python
 # Load data
-pedestrians = pd.read_csv('pedestrian_counts.csv')
+pedestrians = pd.read_csv('pedestrian_counts_2025.csv')
 
 # Filter for weekdays only
 weekdays = pedestrians[pedestrians['day_of_week'] < 5]
