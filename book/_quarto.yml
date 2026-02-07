@@ -43,7 +43,7 @@ book:
         - 4.4.publish-pypi.qmd
         #- 4.8.packaging-assignment.qmd
   
-    - part: labs.qmd
+    - part: labs/labs.qmd
       chapters: 
         - labs/lab-week01.qmd
         - labs/lab-week02.qmd

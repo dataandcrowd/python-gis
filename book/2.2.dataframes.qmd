@@ -1,390 +1,618 @@
-# 2.2. DataFrames {.unnumbered #sec-dataframes}
+# 2.2. DataFrames and Pandas {.unnumbered #sec-dataframes}
 
 ## Introduction
 
-Working with tabular data is fundamental to geospatial analysis. 
-Most spatial datasets combine attribute data (stored in tables) with geographic information. 
-This section introduces **pandas**, Python's powerful library for data manipulation, which forms the foundation for working with **geopandas** (spatial data) later in this course.
+In Section 2.1, you learned Python fundamentals: **lists** for storing sequences, **loops** for iteration, and **conditionals** for decision-making. Now we'll build on those foundations to work with structured tabular data—the kind you'd see in Excel spreadsheets or GIS attribute tables.
 
-## What is a DataFrame?
+This section introduces:
+- **Dictionaries**: Flexible key-value structures (essential for GeoJSON and APIs)
+- **pandas DataFrames**: Python's answer to spreadsheets and database tables
+- **Data operations**: Reading, filtering, grouping, and transforming data
 
-A DataFrame is a two-dimensional tabular data structure with labelled rows and columns—essentially a spreadsheet in Python. 
-It's the most common way to work with structured data.
+**Why this matters for GIS**: Most spatial analysis involves attribute data alongside geometry. You'll spend significant time manipulating tables before (or after) spatial operations. These skills are foundational for Section 2.4 (GeoPandas), where you'll add spatial capabilities to DataFrames.
 
-![DataFrame structure showing rows (observations) and columns (variables)](https://media.geeksforgeeks.org/wp-content/uploads/finallpandas.png){#fig-dataframe-structure}
+**The progression**:
+- Section 2.1: Basics (lists, loops, if/else)
+- **Section 2.2**: Structured data (dictionaries, DataFrames, operations)
+- Section 2.3: Visualisation (making sense of your data)
+- Section 2.4: Spatial data (adding geography)
 
-DataFrames can be thought of as:
+---
 
-- A table with rows and columns
-- A collection of Series (columns) that share an index
-- A dictionary where each key is a column name
+## Dictionaries: Flexible Data Structures
 
-## Dictionaries: Building Blocks
+### What is a Dictionary?
 
-Before diving into DataFrames, let's understand **dictionaries**—Python's key-value data structure that underpins much of pandas.
-
-### Dictionary Basics
-
-A dictionary stores data as **key:value** pairs:
+Remember **lists** from Section 2.1? They store items by position:
 
 ```python
-# Create a dictionary
-city_populations = {
+cities = ['Auckland', 'Wellington', 'Christchurch']
+print(cities[0])  # Auckland
+```
+
+**Dictionaries** store items by **key** instead of position:
+
+```python
+populations = {
+    'Auckland': 1672000,
+    'Wellington': 217200,
+    'Christchurch': 389700
+}
+print(populations['Auckland'])  # 1672000
+```
+
+Think of a dictionary as a lookup table: you provide a key, it gives you a value.
+
+### Creating Dictionaries
+
+```python
+# Simple dictionary - city populations
+city_pop = {
     "Auckland": 1672000,
     "Wellington": 217200,
-    "Christchurch": 389700
+    "Christchurch": 389700,
+    "Hamilton": 185000,
+    "Tauranga": 158000
 }
 
-# Access values by key
-print(city_populations["Auckland"])  # Output: 1672000
+# Access by key
+print(city_pop["Auckland"])  # 1672000
 
-# Add a new entry
-city_populations["Hamilton"] = 185000
+# Add new entry
+city_pop["Dunedin"] = 134600
 
-# Modify an existing value
-city_populations["Auckland"] = 1700000
+# Modify existing
+city_pop["Auckland"] = 1700000  # Updated estimate
+
+# Check if key exists
+if "Napier" in city_pop:
+    print("Found Napier")
+else:
+    print("Napier not in dictionary")
 ```
 
 ### Dictionary Methods
 
 ```python
 # Get all keys
-city_populations.keys()
-# Output: dict_keys(['Auckland', 'Wellington', 'Christchurch', 'Hamilton'])
+city_pop.keys()
+# Output: dict_keys(['Auckland', 'Wellington', ...])
 
 # Get all values
-city_populations.values()
-# Output: dict_values([1700000, 217200, 389700, 185000])
+city_pop.values()
+# Output: dict_values([1672000, 217200, ...])
 
 # Get key-value pairs
-city_populations.items()
-# Output: dict_items([('Auckland', 1700000), ('Wellington', 217200), ...])
+city_pop.items()
+# Output: dict_items([('Auckland', 1672000), ...])
+
+# Safe access with default
+city_pop.get('Napier', 0)  # Returns 0 if key doesn't exist
 ```
 
 ### Iterating Through Dictionaries
 
+Remember **for loops** from Section 2.1? They work great with dictionaries:
+
 ```python
 # Iterate through keys
-for city in city_populations.keys():
+for city in city_pop.keys():
     print(city)
 
-# Iterate through key-value pairs
-for city, population in city_populations.items():
-    print(f"{city}: {population:,}")
+# Iterate through values
+for population in city_pop.values():
+    print(f"{population:,}")
 
-# Output:
-# Auckland: 1,700,000
-# Wellington: 217,200
-# Christchurch: 389,700
-# Hamilton: 185,000
+# Iterate through both (most common!)
+for city, population in city_pop.items():
+    print(f"{city}: {population:,}")
 ```
+
+Output:
+```
+Auckland: 1,672,000
+Wellington: 217,200
+Christchurch: 389,700
+...
+```
+
+**Connection to Section 2.1**: This uses the same `for` loop syntax you learned, but now with dictionaries instead of lists!
 
 ### Nested Dictionaries
 
-Dictionaries can contain other dictionaries or lists—useful for complex data:
+Dictionaries can contain other dictionaries or lists. This is where they become powerful:
 
 ```python
-staff = {
-    "people": [
-        {"name": "Hyesop", "role": "lecturer"},
-        {"name": "Sila", "role": "lecturer"},
-        {"name": "Hinami", "role": "tutor"}
-    ],
-    "pets": [
-        {"name": "Pepper", "species": "dog"},
-        {"name": "Pip", "species": "dog"},
-        {"name": "Harriet", "species": "cat"}
-    ]
+# Auckland transport data
+auckland_transport = {
+    "buses": {
+        "Inner Link": {"daily_riders": 12000, "route_length_km": 6.5},
+        "Outer Link": {"daily_riders": 8500, "route_length_km": 8.2},
+        "City Link": {"daily_riders": 15000, "route_length_km": 4.2}
+    },
+    "trains": {
+        "Eastern Line": {"daily_riders": 22000, "route_length_km": 28.0},
+        "Western Line": {"daily_riders": 18500, "route_length_km": 22.0}
+    }
 }
 
 # Access nested data
-print(staff["people"][0]["name"])  # Output: Hyesop
+print(auckland_transport["buses"]["Inner Link"]["daily_riders"])  # 12000
+
+# Iterate through nested structure (using Section 2.1 loops!)
+for mode, routes in auckland_transport.items():
+    print(f"\n{mode.upper()}:")
+    for route_name, data in routes.items():
+        print(f"  {route_name}: {data['daily_riders']:,} riders")
 ```
 
-::: {.callout-note}
-## Why Dictionaries Matter for GIS
-Geospatial data formats like GeoJSON are built on nested dictionaries:
+### Why Dictionaries Matter for GIS
+
+::: {.callout-important}
+## Dictionaries are Everywhere in GIS
+
+**GeoJSON** - the web standard for geographic data - is built entirely on dictionaries:
+
 ```python
-{
-  "type": "Feature",
-  "geometry": {"type": "Point", "coordinates": [174.76, -36.85]},
-  "properties": {"name": "Auckland", "population": 1672000}
+# A GeoJSON point feature (this is a dictionary!)
+auckland_point = {
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [174.7633, -36.8485]  # longitude, latitude
+    },
+    "properties": {
+        "name": "Auckland",
+        "population": 1672000,
+        "country": "New Zealand"
+    }
 }
+
+# Access the coordinates
+coords = auckland_point["geometry"]["coordinates"]
+print(f"Auckland is at {coords[1]}°S, {coords[0]}°E")
+
+# Access properties
+print(f"Population: {auckland_point['properties']['population']:,}")
 ```
+
+**Why this format?**
+- Flexible: Not all features need the same properties
+- Web-friendly: JavaScript uses identical syntax (hence "JSON")
+- Nested: Geometry and attributes kept separate but together
+
+**Real-world example**: When you fetch data from LINZ Data Service API or OpenStreetMap API, you get dictionaries like this!
 :::
 
----
-
-## Module Imports
-
-Before working with pandas, you need to understand how Python imports external code.
-In other words, you need to know the correct ways to use `import` and `from ... import` when working with multiple Python files. 
-A **module** is simply a `.py` file containing functions, classes, or variables. A **package** is a collection of modules (e.g. `pandas` is a package with many modules inside it).
-
-### 1. Folder Structure
-
-Each `.py` file is a module.  
-If files are in the same folder, they can import from each other directly.
-
-```
-my_project/
-│
-├── main.py
-└── utils.py
-```
-
-- `utils.py` contains reusable functions or variables  
-- `main.py` uses them
-
-
-### 2. File You Import From: `utils.py`
+### Practical Example: API Response
 
 ```python
-# utils.py
+# Simulating an API response for Auckland parks
+parks_api_response = {
+    "status": "success",
+    "count": 3,
+    "features": [
+        {
+            "name": "Albert Park",
+            "area_ha": 6.0,
+            "facilities": ["playground", "wifi"],
+            "location": {"lat": -36.8523, "lon": 174.7691}
+        },
+        {
+            "name": "Victoria Park",
+            "area_ha": 7.5,
+            "facilities": ["sports field", "barbecue"],
+            "location": {"lat": -36.8447, "lon": 174.7558}
+        },
+        {
+            "name": "Myers Park",
+            "area_ha": 4.0,
+            "facilities": ["walking tracks"],
+            "location": {"lat": -36.8582, "lon": 174.7614}
+        }
+    ]
+}
 
-def add(a, b):
-    return a + b
+# Extract park names (using Section 2.1 concepts!)
+park_names = []
+for park in parks_api_response["features"]:
+    park_names.append(park["name"])
+    
+print("Auckland parks:", park_names)
 
-def multiply(a, b):
-    return a * b
-
-PI = 3.14159
+# Using conditionals (Section 2.1!) to filter
+large_parks = []
+for park in parks_api_response["features"]:
+    if park["area_ha"] > 5:  # Conditional from 2.1!
+        large_parks.append(park["name"])
+        
+print("Parks > 5 ha:", large_parks)
 ```
-
-This file defines functions and variables only.
-
-### 3. Importing in Another File: main.py
-**Option A. Import the whole module**
-
-```python
-# main.py
-
-import utils
-
-result1 = utils.add(2, 3)
-result2 = utils.multiply(4, 5)
-circle = utils.PI * 10**2
-
-print(result1, result2, circle)
-```
-
-How this works
-
-* utils is the module name
-* You access everything via utils.
-* This is the safest and clearest style most purposes.
-
-
-**Option B. Import specific objects**
-
-```python
-# main.py
-
-from utils import add, multiply, PI
-
-result1 = add(2, 3)
-result2 = multiply(4, 5)
-circle = PI * 10**2
-
-print(result1, result2, circle)
-```
-
-How this works
-
-* You pull names directly into the current namespace
-* No utils. prefix needed
-
-This is concise but easier to misuse in large projects.
-
-**Option C. Import with an alias**
-
-```python
-# main.py
-import utils as ut
-
-print(ut.add(1, 2))
-```
-
-
-::: {.callout-important "Which style should you use?"}
-
-Use `import module as alias` for large packages (`pd`, `np`, `plt`, `gpd`). Use `from module import name` when you need only one or two specific items. 
-
-Avoid `from module import *` because it makes it unclear where names come from.
-:::
-
 
 ---
 
 ## Getting Started with Pandas
 
+### What is pandas?
+
+**pandas** is Python's data analysis library. It provides:
+- **DataFrame**: A table with rows and columns (like Excel)
+- **Series**: A single column of data
+- Operations for filtering, grouping, merging data
+
+Think of it as "Excel in Python, but more powerful and reproducible."
+
 ### Installation and Import
 
 ```python
-# once you have loaded uv
+# Install with uv (if not already installed)
+# uv add pandas
+
+# Import with standard alias
 import pandas as pd
 import numpy as np  # Often used together
 ```
 
 ::: {.callout-tip}
 ## Standard Aliases
-The Python community uses standard aliases:
+The Python community uses these aliases consistently:
 - `pandas` → `pd`
 - `numpy` → `np`
 - `matplotlib.pyplot` → `plt`
 - `seaborn` → `sns`
+- `geopandas` → `gpd` (you'll see this in Section 2.4!)
 
-Using these makes your code more readable to others.
+Using standard aliases makes your code readable to other Python users.
 :::
+
+---
 
 ## Creating DataFrames
 
-### From a Dictionary
+### What is a DataFrame?
+
+A DataFrame is a two-dimensional table with:
+- **Rows** (observations/records)
+- **Columns** (variables/fields)
+- **Index** (row labels, usually numbers)
+
+![DataFrame structure](https://media.geeksforgeeks.org/wp-content/uploads/finallpandas.png){width=70%}
+
+**GIS context**: Think of it as an attribute table without the geometry column (yet—that comes in Section 2.4 with GeoPandas).
+
+### From a Dictionary (The Key Connection!)
+
+This is where dictionaries and DataFrames connect:
 
 ```python
-# Create a simple DataFrame
-df = pd.DataFrame({
-    'a': [1, 2, 3, 4],
-    'b': [5, 6, 7, 8]
-})
-
-print(df)
-```
-
-Output:
-```
-   a  b
-0  1  5
-1  2  6
-2  3  7
-3  4  8
-```
-
-### From Lists
-
-```python
-# Create from lists
-data = {
-    'Name': ['Tom', 'Nick', 'Krish', 'Jack'],
-    'Age': [20, 21, 19, 18],
-    'City': ['Auckland', 'Wellington', 'Christchurch', 'Hamilton']
+# Step 1: Create a dictionary (Section 2.2 beginning!)
+city_data = {
+    'city': ['Auckland', 'Wellington', 'Christchurch', 'Hamilton', 'Tauranga'],
+    'population': [1672000, 217200, 389700, 185000, 158000],
+    'area_km2': [1086, 444, 608, 877, 135],
+    'region': ['Auckland', 'Wellington', 'Canterbury', 'Waikato', 'Bay of Plenty']
 }
 
-df = pd.DataFrame(data)
-print(df)
+# Step 2: Convert to DataFrame
+cities_df = pd.DataFrame(city_data)
+
+# Step 3: View it
+print(cities_df)
 ```
 
 Output:
 ```
-    Name  Age         City
-0    Tom   20     Auckland
-1   Nick   21   Wellington
-2  Krish   19  Christchurch
-3   Jack   18     Hamilton
+          city  population  area_km2           region
+0     Auckland     1672000      1086         Auckland
+1   Wellington      217200       444       Wellington
+2  Christchurch      389700       608        Canterbury
+3     Hamilton      185000       877          Waikato
+4     Tauranga      158000       135  Bay of Plenty
 ```
+
+Notice:
+- Each dictionary key becomes a **column name**
+- Each list in the dictionary becomes a **column**
+- Pandas automatically adds an **index** (0, 1, 2, 3, 4)
+
+### From a List of Dictionaries
+
+Sometimes data comes as multiple dictionaries (common from APIs):
+
+```python
+# Auckland parks (like an API might return)
+parks_list = [
+    {"name": "Albert Park", "area_ha": 6.0, "suburb": "Auckland CBD"},
+    {"name": "Victoria Park", "area_ha": 7.5, "suburb": "Auckland CBD"},
+    {"name": "Myers Park", "area_ha": 4.0, "suburb": "Auckland CBD"},
+    {"name": "Western Springs", "area_ha": 43.0, "suburb": "Westmere"}
+]
+
+# Convert to DataFrame
+parks_df = pd.DataFrame(parks_list)
+print(parks_df)
+```
+
+Output:
+```
+              name  area_ha        suburb
+0      Albert Park      6.0  Auckland CBD
+1    Victoria Park      7.5  Auckland CBD
+2       Myers Park      4.0  Auckland CBD
+3  Western Springs     43.0      Westmere
+```
+
+**This is exactly what you'll do with GeoJSON!** Each feature becomes a row.
+
+---
 
 ## Reading Data Files
 
 ### CSV Files
 
-CSV (Comma-Separated Values) is the most common tabular data format:
+CSV (Comma-Separated Values) is the most common format for tabular data.
 
+**Basic reading**:
 ```python
-# Read from local file
-df = pd.read_csv('data.csv')
+# Read local file
+df = pd.read_csv('auckland_buses.csv')
 
 # Read from URL
 url = 'https://example.com/data.csv'
 df = pd.read_csv(url)
+```
 
-# Specify delimiter for other formats
+**Common arguments**:
+```python
+# Specify separator (default is comma)
 df = pd.read_csv('data.txt', sep='\t')  # Tab-separated
+df = pd.read_csv('data.csv', sep=';')   # Semicolon-separated
 
-# Skip rows
-df = pd.read_csv('data.csv', skiprows=1)
+# Skip rows at the beginning (e.g., metadata lines)
+df = pd.read_csv('data.csv', skiprows=2)  # Skip first 2 rows
 
-# Specify data types
-df = pd.read_csv('data.csv', dtype={'population': int})
+# Specify which row is the header
+df = pd.read_csv('data.csv', header=0)    # First row (default)
+df = pd.read_csv('data.csv', header=None) # No header row
+
+# Specify data types for columns
+df = pd.read_csv('data.csv', dtype={'population': int, 'name': str})
+
+# Handle missing values
+df = pd.read_csv('data.csv', na_values=['NA', 'missing', '-', ''])
+
+# Use a specific column as index
+df = pd.read_csv('data.csv', index_col='city_name')
+
+# Parse dates automatically
+df = pd.read_csv('data.csv', parse_dates=['date_column'])
+
+# Read only certain columns
+df = pd.read_csv('data.csv', usecols=['city', 'population', 'area'])
+
+# Read only first n rows
+df = pd.read_csv('data.csv', nrows=100)
+
+# Specify encoding (for non-UTF-8 files)
+df = pd.read_csv('data.csv', encoding='utf-8')
+df = pd.read_csv('data.csv', encoding='latin-1')  # Sometimes needed for old files
 ```
 
-### GitHub Access
+**Practical example**:
+```python
+# Reading Auckland bus route data with specific settings
+buses = pd.read_csv(
+    'auckland_buses.csv',
+    sep=',',                    # Comma-separated
+    skiprows=1,                 # Skip metadata line
+    header=0,                   # Next row is header
+    dtype={
+        'route_number': str,    # Keep as string (e.g., "70")
+        'daily_riders': int,
+        'route_length': float
+    },
+    na_values=['NA', 'missing'],
+    parse_dates=['start_date'],
+    usecols=['route_number', 'route_name', 'daily_riders', 'route_length']
+)
 
-In GitHub, you can access files by using:
-
+print(buses.head())
+print(buses.dtypes)  # Check data types
 ```
-# Step 1
-https://download-directory.github.io
 
-# Step 2
-Go to the folder you need for your Lab. For example copy: 
-https://github.com/dataandcrowd/tree/main/data
-
-# Step 3
-Paste it in the green box… give it a few minutes
-
-# Step 4
-Check your downloads file and unzip
-```
-
-### Other File Formats
+### Excel Files
 
 ```python
-# Excel files
+# Read Excel file
+df = pd.read_excel('data.xlsx')
+
+# Specify sheet by name
 df = pd.read_excel('data.xlsx', sheet_name='Sheet1')
 
-# JSON files
+# Specify sheet by index (0-based)
+df = pd.read_excel('data.xlsx', sheet_name=0)
+
+# Read all sheets into a dictionary
+all_sheets = pd.read_excel('data.xlsx', sheet_name=None)
+print(all_sheets.keys())  # See all sheet names
+
+# Other arguments work similarly to read_csv
+df = pd.read_excel(
+    'auckland_demographics.xlsx',
+    sheet_name='Suburbs',
+    skiprows=2,
+    usecols='A:D',  # Columns A through D
+    dtype={'population': int}
+)
+```
+
+### JSON Files
+
+Perfect for working with API responses and GeoJSON!
+
+```python
+# Read JSON file
 df = pd.read_json('data.json')
 
-# Write to files
-df.to_csv('output.csv', index=False)
-df.to_excel('output.xlsx', sheet_name='Data', index=False)
+# Read from URL (API endpoint)
+api_url = 'https://api.example.com/auckland/parks'
+df = pd.read_json(api_url)
+
+# For nested JSON (like GeoJSON), you might need to normalize
+import json
+
+# Read GeoJSON
+with open('auckland_parks.geojson', 'r') as f:
+    geojson = json.load(f)
+
+# Extract properties into DataFrame
+features = geojson['features']
+properties_list = [f['properties'] for f in features]
+df = pd.DataFrame(properties_list)
+
+print(df)
 ```
+
+### Saving DataFrames
+
+```python
+# Save to CSV
+df.to_csv('output.csv', index=False)  # index=False avoids extra column
+
+# Save to Excel
+df.to_excel('output.xlsx', sheet_name='Data', index=False)
+
+# Save to JSON
+df.to_json('output.json', orient='records', indent=2)
+
+# Save with specific encoding
+df.to_csv('output.csv', encoding='utf-8', index=False)
+```
+
+---
 
 ## Exploring DataFrames
 
-### Essential Methods
+### Initial Inspection
 
 ```python
-# First/last rows
-df.head()      # First 5 rows
-df.head(10)    # First 10 rows
-df.tail()      # Last 5 rows
+# Create sample Auckland suburb data
+suburbs = pd.DataFrame({
+    'suburb': ['Mt Eden', 'Parnell', 'Grey Lynn', 'Ponsonby', 'Epsom', 'Newmarket'],
+    'population': [15200, 8400, 11300, 9800, 18900, 8200],
+    'median_income': [78000, 92000, 65000, 88000, 105000, 95000],
+    'avg_house_price': [1.2, 1.8, 1.1, 1.6, 2.1, 1.9],  # millions NZD
+    'parks_count': [3, 2, 4, 3, 5, 2]
+})
 
-# Basic information
-df.shape       # Dimensions: (rows, columns)
-df.columns     # Column names
-df.dtypes      # Data types of each column
-df.info()      # Comprehensive summary
+# View first rows
+print(suburbs.head())      # First 5 rows (default)
+print(suburbs.head(3))     # First 3 rows
 
-# Summary statistics
-df.describe()  # Count, mean, std, min, quartiles, max
+# View last rows
+print(suburbs.tail())      # Last 5 rows
+print(suburbs.tail(2))     # Last 2 rows
 
-# Check for missing values
-df.isnull().sum()  # Count of missing values per column
-df.isna().sum()    # Alias for isnull()
+# Random sample
+print(suburbs.sample(3))   # 3 random rows
 ```
 
-### Example: Exploring Auckland Pedestrian Data
+### DataFrame Properties
 
 ```python
-# Read pedestrian count data
-pedestrians = pd.read_csv('auckland_pedestrian_counts.csv')
+# Shape: (rows, columns)
+print(suburbs.shape)  # (6, 5)
 
-# Explore the data
-print("Dataset shape:", pedestrians.shape)
-print("\nColumn names:", pedestrians.columns.tolist())
-print("\nFirst few rows:")
-print(pedestrians.head())
+# Dimensions
+print(f"Rows: {len(suburbs)}")
+print(f"Columns: {len(suburbs.columns)}")
 
-print("\nData types:")
-print(pedestrians.dtypes)
+# Column names
+print(suburbs.columns)
+# Output: Index(['suburb', 'population', 'median_income', 'avg_house_price', 'parks_count'])
 
-print("\nSummary statistics:")
-print(pedestrians.describe())
-
-print("\nMissing values:")
-print(pedestrians.isnull().sum())
+# Data types
+print(suburbs.dtypes)
 ```
+
+Output:
+```
+suburb                object
+population             int64
+median_income          int64
+avg_house_price      float64
+parks_count            int64
+dtype: object
+```
+
+### Summary Statistics
+
+```python
+# Summary statistics for numeric columns
+print(suburbs.describe())
+```
+
+Output:
+```
+       population  median_income  avg_house_price  parks_count
+count        6.00           6.00             6.00         6.00
+mean     11966.67       87166.67             1.62         3.17
+std       4419.69       14658.87             0.41         1.17
+min       8200.00       65000.00             1.10         2.00
+25%       8850.00       80500.00             1.25         2.25
+50%      11050.00       90000.00             1.55         3.00
+75%      15500.00       93750.00             1.88         3.75
+max      18900.00      105000.00             2.10         5.00
+```
+
+**Interpretation**:
+- `count`: Number of non-null values
+- `mean`: Average
+- `std`: Standard deviation (spread)
+- `min`, `25%`, `50%`, `75%`, `max`: Quartiles
+
+**Custom statistics**:
+```python
+# Specific statistic for a column
+print(suburbs['population'].mean())      # 11966.67
+print(suburbs['population'].median())    # 11050.0
+print(suburbs['population'].std())       # 4419.69
+print(suburbs['population'].sum())       # 71800
+
+# Multiple statistics at once
+print(suburbs['avg_house_price'].agg(['mean', 'median', 'min', 'max']))
+```
+
+### Information Summary
+
+```python
+# Comprehensive info about DataFrame
+print(suburbs.info())
+```
+
+Output:
+```
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 6 entries, 0 to 5
+Data columns (total 5 columns):
+ #   Column             Non-Null Count  Dtype  
+---  ------             --------------  -----  
+ 0   suburb             6 non-null      object 
+ 1   population         6 non-null      int64  
+ 2   median_income      6 non-null      int64  
+ 3   avg_house_price    6 non-null      float64
+ 4   parks_count        6 non-null      int64  
+dtypes: float64(1), int64(3), object(1)
+memory usage: 368.0+ bytes
+```
+
+**This tells you**:
+- Total rows and columns
+- Which columns have missing values
+- Data types
+- Memory usage
+
+---
 
 ## Selecting Data
 
@@ -392,718 +620,1095 @@ print(pedestrians.isnull().sum())
 
 ```python
 # Single column (returns Series)
-ages = df['Age']
+pop_series = suburbs['population']
+print(type(pop_series))  # <class 'pandas.core.series.Series'>
 
-# Multiple columns (returns DataFrame)
-subset = df[['Name', 'City']]
+# Single column (returns DataFrame)
+pop_df = suburbs[['population']]
+print(type(pop_df))  # <class 'pandas.core.frame.DataFrame'>
 
-# Using dot notation (only for valid Python identifiers)
-ages = df.Age
+# Multiple columns
+subset = suburbs[['suburb', 'population', 'median_income']]
+print(subset)
 ```
 
-### Selecting Rows
+### Selecting Rows by Index
+
+**Using `.iloc[]` (integer location)**:
 
 ```python
-# By position using iloc
-first_row = df.iloc[0]           # First row
-first_three = df.iloc[0:3]       # First 3 rows
-specific_rows = df.iloc[[0, 2, 4]]  # Rows 0, 2, 4
+# Single row by position
+first_row = suburbs.iloc[0]  # First row
+print(first_row)
 
-# By label using loc
-row_by_label = df.loc[0]         # Row with index 0
+# Multiple rows by position
+first_three = suburbs.iloc[0:3]  # Rows 0, 1, 2
+print(first_three)
+
+# Specific rows
+selected = suburbs.iloc[[0, 2, 4]]  # Rows 0, 2, 4
+print(selected)
+
+# Rows and columns together
+subset = suburbs.iloc[0:3, 0:2]  # First 3 rows, first 2 columns
+print(subset)
 ```
+
+**Using `.loc[]` (label-based)**:
+
+```python
+# Single row by index label
+row = suburbs.loc[0]
+
+# Multiple rows
+rows = suburbs.loc[0:2]  # Includes row 2 (unlike iloc!)
+
+# Specific columns
+subset = suburbs.loc[:, ['suburb', 'population']]
+
+# Rows and columns
+subset = suburbs.loc[0:2, ['suburb', 'population']]
+```
+
+**Difference between `.iloc` and `.loc`**:
+- `.iloc[0:3]` → rows 0, 1, 2 (excludes 3)
+- `.loc[0:3]` → rows 0, 1, 2, 3 (includes 3 if it exists)
 
 ### Boolean Indexing (Filtering)
 
-Filter rows based on conditions:
+This is the most powerful selection method! It uses **conditionals from Section 2.1**.
 
 ```python
-# Simple filter
-high_age = df[df['Age'] > 20]
+# Find wealthy suburbs (income > 90000)
+wealthy = suburbs[suburbs['median_income'] > 90000]
+print(wealthy)
 
-# Multiple conditions with &, |
-filtered = df[(df['Age'] > 18) & (df['City'] == 'Auckland')]
+# Find affordable housing (price < 1.5M)
+affordable = suburbs[suburbs['avg_house_price'] < 1.5]
+print(affordable)
 
-# Using isin for multiple values
-cities_subset = df[df['City'].isin(['Auckland', 'Wellington'])]
+# Multiple conditions (AND) - use &
+wealthy_and_affordable = suburbs[
+    (suburbs['median_income'] > 80000) & 
+    (suburbs['avg_house_price'] < 1.5)
+]
+print(wealthy_and_affordable)
+
+# Multiple conditions (OR) - use |
+edge_suburbs = suburbs[
+    (suburbs['population'] < 9000) | 
+    (suburbs['population'] > 18000)
+]
+print(edge_suburbs)
+
+# Using .isin() for multiple values
+cbd_suburbs = suburbs[suburbs['suburb'].isin(['Mt Eden', 'Parnell', 'Newmarket'])]
+print(cbd_suburbs)
 
 # String methods
-starts_with_a = df[df['Name'].str.startswith('A')]
-contains_ck = df[df['City'].str.contains('ck')]
+parks_many = suburbs[suburbs['suburb'].str.contains('Park')]  # Contains "Park"
+starts_with_p = suburbs[suburbs['suburb'].str.startswith('P')]  # Starts with P
 ```
 
-::: {.callout-important}
-## Boolean Operators
-- `&` for AND (not `and`)
-- `|` for OR (not `or`)
-- `~` for NOT (not `not`)
-- Always use parentheses around each condition!
-:::
+### The `.query()` Method
 
-### The Query Method
-
-A more readable alternative to boolean indexing:
+Cleaner syntax for filtering:
 
 ```python
-# Simple query
-filtered = df.query('Age > 20')
+# Simple condition
+wealthy = suburbs.query('median_income > 90000')
 
 # Multiple conditions
-filtered = df.query('Age > 18 and City == "Auckland"')
+ideal = suburbs.query('median_income > 80000 and avg_house_price < 1.8')
 
-# Using variables with @
-min_age = 18
-filtered = df.query('Age > @min_age')
+# Using variables (with @)
+threshold = 90000
+high_income = suburbs.query('median_income > @threshold')
+
+# String matching
+parnell = suburbs.query('suburb == "Parnell"')
 ```
 
-### Practical Example: Filtering Pedestrian Data
+---
 
-```python
-# Load data
-pedestrians = pd.read_csv('pedestrian_counts_2025.csv')
-
-# Filter for weekdays only
-weekdays = pedestrians[pedestrians['day_of_week'] < 5]
-
-# Filter for high foot traffic
-high_traffic = pedestrians[pedestrians['count'] > 1000]
-
-# Multiple conditions: weekday mornings with high traffic
-morning_rush = pedestrians[
-    (pedestrians['day_of_week'] < 5) &
-    (pedestrians['hour'] >= 7) &
-    (pedestrians['hour'] <= 9) &
-    (pedestrians['count'] > 500)
-]
-
-# Find specific location
-queen_street = pedestrians.query('location == "Queen Street"')
-
-# Filter by date range
-recent = pedestrians[pedestrians['date'] >= '2023-01-01']
-```
-
-## Adding and Modifying Columns
+## Manipulating Data
 
 ### Creating New Columns
 
 ```python
-# From calculation
-df['Age_in_months'] = df['Age'] * 12
+# Calculate population density (people per km²)
+# First, add area_km2 column
+suburbs['area_km2'] = [4.2, 2.1, 3.8, 2.9, 6.5, 1.8]
 
-# From existing columns
-df['Full_info'] = df['Name'] + ' from ' + df['City']
+suburbs['density'] = suburbs['population'] / suburbs['area_km2']
+print(suburbs[['suburb', 'population', 'area_km2', 'density']])
 
-# Conditional values
-df['Category'] = 'Adult'  # Set all to 'Adult'
-df.loc[df['Age'] < 18, 'Category'] = 'Minor'  # Override for minors
+# Calculate affordability ratio
+suburbs['price_to_income'] = (suburbs['avg_house_price'] * 1000000) / suburbs['median_income']
 
-# Using apply with a function
-def age_group(age):
-    if age < 18:
-        return 'Youth'
-    elif age < 65:
-        return 'Adult'
+# Conditional column creation (using .apply())
+def income_category(income):
+    if income < 70000:
+        return 'Lower'
+    elif income < 90000:
+        return 'Middle'
     else:
-        return 'Senior'
+        return 'Upper'
 
-df['Age_Group'] = df['Age'].apply(age_group)
+suburbs['income_category'] = suburbs['median_income'].apply(income_category)
+print(suburbs[['suburb', 'median_income', 'income_category']])
+
+# Using np.where for simple conditionals
+suburbs['size_category'] = np.where(suburbs['population'] > 12000, 'Large', 'Small')
+
+# Multiple conditions with np.select
+conditions = [
+    suburbs['population'] < 9000,
+    suburbs['population'] < 15000,
+    suburbs['population'] >= 15000
+]
+choices = ['Small', 'Medium', 'Large']
+suburbs['size'] = np.select(conditions, choices, default='Unknown')
 ```
 
-### Practical Example: Processing Pedestrian Data
+### Modifying Columns
 
 ```python
-# Calculate hourly average from minute counts
-pedestrians['hourly_average'] = pedestrians['total_count'] / 60
+# Update values
+suburbs['avg_house_price'] = suburbs['avg_house_price'] * 1.05  # 5% increase
 
-# Create time period categories
-def classify_time(hour):
-    if 6 <= hour < 9:
-        return 'Morning Rush'
-    elif 9 <= hour < 12:
-        return 'Morning'
-    elif 12 <= hour < 14:
-        return 'Lunch'
-    elif 14 <= hour < 17:
-        return 'Afternoon'
-    elif 17 <= hour < 20:
-        return 'Evening Rush'
-    else:
-        return 'Night'
+# Round values
+suburbs['avg_house_price'] = suburbs['avg_house_price'].round(2)
 
-pedestrians['time_period'] = pedestrians['hour'].apply(classify_time)
+# Replace values
+suburbs['suburb'] = suburbs['suburb'].str.replace('Grey Lynn', 'Gray Lynn')
 
-# Flag weekends
-pedestrians['is_weekend'] = pedestrians['day_of_week'] >= 5
-
-# Calculate change from previous measurement
-pedestrians['count_change'] = pedestrians['count'].diff()
+# Rename columns
+suburbs = suburbs.rename(columns={
+    'avg_house_price': 'avg_price_millions',
+    'parks_count': 'num_parks'
+})
 ```
+
+### Deleting Columns and Rows
+
+```python
+# Delete columns
+suburbs = suburbs.drop(columns=['size_category'])
+
+# Delete rows by index
+suburbs = suburbs.drop([0, 1])  # Delete first two rows
+
+# Delete rows based on condition
+suburbs = suburbs[suburbs['population'] > 8500]  # Keep only if population > 8500
+
+# Reset index after deleting rows
+suburbs = suburbs.reset_index(drop=True)
+```
+
+---
 
 ## Grouping and Aggregation
 
-Grouping is one of pandas' most powerful features—it follows a split-apply-combine strategy:
-
-1. **Split** data into groups based on criteria
-2. **Apply** a function to each group
-3. **Combine** results into a data structure
-
-![The split-apply-combine strategy](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiUr0NSceFvB3vYV39lO01DRDld0HGEONzBiPZZCGUUQ&s){#fig-split-apply-combine}
+Grouping is one of pandas' most powerful features. It follows the **split-apply-combine** pattern.
 
 ### Basic Grouping
 
 ```python
-# Group by single column and calculate mean
-city_stats = df.groupby('City')['Age'].mean()
+# Add region column to our data
+suburbs['region'] = ['Central', 'Eastern', 'Western', 'Western', 'Central', 'Central']
 
-# Multiple aggregations
-city_summary = df.groupby('City').agg({
-    'Age': ['mean', 'min', 'max'],
-    'Name': 'count'
-})
-
-# Group by multiple columns
-df.groupby(['City', 'Category'])['Age'].mean()
-```
-
-### Common Aggregation Functions
-
-| Function | Description |
-|----------|-------------|
-| `count()` | Count non-null values |
-| `sum()` | Sum of values |
-| `mean()` | Average value |
-| `median()` | Median value |
-| `min()` | Minimum value |
-| `max()` | Maximum value |
-| `std()` | Standard deviation |
-| `var()` | Variance |
-
-### Practical Example: Analysing Pedestrian Patterns
-
-```python
-# Average count by location
-location_avg = pedestrians.groupby('location')['count'].mean()
-print(location_avg.sort_values(ascending=False).head())
-
-# Statistics by time of day
-time_stats = pedestrians.groupby('time_period').agg({
-    'count': ['mean', 'std', 'max'],
-    'location': 'count'
-})
-
-# Weekend vs weekday comparison
-day_type_comparison = pedestrians.groupby('is_weekend')['count'].agg([
-    'mean', 'median', 'max'
-]).round(0)
-
-# Hourly patterns by location
-hourly_patterns = pedestrians.groupby(['location', 'hour'])['count'].mean()
-
-# Find peak hour for each location
-peak_hours = pedestrians.groupby('location').apply(
-    lambda x: x.loc[x['count'].idxmax(), 'hour']
-)
-
-# Multi-level grouping: location and time period
-detailed_stats = pedestrians.groupby(['location', 'time_period']).agg({
-    'count': ['mean', 'max'],
-    'date': 'count'  # Number of observations
-}).round(0)
-```
-
-## Reshaping Data: Melt and Pivot
-
-### Melt: Wide to Long Format
-
-Convert wide data (multiple value columns) to long format:
-
-```python
-# Wide format
-df_wide = pd.DataFrame({
-    'City': ['Auckland', 'Wellington', 'Christchurch'],
-    'Jan_Temp': [25, 22, 20],
-    'Feb_Temp': [24, 21, 19],
-    'Mar_Temp': [23, 20, 18]
-})
-
-# Convert to long format
-df_long = pd.melt(
-    df_wide,
-    id_vars=['City'],           # Columns to keep
-    var_name='Month',            # Name for variable column
-    value_name='Temperature'     # Name for value column
-)
-
-print(df_long)
+# Calculate average population by region
+avg_pop_by_region = suburbs.groupby('region')['population'].mean()
+print(avg_pop_by_region)
 ```
 
 Output:
 ```
-          City      Month  Temperature
-0     Auckland   Jan_Temp           25
-1   Wellington   Jan_Temp           22
-2  Christchurch   Jan_Temp           20
-3     Auckland   Feb_Temp           24
-4   Wellington   Feb_Temp           21
-...
+region
+Central    14100.0
+Eastern     8400.0
+Western    10550.0
+Name: population, dtype: float64
 ```
 
-### Pivot: Long to Wide Format
+### Multiple Aggregations
 
 ```python
-# Convert back to wide format
-df_pivot = df_long.pivot(
-    index='City',
-    columns='Month',
-    values='Temperature'
-)
+# Multiple statistics for one column
+region_stats = suburbs.groupby('region')['population'].agg(['mean', 'sum', 'count'])
+print(region_stats)
 ```
 
-::: {.callout-note}
-## When to Melt
-Melting is useful when:
-- You have multiple columns representing the same type of data
-- You want to use groupby or plot with seaborn
-- Your data needs to be in "tidy" format for analysis
-:::
+Output:
+```
+              mean     sum  count
+region                          
+Central   14100.0  42300      3
+Eastern    8400.0   8400      1
+Western   10550.0  21100      2
+```
+
+### Aggregating Multiple Columns
+
+```python
+# Different aggregations for different columns
+summary = suburbs.groupby('region').agg({
+    'population': ['mean', 'sum'],
+    'median_income': 'mean',
+    'avg_price_millions': ['mean', 'max'],
+    'num_parks': 'sum'
+})
+
+print(summary)
+```
+
+### Custom Aggregation Functions
+
+```python
+# Define custom function
+def price_range(prices):
+    return prices.max() - prices.min()
+
+# Use it in groupby
+price_ranges = suburbs.groupby('region')['avg_price_millions'].agg([
+    'mean',
+    ('range', price_range),
+    'count'
+])
+print(price_ranges)
+```
+
+### Practical Example: Auckland Transport Routes
+
+```python
+# Auckland bus and train routes
+routes = pd.DataFrame({
+    'route_name': ['Inner Link', 'Outer Link', 'Eastern Line', 'Western Line', 
+                   'City Link', 'Northern Express'],
+    'mode': ['Bus', 'Bus', 'Train', 'Train', 'Bus', 'Bus'],
+    'daily_riders': [12000, 8500, 22000, 18500, 15000, 9800],
+    'route_length_km': [6.5, 8.2, 28.0, 22.0, 4.2, 15.0]
+})
+
+# Calculate riders per km
+routes['efficiency'] = routes['daily_riders'] / routes['route_length_km']
+
+# Group by transport mode
+mode_summary = routes.groupby('mode').agg({
+    'daily_riders': ['sum', 'mean'],
+    'route_length_km': 'mean',
+    'efficiency': 'mean'
+}).round(2)
+
+print("\nTransport Mode Summary:")
+print(mode_summary)
+```
+
+---
+
+## Reshaping Data
+
+### Pivot Tables
+
+Transform rows into columns:
+
+```python
+# Auckland weather data (simulated)
+weather = pd.DataFrame({
+    'date': ['2024-01-01', '2024-01-01', '2024-01-02', '2024-01-02'],
+    'location': ['CBD', 'Airport', 'CBD', 'Airport'],
+    'temperature': [22, 24, 21, 23],
+    'rainfall': [0, 2, 5, 3]
+})
+
+# Pivot: locations as columns, dates as rows
+pivot = weather.pivot(
+    index='date',
+    columns='location',
+    values='temperature'
+)
+print(pivot)
+```
+
+Output:
+```
+location    Airport  CBD
+date                    
+2024-01-01       24   22
+2024-01-02       23   21
+```
+
+### Pivot Tables with Aggregation
+
+```python
+# Create larger dataset
+pedestrians = pd.DataFrame({
+    'location': ['Queen St', 'Queen St', 'K Rd', 'K Rd'] * 3,
+    'time_period': ['Morning', 'Evening', 'Morning', 'Evening'] * 3,
+    'day': ['Mon', 'Mon', 'Mon', 'Mon', 'Tue', 'Tue', 'Tue', 'Tue', 'Wed', 'Wed', 'Wed', 'Wed'],
+    'count': [450, 680, 320, 510, 460, 690, 330, 520, 470, 700, 340, 530]
+})
+
+# Pivot table with aggregation
+pivot_avg = pedestrians.pivot_table(
+    values='count',
+    index='location',
+    columns='time_period',
+    aggfunc='mean'
+)
+print(pivot_avg)
+```
+
+Output:
+```
+time_period  Evening  Morning
+location                     
+K Rd           520.0    330.0
+Queen St       690.0    460.0
+```
+
+### Melting (Unpivot)
+
+Convert columns back to rows:
+
+```python
+# Wide format (columns for each suburb)
+house_prices_wide = pd.DataFrame({
+    'year': [2020, 2021, 2022],
+    'Mt Eden': [1.1, 1.15, 1.2],
+    'Parnell': [1.6, 1.7, 1.8],
+    'Epsom': [1.9, 2.0, 2.1]
+})
+
+# Melt to long format
+house_prices_long = house_prices_wide.melt(
+    id_vars='year',
+    var_name='suburb',
+    value_name='avg_price_millions'
+)
+print(house_prices_long)
+```
+
+Output:
+```
+   year   suburb  avg_price_millions
+0  2020  Mt Eden                 1.1
+1  2021  Mt Eden                1.15
+2  2022  Mt Eden                 1.2
+3  2020  Parnell                 1.6
+4  2021  Parnell                 1.7
+5  2022  Parnell                 1.8
+6  2020    Epsom                 1.9
+7  2021    Epsom                 2.0
+8  2022    Epsom                 2.1
+```
+
+**When to use which**:
+- **Pivot**: Analysis (comparing across categories)
+- **Melt**: Visualisation (most plotting libraries prefer long format)
+
+---
 
 ## Handling Missing Data
 
-Real-world data often has missing values. Pandas provides tools to handle them:
+Real-world data is messy. Here's how to handle it.
 
 ### Detecting Missing Data
 
 ```python
-# Check for any missing values
-df.isnull().any()        # Any missing per column?
-df.isnull().sum()        # Count missing per column
-df.isnull().sum().sum()  # Total missing values
+# Create data with missing values
+suburbs_missing = pd.DataFrame({
+    'suburb': ['Mt Eden', 'Parnell', 'Grey Lynn', 'Ponsonby'],
+    'population': [15200, None, 11300, 9800],
+    'median_income': [78000, 92000, None, 88000],
+    'avg_price': [1.2, 1.8, 1.1, None]
+})
 
-# Check specific column
-df['Age'].isnull()       # Boolean mask
-df['Age'].isnull().sum() # Count
+# Check for missing values
+print(suburbs_missing.isnull())
+print(suburbs_missing.isnull().sum())  # Count per column
+print(suburbs_missing.isnull().sum().sum())  # Total missing
+```
+
+Output:
+```
+   suburb  population  median_income  avg_price
+0   False       False          False      False
+1   False        True          False      False
+2   False       False           True      False
+3   False       False          False       True
+
+suburb           0
+population       1
+median_income    1
+avg_price        1
+dtype: int64
+
+Total: 3
 ```
 
 ### Removing Missing Data
 
 ```python
-# Drop rows with any missing values
-df_clean = df.dropna()
+# Drop rows with ANY missing values
+clean = suburbs_missing.dropna()
+print(clean)
 
-# Drop rows with missing values in specific columns
-df_clean = df.dropna(subset=['Age', 'City'])
+# Drop rows where specific column is missing
+clean = suburbs_missing.dropna(subset=['population'])
 
-# Drop columns with any missing values
-df_clean = df.dropna(axis=1)
-
-# Drop rows where all values are missing
-df_clean = df.dropna(how='all')
+# Drop columns with ANY missing values
+clean = suburbs_missing.dropna(axis=1)
 ```
 
 ### Filling Missing Data
 
 ```python
 # Fill with a specific value
-df['Age'].fillna(0)
+filled = suburbs_missing.fillna(0)
 
-# Fill with mean
-df['Age'].fillna(df['Age'].mean())
+# Fill with column mean
+suburbs_missing['population'] = suburbs_missing['population'].fillna(
+    suburbs_missing['population'].mean()
+)
 
-# Fill with median
-df['Age'].fillna(df['Age'].median())
+# Fill with column median
+suburbs_missing['median_income'] = suburbs_missing['median_income'].fillna(
+    suburbs_missing['median_income'].median()
+)
 
 # Forward fill (use previous value)
-df['Age'].fillna(method='ffill')
+filled = suburbs_missing.fillna(method='ffill')
 
 # Backward fill (use next value)
-df['Age'].fillna(method='bfill')
+filled = suburbs_missing.fillna(method='bfill')
 
-# Fill with interpolation
-df['Age'].interpolate()
+# Fill different columns with different values
+suburbs_missing = suburbs_missing.fillna({
+    'population': suburbs_missing['population'].median(),
+    'median_income': suburbs_missing['median_income'].mean(),
+    'avg_price': suburbs_missing['avg_price'].median()
+})
 ```
 
-### Practical Example: Cleaning Pedestrian Data
+### Interpolation
+
+For time series or ordered data:
 
 ```python
-# Check for missing values
-print("Missing values per column:")
-print(pedestrians.isnull().sum())
-
-# Count-specific cleaning
-# Option 1: Remove rows with missing counts
-pedestrians_clean = pedestrians.dropna(subset=['count'])
-
-# Option 2: Fill with median (more robust than mean for outliers)
-median_count = pedestrians['count'].median()
-pedestrians['count'].fillna(median_count, inplace=True)
-
-# Option 3: Forward fill for time series data
-pedestrians_sorted = pedestrians.sort_values(['location', 'datetime'])
-pedestrians_sorted['count'].fillna(method='ffill', inplace=True)
-
-# Fill location names
-pedestrians['location'].fillna('Unknown', inplace=True)
-
-# Verify cleaning
-print("\nAfter cleaning:")
-print(pedestrians.isnull().sum())
+# Linear interpolation
+suburbs_missing['population'] = suburbs_missing['population'].interpolate(method='linear')
 ```
 
-## Merging and Joining DataFrames
+### Best Practices
 
-Combining data from multiple sources is common in geospatial analysis.
+::: {.callout-warning}
+## Handling Missing Data Thoughtfully
+
+**Before removing or filling**:
+1. Understand WHY data is missing
+   - Random (safe to fill)
+   - Systematic (e.g., sensor failure - investigate)
+   - By design (e.g., not applicable)
+
+2. Document your approach
+3. Consider creating a "missing" indicator column
+4. Report how many values you handled
+
+**For GIS**: Missing coordinates or key identifiers usually mean dropping that record. Missing attributes might be fillable.
+:::
+
+---
+
+## Merging DataFrames
+
+Combining datasets is essential for analysis.
 
 ### Types of Joins
 
-![Different types of joins](https://media.geeksforgeeks.org/wp-content/uploads/joinimages.png){#fig-join-types}
+![Join types](https://media.geeksforgeeks.org/wp-content/uploads/joinimages.png){width=60%}
 
-- **Inner**: Only matching rows from both DataFrames
-- **Left**: All rows from left DataFrame, matching from right
-- **Right**: All rows from right DataFrame, matching from left
-- **Outer**: All rows from both DataFrames
+### Inner Join
 
-### Merge Example
+Only keep rows that match in both DataFrames:
 
 ```python
-# Create two DataFrames
-df1 = pd.DataFrame({
-    'ID': [1, 2, 3, 4],
-    'Name': ['Tom', 'Nick', 'Krish', 'Jack'],
-    'Age': [20, 21, 19, 18]
+# Bus route data
+routes = pd.DataFrame({
+    'route_id': [1, 2, 3, 4],
+    'route_name': ['Inner Link', 'Outer Link', 'City Link', 'Eastern Line']
 })
 
-df2 = pd.DataFrame({
-    'ID': [3, 4, 5, 6],
-    'Subject': ['Maths', 'English', 'Science', 'History'],
-    'Score': [88, 75, 90, 85]
+# Ridership data (missing route 4)
+ridership = pd.DataFrame({
+    'route_id': [1, 2, 3, 5],
+    'daily_riders': [12000, 8500, 15000, 6000]
 })
 
-# Inner join (only matching IDs: 3, 4)
-inner = pd.merge(df1, df2, on='ID', how='inner')
-
-# Left join (all from df1)
-left = pd.merge(df1, df2, on='ID', how='left')
-
-# Outer join (all from both)
-outer = pd.merge(df1, df2, on='ID', how='outer')
-```
-
-### Practical Example: Combining Pedestrian and Location Data
-
-```python
-# Pedestrian counts
-counts = pd.DataFrame({
-    'location_id': [1, 1, 2, 2, 3, 3],
-    'hour': [8, 9, 8, 9, 8, 9],
-    'count': [150, 200, 300, 350, 100, 120]
-})
-
-# Location details
-locations = pd.DataFrame({
-    'location_id': [1, 2, 3, 4],
-    'location_name': ['Queen St', 'Karangahape Rd', 'Ponsonby Rd', 'Broadway'],
-    'district': ['CBD', 'CBD', 'Ponsonby', 'Newmarket']
-})
-
-# Merge to add location names
-merged = pd.merge(counts, locations, on='location_id', how='left')
+# Inner join - only routes with ridership data
+merged = pd.merge(routes, ridership, on='route_id', how='inner')
 print(merged)
 ```
 
-## Data Visualisation
+Output:
+```
+   route_id   route_name  daily_riders
+0         1   Inner Link         12000
+1         2   Outer Link          8500
+2         3    City Link         15000
+```
 
-### Built-in Pandas Plotting
+Notice: Route 4 (Eastern Line) is missing because no ridership data. Route 5 is missing because it's not in routes.
 
-Pandas DataFrames have built-in plotting methods using matplotlib:
+### Left Join
+
+Keep all rows from left DataFrame:
+
+```python
+# Keep all routes, even without ridership data
+merged = pd.merge(routes, ridership, on='route_id', how='left')
+print(merged)
+```
+
+Output:
+```
+   route_id   route_name  daily_riders
+0         1   Inner Link       12000.0
+1         2   Outer Link        8500.0
+2         3    City Link       15000.0
+3         4  Eastern Line          NaN
+```
+
+### Right Join
+
+Keep all rows from right DataFrame:
+
+```python
+# Keep all ridership records, even for unknown routes
+merged = pd.merge(routes, ridership, on='route_id', how='right')
+print(merged)
+```
+
+### Outer Join
+
+Keep all rows from both DataFrames:
+
+```python
+# Keep everything
+merged = pd.merge(routes, ridership, on='route_id', how='outer')
+print(merged)
+```
+
+### Merging on Multiple Columns
+
+```python
+# Pedestrian counts by location and time
+counts = pd.DataFrame({
+    'location': ['Queen St', 'Queen St', 'K Rd'],
+    'hour': [8, 9, 8],
+    'count': [150, 200, 100]
+})
+
+# Location metadata
+locations = pd.DataFrame({
+    'location': ['Queen St', 'K Rd', 'Ponsonby Rd'],
+    'district': ['CBD', 'CBD', 'Ponsonby']
+})
+
+# Merge on location
+merged = pd.merge(counts, locations, on='location', how='left')
+print(merged)
+```
+
+### Merging with Different Column Names
+
+```python
+# Left DataFrame has 'suburb', right has 'location'
+df1 = pd.DataFrame({
+    'suburb': ['Mt Eden', 'Parnell'],
+    'population': [15200, 8400]
+})
+
+df2 = pd.DataFrame({
+    'location': ['Mt Eden', 'Parnell'],
+    'avg_price': [1.2, 1.8]
+})
+
+# Merge using left_on and right_on
+merged = pd.merge(
+    df1, df2,
+    left_on='suburb',
+    right_on='location',
+    how='inner'
+)
+print(merged)
+```
+
+### Practical Example: Complete Transport Analysis
+
+```python
+# Route information
+routes = pd.DataFrame({
+    'route_id': [1, 2, 3, 4],
+    'route_name': ['Inner Link', 'Outer Link', 'Eastern Line', 'Western Line'],
+    'mode': ['Bus', 'Bus', 'Train', 'Train'],
+    'route_length_km': [6.5, 8.2, 28.0, 22.0]
+})
+
+# Ridership data
+ridership = pd.DataFrame({
+    'route_id': [1, 2, 3, 4],
+    'weekday_riders': [12000, 8500, 22000, 18500],
+    'weekend_riders': [8000, 6000, 15000, 12000]
+})
+
+# Cost data
+costs = pd.DataFrame({
+    'route_id': [1, 2, 3],  # Missing route 4!
+    'annual_cost_millions': [2.5, 3.1, 8.5]
+})
+
+# Merge all together
+complete = pd.merge(routes, ridership, on='route_id', how='left')
+complete = pd.merge(complete, costs, on='route_id', how='left')
+
+# Calculate efficiency metrics
+complete['avg_daily_riders'] = (complete['weekday_riders'] * 5 + complete['weekend_riders'] * 2) / 7
+complete['riders_per_km'] = complete['avg_daily_riders'] / complete['route_length_km']
+
+# Calculate cost per rider (where available)
+complete['cost_per_rider'] = (
+    (complete['annual_cost_millions'] * 1e6) / 
+    (complete['avg_daily_riders'] * 365)
+).round(2)
+
+print(complete)
+```
+
+---
+
+## Quick Introduction to Visualisation
+
+Section 2.3 covers Visualisation in depth. Here's a preview to get you started.
+
+### Basic Plotting with pandas
 
 ```python
 import matplotlib.pyplot as plt
 
 # Line plot
-df['Age'].plot()
-plt.title('Age Distribution')
-plt.show()
-
-# Histogram
-df['Age'].plot(kind='hist', bins=10)
-plt.title('Age Histogram')
+routes['weekday_riders'].plot(kind='line')
+plt.title('Weekday Ridership by Route')
+plt.ylabel('Riders')
 plt.show()
 
 # Bar plot
-city_counts = df['City'].value_counts()
-city_counts.plot(kind='bar')
-plt.title('Count by City')
+routes.plot(x='route_name', y='weekday_riders', kind='bar')
+plt.title('Weekday Ridership')
+plt.ylabel('Daily Riders')
+plt.tight_layout()
+plt.show()
+
+# Histogram
+suburbs['population'].plot(kind='hist', bins=10, edgecolor='black')
+plt.title('Population Distribution')
+plt.xlabel('Population')
 plt.show()
 
 # Box plot
-df.boxplot(column='Age', by='City')
-plt.show()
-```
-
-### Using Seaborn
-
-Seaborn provides more attractive statistical visualisations:
-
-```python
-import seaborn as sns
-
-# Set style
-sns.set_style('whitegrid')
-
-# Histogram with KDE
-sns.histplot(df['Age'], kde=True)
-plt.title('Age Distribution')
-plt.show()
-
-# Box plot
-sns.boxplot(data=df, x='City', y='Age')
-plt.title('Age by City')
-plt.show()
-
-# Scatter plot
-sns.scatterplot(data=df, x='Age', y='Score', hue='City')
-plt.title('Age vs Score by City')
-plt.show()
-```
-
-### Practical Example: Visualising Pedestrian Patterns
-
-```python
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Set style
-sns.set_style('whitegrid')
-
-# 1. Time series of counts
-plt.figure(figsize=(12, 4))
-hourly_avg = pedestrians.groupby('hour')['count'].mean()
-hourly_avg.plot()
-plt.title('Average Pedestrian Count by Hour')
-plt.xlabel('Hour of Day')
-plt.ylabel('Average Count')
-plt.show()
-
-# 2. Compare weekday vs weekend
-plt.figure(figsize=(10, 6))
-pedestrians.boxplot(column='count', by='is_weekend', figsize=(8, 6))
-plt.title('Pedestrian Count: Weekday vs Weekend')
+suburbs.boxplot(column='median_income', by='region')
+plt.title('Income by Region')
 plt.suptitle('')  # Remove default title
-plt.xlabel('Is Weekend')
-plt.ylabel('Count')
-plt.show()
-
-# 3. Heatmap of location x hour
-pivot_data = pedestrians.pivot_table(
-    values='count',
-    index='location',
-    columns='hour',
-    aggfunc='mean'
-)
-
-plt.figure(figsize=(14, 6))
-sns.heatmap(pivot_data, cmap='YlOrRd', cbar_kws={'label': 'Average Count'})
-plt.title('Average Pedestrian Count by Location and Hour')
-plt.xlabel('Hour of Day')
-plt.ylabel('Location')
-plt.tight_layout()
-plt.show()
-
-# 4. Compare time periods
-plt.figure(figsize=(12, 6))
-period_stats = pedestrians.groupby('time_period')['count'].mean().sort_values()
-period_stats.plot(kind='barh', color='steelblue')
-plt.title('Average Pedestrian Count by Time Period')
-plt.xlabel('Average Count')
-plt.ylabel('Time Period')
-plt.tight_layout()
 plt.show()
 ```
 
-## Practical Workflow Example
+::: {.callout-note}
+## Section 2.3 Goes Deeper
 
-Here's a complete workflow analysing Auckland pedestrian data:
+This is just a taste! Section 2.3 covers:
+- matplotlib for full control
+- seaborn for beautiful statistical graphics
+- Interactive plots with plotly
+- Multi-panel dashboards
+- Publication-quality figures
+
+**For now**: Use these simple pandas methods to quickly Visualise your data during analysis.
+:::
+
+---
+
+## Complete Workflow Example: Auckland Transit Analysis
+
+Let's put everything together in a realistic analysis:
 
 ```python
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 
-# 1. Read and explore data
-pedestrians = pd.read_csv('auckland_pedestrian_counts.csv')
-print("Dataset shape:", pedestrians.shape)
-print("\nFirst few rows:")
-print(pedestrians.head())
+# ============================
+# 1. LOAD DATA
+# ============================
 
-# 2. Data cleaning
+# Simulate loading from CSV
+routes_data = {
+    'route_id': [1, 2, 3, 4, 5, 6],
+    'route_name': ['Inner Link', 'Outer Link', 'City Link', 
+                   'Eastern Line', 'Western Line', 'Northern Express'],
+    'mode': ['Bus', 'Bus', 'Bus', 'Train', 'Train', 'Bus'],
+    'route_length_km': [6.5, 8.2, 4.2, 28.0, 22.0, 15.0]
+}
+
+ridership_data = {
+    'route_id': [1, 2, 3, 4, 5, 6],
+    'jan_riders': [12000, 8500, 15000, 22000, 18500, 9800],
+    'feb_riders': [12200, 8600, 15200, 21800, 18300, 9900],
+    'mar_riders': [11800, None, 14900, 22200, 18700, 9700]  # Missing data!
+}
+
+routes = pd.DataFrame(routes_data)
+ridership = pd.DataFrame(ridership_data)
+
+print("Initial data loaded")
+print(f"Routes: {routes.shape}")
+print(f"Ridership: {ridership.shape}")
+
+# ============================
+# 2. DATA CLEANING
+# ============================
+
 # Check for missing values
-print("\nMissing values:")
-print(pedestrians.isnull().sum())
+print("\nMissing values in ridership:")
+print(ridership.isnull().sum())
 
-# Fill missing counts with median
-pedestrians['count'].fillna(pedestrians['count'].median(), inplace=True)
-
-# Remove any remaining rows with critical missing data
-pedestrians.dropna(subset=['location', 'datetime'], inplace=True)
-
-# 3. Feature engineering
-# Convert datetime
-pedestrians['datetime'] = pd.to_datetime(pedestrians['datetime'])
-pedestrians['hour'] = pedestrians['datetime'].dt.hour
-pedestrians['day_of_week'] = pedestrians['datetime'].dt.dayofweek
-pedestrians['is_weekend'] = pedestrians['day_of_week'] >= 5
-
-# Create time period categories
-def classify_time(hour):
-    if 6 <= hour < 9:
-        return 'Morning Rush'
-    elif 9 <= hour < 12:
-        return 'Morning'
-    elif 12 <= hour < 14:
-        return 'Lunch'
-    elif 14 <= hour < 17:
-        return 'Afternoon'
-    elif 17 <= hour < 20:
-        return 'Evening Rush'
-    else:
-        return 'Night'
-
-pedestrians['time_period'] = pedestrians['hour'].apply(classify_time)
-
-# 4. Analysis
-# Find busiest locations
-busiest_locations = pedestrians.groupby('location')['count'].agg([
-    'mean', 'median', 'max', 'count'
-]).sort_values('mean', ascending=False)
-print("\nBusiest locations:")
-print(busiest_locations.head())
-
-# Compare weekday vs weekend
-day_type_stats = pedestrians.groupby('is_weekend')['count'].agg([
-    'mean', 'median', 'std'
-]).round(0)
-print("\nWeekday vs Weekend:")
-print(day_type_stats)
-
-# Peak hours by location
-peak_hours = pedestrians.groupby('location').apply(
-    lambda x: x.loc[x['count'].idxmax(), ['hour', 'count']]
+# Fill missing values with mean of that route
+ridership['mar_riders'] = ridership['mar_riders'].fillna(
+    ridership['mar_riders'].mean()
 )
-print("\nPeak hours by location:")
-print(peak_hours)
 
-# 5. Visualisation
+print("Missing values handled")
+
+# ============================
+# 3. MERGE DATA
+# ============================
+
+# Merge routes and ridership
+combined = pd.merge(routes, ridership, on='route_id', how='left')
+print(f"\nCombined data: {combined.shape}")
+
+# ============================
+# 4. FEATURE ENGINEERING
+# ============================
+
+# Calculate average monthly ridership
+combined['avg_monthly_riders'] = combined[['jan_riders', 'feb_riders', 'mar_riders']].mean(axis=1)
+
+# Calculate efficiency (riders per km)
+combined['efficiency'] = combined['avg_monthly_riders'] / combined['route_length_km']
+
+# Categorize by ridership level
+def ridership_category(riders):
+    if riders < 10000:
+        return 'Low'
+    elif riders < 15000:
+        return 'Medium'
+    else:
+        return 'High'
+
+combined['ridership_category'] = combined['avg_monthly_riders'].apply(ridership_category)
+
+# Add cost estimates ($/km/month)
+cost_per_km = {'Bus': 5000, 'Train': 8000}
+combined['monthly_cost'] = combined.apply(
+    lambda row: row['route_length_km'] * cost_per_km[row['mode']], 
+    axis=1
+)
+
+# ============================
+# 5. ANALYSIS
+# ============================
+
+print("\n" + "="*50)
+print("ANALYSIS RESULTS")
+print("="*50)
+
+# Summary by transport mode
+mode_summary = combined.groupby('mode').agg({
+    'avg_monthly_riders': ['sum', 'mean'],
+    'route_length_km': 'mean',
+    'efficiency': 'mean',
+    'monthly_cost': 'sum'
+}).round(2)
+
+print("\nSummary by Transport Mode:")
+print(mode_summary)
+
+# Top routes by ridership
+top_routes = combined.nlargest(3, 'avg_monthly_riders')[
+    ['route_name', 'mode', 'avg_monthly_riders', 'efficiency']
+]
+print("\nTop 3 Routes by Ridership:")
+print(top_routes)
+
+# Most efficient routes
+efficient = combined.nlargest(3, 'efficiency')[
+    ['route_name', 'efficiency', 'avg_monthly_riders']
+]
+print("\nMost Efficient Routes (riders/km):")
+print(efficient)
+
+# Cost analysis
+cost_summary = combined.groupby('mode')['monthly_cost'].agg(['sum', 'mean']).round(0)
+print("\nMonthly Cost by Mode:")
+print(cost_summary)
+
+# ============================
+# 6. VisualisATION
+# ============================
+
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
 
-# Hourly pattern
-hourly_avg = pedestrians.groupby('hour')['count'].mean()
-axes[0, 0].plot(hourly_avg.index, hourly_avg.values, marker='o')
-axes[0, 0].set_title('Average Count by Hour')
-axes[0, 0].set_xlabel('Hour of Day')
-axes[0, 0].set_ylabel('Average Count')
-axes[0, 0].grid(True, alpha=0.3)
+# Plot 1: Ridership by route
+combined.plot(
+    kind='bar',
+    x='route_name',
+    y='avg_monthly_riders',
+    ax=axes[0, 0],
+    color='steelblue',
+    legend=False
+)
+axes[0, 0].set_title('Average Monthly Ridership by Route', fontweight='bold')
+axes[0, 0].set_xlabel('')
+axes[0, 0].set_ylabel('Monthly Riders')
+axes[0, 0].tick_params(axis='x', rotation=45)
 
-# Top locations
-top_10 = busiest_locations.head(10)['mean']
-axes[0, 1].barh(range(len(top_10)), top_10.values)
-axes[0, 1].set_yticks(range(len(top_10)))
-axes[0, 1].set_yticklabels(top_10.index)
-axes[0, 1].set_title('Top 10 Busiest Locations')
-axes[0, 1].set_xlabel('Average Count')
+# Plot 2: Efficiency comparison
+combined.plot(
+    kind='barh',
+    x='route_name',
+    y='efficiency',
+    ax=axes[0, 1],
+    color='forestgreen',
+    legend=False
+)
+axes[0, 1].set_title('Route Efficiency (Riders/km)', fontweight='bold')
+axes[0, 1].set_xlabel('Riders per km')
+axes[0, 1].set_ylabel('')
 
-# Weekday vs weekend distribution
-pedestrians.boxplot(column='count', by='is_weekend', ax=axes[1, 0])
-axes[1, 0].set_title('Weekday vs Weekend Distribution')
-axes[1, 0].set_xlabel('Is Weekend')
-axes[1, 0].set_ylabel('Count')
+# Plot 3: Mode comparison
+mode_totals = combined.groupby('mode')['avg_monthly_riders'].sum()
+axes[1, 0].pie(mode_totals, labels=mode_totals.index, autopct='%1.1f%%')
+axes[1, 0].set_title('Total Ridership Share by Mode', fontweight='bold')
 
-# Time period comparison
-period_avg = pedestrians.groupby('time_period')['count'].mean().sort_values()
-axes[1, 1].barh(range(len(period_avg)), period_avg.values, color='steelblue')
-axes[1, 1].set_yticks(range(len(period_avg)))
-axes[1, 1].set_yticklabels(period_avg.index)
-axes[1, 1].set_title('Average Count by Time Period')
-axes[1, 1].set_xlabel('Average Count')
+# Plot 4: Monthly trends for top 3 routes
+top_3_routes = combined.nlargest(3, 'avg_monthly_riders')
+months = ['Jan', 'Feb', 'Mar']
+for _, route in top_3_routes.iterrows():
+    riders = [route['jan_riders'], route['feb_riders'], route['mar_riders']]
+    axes[1, 1].plot(months, riders, marker='o', label=route['route_name'])
+axes[1, 1].set_title('Monthly Trends - Top 3 Routes', fontweight='bold')
+axes[1, 1].set_ylabel('Riders')
+axes[1, 1].legend()
+axes[1, 1].grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
 
-# 6. Export results
+# ============================
+# 7. EXPORT RESULTS
+# ============================
+
 # Save cleaned data
-pedestrians.to_csv('pedestrians_cleaned.csv', index=False)
+combined.to_csv('auckland_transport_analysis.csv', index=False)
 
 # Save summary statistics
-busiest_locations.to_csv('location_summary.csv')
+mode_summary.to_csv('transport_mode_summary.csv')
 
-print("\nAnalysis complete!")
+print("\n✅ Analysis complete! Files saved.")
+print(f"Total routes analyzed: {len(combined)}")
+print(f"Total monthly riders: {combined['avg_monthly_riders'].sum():,.0f}")
+print(f"Average efficiency: {combined['efficiency'].mean():.1f} riders/km")
 ```
+
+---
 
 ## Summary
 
-In this section, you've learned:
+In this section, you've learned the complete pandas workflow:
 
-- **Dictionaries**: Key-value data structures and nested dictionaries
-- **pandas basics**: Creating and exploring DataFrames
-- **Reading data**: CSV, Excel, JSON files
-- **Selecting data**: Columns, rows, boolean indexing, query method
-- **Data manipulation**: Creating columns, transforming values
-- **Grouping**: Split-apply-combine for aggregated analysis
-- **Reshaping**: Melt and pivot for data format conversion
-- **Missing data**: Detection, removal, and imputation strategies
-- **Merging**: Combining DataFrames with different join types
-- **Visualisation**: Creating plots with pandas, matplotlib, and seaborn
-- **Complete workflow**: From raw data to insights and visualisations
+**Foundations**:
+- ✅ **Dictionaries**: Key-value structures (essential for GeoJSON!)
+- ✅ **DataFrames**: Creating from dictionaries and reading from files
+- ✅ **Data types**: Understanding and converting
+
+**Reading and Writing**:
+- ✅ **CSV files**: With various arguments (`sep`, `skiprows`, `dtype`, `na_values`, etc.)
+- ✅ **Excel files**: Multiple sheets and options
+- ✅ **JSON files**: Perfect for API responses
+
+**Data Exploration**:
+- ✅ **Summary methods**: `.describe()`, `.info()`, `.head()`, `.tail()`
+- ✅ **Properties**: `.shape`, `.columns`, `.dtypes`
+
+**Selecting and Filtering**:
+- ✅ **Column selection**: Single and multiple columns
+- ✅ **Row selection**: `.iloc[]`, `.loc[]`
+- ✅ **Boolean indexing**: Powerful filtering with conditions
+- ✅ **`.query()` method**: Clean syntax for complex filters
+
+**Data Manipulation**:
+- ✅ **Creating columns**: Calculations and conditional logic
+- ✅ **Modifying values**: Updates and transformations
+- ✅ **Deleting data**: Removing rows and columns
+
+**Aggregation and Reshaping**:
+- ✅ **Groupby**: Split-apply-combine pattern
+- ✅ **Multiple aggregations**: Different statistics for different columns
+- ✅ **Pivot tables**: Reshaping for analysis
+- ✅ **Melting**: Converting wide to long format
+
+**Data Quality**:
+- ✅ **Missing data detection**: `.isnull()`, `.notnull()`
+- ✅ **Handling strategies**: Drop, fill, interpolate
+- ✅ **Best practices**: Document your decisions
+
+**Combining Data**:
+- ✅ **Merge types**: Inner, left, right, outer joins
+- ✅ **Multiple keys**: Merging on multiple columns
+- ✅ **Different column names**: `left_on` and `right_on`
+
+**Visualisation Preview**:
+- ✅ **Basic plots**: Line, bar, histogram, box plots
+- ✅ **pandas plotting**: Quick exploration during analysis
+
+---
+
+## Connection to Other Sections
+
+**From Section 2.1** (you used):
+- Lists → DataFrame columns
+- For loops → Iterating through DataFrames and dictionaries
+- Conditionals (if/else) → Boolean indexing and .apply()
+
+**To Section 2.3** (coming next):
+- All the data manipulation you learned here
+- Create DataFrames, then Visualise them
+- Groupby results become bar charts and line plots
+- Pivot tables become heatmaps
+
+**To Section 2.4** (future):
+- pandas → **geopandas** (same operations, with geometry!)
+- DataFrame → **GeoDataFrame** (attribute table + coordinates)
+- All these skills transfer directly to spatial data
+
+---
 
 ## Key Takeaways
 
 ::: {.callout-important}
-## Essential Skills
-1. **Groupby is powerful**: Master it for aggregating and summarising data
-2. **Boolean indexing**: The primary way to filter DataFrames
-3. **Handle missing data thoughtfully**: Choose appropriate strategies (drop, fill, interpolate)
-4. **Merge strategically**: Understand join types and use the appropriate one
-5. **Visualise early and often**: Use plots to understand your data before deep analysis
-6. **Chain operations**: Combine multiple operations for efficient data processing
+## Essential Skills for GIS Analysis
+
+1. **Dictionaries are fundamental**: GeoJSON, API responses, and nested data all use dictionaries
+2. **groupby is your friend**: Most GIS questions involve "summarize by zone/region/category"
+3. **Boolean indexing**: The primary way to filter spatial data by attributes
+4. **Merge carefully**: Spatial joins build on these merge concepts
+5. **Handle missing data thoughtfully**: Bad coordinates or missing attributes are common in real GIS data
+6. **Visualise early and often**: Use quick plots to check your work before complex analysis
+
+**For Auckland GIS Work**:
+- Transport routes → ridership analysis
+- Suburbs → demographic patterns
+- Parks → accessibility studies
+- Pedestrian counts → urban planning
 :::
+
+---
 
 ## Practice Exercises
 
-1. **Load and explore** a pedestrian count dataset:
-   - Read the CSV file
-   - Examine shape, columns, and data types
-   - Check for missing values
-   - Calculate basic statistics
+**Exercise 1: Dictionary to DataFrame**
+Create a dictionary of NZ cities with population, area, and region. Convert to DataFrame and calculate population density.
 
-2. **Filter and aggregate**:
-   - Find all counts above a threshold
-   - Calculate average count by location
-   - Find the busiest hour of day
-   - Compare weekday vs weekend patterns
+```python
+# Your code here
+nz_cities = {
+    'city': ['Auckland', 'Wellington', 'Christchurch', 'Hamilton'],
+    'population': [1672000, 217200, 389700, 185000],
+    'area_km2': [1086, 444, 608, 877],
+    'region': ['Auckland', 'Wellington', 'Canterbury', 'Waikato']
+}
+```
 
-3. **Create visualisations**:
-   - Line plot of hourly averages
-   - Bar chart of top 10 locations
-   - Box plot comparing time periods
-   - Heatmap of location × hour patterns
+**Exercise 2: Reading and Cleaning Data**
+1. Read an Auckland dataset (CSV or Excel)
+2. Check for missing values
+3. Handle them appropriately
+4. Calculate summary statistics
 
-4. **Handle missing data**:
-   - Identify columns with missing values
-   - Implement at least two different imputation strategies
-   - Compare results and document your choice
+**Exercise 3: Filtering and Grouping**
+Using the routes/ridership data:
+1. Find routes with > 15,000 daily riders
+2. Calculate average ridership by transport mode
+3. Find the most efficient routes (riders/km)
 
-5. **Merge datasets**:
-   - Combine pedestrian counts with location metadata
-   - Add weather data (temperature, rainfall) by date
-   - Analyse if weather affects pedestrian counts
+**Exercise 4: Merging Datasets**
+Combine two related datasets (e.g., parks + visitor counts, routes + costs)
+1. Perform an inner join
+2. Perform a left join
+3. Compare results - what's different?
+
+**Exercise 5: Complete Analysis**
+Choose an Auckland dataset and:
+1. Load and clean the data
+2. Create at least 2 calculated columns
+3. Group by a category and aggregate
+4. Create 3 different Visualisations
+5. Write 3 key findings
+
+---
 
 ## Further Reading
 
-- [Pandas Documentation](https://pandas.pydata.org/docs/)
-- [Pandas Cheat Sheet](https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf)
-- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
-- [Real Python Pandas Tutorials](https://realpython.com/learning-paths/pandas-data-science/)
+**Essential Resources**:
+- [Pandas Documentation](https://pandas.pydata.org/docs/) - Comprehensive official docs
+- [Pandas Cheat Sheet](https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf) - Quick reference
+- [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/) - Free online book
+
+**Tutorials**:
+- [Real Python - Pandas Tutorials](https://realpython.com/learning-paths/pandas-data-science/)
+- [Kaggle - Pandas Course](https://www.kaggle.com/learn/pandas)
+- [DataCamp - Pandas Fundamentals](https://www.datacamp.com/courses/pandas-foundations)
+
+**For GIS Specifically**:
+- Review Section 2.1 for Python basics
+- Prepare for Section 2.3 (Visualisation)
+- Look ahead to Section 2.4 (GeoPandas - pandas with geometry!)
+
+---
 
 ## Next Steps
 
-With solid pandas skills, you're ready to move on to geospatial data in @sec-geospatial, where you'll learn to work with geographic information using geopandas—essentially pandas with spatial superpowers!
+::: {.callout-tip}
+## You're Ready for Section 2.3!
+
+You now have the data manipulation skills to:
+✅ Load and clean data  
+✅ Filter and group data  
+✅ Calculate new metrics  
+✅ Combine datasets  
+
+**Section 2.3 (Visualisation)** will teach you to:
+🎨 Create beautiful plots with matplotlib and seaborn  
+📊 Make multi-panel dashboards  
+📈 Visualise patterns and trends  
+🗺️ Prepare for spatial Visualisation  
+
+**Section 2.4 (GeoPandas)** will add:
+🌍 Spatial data (points, lines, polygons)  
+🗺️ Coordinate systems and projections  
+📍 Spatial joins and operations  
+🎯 Creating actual maps  
+
+The pandas skills you learned here transfer directly—GeoPandas is just pandas with geometry!
+:::

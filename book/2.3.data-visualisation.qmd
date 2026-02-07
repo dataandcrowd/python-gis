@@ -26,25 +26,41 @@ Four datasets with identical summary statistics but completely different pattern
 
 ### The Ecosystem
 
+Python has a rich ecosystem of visualisation libraries. Understanding how they relate to each other helps you choose the right tool:
+
 **matplotlib**: The foundation
 - Low-level control over every plot element
 - Verbose but powerful
 - Basis for most other plotting libraries
+- Best when you need precise control
 
 **pandas plotting**: Quick and convenient
 - Built-in plotting methods on DataFrames
 - Good for rapid exploration
+- Uses matplotlib behind the scenes
 - Limited customisation
 
 **seaborn**: Statistical graphics
 - Beautiful default styles
 - Statistical functions built-in
 - High-level interface to matplotlib
+- Excellent for exploratory data analysis
 
 **plotly**: Interactive plots
 - Web-based interactive graphics
 - Hover information, zooming, panning
 - Excellent for dashboards
+- Can export to HTML
+
+::: {.callout-tip}
+## Which library should I use?
+
+- **Quick exploration**: pandas plotting
+- **Statistical analysis**: seaborn
+- **Publication-quality plots**: matplotlib
+- **Interactive dashboards**: plotly
+- **GIS/spatial data**: See Chapter 2.4
+:::
 
 ### Installation
 
@@ -62,354 +78,754 @@ import seaborn as sns
 import plotly.express as px
 ```
 
-## Matplotlib Fundamentals
+## Understanding Matplotlib Architecture
 
-### The Anatomy of a Plot
+Before creating plots, it's crucial to understand how matplotlib is structured. This knowledge will make customisation much easier.
 
-Every matplotlib plot consists of:
+### The Three-Layer Architecture
 
-- **Figure**: The entire plotting canvas
-- **Axes**: The plotting area with axes, labels, and data
-- **Artists**: Everything you see (lines, text, legends)
+Matplotlib has three main layers:
+
+1. **Backend layer**: Handles the actual drawing to screen or file
+2. **Artist layer**: All objects you see on the plot (lines, text, axes)
+3. **Scripting layer** (`pyplot`): Convenient interface for common tasks
+
+Most of the time, you'll work with the scripting layer, but understanding the artist layer helps with customisation.
+
+### Anatomy of a Plot
+
+Every matplotlib plot has a hierarchical structure:
+
+```
+Figure (the entire window/page)
+└── Axes (the plotting area - can have multiple)
+    ├── Axis (x-axis, y-axis)
+    ├── Title
+    ├── Labels
+    ├── Legend
+    ├── Grid
+    └── Plot elements (lines, points, etc.)
+```
+
+**Key concepts:**
+
+- **Figure**: The entire canvas - the window or page
+- **Axes**: A single plot area (confusingly named - not the same as axis!)
+- **Axis**: The actual x and y axes with ticks and labels
+- **Artists**: Everything you see (lines, text, patches, etc.)
+
+::: {.callout-warning}
+## Common Confusion: Axes vs Axis
+
+- **Axes** (plural): A complete plot area with its own coordinate system
+- **Axis** (singular): The x or y axis line with ticks and labels
+
+In matplotlib, `ax` typically refers to an Axes object, not an axis line!
+:::
+
+### Two Ways to Create Plots
+
+There are two main approaches to creating matplotlib plots:
+
+**1. pyplot interface (implicit)**
+```python
+import matplotlib.pyplot as plt
+
+plt.plot([1, 2, 3], [1, 4, 9])
+plt.xlabel('X axis')
+plt.ylabel('Y axis')
+plt.title('My Plot')
+plt.show()
+```
+
+**2. Object-oriented interface (explicit) - RECOMMENDED**
+```python
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()  # Create figure and axes explicitly
+ax.plot([1, 2, 3], [1, 4, 9])
+ax.set_xlabel('X axis')
+ax.set_ylabel('Y axis')
+ax.set_title('My Plot')
+plt.show()
+```
+
+::: {.callout-tip}
+## Use the Object-Oriented Interface
+
+While the pyplot interface is more concise, the object-oriented approach is more explicit and gives you better control, especially when creating multiple subplots. It's the recommended approach for all but the simplest plots.
+:::
+
+### Your First Plot: Step by Step
+
+Let's create a simple plot step by step, understanding each component:
 
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Create figure and axes
-fig, ax = plt.subplots(figsize=(8, 6))
-
-# Generate data
-x = np.linspace(0, 10, 100)
+# Step 1: Prepare your data
+x = np.linspace(0, 10, 100)  # 100 points from 0 to 10
 y = np.sin(x)
 
-# Plot
+# Step 2: Create figure and axes
+fig, ax = plt.subplots(figsize=(10, 6))  # Width=10, Height=6 inches
+
+# Step 3: Plot the data
 ax.plot(x, y)
 
-# Customize
-ax.set_xlabel('X axis')
-ax.set_ylabel('Y axis')
-ax.set_title('Sine Wave')
-ax.grid(True, alpha=0.3)
+# Step 4: Customise the plot
+ax.set_xlabel('X values', fontsize=12)
+ax.set_ylabel('Y values', fontsize=12)
+ax.set_title('Sine Wave', fontsize=14, fontweight='bold')
+ax.grid(True, alpha=0.3)  # Add semi-transparent grid
 
+# Step 5: Display or save
+plt.tight_layout()  # Adjust spacing
 plt.show()
 ```
 
-### Basic Plot Types
+**Breaking it down:**
 
-**Line Plot**
+1. **Data preparation**: We create x values and calculate y = sin(x)
+2. **Figure creation**: `plt.subplots()` returns both a Figure and an Axes
+3. **Plotting**: `ax.plot()` draws the line
+4. **Customisation**: Set labels, title, and grid
+5. **Display**: `plt.show()` renders the plot
+
+## Basic Plot Types
+
+Let's explore the fundamental plot types you'll use most often.
+
+### Line Plots
+
+Line plots show trends and continuous data, perfect for time series.
+
 ```python
-# Time series or continuous data
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+# Example 1: Simple line plot
 fig, ax = plt.subplots(figsize=(10, 6))
 
-dates = pd.date_range('2024-01-01', periods=100)
-values = np.cumsum(np.random.randn(100))
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
 
-ax.plot(dates, values, linewidth=2)
+ax.plot(x, y, linewidth=2, color='steelblue')
+ax.set_xlabel('X axis')
+ax.set_ylabel('Y axis')
+ax.set_title('Simple Line Plot')
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# Example 2: Time series with dates
+dates = pd.date_range('2024-01-01', periods=100)
+values = np.cumsum(np.random.randn(100))  # Random walk
+
+fig, ax = plt.subplots(figsize=(12, 6))
+ax.plot(dates, values, linewidth=2, color='darkgreen')
 ax.set_xlabel('Date')
 ax.set_ylabel('Value')
-ax.set_title('Time Series')
+ax.set_title('Time Series Example')
+ax.grid(True, alpha=0.3)
+
+# Rotate x-axis labels for better readability
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 ```
 
-**Scatter Plot**
+**Common line styles:**
 ```python
-# Relationship between two variables
-fig, ax = plt.subplots(figsize=(8, 6))
+ax.plot(x, y, linestyle='-')   # Solid line (default)
+ax.plot(x, y, linestyle='--')  # Dashed line
+ax.plot(x, y, linestyle=':')   # Dotted line
+ax.plot(x, y, linestyle='-.')  # Dash-dot line
 
+# Shorthand notation
+ax.plot(x, y, 'b-')   # Blue solid line
+ax.plot(x, y, 'r--')  # Red dashed line
+ax.plot(x, y, 'g:')   # Green dotted line
+```
+
+::: {.callout-tip}
+## Line Styles for Accessibility
+
+When creating plots with multiple lines, use different line styles (solid, dashed, dotted) in addition to colours. This makes your plots readable in grayscale and accessible to colour-blind readers.
+:::
+
+### Scatter Plots
+
+Scatter plots show relationships between two continuous variables.
+
+```python
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Generate sample data
+np.random.seed(42)
 x = np.random.randn(100)
-y = 2 * x + np.random.randn(100) * 0.5
+y = 2 * x + np.random.randn(100) * 0.5  # y = 2x + noise
 
-ax.scatter(x, y, alpha=0.6, s=50)
+# Create scatter plot
+ax.scatter(x, y, alpha=0.6, s=50, color='steelblue', edgecolors='black', linewidth=0.5)
+
 ax.set_xlabel('X variable')
 ax.set_ylabel('Y variable')
-ax.set_title('Scatter Plot')
+ax.set_title('Scatter Plot Example')
 ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
 plt.show()
 ```
 
-**Bar Chart**
+**Scatter plot parameters:**
+- `alpha`: Transparency (0=invisible, 1=opaque)
+- `s`: Size of markers
+- `c`: Colour (can be array for colour-coding)
+- `marker`: Shape ('o', 's', '^', 'v', '*', etc.)
+- `edgecolors`: Colour of marker edges
+- `linewidth`: Width of marker edges
+
+### Bar Charts
+
+Bar charts compare categories or show discrete data.
+
 ```python
-# Categorical data
-categories = ['A', 'B', 'C', 'D', 'E']
+categories = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E']
 values = [23, 45, 56, 78, 32]
 
-fig, ax = plt.subplots(figsize=(8, 6))
-ax.bar(categories, values, color='steelblue', alpha=0.7)
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Vertical bar chart
+bars = ax.bar(categories, values, color='steelblue', alpha=0.7, edgecolor='black')
+
+# Customise individual bars
+bars[2].set_color('coral')  # Highlight third bar
+
 ax.set_xlabel('Category')
 ax.set_ylabel('Value')
-ax.set_title('Bar Chart')
+ax.set_title('Bar Chart Example')
+ax.grid(axis='y', alpha=0.3)  # Only horizontal grid lines
+
+plt.tight_layout()
+plt.show()
+
+# Horizontal bar chart
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.barh(categories, values, color='steelblue', alpha=0.7)
+ax.set_xlabel('Value')
+ax.set_ylabel('Category')
+ax.set_title('Horizontal Bar Chart')
+ax.grid(axis='x', alpha=0.3)
+plt.tight_layout()
 plt.show()
 ```
 
-**Histogram**
-```python
-# Distribution of values
-data = np.random.randn(1000)
+### Histograms
 
-fig, ax = plt.subplots(figsize=(8, 6))
-ax.hist(data, bins=30, edgecolor='black', alpha=0.7)
+Histograms show the distribution of a single variable.
+
+```python
+# Generate sample data
+np.random.seed(42)
+data = np.random.randn(1000)  # 1000 random numbers from normal distribution
+
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Create histogram
+n, bins, patches = ax.hist(data, bins=30, edgecolor='black', alpha=0.7, color='steelblue')
+
 ax.set_xlabel('Value')
 ax.set_ylabel('Frequency')
-ax.set_title('Histogram')
+ax.set_title('Histogram Example')
+ax.grid(axis='y', alpha=0.3)
+
+# Add a line for the mean
+mean_value = data.mean()
+ax.axvline(mean_value, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_value:.2f}')
+ax.legend()
+
+plt.tight_layout()
 plt.show()
 ```
 
-## Customising Plots
+**Choosing the number of bins:**
+- Too few bins: Lose detail
+- Too many bins: See noise, not pattern
+- Rule of thumb: `bins = int(np.sqrt(len(data)))`
+- Or use automatic methods: `bins='auto'`, `bins='fd'`, `bins='sturges'`
+
+## Working with Pandas Data
+
+Pandas DataFrames have built-in plotting methods that make visualisation convenient for data exploration.
+
+### Basic Pandas Plotting
+
+```python
+import pandas as pd
+import numpy as np
+
+# Create sample weather data
+np.random.seed(42)
+dates = pd.date_range('2024-01-01', periods=365)
+df = pd.DataFrame({
+    'date': dates,
+    'temperature': 15 + 10 * np.sin(2 * np.pi * dates.dayofyear / 365) + np.random.randn(365) * 2,
+    'rainfall': np.abs(np.random.randn(365) * 10),
+    'humidity': 60 + 20 * np.sin(2 * np.pi * dates.dayofyear / 365) + np.random.randn(365) * 5
+})
+
+# Plot directly from DataFrame
+df.plot(x='date', y='temperature', figsize=(12, 6), title='Temperature Over Year')
+plt.ylabel('Temperature (°C)')
+plt.show()
+
+# Plot multiple columns
+df.set_index('date')[['temperature', 'humidity']].plot(
+    figsize=(12, 6),
+    title='Temperature and Humidity',
+    ylabel='Values',
+    alpha=0.7
+)
+plt.legend(loc='upper right')
+plt.show()
+
+# Different plot types
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# Line plot
+df.plot(x='date', y='temperature', ax=axes[0, 0], title='Line Plot')
+
+# Bar plot
+df.head(30).plot(x='date', y='rainfall', kind='bar', ax=axes[0, 1], title='Bar Plot')
+
+# Histogram
+df['temperature'].plot(kind='hist', bins=30, ax=axes[1, 0], title='Histogram', edgecolor='black')
+
+# Box plot
+df[['temperature', 'humidity']].plot(kind='box', ax=axes[1, 1], title='Box Plot')
+
+plt.tight_layout()
+plt.show()
+```
+
+### Understanding Plot Types
+
+**When to use each plot type:**
+
+| Plot Type | Use Case | Example |
+|-----------|----------|---------|
+| Line | Trends over time | Temperature over year |
+| Scatter | Relationship between variables | Height vs weight |
+| Bar | Comparing categories | Sales by region |
+| Histogram | Distribution of values | Age distribution |
+| Box | Distribution comparison | Salaries by department |
+
+## Handling Datetime Data
+
+Time series data requires special attention for proper formatting.
+
+### Reading Data with Datetime Index
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read weather data with datetime index
+# Note the parse_dates and index_col parameters
+df = pd.read_csv(
+    'weather_data.csv',
+    parse_dates=['timestamp'],  # Convert to datetime
+    index_col='timestamp'        # Set as index
+)
+
+# Plot using the datetime index
+fig, ax = plt.subplots(figsize=(12, 6))
+df['temperature'].plot(ax=ax)
+ax.set_title('Temperature Time Series')
+ax.set_ylabel('Temperature (°C)')
+plt.show()
+```
+
+### Selecting Date Ranges
+
+```python
+# Filter by date range using .loc
+jan_data = df.loc['2024-01']  # All of January
+summer = df.loc['2024-06':'2024-08']  # June to August
+specific_day = df.loc['2024-07-15']  # One day
+
+# Plot subset
+fig, ax = plt.subplots(figsize=(12, 6))
+summer['temperature'].plot(ax=ax, linewidth=2)
+ax.set_title('Summer Temperatures')
+ax.set_ylabel('Temperature (°C)')
+plt.show()
+```
+
+### Formatting Datetime Axes
+
+```python
+import matplotlib.dates as mdates
+
+fig, ax = plt.subplots(figsize=(12, 6))
+df['temperature'].plot(ax=ax)
+
+# Format the x-axis
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+ax.xaxis.set_major_locator(mdates.MonthLocator())
+
+# Rotate labels
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+```
+
+## Creating Subplots
+
+Subplots allow you to display multiple plots in a single figure.
+
+### Basic Subplot Grid
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Create 2x2 grid of subplots
+fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 10))
+
+x = np.linspace(0, 10, 100)
+
+# Access individual axes using indexing
+axes[0, 0].plot(x, np.sin(x))
+axes[0, 0].set_title('Sine')
+axes[0, 0].grid(True, alpha=0.3)
+
+axes[0, 1].plot(x, np.cos(x), color='orange')
+axes[0, 1].set_title('Cosine')
+axes[0, 1].grid(True, alpha=0.3)
+
+axes[1, 0].plot(x, np.tan(x))
+axes[1, 0].set_title('Tangent')
+axes[1, 0].set_ylim(-5, 5)  # Limit y-axis
+axes[1, 0].grid(True, alpha=0.3)
+
+axes[1, 1].plot(x, x**2, color='green')
+axes[1, 1].set_title('Quadratic')
+axes[1, 1].grid(True, alpha=0.3)
+
+# Add overall title
+fig.suptitle('Trigonometric and Polynomial Functions', fontsize=16, fontweight='bold')
+
+plt.tight_layout()
+plt.show()
+```
+
+### Sharing Axes
+
+```python
+# Share x-axis across all subplots
+fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+
+dates = pd.date_range('2024-01-01', periods=100)
+temp = 15 + 10 * np.sin(np.linspace(0, 4*np.pi, 100)) + np.random.randn(100)
+rainfall = np.abs(np.random.randn(100) * 10)
+humidity = 60 + 20 * np.sin(np.linspace(0, 4*np.pi, 100)) + np.random.randn(100) * 5
+
+axes[0].plot(dates, temp, color='orangered')
+axes[0].set_ylabel('Temperature (°C)')
+axes[0].set_title('Weather Data')
+axes[0].grid(True, alpha=0.3)
+
+axes[1].bar(dates, rainfall, color='steelblue', alpha=0.6)
+axes[1].set_ylabel('Rainfall (mm)')
+axes[1].grid(True, alpha=0.3)
+
+axes[2].plot(dates, humidity, color='green')
+axes[2].set_ylabel('Humidity (%)')
+axes[2].set_xlabel('Date')
+axes[2].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+### Unequal Subplot Sizes
+
+```python
+# Create subplots with different sizes
+fig = plt.figure(figsize=(12, 8))
+
+# Define grid layout
+ax1 = plt.subplot(2, 2, 1)  # Top left
+ax2 = plt.subplot(2, 2, 2)  # Top right
+ax3 = plt.subplot(2, 1, 2)  # Bottom (spans both columns)
+
+# Plot in each
+x = np.linspace(0, 10, 100)
+
+ax1.plot(x, np.sin(x))
+ax1.set_title('Sine')
+ax1.grid(True, alpha=0.3)
+
+ax2.plot(x, np.cos(x), color='orange')
+ax2.set_title('Cosine')
+ax2.grid(True, alpha=0.3)
+
+ax3.plot(x, np.sin(x), label='Sine')
+ax3.plot(x, np.cos(x), label='Cosine')
+ax3.set_title('Combined View')
+ax3.legend()
+ax3.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+```
+
+## Customising Your Plots
 
 ### Colours and Styles
 
 ```python
-# Using named colours
-ax.plot(x, y, color='steelblue')
-ax.plot(x, y, color='#FF6B6B')  # Hex code
+fig, ax = plt.subplots(figsize=(10, 6))
+
+x = np.linspace(0, 10, 100)
+
+# Different ways to specify colours
+ax.plot(x, np.sin(x), color='steelblue', label='Named colour')
+ax.plot(x, np.sin(x) + 1, color='#FF6B6B', label='Hex code')
+ax.plot(x, np.sin(x) + 2, color=(0.2, 0.4, 0.6), label='RGB tuple')
 
 # Line styles
-ax.plot(x, y, linestyle='-')   # Solid
-ax.plot(x, y, linestyle='--')  # Dashed
-ax.plot(x, y, linestyle=':')   # Dotted
-ax.plot(x, y, linestyle='-.')  # Dash-dot
+ax.plot(x, np.cos(x), linestyle='-', label='Solid')
+ax.plot(x, np.cos(x) + 1, linestyle='--', label='Dashed')
+ax.plot(x, np.cos(x) + 2, linestyle=':', label='Dotted')
+ax.plot(x, np.cos(x) + 3, linestyle='-.', label='Dash-dot')
 
-# Markers
-ax.plot(x, y, marker='o')  # Circle
-ax.plot(x, y, marker='s')  # Square
-ax.plot(x, y, marker='^')  # Triangle
-
-# Combined
-ax.plot(x, y, color='steelblue', linestyle='--', 
-        marker='o', markersize=8, linewidth=2)
+ax.legend(loc='best')
+ax.grid(True, alpha=0.3)
+plt.show()
 ```
 
-### Multiple Subplots
+**Colourblind-friendly palettes:**
+```python
+# Use seaborn's colourblind palette
+import seaborn as sns
+
+colors = sns.color_palette('colorblind')
+fig, ax = plt.subplots(figsize=(10, 6))
+
+for i, c in enumerate(colors[:5]):
+    ax.plot(x, np.sin(x) + i, color=c, linewidth=2, label=f'Line {i+1}')
+
+ax.legend()
+ax.grid(True, alpha=0.3)
+plt.show()
+```
+
+### Markers and Line Width
 
 ```python
-# Create 2x2 grid of subplots
-fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+fig, ax = plt.subplots(figsize=(10, 6))
 
-# Access individual axes
-axes[0, 0].plot(x, np.sin(x))
-axes[0, 0].set_title('Sine')
+x = np.linspace(0, 10, 20)
 
-axes[0, 1].plot(x, np.cos(x))
-axes[0, 1].set_title('Cosine')
+# Different markers
+ax.plot(x, np.sin(x), marker='o', markersize=8, label='Circle')
+ax.plot(x, np.sin(x) + 0.5, marker='s', markersize=8, label='Square')
+ax.plot(x, np.sin(x) + 1, marker='^', markersize=8, label='Triangle')
+ax.plot(x, np.sin(x) + 1.5, marker='*', markersize=12, label='Star')
 
-axes[1, 0].plot(x, np.tan(x))
-axes[1, 0].set_title('Tangent')
+# Line width
+ax.plot(x, np.cos(x) - 1.5, linewidth=1, label='Thin')
+ax.plot(x, np.cos(x) - 2, linewidth=3, label='Medium')
+ax.plot(x, np.cos(x) - 2.5, linewidth=5, label='Thick')
 
-axes[1, 1].plot(x, x**2)
-axes[1, 1].set_title('Quadratic')
-
-plt.tight_layout()
+ax.legend(loc='upper right')
+ax.grid(True, alpha=0.3)
 plt.show()
 ```
 
 ### Legends and Annotations
 
 ```python
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(12, 6))
 
-# Multiple lines
-ax.plot(x, np.sin(x), label='sin(x)', linewidth=2)
-ax.plot(x, np.cos(x), label='cos(x)', linewidth=2)
-ax.plot(x, np.tan(x), label='tan(x)', linewidth=2)
+x = np.linspace(0, 10, 100)
 
-# Add legend
-ax.legend(loc='upper right', fontsize=12)
+# Plot multiple lines
+ax.plot(x, np.sin(x), label='sin(x)', linewidth=2, color='steelblue')
+ax.plot(x, np.cos(x), label='cos(x)', linewidth=2, color='coral')
+
+# Customise legend
+ax.legend(
+    loc='upper right',
+    fontsize=12,
+    frameon=True,
+    shadow=True,
+    fancybox=True
+)
 
 # Add text annotation
-ax.text(3, 0.5, 'Important point', fontsize=12,
-        bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+ax.text(
+    5, 0.5, 
+    'Area of interest', 
+    fontsize=12,
+    bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+)
 
 # Add arrow annotation
-ax.annotate('Maximum', xy=(np.pi/2, 1), xytext=(2, 1.5),
-            arrowprops=dict(arrowstyle='->', color='red', lw=2),
-            fontsize=12)
-
-plt.show()
-```
-
-## Pandas Plotting
-
-### Built-in Plot Methods
-
-Pandas DataFrames have convenient plotting methods:
-
-```python
-# Sample data
-df = pd.DataFrame({
-    'date': pd.date_range('2024-01-01', periods=100),
-    'temperature': 15 + 10 * np.sin(np.linspace(0, 4*np.pi, 100)) + np.random.randn(100),
-    'rainfall': np.abs(np.random.randn(100) * 10)
-})
-
-# Line plot
-df.plot(x='date', y='temperature', figsize=(10, 6))
-plt.title('Temperature Over Time')
-plt.ylabel('Temperature (°C)')
-plt.show()
-
-# Multiple columns
-df.set_index('date')[['temperature', 'rainfall']].plot(
-    figsize=(12, 6),
-    secondary_y='rainfall'  # Rainfall on secondary axis
+ax.annotate(
+    'Maximum', 
+    xy=(np.pi/2, 1),  # Point to annotate
+    xytext=(2, 1.5),  # Text location
+    arrowprops=dict(arrowstyle='->', color='red', lw=2),
+    fontsize=12,
+    color='red'
 )
-plt.title('Temperature and Rainfall')
-plt.show()
 
-# Bar plot
-df.groupby(df['date'].dt.month)['rainfall'].sum().plot(kind='bar')
-plt.title('Total Rainfall by Month')
-plt.xlabel('Month')
-plt.ylabel('Total Rainfall (mm)')
-plt.show()
+ax.grid(True, alpha=0.3)
+ax.set_xlabel('X axis', fontsize=12)
+ax.set_ylabel('Y axis', fontsize=12)
+ax.set_title('Legends and Annotations', fontsize=14, fontweight='bold')
 
-# Histogram
-df['temperature'].plot(kind='hist', bins=20, edgecolor='black')
-plt.title('Temperature Distribution')
-plt.xlabel('Temperature (°C)')
-plt.show()
-
-# Box plot
-df[['temperature', 'rainfall']].plot(kind='box')
-plt.title('Distribution Comparison')
-plt.show()
-```
-
-### Quick Visualisation Methods
-
-```python
-# Scatter matrix (pairplot equivalent)
-from pandas.plotting import scatter_matrix
-
-scatter_matrix(df[['temperature', 'rainfall']], 
-               figsize=(10, 10), 
-               alpha=0.5,
-               diagonal='kde')
+plt.tight_layout()
 plt.show()
 ```
 
 ## Seaborn: Statistical Visualisation
 
-### Why Seaborn?
+Seaborn provides a high-level interface for creating beautiful statistical graphics.
 
-- Beautiful default themes
-- Statistical functions built-in
-- Excellent for exploring relationships
-- Integrates seamlessly with pandas
+### Why Use Seaborn?
 
-### Setting Styles
+- **Better defaults**: Plots look professional out of the box
+- **Statistical functions**: Built-in regression, distributions, etc.
+- **Easier syntax**: Less code for common statistical plots
+- **Colour palettes**: Beautiful, accessible colour schemes
+- **Seamless pandas integration**: Works directly with DataFrames
+
+### Setting Up Seaborn
 
 ```python
 import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
-# Set style
-sns.set_style('whitegrid')  # whitegrid, darkgrid, white, dark, ticks
+# Set style (applies to all subsequent plots)
+sns.set_style('whitegrid')  # Options: whitegrid, darkgrid, white, dark, ticks
 
-# Set context
-sns.set_context('notebook')  # paper, notebook, talk, poster
+# Set context (controls scale of elements)
+sns.set_context('notebook')  # Options: paper, notebook, talk, poster
 
 # Set colour palette
-sns.set_palette('husl')  # or 'Set2', 'colorblind', etc.
+sns.set_palette('husl')  # Or 'Set2', 'colorblind', 'pastel', etc.
 ```
 
-### Statistical Plots
+### Distribution Plots
 
-**Distribution Plots**
 ```python
+# Generate sample data
+np.random.seed(42)
+data = np.random.randn(1000)
+
+fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+
 # Histogram with KDE
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.histplot(data=df, x='temperature', kde=True, ax=ax)
-ax.set_title('Temperature Distribution')
-plt.show()
+sns.histplot(data, kde=True, ax=axes[0])
+axes[0].set_title('Histogram with KDE')
 
 # KDE plot
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.kdeplot(data=df, x='temperature', ax=ax, fill=True)
-ax.set_title('Temperature KDE')
-plt.show()
+sns.kdeplot(data, ax=axes[1], fill=True)
+axes[1].set_title('KDE Plot')
 
 # Violin plot
-sns.violinplot(data=df, y='temperature')
-plt.title('Temperature Violin Plot')
+sns.violinplot(y=data, ax=axes[2])
+axes[2].set_title('Violin Plot')
+
+plt.tight_layout()
 plt.show()
 ```
 
-**Relationship Plots**
+### Relationship Plots
+
 ```python
+# Create sample data
+np.random.seed(42)
+n = 100
+df = pd.DataFrame({
+    'temperature': np.random.randn(n) * 5 + 20,
+    'rainfall': np.abs(np.random.randn(n) * 10),
+    'humidity': np.random.randn(n) * 10 + 60,
+    'season': np.random.choice(['Summer', 'Winter', 'Spring', 'Autumn'], n)
+})
+
 # Scatter plot with regression line
-sns.lmplot(data=df, x='temperature', y='rainfall', 
-           height=6, aspect=1.5)
+sns.lmplot(data=df, x='temperature', y='rainfall', height=6, aspect=1.5)
 plt.title('Temperature vs Rainfall')
 plt.show()
 
 # Joint plot (scatter + histograms)
-sns.jointplot(data=df, x='temperature', y='rainfall',
-              kind='scatter', height=8)
+sns.jointplot(data=df, x='temperature', y='rainfall', kind='scatter', height=8)
 plt.show()
 
 # Pair plot
-sns.pairplot(df[['temperature', 'rainfall']])
+sns.pairplot(df[['temperature', 'rainfall', 'humidity']])
 plt.show()
 ```
 
-**Categorical Plots**
-```python
-# Add categorical variable
-df['season'] = pd.cut(df['date'].dt.month, 
-                      bins=[0, 3, 6, 9, 12],
-                      labels=['Summer', 'Autumn', 'Winter', 'Spring'])
+### Categorical Plots
 
+```python
 # Box plot by category
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.boxplot(data=df, x='season', y='temperature', ax=ax)
-ax.set_title('Temperature by Season')
-plt.show()
+fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+sns.boxplot(data=df, x='season', y='temperature', ax=axes[0])
+axes[0].set_title('Temperature by Season')
 
 # Violin plot by category
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.violinplot(data=df, x='season', y='temperature', ax=ax)
-ax.set_title('Temperature Distribution by Season')
+sns.violinplot(data=df, x='season', y='temperature', ax=axes[1])
+axes[1].set_title('Temperature Distribution by Season')
+
+plt.tight_layout()
 plt.show()
 
-# Swarm plot (individual points)
+# Swarm plot (show individual points)
 fig, ax = plt.subplots(figsize=(10, 6))
-sns.swarmplot(data=df, x='season', y='temperature', ax=ax, size=3)
-ax.set_title('Temperature by Season (All Points)')
+sns.swarmplot(data=df, x='season', y='temperature', ax=ax, size=4)
+ax.set_title('Individual Temperature Observations by Season')
 plt.show()
 ```
 
-**Heatmaps**
+### Heatmaps
+
 ```python
 # Correlation matrix
-correlation = df[['temperature', 'rainfall']].corr()
+correlation = df[['temperature', 'rainfall', 'humidity']].corr()
 
 fig, ax = plt.subplots(figsize=(8, 6))
-sns.heatmap(correlation, annot=True, cmap='coolwarm', 
-            center=0, ax=ax, square=True)
-ax.set_title('Correlation Matrix')
-plt.show()
-
-# Pivot table heatmap
-pivot = df.pivot_table(
-    values='temperature',
-    index=df['date'].dt.month,
-    columns=df['date'].dt.day,
-    aggfunc='mean'
+sns.heatmap(
+    correlation, 
+    annot=True,          # Show values
+    cmap='coolwarm',     # Colour map
+    center=0,            # Centre colourmap at 0
+    square=True,         # Square cells
+    linewidths=1,        # Lines between cells
+    cbar_kws={'label': 'Correlation'},
+    ax=ax
 )
-
-fig, ax = plt.subplots(figsize=(20, 8))
-sns.heatmap(pivot, cmap='YlOrRd', ax=ax)
-ax.set_title('Temperature: Month vs Day')
-ax.set_xlabel('Day of Month')
-ax.set_ylabel('Month')
+ax.set_title('Correlation Matrix')
+plt.tight_layout()
 plt.show()
 ```
 
-## Practical Example: Auckland Weather Analysis
+## Practical Example: Comprehensive Weather Analysis
 
-Let's apply these techniques to real data:
+Let's combine everything we've learned into a complete analysis workflow.
 
 ```python
 import pandas as pd
@@ -417,191 +833,382 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-# Simulate Auckland weather data
+# Simulate realistic Auckland weather data
 np.random.seed(42)
 dates = pd.date_range('2023-01-01', '2023-12-31', freq='D')
 n = len(dates)
 
-# Seasonal temperature pattern
+# Seasonal temperature pattern (warmer in summer: Dec-Feb)
 day_of_year = dates.dayofyear
 temp = 15 + 8 * np.sin(2 * np.pi * (day_of_year - 80) / 365) + np.random.randn(n) * 2
 
-# Rainfall (more in winter)
+# Rainfall (more in winter: Jun-Aug)
 rainfall_base = 3 - 2 * np.sin(2 * np.pi * (day_of_year - 80) / 365)
 rainfall = np.abs(rainfall_base + np.random.randn(n) * 1.5)
+
+# Humidity (correlated with rainfall)
+humidity = 60 + 10 * (rainfall / rainfall.max()) + np.random.randn(n) * 5
+
+# Wind speed
+wind = np.abs(np.random.randn(n) * 3 + 5)
 
 # Create DataFrame
 weather = pd.DataFrame({
     'date': dates,
     'temperature': temp,
     'rainfall': rainfall,
+    'humidity': humidity,
+    'wind_speed': wind,
     'month': dates.month,
     'season': pd.cut(dates.month, 
                      bins=[0, 3, 6, 9, 12],
                      labels=['Summer', 'Autumn', 'Winter', 'Spring'])
 })
 
-# 1. Time series overview
-fig, axes = plt.subplots(2, 1, figsize=(14, 8), sharex=True)
+# Set seaborn style
+sns.set_style('whitegrid')
+sns.set_palette('husl')
 
-# Temperature
-axes[0].plot(weather['date'], weather['temperature'], 
-             linewidth=1, alpha=0.7, color='orangered')
-axes[0].set_ylabel('Temperature (°C)', fontsize=12)
-axes[0].set_title('Auckland Weather 2023', fontsize=14, fontweight='bold')
+# 1. OVERVIEW: Time series of all variables
+fig, axes = plt.subplots(4, 1, figsize=(14, 12), sharex=True)
+
+axes[0].plot(weather['date'], weather['temperature'], linewidth=1, alpha=0.7, color='orangered')
+axes[0].set_ylabel('Temperature (°C)', fontsize=11)
+axes[0].set_title('Auckland Weather 2023 - Complete Overview', fontsize=14, fontweight='bold')
 axes[0].grid(True, alpha=0.3)
 
-# Rainfall
-axes[1].bar(weather['date'], weather['rainfall'], 
-            width=1, color='steelblue', alpha=0.6)
-axes[1].set_ylabel('Rainfall (mm)', fontsize=12)
-axes[1].set_xlabel('Date', fontsize=12)
+axes[1].bar(weather['date'], weather['rainfall'], width=1, color='steelblue', alpha=0.6)
+axes[1].set_ylabel('Rainfall (mm)', fontsize=11)
 axes[1].grid(True, alpha=0.3)
+
+axes[2].plot(weather['date'], weather['humidity'], linewidth=1, alpha=0.7, color='green')
+axes[2].set_ylabel('Humidity (%)', fontsize=11)
+axes[2].grid(True, alpha=0.3)
+
+axes[3].plot(weather['date'], weather['wind_speed'], linewidth=1, alpha=0.7, color='purple')
+axes[3].set_ylabel('Wind Speed (km/h)', fontsize=11)
+axes[3].set_xlabel('Date', fontsize=11)
+axes[3].grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
 
-# 2. Seasonal comparison
+# 2. SEASONAL COMPARISON
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+sns.boxplot(data=weather, x='season', y='temperature', ax=axes[0, 0])
+axes[0, 0].set_title('Temperature by Season', fontsize=12)
+axes[0, 0].set_ylabel('Temperature (°C)')
+
+sns.violinplot(data=weather, x='season', y='rainfall', ax=axes[0, 1])
+axes[0, 1].set_title('Rainfall by Season', fontsize=12)
+axes[0, 1].set_ylabel('Rainfall (mm)')
+
+sns.boxplot(data=weather, x='season', y='humidity', ax=axes[1, 0])
+axes[1, 0].set_title('Humidity by Season', fontsize=12)
+axes[1, 0].set_ylabel('Humidity (%)')
+
+sns.boxplot(data=weather, x='season', y='wind_speed', ax=axes[1, 1])
+axes[1, 1].set_title('Wind Speed by Season', fontsize=12)
+axes[1, 1].set_ylabel('Wind Speed (km/h)')
+
+fig.suptitle('Seasonal Weather Comparison', fontsize=16, fontweight='bold', y=1.00)
+plt.tight_layout()
+plt.show()
+
+# 3. DISTRIBUTIONS
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+sns.histplot(data=weather, x='temperature', kde=True, ax=axes[0, 0], color='orangered')
+axes[0, 0].axvline(weather['temperature'].mean(), color='black', linestyle='--', 
+                    linewidth=2, label=f"Mean = {weather['temperature'].mean():.1f}°C")
+axes[0, 0].set_title('Temperature Distribution', fontsize=12)
+axes[0, 0].legend()
+
+sns.histplot(data=weather, x='rainfall', kde=True, ax=axes[0, 1], color='steelblue')
+axes[0, 1].axvline(weather['rainfall'].mean(), color='black', linestyle='--', 
+                    linewidth=2, label=f"Mean = {weather['rainfall'].mean():.1f}mm")
+axes[0, 1].set_title('Rainfall Distribution', fontsize=12)
+axes[0, 1].legend()
+
+sns.histplot(data=weather, x='humidity', kde=True, ax=axes[1, 0], color='green')
+axes[1, 0].axvline(weather['humidity'].mean(), color='black', linestyle='--', 
+                    linewidth=2, label=f"Mean = {weather['humidity'].mean():.1f}%")
+axes[1, 0].set_title('Humidity Distribution', fontsize=12)
+axes[1, 0].legend()
+
+sns.histplot(data=weather, x='wind_speed', kde=True, ax=axes[1, 1], color='purple')
+axes[1, 1].axvline(weather['wind_speed'].mean(), color='black', linestyle='--', 
+                    linewidth=2, label=f"Mean = {weather['wind_speed'].mean():.1f}km/h")
+axes[1, 1].set_title('Wind Speed Distribution', fontsize=12)
+axes[1, 1].legend()
+
+fig.suptitle('Weather Variable Distributions', fontsize=16, fontweight='bold')
+plt.tight_layout()
+plt.show()
+
+# 4. RELATIONSHIPS
 fig, axes = plt.subplots(1, 2, figsize=(14, 6))
 
-sns.boxplot(data=weather, x='season', y='temperature', ax=axes[0])
-axes[0].set_title('Temperature by Season', fontsize=12)
-axes[0].set_ylabel('Temperature (°C)')
+sns.scatterplot(data=weather, x='temperature', y='rainfall', 
+                hue='season', alpha=0.6, ax=axes[0])
+axes[0].set_title('Temperature vs Rainfall by Season', fontsize=12)
+axes[0].set_xlabel('Temperature (°C)')
+axes[0].set_ylabel('Rainfall (mm)')
 
-sns.boxplot(data=weather, x='season', y='rainfall', ax=axes[1])
-axes[1].set_title('Rainfall by Season', fontsize=12)
+sns.scatterplot(data=weather, x='humidity', y='rainfall', 
+                hue='season', alpha=0.6, ax=axes[1])
+axes[1].set_title('Humidity vs Rainfall by Season', fontsize=12)
+axes[1].set_xlabel('Humidity (%)')
 axes[1].set_ylabel('Rainfall (mm)')
 
 plt.tight_layout()
 plt.show()
 
-# 3. Distributions
-fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+# 5. CORRELATION ANALYSIS
+correlation = weather[['temperature', 'rainfall', 'humidity', 'wind_speed']].corr()
 
-sns.histplot(data=weather, x='temperature', kde=True, ax=axes[0])
-axes[0].set_title('Temperature Distribution', fontsize=12)
-axes[0].axvline(weather['temperature'].mean(), 
-                color='red', linestyle='--', label='Mean')
-axes[0].legend()
-
-sns.histplot(data=weather, x='rainfall', kde=True, ax=axes[1])
-axes[1].set_title('Rainfall Distribution', fontsize=12)
-axes[1].axvline(weather['rainfall'].mean(), 
-                color='red', linestyle='--', label='Mean')
-axes[1].legend()
-
+fig, ax = plt.subplots(figsize=(10, 8))
+sns.heatmap(correlation, annot=True, cmap='coolwarm', center=0, 
+            square=True, linewidths=1, cbar_kws={'label': 'Correlation'},
+            ax=ax, vmin=-1, vmax=1)
+ax.set_title('Weather Variables Correlation Matrix', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.show()
 
-# 4. Relationship
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.scatterplot(data=weather, x='temperature', y='rainfall', 
-                hue='season', alpha=0.6, ax=ax)
-ax.set_title('Temperature vs Rainfall by Season', fontsize=12)
-ax.set_xlabel('Temperature (°C)')
-ax.set_ylabel('Rainfall (mm)')
-plt.show()
-
-# 5. Monthly summary
+# 6. MONTHLY SUMMARY
 monthly = weather.groupby('month').agg({
     'temperature': ['mean', 'std'],
-    'rainfall': 'sum'
+    'rainfall': 'sum',
+    'humidity': 'mean',
+    'wind_speed': 'mean'
 }).round(2)
 
-print("\nMonthly Summary:")
+print("\nMonthly Weather Summary:")
 print(monthly)
+
+# Plot monthly aggregates
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+monthly_temp = weather.groupby('month')['temperature'].mean()
+axes[0, 0].bar(monthly_temp.index, monthly_temp.values, color='orangered', alpha=0.7)
+axes[0, 0].set_title('Average Monthly Temperature', fontsize=12)
+axes[0, 0].set_xlabel('Month')
+axes[0, 0].set_ylabel('Temperature (°C)')
+axes[0, 0].grid(axis='y', alpha=0.3)
+
+monthly_rain = weather.groupby('month')['rainfall'].sum()
+axes[0, 1].bar(monthly_rain.index, monthly_rain.values, color='steelblue', alpha=0.7)
+axes[0, 1].set_title('Total Monthly Rainfall', fontsize=12)
+axes[0, 1].set_xlabel('Month')
+axes[0, 1].set_ylabel('Rainfall (mm)')
+axes[0, 1].grid(axis='y', alpha=0.3)
+
+monthly_humid = weather.groupby('month')['humidity'].mean()
+axes[1, 0].bar(monthly_humid.index, monthly_humid.values, color='green', alpha=0.7)
+axes[1, 0].set_title('Average Monthly Humidity', fontsize=12)
+axes[1, 0].set_xlabel('Month')
+axes[1, 0].set_ylabel('Humidity (%)')
+axes[1, 0].grid(axis='y', alpha=0.3)
+
+monthly_wind = weather.groupby('month')['wind_speed'].mean()
+axes[1, 1].bar(monthly_wind.index, monthly_wind.values, color='purple', alpha=0.7)
+axes[1, 1].set_title('Average Monthly Wind Speed', fontsize=12)
+axes[1, 1].set_xlabel('Month')
+axes[1, 1].set_ylabel('Wind Speed (km/h)')
+axes[1, 1].grid(axis='y', alpha=0.3)
+
+fig.suptitle('Monthly Weather Aggregates', fontsize=16, fontweight='bold')
+plt.tight_layout()
+plt.show()
 ```
 
-## Best Practices
+This comprehensive example demonstrates:
+- Time series visualisation with multiple variables
+- Seasonal comparisons using box and violin plots
+- Distribution analysis with histograms and KDE
+- Relationship exploration with scatter plots
+- Correlation analysis with heatmaps
+- Aggregated summaries with bar charts
+
+## Best Practices for Effective Visualisation
 
 ### Design Principles
 
 **1. Choose the Right Plot Type**
-- Line plots: Trends over time
-- Bar charts: Comparing categories
-- Scatter plots: Relationships between variables
-- Histograms: Distribution of single variable
-- Box plots: Distribution comparisons
+
+| Data Type | Question | Plot Type |
+|-----------|----------|-----------|
+| Time series | How does X change over time? | Line plot |
+| Categorical comparison | How do categories compare? | Bar chart |
+| Distribution | What's the spread of values? | Histogram, box plot |
+| Relationship | How do X and Y relate? | Scatter plot |
+| Composition | What are the parts of the whole? | Pie chart, stacked bar |
 
 **2. Keep It Simple**
 - One main message per plot
-- Remove unnecessary elements
+- Remove unnecessary elements (chartjunk)
 - Use clear labels and titles
-- Choose appropriate colour scales
+- Appropriate axis ranges
 
 **3. Make It Readable**
-- Sufficient font sizes (≥10pt)
-- Adequate spacing
+- Font sizes ≥ 10pt (larger for presentations)
+- Adequate spacing between elements
 - Clear axis labels with units
-- Informative titles
+- Informative titles that explain the takeaway
 
 **4. Use Colour Effectively**
-- Colourblind-friendly palettes
-- Consistent colour meanings
-- Appropriate for data type (sequential, diverging, categorical)
+- Limit to 5-7 colours per plot
+- Use colourblind-friendly palettes
+- Consistent colour meanings across figures
+- Consider grayscale readability
+
+**5. Guide the Viewer**
+- Highlight important features
+- Use annotations strategically
+- Provide context with reference lines
+- Order data meaningfully
 
 ### Common Pitfalls to Avoid
 
 **❌ Don't:**
-- Use 3D charts (they distort perception)
-- Start y-axis at non-zero without good reason
-- Use too many colours
-- Overload with information
+- Use 3D charts unnecessarily (they distort perception)
+- Start y-axis at non-zero to exaggerate differences
+- Use too many colours or patterns
+- Create overly complex visualisations
+- Ignore aspect ratios
 - Use defaults without thought
+- Truncate axes to mislead
 
 **✓ Do:**
-- Show data clearly
-- Label everything
-- Use appropriate scales
-- Consider your audience
-- Test with others
+- Show data honestly and clearly
+- Label everything comprehensively
+- Use appropriate scales (linear, log, etc.)
+- Consider your audience's expertise
+- Test with others before finalising
+- Provide context and interpretation
+- Use consistent formatting across related figures
 
-## Saving Figures
+### Accessibility Guidelines
+
+1. **Colour blindness**: Use patterns/shapes in addition to colour
+2. **Text size**: Minimum 10pt, larger for presentations
+3. **Contrast**: Ensure sufficient contrast for readability
+4. **Alt text**: When publishing, provide descriptions
+5. **Simplicity**: Complex plots are harder to understand
+
+## Saving High-Quality Figures
+
+### File Formats
 
 ```python
-# High-resolution for publications
-fig.savefig('plot.png', dpi=300, bbox_inches='tight')
+fig, ax = plt.subplots()
+# ... create your plot ...
 
-# Vector format for editing
-fig.savefig('plot.pdf', bbox_inches='tight')
-fig.savefig('plot.svg', bbox_inches='tight')
+# Raster formats (for web/presentations)
+fig.savefig('plot.png', dpi=300, bbox_inches='tight')  # High resolution
+fig.savefig('plot.jpg', dpi=150, bbox_inches='tight', quality=95)
+
+# Vector formats (for publications/editing)
+fig.savefig('plot.pdf', bbox_inches='tight')  # Best for LaTeX documents
+fig.savefig('plot.svg', bbox_inches='tight')  # Best for web/editing
+fig.savefig('plot.eps', bbox_inches='tight')  # For some journals
 
 # Transparent background
 fig.savefig('plot.png', dpi=300, bbox_inches='tight', transparent=True)
 ```
 
+**Choosing the right format:**
+
+| Format | Use Case | Pros | Cons |
+|--------|----------|------|------|
+| PNG | Web, presentations | Lossless, widely supported | Large file size |
+| JPG | Photos, web | Small file size | Lossy compression |
+| PDF | Publications, printing | Vector, editable | Can be large |
+| SVG | Web, editing | Vector, small | Limited software support |
+| EPS | Journal submissions | Vector, universal | Old standard |
+
+### Resolution Guidelines
+
+- **Screen display**: 72-96 DPI
+- **PowerPoint/Google Slides**: 150 DPI
+- **Printed documents**: 300 DPI
+- **Publication**: 300-600 DPI (check journal requirements)
+
 ## Summary
 
 In this section, you've learned:
 
-- **Matplotlib fundamentals**: Figure, axes, and basic plot types
-- **Pandas plotting**: Quick visualisations from DataFrames
-- **Seaborn**: Beautiful statistical graphics
+- **Matplotlib architecture**: Understanding Figure, Axes, and Artists
+- **Object-oriented plotting**: The recommended approach for creating plots
+- **Basic plot types**: Line, scatter, bar, histogram, and their use cases
+- **Pandas integration**: Quick plotting directly from DataFrames
+- **Datetime handling**: Working with time series data effectively
+- **Subplots**: Creating multi-panel figures
 - **Customisation**: Colours, styles, legends, annotations
-- **Best practices**: Choosing plot types and designing effective visualisations
+- **Seaborn**: Beautiful statistical visualisations
+- **Best practices**: Design principles and accessibility
+- **Production**: Saving publication-quality figures
+
+**Key takeaways:**
+
+1. Always use the object-oriented interface: `fig, ax = plt.subplots()`
+2. Choose plot types based on your data and question
+3. Label everything clearly with units
+4. Use colour thoughtfully and accessibly
+5. Test your plots with others
+6. Save at appropriate resolution for your use case
 
 These skills form the foundation for all data visualisation in Python, including the geospatial visualisation you'll learn in the next section (@sec-geospatial).
 
 ## Practice Exercises
 
-1. **Explore a Dataset**: Load a CSV file and create 5 different visualisations showing different aspects of the data
+### Exercise 1: Temperature Analysis
+Load a CSV with daily temperature data and create:
+- Line plot of temperature over time
+- Histogram of temperature distribution
+- Box plot comparing temperatures by season
+- Scatter plot of temperature vs day of year
 
-2. **Time Series Analysis**: Create a multi-panel plot showing temperature, rainfall, and a derived metric (e.g., comfort index)
+### Exercise 2: Multi-Variable Time Series
+Given a dataset with multiple weather variables:
+- Create a 4-panel subplot showing all variables over time
+- Add appropriate labels, titles, and colours
+- Ensure x-axes are shared
+- Add grid lines for readability
 
-3. **Correlation Analysis**: Create a correlation heatmap for a multi-variable dataset and identify strong relationships
+### Exercise 3: Correlation Analysis
+Using the weather dataset:
+- Calculate correlation between all variables
+- Create a correlation heatmap
+- Identify the strongest positive and negative correlations
+- Create scatter plots for the most correlated pairs
 
-4. **Distribution Comparison**: Compare distributions across categories using box plots, violin plots, and histograms
+### Exercise 4: Seasonal Comparison
+Compare weather patterns across seasons:
+- Create violin plots for each weather variable by season
+- Add annotations highlighting extreme values
+- Use a colourblind-friendly palette
+- Save as publication-quality PDF
 
-5. **Custom Dashboard**: Create a 2x2 subplot figure summarising a dataset with different visualisation types
+### Exercise 5: Custom Dashboard
+Create a comprehensive analysis figure with:
+- Time series overview (top)
+- Distribution comparisons (middle left)
+- Correlation heatmap (middle right)
+- Key statistics summary (bottom)
+- Professional formatting throughout
 
 ## Further Reading
 
 - [Matplotlib Tutorial](https://matplotlib.org/stable/tutorials/index.html)
+- [Matplotlib Gallery](https://matplotlib.org/stable/gallery/index.html)
 - [Seaborn Gallery](https://seaborn.pydata.org/examples/index.html)
-- [Pandas Visualisation](https://pandas.pydata.org/docs/user_guide/visualization.html)
-- [Fundamentals of Data Visualization (Wilke)](https://clauswilke.com/dataviz/)
+- [Pandas Visualisation Guide](https://pandas.pydata.org/docs/user_guide/visualization.html)
+- [Fundamentals of Data Visualization by Claus Wilke](https://clauswilke.com/dataviz/)
 - [Python Graph Gallery](https://python-graph-gallery.com/)
+- [Scientific Visualization Book by Nicolas Rougier](https://github.com/rougier/scientific-visualization-book)
 
 ## Next Steps
 
-Now that you understand general data visualisation, you're ready to tackle geospatial visualisation in @sec-geospatial, where you'll learn to create maps and spatial graphics.
+Now that you understand general data visualisation in depth, you're ready to tackle geospatial visualisation in @sec-geospatial, where you'll learn to create maps, choropleth plots, and spatial graphics using GeoPandas and other specialised tools.

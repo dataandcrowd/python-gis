@@ -1,0 +1,5 @@
+Here, you will find the lab exercises for the course. 
+Each week, you will be given a lab assignment that will help you practice the concepts covered in the lectures. 
+The labs are designed to be hands-on and will require you to apply what you've learned to real-world scenarios. 
+Make sure to complete each lab assignment on time, as they will be an essential part of your learning experience in this course.
+
