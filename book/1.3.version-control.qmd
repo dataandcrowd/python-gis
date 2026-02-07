@@ -2,25 +2,26 @@
 
 ## Story problem
 
-**Explaining why your Auckland results changed**
+**Why did my analysis change?**
 
-You're analysing transport accessibility in Auckland. You run your script on Monday and get a certain result. On Friday, you run the same script and the map looks completely different.
+You're working on your class343 GIS project. You run your script on Monday and get one result. On Friday, you run the same script and the results are completely different.
 
 **Questions arise**:
-- What changed?
+- What changed between Monday and Friday?
 - Which version was correct?
 - Can you go back to Monday's version?
-- How do you collaborate without overwriting each other's work?
+- How can you share your work with classmates without confusion?
 
-**Answer**: Git tracks every change and becomes your research diary.
+**Answer**: Git tracks every change automatically, like having unlimited "undo" for your entire project.
 
 ## What you will learn
 
-- Understand what Git is and why it matters
-- Use commit, branch, push, pull in practice
-- Structure a Git repository for a GIS project
-- Collaborate using GitHub
-- Avoid committing large or sensitive data
+- Understand what Git and GitHub are
+- Sign up for GitHub (essential for students!)
+- Install and use GitHub Desktop
+- Track changes in your class343 project
+- Share your work on GitHub
+- Collaborate safely with version control
 
 ---
 
@@ -28,891 +29,473 @@ You're analysing transport accessibility in Auckland. You run your script on Mon
 
 ### The problem: Manual version control
 
-Without Git, people often do this:
+Without Git, students often do this:
 
 ```
-project/
+class343/
 ├── analysis.py
 ├── analysis_v2.py
+├── analysis_v3.py
 ├── analysis_final.py
 ├── analysis_final_REALLY.py
-├── analysis_final_2024-01-15.py
-└── analysis_final_after_supervisor_comments.py
+└── analysis_final_2024-02-07.py
 ```
 
 **Problems**:
-- Which version is actually the latest?
+- Which file is the latest?
 - What changed between versions?
-- How do you merge two versions?
-- How do you collaborate?
+- How do you share without confusion?
+- How do you work with classmates?
 
-### The solution: Git
+### The solution: Git + GitHub
 
-Git tracks every change in a structured way:
+Git tracks every change automatically:
 
 ```
-project/
+class343/
 └── analysis.py  ← One file, entire history tracked
 
 Git history:
-├── 2024-01-10: "Initial analysis script"
-├── 2024-01-12: "Fixed coordinate projection bug"
-├── 2024-01-15: "Added population weighting"
-└── 2024-01-18: "Implemented supervisor's feedback"
+├── Monday 9am:    "Initial analysis"
+├── Tuesday 2pm:   "Fixed bug in coordinates"
+├── Thursday 10am: "Added visualisation"
+└── Friday 4pm:    "Final report version"
 ```
 
 **Benefits**:
 - Complete history of every change
 - See exactly what changed when
 - Revert to any previous version
-- Multiple people can work simultaneously
-- Collaborate via GitHub/GitLab
+- Share work easily on GitHub
+- Collaborate with classmates safely
 
 ---
 
-## Core Git concepts
+## What are Git and GitHub?
 
-### Repository (repo)
+### Git
+- A **version control system** installed on your computer
+- Tracks changes to your files
+- Works **locally** (offline)
+- Free and open source
 
-A project tracked by Git. Contains:
-- Your files
-- Complete history of changes
-- Branches for parallel work
+### GitHub
+- A **website** that hosts Git repositories
+- Like "Dropbox for code"
+- Enables collaboration and sharing
+- Shows your portfolio to potential employers
+- Free for students
 
-### Commit
-
-A snapshot of your project at a specific time. Think of it as saving a checkpoint in a video game.
-
-```
-Commit = snapshot + message + author + timestamp
-```
-
-### Branch
-
-A parallel line of development. The default branch is usually `main`.
+### The relationship
 
 ```
-main:    A → B → C → D
-                  ↓
-feature:          E → F
+Your computer          │          GitHub.com
+                       │
+class343/              │          Your GitHub profile
+├── .git/    ←────────┼────────→  class343 repository
+├── analysis.py        │          (visible to others)
+└── data/              │
 ```
 
-### Remote
-
-A version of your repository hosted online (e.g., GitHub). Enables:
-- Backup
-- Collaboration
-- Sharing
+You work locally with Git, then "push" to GitHub to share and backup.
 
 ---
 
-## Installing Git
+## Step 1: Create a GitHub account
 
-### Check if Git is installed
+### Sign up for GitHub
+
+1. Go to [github.com/signup](https://github.com/signup)
+2. Enter your **University of Auckland email** (important for student benefits!)
+3. Choose a **professional username** (e.g., `hshin-uoa` not `xXCoolGuy420Xx`)
+4. Verify your email address
+
+
+::: {.callout-tip title="Why use your university email?"}
+- Get [GitHub Student Developer Pack](https://education.github.com/pack) (free!)
+- Access to GitHub Copilot and other premium features
+- Shows you're a verified student
+:::
+
+### Apply for Student Developer Pack
+
+1. Go to [education.github.com/pack](https://education.github.com/pack)
+2. Click "Sign up for Student Developer Pack"
+3. Verify you're a student (upload student ID if needed)
+4. Get access to premium tools worth $200,000+!
+
+![](figs/github_student_pack.png)
+
+---
+
+## Step 2: Install GitHub Desktop
+
+### Why GitHub Desktop?
+
+GitHub Desktop is a **visual app** that makes Git easy:
+- No command line required
+- See your changes visually
+- Push to GitHub with one click
+- Perfect for beginners
+
+### Download and install
 
 ::: {.panel-tabset}
 
 ## macOS
-```bash
-git --version
-```
 
-Usually pre-installed on macOS.
-
-## Windows
-```powershell
-git --version
-```
-
-If not installed, download from [git-scm.com](https://git-scm.com)
-
-:::
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing git --version output on both platforms]**
-:::
-
-### Install Git (if needed)
-
-::: {.panel-tabset}
-
-## macOS
-
-**Usually pre-installed**. If not:
-
-```bash
-brew install git
-```
+1. Go to [desktop.github.com](https://desktop.github.com)
+2. Download GitHub Desktop for macOS
+3. Open the downloaded file
+4. Drag GitHub Desktop to Applications folder
+5. Open GitHub Desktop from Applications
 
 ## Windows
 
-1. Download from [git-scm.com](https://git-scm.com)
-2. Run installer
-3. Use default options (or select VS Code as default editor)
+1. Go to [desktop.github.com](https://desktop.github.com)
+2. Download GitHub Desktop for Windows
+3. Run the installer (GitHubDesktopSetup.exe)
+4. Wait for installation to complete
+5. GitHub Desktop will open automatically
 
 :::
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Git for Windows installer showing editor selection]**
-:::
 
-### Configure Git (first time only)
 
-Tell Git who you are:
+### Sign in to GitHub Desktop
 
-```bash
-git config --global user.name "Your Name"
-git config --global user.email "your.email@auckland.ac.nz"
-```
+1. GitHub Desktop will ask you to sign in
+2. Click "Sign in to GitHub.com"
+3. Your browser will open
+4. Authorise GitHub Desktop
+5. Return to GitHub Desktop
 
-Verify configuration:
 
-```bash
-git config --list
-```
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing git config output]**
+### Configure your identity
+
+GitHub Desktop will ask for:
+
+- Your name (appears in commits)
+- Your email (use your GitHub email)
+
+
+---
+
+## Step 3: Turn class343 into a Git repository
+
+Now let's track your class343 project!
+
+### Add your project to GitHub Desktop
+
+1. Open GitHub Desktop
+2. Click **File → Add Local Repository**
+3. Navigate to your `class343` folder (should be in `Documents/class343`)
+4. Click **Choose**
+
+
+You'll see an error: "This directory does not appear to be a Git repository"
+
+That's expected! Click **"Create a repository"** instead.
+
+
+### Create the repository
+
+A dialog appears:
+
+1. **Name**: `class343` (should be filled in)
+2. **Description**: "GISCI 343 coursework and projects"
+3. **Local path**: Should show your Documents folder
+4. ✅ **Initialise this repository with a README**
+5. **Git ignore**: Select **Python** from dropdown
+6. **License**: None (for now)
+
+Click **Create Repository**
+
+
+::: {.callout-important title="What just happened?"}
+
+GitHub Desktop:
+
+- Created a `.git` folder (hidden) to track changes
+- Created a `.gitignore` file to ignore `.venv` and Python cache files
+- Created a `README.md` file
+- Made your first commit: "Initial commit"
 :::
 
 ---
 
-## Your first Git repository
+## Step 4: Understanding the GitHub Desktop interface
 
-### Step 1: Create a project
+Let's explore what you're seeing:
 
-Let's track the Auckland green spaces project from Section 1.2:
+![](figs/github_desktop.png)
 
-```bash
-cd ~/Documents/auckland-greenspaces
-```
+**Left panel - Changes**:
 
-### Step 2: Initialise Git
+- Shows files you've modified
+- Green + means new file
+- Yellow dot means modified file
+- Red - means deleted file
 
-```bash
-git init
-```
+**Centre panel - Diff view**:
 
-Output:
-```
-Initialized empty Git repository in /Users/you/Documents/auckland-greenspaces/.git/
-```
+- Shows exactly what changed
+- Green = added lines
+- Red = deleted lines
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing git init output]**
-:::
+**Bottom left - Commit**:
 
-This creates a hidden `.git` folder that stores all version history.
+- Summary: Short description of changes
+- Description: Detailed explanation (optional)
+- "Commit to main" button
 
-### Step 3: Create `.gitignore`
+**Top bar**:
 
-**Critical step**: Tell Git to ignore certain files.
-
-Create `.gitignore`:
-
-```gitignore
-# Virtual environments
-.venv/
-venv/
-env/
-
-# Python cache
-__pycache__/
-*.py[cod]
-*.pyc
-*.pyo
-*.egg-info/
-.pytest_cache/
-
-# Data files (often too large)
-data/raw/
-data/*.csv
-*.shp
-*.shx
-*.dbf
-*.tif
-*.geotiff
-*.gpkg
-
-# Outputs (can be regenerated)
-outputs/
-figures/
-*.png
-*.pdf
-*.jpg
-reports/*.html
-
-# Jupyter
-.ipynb_checkpoints/
-*.ipynb_checkpoints/
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.sublime-*
-
-# OS files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Credentials (NEVER commit these!)
-*.env
-.env
-secrets.json
-credentials.json
-*.key
-```
-
-::: {.callout-important}
-**Always create `.gitignore` before your first commit!**
-:::
-
-### Step 4: Check status
-
-```bash
-git status
-```
-
-Output shows untracked files:
-
-```
-On branch main
-
-No commits yet
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-        .gitignore
-        .python-version
-        README.md
-        pyproject.toml
-        uv.lock
-        hello.py
-
-nothing added to commit but untracked files present (use "git add" to track)
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing git status with untracked files in red]**
-:::
-
-### Step 5: Stage files
-
-Add files to the staging area:
-
-```bash
-git add .
-```
-
-This stages all files (except those in `.gitignore`).
-
-Check status again:
-
-```bash
-git status
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing git status with staged files in green]**
-:::
-
-### Step 6: Make first commit
-
-```bash
-git commit -m "Initial commit: set up project with uv"
-```
-
-Output:
-```
-[main (root-commit) a1b2c3d] Initial commit: set up project with uv
- 5 files changed, 245 insertions(+)
- create mode 100644 .gitignore
- create mode 100644 .python-version
- create mode 100644 README.md
- create mode 100644 pyproject.toml
- create mode 100644 uv.lock
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing successful git commit output]**
-:::
-
-::: {.callout-tip title="Writing good commit messages"}
-**Good messages**:
-- ✅ "Add data loading function for shapefile import"
-- ✅ "Fix coordinate projection bug in Auckland layer"
-- ✅ "Update analysis to include 2024 census data"
-
-**Bad messages**:
-- ❌ "Update"
-- ❌ "Fix stuff"
-- ❌ "asdfasdf"
-:::
+- Current Repository: Which project you're viewing
+- Current Branch: Usually "main"
+- Fetch origin / Push origin: Sync with GitHub
 
 ---
 
-## Git workflow
+## Step 5: Making your first commit
 
-### The cycle: Edit → Stage → Commit
+Let's make a change and commit it!
 
-```
-┌─────────────┐
-│  Working    │  ← Edit your files
-│  Directory  │
-└──────┬──────┘
-       │ git add
-       ▼
-┌─────────────┐
-│   Staging   │  ← Files ready to commit
-│     Area    │
-└──────┬──────┘
-       │ git commit
-       ▼
-┌─────────────┐
-│  Repository │  ← Permanent snapshot
-│   (History) │
-└─────────────┘
-```
+### Make a change
 
-### Example workflow
-
-Edit `analysis.py`:
+1. Open your `class343` folder in your file explorer
+2. Open `hello.py` in your code editor
+3. Add a comment at the top:
 
 ```python
-import geopandas as gpd
+# GISCI 343 - Introduction to GIS Programming
+# Author: Your Name
+# Date: 2024-02-07
 
-# Load Auckland suburbs
-suburbs = gpd.read_file('data/auckland_suburbs.gpkg')
-print(f"Loaded {len(suburbs)} suburbs")
+def main():
+    print("Hello from Python!")
 ```
 
-Check what changed:
+4. Save the file
 
-```bash
-git status
-```
+### See the change in GitHub Desktop
 
-See detailed changes:
+Switch back to GitHub Desktop. You'll see:
 
-```bash
-git diff analysis.py
-```
+1. Left panel shows `hello.py` with a yellow dot (modified)
+2. Click on `hello.py`
+3. Centre panel shows your changes:
+   - Green lines = what you added
+   - Red lines = what was removed (if any)
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing git diff with red/green highlighting of changes]**
-:::
 
-Stage and commit:
+### Commit the change
 
-```bash
-git add analysis.py
-git commit -m "Add suburb loading function"
-```
+Bottom left corner:
 
----
+1. **Summary**: Type `Add author information to hello.py`
+2. **Description**: (Optional) "Added header comment with course info"
+3. Click **Commit to main**
 
-## Viewing history
 
-### See commit log
+**Success!** Your change is now saved in Git history.
 
-```bash
-git log
-```
+::: {.callout-tip title="Writing good commit messages"}
+**Good messages** (specific and clear):
 
-Output:
-```
-commit a1b2c3d4e5f6... (HEAD -> main)
-Author: Your Name <your.email@auckland.ac.nz>
-Date:   Mon Jan 15 14:23:00 2024 +1300
+- ✅ "Add author information to hello.py"
+- ✅ "Fix bug in coordinate transformation"
+- ✅ "Add Auckland parks dataset"
 
-    Add suburb loading function
+**Bad messages** (vague):
 
-commit 7g8h9i0j1k2l...
-Author: Your Name <your.email@auckland.ac.nz>
-Date:   Mon Jan 15 09:15:00 2024 +1300
-
-    Initial commit: set up project with uv
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing git log output]**
-:::
-
-### Prettier log format
-
-```bash
-git log --oneline --graph --all
-```
-
-Output:
-```
-* a1b2c3d (HEAD -> main) Add suburb loading function
-* 7g8h9i0 Initial commit: set up project with uv
-```
-
-### See what changed in a commit
-
-```bash
-git show a1b2c3d
-```
-
----
-
-## Branching
-
-### Why branches?
-
-Branches let you:
-- Experiment without breaking working code
-- Work on features in parallel
-- Collaborate without conflicts
-
-### Create a branch
-
-```bash
-git branch feature-add-population
-```
-
-### Switch to branch
-
-```bash
-git checkout feature-add-population
-```
-
-Or create and switch in one command:
-
-```bash
-git checkout -b feature-add-population
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing branch creation and checkout]**
-:::
-
-### Work on the branch
-
-Make changes, then commit:
-
-```bash
-git add .
-git commit -m "Add population data to analysis"
-```
-
-### Merge branch back to main
-
-Switch back to main:
-
-```bash
-git checkout main
-```
-
-Merge the feature branch:
-
-```bash
-git merge feature-add-population
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing successful merge]**
-:::
-
-Delete the feature branch (optional):
-
-```bash
-git branch -d feature-add-population
-```
-
----
-
-## Working with GitHub
-
-### Step 1: Create GitHub repository
-
-1. Go to [github.com](https://github.com)
-2. Click "New repository"
-3. Name it `auckland-greenspaces`
-4. **Don't** initialise with README (you already have files)
-5. Click "Create repository"
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: GitHub new repository page]**
-:::
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: GitHub showing empty repository with setup commands]**
-:::
-
-### Step 2: Connect local repo to GitHub
-
-GitHub will show you commands. Run them:
-
-```bash
-git remote add origin https://github.com/yourusername/auckland-greenspaces.git
-git branch -M main
-git push -u origin main
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing git push uploading files]**
-:::
-
-::: {.callout-tip title="Authentication"}
-GitHub no longer accepts passwords. You need to:
-
-1. Create a Personal Access Token:
-   - GitHub → Settings → Developer settings → Personal access tokens
-   - Generate new token (classic)
-   - Select `repo` scope
-   - Copy the token
-
-2. When prompted for password, paste the token instead
-:::
-
-### Step 3: Verify on GitHub
-
-Refresh your GitHub repository page. You should see your files!
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: GitHub repository showing committed files]**
+- ❌ "Update"
+- ❌ "Changes"
+- ❌ "Fixed stuff"
 :::
 
 ---
 
-## Collaborating with Git
+## Step 6: Viewing your history
 
-### Clone a repository
+Click **History** tab (top left).
 
-Your colleague wants to work on the project:
+You'll see all your commits:
 
-```bash
-git clone https://github.com/yourusername/auckland-greenspaces.git
-cd auckland-greenspaces
-```
+- Initial commit (created by GitHub Desktop)
+- Add author information to hello.py (your commit)
 
-They now have a complete copy, including all history.
 
-### Pull latest changes
+Click on any commit to see:
 
-Before starting work, always pull:
+- When it was made
+- Who made it
+- What changed
 
-```bash
-git pull
-```
+This is your time machine! You can see everything that happened in your project.
 
-This downloads new commits from GitHub.
+---
 
-### Push your changes
+## Step 7: Publishing to GitHub
 
-After committing locally:
+Now let's share your project on GitHub!
 
-```bash
-git push
-```
+### Publish repository
+
+1. Click **Publish repository** button (top right)
+
+![](figs/github_push.png)
+
+A dialog appears:
+
+2. **Name**: `class343`
+3. **Description**: "GISCI 343 coursework and projects"
+4. ❌ **Keep this code private** (UNCHECK this - make it public so you can share)
+5. Click **Publish Repository**
+
+
+**Success!** Your project is now on GitHub.
+
+### View on GitHub
+
+1. Click **Repository → View on GitHub**
+
+![](figs/github_gotoweb.png)
+
+Your browser opens to your GitHub repository. You can see:
+- Your files
+- Your README
+- Your commit history
+- The URL you can share with others
+
+
+---
+
+## Step 8: The daily workflow
+
+Here's the workflow you'll use every day:
+
+### 1. Work on your project
+
+Edit your files as normal:
+- Write Python scripts
+- Add data files
+- Create notebooks
+- Update documentation
+
+### 2. Check changes in GitHub Desktop
+
+1. Open GitHub Desktop
+2. See what files changed (left panel)
+3. Review the changes (centre panel)
+
+
+### 3. Commit your changes
+
+1. Write a summary message
+2. Optionally add description
+3. Click **Commit to main**
+
+### 4. Push to GitHub
+
+After committing, click **Push origin** (top right).
 
 This uploads your commits to GitHub.
 
-### Typical collaborative workflow
+::: {.callout-tip title="When to commit?"}
+Commit whenever you complete a logical unit of work:
 
-```bash
-# Start of day
-git pull                    # Get latest changes
+- ✅ After fixing a bug
+- ✅ After adding a new feature
+- ✅ After completing a data analysis step
+- ✅ At the end of your work session
 
-# Work
-# ... edit files ...
-git add .
-git commit -m "Your changes"
+Don't commit:
 
-# End of day
-git pull                    # Get any changes from colleagues
-git push                    # Share your changes
-```
-
----
-
-## Repository structure for GIS projects
-
-### Recommended structure
-
-```
-auckland-transport-study/
-├── .git/                   # Git history (hidden)
-├── .gitignore             # Ignored files
-├── .venv/                 # Virtual environment (ignored)
-├── README.md              # Project documentation
-├── pyproject.toml         # Dependencies (tracked)
-├── uv.lock               # Locked versions (tracked)
-├── data/
-│   ├── README.md         # Data sources and descriptions
-│   ├── raw/              # Original data (ignored if large)
-│   └── processed/        # Cleaned data (tracked if <10MB)
-├── src/                  # Python source code (tracked)
-│   ├── __init__.py
-│   ├── data_loader.py
-│   ├── analysis.py
-│   └── visualisation.py
-├── notebooks/            # Jupyter notebooks (tracked)
-│   ├── 01-exploration.ipynb
-│   └── 02-analysis.ipynb
-├── tests/                # Unit tests (tracked)
-│   └── test_analysis.py
-├── outputs/              # Generated files (ignored)
-│   ├── figures/
-│   └── tables/
-├── reports/              # Reports and papers (tracked)
-│   └── draft.qmd
-└── docs/                 # Documentation (tracked)
-    └── methodology.md
-```
-
-### What to commit vs ignore
-
-**Commit (track in Git)**:
-- ✅ Source code (`.py`, `.R`, `.qmd`)
-- ✅ Configuration (`pyproject.toml`, `uv.lock`)
-- ✅ Documentation (`README.md`, `.md` files)
-- ✅ Small data files (<10MB)
-- ✅ Jupyter notebooks (carefully - see note below)
-- ✅ Analysis results (if reproducible and small)
-
-**Ignore (add to `.gitignore`)**:
-- ❌ Virtual environments (`.venv/`)
-- ❌ Large data files (>10MB)
-- ❌ Binary outputs (`.png`, `.pdf`, `.html`)
-- ❌ Cache files (`__pycache__/`, `.ipynb_checkpoints/`)
-- ❌ Credentials and API keys
-- ❌ Personal IDE settings
-
-::: {.callout-warning title="Jupyter notebooks"}
-Notebooks can be tricky because they contain outputs. Options:
-
-1. **Clear outputs before committing**:
-   ```bash
-   jupyter nbconvert --clear-output --inplace notebook.ipynb
-   ```
-
-2. **Use version control for notebooks**:
-   ```bash
-   uv add nbstripout
-   nbstripout --install
-   ```
-   This automatically clears outputs on commit.
+- ❌ Every single character you type
+- ❌ Broken/non-working code
+- ❌ **Sensitive information (passwords, API keys)**
 :::
 
+On your github site (https://github.com/your-user-id), you can see a time series waffle plot that keeps track of your **"commits"**.
+
+![](figs/github_waffle-commits.png)
+
+
 ---
 
-## Best practices
+## Step 9: Best practices for your class343 project
 
 ### 1. Commit often
 
 Make small, focused commits:
 
-```bash
-# Good: small focused commits
-git commit -m "Add function to load shapefile"
-git commit -m "Fix projection to NZGD2000"
-git commit -m "Add docstrings to data_loader.py"
+```
+✅ Good commit history:
 
-# Bad: one huge commit
-git commit -m "Add everything"
+- "Add data loading function"
+- "Calculate distance to nearest park"
+- "Create visualisation"
+- "Update README with results"
+
+❌ Bad commit history:
+
+- "Everything done" (one huge commit at the end)
 ```
 
-### 2. Write meaningful commit messages
+### 2. Don't commit large files
+
+The `.gitignore` file already excludes:
+
+- `.venv/` folder
+- `__pycache__/` folders
+- Large data files (`.csv`, `.shp`, `.tif`, etc.)
+
+::: {.callout-warning title="GitHub file size limits"}
+- Files over 50MB will generate warnings
+- Files over 100MB will be rejected
+- Large datasets should be stored elsewhere (Google Drive, OneDrive)
+- Only commit small sample datasets for testing
+:::
+
+### 3. Write meaningful commit messages
+
+Think: "If I look at this in 6 months, will I understand what I did?"
 
 **Format**:
 ```
-<type>: <short description>
+Short summary (50 characters or less)
 
-<optional detailed description>
+Optional detailed explanation:
+
+- What changed
+- Why it changed
+- Any important details
 ```
 
-**Types**:
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation
-- `refactor:` Code restructuring
-- `test:` Adding tests
-- `data:` Data updates
+### 4. Push regularly
 
-**Examples**:
-```bash
-git commit -m "feat: add population weighting to accessibility analysis"
+Push to GitHub at least once per work session:
 
-git commit -m "fix: correct EPSG code for Auckland projection"
+- Backs up your work
+- Shows your progress
+- Enables collaboration
 
-git commit -m "docs: update README with installation instructions"
-```
+### 5. Never commit sensitive information
 
-### 3. Pull before you push
+**Never commit**:
 
-Always pull before pushing:
-
-```bash
-git pull
-# Resolve any conflicts
-git push
-```
-
-### 4. Use branches for experiments
-
-```bash
-# Create branch for risky changes
-git checkout -b experiment-new-method
-
-# If it works:
-git checkout main
-git merge experiment-new-method
-
-# If it doesn't work:
-git checkout main
-git branch -D experiment-new-method  # Delete without merging
-```
-
-### 5. Never commit sensitive data
-
-Never commit:
 - Passwords
 - API keys
-- Database credentials
 - Personal data
+- University credentials
 
-Use environment variables instead:
+If you accidentally commit something sensitive:
 
-```python
-# Bad
-api_key = "sk-abc123def456..."  # Never hardcode!
-
-# Good
-import os
-api_key = os.getenv('OPENAI_API_KEY')
-```
-
-Store in `.env` (which is in `.gitignore`):
-```
-OPENAI_API_KEY=sk-abc123def456...
-```
-
----
-
-## Advanced: Undoing changes
-
-### Discard uncommitted changes
-
-```bash
-git checkout -- filename.py  # Discard changes to one file
-git checkout -- .           # Discard all changes
-```
-
-### Undo last commit (keep changes)
-
-```bash
-git reset --soft HEAD~1
-```
-
-### Undo last commit (discard changes)
-
-```bash
-git reset --hard HEAD~1
-```
-
-::: {.callout-warning}
-`git reset --hard` permanently deletes changes. Use with caution!
-:::
-
-### Revert a commit (safe)
-
-```bash
-git revert a1b2c3d
-```
-
-This creates a new commit that undoes the changes.
-
----
-
-## Mini exercise
-
-### Exercise 1: Track a GIS analysis
-
-1. Create a new directory `wellington-parks`
-2. Initialise Git: `git init`
-3. Create `.gitignore` (use template from earlier)
-4. Create a Python script that loads Wellington parks data
-5. Make your first commit
-6. Edit the script to add a visualisation
-7. Make a second commit
-8. View your history with `git log`
-
-### Exercise 2: GitHub workflow
-
-1. Create a GitHub repository
-2. Push your local repository
-3. Clone it to a different directory (simulate a colleague)
-4. Make a change in the clone
-5. Push the change
-6. Pull the change in the original directory
-
-### Exercise 3: Branching
-
-1. Create a branch `feature-add-buffer`
-2. Add code to buffer park polygons by 100m
-3. Commit your changes
-4. Switch back to `main`
-5. Merge your feature branch
-6. Delete the feature branch
-
----
-
-## Troubleshooting
-
-### Merge conflicts
-
-**Problem**: Git can't automatically merge changes
-
-**Solution**:
-1. Open conflicted files (marked with `<<<<<<<`, `=======`, `>>>>>>>`)
-2. Manually resolve conflicts
-3. Remove conflict markers
-4. Stage and commit:
-   ```bash
-   git add .
-   git commit -m "Resolve merge conflict"
-   ```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: VS Code showing merge conflict with conflict markers]**
-:::
-
-### Accidentally committed large file
-
-**Problem**: Committed a 500MB GeoTIFF
-
-**Solution**:
-```bash
-# Remove from Git but keep file locally
-git rm --cached large_file.tif
-
-# Add to .gitignore
-echo "*.tif" >> .gitignore
-
-# Commit the removal
-git commit -m "Remove large TIF file from Git"
-```
-
-### Authentication failures
-
-**Problem**: GitHub rejecting password
-
-**Solution**: Use Personal Access Token (see earlier section)
-
-### Detached HEAD state
-
-**Problem**: `You are in 'detached HEAD' state`
-
-**Solution**:
-```bash
-git checkout main  # Return to main branch
-```
+1. Don't panic
+2. Contact your instructor
+3. Delete the repository and start fresh
 
 ---
 
@@ -920,68 +503,57 @@ git checkout main  # Return to main branch
 
 You've learnt:
 
-- [x] What Git is and why it matters
-- [x] How to initialise a repository
-- [x] The commit workflow (edit → stage → commit)
-- [x] How to view history and changes
-- [x] How to use branches
-- [x] How to collaborate via GitHub
-- [x] Best practices for GIS projects
+- [x] What Git and GitHub are
+- [x] How to create a GitHub account
+- [x] How to install and use GitHub Desktop
+- [x] How to commit changes
+- [x] How to push to GitHub
+- [x] The daily Git workflow
+- [x] Best practices for version control
 
-**Key insight**: Git is your time machine and collaboration tool.
+**Key insight**: Version control is your safety net and collaboration tool. Commit often, push regularly!
 
-**Next step**: Combine UV environments + Git = perfectly reproducible GIS projects!
+**Next step**: Use this workflow for all your class343 projects throughout the semester.
 
 ---
 
 ## Quick reference
 
-```bash
-# Setup
-git init                              # Initialise repository
-git config --global user.name "Name"
-git config --global user.email "email"
+### Daily workflow
 
-# Basic workflow
-git status                            # Check status
-git add .                            # Stage all changes
-git commit -m "message"              # Commit with message
-git log                              # View history
-
-# Branching
-git branch feature-name              # Create branch
-git checkout feature-name            # Switch to branch
-git checkout -b feature-name         # Create and switch
-git merge feature-name               # Merge branch
-
-# Remote (GitHub)
-git remote add origin <url>          # Connect to GitHub
-git push -u origin main              # First push
-git push                             # Subsequent pushes
-git pull                             # Download changes
-git clone <url>                      # Clone repository
-
-# Undoing
-git checkout -- file                 # Discard changes
-git reset --soft HEAD~1              # Undo last commit
-git revert <commit>                  # Safe undo
 ```
+1. Work on your files
+2. Open GitHub Desktop
+3. Review changes
+4. Write commit message
+5. Click "Commit to main"
+6. Click "Push origin"
+```
+
+### Keyboard shortcuts (GitHub Desktop)
+
+- **Cmd/Ctrl + N**: Create new commit
+- **Cmd/Ctrl + R**: Show repository in file explorer
+- **Cmd/Ctrl + Shift + G**: View on GitHub
+- **Cmd/Ctrl + ,**: Open preferences
 
 ---
 
-## Resources
+## Additional resources
 
+- [GitHub Desktop Documentation](https://docs.github.com/en/desktop)
+- [GitHub Student Developer Pack](https://education.github.com/pack)
 - [GitHub Learning Lab](https://lab.github.com/)
-- [Pro Git Book](https://git-scm.com/book/en/v2) (free)
-- [GitHub Student Developer Pack](https://education.github.com/pack) (free resources)
-- [GitKraken](https://www.gitkraken.com/) (visual Git client)
+- [Git Handbook](https://guides.github.com/introduction/git-handbook/)
 
 ---
 
-**Congratulations!** You now have a complete reproducible workflow:
+**Congratulations!** Your class343 project is now version-controlled and backed up on GitHub. You're building a portfolio while learning GIS! 🎉
 
-```
-Project setup → UV environment → Git tracking → GitHub collaboration
-```
-
-You're ready to build robust, reproducible GIS analyses! 🎉
+::: {.callout-tip title="Pro tip"}
+Keep using Git for ALL your coursework throughout the semester. By the end, you'll have:
+- A complete portfolio on GitHub
+- A history of your learning journey
+- Projects you can showcase to employers
+- Backup of all your work
+:::

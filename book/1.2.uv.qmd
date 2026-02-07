@@ -2,8 +2,6 @@
 
 ## Story problem
 
-**Sharing your Auckland transport analysis**
-
 You've built a Python script that analyses bus routes in Auckland. Your supervisor wants to run it, but:
 
 - They use Windows, you use macOS
@@ -86,22 +84,18 @@ Your computer:
 
 ### Step 1: Create project directory
 
-Let's create a project to analyse Auckland's green spaces:
-
-::: {.panel-tabset}
-
 ## macOS
 ```bash
 cd ~/Documents
-mkdir auckland-greenspaces
-cd auckland-greenspaces
+mkdir class343
+cd class343
 ```
 
 ## Windows
 ```powershell
 cd ~\Documents
-mkdir auckland-greenspaces
-cd auckland-greenspaces
+mkdir class343
+cd class343
 ```
 
 :::
@@ -113,22 +107,14 @@ uv init
 ```
 
 This creates:
+- `pyproject.toml` - project configuration file
+- `main.py` - sample Python script
+- `README.md` - Documentation
+- `.python-version` - specifies Python version
 
-```
-auckland-greenspaces/
-├── .python-version    # Specifies Python 3.12
-├── pyproject.toml     # Project configuration
-├── README.md          # Project description
-└── hello.py          # Sample script
-```
+![](figs/uv_init.png)
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal output showing uv init creating files]**
-:::
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: File explorer showing created project structure]**
-:::
 
 ### Step 3: Examine `pyproject.toml`
 
@@ -136,16 +122,13 @@ Open `pyproject.toml` in your editor:
 
 ```toml
 [project]
-name = "auckland-greenspaces"
+name = "class343"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
 
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
 ```
 
 This file tracks:
@@ -159,6 +142,7 @@ This file tracks:
 uv venv
 ```
 
+
 Output:
 ```
 Using Python 3.12.x
@@ -166,9 +150,7 @@ Creating virtual environment at: .venv
 Activate with: source .venv/bin/activate (Linux/macOS) or .venv\Scripts\activate (Windows)
 ```
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing uv venv output]**
-:::
+![](figs/uv_venv.png)
 
 The `.venv` folder contains:
 
@@ -181,7 +163,17 @@ The `.venv` folder contains:
 
 ::: {.callout-tip}
 The `.venv` folder can be large (100MB+). You'll add it to `.gitignore` later so it's not tracked in Git.
+
+We will do this later when we learn git!
 :::
+
+![](figs/uv_source.png)
+
+To see the list structure of the code, hit:
+
+```
+find . -maxdepth 2 -print
+```
 
 ---
 
@@ -201,9 +193,6 @@ Watch what happens:
 2. Updates `pyproject.toml`
 3. Creates/updates `uv.lock`
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing uv add pandas with progress bars and dependency resolution]**
-:::
 
 Now check `pyproject.toml`:
 
@@ -224,12 +213,13 @@ dependencies = [
 Install all GIS packages you need:
 
 ```bash
-uv add geopandas matplotlib folium
+uv add geopandas matplotlib
 ```
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing uv adding multiple packages simultaneously]**
-:::
+Watch as `uv` quickly installs each package and its dependencies!
+
+![](figs/uv_add.png)
+
 
 Each `uv add` command:
 - Installs the package
@@ -262,91 +252,90 @@ dependencies = [
 **Always commit `uv.lock` to Git!** This ensures reproducibility.
 :::
 
+
+
+
 ---
 
 ## Running code in your environment
 
-### Option 1: Using `uv run` (recommended)
+### Quick test
 
-Create a script called `test.py`:
+Run this one-liner to check if GeoPandas imports correctly:
+
+```bash
+uv run python -c "import geopandas as gpd; print('✅ GeoPandas', gpd.__version__)"
+```
+
+Expected output:
+```
+✅ GeoPandas 1.1.x
+```
+
+### Comprehensive test
+
+Create a test script called `verify_setup.py`:
 
 ```python
+"""
+Verification script for GIS environment setup
+University of Auckland - GISCI 343
+"""
+
+import sys
 import pandas as pd
 import geopandas as gpd
+import matplotlib.pyplot as plt
+from shapely.geometry import Point
 
-print(f"pandas: {pd.__version__}")
-print(f"geopandas: {gpd.__version__}")
+print("=" * 50)
+print("GIS Environment Verification")
+print("=" * 50)
 
-# Create sample data
-df = pd.DataFrame({
-    'park': ['Albert Park', 'Victoria Park', 'Myers Park'],
-    'area_ha': [6.0, 7.5, 4.0]
-})
+# Check Python version
+print(f"\n✅ Python version: {sys.version.split()[0]}")
 
-print("\nAuckland parks:")
-print(df)
+# Check package versions
+print(f"✅ pandas version: {pd.__version__}")
+print(f"✅ geopandas version: {gpd.__version__}")
+print(f"✅ matplotlib version: {plt.matplotlib.__version__}")
+
+# Test GeoPandas functionality
+print("\n" + "=" * 50)
+print("Testing GeoPandas...")
+print("=" * 50)
+
+# Create a sample GeoDataFrame with Auckland and Wellington
+cities = gpd.GeoDataFrame({
+    'city': ['Auckland', 'Wellington', 'Christchurch'],
+    'population': [1657200, 215100, 381500],
+    'geometry': [
+        Point(174.7633, -36.8485),  # Auckland
+        Point(174.7762, -41.2865),  # Wellington
+        Point(172.6362, -43.5321)   # Christchurch
+    ]
+}, crs='EPSG:4326')
+
+print(cities)
+
+print("\n✅ All tests passed! Your GIS environment is ready.")
+print("\n" + "=" * 50)
 ```
 
-Run it with `uv run`:
+Run the verification script:
 
 ```bash
-uv run python test.py
+uv run python verify_setup.py
 ```
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing uv run output with package versions and data table]**
-:::
+![](figs/uv_verify_setup.png)
 
-**What `uv run` does**:
-1. Automatically activates the virtual environment
-2. Runs your command
-3. Deactivates when done
+Expected output should show:
+- Python 3.12.x
+- Package versions
+- A table with three New Zealand cities
+- "All tests passed!" message
 
-**Advantage**: You never need to manually activate/deactivate!
-
-### Option 2: Manually activating the environment
-
-If you prefer traditional activation:
-
-::: {.panel-tabset}
-
-## macOS
-```bash
-source .venv/bin/activate
-```
-
-Your prompt changes to:
-```bash
-(.venv) user@computer auckland-greenspaces %
-```
-
-## Windows
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-Your prompt changes to:
-```powershell
-(.venv) PS C:\Users\user\Documents\auckland-greenspaces>
-```
-
-:::
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing prompt before and after activation on both platforms]**
-:::
-
-Now you can run Python directly:
-
-```bash
-python test.py
-```
-
-To deactivate:
-
-```bash
-deactivate
-```
 
 ::: {.callout-tip}
 **Recommendation**: Use `uv run` instead of manual activation. It's simpler and less error-prone.
@@ -368,13 +357,10 @@ Package      Version
 ------------ -------
 pandas       2.2.3
 numpy        1.26.4
-geopandas    1.0.1
+geopandas    1.1.2
 ...
 ```
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing uv pip list output with many packages]**
-:::
 
 ### Remove a package
 
@@ -400,318 +386,6 @@ uv sync
 Be cautious with upgrades! Test your code after upgrading packages.
 :::
 
----
-
-## Recreating environments
-
-### Scenario: Colleague wants to run your project
-
-Your colleague clones your project:
-
-```bash
-git clone https://github.com/your-username/auckland-greenspaces.git
-cd auckland-greenspaces
-```
-
-They see:
-```
-auckland-greenspaces/
-├── pyproject.toml     ✅
-├── uv.lock           ✅
-├── src/
-│   └── analysis.py
-└── README.md
-```
-
-**Note**: No `.venv` folder! It's not tracked in Git.
-
-### They run two commands:
-
-```bash
-uv venv          # Create virtual environment
-uv sync          # Install exact versions from uv.lock
-```
-
-Now they have **exactly** the same environment as you!
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing uv sync installing packages from lock file]**
-:::
-
----
-
-## Best practices
-
-### 1. Project structure
-
-Organise your project like this:
-
-```
-auckland-greenspaces/
-├── .venv/                 # Virtual environment (not in Git)
-├── .gitignore            # Ignore .venv and data
-├── data/
-│   ├── raw/             # Original data
-│   └── processed/       # Cleaned data
-├── src/                 # Python source code
-│   ├── __init__.py
-│   ├── data_loader.py
-│   └── analysis.py
-├── notebooks/           # Jupyter notebooks
-│   └── exploration.ipynb
-├── tests/               # Unit tests
-│   └── test_analysis.py
-├── pyproject.toml       # Dependencies (in Git)
-├── uv.lock             # Locked versions (in Git)
-└── README.md           # Documentation
-```
-
-### 2. What to commit to Git
-
-**Commit**:
-- ✅ `pyproject.toml`
-- ✅ `uv.lock`
-- ✅ Source code
-- ✅ Documentation
-- ✅ Small sample data (<10MB)
-
-**Don't commit**:
-- ❌ `.venv/` folder
-- ❌ Large data files
-- ❌ Outputs you can regenerate
-- ❌ Sensitive credentials
-
-### 3. Create a `.gitignore`
-
-Create `.gitignore` in your project root:
-
-```gitignore
-# Virtual environments
-.venv/
-venv/
-env/
-
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
-
-# Data files
-data/raw/
-*.csv
-*.shp
-*.tif
-*.gpkg
-
-# Outputs
-outputs/
-*.png
-*.pdf
-reports/*.html
-
-# Jupyter
-.ipynb_checkpoints/
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-
-# OS files
-.DS_Store
-Thumbs.db
-```
-
-### 4. Document your environment
-
-Add to `README.md`:
-
-```markdown
-# Auckland Green Spaces Analysis
-
-## Setup
-
-1. Clone repository:
-   ```bash
-   git clone https://github.com/your-username/auckland-greenspaces.git
-   cd auckland-greenspaces
-   ```
-
-2. Create environment:
-   ```bash
-   uv venv
-   uv sync
-   ```
-
-3. Run analysis:
-   ```bash
-   uv run python src/analysis.py
-   ```
-
-## Requirements
-
-- Python 3.12+
-- uv package manager
-```
-
----
-
-## Working with Jupyter notebooks
-
-`uv` works seamlessly with Jupyter:
-
-### Install Jupyter
-
-```bash
-uv add jupyter ipykernel
-```
-
-### Start Jupyter
-
-```bash
-uv run jupyter notebook
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Jupyter notebook interface showing cells with geopandas code]**
-:::
-
-Your notebooks will automatically use the virtual environment!
-
-### Verify in notebook
-
-In a notebook cell:
-
-```python
-import sys
-print(sys.executable)
-```
-
-Should show: `/path/to/your/project/.venv/bin/python`
-
----
-
-## Mini exercise
-
-### Exercise 1: Create a GIS project
-
-1. Create a new project called `nz-cities-analysis`
-2. Initialise with `uv init`
-3. Create virtual environment
-4. Install: `geopandas`, `matplotlib`, `contextily`
-5. Create a script that:
-   - Creates a GeoDataFrame with Auckland, Wellington, Christchurch
-   - Prints the coordinates
-   - Plots them on a map
-
-**Starter code**:
-
-```python
-import geopandas as gpd
-import matplotlib.pyplot as plt
-from shapely.geometry import Point
-
-# Create GeoDataFrame
-cities = gpd.GeoDataFrame({
-    'city': ['Auckland', 'Wellington', 'Christchurch'],
-    'geometry': [
-        Point(174.7633, -36.8485),
-        Point(174.7762, -41.2865),
-        Point(172.6362, -43.5321)
-    ]
-}, crs='EPSG:4326')
-
-print(cities)
-
-# Plot
-cities.plot(marker='o', color='red', markersize=100)
-plt.title('Major New Zealand Cities')
-plt.savefig('nz_cities.png', dpi=300, bbox_inches='tight')
-print("✅ Map saved to nz_cities.png")
-```
-
-Run with:
-```bash
-uv run python analyse_cities.py
-```
-
-### Exercise 2: Share your project
-
-1. Create a GitHub repository
-2. Add `.gitignore`
-3. Commit your code
-4. Push to GitHub
-5. Ask a classmate to clone and run it using `uv sync`
-
-Does it work on their machine? If yes, you've achieved reproducibility! 🎉
-
----
-
-## Troubleshooting
-
-### Package installation fails
-
-**Problem**: `uv add package-name` fails with dependency conflict
-
-**Solution**:
-```bash
-uv add package-name --prerelease=allow
-```
-
-Or specify a version:
-```bash
-uv add "pandas<2.0.0"
-```
-
-### Wrong Python version
-
-**Problem**: Virtual environment uses wrong Python version
-
-**Solution**:
-```bash
-uv venv --python 3.12
-```
-
-### Environment activation fails (Windows)
-
-**Problem**: PowerShell blocks script execution
-
-**Solution**:
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-### Can't find installed packages
-
-**Problem**: Import error even after `uv add`
-
-**Solution**: Make sure you're using `uv run`:
-```bash
-uv run python your_script.py
-```
-
-Not just:
-```bash
-python your_script.py
-```
-
----
-
-## Summary
-
-You've learnt how to:
-
-- [x] Create isolated environments with `uv venv`
-- [x] Add packages with `uv add`
-- [x] Run code with `uv run`
-- [x] Manage dependencies with `pyproject.toml` and `uv.lock`
-- [x] Structure projects for reproducibility
-- [x] Share projects that work on any machine
-
-**Key insight**: Virtual environments + lock files = reproducible research
-
-**Next step**: Learn Git for version control (Section 1.3).
 
 ---
 

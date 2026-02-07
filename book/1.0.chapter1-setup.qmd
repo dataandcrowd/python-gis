@@ -1,18 +1,5 @@
 # Part 1: Setup
 
-## Story problem
-
-**Auckland project folder that never breaks**
-
-You're working on a GIS analysis of Auckland's transport network. You:
-
-- Clone a repository onto a lab computer and it works immediately
-- Share the project with a teammate on Windows whilst you use macOS
-- Can recreate the exact same environment months later
-- Can explain precisely what changed between two different results
-
-This chapter teaches you how to build reproducible Python environments that work reliably across platforms and time.
-
 ## What you will learn
 
 By the end of this chapter, you will be able to:
@@ -33,8 +20,11 @@ Traditional Python development often led to "works on my machine" syndrome:
 - **Environment drift** meant projects broke over time
 - **Platform differences** between macOS and Windows caused headaches
 
-## The modern solution
+## The Cloud?
+> Note we tried using **Google Colab** for the last two semesters.
+> It did work during classroom experiments, but went a bit clunky for assignments. So we seriously considered reverting that "cloud" idea.
 
+## The solution
 We'll use three tools that solve these problems:
 
 1. **`uv`** - A fast, reliable package manager (replacing pip)
@@ -47,8 +37,8 @@ At the end of this chapter, you should be able to:
 
 ```bash
 # Clone a project
-git clone https://github.com/username/auckland-gis.git
-cd auckland-gis
+git clone https://github.com/your-user-name/GIS-UoA.git
+cd GIS-UoA
 
 # Set up environment
 uv venv
@@ -84,20 +74,24 @@ pandas version: 2.x.x
 geopandas version: 1.x.x
 ```
 
+If you're wondering what an F-string is, here's a brilliant guide from a [DataCamp Blog](https://www.datacamp.com/tutorial/python-f-string?utm_cid=19589720824&utm_aid=157156376311&utm_campaign=230119_1-ps-other~dsa-tofu~all_2-b2c_3-apac_4-prc_5-na_6-na_7-le_8-pdsh-go_9-nb-e_10-na_11-na&utm_loc=9122070-&utm_mtd=-c&utm_kw=&utm_source=google&utm_medium=paid_search&utm_content=ps-other~apac-en~dsa~tofu~tutorial~python&gad_source=1&gad_campaignid=19589720824&gbraid=0AAAAADQ9WsGvMt_Mfejk4zIbTjBaXGylH&gclid=CjwKCAiAv5bMBhAIEiwAqP9GuLAuisDEk572Rb07FoDGvNxr30HpGVBUx8oGjmBtlFAtZndvpnSvgxoCSpMQAvD_BwE)
+
 ## Chapter structure
 
 This chapter is divided into three practical sections:
 
-**1.1 Installation** - Get Python, uv, and an editor working on your system
+**1.1 Installation**: Get Python, uv, and an editor working on your system
 
-**1.2 UV environments** - Create isolated, reproducible project environments  
+**1.2 UV environments**: Create isolated, reproducible project environments  
 
-**1.3 Version control** - Use Git to track changes and collaborate
+**1.3 Version control**: Use Git to track changes and collaborate
 
 Each section includes:
 - Step-by-step instructions for macOS and Windows
 - Screenshots showing what you should see
 - Mini exercises to practise
 - Troubleshooting tips
+
+The entire installation tutorials will happen during the labs in Week 1.
 
 Let's begin with installation.

@@ -70,8 +70,6 @@ In geospatial data science, packaging allows analytical workflows, spatial utili
 
 :::
 
-
-
 Each of these components is intentionally included to help students understand professional workflows and to produce outputs that can be shared beyond the university setting.
 
 The three modules in this book are designed to be complete, reusable, and ready to engage with society, forming a practical portfolio that reflects contemporary geospatial data science practice.

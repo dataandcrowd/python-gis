@@ -1,4 +1,4 @@
-# 2. Geospatial Python Programming {.unnumbered #sec-geospatial-python}
+# 2. Geospatial Python Programming {.unnumbered}
 
 ## Overview
 
@@ -19,11 +19,11 @@ By the end of this chapter, you will be able to:
 
 This chapter is organised into five main sections:
 
-1. **Basic Python** (@sec-basic-python): Core Python concepts including variables, data types, loops, and conditional statements
-2. **DataFrames** (@sec-dataframes): Working with tabular data using pandas, including data cleaning, filtering, and aggregation
-3. **Geospatial Data** (@sec-geospatial): Introduction to vector and raster data, coordinate systems, and spatial operations with geopandas
-4. **Creating Functions** (@sec-creating-functions): Writing reusable code to make your analyses more efficient and reproducible
-5. **Urban Analytics** (@sec-urban-analytics): Applied examples using real geospatial datasets for urban and environmental analysis
+1. **Basic Python**: Core Python concepts including variables, data types, loops, and conditional statements
+2. **DataFrames**: Working with tabular data using pandas, including data cleaning, filtering, and aggregation
+3. **Geospatial Data**: Introduction to vector and raster data, coordinate systems, and spatial operations with geopandas
+4. **Creating Functions**: Writing reusable code to make your analyses more efficient and reproducible
+5. **Urban Analytics**: Applied examples using real geospatial datasets for urban and environmental analysis
 
 ## Why Python for GIS?
 
@@ -35,16 +35,6 @@ Python has several advantages for geospatial analysis:
 - **Integration**: Works seamlessly with other tools and platforms
 - **Community**: Large, active community providing support and new developments
 
-## Getting Started
-
-Throughout this chapter, we'll use Google Colab by default, which requires no local installation. However, you can also install Python locally if you prefer.
-
-### Using Google Colab
-
-1. Navigate to [https://colab.research.google.com](https://colab.research.google.com)
-2. Sign in with your Google account
-3. Create a new notebook or open an existing one
-4. You're ready to code!
 
 ### Local Installation (Optional)
 

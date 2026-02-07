@@ -32,7 +32,9 @@ Before you begin, ensure you have:
 
 ## Step 1: Install Python 3.12
 
-### Why Python 3.12?
+### Why Python 3.12? (H's subjective opinion)
+
+![](figs/python312.png)
 
 Python 3.12 offers:
 - Improved performance (up to 25% faster)
@@ -49,15 +51,10 @@ Python 3.12 offers:
 3. Open the downloaded `.pkg` file
 4. Follow the installation wizard
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Python.org download page showing Python 3.12 for macOS]**
-:::
+![](https://devguide.python.org/_static/release-cycle.svg)
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: macOS Python installer window]**
-:::
+![](figs/download.png)
 
-**Option 2: Homebrew (recommended for advanced users)**
 
 If you have Homebrew installed:
 
@@ -73,9 +70,6 @@ brew install python@3.12
 4. **CRITICAL**: ✅ Check "Add Python to PATH"
 5. Click "Install Now"
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Windows Python installer with "Add Python to PATH" checkbox highlighted]**
-:::
 
 ::: {.callout-warning}
 If you forget to check "Add Python to PATH", you'll need to uninstall and reinstall Python.
@@ -141,13 +135,8 @@ Positron is a new IDE specifically designed for data science and works excellent
 2. Download for your operating system
 3. Install using the standard installer
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Positron download page]**
-:::
+![](https://positron.posit.co/videos/positron-hero-fast-tour.mp4)
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Positron interface showing Python console]**
-:::
 
 ### Option 2: VS Code (industry standard)
 
@@ -161,15 +150,23 @@ VS Code is widely used and has excellent Python support.
    - Search for "Python"
    - Install the Microsoft Python extension
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: VS Code download page]**
-:::
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: VS Code Extensions marketplace showing Python extension]**
+::: {.callout-note title="VS Code download page"}
+![](figs/vscode.png)
 :::
 
 ---
+
+## Step 2a: Text Editor
+
+Getting a good text editor as your buddy is always handy. 
+It's because you might be caught into a situation to write necessary codes and annonations where CLI is not made possible.
+
+For this course, I highly recommend you download Sublime text (https://www.sublimetext.com/)
+
+![](https://www.sublimehq.com/images/sublime_text.png)
+
+---
+
 
 ## Step 3: Install `uv` package manager
 
@@ -193,10 +190,10 @@ Traditional Python used `pip` for package management, but it has limitations:
 
 ### Installation: macOS
 
-**Option 1: Homebrew (recommended)**
+**Option 1: pip (recommended)**
 
 ```bash
-brew install uv
+pip install uv
 ```
 
 **Option 2: Standalone installer**
@@ -205,10 +202,10 @@ brew install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-**Option 3: Using pip**
+**Option 3: Using brew**
 
 ```bash
-pip3 install uv
+brew install uv
 ```
 
 ### Installation: Windows
@@ -221,9 +218,6 @@ Open PowerShell and run:
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: PowerShell showing uv installation progress]**
-:::
 
 **Option 2: Using pip**
 
@@ -239,240 +233,12 @@ In your terminal:
 uv --version
 ```
 
-Expected output:
-```
-uv 0.5.x (or higher)
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing uv version output on both macOS and Windows]**
-:::
+![](figs/uv_version.png)
 
 ---
 
-## Step 4: Install core GIS packages
+If all three commands show version numbers, you're ready to proceed! 🎉
 
-Now we'll create a test environment and install GeoPandas to verify everything works.
-
-### Create a test directory
-
-::: {.panel-tabset}
-
-## macOS
-```bash
-cd ~/Documents
-mkdir gis-test
-cd gis-test
-```
-
-## Windows
-```powershell
-cd ~\Documents
-mkdir gis-test
-cd gis-test
-```
-
-:::
-
-### Initialise with `uv`
-
-```bash
-uv init
-```
-
-This creates:
-- `pyproject.toml` - project configuration file
-- `hello.py` - sample Python script
-- `.python-version` - specifies Python version
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing output of uv init command]**
-:::
-
-### Create virtual environment
-
-```bash
-uv venv
-```
-
-This creates a `.venv` folder containing an isolated Python environment.
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: File explorer showing .venv folder structure]**
-:::
-
-### Install GIS packages
-
-```bash
-uv add pandas
-uv add geopandas
-uv add matplotlib
-```
-
-Watch as `uv` quickly installs each package and its dependencies!
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing uv add geopandas with progress bars]**
-:::
-
----
-
-## Step 5: Verify GIS installation
-
-### Quick test
-
-Run this one-liner to check if GeoPandas imports correctly:
-
-```bash
-uv run python -c "import geopandas as gpd; print('✅ GeoPandas', gpd.__version__)"
-```
-
-Expected output:
-```
-✅ GeoPandas 1.0.x
-```
-
-### Comprehensive test
-
-Create a test script called `verify_setup.py`:
-
-```python
-"""
-Verification script for GIS environment setup
-University of Auckland - GISCI 343
-"""
-
-import sys
-import pandas as pd
-import geopandas as gpd
-import matplotlib.pyplot as plt
-from shapely.geometry import Point
-
-print("=" * 50)
-print("GIS Environment Verification")
-print("=" * 50)
-
-# Check Python version
-print(f"\n✅ Python version: {sys.version.split()[0]}")
-
-# Check package versions
-print(f"✅ pandas version: {pd.__version__}")
-print(f"✅ geopandas version: {gpd.__version__}")
-print(f"✅ matplotlib version: {plt.matplotlib.__version__}")
-
-# Test GeoPandas functionality
-print("\n" + "=" * 50)
-print("Testing GeoPandas...")
-print("=" * 50)
-
-# Create a sample GeoDataFrame with Auckland and Wellington
-cities = gpd.GeoDataFrame({
-    'city': ['Auckland', 'Wellington', 'Christchurch'],
-    'population': [1657200, 215100, 381500],
-    'geometry': [
-        Point(174.7633, -36.8485),  # Auckland
-        Point(174.7762, -41.2865),  # Wellington
-        Point(172.6362, -43.5321)   # Christchurch
-    ]
-}, crs='EPSG:4326')
-
-print(cities)
-
-print("\n✅ All tests passed! Your GIS environment is ready.")
-print("\n" + "=" * 50)
-```
-
-Run the verification script:
-
-```bash
-uv run python verify_setup.py
-```
-
-::: {.callout-note title="Screenshot placeholder"}
-**[SCREENSHOT NEEDED: Terminal showing successful output of verify_setup.py]**
-:::
-
-Expected output should show:
-- Python 3.12.x
-- Package versions
-- A table with three New Zealand cities
-- "All tests passed!" message
-
----
-
-## Updating `uv`
-
-To update `uv` in the future:
-
-::: {.panel-tabset}
-
-## Homebrew installation
-```bash
-brew upgrade uv
-```
-
-## Standalone installation
-```bash
-uv self update
-```
-
-## pip installation
-```bash
-pip install --upgrade uv
-```
-
-:::
-
----
-
-## Troubleshooting
-
-### Python command not found (macOS)
-
-**Problem**: `python3: command not found`
-
-**Solution**: 
-1. Reinstall Python from python.org
-2. Add Python to PATH:
-   ```bash
-   echo 'export PATH="/Library/Frameworks/Python.framework/Versions/3.12/bin:$PATH"' >> ~/.zshrc
-   source ~/.zshrc
-   ```
-
-### Python not in PATH (Windows)
-
-**Problem**: `'python' is not recognized as an internal or external command`
-
-**Solution**:
-1. Uninstall Python
-2. Reinstall and **check "Add Python to PATH"**
-3. Restart PowerShell
-
-### Permission denied (macOS)
-
-**Problem**: `Permission denied` when running commands
-
-**Solution**: Use `python3 -m pip install uv` instead of `pip install uv`
-
-### Execution policy error (Windows)
-
-**Problem**: `cannot be loaded because running scripts is disabled`
-
-**Solution**:
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-### `uv` not found after installation
-
-**Problem**: `uv: command not found` after installation
-
-**Solution**:
-1. Close and reopen your terminal
-2. Check if uv is in PATH:
-   - macOS: `echo $PATH`
-   - Windows: `echo $env:PATH`
-3. Reinstall using a different method
 
 ---
 
@@ -482,31 +248,8 @@ You should now have:
 
 - [x] Python 3.12 installed and verified
 - [x] A code editor (Positron or VS Code)
-- [x] `uv` package manager installed
-- [x] A test project with GeoPandas working
-- [x] Verified that GIS packages import successfully
 
 **Next step**: Learn how to manage projects with `uv` environments (Section 1.2).
 
----
+<iframe width="560" height="315" src="https://youtu.be/8zggSBvTQbM" frameborder="0" allowfullscreen></iframe>
 
-## Mini exercise
-
-Before moving on, complete this exercise:
-
-1. Create a new directory called `my-first-gis-project`
-2. Initialise it with `uv init`
-3. Create a virtual environment with `uv venv`
-4. Install `folium` (for interactive maps): `uv add folium`
-5. Create a script that imports folium and prints its version
-
-**Solution**:
-
-```python
-import folium
-print(f"Folium version: {folium.__version__}")
-```
-
-Run with: `uv run python your_script.py`
-
-If this works, you're ready for the next section!
