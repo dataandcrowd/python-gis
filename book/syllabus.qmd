@@ -113,9 +113,9 @@ By the end of this course, students will be able to:
 
 #### Week 2: Fundamentals of geospatial Python (9 March)
 
-**Lecture topics (2 hours)**
+**Lecture topics**
 
-*Python skills (1 hour)*
+*Python skills*
 - Importing geospatial datasets (GeoJSON, Shapefiles, GeoPackage)
 - Data structures: long vs wide formatting
 - Data manipulation fundamentals: filtering, selecting, sorting
@@ -126,10 +126,9 @@ By the end of this course, students will be able to:
 - Module imports: `import`, `from...import`, `import...as`
 - ESDA basics
 
-*Urban analytics context (45 mins)*
-- Descriptive statistics in spatial data
-- Identifying outliers and missing data in urban datasets
+*Urban analytics*
 - Data quality issues in real-world urban data
+- Identifying outliers and missing data in urban datasets
 - Statistical imputation methods: mean, median, interpolation
 - Working with census geographies (SA2 level in NZ)
 
@@ -137,8 +136,6 @@ By the end of this course, students will be able to:
 - Install and configure Git for version control
 - Long/wide formatting with urban datasets
 - Data manipulation exercises: filtering, groupby, merge operations
-- Calculate distances between points (pedestrian sensors to amenities)
-- Aggregate data by SA2 areas (count points within polygons)
 - Work with messy pedestrian count data (intro to Assignment 1 dataset)
 - Imputation practice: mean/median/forward fill
 - Descriptive statistics and exploratory visualisations
@@ -151,7 +148,7 @@ By the end of this course, students will be able to:
 
 #### Week 3: Advanced geospatial operations (16 March)
 
-**Lecture topics (2 hours)**
+**Lecture topics**
 
 *Python skills*
 - Choropleths and classification (Jenks, quantiles, equal interval)
@@ -164,10 +161,8 @@ By the end of this course, students will be able to:
 
 *Urban analytics context*
 - The 15-minute city concept
-- Measuring accessibility and walkability
-- Introduction to urban morphology
+- Introduction to urban morphology with `momepy`
 - Walkability indices and street connectivity
-- Using momepy for morphological analysis
 - Census geography in NZ (SA1, SA2, SA3) and aggregation choices
 
 **Lab activities**
@@ -176,7 +171,6 @@ By the end of this course, students will be able to:
 - Distance matrix between sensors and key destinations
 - Intro to momepy: basic morphometrics
 - Street connectivity metrics and relate to footfall
-- Map centrality using OSMnx
 - Choropleths with Jenks
 - Interactive folium maps with popups/tooltips
 
@@ -187,10 +181,10 @@ By the end of this course, students will be able to:
 #### Week 4: Urban morphology and mid-term assessment (23 March)
 
 **Guest lecture: Shriv (Monday 23 March, 13:00-14:00)**
-- Urban morphology using momepy: topology, entropy, fractality, connectivity, building morphometrics
+- Urban morphology using momepy: concepts and applications
+- Case studies of morphology and walkability analysis
 
 **Lecture topics (Tuesday 24 March)**
-- Consolidation of Weeks 1-3
 - Connecting morphology to pedestrian behaviour
 - Walkability frameworks and composite indices
 - Test preparation guidance
@@ -209,8 +203,7 @@ By the end of this course, students will be able to:
 #### Week 5: Functions and workflows (30 March)
 
 **Lecture topics**
-- Writing effective functions and code organisation
-- For loops for temporal comparisons
+- Writing effective functions and code organisation - important for Assignment 1 and 3
 - Functions for extremes (max/min) and grouped summaries
 - GitHub workflows and reproducibility
 

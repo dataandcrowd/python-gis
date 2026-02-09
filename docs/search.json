@@ -436,12 +436,12 @@
   {
     "objectID": "2.2.dataframes.html",
     "href": "2.2.dataframes.html",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "",
-    "text": "Introduction\nWorking with tabular data is fundamental to geospatial analysis. Most spatial datasets combine attribute data (stored in tables) with geographic information. This section introduces pandas, Python’s powerful library for data manipulation, which forms the foundation for working with geopandas (spatial data) later in this course.",
+    "text": "Introduction\nIn Section 2.1, you learned Python fundamentals: lists for storing sequences, loops for iteration, and conditionals for decision-making. Now we’ll build on those foundations to work with structured tabular data—the kind you’d see in Excel spreadsheets or GIS attribute tables.\nThis section introduces: - Dictionaries: Flexible key-value structures (essential for GeoJSON and APIs) - pandas DataFrames: Python’s answer to spreadsheets and database tables - Data operations: Reading, filtering, grouping, and transforming data\nWhy this matters for GIS: Most spatial analysis involves attribute data alongside geometry. You’ll spend significant time manipulating tables before (or after) spatial operations. These skills are foundational for Section 2.4 (GeoPandas), where you’ll add spatial capabilities to DataFrames.\nThe progression: - Section 2.1: Basics (lists, loops, if/else) - Section 2.2: Structured data (dictionaries, DataFrames, operations) - Section 2.3: Visualisation (making sense of your data) - Section 2.4: Spatial data (adding geography)",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
@@ -2244,56 +2244,56 @@
   {
     "objectID": "2.2.dataframes.html#getting-started-with-pandas",
     "href": "2.2.dataframes.html#getting-started-with-pandas",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Getting Started with Pandas",
-    "text": "Getting Started with Pandas\n\nInstallation and Import\n# In Google Colab (already installed)\nimport pandas as pd\n\n# Local installation via pip\n# !pip install pandas\n\n# Import with standard alias\nimport pandas as pd\nimport numpy as np  # Often used together\n\n\n\n\n\n\nStandard Aliases\n\n\n\nThe Python community uses standard aliases: - pandas → pd - numpy → np - matplotlib.pyplot → plt - seaborn → sns\nUsing these makes your code more readable to others.",
+    "text": "Getting Started with Pandas\n\nWhat is pandas?\npandas is Python’s data analysis library. It provides: - DataFrame: A table with rows and columns (like Excel) - Series: A single column of data - Operations for filtering, grouping, merging data\nThink of it as “Excel in Python, but more powerful and reproducible.”\n\n\nInstallation and Import\n# Install with uv (if not already installed)\n# uv add pandas\n\n# Import with standard alias\nimport pandas as pd\nimport numpy as np  # Often used together\n\n\n\n\n\n\nStandard Aliases\n\n\n\nThe Python community uses these aliases consistently: - pandas → pd - numpy → np - matplotlib.pyplot → plt - seaborn → sns - geopandas → gpd (you’ll see this in Section 2.4!)\nUsing standard aliases makes your code readable to other Python users.",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
     "objectID": "2.2.dataframes.html#creating-dataframes",
     "href": "2.2.dataframes.html#creating-dataframes",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Creating DataFrames",
-    "text": "Creating DataFrames\n\nFrom a Dictionary\n# Create a simple DataFrame\ndf = pd.DataFrame({\n    'a': [1, 2, 3, 4],\n    'b': [5, 6, 7, 8]\n})\n\nprint(df)\nOutput:\n   a  b\n0  1  5\n1  2  6\n2  3  7\n3  4  8\n\n\nFrom Lists\n# Create from lists\ndata = {\n    'Name': ['Tom', 'Nick', 'Krish', 'Jack'],\n    'Age': [20, 21, 19, 18],\n    'City': ['Auckland', 'Wellington', 'Christchurch', 'Hamilton']\n}\n\ndf = pd.DataFrame(data)\nprint(df)\nOutput:\n    Name  Age         City\n0    Tom   20     Auckland\n1   Nick   21   Wellington\n2  Krish   19  Christchurch\n3   Jack   18     Hamilton",
+    "text": "Creating DataFrames\n\nWhat is a DataFrame?\nA DataFrame is a two-dimensional table with: - Rows (observations/records) - Columns (variables/fields) - Index (row labels, usually numbers)\n\n\n\nDataFrame structure\n\n\nGIS context: Think of it as an attribute table without the geometry column (yet—that comes in Section 2.4 with GeoPandas).\n\n\nFrom a Dictionary (The Key Connection!)\nThis is where dictionaries and DataFrames connect:\n# Step 1: Create a dictionary (Section 2.2 beginning!)\ncity_data = {\n    'city': ['Auckland', 'Wellington', 'Christchurch', 'Hamilton', 'Tauranga'],\n    'population': [1672000, 217200, 389700, 185000, 158000],\n    'area_km2': [1086, 444, 608, 877, 135],\n    'region': ['Auckland', 'Wellington', 'Canterbury', 'Waikato', 'Bay of Plenty']\n}\n\n# Step 2: Convert to DataFrame\ncities_df = pd.DataFrame(city_data)\n\n# Step 3: View it\nprint(cities_df)\nOutput:\n          city  population  area_km2           region\n0     Auckland     1672000      1086         Auckland\n1   Wellington      217200       444       Wellington\n2  Christchurch      389700       608        Canterbury\n3     Hamilton      185000       877          Waikato\n4     Tauranga      158000       135  Bay of Plenty\nNotice: - Each dictionary key becomes a column name - Each list in the dictionary becomes a column - Pandas automatically adds an index (0, 1, 2, 3, 4)\n\n\nFrom a List of Dictionaries\nSometimes data comes as multiple dictionaries (common from APIs):\n# Auckland parks (like an API might return)\nparks_list = [\n    {\"name\": \"Albert Park\", \"area_ha\": 6.0, \"suburb\": \"Auckland CBD\"},\n    {\"name\": \"Victoria Park\", \"area_ha\": 7.5, \"suburb\": \"Auckland CBD\"},\n    {\"name\": \"Myers Park\", \"area_ha\": 4.0, \"suburb\": \"Auckland CBD\"},\n    {\"name\": \"Western Springs\", \"area_ha\": 43.0, \"suburb\": \"Westmere\"}\n]\n\n# Convert to DataFrame\nparks_df = pd.DataFrame(parks_list)\nprint(parks_df)\nOutput:\n              name  area_ha        suburb\n0      Albert Park      6.0  Auckland CBD\n1    Victoria Park      7.5  Auckland CBD\n2       Myers Park      4.0  Auckland CBD\n3  Western Springs     43.0      Westmere\nThis is exactly what you’ll do with GeoJSON! Each feature becomes a row.",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
     "objectID": "2.2.dataframes.html#reading-data-files",
     "href": "2.2.dataframes.html#reading-data-files",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Reading Data Files",
-    "text": "Reading Data Files\n\nCSV Files\nCSV (Comma-Separated Values) is the most common tabular data format:\n# Read from local file\ndf = pd.read_csv('data.csv')\n\n# Read from URL\nurl = 'https://example.com/data.csv'\ndf = pd.read_csv(url)\n\n# Specify delimiter for other formats\ndf = pd.read_csv('data.txt', sep='\\t')  # Tab-separated\n\n# Skip rows\ndf = pd.read_csv('data.csv', skiprows=1)\n\n# Specify data types\ndf = pd.read_csv('data.csv', dtype={'population': int})\n\n\nGoogle Colab File Access\nIn Google Colab, access files from Google Drive:\nfrom google.colab import drive\ndrive.mount('/content/drive')\n\n# Read file from Drive\ndf = pd.read_csv('/content/drive/My Drive/data/pedestrians.csv')\nOr upload files directly:\nfrom google.colab import files\nuploaded = files.upload()  # Opens file picker\n\n# Then read the uploaded file\nimport io\ndf = pd.read_csv(io.BytesIO(uploaded['filename.csv']))\n\n\nOther File Formats\n# Excel files\ndf = pd.read_excel('data.xlsx', sheet_name='Sheet1')\n\n# JSON files\ndf = pd.read_json('data.json')\n\n# Write to files\ndf.to_csv('output.csv', index=False)\ndf.to_excel('output.xlsx', sheet_name='Data', index=False)",
+    "text": "Reading Data Files\n\nCSV Files\nCSV (Comma-Separated Values) is the most common format for tabular data.\nBasic reading:\n# Read local file\ndf = pd.read_csv('auckland_buses.csv')\n\n# Read from URL\nurl = 'https://example.com/data.csv'\ndf = pd.read_csv(url)\nCommon arguments:\n# Specify separator (default is comma)\ndf = pd.read_csv('data.txt', sep='\\t')  # Tab-separated\ndf = pd.read_csv('data.csv', sep=';')   # Semicolon-separated\n\n# Skip rows at the beginning (e.g., metadata lines)\ndf = pd.read_csv('data.csv', skiprows=2)  # Skip first 2 rows\n\n# Specify which row is the header\ndf = pd.read_csv('data.csv', header=0)    # First row (default)\ndf = pd.read_csv('data.csv', header=None) # No header row\n\n# Specify data types for columns\ndf = pd.read_csv('data.csv', dtype={'population': int, 'name': str})\n\n# Handle missing values\ndf = pd.read_csv('data.csv', na_values=['NA', 'missing', '-', ''])\n\n# Use a specific column as index\ndf = pd.read_csv('data.csv', index_col='city_name')\n\n# Parse dates automatically\ndf = pd.read_csv('data.csv', parse_dates=['date_column'])\n\n# Read only certain columns\ndf = pd.read_csv('data.csv', usecols=['city', 'population', 'area'])\n\n# Read only first n rows\ndf = pd.read_csv('data.csv', nrows=100)\n\n# Specify encoding (for non-UTF-8 files)\ndf = pd.read_csv('data.csv', encoding='utf-8')\ndf = pd.read_csv('data.csv', encoding='latin-1')  # Sometimes needed for old files\nPractical example:\n# Reading Auckland bus route data with specific settings\nbuses = pd.read_csv(\n    'auckland_buses.csv',\n    sep=',',                    # Comma-separated\n    skiprows=1,                 # Skip metadata line\n    header=0,                   # Next row is header\n    dtype={\n        'route_number': str,    # Keep as string (e.g., \"70\")\n        'daily_riders': int,\n        'route_length': float\n    },\n    na_values=['NA', 'missing'],\n    parse_dates=['start_date'],\n    usecols=['route_number', 'route_name', 'daily_riders', 'route_length']\n)\n\nprint(buses.head())\nprint(buses.dtypes)  # Check data types\n\n\nExcel Files\n# Read Excel file\ndf = pd.read_excel('data.xlsx')\n\n# Specify sheet by name\ndf = pd.read_excel('data.xlsx', sheet_name='Sheet1')\n\n# Specify sheet by index (0-based)\ndf = pd.read_excel('data.xlsx', sheet_name=0)\n\n# Read all sheets into a dictionary\nall_sheets = pd.read_excel('data.xlsx', sheet_name=None)\nprint(all_sheets.keys())  # See all sheet names\n\n# Other arguments work similarly to read_csv\ndf = pd.read_excel(\n    'auckland_demographics.xlsx',\n    sheet_name='Suburbs',\n    skiprows=2,\n    usecols='A:D',  # Columns A through D\n    dtype={'population': int}\n)\n\n\nJSON Files\nPerfect for working with API responses and GeoJSON!\n# Read JSON file\ndf = pd.read_json('data.json')\n\n# Read from URL (API endpoint)\napi_url = 'https://api.example.com/auckland/parks'\ndf = pd.read_json(api_url)\n\n# For nested JSON (like GeoJSON), you might need to normalize\nimport json\n\n# Read GeoJSON\nwith open('auckland_parks.geojson', 'r') as f:\n    geojson = json.load(f)\n\n# Extract properties into DataFrame\nfeatures = geojson['features']\nproperties_list = [f['properties'] for f in features]\ndf = pd.DataFrame(properties_list)\n\nprint(df)\n\n\nSaving DataFrames\n# Save to CSV\ndf.to_csv('output.csv', index=False)  # index=False avoids extra column\n\n# Save to Excel\ndf.to_excel('output.xlsx', sheet_name='Data', index=False)\n\n# Save to JSON\ndf.to_json('output.json', orient='records', indent=2)\n\n# Save with specific encoding\ndf.to_csv('output.csv', encoding='utf-8', index=False)",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
     "objectID": "2.2.dataframes.html#exploring-dataframes",
     "href": "2.2.dataframes.html#exploring-dataframes",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Exploring DataFrames",
-    "text": "Exploring DataFrames\n\nEssential Methods\n# First/last rows\ndf.head()      # First 5 rows\ndf.head(10)    # First 10 rows\ndf.tail()      # Last 5 rows\n\n# Basic information\ndf.shape       # Dimensions: (rows, columns)\ndf.columns     # Column names\ndf.dtypes      # Data types of each column\ndf.info()      # Comprehensive summary\n\n# Summary statistics\ndf.describe()  # Count, mean, std, min, quartiles, max\n\n# Check for missing values\ndf.isnull().sum()  # Count of missing values per column\ndf.isna().sum()    # Alias for isnull()\n\n\nExample: Exploring Auckland Pedestrian Data\n# Read pedestrian count data\npedestrians = pd.read_csv('auckland_pedestrian_counts.csv')\n\n# Explore the data\nprint(\"Dataset shape:\", pedestrians.shape)\nprint(\"\\nColumn names:\", pedestrians.columns.tolist())\nprint(\"\\nFirst few rows:\")\nprint(pedestrians.head())\n\nprint(\"\\nData types:\")\nprint(pedestrians.dtypes)\n\nprint(\"\\nSummary statistics:\")\nprint(pedestrians.describe())\n\nprint(\"\\nMissing values:\")\nprint(pedestrians.isnull().sum())",
+    "text": "Exploring DataFrames\n\nInitial Inspection\n# Create sample Auckland suburb data\nsuburbs = pd.DataFrame({\n    'suburb': ['Mt Eden', 'Parnell', 'Grey Lynn', 'Ponsonby', 'Epsom', 'Newmarket'],\n    'population': [15200, 8400, 11300, 9800, 18900, 8200],\n    'median_income': [78000, 92000, 65000, 88000, 105000, 95000],\n    'avg_house_price': [1.2, 1.8, 1.1, 1.6, 2.1, 1.9],  # millions NZD\n    'parks_count': [3, 2, 4, 3, 5, 2]\n})\n\n# View first rows\nprint(suburbs.head())      # First 5 rows (default)\nprint(suburbs.head(3))     # First 3 rows\n\n# View last rows\nprint(suburbs.tail())      # Last 5 rows\nprint(suburbs.tail(2))     # Last 2 rows\n\n# Random sample\nprint(suburbs.sample(3))   # 3 random rows\n\n\nDataFrame Properties\n# Shape: (rows, columns)\nprint(suburbs.shape)  # (6, 5)\n\n# Dimensions\nprint(f\"Rows: {len(suburbs)}\")\nprint(f\"Columns: {len(suburbs.columns)}\")\n\n# Column names\nprint(suburbs.columns)\n# Output: Index(['suburb', 'population', 'median_income', 'avg_house_price', 'parks_count'])\n\n# Data types\nprint(suburbs.dtypes)\nOutput:\nsuburb                object\npopulation             int64\nmedian_income          int64\navg_house_price      float64\nparks_count            int64\ndtype: object\n\n\nSummary Statistics\n# Summary statistics for numeric columns\nprint(suburbs.describe())\nOutput:\n       population  median_income  avg_house_price  parks_count\ncount        6.00           6.00             6.00         6.00\nmean     11966.67       87166.67             1.62         3.17\nstd       4419.69       14658.87             0.41         1.17\nmin       8200.00       65000.00             1.10         2.00\n25%       8850.00       80500.00             1.25         2.25\n50%      11050.00       90000.00             1.55         3.00\n75%      15500.00       93750.00             1.88         3.75\nmax      18900.00      105000.00             2.10         5.00\nInterpretation: - count: Number of non-null values - mean: Average - std: Standard deviation (spread) - min, 25%, 50%, 75%, max: Quartiles\nCustom statistics:\n# Specific statistic for a column\nprint(suburbs['population'].mean())      # 11966.67\nprint(suburbs['population'].median())    # 11050.0\nprint(suburbs['population'].std())       # 4419.69\nprint(suburbs['population'].sum())       # 71800\n\n# Multiple statistics at once\nprint(suburbs['avg_house_price'].agg(['mean', 'median', 'min', 'max']))\n\n\nInformation Summary\n# Comprehensive info about DataFrame\nprint(suburbs.info())\nOutput:\n&lt;class 'pandas.core.frame.DataFrame'&gt;\nRangeIndex: 6 entries, 0 to 5\nData columns (total 5 columns):\n #   Column             Non-Null Count  Dtype  \n---  ------             --------------  -----  \n 0   suburb             6 non-null      object \n 1   population         6 non-null      int64  \n 2   median_income      6 non-null      int64  \n 3   avg_house_price    6 non-null      float64\n 4   parks_count        6 non-null      int64  \ndtypes: float64(1), int64(3), object(1)\nmemory usage: 368.0+ bytes\nThis tells you: - Total rows and columns - Which columns have missing values - Data types - Memory usage",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
     "objectID": "2.2.dataframes.html#selecting-data",
     "href": "2.2.dataframes.html#selecting-data",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Selecting Data",
-    "text": "Selecting Data\n\nSelecting Columns\n# Single column (returns Series)\nages = df['Age']\n\n# Multiple columns (returns DataFrame)\nsubset = df[['Name', 'City']]\n\n# Using dot notation (only for valid Python identifiers)\nages = df.Age\n\n\nSelecting Rows\n# By position using iloc\nfirst_row = df.iloc[0]           # First row\nfirst_three = df.iloc[0:3]       # First 3 rows\nspecific_rows = df.iloc[[0, 2, 4]]  # Rows 0, 2, 4\n\n# By label using loc\nrow_by_label = df.loc[0]         # Row with index 0\n\n\nBoolean Indexing (Filtering)\nFilter rows based on conditions:\n# Simple filter\nhigh_age = df[df['Age'] &gt; 20]\n\n# Multiple conditions with &, |\nfiltered = df[(df['Age'] &gt; 18) & (df['City'] == 'Auckland')]\n\n# Using isin for multiple values\ncities_subset = df[df['City'].isin(['Auckland', 'Wellington'])]\n\n# String methods\nstarts_with_a = df[df['Name'].str.startswith('A')]\ncontains_ck = df[df['City'].str.contains('ck')]\n\n\n\n\n\n\nBoolean Operators\n\n\n\n\n& for AND (not and)\n| for OR (not or)\n~ for NOT (not not)\nAlways use parentheses around each condition!\n\n\n\n\n\nThe Query Method\nA more readable alternative to boolean indexing:\n# Simple query\nfiltered = df.query('Age &gt; 20')\n\n# Multiple conditions\nfiltered = df.query('Age &gt; 18 and City == \"Auckland\"')\n\n# Using variables with @\nmin_age = 18\nfiltered = df.query('Age &gt; @min_age')\n\n\nPractical Example: Filtering Pedestrian Data\n# Load data\npedestrians = pd.read_csv('pedestrian_counts.csv')\n\n# Filter for weekdays only\nweekdays = pedestrians[pedestrians['day_of_week'] &lt; 5]\n\n# Filter for high foot traffic\nhigh_traffic = pedestrians[pedestrians['count'] &gt; 1000]\n\n# Multiple conditions: weekday mornings with high traffic\nmorning_rush = pedestrians[\n    (pedestrians['day_of_week'] &lt; 5) &\n    (pedestrians['hour'] &gt;= 7) &\n    (pedestrians['hour'] &lt;= 9) &\n    (pedestrians['count'] &gt; 500)\n]\n\n# Find specific location\nqueen_street = pedestrians.query('location == \"Queen Street\"')\n\n# Filter by date range\nrecent = pedestrians[pedestrians['date'] &gt;= '2023-01-01']",
+    "text": "Selecting Data\n\nSelecting Columns\n# Single column (returns Series)\npop_series = suburbs['population']\nprint(type(pop_series))  # &lt;class 'pandas.core.series.Series'&gt;\n\n# Single column (returns DataFrame)\npop_df = suburbs[['population']]\nprint(type(pop_df))  # &lt;class 'pandas.core.frame.DataFrame'&gt;\n\n# Multiple columns\nsubset = suburbs[['suburb', 'population', 'median_income']]\nprint(subset)\n\n\nSelecting Rows by Index\nUsing .iloc[] (integer location):\n# Single row by position\nfirst_row = suburbs.iloc[0]  # First row\nprint(first_row)\n\n# Multiple rows by position\nfirst_three = suburbs.iloc[0:3]  # Rows 0, 1, 2\nprint(first_three)\n\n# Specific rows\nselected = suburbs.iloc[[0, 2, 4]]  # Rows 0, 2, 4\nprint(selected)\n\n# Rows and columns together\nsubset = suburbs.iloc[0:3, 0:2]  # First 3 rows, first 2 columns\nprint(subset)\nUsing .loc[] (label-based):\n# Single row by index label\nrow = suburbs.loc[0]\n\n# Multiple rows\nrows = suburbs.loc[0:2]  # Includes row 2 (unlike iloc!)\n\n# Specific columns\nsubset = suburbs.loc[:, ['suburb', 'population']]\n\n# Rows and columns\nsubset = suburbs.loc[0:2, ['suburb', 'population']]\nDifference between .iloc and .loc: - .iloc[0:3] → rows 0, 1, 2 (excludes 3) - .loc[0:3] → rows 0, 1, 2, 3 (includes 3 if it exists)\n\n\nBoolean Indexing (Filtering)\nThis is the most powerful selection method! It uses conditionals from Section 2.1.\n# Find wealthy suburbs (income &gt; 90000)\nwealthy = suburbs[suburbs['median_income'] &gt; 90000]\nprint(wealthy)\n\n# Find affordable housing (price &lt; 1.5M)\naffordable = suburbs[suburbs['avg_house_price'] &lt; 1.5]\nprint(affordable)\n\n# Multiple conditions (AND) - use &\nwealthy_and_affordable = suburbs[\n    (suburbs['median_income'] &gt; 80000) & \n    (suburbs['avg_house_price'] &lt; 1.5)\n]\nprint(wealthy_and_affordable)\n\n# Multiple conditions (OR) - use |\nedge_suburbs = suburbs[\n    (suburbs['population'] &lt; 9000) | \n    (suburbs['population'] &gt; 18000)\n]\nprint(edge_suburbs)\n\n# Using .isin() for multiple values\ncbd_suburbs = suburbs[suburbs['suburb'].isin(['Mt Eden', 'Parnell', 'Newmarket'])]\nprint(cbd_suburbs)\n\n# String methods\nparks_many = suburbs[suburbs['suburb'].str.contains('Park')]  # Contains \"Park\"\nstarts_with_p = suburbs[suburbs['suburb'].str.startswith('P')]  # Starts with P\n\n\nThe .query() Method\nCleaner syntax for filtering:\n# Simple condition\nwealthy = suburbs.query('median_income &gt; 90000')\n\n# Multiple conditions\nideal = suburbs.query('median_income &gt; 80000 and avg_house_price &lt; 1.8')\n\n# Using variables (with @)\nthreshold = 90000\nhigh_income = suburbs.query('median_income &gt; @threshold')\n\n# String matching\nparnell = suburbs.query('suburb == \"Parnell\"')",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
@@ -2310,12 +2310,12 @@
   {
     "objectID": "2.2.dataframes.html#grouping-and-aggregation",
     "href": "2.2.dataframes.html#grouping-and-aggregation",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Grouping and Aggregation",
-    "text": "Grouping and Aggregation\nGrouping is one of pandas’ most powerful features—it follows a split-apply-combine strategy:\n\nSplit data into groups based on criteria\nApply a function to each group\nCombine results into a data structure\n\n\n\n\n\n\n\nFigure 2: The split-apply-combine strategy\n\n\n\n\nBasic Grouping\n# Group by single column and calculate mean\ncity_stats = df.groupby('City')['Age'].mean()\n\n# Multiple aggregations\ncity_summary = df.groupby('City').agg({\n    'Age': ['mean', 'min', 'max'],\n    'Name': 'count'\n})\n\n# Group by multiple columns\ndf.groupby(['City', 'Category'])['Age'].mean()\n\n\nCommon Aggregation Functions\n\n\n\nFunction\nDescription\n\n\n\n\ncount()\nCount non-null values\n\n\nsum()\nSum of values\n\n\nmean()\nAverage value\n\n\nmedian()\nMedian value\n\n\nmin()\nMinimum value\n\n\nmax()\nMaximum value\n\n\nstd()\nStandard deviation\n\n\nvar()\nVariance\n\n\n\n\n\nPractical Example: Analysing Pedestrian Patterns\n# Average count by location\nlocation_avg = pedestrians.groupby('location')['count'].mean()\nprint(location_avg.sort_values(ascending=False).head())\n\n# Statistics by time of day\ntime_stats = pedestrians.groupby('time_period').agg({\n    'count': ['mean', 'std', 'max'],\n    'location': 'count'\n})\n\n# Weekend vs weekday comparison\nday_type_comparison = pedestrians.groupby('is_weekend')['count'].agg([\n    'mean', 'median', 'max'\n]).round(0)\n\n# Hourly patterns by location\nhourly_patterns = pedestrians.groupby(['location', 'hour'])['count'].mean()\n\n# Find peak hour for each location\npeak_hours = pedestrians.groupby('location').apply(\n    lambda x: x.loc[x['count'].idxmax(), 'hour']\n)\n\n# Multi-level grouping: location and time period\ndetailed_stats = pedestrians.groupby(['location', 'time_period']).agg({\n    'count': ['mean', 'max'],\n    'date': 'count'  # Number of observations\n}).round(0)",
+    "text": "Grouping and Aggregation\nGrouping is one of pandas’ most powerful features. It follows the split-apply-combine pattern.\n\nBasic Grouping\n# Add region column to our data\nsuburbs['region'] = ['Central', 'Eastern', 'Western', 'Western', 'Central', 'Central']\n\n# Calculate average population by region\navg_pop_by_region = suburbs.groupby('region')['population'].mean()\nprint(avg_pop_by_region)\nOutput:\nregion\nCentral    14100.0\nEastern     8400.0\nWestern    10550.0\nName: population, dtype: float64\n\n\nMultiple Aggregations\n# Multiple statistics for one column\nregion_stats = suburbs.groupby('region')['population'].agg(['mean', 'sum', 'count'])\nprint(region_stats)\nOutput:\n              mean     sum  count\nregion                          \nCentral   14100.0  42300      3\nEastern    8400.0   8400      1\nWestern   10550.0  21100      2\n\n\nAggregating Multiple Columns\n# Different aggregations for different columns\nsummary = suburbs.groupby('region').agg({\n    'population': ['mean', 'sum'],\n    'median_income': 'mean',\n    'avg_price_millions': ['mean', 'max'],\n    'num_parks': 'sum'\n})\n\nprint(summary)\n\n\nCustom Aggregation Functions\n# Define custom function\ndef price_range(prices):\n    return prices.max() - prices.min()\n\n# Use it in groupby\nprice_ranges = suburbs.groupby('region')['avg_price_millions'].agg([\n    'mean',\n    ('range', price_range),\n    'count'\n])\nprint(price_ranges)\n\n\nPractical Example: Auckland Transport Routes\n# Auckland bus and train routes\nroutes = pd.DataFrame({\n    'route_name': ['Inner Link', 'Outer Link', 'Eastern Line', 'Western Line', \n                   'City Link', 'Northern Express'],\n    'mode': ['Bus', 'Bus', 'Train', 'Train', 'Bus', 'Bus'],\n    'daily_riders': [12000, 8500, 22000, 18500, 15000, 9800],\n    'route_length_km': [6.5, 8.2, 28.0, 22.0, 4.2, 15.0]\n})\n\n# Calculate riders per km\nroutes['efficiency'] = routes['daily_riders'] / routes['route_length_km']\n\n# Group by transport mode\nmode_summary = routes.groupby('mode').agg({\n    'daily_riders': ['sum', 'mean'],\n    'route_length_km': 'mean',\n    'efficiency': 'mean'\n}).round(2)\n\nprint(\"\\nTransport Mode Summary:\")\nprint(mode_summary)",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
@@ -2332,12 +2332,12 @@
   {
     "objectID": "2.2.dataframes.html#handling-missing-data",
     "href": "2.2.dataframes.html#handling-missing-data",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Handling Missing Data",
-    "text": "Handling Missing Data\nReal-world data often has missing values. Pandas provides tools to handle them:\n\nDetecting Missing Data\n# Check for any missing values\ndf.isnull().any()        # Any missing per column?\ndf.isnull().sum()        # Count missing per column\ndf.isnull().sum().sum()  # Total missing values\n\n# Check specific column\ndf['Age'].isnull()       # Boolean mask\ndf['Age'].isnull().sum() # Count\n\n\nRemoving Missing Data\n# Drop rows with any missing values\ndf_clean = df.dropna()\n\n# Drop rows with missing values in specific columns\ndf_clean = df.dropna(subset=['Age', 'City'])\n\n# Drop columns with any missing values\ndf_clean = df.dropna(axis=1)\n\n# Drop rows where all values are missing\ndf_clean = df.dropna(how='all')\n\n\nFilling Missing Data\n# Fill with a specific value\ndf['Age'].fillna(0)\n\n# Fill with mean\ndf['Age'].fillna(df['Age'].mean())\n\n# Fill with median\ndf['Age'].fillna(df['Age'].median())\n\n# Forward fill (use previous value)\ndf['Age'].fillna(method='ffill')\n\n# Backward fill (use next value)\ndf['Age'].fillna(method='bfill')\n\n# Fill with interpolation\ndf['Age'].interpolate()\n\n\nPractical Example: Cleaning Pedestrian Data\n# Check for missing values\nprint(\"Missing values per column:\")\nprint(pedestrians.isnull().sum())\n\n# Count-specific cleaning\n# Option 1: Remove rows with missing counts\npedestrians_clean = pedestrians.dropna(subset=['count'])\n\n# Option 2: Fill with median (more robust than mean for outliers)\nmedian_count = pedestrians['count'].median()\npedestrians['count'].fillna(median_count, inplace=True)\n\n# Option 3: Forward fill for time series data\npedestrians_sorted = pedestrians.sort_values(['location', 'datetime'])\npedestrians_sorted['count'].fillna(method='ffill', inplace=True)\n\n# Fill location names\npedestrians['location'].fillna('Unknown', inplace=True)\n\n# Verify cleaning\nprint(\"\\nAfter cleaning:\")\nprint(pedestrians.isnull().sum())",
+    "text": "Handling Missing Data\nReal-world data is messy. Here’s how to handle it.\n\nDetecting Missing Data\n# Create data with missing values\nsuburbs_missing = pd.DataFrame({\n    'suburb': ['Mt Eden', 'Parnell', 'Grey Lynn', 'Ponsonby'],\n    'population': [15200, None, 11300, 9800],\n    'median_income': [78000, 92000, None, 88000],\n    'avg_price': [1.2, 1.8, 1.1, None]\n})\n\n# Check for missing values\nprint(suburbs_missing.isnull())\nprint(suburbs_missing.isnull().sum())  # Count per column\nprint(suburbs_missing.isnull().sum().sum())  # Total missing\nOutput:\n   suburb  population  median_income  avg_price\n0   False       False          False      False\n1   False        True          False      False\n2   False       False           True      False\n3   False       False          False       True\n\nsuburb           0\npopulation       1\nmedian_income    1\navg_price        1\ndtype: int64\n\nTotal: 3\n\n\nRemoving Missing Data\n# Drop rows with ANY missing values\nclean = suburbs_missing.dropna()\nprint(clean)\n\n# Drop rows where specific column is missing\nclean = suburbs_missing.dropna(subset=['population'])\n\n# Drop columns with ANY missing values\nclean = suburbs_missing.dropna(axis=1)\n\n\nFilling Missing Data\n# Fill with a specific value\nfilled = suburbs_missing.fillna(0)\n\n# Fill with column mean\nsuburbs_missing['population'] = suburbs_missing['population'].fillna(\n    suburbs_missing['population'].mean()\n)\n\n# Fill with column median\nsuburbs_missing['median_income'] = suburbs_missing['median_income'].fillna(\n    suburbs_missing['median_income'].median()\n)\n\n# Forward fill (use previous value)\nfilled = suburbs_missing.fillna(method='ffill')\n\n# Backward fill (use next value)\nfilled = suburbs_missing.fillna(method='bfill')\n\n# Fill different columns with different values\nsuburbs_missing = suburbs_missing.fillna({\n    'population': suburbs_missing['population'].median(),\n    'median_income': suburbs_missing['median_income'].mean(),\n    'avg_price': suburbs_missing['avg_price'].median()\n})\n\n\nInterpolation\nFor time series or ordered data:\n# Linear interpolation\nsuburbs_missing['population'] = suburbs_missing['population'].interpolate(method='linear')\n\n\nBest Practices\n\n\n\n\n\n\nHandling Missing Data Thoughtfully\n\n\n\nBefore removing or filling: 1. Understand WHY data is missing - Random (safe to fill) - Systematic (e.g., sensor failure - investigate) - By design (e.g., not applicable)\n\nDocument your approach\nConsider creating a “missing” indicator column\nReport how many values you handled\n\nFor GIS: Missing coordinates or key identifiers usually mean dropping that record. Missing attributes might be fillable.",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
@@ -2376,56 +2376,56 @@
   {
     "objectID": "2.2.dataframes.html#summary",
     "href": "2.2.dataframes.html#summary",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Summary",
-    "text": "Summary\nIn this section, you’ve learned:\n\nDictionaries: Key-value data structures and nested dictionaries\npandas basics: Creating and exploring DataFrames\nReading data: CSV, Excel, JSON files\nSelecting data: Columns, rows, boolean indexing, query method\nData manipulation: Creating columns, transforming values\nGrouping: Split-apply-combine for aggregated analysis\nReshaping: Melt and pivot for data format conversion\nMissing data: Detection, removal, and imputation strategies\nMerging: Combining DataFrames with different join types\nVisualisation: Creating plots with pandas, matplotlib, and seaborn\nComplete workflow: From raw data to insights and visualisations",
+    "text": "Summary\nIn this section, you’ve learned the complete pandas workflow:\nFoundations: - ✅ Dictionaries: Key-value structures (essential for GeoJSON!) - ✅ DataFrames: Creating from dictionaries and reading from files - ✅ Data types: Understanding and converting\nReading and Writing: - ✅ CSV files: With various arguments (sep, skiprows, dtype, na_values, etc.) - ✅ Excel files: Multiple sheets and options - ✅ JSON files: Perfect for API responses\nData Exploration: - ✅ Summary methods: .describe(), .info(), .head(), .tail() - ✅ Properties: .shape, .columns, .dtypes\nSelecting and Filtering: - ✅ Column selection: Single and multiple columns - ✅ Row selection: .iloc[], .loc[] - ✅ Boolean indexing: Powerful filtering with conditions - ✅ .query() method: Clean syntax for complex filters\nData Manipulation: - ✅ Creating columns: Calculations and conditional logic - ✅ Modifying values: Updates and transformations - ✅ Deleting data: Removing rows and columns\nAggregation and Reshaping: - ✅ Groupby: Split-apply-combine pattern - ✅ Multiple aggregations: Different statistics for different columns - ✅ Pivot tables: Reshaping for analysis - ✅ Melting: Converting wide to long format\nData Quality: - ✅ Missing data detection: .isnull(), .notnull() - ✅ Handling strategies: Drop, fill, interpolate - ✅ Best practices: Document your decisions\nCombining Data: - ✅ Merge types: Inner, left, right, outer joins - ✅ Multiple keys: Merging on multiple columns - ✅ Different column names: left_on and right_on\nVisualisation Preview: - ✅ Basic plots: Line, bar, histogram, box plots - ✅ pandas plotting: Quick exploration during analysis",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
     "objectID": "2.2.dataframes.html#key-takeaways",
     "href": "2.2.dataframes.html#key-takeaways",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Key Takeaways",
-    "text": "Key Takeaways\n\n\n\n\n\n\nEssential Skills\n\n\n\n\nGroupby is powerful: Master it for aggregating and summarising data\nBoolean indexing: The primary way to filter DataFrames\nHandle missing data thoughtfully: Choose appropriate strategies (drop, fill, interpolate)\nMerge strategically: Understand join types and use the appropriate one\nVisualise early and often: Use plots to understand your data before deep analysis\nChain operations: Combine multiple operations for efficient data processing",
+    "text": "Key Takeaways\n\n\n\n\n\n\nEssential Skills for GIS Analysis\n\n\n\n\nDictionaries are fundamental: GeoJSON, API responses, and nested data all use dictionaries\ngroupby is your friend: Most GIS questions involve “summarize by zone/region/category”\nBoolean indexing: The primary way to filter spatial data by attributes\nMerge carefully: Spatial joins build on these merge concepts\nHandle missing data thoughtfully: Bad coordinates or missing attributes are common in real GIS data\nVisualise early and often: Use quick plots to check your work before complex analysis\n\nFor Auckland GIS Work: - Transport routes → ridership analysis - Suburbs → demographic patterns - Parks → accessibility studies - Pedestrian counts → urban planning",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
     "objectID": "2.2.dataframes.html#practice-exercises",
     "href": "2.2.dataframes.html#practice-exercises",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Practice Exercises",
-    "text": "Practice Exercises\n\nLoad and explore a pedestrian count dataset:\n\nRead the CSV file\nExamine shape, columns, and data types\nCheck for missing values\nCalculate basic statistics\n\nFilter and aggregate:\n\nFind all counts above a threshold\nCalculate average count by location\nFind the busiest hour of day\nCompare weekday vs weekend patterns\n\nCreate visualisations:\n\nLine plot of hourly averages\nBar chart of top 10 locations\nBox plot comparing time periods\nHeatmap of location × hour patterns\n\nHandle missing data:\n\nIdentify columns with missing values\nImplement at least two different imputation strategies\nCompare results and document your choice\n\nMerge datasets:\n\nCombine pedestrian counts with location metadata\nAdd weather data (temperature, rainfall) by date\nAnalyse if weather affects pedestrian counts",
+    "text": "Practice Exercises\nExercise 1: Dictionary to DataFrame Create a dictionary of NZ cities with population, area, and region. Convert to DataFrame and calculate population density.\n# Your code here\nnz_cities = {\n    'city': ['Auckland', 'Wellington', 'Christchurch', 'Hamilton'],\n    'population': [1672000, 217200, 389700, 185000],\n    'area_km2': [1086, 444, 608, 877],\n    'region': ['Auckland', 'Wellington', 'Canterbury', 'Waikato']\n}\nExercise 2: Reading and Cleaning Data 1. Read an Auckland dataset (CSV or Excel) 2. Check for missing values 3. Handle them appropriately 4. Calculate summary statistics\nExercise 3: Filtering and Grouping Using the routes/ridership data: 1. Find routes with &gt; 15,000 daily riders 2. Calculate average ridership by transport mode 3. Find the most efficient routes (riders/km)\nExercise 4: Merging Datasets Combine two related datasets (e.g., parks + visitor counts, routes + costs) 1. Perform an inner join 2. Perform a left join 3. Compare results - what’s different?\nExercise 5: Complete Analysis Choose an Auckland dataset and: 1. Load and clean the data 2. Create at least 2 calculated columns 3. Group by a category and aggregate 4. Create 3 different Visualisations 5. Write 3 key findings",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
     "objectID": "2.2.dataframes.html#further-reading",
     "href": "2.2.dataframes.html#further-reading",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Further Reading",
-    "text": "Further Reading\n\nPandas Documentation\nPandas Cheat Sheet\nPython Data Science Handbook\nReal Python Pandas Tutorials",
+    "text": "Further Reading\nEssential Resources: - Pandas Documentation - Comprehensive official docs - Pandas Cheat Sheet - Quick reference - Python Data Science Handbook - Free online book\nTutorials: - Real Python - Pandas Tutorials - Kaggle - Pandas Course - DataCamp - Pandas Fundamentals\nFor GIS Specifically: - Review Section 2.1 for Python basics - Prepare for Section 2.3 (Visualisation) - Look ahead to Section 2.4 (GeoPandas - pandas with geometry!)",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
     "objectID": "2.2.dataframes.html#next-steps",
     "href": "2.2.dataframes.html#next-steps",
-    "title": "2.2. DataFrames",
+    "title": "2.2. DataFrames and Pandas",
     "section": "Next Steps",
-    "text": "Next Steps\nWith solid pandas skills, you’re ready to move on to geospatial data in ?sec-geospatial, where you’ll learn to work with geographic information using geopandas—essentially pandas with spatial superpowers!",
+    "text": "Next Steps\n\n\n\n\n\n\nYou’re Ready for Section 2.3!\n\n\n\nYou now have the data manipulation skills to: ✅ Load and clean data\n✅ Filter and group data\n✅ Calculate new metrics\n✅ Combine datasets\nSection 2.3 (Visualisation) will teach you to: 🎨 Create beautiful plots with matplotlib and seaborn\n📊 Make multi-panel dashboards\n📈 Visualise patterns and trends\n🗺️ Prepare for spatial Visualisation\nSection 2.4 (GeoPandas) will add: 🌍 Spatial data (points, lines, polygons)\n🗺️ Coordinate systems and projections\n📍 Spatial joins and operations\n🎯 Creating actual maps\nThe pandas skills you learned here transfer directly—GeoPandas is just pandas with geometry!",
     "crumbs": [
-      "2. Geospatial Python Programming",
-      "2.2. DataFrames"
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
     ]
   },
   {
@@ -3840,7 +3840,7 @@
     "section": "",
     "text": "Introduction\nFunctions are fundamental building blocks in Python programming. They allow you to:\nIn geospatial analysis, functions are particularly useful for repetitive tasks like data cleaning, coordinate transformations, spatial calculations, and map generation.",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3851,7 +3851,7 @@
     "section": "",
     "text": "Write code once and reuse it multiple times\nMake your analysis more readable and maintainable\nReduce errors through standardisation\nShare functionality across projects",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3862,7 +3862,7 @@
     "section": "Why Create Functions?",
     "text": "Why Create Functions?\nConsider this scenario: you need to calculate population density for multiple regions:\nWithout functions (repetitive):\n# Calculate density for Auckland\nauckland_density = auckland_pop / auckland_area\n\n# Calculate density for Wellington\nwellington_density = wellington_pop / wellington_area\n\n# Calculate density for Christchurch\nchristchurch_density = christchurch_pop / christchurch_area\nWith a function (reusable):\ndef calculate_density(population, area):\n    \"\"\"Calculate population density.\"\"\"\n    return population / area\n\nauckland_density = calculate_density(auckland_pop, auckland_area)\nwellington_density = calculate_density(wellington_pop, wellington_area)\nchristchurch_density = calculate_density(christchurch_pop, christchurch_area)",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3873,7 +3873,7 @@
     "section": "Function Basics",
     "text": "Function Basics\n\nDefining Functions\nThe basic syntax for creating a function:\ndef function_name(parameter1, parameter2):\n    \"\"\"\n    Docstring: Brief description of what the function does.\n    \n    Parameters:\n    -----------\n    parameter1 : type\n        Description of parameter1\n    parameter2 : type\n        Description of parameter2\n        \n    Returns:\n    --------\n    type\n        Description of return value\n    \"\"\"\n    # Function body\n    result = parameter1 + parameter2\n    return result\nKey components:\n\ndef: Keyword to define a function\nfunction_name: Descriptive name (use lowercase with underscores)\nparameters: Inputs to the function (optional)\ndocstring: Documentation (highly recommended)\nreturn: Output from the function (optional)\n\n\n\nSimple Example\ndef greet(name):\n    \"\"\"Return a greeting message.\"\"\"\n    return f\"Hello, {name}!\"\n\n# Use the function\nmessage = greet(\"Auckland\")\nprint(message)  # Output: Hello, Auckland!",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3884,7 +3884,7 @@
     "section": "Parameters and Arguments",
     "text": "Parameters and Arguments\n\nPositional Arguments\ndef calculate_area(length, width):\n    \"\"\"Calculate area of a rectangle.\"\"\"\n    return length * width\n\narea = calculate_area(10, 5)  # length=10, width=5\n\n\nKeyword Arguments\n# More explicit - order doesn't matter\narea = calculate_area(width=5, length=10)\n\n\nDefault Parameters\ndef calculate_buffer(geometry, distance=1000, resolution=16):\n    \"\"\"\n    Create a buffer around a geometry.\n    \n    Parameters:\n    -----------\n    geometry : shapely geometry\n        The geometry to buffer\n    distance : float, default 1000\n        Buffer distance in map units (metres)\n    resolution : int, default 16\n        Number of segments per quarter circle\n    \"\"\"\n    return geometry.buffer(distance, resolution=resolution)\n\n# Use default distance and resolution\nbuffered1 = calculate_buffer(point)\n\n# Override distance but use default resolution\nbuffered2 = calculate_buffer(point, distance=500)\n\n# Override both\nbuffered3 = calculate_buffer(point, distance=500, resolution=32)",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3895,7 +3895,7 @@
     "section": "Return Values",
     "text": "Return Values\n\nSingle Return Value\ndef get_area(gdf):\n    \"\"\"Calculate total area of geometries.\"\"\"\n    return gdf.geometry.area.sum()\n\n\nMultiple Return Values\ndef calculate_statistics(gdf, column):\n    \"\"\"\n    Calculate basic statistics for a column.\n    \n    Returns: mean, median, std_dev\n    \"\"\"\n    mean_val = gdf[column].mean()\n    median_val = gdf[column].median()\n    std_val = gdf[column].std()\n    \n    return mean_val, median_val, std_val\n\n# Unpack the returned values\nmean, median, std = calculate_statistics(regions, 'population')\n\n\nReturning Different Types\ndef analyse_region(gdf):\n    \"\"\"Return a dictionary of region statistics.\"\"\"\n    return {\n        'count': len(gdf),\n        'total_area': gdf.geometry.area.sum(),\n        'mean_pop': gdf['population'].mean(),\n        'geometries': gdf.geometry\n    }\n\nresults = analyse_region(nz_regions)\nprint(f\"Total regions: {results['count']}\")",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3906,7 +3906,7 @@
     "section": "Geospatial Function Examples",
     "text": "Geospatial Function Examples\n\nExample 1: Calculate Centroid Coordinates\ndef get_centroid_coords(geometry):\n    \"\"\"\n    Extract centroid coordinates from a geometry.\n    \n    Parameters:\n    -----------\n    geometry : shapely geometry\n        Input geometry\n        \n    Returns:\n    --------\n    tuple\n        (x, y) coordinates of centroid\n    \"\"\"\n    centroid = geometry.centroid\n    return centroid.x, centroid.y\n\n# Usage\nfor idx, row in gdf.iterrows():\n    x, y = get_centroid_coords(row.geometry)\n    print(f\"Region {row['name']}: ({x:.2f}, {y:.2f})\")\n\n\nExample 2: Reproject GeoDataFrame\ndef reproject_gdf(gdf, target_crs='EPSG:2193'):\n    \"\"\"\n    Reproject a GeoDataFrame to a target CRS.\n    \n    Parameters:\n    -----------\n    gdf : GeoDataFrame\n        Input GeoDataFrame\n    target_crs : str, default 'EPSG:2193'\n        Target coordinate reference system\n        \n    Returns:\n    --------\n    GeoDataFrame\n        Reprojected GeoDataFrame\n    \"\"\"\n    if gdf.crs is None:\n        raise ValueError(\"Input GeoDataFrame has no CRS defined\")\n    \n    if gdf.crs == target_crs:\n        print(f\"Already in {target_crs}\")\n        return gdf\n    \n    print(f\"Reprojecting from {gdf.crs} to {target_crs}\")\n    return gdf.to_crs(target_crs)\n\n# Usage\nnz_regions_nztm = reproject_gdf(nz_regions, 'EPSG:2193')\n\n\nExample 3: Calculate Distance Between Points\ndef calculate_distance(point1, point2, crs='EPSG:2193'):\n    \"\"\"\n    Calculate distance between two points.\n    \n    Parameters:\n    -----------\n    point1, point2 : tuple\n        (x, y) coordinates\n    crs : str, default 'EPSG:2193'\n        Coordinate system (must be projected for accurate distances)\n        \n    Returns:\n    --------\n    float\n        Distance in map units (metres for EPSG:2193)\n    \"\"\"\n    from shapely.geometry import Point\n    import geopandas as gpd\n    \n    # Create Point geometries\n    p1 = Point(point1)\n    p2 = Point(point2)\n    \n    # Calculate distance\n    return p1.distance(p2)\n\n# Usage\nauckland = (1756673, 5917750)  # NZTM coordinates\nwellington = (1748894, 5427483)\ndistance_km = calculate_distance(auckland, wellington) / 1000\nprint(f\"Distance: {distance_km:.1f} km\")\n\n\nExample 4: Create Buffers with Multiple Distances\ndef create_multi_ring_buffer(geometry, distances, crs='EPSG:2193'):\n    \"\"\"\n    Create multiple buffer rings around a geometry.\n    \n    Parameters:\n    -----------\n    geometry : shapely geometry\n        Center geometry\n    distances : list\n        List of buffer distances in metres\n    crs : str\n        Coordinate reference system\n        \n    Returns:\n    --------\n    GeoDataFrame\n        GeoDataFrame with buffer rings\n    \"\"\"\n    import geopandas as gpd\n    \n    buffers = []\n    for dist in distances:\n        buffer_geom = geometry.buffer(dist)\n        buffers.append({\n            'distance': dist,\n            'geometry': buffer_geom\n        })\n    \n    return gpd.GeoDataFrame(buffers, crs=crs)\n\n# Usage\ncity_center = Point(1756673, 5917750)  # Auckland in NZTM\nbuffer_rings = create_multi_ring_buffer(\n    city_center, \n    distances=[1000, 5000, 10000, 20000]  # 1, 5, 10, 20 km\n)\n\n# Visualise\nbuffer_rings.plot(column='distance', cmap='Reds', alpha=0.5)\n\n\nExample 5: Standardised Choropleth Map\ndef create_choropleth(gdf, column, title, \n                      scheme='quantiles', k=5, \n                      cmap='YlOrRd', figsize=(10, 8)):\n    \"\"\"\n    Create a standardised choropleth map.\n    \n    Parameters:\n    -----------\n    gdf : GeoDataFrame\n        Input geographic data\n    column : str\n        Column name to map\n    title : str\n        Map title\n    scheme : str, default 'quantiles'\n        Classification scheme (quantiles, equal_interval, natural_breaks)\n    k : int, default 5\n        Number of classes\n    cmap : str, default 'YlOrRd'\n        Colour map\n    figsize : tuple, default (10, 8)\n        Figure size\n        \n    Returns:\n    --------\n    matplotlib Figure and Axes objects\n    \"\"\"\n    import matplotlib.pyplot as plt\n    \n    fig, ax = plt.subplots(figsize=figsize)\n    \n    gdf.plot(ax=ax,\n             column=column,\n             scheme=scheme,\n             k=k,\n             cmap=cmap,\n             legend=True,\n             edgecolor='black',\n             linewidth=0.5,\n             legend_kwds={'title': column, \n                          'loc': 'lower left'})\n    \n    ax.set_title(title, fontsize=14, fontweight='bold')\n    ax.set_axis_off()\n    \n    return fig, ax\n\n# Usage\nfig, ax = create_choropleth(\n    nz_regions,\n    column='pop_density',\n    title='New Zealand Population Density by Region',\n    scheme='natural_breaks',\n    k=5\n)\nplt.show()",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3917,7 +3917,7 @@
     "section": "Error Handling in Functions",
     "text": "Error Handling in Functions\n\nUsing Try-Except\ndef safe_divide(numerator, denominator):\n    \"\"\"\n    Safely divide two numbers with error handling.\n    \n    Returns None if division is not possible.\n    \"\"\"\n    try:\n        result = numerator / denominator\n        return result\n    except ZeroDivisionError:\n        print(\"Warning: Division by zero\")\n        return None\n    except TypeError:\n        print(\"Warning: Invalid data types for division\")\n        return None\n\n# Usage\nprint(safe_divide(10, 2))    # 5.0\nprint(safe_divide(10, 0))    # Warning message, returns None\n\n\nInput Validation\ndef calculate_population_density(gdf, pop_column='population'):\n    \"\"\"\n    Calculate population density for regions.\n    \n    Parameters:\n    -----------\n    gdf : GeoDataFrame\n        Must contain a population column and be in a projected CRS\n    pop_column : str\n        Name of the population column\n        \n    Returns:\n    --------\n    GeoDataFrame\n        Original GeoDataFrame with added 'pop_density' column\n    \"\"\"\n    # Validate inputs\n    if not isinstance(gdf, gpd.GeoDataFrame):\n        raise TypeError(\"Input must be a GeoDataFrame\")\n    \n    if pop_column not in gdf.columns:\n        raise ValueError(f\"Column '{pop_column}' not found in GeoDataFrame\")\n    \n    if gdf.crs is None:\n        raise ValueError(\"GeoDataFrame must have a CRS defined\")\n    \n    if not gdf.crs.is_projected:\n        raise ValueError(\"GeoDataFrame must be in a projected CRS for accurate area calculation\")\n    \n    # Calculate density\n    gdf = gdf.copy()\n    gdf['area_km2'] = gdf.geometry.area / 1_000_000\n    gdf['pop_density'] = gdf[pop_column] / gdf['area_km2']\n    \n    return gdf\n\n# Usage with proper error handling\ntry:\n    result = calculate_population_density(nz_regions)\nexcept (TypeError, ValueError) as e:\n    print(f\"Error: {e}\")",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3928,7 +3928,7 @@
     "section": "Best Practices",
     "text": "Best Practices\n\n1. Write Clear Docstrings\ndef good_function(param1, param2):\n    \"\"\"\n    One-line summary of what the function does.\n    \n    More detailed explanation if needed. Describe the purpose,\n    any assumptions, and what the function does.\n    \n    Parameters:\n    -----------\n    param1 : type\n        Description of first parameter\n    param2 : type\n        Description of second parameter\n        \n    Returns:\n    --------\n    type\n        Description of return value\n        \n    Examples:\n    ---------\n    &gt;&gt;&gt; result = good_function(value1, value2)\n    &gt;&gt;&gt; print(result)\n    Expected output\n    \"\"\"\n    pass\n\n\n2. Keep Functions Focused\nEach function should do one thing well:\n# Good: Single, clear purpose\ndef calculate_area_km2(geometry):\n    \"\"\"Calculate area in square kilometres.\"\"\"\n    return geometry.area / 1_000_000\n\n# Less good: Doing too many things\ndef process_everything(gdf):\n    \"\"\"Calculate area, reproject, filter, plot...\"\"\"\n    # Too many responsibilities\n    pass\n\n\n3. Use Meaningful Names\n# Good: Descriptive names\ndef calculate_population_density(population, area):\n    return population / area\n\n# Poor: Unclear names\ndef calc(p, a):\n    return p / a\n\n\n4. Avoid Global Variables\n# Poor: Relies on global variable\nbase_year = 2023\ndef calculate_years_since(year):\n    return base_year - year\n\n# Good: All inputs are parameters\ndef calculate_years_between(start_year, end_year):\n    return end_year - start_year",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3939,7 +3939,7 @@
     "section": "Creating a Personal GIS Toolkit",
     "text": "Creating a Personal GIS Toolkit\nBuild your own library of reusable functions:\n# my_gis_tools.py\n\nimport geopandas as gpd\nfrom shapely.geometry import Point\nimport matplotlib.pyplot as plt\n\ndef load_and_reproject(filepath, target_crs='EPSG:2193'):\n    \"\"\"Load and reproject spatial data.\"\"\"\n    gdf = gpd.read_file(filepath)\n    return gdf.to_crs(target_crs)\n\ndef quick_map(gdf, column=None, title='Map'):\n    \"\"\"Create a quick choropleth map.\"\"\"\n    fig, ax = plt.subplots(figsize=(10, 8))\n    if column:\n        gdf.plot(ax=ax, column=column, legend=True)\n    else:\n        gdf.plot(ax=ax)\n    ax.set_title(title)\n    ax.set_axis_off()\n    return fig, ax\n\ndef measure_distance_km(point1, point2):\n    \"\"\"Calculate distance in kilometres between two points.\"\"\"\n    p1 = Point(point1)\n    p2 = Point(point2)\n    return p1.distance(p2) / 1000\n\n# More functions...\nUse your toolkit in other scripts:\n# In your analysis script\nfrom my_gis_tools import load_and_reproject, quick_map\n\n# Use your custom functions\ndata = load_and_reproject('regions.shp')\nquick_map(data, column='population', title='Population Map')",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3950,7 +3950,7 @@
     "section": "Summary",
     "text": "Summary\nIn this section, you’ve learned:\n\nHow to define and use functions in Python\nThe importance of parameters, return values, and docstrings\nHow to create geospatial functions for common tasks\nError handling and input validation\nBest practices for writing maintainable code\nHow to build a personal toolkit of reusable functions\n\nFunctions are powerful tools that will make your geospatial analysis more efficient, reliable, and shareable. As you continue working with Python, you’ll develop your own collection of frequently-used functions.",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3961,7 +3961,7 @@
     "section": "Practice Exercises",
     "text": "Practice Exercises\n\nWrite a function that takes a GeoDataFrame and returns basic statistics (count, total area, mean population)\nCreate a function that filters a GeoDataFrame to only include features within a specified distance of a point\nWrite a function that creates a grid of points within a bounding box\nDevelop a function that standardises column names in a GeoDataFrame (e.g., converts all to lowercase, replaces spaces with underscores)\nCreate a function that generates a series of maps showing different classification schemes for the same dataset",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3972,7 +3972,7 @@
     "section": "Further Reading",
     "text": "Further Reading\n\nPython Functions Tutorial\nWriting Clean Python Functions\nDocstring Conventions (PEP 257)",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.5. Creating Functions"
     ]
   },
@@ -3983,7 +3983,7 @@
     "section": "",
     "text": "What you will learn",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -3994,7 +3994,7 @@
     "section": "",
     "text": "Compute interpretable Auckland indicators (density, access proxies)\nAggregate to zones and compare across space\nExplain results with units and caveats\nApply morphological analysis using momepy",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4005,7 +4005,7 @@
     "section": "Introduction",
     "text": "Introduction\nUrban indicators are the building blocks of understanding how cities work. Think of them as the vital signs of urban life – just as a doctor measures heart rate and blood pressure, urban analysts measure density, accessibility, and connectivity to diagnose how well a city is functioning. In this chapter, we’ll focus on computing meaningful indicators for Auckland and learning how to interpret them responsibly.\nWhy does this matter? Well-chosen indicators can reveal patterns invisible to the naked eye: which neighbourhoods lack green space access, where pedestrian activity concentrates, or how street networks facilitate movement. These insights directly inform urban planning decisions – from where to build new parks to how to design low-emission zones (shin2022assessing?).",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4016,7 +4016,7 @@
     "section": "Example indicators",
     "text": "Example indicators\nWe’ll explore three fundamental types of urban indicators:\n\nPopulation density – How many people live in an area?\nNearest park distance – How accessible is green space?\nNetwork centrality (optional) – Which streets are most important for movement?\n\nEach of these tells us something different about urban form and function. Let’s work through them systematically.",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4027,7 +4027,7 @@
     "section": "Population density: The foundation",
     "text": "Population density: The foundation\nPopulation density is perhaps the most fundamental urban indicator. It’s simply the number of people per unit area, typically expressed as persons per km². But simple doesn’t mean simplistic – density reveals patterns of urbanisation, housing pressure, and service demand.\n\nComputing density\nLet’s calculate population density for Auckland meshblocks:\n\nimport geopandas as gpd\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n\n# Load Auckland census data\nmeshblocks = gpd.read_file(\"data/auckland_meshblocks.gpkg\")\n\n# Calculate area in km²\nmeshblocks['area_km2'] = meshblocks.geometry.area / 1_000_000\n\n# Calculate population density\nmeshblocks['pop_density'] = meshblocks['population'] / meshblocks['area_km2']\n\n# View the results\nprint(meshblocks[['meshblock_id', 'population', 'area_km2', 'pop_density']].head())\n\n\n\n\n\n\n\nImportant caveats\n\n\n\n\nUnits matter! Always check whether your coordinates are in metres, degrees, or something else. For Auckland, NZGD2000 / New Zealand Transverse Mercator 2000 (EPSG:2193) uses metres.\nZero-area problem: Some meshblocks might have very small areas, leading to unrealistic density values. Filter these out or handle them carefully.\nResidential vs. total area: Density can be misleading in industrial or commercial zones with few residents but large areas.\n\n\n\n\n\nVisualising density\n\n\n\nfig, ax = plt.subplots(1, 1, figsize=(12, 10))\n\nmeshblocks.plot(column='pop_density', \n                ax=ax,\n                legend=True,\n                scheme='quantiles',  # Use quantiles for better distribution\n                k=5,  # 5 classes\n                cmap='YlOrRd',\n                edgecolor='grey',\n                linewidth=0.1)\n\nax.set_title('Population Density in Auckland (persons/km²)', fontsize=14)\nax.set_axis_off()\n\nplt.tight_layout()\nplt.show()\n\n\nFigure 1\n\n\n\n\n\n\n\n\n\nInterpretation tip\n\n\n\nHigh density doesn’t automatically mean “bad” or “good”. Auckland’s CBD shows extremely high density, which supports walkability and public transport viability. Conversely, some suburban areas have very low density, which can make service provision expensive but offers larger living spaces. Context is everything.",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4038,7 +4038,7 @@
     "section": "Access to green space: Distance proxies",
     "text": "Access to green space: Distance proxies\nAccess to parks and green spaces is crucial for physical activity, mental health, and urban liveability (who2016urban?). We can approximate access by calculating the distance from each residential area to the nearest park.\n\nFinding nearest park distance\n\nfrom scipy.spatial import cKDTree\n\n# Load parks data\nparks = gpd.read_file(\"data/auckland_parks.gpkg\")\n\n# Ensure both datasets use the same CRS\nmeshblocks = meshblocks.to_crs(epsg=2193)\nparks = parks.to_crs(epsg=2193)\n\n# Get centroids of meshblocks\nmeshblock_points = np.array(list(meshblocks.geometry.centroid.apply(lambda x: (x.x, x.y))))\npark_points = np.array(list(parks.geometry.centroid.apply(lambda x: (x.x, x.y))))\n\n# Build KD-tree for efficient nearest neighbour search\ntree = cKDTree(park_points)\n\n# Find nearest park for each meshblock\ndistances, indices = tree.query(meshblock_points, k=1)\n\n# Add distance to dataframe (in metres)\nmeshblocks['nearest_park_m'] = distances\n\n# Convert to kilometres for readability\nmeshblocks['nearest_park_km'] = meshblocks['nearest_park_m'] / 1000\n\nprint(f\"Mean distance to nearest park: {meshblocks['nearest_park_km'].mean():.2f} km\")\nprint(f\"Median distance to nearest park: {meshblocks['nearest_park_km'].median():.2f} km\")\n\n\n\nCaveats and limitations\nThis “straight-line” distance (Euclidean distance) is a proxy for true accessibility. Real-world access involves:\n\nNetwork distance: How far you actually walk along streets (usually 20-40% longer than straight-line distance)\nBarriers: Motorways, rivers, and railways can make nearby parks difficult to reach\nPark quality: A tiny pocket park and a large regional park both count as “nearest park”\nPerceptions: Perceived safety and amenities affect whether people actually use parks\n\n\n\n\n\n\n\nNote\n\n\n\nFor your assignment on pedestrian footfall, consider: Do areas with better park access show different pedestrian patterns? Could parks act as destinations or origins for walking trips?",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4049,7 +4049,7 @@
     "section": "Aggregating to larger zones",
     "text": "Aggregating to larger zones\nOften we want to summarise indicators at larger geographical units – suburbs, wards, or custom analysis zones. Here’s how to aggregate meshblock data to suburbs:\n\n# Load suburbs boundaries\nsuburbs = gpd.read_file(\"data/auckland_suburbs.gpkg\")\n\n# Spatial join: which meshblocks fall in which suburbs?\nmeshblocks_with_suburb = gpd.sjoin(meshblocks, suburbs, how='left', predicate='within')\n\n# Aggregate to suburb level\nsuburb_summary = meshblocks_with_suburb.groupby('suburb_name').agg({\n    'population': 'sum',\n    'area_km2': 'sum',\n    'nearest_park_km': 'mean',  # Mean distance across meshblocks\n}).reset_index()\n\n# Recalculate density at suburb level\nsuburb_summary['pop_density'] = suburb_summary['population'] / suburb_summary['area_km2']\n\nprint(suburb_summary.sort_values('pop_density', ascending=False).head())\n\nThis aggregation lets you compare suburbs:\n\n# Compare CBD suburbs vs suburban areas\ncbd_suburbs = suburb_summary[suburb_summary['suburb_name'].isin(['Auckland Central', 'Grafton', 'Newmarket'])]\nsuburban = suburb_summary[suburb_summary['suburb_name'].isin(['Albany', 'Howick', 'Papakura'])]\n\nprint(\"\\nCBD areas:\")\nprint(cbd_suburbs[['suburb_name', 'pop_density', 'nearest_park_km']])\n\nprint(\"\\nSuburban areas:\")\nprint(suburban[['suburb_name', 'pop_density', 'nearest_park_km']])",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4060,7 +4060,7 @@
     "section": "Urban morphology using momepy",
     "text": "Urban morphology using momepy\nUrban morphology studies the form and structure of cities. The momepy package (fleischmann2019momepy?) provides tools to quantify urban form characteristics like street connectivity, building patterns, and block structure. This is particularly relevant for understanding pedestrian movement – more connected street networks generally support more walkability.\n\nInstalling and importing momepy\n\n# Install if needed: pip install momepy\nimport momepy\nimport networkx as nx\n\n\n\nStreet network analysis\nLet’s analyse Auckland’s street network to identify which streets are most important for pedestrian movement:\n\n# Load street network (you might use OSMnx to download this)\nimport osmnx as ox\n\n# Download Auckland CBD street network\nplace_name = \"Auckland CBD, New Zealand\"\nG = ox.graph_from_place(place_name, network_type='walk')\n\n# Convert to GeoDataFrame\nedges = ox.graph_to_gdfs(G, nodes=False)\nnodes = ox.graph_to_gdfs(G, nodes=True)\n\n# Calculate basic network metrics\nedges['length'] = edges.geometry.length\n\n# Calculate betweenness centrality - which streets are on the most paths?\n# This can take a while for large networks\nbetweenness = nx.betweenness_centrality(G, weight='length', normalized=True)\n\n# Add centrality to edges\nnodes['betweenness'] = nodes.index.map(betweenness)\n\n\n\n\n# Visualise\nfig, ax = plt.subplots(1, 1, figsize=(12, 12))\n\nedges.plot(ax=ax, color='lightgrey', linewidth=0.5)\nnodes.plot(column='betweenness', \n           ax=ax, \n           cmap='Reds', \n           markersize=20,\n           legend=True)\n\nax.set_title('Street Betweenness Centrality in Auckland CBD', fontsize=14)\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\n\nFigure 2\n\n\n\n\n\n\n\n\n\nWhat does betweenness centrality tell us?\n\n\n\nStreets with high betweenness centrality are “important” in the network – many shortest paths pass through them. In pedestrian studies, these are the streets where you’d expect to see the most footfall, all else being equal. Sound familiar? This connects directly to your assignment!\n\n\n\n\nCalculating reach and closeness\n\n# Reach: How many other nodes can you reach within a given distance?\n# This simulates walkable catchment areas\n\ndef calculate_reach(G, distance=800):  # 800m = ~10 minute walk\n    \"\"\"Calculate how many destinations reachable within distance\"\"\"\n    reach = {}\n    for node in G.nodes():\n        # Get all nodes within distance\n        reachable = nx.single_source_dijkstra_path_length(\n            G, node, cutoff=distance, weight='length'\n        )\n        reach[node] = len(reachable)\n    return reach\n\n# Calculate 800m reach (roughly 10-minute walk)\nnodes['reach_800m'] = nodes.index.map(calculate_reach(G, distance=800))\n\n\n\n\n# Visualise\nfig, ax = plt.subplots(1, 1, figsize=(12, 12))\n\nedges.plot(ax=ax, color='lightgrey', linewidth=0.5)\nnodes.plot(column='reach_800m', \n           ax=ax, \n           cmap='viridis', \n           markersize=20,\n           legend=True,\n           legend_kwds={'label': 'Number of reachable nodes (800m)'})\n\nax.set_title('Walkable Reach in Auckland CBD', fontsize=14)\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\n\nFigure 3\n\n\n\nHigh-reach locations are well-connected – you can walk to many destinations from there. These locations often show higher pedestrian activity because they’re convenient starting points or destinations.\n\n\nBuilding footprint analysis (optional)\nIf you have building footprint data, momepy can calculate building-level metrics:\n\n# Load buildings\nbuildings = gpd.read_file(\"data/auckland_buildings.gpkg\")\n\n# Calculate building area\nbuildings['area'] = buildings.geometry.area\n\n# Calculate perimeter\nbuildings['perimeter'] = buildings.geometry.length\n\n# Calculate form factor (compactness)\n# More compact = closer to circular\nbuildings['form_factor'] = (4 * np.pi * buildings['area']) / (buildings['perimeter'] ** 2)\n\n# Calculate orientation\nbuildings['orientation'] = momepy.Orientation(buildings).series\n\n# Buildings elongated north-south vs east-west can affect microclimates\n# and walking comfort",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4071,7 +4071,7 @@
     "section": "Connecting to your assignment",
     "text": "Connecting to your assignment\nLet’s bring this together for analysing pedestrian footfall:\nHypothesis generation: Based on the indicators we’ve computed, we can form testable hypotheses:\n\nDensity hypothesis: Areas with higher population density should show higher pedestrian footfall (more nearby residents).\nCentrality hypothesis: Streets with higher betweenness centrality should show higher footfall (more through-traffic).\nAccess hypothesis: Areas near parks or other amenities might show different temporal patterns (weekend spikes?).\n\n\nExample analysis workflow\n\n# Load your pedestrian count data\nfootfall = pd.read_csv(\"data/pedestrian_counts_2023.csv\")\n\n# Join with street network centrality data\nfootfall_with_centrality = footfall.merge(\n    nodes[['betweenness', 'reach_800m']], \n    left_on='sensor_location',\n    right_index=True,\n    how='left'\n)\n\n\n\n\n# Analyse relationship\nimport seaborn as sns\n\nfig, axes = plt.subplots(1, 2, figsize=(14, 5))\n\n# Plot 1: Centrality vs footfall\nsns.scatterplot(data=footfall_with_centrality, \n                x='betweenness', \n                y='daily_count',\n                alpha=0.6,\n                ax=axes[0])\naxes[0].set_xlabel('Betweenness Centrality')\naxes[0].set_ylabel('Daily Pedestrian Count')\naxes[0].set_title('Network Centrality vs Footfall')\n\n# Plot 2: Reach vs footfall\nsns.scatterplot(data=footfall_with_centrality, \n                x='reach_800m', \n                y='daily_count',\n                alpha=0.6,\n                ax=axes[1])\naxes[1].set_xlabel('Walkable Reach (800m)')\naxes[1].set_ylabel('Daily Pedestrian Count')\naxes[1].set_title('Walkable Accessibility vs Footfall')\n\nplt.tight_layout()\nplt.show()\n\n# Calculate correlation\nprint(f\"Correlation with betweenness: {footfall_with_centrality[['betweenness', 'daily_count']].corr().iloc[0,1]:.3f}\")\nprint(f\"Correlation with reach: {footfall_with_centrality[['reach_800m', 'daily_count']].corr().iloc[0,1]:.3f}\")\n\n\nFigure 4\n\n\n\n\n\n\n\n\n\nFor your blog post\n\n\n\nYou might write something like:\n\n“Queen Street shows consistently higher footfall than other CBD locations, which makes sense given its network position. Our analysis reveals a betweenness centrality score of 0.28, compared to an average of 0.12 for other CBD streets – meaning it sits on 2.3 times more shortest paths through the network. This isn’t just about people shopping on Queen Street; it’s about everyone who needs to get through the CBD.”",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4082,7 +4082,7 @@
     "section": "Key takeaways and responsible interpretation",
     "text": "Key takeaways and responsible interpretation\n\nAlways state your units. Is that persons/km² or persons/hectare? Metres or kilometres?\nAcknowledge limitations. Straight-line distance isn’t walking distance. Betweenness centrality assumes people take shortest paths (they don’t always).\nContext matters. A “walkable” distance in Auckland might differ from Singapore or Helsinki based on climate, culture, and urban form.\nCorrelation ≠ causation. High centrality streets might have high footfall, but this doesn’t mean improving centrality will automatically increase pedestrian activity.\nTemporal dynamics. Urban indicators are often static (density, network structure), but phenomena like pedestrian movement are highly dynamic. Your assignment asks you to explore these temporal patterns – which is where things get really interesting!",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4093,7 +4093,7 @@
     "section": "Further reading",
     "text": "Further reading",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4104,7 +4104,7 @@
     "section": "Exercises",
     "text": "Exercises\n\nCalculate population density for your assigned Auckland area. What’s the range? Are there any outliers?\nFind the suburb with the worst park access. How might this relate to health outcomes?\nDownload the street network for a location with pedestrian count data. Calculate betweenness centrality. Do high-centrality streets show higher footfall?\nCreate a function that categorises locations as “high footfall potential” based on density, centrality, and park access. Test your predictions against real data.\n\n\n\n\n\n\n\n\nFor your assignment\n\n\n\nThink about how these indicators might have changed between 2019 and 2023. Did COVID-19 affect how network centrality relates to footfall? Did certain types of streets recover faster than others? These morphological characteristics are relatively stable, making them excellent controls for understanding what changed about human behaviour rather than the city itself.",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
     ]
   },
@@ -4115,8 +4115,469 @@
     "section": "References",
     "text": "References\n\n\nFleischmann, M. (2019). momepy: Urban Morphology Measuring Toolkit. Journal of Open Source Software, 4(43), 1807. https://doi.org/10.21105/joss.01807\nShin, H., Shaban-Nejad, A., Bierman, A. S., Cressman, T., Dunn, J. R., & Sutherland, J. (2022). Assessing the impact of low emission zones on air quality: A case study of Glasgow, UK. Environment International, 158, 107010.\nWorld Health Organization. (2016). Urban green spaces and health. WHO Regional Office for Europe.\nBoeing, G. (2017). OSMnx: New methods for acquiring, constructing, analyzing, and visualizing complex street networks. Computers, Environment and Urban Systems, 65, 126-139.\n\n\n```",
     "crumbs": [
-      "2. Geospatial Python Programming",
+      "2.4. Geospatial Python Programming",
       "2.4 Urban analytics indicators"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#dictionaries-flexible-data-structures",
+    "href": "2.2.dataframes.html#dictionaries-flexible-data-structures",
+    "title": "2.2. DataFrames and Pandas",
+    "section": "Dictionaries: Flexible Data Structures",
+    "text": "Dictionaries: Flexible Data Structures\n\nWhat is a Dictionary?\nRemember lists from Section 2.1? They store items by position:\ncities = ['Auckland', 'Wellington', 'Christchurch']\nprint(cities[0])  # Auckland\nDictionaries store items by key instead of position:\npopulations = {\n    'Auckland': 1672000,\n    'Wellington': 217200,\n    'Christchurch': 389700\n}\nprint(populations['Auckland'])  # 1672000\nThink of a dictionary as a lookup table: you provide a key, it gives you a value.\n\n\nCreating Dictionaries\n# Simple dictionary - city populations\ncity_pop = {\n    \"Auckland\": 1672000,\n    \"Wellington\": 217200,\n    \"Christchurch\": 389700,\n    \"Hamilton\": 185000,\n    \"Tauranga\": 158000\n}\n\n# Access by key\nprint(city_pop[\"Auckland\"])  # 1672000\n\n# Add new entry\ncity_pop[\"Dunedin\"] = 134600\n\n# Modify existing\ncity_pop[\"Auckland\"] = 1700000  # Updated estimate\n\n# Check if key exists\nif \"Napier\" in city_pop:\n    print(\"Found Napier\")\nelse:\n    print(\"Napier not in dictionary\")\n\n\nDictionary Methods\n# Get all keys\ncity_pop.keys()\n# Output: dict_keys(['Auckland', 'Wellington', ...])\n\n# Get all values\ncity_pop.values()\n# Output: dict_values([1672000, 217200, ...])\n\n# Get key-value pairs\ncity_pop.items()\n# Output: dict_items([('Auckland', 1672000), ...])\n\n# Safe access with default\ncity_pop.get('Napier', 0)  # Returns 0 if key doesn't exist\n\n\nIterating Through Dictionaries\nRemember for loops from Section 2.1? They work great with dictionaries:\n# Iterate through keys\nfor city in city_pop.keys():\n    print(city)\n\n# Iterate through values\nfor population in city_pop.values():\n    print(f\"{population:,}\")\n\n# Iterate through both (most common!)\nfor city, population in city_pop.items():\n    print(f\"{city}: {population:,}\")\nOutput:\nAuckland: 1,672,000\nWellington: 217,200\nChristchurch: 389,700\n...\nConnection to Section 2.1: This uses the same for loop syntax you learned, but now with dictionaries instead of lists!\n\n\nNested Dictionaries\nDictionaries can contain other dictionaries or lists. This is where they become powerful:\n# Auckland transport data\nauckland_transport = {\n    \"buses\": {\n        \"Inner Link\": {\"daily_riders\": 12000, \"route_length_km\": 6.5},\n        \"Outer Link\": {\"daily_riders\": 8500, \"route_length_km\": 8.2},\n        \"City Link\": {\"daily_riders\": 15000, \"route_length_km\": 4.2}\n    },\n    \"trains\": {\n        \"Eastern Line\": {\"daily_riders\": 22000, \"route_length_km\": 28.0},\n        \"Western Line\": {\"daily_riders\": 18500, \"route_length_km\": 22.0}\n    }\n}\n\n# Access nested data\nprint(auckland_transport[\"buses\"][\"Inner Link\"][\"daily_riders\"])  # 12000\n\n# Iterate through nested structure (using Section 2.1 loops!)\nfor mode, routes in auckland_transport.items():\n    print(f\"\\n{mode.upper()}:\")\n    for route_name, data in routes.items():\n        print(f\"  {route_name}: {data['daily_riders']:,} riders\")\n\n\nWhy Dictionaries Matter for GIS\n\n\n\n\n\n\nDictionaries are Everywhere in GIS\n\n\n\nGeoJSON - the web standard for geographic data - is built entirely on dictionaries:\n# A GeoJSON point feature (this is a dictionary!)\nauckland_point = {\n    \"type\": \"Feature\",\n    \"geometry\": {\n        \"type\": \"Point\",\n        \"coordinates\": [174.7633, -36.8485]  # longitude, latitude\n    },\n    \"properties\": {\n        \"name\": \"Auckland\",\n        \"population\": 1672000,\n        \"country\": \"New Zealand\"\n    }\n}\n\n# Access the coordinates\ncoords = auckland_point[\"geometry\"][\"coordinates\"]\nprint(f\"Auckland is at {coords[1]}°S, {coords[0]}°E\")\n\n# Access properties\nprint(f\"Population: {auckland_point['properties']['population']:,}\")\nWhy this format? - Flexible: Not all features need the same properties - Web-friendly: JavaScript uses identical syntax (hence “JSON”) - Nested: Geometry and attributes kept separate but together\nReal-world example: When you fetch data from LINZ Data Service API or OpenStreetMap API, you get dictionaries like this!\n\n\n\n\nPractical Example: API Response\n# Simulating an API response for Auckland parks\nparks_api_response = {\n    \"status\": \"success\",\n    \"count\": 3,\n    \"features\": [\n        {\n            \"name\": \"Albert Park\",\n            \"area_ha\": 6.0,\n            \"facilities\": [\"playground\", \"wifi\"],\n            \"location\": {\"lat\": -36.8523, \"lon\": 174.7691}\n        },\n        {\n            \"name\": \"Victoria Park\",\n            \"area_ha\": 7.5,\n            \"facilities\": [\"sports field\", \"barbecue\"],\n            \"location\": {\"lat\": -36.8447, \"lon\": 174.7558}\n        },\n        {\n            \"name\": \"Myers Park\",\n            \"area_ha\": 4.0,\n            \"facilities\": [\"walking tracks\"],\n            \"location\": {\"lat\": -36.8582, \"lon\": 174.7614}\n        }\n    ]\n}\n\n# Extract park names (using Section 2.1 concepts!)\npark_names = []\nfor park in parks_api_response[\"features\"]:\n    park_names.append(park[\"name\"])\n    \nprint(\"Auckland parks:\", park_names)\n\n# Using conditionals (Section 2.1!) to filter\nlarge_parks = []\nfor park in parks_api_response[\"features\"]:\n    if park[\"area_ha\"] &gt; 5:  # Conditional from 2.1!\n        large_parks.append(park[\"name\"])\n        \nprint(\"Parks &gt; 5 ha:\", large_parks)",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#manipulating-data",
+    "href": "2.2.dataframes.html#manipulating-data",
+    "title": "2.2. DataFrames and Pandas",
+    "section": "Manipulating Data",
+    "text": "Manipulating Data\n\nCreating New Columns\n# Calculate population density (people per km²)\n# First, add area_km2 column\nsuburbs['area_km2'] = [4.2, 2.1, 3.8, 2.9, 6.5, 1.8]\n\nsuburbs['density'] = suburbs['population'] / suburbs['area_km2']\nprint(suburbs[['suburb', 'population', 'area_km2', 'density']])\n\n# Calculate affordability ratio\nsuburbs['price_to_income'] = (suburbs['avg_house_price'] * 1000000) / suburbs['median_income']\n\n# Conditional column creation (using .apply())\ndef income_category(income):\n    if income &lt; 70000:\n        return 'Lower'\n    elif income &lt; 90000:\n        return 'Middle'\n    else:\n        return 'Upper'\n\nsuburbs['income_category'] = suburbs['median_income'].apply(income_category)\nprint(suburbs[['suburb', 'median_income', 'income_category']])\n\n# Using np.where for simple conditionals\nsuburbs['size_category'] = np.where(suburbs['population'] &gt; 12000, 'Large', 'Small')\n\n# Multiple conditions with np.select\nconditions = [\n    suburbs['population'] &lt; 9000,\n    suburbs['population'] &lt; 15000,\n    suburbs['population'] &gt;= 15000\n]\nchoices = ['Small', 'Medium', 'Large']\nsuburbs['size'] = np.select(conditions, choices, default='Unknown')\n\n\nModifying Columns\n# Update values\nsuburbs['avg_house_price'] = suburbs['avg_house_price'] * 1.05  # 5% increase\n\n# Round values\nsuburbs['avg_house_price'] = suburbs['avg_house_price'].round(2)\n\n# Replace values\nsuburbs['suburb'] = suburbs['suburb'].str.replace('Grey Lynn', 'Gray Lynn')\n\n# Rename columns\nsuburbs = suburbs.rename(columns={\n    'avg_house_price': 'avg_price_millions',\n    'parks_count': 'num_parks'\n})\n\n\nDeleting Columns and Rows\n# Delete columns\nsuburbs = suburbs.drop(columns=['size_category'])\n\n# Delete rows by index\nsuburbs = suburbs.drop([0, 1])  # Delete first two rows\n\n# Delete rows based on condition\nsuburbs = suburbs[suburbs['population'] &gt; 8500]  # Keep only if population &gt; 8500\n\n# Reset index after deleting rows\nsuburbs = suburbs.reset_index(drop=True)",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#reshaping-data",
+    "href": "2.2.dataframes.html#reshaping-data",
+    "title": "2.2. DataFrames and Pandas",
+    "section": "Reshaping Data",
+    "text": "Reshaping Data\n\nPivot Tables\nTransform rows into columns:\n# Auckland weather data (simulated)\nweather = pd.DataFrame({\n    'date': ['2024-01-01', '2024-01-01', '2024-01-02', '2024-01-02'],\n    'location': ['CBD', 'Airport', 'CBD', 'Airport'],\n    'temperature': [22, 24, 21, 23],\n    'rainfall': [0, 2, 5, 3]\n})\n\n# Pivot: locations as columns, dates as rows\npivot = weather.pivot(\n    index='date',\n    columns='location',\n    values='temperature'\n)\nprint(pivot)\nOutput:\nlocation    Airport  CBD\ndate                    \n2024-01-01       24   22\n2024-01-02       23   21\n\n\nPivot Tables with Aggregation\n# Create larger dataset\npedestrians = pd.DataFrame({\n    'location': ['Queen St', 'Queen St', 'K Rd', 'K Rd'] * 3,\n    'time_period': ['Morning', 'Evening', 'Morning', 'Evening'] * 3,\n    'day': ['Mon', 'Mon', 'Mon', 'Mon', 'Tue', 'Tue', 'Tue', 'Tue', 'Wed', 'Wed', 'Wed', 'Wed'],\n    'count': [450, 680, 320, 510, 460, 690, 330, 520, 470, 700, 340, 530]\n})\n\n# Pivot table with aggregation\npivot_avg = pedestrians.pivot_table(\n    values='count',\n    index='location',\n    columns='time_period',\n    aggfunc='mean'\n)\nprint(pivot_avg)\nOutput:\ntime_period  Evening  Morning\nlocation                     \nK Rd           520.0    330.0\nQueen St       690.0    460.0\n\n\nMelting (Unpivot)\nConvert columns back to rows:\n# Wide format (columns for each suburb)\nhouse_prices_wide = pd.DataFrame({\n    'year': [2020, 2021, 2022],\n    'Mt Eden': [1.1, 1.15, 1.2],\n    'Parnell': [1.6, 1.7, 1.8],\n    'Epsom': [1.9, 2.0, 2.1]\n})\n\n# Melt to long format\nhouse_prices_long = house_prices_wide.melt(\n    id_vars='year',\n    var_name='suburb',\n    value_name='avg_price_millions'\n)\nprint(house_prices_long)\nOutput:\n   year   suburb  avg_price_millions\n0  2020  Mt Eden                 1.1\n1  2021  Mt Eden                1.15\n2  2022  Mt Eden                 1.2\n3  2020  Parnell                 1.6\n4  2021  Parnell                 1.7\n5  2022  Parnell                 1.8\n6  2020    Epsom                 1.9\n7  2021    Epsom                 2.0\n8  2022    Epsom                 2.1\nWhen to use which: - Pivot: Analysis (comparing across categories) - Melt: Visualisation (most plotting libraries prefer long format)",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#merging-dataframes",
+    "href": "2.2.dataframes.html#merging-dataframes",
+    "title": "2.2. DataFrames and Pandas",
+    "section": "Merging DataFrames",
+    "text": "Merging DataFrames\nCombining datasets is essential for analysis.\n\nTypes of Joins\n\n\n\nJoin types\n\n\n\n\nInner Join\nOnly keep rows that match in both DataFrames:\n# Bus route data\nroutes = pd.DataFrame({\n    'route_id': [1, 2, 3, 4],\n    'route_name': ['Inner Link', 'Outer Link', 'City Link', 'Eastern Line']\n})\n\n# Ridership data (missing route 4)\nridership = pd.DataFrame({\n    'route_id': [1, 2, 3, 5],\n    'daily_riders': [12000, 8500, 15000, 6000]\n})\n\n# Inner join - only routes with ridership data\nmerged = pd.merge(routes, ridership, on='route_id', how='inner')\nprint(merged)\nOutput:\n   route_id   route_name  daily_riders\n0         1   Inner Link         12000\n1         2   Outer Link          8500\n2         3    City Link         15000\nNotice: Route 4 (Eastern Line) is missing because no ridership data. Route 5 is missing because it’s not in routes.\n\n\nLeft Join\nKeep all rows from left DataFrame:\n# Keep all routes, even without ridership data\nmerged = pd.merge(routes, ridership, on='route_id', how='left')\nprint(merged)\nOutput:\n   route_id   route_name  daily_riders\n0         1   Inner Link       12000.0\n1         2   Outer Link        8500.0\n2         3    City Link       15000.0\n3         4  Eastern Line          NaN\n\n\nRight Join\nKeep all rows from right DataFrame:\n# Keep all ridership records, even for unknown routes\nmerged = pd.merge(routes, ridership, on='route_id', how='right')\nprint(merged)\n\n\nOuter Join\nKeep all rows from both DataFrames:\n# Keep everything\nmerged = pd.merge(routes, ridership, on='route_id', how='outer')\nprint(merged)\n\n\nMerging on Multiple Columns\n# Pedestrian counts by location and time\ncounts = pd.DataFrame({\n    'location': ['Queen St', 'Queen St', 'K Rd'],\n    'hour': [8, 9, 8],\n    'count': [150, 200, 100]\n})\n\n# Location metadata\nlocations = pd.DataFrame({\n    'location': ['Queen St', 'K Rd', 'Ponsonby Rd'],\n    'district': ['CBD', 'CBD', 'Ponsonby']\n})\n\n# Merge on location\nmerged = pd.merge(counts, locations, on='location', how='left')\nprint(merged)\n\n\nMerging with Different Column Names\n# Left DataFrame has 'suburb', right has 'location'\ndf1 = pd.DataFrame({\n    'suburb': ['Mt Eden', 'Parnell'],\n    'population': [15200, 8400]\n})\n\ndf2 = pd.DataFrame({\n    'location': ['Mt Eden', 'Parnell'],\n    'avg_price': [1.2, 1.8]\n})\n\n# Merge using left_on and right_on\nmerged = pd.merge(\n    df1, df2,\n    left_on='suburb',\n    right_on='location',\n    how='inner'\n)\nprint(merged)\n\n\nPractical Example: Complete Transport Analysis\n# Route information\nroutes = pd.DataFrame({\n    'route_id': [1, 2, 3, 4],\n    'route_name': ['Inner Link', 'Outer Link', 'Eastern Line', 'Western Line'],\n    'mode': ['Bus', 'Bus', 'Train', 'Train'],\n    'route_length_km': [6.5, 8.2, 28.0, 22.0]\n})\n\n# Ridership data\nridership = pd.DataFrame({\n    'route_id': [1, 2, 3, 4],\n    'weekday_riders': [12000, 8500, 22000, 18500],\n    'weekend_riders': [8000, 6000, 15000, 12000]\n})\n\n# Cost data\ncosts = pd.DataFrame({\n    'route_id': [1, 2, 3],  # Missing route 4!\n    'annual_cost_millions': [2.5, 3.1, 8.5]\n})\n\n# Merge all together\ncomplete = pd.merge(routes, ridership, on='route_id', how='left')\ncomplete = pd.merge(complete, costs, on='route_id', how='left')\n\n# Calculate efficiency metrics\ncomplete['avg_daily_riders'] = (complete['weekday_riders'] * 5 + complete['weekend_riders'] * 2) / 7\ncomplete['riders_per_km'] = complete['avg_daily_riders'] / complete['route_length_km']\n\n# Calculate cost per rider (where available)\ncomplete['cost_per_rider'] = (\n    (complete['annual_cost_millions'] * 1e6) / \n    (complete['avg_daily_riders'] * 365)\n).round(2)\n\nprint(complete)",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#quick-introduction-to-visualisation",
+    "href": "2.2.dataframes.html#quick-introduction-to-visualisation",
+    "title": "2.2. DataFrames and Pandas",
+    "section": "Quick Introduction to Visualisation",
+    "text": "Quick Introduction to Visualisation\nSection 2.3 covers Visualisation in depth. Here’s a preview to get you started.\n\nBasic Plotting with pandas\nimport matplotlib.pyplot as plt\n\n# Line plot\nroutes['weekday_riders'].plot(kind='line')\nplt.title('Weekday Ridership by Route')\nplt.ylabel('Riders')\nplt.show()\n\n# Bar plot\nroutes.plot(x='route_name', y='weekday_riders', kind='bar')\nplt.title('Weekday Ridership')\nplt.ylabel('Daily Riders')\nplt.tight_layout()\nplt.show()\n\n# Histogram\nsuburbs['population'].plot(kind='hist', bins=10, edgecolor='black')\nplt.title('Population Distribution')\nplt.xlabel('Population')\nplt.show()\n\n# Box plot\nsuburbs.boxplot(column='median_income', by='region')\nplt.title('Income by Region')\nplt.suptitle('')  # Remove default title\nplt.show()\n\n\n\n\n\n\nSection 2.3 Goes Deeper\n\n\n\nThis is just a taste! Section 2.3 covers: - matplotlib for full control - seaborn for beautiful statistical graphics - Interactive plots with plotly - Multi-panel dashboards - Publication-quality figures\nFor now: Use these simple pandas methods to quickly Visualise your data during analysis.",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#complete-workflow-example-auckland-transit-analysis",
+    "href": "2.2.dataframes.html#complete-workflow-example-auckland-transit-analysis",
+    "title": "2.2. DataFrames and Pandas",
+    "section": "Complete Workflow Example: Auckland Transit Analysis",
+    "text": "Complete Workflow Example: Auckland Transit Analysis\nLet’s put everything together in a realistic analysis:\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# ============================\n# 1. LOAD DATA\n# ============================\n\n# Simulate loading from CSV\nroutes_data = {\n    'route_id': [1, 2, 3, 4, 5, 6],\n    'route_name': ['Inner Link', 'Outer Link', 'City Link', \n                   'Eastern Line', 'Western Line', 'Northern Express'],\n    'mode': ['Bus', 'Bus', 'Bus', 'Train', 'Train', 'Bus'],\n    'route_length_km': [6.5, 8.2, 4.2, 28.0, 22.0, 15.0]\n}\n\nridership_data = {\n    'route_id': [1, 2, 3, 4, 5, 6],\n    'jan_riders': [12000, 8500, 15000, 22000, 18500, 9800],\n    'feb_riders': [12200, 8600, 15200, 21800, 18300, 9900],\n    'mar_riders': [11800, None, 14900, 22200, 18700, 9700]  # Missing data!\n}\n\nroutes = pd.DataFrame(routes_data)\nridership = pd.DataFrame(ridership_data)\n\nprint(\"Initial data loaded\")\nprint(f\"Routes: {routes.shape}\")\nprint(f\"Ridership: {ridership.shape}\")\n\n# ============================\n# 2. DATA CLEANING\n# ============================\n\n# Check for missing values\nprint(\"\\nMissing values in ridership:\")\nprint(ridership.isnull().sum())\n\n# Fill missing values with mean of that route\nridership['mar_riders'] = ridership['mar_riders'].fillna(\n    ridership['mar_riders'].mean()\n)\n\nprint(\"Missing values handled\")\n\n# ============================\n# 3. MERGE DATA\n# ============================\n\n# Merge routes and ridership\ncombined = pd.merge(routes, ridership, on='route_id', how='left')\nprint(f\"\\nCombined data: {combined.shape}\")\n\n# ============================\n# 4. FEATURE ENGINEERING\n# ============================\n\n# Calculate average monthly ridership\ncombined['avg_monthly_riders'] = combined[['jan_riders', 'feb_riders', 'mar_riders']].mean(axis=1)\n\n# Calculate efficiency (riders per km)\ncombined['efficiency'] = combined['avg_monthly_riders'] / combined['route_length_km']\n\n# Categorize by ridership level\ndef ridership_category(riders):\n    if riders &lt; 10000:\n        return 'Low'\n    elif riders &lt; 15000:\n        return 'Medium'\n    else:\n        return 'High'\n\ncombined['ridership_category'] = combined['avg_monthly_riders'].apply(ridership_category)\n\n# Add cost estimates ($/km/month)\ncost_per_km = {'Bus': 5000, 'Train': 8000}\ncombined['monthly_cost'] = combined.apply(\n    lambda row: row['route_length_km'] * cost_per_km[row['mode']], \n    axis=1\n)\n\n# ============================\n# 5. ANALYSIS\n# ============================\n\nprint(\"\\n\" + \"=\"*50)\nprint(\"ANALYSIS RESULTS\")\nprint(\"=\"*50)\n\n# Summary by transport mode\nmode_summary = combined.groupby('mode').agg({\n    'avg_monthly_riders': ['sum', 'mean'],\n    'route_length_km': 'mean',\n    'efficiency': 'mean',\n    'monthly_cost': 'sum'\n}).round(2)\n\nprint(\"\\nSummary by Transport Mode:\")\nprint(mode_summary)\n\n# Top routes by ridership\ntop_routes = combined.nlargest(3, 'avg_monthly_riders')[\n    ['route_name', 'mode', 'avg_monthly_riders', 'efficiency']\n]\nprint(\"\\nTop 3 Routes by Ridership:\")\nprint(top_routes)\n\n# Most efficient routes\nefficient = combined.nlargest(3, 'efficiency')[\n    ['route_name', 'efficiency', 'avg_monthly_riders']\n]\nprint(\"\\nMost Efficient Routes (riders/km):\")\nprint(efficient)\n\n# Cost analysis\ncost_summary = combined.groupby('mode')['monthly_cost'].agg(['sum', 'mean']).round(0)\nprint(\"\\nMonthly Cost by Mode:\")\nprint(cost_summary)\n\n# ============================\n# 6. VisualisATION\n# ============================\n\nfig, axes = plt.subplots(2, 2, figsize=(14, 10))\n\n# Plot 1: Ridership by route\ncombined.plot(\n    kind='bar',\n    x='route_name',\n    y='avg_monthly_riders',\n    ax=axes[0, 0],\n    color='steelblue',\n    legend=False\n)\naxes[0, 0].set_title('Average Monthly Ridership by Route', fontweight='bold')\naxes[0, 0].set_xlabel('')\naxes[0, 0].set_ylabel('Monthly Riders')\naxes[0, 0].tick_params(axis='x', rotation=45)\n\n# Plot 2: Efficiency comparison\ncombined.plot(\n    kind='barh',\n    x='route_name',\n    y='efficiency',\n    ax=axes[0, 1],\n    color='forestgreen',\n    legend=False\n)\naxes[0, 1].set_title('Route Efficiency (Riders/km)', fontweight='bold')\naxes[0, 1].set_xlabel('Riders per km')\naxes[0, 1].set_ylabel('')\n\n# Plot 3: Mode comparison\nmode_totals = combined.groupby('mode')['avg_monthly_riders'].sum()\naxes[1, 0].pie(mode_totals, labels=mode_totals.index, autopct='%1.1f%%')\naxes[1, 0].set_title('Total Ridership Share by Mode', fontweight='bold')\n\n# Plot 4: Monthly trends for top 3 routes\ntop_3_routes = combined.nlargest(3, 'avg_monthly_riders')\nmonths = ['Jan', 'Feb', 'Mar']\nfor _, route in top_3_routes.iterrows():\n    riders = [route['jan_riders'], route['feb_riders'], route['mar_riders']]\n    axes[1, 1].plot(months, riders, marker='o', label=route['route_name'])\naxes[1, 1].set_title('Monthly Trends - Top 3 Routes', fontweight='bold')\naxes[1, 1].set_ylabel('Riders')\naxes[1, 1].legend()\naxes[1, 1].grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()\n\n# ============================\n# 7. EXPORT RESULTS\n# ============================\n\n# Save cleaned data\ncombined.to_csv('auckland_transport_analysis.csv', index=False)\n\n# Save summary statistics\nmode_summary.to_csv('transport_mode_summary.csv')\n\nprint(\"\\n✅ Analysis complete! Files saved.\")\nprint(f\"Total routes analyzed: {len(combined)}\")\nprint(f\"Total monthly riders: {combined['avg_monthly_riders'].sum():,.0f}\")\nprint(f\"Average efficiency: {combined['efficiency'].mean():.1f} riders/km\")",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
+    ]
+  },
+  {
+    "objectID": "2.2.dataframes.html#connection-to-other-sections",
+    "href": "2.2.dataframes.html#connection-to-other-sections",
+    "title": "2.2. DataFrames and Pandas",
+    "section": "Connection to Other Sections",
+    "text": "Connection to Other Sections\nFrom Section 2.1 (you used): - Lists → DataFrame columns - For loops → Iterating through DataFrames and dictionaries - Conditionals (if/else) → Boolean indexing and .apply()\nTo Section 2.3 (coming next): - All the data manipulation you learned here - Create DataFrames, then Visualise them - Groupby results become bar charts and line plots - Pivot tables become heatmaps\nTo Section 2.4 (future): - pandas → geopandas (same operations, with geometry!) - DataFrame → GeoDataFrame (attribute table + coordinates) - All these skills transfer directly to spatial data",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.2. DataFrames and Pandas"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html",
+    "href": "2.3.data-visualisation.html",
+    "title": "2.3. Data Visualisation",
+    "section": "",
+    "text": "Introduction\nEffective data visualisation is fundamental to understanding patterns, communicating findings, and making data-driven decisions. This section covers essential visualisation techniques for tabular and spatial data using Python’s powerful plotting libraries.\nBefore we dive into geospatial visualisation, you need to master the core plotting tools that underpin all visual analysis in Python.",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#why-visualisation-matters",
+    "href": "2.3.data-visualisation.html#why-visualisation-matters",
+    "title": "2.3. Data Visualisation",
+    "section": "Why Visualisation Matters",
+    "text": "Why Visualisation Matters\nVisualisation helps us:\n\nExplore data patterns and relationships\nIdentify outliers and anomalies\nCommunicate findings to diverse audiences\nValidate analytical results\nGuide further analysis and investigation\n\n\n\n\n\n\n\nAnscombe’s Quartet\n\n\n\nFour datasets with identical summary statistics but completely different patterns—only visible through visualisation. This classic example demonstrates why we must always plot our data!",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#python-visualisation-libraries",
+    "href": "2.3.data-visualisation.html#python-visualisation-libraries",
+    "title": "2.3. Data Visualisation",
+    "section": "Python Visualisation Libraries",
+    "text": "Python Visualisation Libraries\n\nThe Ecosystem\nPython has a rich ecosystem of visualisation libraries. Understanding how they relate to each other helps you choose the right tool:\nmatplotlib: The foundation - Low-level control over every plot element - Verbose but powerful - Basis for most other plotting libraries - Best when you need precise control\npandas plotting: Quick and convenient - Built-in plotting methods on DataFrames - Good for rapid exploration - Uses matplotlib behind the scenes - Limited customisation\nseaborn: Statistical graphics - Beautiful default styles - Statistical functions built-in - High-level interface to matplotlib - Excellent for exploratory data analysis\nplotly: Interactive plots - Web-based interactive graphics - Hover information, zooming, panning - Excellent for dashboards - Can export to HTML\n\n\n\n\n\n\nWhich library should I use?\n\n\n\n\nQuick exploration: pandas plotting\nStatistical analysis: seaborn\nPublication-quality plots: matplotlib\nInteractive dashboards: plotly\nGIS/spatial data: See Chapter 2.4\n\n\n\n\n\nInstallation\n# matplotlib and pandas come with most Python installations\nimport matplotlib.pyplot as plt\nimport pandas as pd\n\n# Install seaborn if needed\n# uv pip install seaborn\nimport seaborn as sns\n\n# Install plotly if needed\n# uv pip install plotly\nimport plotly.express as px",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#understanding-matplotlib-architecture",
+    "href": "2.3.data-visualisation.html#understanding-matplotlib-architecture",
+    "title": "2.3. Data Visualisation",
+    "section": "Understanding Matplotlib Architecture",
+    "text": "Understanding Matplotlib Architecture\nBefore creating plots, it’s crucial to understand how matplotlib is structured. This knowledge will make customisation much easier.\n\nThe Three-Layer Architecture\nMatplotlib has three main layers:\n\nBackend layer: Handles the actual drawing to screen or file\nArtist layer: All objects you see on the plot (lines, text, axes)\nScripting layer (pyplot): Convenient interface for common tasks\n\nMost of the time, you’ll work with the scripting layer, but understanding the artist layer helps with customisation.\n\n\nAnatomy of a Plot\nEvery matplotlib plot has a hierarchical structure:\nFigure (the entire window/page)\n└── Axes (the plotting area - can have multiple)\n    ├── Axis (x-axis, y-axis)\n    ├── Title\n    ├── Labels\n    ├── Legend\n    ├── Grid\n    └── Plot elements (lines, points, etc.)\nKey concepts:\n\nFigure: The entire canvas - the window or page\nAxes: A single plot area (confusingly named - not the same as axis!)\nAxis: The actual x and y axes with ticks and labels\nArtists: Everything you see (lines, text, patches, etc.)\n\n\n\n\n\n\n\nCommon Confusion: Axes vs Axis\n\n\n\n\nAxes (plural): A complete plot area with its own coordinate system\nAxis (singular): The x or y axis line with ticks and labels\n\nIn matplotlib, ax typically refers to an Axes object, not an axis line!\n\n\n\n\nTwo Ways to Create Plots\nThere are two main approaches to creating matplotlib plots:\n1. pyplot interface (implicit)\nimport matplotlib.pyplot as plt\n\nplt.plot([1, 2, 3], [1, 4, 9])\nplt.xlabel('X axis')\nplt.ylabel('Y axis')\nplt.title('My Plot')\nplt.show()\n2. Object-oriented interface (explicit) - RECOMMENDED\nimport matplotlib.pyplot as plt\n\nfig, ax = plt.subplots()  # Create figure and axes explicitly\nax.plot([1, 2, 3], [1, 4, 9])\nax.set_xlabel('X axis')\nax.set_ylabel('Y axis')\nax.set_title('My Plot')\nplt.show()\n\n\n\n\n\n\nUse the Object-Oriented Interface\n\n\n\nWhile the pyplot interface is more concise, the object-oriented approach is more explicit and gives you better control, especially when creating multiple subplots. It’s the recommended approach for all but the simplest plots.\n\n\n\n\nYour First Plot: Step by Step\nLet’s create a simple plot step by step, understanding each component:\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Step 1: Prepare your data\nx = np.linspace(0, 10, 100)  # 100 points from 0 to 10\ny = np.sin(x)\n\n# Step 2: Create figure and axes\nfig, ax = plt.subplots(figsize=(10, 6))  # Width=10, Height=6 inches\n\n# Step 3: Plot the data\nax.plot(x, y)\n\n# Step 4: Customise the plot\nax.set_xlabel('X values', fontsize=12)\nax.set_ylabel('Y values', fontsize=12)\nax.set_title('Sine Wave', fontsize=14, fontweight='bold')\nax.grid(True, alpha=0.3)  # Add semi-transparent grid\n\n# Step 5: Display or save\nplt.tight_layout()  # Adjust spacing\nplt.show()\nBreaking it down:\n\nData preparation: We create x values and calculate y = sin(x)\nFigure creation: plt.subplots() returns both a Figure and an Axes\nPlotting: ax.plot() draws the line\nCustomisation: Set labels, title, and grid\nDisplay: plt.show() renders the plot",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#basic-plot-types",
+    "href": "2.3.data-visualisation.html#basic-plot-types",
+    "title": "2.3. Data Visualisation",
+    "section": "Basic Plot Types",
+    "text": "Basic Plot Types\nLet’s explore the fundamental plot types you’ll use most often.\n\nLine Plots\nLine plots show trends and continuous data, perfect for time series.\nimport matplotlib.pyplot as plt\nimport numpy as np\nimport pandas as pd\n\n# Example 1: Simple line plot\nfig, ax = plt.subplots(figsize=(10, 6))\n\nx = np.linspace(0, 10, 100)\ny = np.sin(x)\n\nax.plot(x, y, linewidth=2, color='steelblue')\nax.set_xlabel('X axis')\nax.set_ylabel('Y axis')\nax.set_title('Simple Line Plot')\nax.grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()\n\n# Example 2: Time series with dates\ndates = pd.date_range('2024-01-01', periods=100)\nvalues = np.cumsum(np.random.randn(100))  # Random walk\n\nfig, ax = plt.subplots(figsize=(12, 6))\nax.plot(dates, values, linewidth=2, color='darkgreen')\nax.set_xlabel('Date')\nax.set_ylabel('Value')\nax.set_title('Time Series Example')\nax.grid(True, alpha=0.3)\n\n# Rotate x-axis labels for better readability\nplt.xticks(rotation=45)\nplt.tight_layout()\nplt.show()\nCommon line styles:\nax.plot(x, y, linestyle='-')   # Solid line (default)\nax.plot(x, y, linestyle='--')  # Dashed line\nax.plot(x, y, linestyle=':')   # Dotted line\nax.plot(x, y, linestyle='-.')  # Dash-dot line\n\n# Shorthand notation\nax.plot(x, y, 'b-')   # Blue solid line\nax.plot(x, y, 'r--')  # Red dashed line\nax.plot(x, y, 'g:')   # Green dotted line\n\n\n\n\n\n\nLine Styles for Accessibility\n\n\n\nWhen creating plots with multiple lines, use different line styles (solid, dashed, dotted) in addition to colours. This makes your plots readable in grayscale and accessible to colour-blind readers.\n\n\n\n\nScatter Plots\nScatter plots show relationships between two continuous variables.\nfig, ax = plt.subplots(figsize=(10, 6))\n\n# Generate sample data\nnp.random.seed(42)\nx = np.random.randn(100)\ny = 2 * x + np.random.randn(100) * 0.5  # y = 2x + noise\n\n# Create scatter plot\nax.scatter(x, y, alpha=0.6, s=50, color='steelblue', edgecolors='black', linewidth=0.5)\n\nax.set_xlabel('X variable')\nax.set_ylabel('Y variable')\nax.set_title('Scatter Plot Example')\nax.grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()\nScatter plot parameters: - alpha: Transparency (0=invisible, 1=opaque) - s: Size of markers - c: Colour (can be array for colour-coding) - marker: Shape (‘o’, ‘s’, ‘^’, ‘v’, ’*’, etc.) - edgecolors: Colour of marker edges - linewidth: Width of marker edges\n\n\nBar Charts\nBar charts compare categories or show discrete data.\ncategories = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E']\nvalues = [23, 45, 56, 78, 32]\n\nfig, ax = plt.subplots(figsize=(10, 6))\n\n# Vertical bar chart\nbars = ax.bar(categories, values, color='steelblue', alpha=0.7, edgecolor='black')\n\n# Customise individual bars\nbars[2].set_color('coral')  # Highlight third bar\n\nax.set_xlabel('Category')\nax.set_ylabel('Value')\nax.set_title('Bar Chart Example')\nax.grid(axis='y', alpha=0.3)  # Only horizontal grid lines\n\nplt.tight_layout()\nplt.show()\n\n# Horizontal bar chart\nfig, ax = plt.subplots(figsize=(10, 6))\nax.barh(categories, values, color='steelblue', alpha=0.7)\nax.set_xlabel('Value')\nax.set_ylabel('Category')\nax.set_title('Horizontal Bar Chart')\nax.grid(axis='x', alpha=0.3)\nplt.tight_layout()\nplt.show()\n\n\nHistograms\nHistograms show the distribution of a single variable.\n# Generate sample data\nnp.random.seed(42)\ndata = np.random.randn(1000)  # 1000 random numbers from normal distribution\n\nfig, ax = plt.subplots(figsize=(10, 6))\n\n# Create histogram\nn, bins, patches = ax.hist(data, bins=30, edgecolor='black', alpha=0.7, color='steelblue')\n\nax.set_xlabel('Value')\nax.set_ylabel('Frequency')\nax.set_title('Histogram Example')\nax.grid(axis='y', alpha=0.3)\n\n# Add a line for the mean\nmean_value = data.mean()\nax.axvline(mean_value, color='red', linestyle='--', linewidth=2, label=f'Mean = {mean_value:.2f}')\nax.legend()\n\nplt.tight_layout()\nplt.show()\nChoosing the number of bins: - Too few bins: Lose detail - Too many bins: See noise, not pattern - Rule of thumb: bins = int(np.sqrt(len(data))) - Or use automatic methods: bins='auto', bins='fd', bins='sturges'",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#working-with-pandas-data",
+    "href": "2.3.data-visualisation.html#working-with-pandas-data",
+    "title": "2.3. Data Visualisation",
+    "section": "Working with Pandas Data",
+    "text": "Working with Pandas Data\nPandas DataFrames have built-in plotting methods that make visualisation convenient for data exploration.\n\nBasic Pandas Plotting\nimport pandas as pd\nimport numpy as np\n\n# Create sample weather data\nnp.random.seed(42)\ndates = pd.date_range('2024-01-01', periods=365)\ndf = pd.DataFrame({\n    'date': dates,\n    'temperature': 15 + 10 * np.sin(2 * np.pi * dates.dayofyear / 365) + np.random.randn(365) * 2,\n    'rainfall': np.abs(np.random.randn(365) * 10),\n    'humidity': 60 + 20 * np.sin(2 * np.pi * dates.dayofyear / 365) + np.random.randn(365) * 5\n})\n\n# Plot directly from DataFrame\ndf.plot(x='date', y='temperature', figsize=(12, 6), title='Temperature Over Year')\nplt.ylabel('Temperature (°C)')\nplt.show()\n\n# Plot multiple columns\ndf.set_index('date')[['temperature', 'humidity']].plot(\n    figsize=(12, 6),\n    title='Temperature and Humidity',\n    ylabel='Values',\n    alpha=0.7\n)\nplt.legend(loc='upper right')\nplt.show()\n\n# Different plot types\nfig, axes = plt.subplots(2, 2, figsize=(14, 10))\n\n# Line plot\ndf.plot(x='date', y='temperature', ax=axes[0, 0], title='Line Plot')\n\n# Bar plot\ndf.head(30).plot(x='date', y='rainfall', kind='bar', ax=axes[0, 1], title='Bar Plot')\n\n# Histogram\ndf['temperature'].plot(kind='hist', bins=30, ax=axes[1, 0], title='Histogram', edgecolor='black')\n\n# Box plot\ndf[['temperature', 'humidity']].plot(kind='box', ax=axes[1, 1], title='Box Plot')\n\nplt.tight_layout()\nplt.show()\n\n\nUnderstanding Plot Types\nWhen to use each plot type:\n\n\n\nPlot Type\nUse Case\nExample\n\n\n\n\nLine\nTrends over time\nTemperature over year\n\n\nScatter\nRelationship between variables\nHeight vs weight\n\n\nBar\nComparing categories\nSales by region\n\n\nHistogram\nDistribution of values\nAge distribution\n\n\nBox\nDistribution comparison\nSalaries by department",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#handling-datetime-data",
+    "href": "2.3.data-visualisation.html#handling-datetime-data",
+    "title": "2.3. Data Visualisation",
+    "section": "Handling Datetime Data",
+    "text": "Handling Datetime Data\nTime series data requires special attention for proper formatting.\n\nReading Data with Datetime Index\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\n# Read weather data with datetime index\n# Note the parse_dates and index_col parameters\ndf = pd.read_csv(\n    'weather_data.csv',\n    parse_dates=['timestamp'],  # Convert to datetime\n    index_col='timestamp'        # Set as index\n)\n\n# Plot using the datetime index\nfig, ax = plt.subplots(figsize=(12, 6))\ndf['temperature'].plot(ax=ax)\nax.set_title('Temperature Time Series')\nax.set_ylabel('Temperature (°C)')\nplt.show()\n\n\nSelecting Date Ranges\n# Filter by date range using .loc\njan_data = df.loc['2024-01']  # All of January\nsummer = df.loc['2024-06':'2024-08']  # June to August\nspecific_day = df.loc['2024-07-15']  # One day\n\n# Plot subset\nfig, ax = plt.subplots(figsize=(12, 6))\nsummer['temperature'].plot(ax=ax, linewidth=2)\nax.set_title('Summer Temperatures')\nax.set_ylabel('Temperature (°C)')\nplt.show()\n\n\nFormatting Datetime Axes\nimport matplotlib.dates as mdates\n\nfig, ax = plt.subplots(figsize=(12, 6))\ndf['temperature'].plot(ax=ax)\n\n# Format the x-axis\nax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))\nax.xaxis.set_major_locator(mdates.MonthLocator())\n\n# Rotate labels\nplt.xticks(rotation=45)\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#creating-subplots",
+    "href": "2.3.data-visualisation.html#creating-subplots",
+    "title": "2.3. Data Visualisation",
+    "section": "Creating Subplots",
+    "text": "Creating Subplots\nSubplots allow you to display multiple plots in a single figure.\n\nBasic Subplot Grid\nimport matplotlib.pyplot as plt\nimport numpy as np\n\n# Create 2x2 grid of subplots\nfig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 10))\n\nx = np.linspace(0, 10, 100)\n\n# Access individual axes using indexing\naxes[0, 0].plot(x, np.sin(x))\naxes[0, 0].set_title('Sine')\naxes[0, 0].grid(True, alpha=0.3)\n\naxes[0, 1].plot(x, np.cos(x), color='orange')\naxes[0, 1].set_title('Cosine')\naxes[0, 1].grid(True, alpha=0.3)\n\naxes[1, 0].plot(x, np.tan(x))\naxes[1, 0].set_title('Tangent')\naxes[1, 0].set_ylim(-5, 5)  # Limit y-axis\naxes[1, 0].grid(True, alpha=0.3)\n\naxes[1, 1].plot(x, x**2, color='green')\naxes[1, 1].set_title('Quadratic')\naxes[1, 1].grid(True, alpha=0.3)\n\n# Add overall title\nfig.suptitle('Trigonometric and Polynomial Functions', fontsize=16, fontweight='bold')\n\nplt.tight_layout()\nplt.show()\n\n\nSharing Axes\n# Share x-axis across all subplots\nfig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)\n\ndates = pd.date_range('2024-01-01', periods=100)\ntemp = 15 + 10 * np.sin(np.linspace(0, 4*np.pi, 100)) + np.random.randn(100)\nrainfall = np.abs(np.random.randn(100) * 10)\nhumidity = 60 + 20 * np.sin(np.linspace(0, 4*np.pi, 100)) + np.random.randn(100) * 5\n\naxes[0].plot(dates, temp, color='orangered')\naxes[0].set_ylabel('Temperature (°C)')\naxes[0].set_title('Weather Data')\naxes[0].grid(True, alpha=0.3)\n\naxes[1].bar(dates, rainfall, color='steelblue', alpha=0.6)\naxes[1].set_ylabel('Rainfall (mm)')\naxes[1].grid(True, alpha=0.3)\n\naxes[2].plot(dates, humidity, color='green')\naxes[2].set_ylabel('Humidity (%)')\naxes[2].set_xlabel('Date')\naxes[2].grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()\n\n\nUnequal Subplot Sizes\n# Create subplots with different sizes\nfig = plt.figure(figsize=(12, 8))\n\n# Define grid layout\nax1 = plt.subplot(2, 2, 1)  # Top left\nax2 = plt.subplot(2, 2, 2)  # Top right\nax3 = plt.subplot(2, 1, 2)  # Bottom (spans both columns)\n\n# Plot in each\nx = np.linspace(0, 10, 100)\n\nax1.plot(x, np.sin(x))\nax1.set_title('Sine')\nax1.grid(True, alpha=0.3)\n\nax2.plot(x, np.cos(x), color='orange')\nax2.set_title('Cosine')\nax2.grid(True, alpha=0.3)\n\nax3.plot(x, np.sin(x), label='Sine')\nax3.plot(x, np.cos(x), label='Cosine')\nax3.set_title('Combined View')\nax3.legend()\nax3.grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#customising-your-plots",
+    "href": "2.3.data-visualisation.html#customising-your-plots",
+    "title": "2.3. Data Visualisation",
+    "section": "Customising Your Plots",
+    "text": "Customising Your Plots\n\nColours and Styles\nfig, ax = plt.subplots(figsize=(10, 6))\n\nx = np.linspace(0, 10, 100)\n\n# Different ways to specify colours\nax.plot(x, np.sin(x), color='steelblue', label='Named colour')\nax.plot(x, np.sin(x) + 1, color='#FF6B6B', label='Hex code')\nax.plot(x, np.sin(x) + 2, color=(0.2, 0.4, 0.6), label='RGB tuple')\n\n# Line styles\nax.plot(x, np.cos(x), linestyle='-', label='Solid')\nax.plot(x, np.cos(x) + 1, linestyle='--', label='Dashed')\nax.plot(x, np.cos(x) + 2, linestyle=':', label='Dotted')\nax.plot(x, np.cos(x) + 3, linestyle='-.', label='Dash-dot')\n\nax.legend(loc='best')\nax.grid(True, alpha=0.3)\nplt.show()\nColourblind-friendly palettes:\n# Use seaborn's colourblind palette\nimport seaborn as sns\n\ncolors = sns.color_palette('colorblind')\nfig, ax = plt.subplots(figsize=(10, 6))\n\nfor i, c in enumerate(colors[:5]):\n    ax.plot(x, np.sin(x) + i, color=c, linewidth=2, label=f'Line {i+1}')\n\nax.legend()\nax.grid(True, alpha=0.3)\nplt.show()\n\n\nMarkers and Line Width\nfig, ax = plt.subplots(figsize=(10, 6))\n\nx = np.linspace(0, 10, 20)\n\n# Different markers\nax.plot(x, np.sin(x), marker='o', markersize=8, label='Circle')\nax.plot(x, np.sin(x) + 0.5, marker='s', markersize=8, label='Square')\nax.plot(x, np.sin(x) + 1, marker='^', markersize=8, label='Triangle')\nax.plot(x, np.sin(x) + 1.5, marker='*', markersize=12, label='Star')\n\n# Line width\nax.plot(x, np.cos(x) - 1.5, linewidth=1, label='Thin')\nax.plot(x, np.cos(x) - 2, linewidth=3, label='Medium')\nax.plot(x, np.cos(x) - 2.5, linewidth=5, label='Thick')\n\nax.legend(loc='upper right')\nax.grid(True, alpha=0.3)\nplt.show()\n\n\nLegends and Annotations\nfig, ax = plt.subplots(figsize=(12, 6))\n\nx = np.linspace(0, 10, 100)\n\n# Plot multiple lines\nax.plot(x, np.sin(x), label='sin(x)', linewidth=2, color='steelblue')\nax.plot(x, np.cos(x), label='cos(x)', linewidth=2, color='coral')\n\n# Customise legend\nax.legend(\n    loc='upper right',\n    fontsize=12,\n    frameon=True,\n    shadow=True,\n    fancybox=True\n)\n\n# Add text annotation\nax.text(\n    5, 0.5, \n    'Area of interest', \n    fontsize=12,\n    bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5)\n)\n\n# Add arrow annotation\nax.annotate(\n    'Maximum', \n    xy=(np.pi/2, 1),  # Point to annotate\n    xytext=(2, 1.5),  # Text location\n    arrowprops=dict(arrowstyle='-&gt;', color='red', lw=2),\n    fontsize=12,\n    color='red'\n)\n\nax.grid(True, alpha=0.3)\nax.set_xlabel('X axis', fontsize=12)\nax.set_ylabel('Y axis', fontsize=12)\nax.set_title('Legends and Annotations', fontsize=14, fontweight='bold')\n\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#seaborn-statistical-visualisation",
+    "href": "2.3.data-visualisation.html#seaborn-statistical-visualisation",
+    "title": "2.3. Data Visualisation",
+    "section": "Seaborn: Statistical Visualisation",
+    "text": "Seaborn: Statistical Visualisation\nSeaborn provides a high-level interface for creating beautiful statistical graphics.\n\nWhy Use Seaborn?\n\nBetter defaults: Plots look professional out of the box\nStatistical functions: Built-in regression, distributions, etc.\nEasier syntax: Less code for common statistical plots\nColour palettes: Beautiful, accessible colour schemes\nSeamless pandas integration: Works directly with DataFrames\n\n\n\nSetting Up Seaborn\nimport seaborn as sns\nimport matplotlib.pyplot as plt\nimport pandas as pd\nimport numpy as np\n\n# Set style (applies to all subsequent plots)\nsns.set_style('whitegrid')  # Options: whitegrid, darkgrid, white, dark, ticks\n\n# Set context (controls scale of elements)\nsns.set_context('notebook')  # Options: paper, notebook, talk, poster\n\n# Set colour palette\nsns.set_palette('husl')  # Or 'Set2', 'colorblind', 'pastel', etc.\n\n\nDistribution Plots\n# Generate sample data\nnp.random.seed(42)\ndata = np.random.randn(1000)\n\nfig, axes = plt.subplots(1, 3, figsize=(15, 5))\n\n# Histogram with KDE\nsns.histplot(data, kde=True, ax=axes[0])\naxes[0].set_title('Histogram with KDE')\n\n# KDE plot\nsns.kdeplot(data, ax=axes[1], fill=True)\naxes[1].set_title('KDE Plot')\n\n# Violin plot\nsns.violinplot(y=data, ax=axes[2])\naxes[2].set_title('Violin Plot')\n\nplt.tight_layout()\nplt.show()\n\n\nRelationship Plots\n# Create sample data\nnp.random.seed(42)\nn = 100\ndf = pd.DataFrame({\n    'temperature': np.random.randn(n) * 5 + 20,\n    'rainfall': np.abs(np.random.randn(n) * 10),\n    'humidity': np.random.randn(n) * 10 + 60,\n    'season': np.random.choice(['Summer', 'Winter', 'Spring', 'Autumn'], n)\n})\n\n# Scatter plot with regression line\nsns.lmplot(data=df, x='temperature', y='rainfall', height=6, aspect=1.5)\nplt.title('Temperature vs Rainfall')\nplt.show()\n\n# Joint plot (scatter + histograms)\nsns.jointplot(data=df, x='temperature', y='rainfall', kind='scatter', height=8)\nplt.show()\n\n# Pair plot\nsns.pairplot(df[['temperature', 'rainfall', 'humidity']])\nplt.show()\n\n\nCategorical Plots\n# Box plot by category\nfig, axes = plt.subplots(1, 2, figsize=(14, 6))\n\nsns.boxplot(data=df, x='season', y='temperature', ax=axes[0])\naxes[0].set_title('Temperature by Season')\n\n# Violin plot by category\nsns.violinplot(data=df, x='season', y='temperature', ax=axes[1])\naxes[1].set_title('Temperature Distribution by Season')\n\nplt.tight_layout()\nplt.show()\n\n# Swarm plot (show individual points)\nfig, ax = plt.subplots(figsize=(10, 6))\nsns.swarmplot(data=df, x='season', y='temperature', ax=ax, size=4)\nax.set_title('Individual Temperature Observations by Season')\nplt.show()\n\n\nHeatmaps\n# Correlation matrix\ncorrelation = df[['temperature', 'rainfall', 'humidity']].corr()\n\nfig, ax = plt.subplots(figsize=(8, 6))\nsns.heatmap(\n    correlation, \n    annot=True,          # Show values\n    cmap='coolwarm',     # Colour map\n    center=0,            # Centre colourmap at 0\n    square=True,         # Square cells\n    linewidths=1,        # Lines between cells\n    cbar_kws={'label': 'Correlation'},\n    ax=ax\n)\nax.set_title('Correlation Matrix')\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#practical-example-comprehensive-weather-analysis",
+    "href": "2.3.data-visualisation.html#practical-example-comprehensive-weather-analysis",
+    "title": "2.3. Data Visualisation",
+    "section": "Practical Example: Comprehensive Weather Analysis",
+    "text": "Practical Example: Comprehensive Weather Analysis\nLet’s combine everything we’ve learned into a complete analysis workflow.\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nimport numpy as np\n\n# Simulate realistic Auckland weather data\nnp.random.seed(42)\ndates = pd.date_range('2023-01-01', '2023-12-31', freq='D')\nn = len(dates)\n\n# Seasonal temperature pattern (warmer in summer: Dec-Feb)\nday_of_year = dates.dayofyear\ntemp = 15 + 8 * np.sin(2 * np.pi * (day_of_year - 80) / 365) + np.random.randn(n) * 2\n\n# Rainfall (more in winter: Jun-Aug)\nrainfall_base = 3 - 2 * np.sin(2 * np.pi * (day_of_year - 80) / 365)\nrainfall = np.abs(rainfall_base + np.random.randn(n) * 1.5)\n\n# Humidity (correlated with rainfall)\nhumidity = 60 + 10 * (rainfall / rainfall.max()) + np.random.randn(n) * 5\n\n# Wind speed\nwind = np.abs(np.random.randn(n) * 3 + 5)\n\n# Create DataFrame\nweather = pd.DataFrame({\n    'date': dates,\n    'temperature': temp,\n    'rainfall': rainfall,\n    'humidity': humidity,\n    'wind_speed': wind,\n    'month': dates.month,\n    'season': pd.cut(dates.month, \n                     bins=[0, 3, 6, 9, 12],\n                     labels=['Summer', 'Autumn', 'Winter', 'Spring'])\n})\n\n# Set seaborn style\nsns.set_style('whitegrid')\nsns.set_palette('husl')\n\n# 1. OVERVIEW: Time series of all variables\nfig, axes = plt.subplots(4, 1, figsize=(14, 12), sharex=True)\n\naxes[0].plot(weather['date'], weather['temperature'], linewidth=1, alpha=0.7, color='orangered')\naxes[0].set_ylabel('Temperature (°C)', fontsize=11)\naxes[0].set_title('Auckland Weather 2023 - Complete Overview', fontsize=14, fontweight='bold')\naxes[0].grid(True, alpha=0.3)\n\naxes[1].bar(weather['date'], weather['rainfall'], width=1, color='steelblue', alpha=0.6)\naxes[1].set_ylabel('Rainfall (mm)', fontsize=11)\naxes[1].grid(True, alpha=0.3)\n\naxes[2].plot(weather['date'], weather['humidity'], linewidth=1, alpha=0.7, color='green')\naxes[2].set_ylabel('Humidity (%)', fontsize=11)\naxes[2].grid(True, alpha=0.3)\n\naxes[3].plot(weather['date'], weather['wind_speed'], linewidth=1, alpha=0.7, color='purple')\naxes[3].set_ylabel('Wind Speed (km/h)', fontsize=11)\naxes[3].set_xlabel('Date', fontsize=11)\naxes[3].grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()\n\n# 2. SEASONAL COMPARISON\nfig, axes = plt.subplots(2, 2, figsize=(14, 10))\n\nsns.boxplot(data=weather, x='season', y='temperature', ax=axes[0, 0])\naxes[0, 0].set_title('Temperature by Season', fontsize=12)\naxes[0, 0].set_ylabel('Temperature (°C)')\n\nsns.violinplot(data=weather, x='season', y='rainfall', ax=axes[0, 1])\naxes[0, 1].set_title('Rainfall by Season', fontsize=12)\naxes[0, 1].set_ylabel('Rainfall (mm)')\n\nsns.boxplot(data=weather, x='season', y='humidity', ax=axes[1, 0])\naxes[1, 0].set_title('Humidity by Season', fontsize=12)\naxes[1, 0].set_ylabel('Humidity (%)')\n\nsns.boxplot(data=weather, x='season', y='wind_speed', ax=axes[1, 1])\naxes[1, 1].set_title('Wind Speed by Season', fontsize=12)\naxes[1, 1].set_ylabel('Wind Speed (km/h)')\n\nfig.suptitle('Seasonal Weather Comparison', fontsize=16, fontweight='bold', y=1.00)\nplt.tight_layout()\nplt.show()\n\n# 3. DISTRIBUTIONS\nfig, axes = plt.subplots(2, 2, figsize=(14, 10))\n\nsns.histplot(data=weather, x='temperature', kde=True, ax=axes[0, 0], color='orangered')\naxes[0, 0].axvline(weather['temperature'].mean(), color='black', linestyle='--', \n                    linewidth=2, label=f\"Mean = {weather['temperature'].mean():.1f}°C\")\naxes[0, 0].set_title('Temperature Distribution', fontsize=12)\naxes[0, 0].legend()\n\nsns.histplot(data=weather, x='rainfall', kde=True, ax=axes[0, 1], color='steelblue')\naxes[0, 1].axvline(weather['rainfall'].mean(), color='black', linestyle='--', \n                    linewidth=2, label=f\"Mean = {weather['rainfall'].mean():.1f}mm\")\naxes[0, 1].set_title('Rainfall Distribution', fontsize=12)\naxes[0, 1].legend()\n\nsns.histplot(data=weather, x='humidity', kde=True, ax=axes[1, 0], color='green')\naxes[1, 0].axvline(weather['humidity'].mean(), color='black', linestyle='--', \n                    linewidth=2, label=f\"Mean = {weather['humidity'].mean():.1f}%\")\naxes[1, 0].set_title('Humidity Distribution', fontsize=12)\naxes[1, 0].legend()\n\nsns.histplot(data=weather, x='wind_speed', kde=True, ax=axes[1, 1], color='purple')\naxes[1, 1].axvline(weather['wind_speed'].mean(), color='black', linestyle='--', \n                    linewidth=2, label=f\"Mean = {weather['wind_speed'].mean():.1f}km/h\")\naxes[1, 1].set_title('Wind Speed Distribution', fontsize=12)\naxes[1, 1].legend()\n\nfig.suptitle('Weather Variable Distributions', fontsize=16, fontweight='bold')\nplt.tight_layout()\nplt.show()\n\n# 4. RELATIONSHIPS\nfig, axes = plt.subplots(1, 2, figsize=(14, 6))\n\nsns.scatterplot(data=weather, x='temperature', y='rainfall', \n                hue='season', alpha=0.6, ax=axes[0])\naxes[0].set_title('Temperature vs Rainfall by Season', fontsize=12)\naxes[0].set_xlabel('Temperature (°C)')\naxes[0].set_ylabel('Rainfall (mm)')\n\nsns.scatterplot(data=weather, x='humidity', y='rainfall', \n                hue='season', alpha=0.6, ax=axes[1])\naxes[1].set_title('Humidity vs Rainfall by Season', fontsize=12)\naxes[1].set_xlabel('Humidity (%)')\naxes[1].set_ylabel('Rainfall (mm)')\n\nplt.tight_layout()\nplt.show()\n\n# 5. CORRELATION ANALYSIS\ncorrelation = weather[['temperature', 'rainfall', 'humidity', 'wind_speed']].corr()\n\nfig, ax = plt.subplots(figsize=(10, 8))\nsns.heatmap(correlation, annot=True, cmap='coolwarm', center=0, \n            square=True, linewidths=1, cbar_kws={'label': 'Correlation'},\n            ax=ax, vmin=-1, vmax=1)\nax.set_title('Weather Variables Correlation Matrix', fontsize=14, fontweight='bold')\nplt.tight_layout()\nplt.show()\n\n# 6. MONTHLY SUMMARY\nmonthly = weather.groupby('month').agg({\n    'temperature': ['mean', 'std'],\n    'rainfall': 'sum',\n    'humidity': 'mean',\n    'wind_speed': 'mean'\n}).round(2)\n\nprint(\"\\nMonthly Weather Summary:\")\nprint(monthly)\n\n# Plot monthly aggregates\nfig, axes = plt.subplots(2, 2, figsize=(14, 10))\n\nmonthly_temp = weather.groupby('month')['temperature'].mean()\naxes[0, 0].bar(monthly_temp.index, monthly_temp.values, color='orangered', alpha=0.7)\naxes[0, 0].set_title('Average Monthly Temperature', fontsize=12)\naxes[0, 0].set_xlabel('Month')\naxes[0, 0].set_ylabel('Temperature (°C)')\naxes[0, 0].grid(axis='y', alpha=0.3)\n\nmonthly_rain = weather.groupby('month')['rainfall'].sum()\naxes[0, 1].bar(monthly_rain.index, monthly_rain.values, color='steelblue', alpha=0.7)\naxes[0, 1].set_title('Total Monthly Rainfall', fontsize=12)\naxes[0, 1].set_xlabel('Month')\naxes[0, 1].set_ylabel('Rainfall (mm)')\naxes[0, 1].grid(axis='y', alpha=0.3)\n\nmonthly_humid = weather.groupby('month')['humidity'].mean()\naxes[1, 0].bar(monthly_humid.index, monthly_humid.values, color='green', alpha=0.7)\naxes[1, 0].set_title('Average Monthly Humidity', fontsize=12)\naxes[1, 0].set_xlabel('Month')\naxes[1, 0].set_ylabel('Humidity (%)')\naxes[1, 0].grid(axis='y', alpha=0.3)\n\nmonthly_wind = weather.groupby('month')['wind_speed'].mean()\naxes[1, 1].bar(monthly_wind.index, monthly_wind.values, color='purple', alpha=0.7)\naxes[1, 1].set_title('Average Monthly Wind Speed', fontsize=12)\naxes[1, 1].set_xlabel('Month')\naxes[1, 1].set_ylabel('Wind Speed (km/h)')\naxes[1, 1].grid(axis='y', alpha=0.3)\n\nfig.suptitle('Monthly Weather Aggregates', fontsize=16, fontweight='bold')\nplt.tight_layout()\nplt.show()\nThis comprehensive example demonstrates: - Time series visualisation with multiple variables - Seasonal comparisons using box and violin plots - Distribution analysis with histograms and KDE - Relationship exploration with scatter plots - Correlation analysis with heatmaps - Aggregated summaries with bar charts",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#best-practices-for-effective-visualisation",
+    "href": "2.3.data-visualisation.html#best-practices-for-effective-visualisation",
+    "title": "2.3. Data Visualisation",
+    "section": "Best Practices for Effective Visualisation",
+    "text": "Best Practices for Effective Visualisation\n\nDesign Principles\n1. Choose the Right Plot Type\n\n\n\n\n\n\n\n\nData Type\nQuestion\nPlot Type\n\n\n\n\nTime series\nHow does X change over time?\nLine plot\n\n\nCategorical comparison\nHow do categories compare?\nBar chart\n\n\nDistribution\nWhat’s the spread of values?\nHistogram, box plot\n\n\nRelationship\nHow do X and Y relate?\nScatter plot\n\n\nComposition\nWhat are the parts of the whole?\nPie chart, stacked bar\n\n\n\n2. Keep It Simple - One main message per plot - Remove unnecessary elements (chartjunk) - Use clear labels and titles - Appropriate axis ranges\n3. Make It Readable - Font sizes ≥ 10pt (larger for presentations) - Adequate spacing between elements - Clear axis labels with units - Informative titles that explain the takeaway\n4. Use Colour Effectively - Limit to 5-7 colours per plot - Use colourblind-friendly palettes - Consistent colour meanings across figures - Consider grayscale readability\n5. Guide the Viewer - Highlight important features - Use annotations strategically - Provide context with reference lines - Order data meaningfully\n\n\nCommon Pitfalls to Avoid\n❌ Don’t: - Use 3D charts unnecessarily (they distort perception) - Start y-axis at non-zero to exaggerate differences - Use too many colours or patterns - Create overly complex visualisations - Ignore aspect ratios - Use defaults without thought - Truncate axes to mislead\n✓ Do: - Show data honestly and clearly - Label everything comprehensively - Use appropriate scales (linear, log, etc.) - Consider your audience’s expertise - Test with others before finalising - Provide context and interpretation - Use consistent formatting across related figures\n\n\nAccessibility Guidelines\n\nColour blindness: Use patterns/shapes in addition to colour\nText size: Minimum 10pt, larger for presentations\nContrast: Ensure sufficient contrast for readability\nAlt text: When publishing, provide descriptions\nSimplicity: Complex plots are harder to understand",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#saving-high-quality-figures",
+    "href": "2.3.data-visualisation.html#saving-high-quality-figures",
+    "title": "2.3. Data Visualisation",
+    "section": "Saving High-Quality Figures",
+    "text": "Saving High-Quality Figures\n\nFile Formats\nfig, ax = plt.subplots()\n# ... create your plot ...\n\n# Raster formats (for web/presentations)\nfig.savefig('plot.png', dpi=300, bbox_inches='tight')  # High resolution\nfig.savefig('plot.jpg', dpi=150, bbox_inches='tight', quality=95)\n\n# Vector formats (for publications/editing)\nfig.savefig('plot.pdf', bbox_inches='tight')  # Best for LaTeX documents\nfig.savefig('plot.svg', bbox_inches='tight')  # Best for web/editing\nfig.savefig('plot.eps', bbox_inches='tight')  # For some journals\n\n# Transparent background\nfig.savefig('plot.png', dpi=300, bbox_inches='tight', transparent=True)\nChoosing the right format:\n\n\n\n\n\n\n\n\n\nFormat\nUse Case\nPros\nCons\n\n\n\n\nPNG\nWeb, presentations\nLossless, widely supported\nLarge file size\n\n\nJPG\nPhotos, web\nSmall file size\nLossy compression\n\n\nPDF\nPublications, printing\nVector, editable\nCan be large\n\n\nSVG\nWeb, editing\nVector, small\nLimited software support\n\n\nEPS\nJournal submissions\nVector, universal\nOld standard\n\n\n\n\n\nResolution Guidelines\n\nScreen display: 72-96 DPI\nPowerPoint/Google Slides: 150 DPI\nPrinted documents: 300 DPI\nPublication: 300-600 DPI (check journal requirements)",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#summary",
+    "href": "2.3.data-visualisation.html#summary",
+    "title": "2.3. Data Visualisation",
+    "section": "Summary",
+    "text": "Summary\nIn this section, you’ve learned:\n\nMatplotlib architecture: Understanding Figure, Axes, and Artists\nObject-oriented plotting: The recommended approach for creating plots\nBasic plot types: Line, scatter, bar, histogram, and their use cases\nPandas integration: Quick plotting directly from DataFrames\nDatetime handling: Working with time series data effectively\nSubplots: Creating multi-panel figures\nCustomisation: Colours, styles, legends, annotations\nSeaborn: Beautiful statistical visualisations\nBest practices: Design principles and accessibility\nProduction: Saving publication-quality figures\n\nKey takeaways:\n\nAlways use the object-oriented interface: fig, ax = plt.subplots()\nChoose plot types based on your data and question\nLabel everything clearly with units\nUse colour thoughtfully and accessibly\nTest your plots with others\nSave at appropriate resolution for your use case\n\nThese skills form the foundation for all data visualisation in Python, including the geospatial visualisation you’ll learn in the next section (?sec-geospatial).",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#practice-exercises",
+    "href": "2.3.data-visualisation.html#practice-exercises",
+    "title": "2.3. Data Visualisation",
+    "section": "Practice Exercises",
+    "text": "Practice Exercises\n\nExercise 1: Temperature Analysis\nLoad a CSV with daily temperature data and create: - Line plot of temperature over time - Histogram of temperature distribution - Box plot comparing temperatures by season - Scatter plot of temperature vs day of year\n\n\nExercise 2: Multi-Variable Time Series\nGiven a dataset with multiple weather variables: - Create a 4-panel subplot showing all variables over time - Add appropriate labels, titles, and colours - Ensure x-axes are shared - Add grid lines for readability\n\n\nExercise 3: Correlation Analysis\nUsing the weather dataset: - Calculate correlation between all variables - Create a correlation heatmap - Identify the strongest positive and negative correlations - Create scatter plots for the most correlated pairs\n\n\nExercise 4: Seasonal Comparison\nCompare weather patterns across seasons: - Create violin plots for each weather variable by season - Add annotations highlighting extreme values - Use a colourblind-friendly palette - Save as publication-quality PDF\n\n\nExercise 5: Custom Dashboard\nCreate a comprehensive analysis figure with: - Time series overview (top) - Distribution comparisons (middle left) - Correlation heatmap (middle right) - Key statistics summary (bottom) - Professional formatting throughout",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#further-reading",
+    "href": "2.3.data-visualisation.html#further-reading",
+    "title": "2.3. Data Visualisation",
+    "section": "Further Reading",
+    "text": "Further Reading\n\nMatplotlib Tutorial\nMatplotlib Gallery\nSeaborn Gallery\nPandas Visualisation Guide\nFundamentals of Data Visualization by Claus Wilke\nPython Graph Gallery\nScientific Visualization Book by Nicolas Rougier",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.3.data-visualisation.html#next-steps",
+    "href": "2.3.data-visualisation.html#next-steps",
+    "title": "2.3. Data Visualisation",
+    "section": "Next Steps",
+    "text": "Next Steps\nNow that you understand general data visualisation in depth, you’re ready to tackle geospatial visualisation in ?sec-geospatial, where you’ll learn to create maps, choropleth plots, and spatial graphics using GeoPandas and other specialised tools.",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Data Visualisation"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html",
+    "href": "2.4.geospatial.html",
+    "title": "2.3. Geospatial Data",
+    "section": "",
+    "text": "Introduction\nGeographic Information Systems (GIS) combine spatial data (where things are) with attribute data (what things are). In this section, you’ll learn the fundamentals of working with geospatial data in Python, focusing on vector data analysis using the geopandas library.",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#what-is-gis",
+    "href": "2.4.geospatial.html#what-is-gis",
+    "title": "2.3. Geospatial Data",
+    "section": "What is GIS?",
+    "text": "What is GIS?\nRoger Tomlinson coined the term “GIS” (Geographic Information Systems), defining it as:\n\nA computer system for capturing, storing, checking, and displaying data related to positions on Earth’s surface.\n\nAll data in GIS are georeferenced, meaning each feature has:\n\nAttribute information: What it is (name, type, value, etc.)\nSpatial information: Where it is (coordinates, location)\n\n\nGIS Applications\nGIS enables us to answer complex spatial questions. For example, with crime data we can explore:\n\nWhere are the most vulnerable communities located?\nWhy do crimes occur in one area and not another?\nHow do offenders travel to crime locations?\nWhere are there more or fewer stop and searches than expected?",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#types-of-maps",
+    "href": "2.4.geospatial.html#types-of-maps",
+    "title": "2.3. Geospatial Data",
+    "section": "Types of Maps",
+    "text": "Types of Maps\n\nReference Maps\nReference maps are used to communicate location and static data points:\n\nPurpose: To ‘pin point’ data on a map\nNature: Descriptive\nExamples: Road maps, topographic maps, navigation tools\n\n\n\nThematic Maps\nThematic maps highlight spatial relationships and patterns:\n\nPurpose: To ‘study a theme’ within spatial data\nNature: Explanatory\nExamples: Choropleth maps, heat maps, cartograms\n\n\n\n\n\n\n\nRail Maps: Reference or Thematic?\n\n\n\nTransport maps like Auckland’s rail network can be both:\n\nReference: They show station locations and line routes\nThematic: They can reveal patterns in life expectancy, poverty, or house prices along transport corridors",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#geospatial-data-types",
+    "href": "2.4.geospatial.html#geospatial-data-types",
+    "title": "2.3. Geospatial Data",
+    "section": "Geospatial Data Types",
+    "text": "Geospatial Data Types\n\nVector Data\nVector data represents discrete features using points, lines, and polygons:\n\nPoints: Individual locations (cities, sensors, trees)\nLines: Linear features (roads, rivers, routes)\nPolygons: Areas with boundaries (parcels, countries, lakes)\n\nVector data is preferred in social sciences because human settlements and processes tend to have discrete borders.\n\n\nRaster Data\nRaster data represents continuous surfaces using a grid of pixels:\n\nEach pixel has a value\nCommonly used for: satellite imagery, elevation models, temperature surfaces\nDominated in environmental sciences due to remote sensing",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#file-formats",
+    "href": "2.4.geospatial.html#file-formats",
+    "title": "2.3. Geospatial Data",
+    "section": "File Formats",
+    "text": "File Formats\n\nVector Formats\n\nShapefile (.shp): Traditional GIS format (requires multiple files: .shp, .shx, .dbf, .prj)\nGeoJSON (.geojson): Web-friendly, human-readable format\nGeoPackage (.gpkg): Modern, single-file format supporting multiple layers\nKML/KMZ: Google Earth format\n\n\n\nRaster Formats\n\nGeoTIFF (.tif): Standard format with embedded spatial information\nNetCDF: Multi-dimensional arrays (climate data)\nHDF5: Hierarchical data format",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#coordinate-reference-systems-crs",
+    "href": "2.4.geospatial.html#coordinate-reference-systems-crs",
+    "title": "2.3. Geospatial Data",
+    "section": "Coordinate Reference Systems (CRS)",
+    "text": "Coordinate Reference Systems (CRS)\n\nUnderstanding Projections\nThe Earth is a 3D sphere (technically an oblate spheroid), but maps are 2D. This creates distortion.\nCommon CRS systems:\n\nEPSG:4326 (WGS84): Unprojected geographic coordinates (latitude/longitude in degrees)\nEPSG:3857: Web Mercator (used by Google Maps, metres)\nEPSG:2193: NZTM (New Zealand Transverse Mercator, metres)\n\n\n\n\n\n\n\nCRS Matters!\n\n\n\nAlways check and match CRS when combining datasets. Mixing CRS will give incorrect results.",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#working-with-geopandas",
+    "href": "2.4.geospatial.html#working-with-geopandas",
+    "title": "2.3. Geospatial Data",
+    "section": "Working with GeoPandas",
+    "text": "Working with GeoPandas\n\nInstallation and Setup\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\nfrom shapely.geometry import Point, LineString, Polygon\n\n\nReading Spatial Data\n# Read from various formats\ncountries = gpd.read_file('countries.shp')\ncities = gpd.read_file('cities.geojson')\nregions = gpd.read_file('regions.gpkg')\n\n# Read from URL\nurl = 'https://example.com/data.geojson'\ngdf = gpd.read_file(url)\n\n\nExploring GeoDataFrames\n# View first few rows\ncountries.head()\n\n# Check the CRS\ncountries.crs\n\n# Get column information\ncountries.columns\n\n# Summary statistics\ncountries.describe()\n\n# Access geometry column\ncountries.geometry\n\n\nBasic Operations\n\nFiltering Data\n# Filter by attribute\noceania = countries[countries['continent'] == 'Oceania']\n\n# Filter by spatial relationship\n# Select countries that contain a specific point\nauckland = Point(174.76, -36.85)\nnz = countries[countries.contains(auckland)]\n\n\nCreating Geometries\n# Create a point\npoint = Point(174.76, -36.85)\n\n# Create a line\nline = LineString([(174.76, -36.85), (174.77, -36.86)])\n\n# Create a polygon\npolygon = Polygon([(0, 0), (1, 0), (1, 1), (0, 1)])\n\n# Create a GeoDataFrame from scratch\ngdf = gpd.GeoDataFrame(\n    {'name': ['Auckland'], \n     'population': [1672000]},\n    geometry=[Point(174.76, -36.85)],\n    crs='EPSG:4326'\n)",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#spatial-relationships",
+    "href": "2.4.geospatial.html#spatial-relationships",
+    "title": "2.3. Geospatial Data",
+    "section": "Spatial Relationships",
+    "text": "Spatial Relationships\nGeoPandas provides functions to test spatial relationships:\n\ncontains(): Does geometry A contain geometry B?\nwithin(): Is geometry A within geometry B?\nintersects(): Do geometries A and B intersect?\ntouches(): Do geometries share a boundary but not area?\ncrosses(): Do geometries cross each other?\noverlaps(): Do geometries overlap partially?\ndisjoint(): Are geometries completely separate?\n\n\nExample: Finding Which Country Contains a City\n# Create a point for New York\nnew_york = Point(-74.006, 40.7128)\n\n# Find the country containing New York\ncountry_with_ny = countries[countries.contains(new_york)]\nprint(country_with_ny['name'].values)  # Output: ['United States']\n\n# Test if New York is within the USA\nusa = countries[countries['name'] == 'United States'].geometry.iloc[0]\nnew_york.within(usa)  # Returns: True",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#spatial-joins",
+    "href": "2.4.geospatial.html#spatial-joins",
+    "title": "2.3. Geospatial Data",
+    "section": "Spatial Joins",
+    "text": "Spatial Joins\nSpatial joins combine attributes from two datasets based on spatial relationships:\n# Join cities to countries based on spatial location\njoined = gpd.sjoin(\n    cities,           # Left GeoDataFrame\n    countries,        # Right GeoDataFrame\n    predicate='within',  # Spatial relationship\n    how='left'        # Join type (left, right, inner)\n)\n\n# Now cities have country attributes\nprint(joined[['city_name', 'country_name', 'continent']])\n\nCommon Spatial Join Use Cases\n\nAssigning census data to geographic units\nFinding which administrative area a point falls within\nCounting features within polygons\nAggregating data by spatial location",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#coordinate-transformations",
+    "href": "2.4.geospatial.html#coordinate-transformations",
+    "title": "2.3. Geospatial Data",
+    "section": "Coordinate Transformations",
+    "text": "Coordinate Transformations\n\nReprojecting Data\n# Check current CRS\nprint(gdf.crs)\n\n# Reproject to a different CRS\ngdf_projected = gdf.to_crs('EPSG:3857')  # Web Mercator\n\n# Reproject to match another dataset\ngdf_matched = gdf.to_crs(other_gdf.crs)\n\n\n\n\n\n\nWhen to Reproject\n\n\n\n\nFor distance/area calculations: Use a projected CRS (in metres)\nFor web mapping: Use EPSG:3857\nFor spatial operations: Ensure all datasets have the same CRS",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#geometric-operations",
+    "href": "2.4.geospatial.html#geometric-operations",
+    "title": "2.3. Geospatial Data",
+    "section": "Geometric Operations",
+    "text": "Geometric Operations\n\nBuffering\nCreate a zone around features:\n# Create 10km buffer around cities (data must be in metres)\ncities_projected = cities.to_crs('EPSG:3857')\ncities_buffered = cities_projected.copy()\ncities_buffered['geometry'] = cities_buffered.buffer(10000)  # 10km in metres\n\n\nDissolve\nCombine features based on an attribute:\n# Dissolve countries by continent\ncontinents = countries.dissolve(by='continent', aggfunc='sum')\n\n\nOverlay Operations\nCombine geometries from two datasets:\n# Intersection: areas where both datasets overlap\nintersection = gpd.overlay(gdf1, gdf2, how='intersection')\n\n# Union: all areas from both datasets\nunion = gpd.overlay(gdf1, gdf2, how='union')\n\n# Difference: areas in gdf1 not in gdf2\ndifference = gpd.overlay(gdf1, gdf2, how='difference')",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#visualisation",
+    "href": "2.4.geospatial.html#visualisation",
+    "title": "2.3. Geospatial Data",
+    "section": "Visualisation",
+    "text": "Visualisation\n\nBasic Plotting\n# Simple plot\ncountries.plot()\n\n# Customised plot\nfig, ax = plt.subplots(figsize=(10, 10))\ncountries.plot(ax=ax, \n               column='pop_est',      # Colour by population\n               cmap='YlOrRd',         # Colour scheme\n               legend=True,           # Show legend\n               edgecolor='black')     # Border colour\nax.set_title('World Population by Country')\nplt.show()\n\n\nChoropleth Maps\n# Create a classified choropleth map\ncountries.plot(column='gdp_per_capita',\n               scheme='quantiles',     # Classification scheme\n               k=5,                    # Number of classes\n               cmap='viridis',\n               legend=True,\n               legend_kwds={'title': 'GDP per Capita (Quantiles)'})\n\n\nMultiple Layers\n# Plot multiple layers together\nfig, ax = plt.subplots(figsize=(12, 8))\n\n# Base layer\ncountries.plot(ax=ax, color='lightgrey', edgecolor='black')\n\n# Add cities\ncities.plot(ax=ax, color='red', markersize=20, alpha=0.6)\n\nax.set_title('World Countries and Major Cities')\nax.set_axis_off()\nplt.show()",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#the-modifiable-areal-unit-problem-maup",
+    "href": "2.4.geospatial.html#the-modifiable-areal-unit-problem-maup",
+    "title": "2.3. Geospatial Data",
+    "section": "The Modifiable Areal Unit Problem (MAUP)",
+    "text": "The Modifiable Areal Unit Problem (MAUP)\nMAUP refers to the sensitivity of statistical results to the choice of spatial units:\n\nScale Effect: Changing the size of spatial units affects results\nZoning Effect: Different arrangements of the same-sized units produce different results\n\n\n\n\n\n\n\nBe Aware of MAUP\n\n\n\nWhen aggregating or analysing spatial data, remember that your choice of geographic units can influence your findings. Always consider whether your results might change with different spatial aggregations.",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#practical-exercise",
+    "href": "2.4.geospatial.html#practical-exercise",
+    "title": "2.3. Geospatial Data",
+    "section": "Practical Exercise",
+    "text": "Practical Exercise\n\nExample: Analysing New Zealand Regions\n# Load NZ regional data\nnz_regions = gpd.read_file('nz_regions.gpkg')\n\n# Check CRS\nprint(nz_regions.crs)\n\n# Reproject to NZTM for accurate measurements\nnz_regions = nz_regions.to_crs('EPSG:2193')\n\n# Calculate area in square kilometres\nnz_regions['area_km2'] = nz_regions.geometry.area / 1_000_000\n\n# Calculate population density\nnz_regions['pop_density'] = (nz_regions['population'] / \n                               nz_regions['area_km2'])\n\n# Find regions within 100km of Auckland\nauckland_point = gpd.GeoDataFrame(\n    {'name': ['Auckland']},\n    geometry=[Point(1756673, 5917750)],  # NZTM coordinates\n    crs='EPSG:2193'\n)\n\n# Buffer Auckland\nauckland_buffer = auckland_point.buffer(100000)  # 100km\n\n# Spatial join\nnearby_regions = nz_regions[\n    nz_regions.intersects(auckland_buffer.iloc[0])\n]\n\n# Visualise\nfig, ax = plt.subplots(figsize=(10, 12))\nnz_regions.plot(ax=ax, column='pop_density', \n                cmap='YlOrRd', legend=True)\nauckland_buffer.plot(ax=ax, facecolor='none', \n                     edgecolor='blue', linewidth=2)\nplt.title('NZ Population Density and 100km Buffer from Auckland')\nplt.show()",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#summary",
+    "href": "2.4.geospatial.html#summary",
+    "title": "2.3. Geospatial Data",
+    "section": "Summary",
+    "text": "Summary\nIn this section, you’ve learned:\n\nCore GIS concepts and the difference between vector and raster data\nHow to work with geospatial data using geopandas\nCoordinate reference systems and why they matter\nSpatial relationships and how to test them\nCommon spatial operations: buffers, dissolves, overlays\nHow to create effective maps and visualisations\nThe importance of considering spatial scale (MAUP)",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#further-reading",
+    "href": "2.4.geospatial.html#further-reading",
+    "title": "2.3. Geospatial Data",
+    "section": "Further Reading",
+    "text": "Further Reading\n\nGeoPandas Documentation\nShapely Manual\nGeocomputation with Python: https://py.geocompx.org/\nGeographic Data Science with Python: https://geographicdata.science/book",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#practice-exercises",
+    "href": "2.4.geospatial.html#practice-exercises",
+    "title": "2.3. Geospatial Data",
+    "section": "Practice Exercises",
+    "text": "Practice Exercises\n\nLoad a shapefile of your choice and explore its attributes and geometry\nReproject the data to at least two different CRS and observe the differences\nCreate a 5km buffer around all points in a dataset\nPerform a spatial join to combine two datasets\nCreate a choropleth map showing a variable of interest with a suitable classification scheme",
+    "crumbs": [
+      "2.4. Geospatial Python Programming",
+      "2.3. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "labs/labs.html",
+    "href": "labs/labs.html",
+    "title": "Python GIS at UoA",
+    "section": "",
+    "text": "Here, you will find the lab exercises for the course. Each week, you will be given a lab assignment that will help you practice the concepts covered in the lectures. The labs are designed to be hands-on and will require you to apply what you’ve learned to real-world scenarios. Make sure to complete each lab assignment on time, as they will be an essential part of your learning experience in this course.",
+    "crumbs": [
+      "labs.html"
     ]
   }
 ]
