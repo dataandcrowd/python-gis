@@ -1,6 +1,3 @@
----
-title: "Lab Week 01"
-format: html
----
+# Lab Week 01 {.unnumbered}
 
 Make sure you finish your **Part 1: Setup** process!

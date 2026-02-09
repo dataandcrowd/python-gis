@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Map</title>
+</head>
+<body>
+
+
+<!-- Load require.js. Delete this if your page already loads require.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+<script type="application/vnd.jupyter.widget-state+json">
+{
+  "version_major": 2,
+  "version_minor": 0,
+  "state": {
+    "0cd07c33d3784bf2ae5ec23ff096bcd3": {
+      "model_name": "LeafletTileLayerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "attribution": "Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href=\"https://earthdata.nasa.gov\">ESDIS</a>) with funding provided by NASA/HQ.",
+        "base": true,
+        "max_zoom": 9,
+        "min_zoom": 1,
+        "name": "NASAGIBS.ModisTerraTrueColorCR",
+        "options": [
+          "attribution",
+          "bounds",
+          "detect_retina",
+          "max_native_zoom",
+          "max_zoom",
+          "min_native_zoom",
+          "min_zoom",
+          "no_wrap",
+          "tile_size",
+          "tms",
+          "zoom_offset"
+        ],
+        "subitems": [],
+        "url": "https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_CorrectedReflectance_TrueColor/default/2017-04-08/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg"
+      }
+    },
+    "b71776e963db4814a877af1383f5a4ac": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "02a2bc3bd6804564a4e364a693ae441e": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "cursor": "move"
+      }
+    },
+    "18c27b92eeed42d1a3bee424e8067917": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "765862d843ee48949b59b7c5a4dbbea0": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "e73c567868ad457bb3934b5e59b4cb6c": {
+      "model_name": "LeafletMapModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "_dom_classes": [],
+        "bottom": 1549.0,
+        "center": [
+          52.204793,
+          360.121558
+        ],
+        "controls": [
+          "IPY_MODEL_ef764a4574fb4907b84d155c81084e38",
+          "IPY_MODEL_0d947b0c019648eb8fce8e4195682a5b"
+        ],
+        "crs": {
+          "name": "EPSG3857",
+          "custom": false
+        },
+        "default_style": "IPY_MODEL_b71776e963db4814a877af1383f5a4ac",
+        "dragging_style": "IPY_MODEL_02a2bc3bd6804564a4e364a693ae441e",
+        "east": 374.853515625,
+        "layers": [
+          "IPY_MODEL_0cd07c33d3784bf2ae5ec23ff096bcd3"
+        ],
+        "layout": "IPY_MODEL_18c27b92eeed42d1a3bee424e8067917",
+        "left": 5977.0,
+        "north": 61.73152565113397,
+        "options": [
+          "bounce_at_zoom_limits",
+          "box_zoom",
+          "center",
+          "close_popup_on_click",
+          "double_click_zoom",
+          "dragging",
+          "fullscreen",
+          "inertia",
+          "inertia_deceleration",
+          "inertia_max_speed",
+          "interpolation",
+          "keyboard",
+          "keyboard_pan_offset",
+          "keyboard_zoom_offset",
+          "max_zoom",
+          "min_zoom",
+          "prefer_canvas",
+          "scroll_wheel_zoom",
+          "tap",
+          "tap_tolerance",
+          "touch_zoom",
+          "world_copy_jump",
+          "zoom",
+          "zoom_animation_threshold",
+          "zoom_delta",
+          "zoom_snap"
+        ],
+        "panes": {},
+        "right": 6313.0,
+        "south": 40.11168866559595,
+        "style": "IPY_MODEL_765862d843ee48949b59b7c5a4dbbea0",
+        "top": 1149.0,
+        "west": 345.322265625,
+        "window_url": "vscode-webview://1etre38pfsuil6v9fq79h6pguphqvunpeas6kukb88s9fh67n9em/index.html?id=6daaa92c-6881-48bc-ab31-c5cf696a94d4&parentId=1&origin=vscode-file%3A%2F%2Fvscode-app&swVersion=4&extensionId=positron.positron-ipywidgets&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app",
+        "zoom": 4.0
+      }
+    },
+    "ef764a4574fb4907b84d155c81084e38": {
+      "model_name": "LeafletZoomControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "zoom_in_text",
+          "zoom_in_title",
+          "zoom_out_text",
+          "zoom_out_title"
+        ]
+      }
+    },
+    "0d947b0c019648eb8fce8e4195682a5b": {
+      "model_name": "LeafletAttributionControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "prefix"
+        ],
+        "position": "bottomright"
+      }
+    },
+    "79bb04829eed4cd5a13afadd43273a99": {
+      "model_name": "LeafletTileLayerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "attribution": "Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href=\"https://earthdata.nasa.gov\">ESDIS</a>) with funding provided by NASA/HQ.",
+        "base": true,
+        "max_zoom": 9,
+        "min_zoom": 1,
+        "name": "NASAGIBS.ModisTerraTrueColorCR",
+        "options": [
+          "attribution",
+          "bounds",
+          "detect_retina",
+          "max_native_zoom",
+          "max_zoom",
+          "min_native_zoom",
+          "min_zoom",
+          "no_wrap",
+          "tile_size",
+          "tms",
+          "zoom_offset"
+        ],
+        "subitems": [],
+        "url": "https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_CorrectedReflectance_TrueColor/default/2017-04-08/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg"
+      }
+    },
+    "81989cd612794f349a252f3ba2d14e72": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "f1e403065a9544d39fff26cc8a765dc2": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "cursor": "move"
+      }
+    },
+    "a34a8c7bdc844764bf88d5849c37bcac": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "38f00f83676449b69e86c9b269fbabff": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "176260d685df4f6d93485fb63c004d49": {
+      "model_name": "LeafletMapModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "_dom_classes": [],
+        "center": [
+          52.204793,
+          360.121558
+        ],
+        "controls": [
+          "IPY_MODEL_3c0af0492ea6444195270115b20b1a3f",
+          "IPY_MODEL_457d2c6ffa2441c78a00c1f39a45764c"
+        ],
+        "crs": {
+          "name": "EPSG3857",
+          "custom": false
+        },
+        "default_style": "IPY_MODEL_81989cd612794f349a252f3ba2d14e72",
+        "dragging_style": "IPY_MODEL_f1e403065a9544d39fff26cc8a765dc2",
+        "layers": [
+          "IPY_MODEL_79bb04829eed4cd5a13afadd43273a99"
+        ],
+        "layout": "IPY_MODEL_a34a8c7bdc844764bf88d5849c37bcac",
+        "options": [
+          "bounce_at_zoom_limits",
+          "box_zoom",
+          "center",
+          "close_popup_on_click",
+          "double_click_zoom",
+          "dragging",
+          "fullscreen",
+          "inertia",
+          "inertia_deceleration",
+          "inertia_max_speed",
+          "interpolation",
+          "keyboard",
+          "keyboard_pan_offset",
+          "keyboard_zoom_offset",
+          "max_zoom",
+          "min_zoom",
+          "prefer_canvas",
+          "scroll_wheel_zoom",
+          "tap",
+          "tap_tolerance",
+          "touch_zoom",
+          "world_copy_jump",
+          "zoom",
+          "zoom_animation_threshold",
+          "zoom_delta",
+          "zoom_snap"
+        ],
+        "panes": {},
+        "style": "IPY_MODEL_38f00f83676449b69e86c9b269fbabff",
+        "zoom": 4.0
+      }
+    },
+    "3c0af0492ea6444195270115b20b1a3f": {
+      "model_name": "LeafletZoomControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "zoom_in_text",
+          "zoom_in_title",
+          "zoom_out_text",
+          "zoom_out_title"
+        ]
+      }
+    },
+    "457d2c6ffa2441c78a00c1f39a45764c": {
+      "model_name": "LeafletAttributionControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "prefix"
+        ],
+        "position": "bottomright"
+      }
+    },
+    "6cc642f741cd4cbbb472c975e574b75d": {
+      "model_name": "LeafletTileLayerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "attribution": "Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href=\"https://earthdata.nasa.gov\">ESDIS</a>) with funding provided by NASA/HQ.",
+        "base": true,
+        "max_zoom": 9,
+        "min_zoom": 1,
+        "name": "NASAGIBS.ModisTerraTrueColorCR",
+        "options": [
+          "attribution",
+          "bounds",
+          "detect_retina",
+          "max_native_zoom",
+          "max_zoom",
+          "min_native_zoom",
+          "min_zoom",
+          "no_wrap",
+          "tile_size",
+          "tms",
+          "zoom_offset"
+        ],
+        "subitems": [],
+        "url": "https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_CorrectedReflectance_TrueColor/default/2017-04-08/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg"
+      }
+    },
+    "5708c4044e1d428caf6efd194ec502ed": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "f22ecc8439cc474c8308934bde7a1457": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "cursor": "move"
+      }
+    },
+    "fd4c192ded3d4bf59afa410fb72065fa": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "3746083721564223933189a4af7bafa0": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "b32d487cc7ce45d9b240e0af1ba6e840": {
+      "model_name": "LeafletMapModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "_dom_classes": [],
+        "center": [
+          52.204793,
+          360.121558
+        ],
+        "controls": [
+          "IPY_MODEL_300146a7db834f9f9009a8f97163c552",
+          "IPY_MODEL_f8310ab179db4421a53c12b31899fc1f"
+        ],
+        "crs": {
+          "name": "EPSG3857",
+          "custom": false
+        },
+        "default_style": "IPY_MODEL_5708c4044e1d428caf6efd194ec502ed",
+        "dragging_style": "IPY_MODEL_f22ecc8439cc474c8308934bde7a1457",
+        "layers": [
+          "IPY_MODEL_6cc642f741cd4cbbb472c975e574b75d"
+        ],
+        "layout": "IPY_MODEL_fd4c192ded3d4bf59afa410fb72065fa",
+        "options": [
+          "bounce_at_zoom_limits",
+          "box_zoom",
+          "center",
+          "close_popup_on_click",
+          "double_click_zoom",
+          "dragging",
+          "fullscreen",
+          "inertia",
+          "inertia_deceleration",
+          "inertia_max_speed",
+          "interpolation",
+          "keyboard",
+          "keyboard_pan_offset",
+          "keyboard_zoom_offset",
+          "max_zoom",
+          "min_zoom",
+          "prefer_canvas",
+          "scroll_wheel_zoom",
+          "tap",
+          "tap_tolerance",
+          "touch_zoom",
+          "world_copy_jump",
+          "zoom",
+          "zoom_animation_threshold",
+          "zoom_delta",
+          "zoom_snap"
+        ],
+        "panes": {},
+        "style": "IPY_MODEL_3746083721564223933189a4af7bafa0",
+        "zoom": 4.0
+      }
+    },
+    "300146a7db834f9f9009a8f97163c552": {
+      "model_name": "LeafletZoomControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "zoom_in_text",
+          "zoom_in_title",
+          "zoom_out_text",
+          "zoom_out_title"
+        ]
+      }
+    },
+    "f8310ab179db4421a53c12b31899fc1f": {
+      "model_name": "LeafletAttributionControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "prefix"
+        ],
+        "position": "bottomright"
+      }
+    },
+    "1a3be774f14146df9ae3af39ed48afd8": {
+      "model_name": "LeafletTileLayerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "attribution": "Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href=\"https://earthdata.nasa.gov\">ESDIS</a>) with funding provided by NASA/HQ.",
+        "base": true,
+        "max_zoom": 9,
+        "min_zoom": 1,
+        "name": "NASAGIBS.ModisTerraTrueColorCR",
+        "options": [
+          "attribution",
+          "bounds",
+          "detect_retina",
+          "max_native_zoom",
+          "max_zoom",
+          "min_native_zoom",
+          "min_zoom",
+          "no_wrap",
+          "tile_size",
+          "tms",
+          "zoom_offset"
+        ],
+        "subitems": [],
+        "url": "https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_CorrectedReflectance_TrueColor/default/2017-04-08/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg"
+      }
+    },
+    "1f338d5a7fb24f11b85e86bed5aba495": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "402f07bec5c4419b8df599c12e7f2c21": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "cursor": "move"
+      }
+    },
+    "c601587fbbbd4f61a1931dbdac594973": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "2f9b63d6b7c54b58ba4339d9d778a86f": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "dc6c67e53e6c436c9fed0f00af3a315e": {
+      "model_name": "LeafletMapModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "_dom_classes": [],
+        "bottom": 1549.0,
+        "center": [
+          52.204793,
+          360.121558
+        ],
+        "controls": [
+          "IPY_MODEL_14c47c0249044ec2a9edd28431d55d50",
+          "IPY_MODEL_f64fd80093f34ad0a7e50ddb9f6a8b22"
+        ],
+        "crs": {
+          "name": "EPSG3857",
+          "custom": false
+        },
+        "default_style": "IPY_MODEL_1f338d5a7fb24f11b85e86bed5aba495",
+        "dragging_style": "IPY_MODEL_402f07bec5c4419b8df599c12e7f2c21",
+        "east": 374.853515625,
+        "layers": [
+          "IPY_MODEL_1a3be774f14146df9ae3af39ed48afd8",
+          "IPY_MODEL_1698749174654430b35ff5a6c556f501"
+        ],
+        "layout": "IPY_MODEL_c601587fbbbd4f61a1931dbdac594973",
+        "left": 5977.0,
+        "north": 61.73152565113397,
+        "options": [
+          "bounce_at_zoom_limits",
+          "box_zoom",
+          "center",
+          "close_popup_on_click",
+          "double_click_zoom",
+          "dragging",
+          "fullscreen",
+          "inertia",
+          "inertia_deceleration",
+          "inertia_max_speed",
+          "interpolation",
+          "keyboard",
+          "keyboard_pan_offset",
+          "keyboard_zoom_offset",
+          "max_zoom",
+          "min_zoom",
+          "prefer_canvas",
+          "scroll_wheel_zoom",
+          "tap",
+          "tap_tolerance",
+          "touch_zoom",
+          "world_copy_jump",
+          "zoom",
+          "zoom_animation_threshold",
+          "zoom_delta",
+          "zoom_snap"
+        ],
+        "panes": {},
+        "right": 6313.0,
+        "south": 40.11168866559595,
+        "style": "IPY_MODEL_2f9b63d6b7c54b58ba4339d9d778a86f",
+        "top": 1149.0,
+        "west": 345.322265625,
+        "window_url": "vscode-webview://1etre38pfsuil6v9fq79h6pguphqvunpeas6kukb88s9fh67n9em/index.html?id=c74fb9ee-d6d6-458b-a3b1-faaeab3e62b4&parentId=1&origin=vscode-file%3A%2F%2Fvscode-app&swVersion=4&extensionId=positron.positron-ipywidgets&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app",
+        "zoom": 4.0
+      }
+    },
+    "14c47c0249044ec2a9edd28431d55d50": {
+      "model_name": "LeafletZoomControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "zoom_in_text",
+          "zoom_in_title",
+          "zoom_out_text",
+          "zoom_out_title"
+        ]
+      }
+    },
+    "f64fd80093f34ad0a7e50ddb9f6a8b22": {
+      "model_name": "LeafletAttributionControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "prefix"
+        ],
+        "position": "bottomright"
+      }
+    },
+    "1698749174654430b35ff5a6c556f501": {
+      "model_name": "LeafletMarkerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "location": [
+          52.204793,
+          360.121558
+        ],
+        "options": [
+          "alt",
+          "draggable",
+          "keyboard",
+          "rise_offset",
+          "rise_on_hover",
+          "rotation_angle",
+          "rotation_origin",
+          "title",
+          "z_index_offset"
+        ],
+        "subitems": []
+      }
+    },
+    "60208e1b454e4d85a7d46a6f0e50fee2": {
+      "model_name": "LeafletTileLayerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "attribution": "Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href=\"https://earthdata.nasa.gov\">ESDIS</a>) with funding provided by NASA/HQ.",
+        "base": true,
+        "max_zoom": 9,
+        "min_zoom": 1,
+        "name": "NASAGIBS.ModisTerraTrueColorCR",
+        "options": [
+          "attribution",
+          "bounds",
+          "detect_retina",
+          "max_native_zoom",
+          "max_zoom",
+          "min_native_zoom",
+          "min_zoom",
+          "no_wrap",
+          "tile_size",
+          "tms",
+          "zoom_offset"
+        ],
+        "subitems": [],
+        "url": "https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_CorrectedReflectance_TrueColor/default/2017-04-08/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg"
+      }
+    },
+    "d0d1bc8540ca49358fc28b0ea18d248d": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "0fc1bc84195f4a30ad36986074233a44": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "cursor": "move"
+      }
+    },
+    "cbc93e9920bd4c28a467051031bb5226": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "1a97aeb1d26142928ef2ef755b8b0a62": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "b53fb41c2b844f45a5bac3652b63f17d": {
+      "model_name": "LeafletMapModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "_dom_classes": [],
+        "bottom": 200.0,
+        "center": [
+          174.7659561,
+          -36.85303
+        ],
+        "controls": [
+          "IPY_MODEL_df75ebc4edae429289d9cfd59022b16e",
+          "IPY_MODEL_682c704635724d94a63670e0c568389c"
+        ],
+        "crs": {
+          "name": "EPSG3857",
+          "custom": false
+        },
+        "default_style": "IPY_MODEL_d0d1bc8540ca49358fc28b0ea18d248d",
+        "dragging_style": "IPY_MODEL_0fc1bc84195f4a30ad36986074233a44",
+        "east": -22.060546875,
+        "layers": [
+          "IPY_MODEL_60208e1b454e4d85a7d46a6f0e50fee2",
+          "IPY_MODEL_10cf7bd9c54240429c8bb61c23ce3f87"
+        ],
+        "layout": "IPY_MODEL_cbc93e9920bd4c28a467051031bb5226",
+        "left": 1461.0,
+        "north": 86.357579368499,
+        "options": [
+          "bounce_at_zoom_limits",
+          "box_zoom",
+          "center",
+          "close_popup_on_click",
+          "double_click_zoom",
+          "dragging",
+          "fullscreen",
+          "inertia",
+          "inertia_deceleration",
+          "inertia_max_speed",
+          "interpolation",
+          "keyboard",
+          "keyboard_pan_offset",
+          "keyboard_zoom_offset",
+          "max_zoom",
+          "min_zoom",
+          "prefer_canvas",
+          "scroll_wheel_zoom",
+          "tap",
+          "tap_tolerance",
+          "touch_zoom",
+          "world_copy_jump",
+          "zoom",
+          "zoom_animation_threshold",
+          "zoom_delta",
+          "zoom_snap"
+        ],
+        "panes": {},
+        "right": 1797.0,
+        "south": 83.27770503961696,
+        "style": "IPY_MODEL_1a97aeb1d26142928ef2ef755b8b0a62",
+        "top": -200.0,
+        "west": -51.59179687500001,
+        "window_url": "vscode-webview://1etre38pfsuil6v9fq79h6pguphqvunpeas6kukb88s9fh67n9em/index.html?id=7dafe231-9a8a-464d-baf8-2e77a6da4cc5&parentId=1&origin=vscode-file%3A%2F%2Fvscode-app&swVersion=4&extensionId=positron.positron-ipywidgets&platform=electron&vscode-resource-base-authority=vscode-resource.vscode-cdn.net&parentOrigin=vscode-file%3A%2F%2Fvscode-app",
+        "zoom": 4.0
+      }
+    },
+    "df75ebc4edae429289d9cfd59022b16e": {
+      "model_name": "LeafletZoomControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "zoom_in_text",
+          "zoom_in_title",
+          "zoom_out_text",
+          "zoom_out_title"
+        ]
+      }
+    },
+    "682c704635724d94a63670e0c568389c": {
+      "model_name": "LeafletAttributionControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "prefix"
+        ],
+        "position": "bottomright"
+      }
+    },
+    "10cf7bd9c54240429c8bb61c23ce3f87": {
+      "model_name": "LeafletMarkerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "location": [
+          174.7659561,
+          -36.85303
+        ],
+        "options": [
+          "alt",
+          "draggable",
+          "keyboard",
+          "rise_offset",
+          "rise_on_hover",
+          "rotation_angle",
+          "rotation_origin",
+          "title",
+          "z_index_offset"
+        ],
+        "subitems": []
+      }
+    },
+    "385b7b977cc94ba79759768f18d2ffad": {
+      "model_name": "LeafletTileLayerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "attribution": "Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href=\"https://earthdata.nasa.gov\">ESDIS</a>) with funding provided by NASA/HQ.",
+        "base": true,
+        "max_zoom": 9,
+        "min_zoom": 1,
+        "name": "NASAGIBS.ModisTerraTrueColorCR",
+        "options": [
+          "attribution",
+          "bounds",
+          "detect_retina",
+          "max_native_zoom",
+          "max_zoom",
+          "min_native_zoom",
+          "min_zoom",
+          "no_wrap",
+          "tile_size",
+          "tms",
+          "zoom_offset"
+        ],
+        "subitems": [],
+        "url": "https://map1.vis.earthdata.nasa.gov/wmts-webmerc/MODIS_Terra_CorrectedReflectance_TrueColor/default/2017-04-08/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg"
+      }
+    },
+    "fab930e9d1034cc39aac635ba3a05109": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "470bb45550024a2b87cfb95fafcf4bb0": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "cursor": "move"
+      }
+    },
+    "62c35542ce234660b30d5b06bbff9f13": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "39d3423098404ca7ab81f8866f454fe0": {
+      "model_name": "LeafletMapStyleModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {}
+    },
+    "5bbb997dd87040f8870ba5a8b632b33f": {
+      "model_name": "LeafletMapModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "_dom_classes": [],
+        "center": [
+          174.7659561,
+          -36.85303
+        ],
+        "controls": [
+          "IPY_MODEL_9034197f7269489f84f346556a755c71",
+          "IPY_MODEL_6e5bddf26082456c82ceaa6dfa78f727"
+        ],
+        "crs": {
+          "name": "EPSG3857",
+          "custom": false
+        },
+        "default_style": "IPY_MODEL_fab930e9d1034cc39aac635ba3a05109",
+        "dragging_style": "IPY_MODEL_470bb45550024a2b87cfb95fafcf4bb0",
+        "layers": [
+          "IPY_MODEL_385b7b977cc94ba79759768f18d2ffad",
+          "IPY_MODEL_ab4bba17baa540ca9541779c2a3813a3"
+        ],
+        "layout": "IPY_MODEL_62c35542ce234660b30d5b06bbff9f13",
+        "options": [
+          "bounce_at_zoom_limits",
+          "box_zoom",
+          "center",
+          "close_popup_on_click",
+          "double_click_zoom",
+          "dragging",
+          "fullscreen",
+          "inertia",
+          "inertia_deceleration",
+          "inertia_max_speed",
+          "interpolation",
+          "keyboard",
+          "keyboard_pan_offset",
+          "keyboard_zoom_offset",
+          "max_zoom",
+          "min_zoom",
+          "prefer_canvas",
+          "scroll_wheel_zoom",
+          "tap",
+          "tap_tolerance",
+          "touch_zoom",
+          "world_copy_jump",
+          "zoom",
+          "zoom_animation_threshold",
+          "zoom_delta",
+          "zoom_snap"
+        ],
+        "panes": {},
+        "style": "IPY_MODEL_39d3423098404ca7ab81f8866f454fe0",
+        "zoom": 15.0
+      }
+    },
+    "9034197f7269489f84f346556a755c71": {
+      "model_name": "LeafletZoomControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "zoom_in_text",
+          "zoom_in_title",
+          "zoom_out_text",
+          "zoom_out_title"
+        ]
+      }
+    },
+    "6e5bddf26082456c82ceaa6dfa78f727": {
+      "model_name": "LeafletAttributionControlModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "options": [
+          "position",
+          "prefix"
+        ],
+        "position": "bottomright"
+      }
+    },
+    "ab4bba17baa540ca9541779c2a3813a3": {
+      "model_name": "LeafletMarkerModel",
+      "model_module": "jupyter-leaflet",
+      "model_module_version": "^0.19",
+      "state": {
+        "location": [
+          174.7659561,
+          -36.85303
+        ],
+        "options": [
+          "alt",
+          "draggable",
+          "keyboard",
+          "rise_offset",
+          "rise_on_hover",
+          "rotation_angle",
+          "rotation_origin",
+          "title",
+          "z_index_offset"
+        ],
+        "subitems": []
+      }
+    }
+  }
+}
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "5bbb997dd87040f8870ba5a8b632b33f"}
+</script>
+
+</body>
+</html>

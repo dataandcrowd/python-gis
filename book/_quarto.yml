@@ -32,7 +32,7 @@ book:
         - 3.2.shiny-functions-reactivity.qmd
         - 3.3.routing-and-congestion.qmd
         - 3.4.origin-destination.qmd
-        - 3.5.networks.qmd
+        #- 3.5.networks.qmd
         #- 3.6.shiny-assignment.qmd
     
     - part: 4.0.python-packaging.qmd

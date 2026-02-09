@@ -1,5 +1,806 @@
----
-title: "Lab Week 06"
-format: html
+# Lab Week 6: Shiny Practice Exercises with Solutions {.unnumbered}
+
+## Part 1: Basic UI and Server Structure
+
+### Exercise 1.1: Hello World (Warm-up)
+
+**Task:** Create a Shiny app that displays:
+- A heading "Welcome to My App"
+- A paragraph with your name
+- A horizontal line
+- Another paragraph with today's date
+
+**Learning goal:** Practice basic UI elements
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui
+from datetime import date
+
+app_ui = ui.page_fluid(
+    ui.h2("Welcome to My App"),
+    ui.p("My name is [Your Name]"),
+    ui.hr(),
+    ui.p(f"Today's date: {date.today()}")
+)
+
+def server(input, output, session):
+    pass
+
+app = App(app_ui, server)
+```
+
+</details>
+
 ---
 
+### Exercise 1.2: Echo Your Name
+
+**Task:** Create an app that:
+- Has a text input asking "What's your name?"
+- Shows output text that says "Hello, [name]!"
+
+**Learning goal:** Connect one input to one output
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render
+
+app_ui = ui.page_fluid(
+    ui.h2("Name Echo"),
+    ui.input_text("user_name", "What's your name?", ""),
+    ui.output_text("greeting")
+)
+
+def server(input, output, session):
+    @render.text
+    def greeting():
+        name = input.user_name()
+        if name == "":
+            return "Please enter your name above."
+        return f"Hello, {name}!"
+
+app = App(app_ui, server)
+```
+
+**Common mistakes to avoid:**
+- Forgetting `()` after `input.user_name`
+- Function name `greeting` must match output ID
+- Need to import `render`
+
+</details>
+
+---
+
+### Exercise 1.3: Age Calculator
+
+**Task:** Create an app that:
+- Has a number slider from 0 to 100 asking for birth year (starting at 2000)
+- Shows text output calculating how old someone born that year would be in 2025
+
+**Learning goal:** Use slider input and do simple calculations
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render
+
+app_ui = ui.page_fluid(
+    ui.h2("Age Calculator"),
+    ui.input_slider("birth_year", "What year were you born?", 
+                    min=1920, max=2025, value=2000),
+    ui.output_text("age_text")
+)
+
+def server(input, output, session):
+    @render.text
+    def age_text():
+        birth_year = input.birth_year()
+        age = 2025 - birth_year
+        return f"You are approximately {age} years old in 2025."
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+### Exercise 1.4: Multiple Inputs
+
+**Task:** Create an app that collects:
+- First name (text input)
+- Last name (text input)
+- City (dropdown: Auckland, Wellington, Christchurch)
+
+Then displays: "Hello [First] [Last] from [City]!"
+
+**Learning goal:** Multiple inputs, one output
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render
+
+app_ui = ui.page_fluid(
+    ui.h2("User Profile"),
+    ui.input_text("first_name", "First name:", ""),
+    ui.input_text("last_name", "Last name:", ""),
+    ui.input_select("city", "City:", 
+                    choices=["Auckland", "Wellington", "Christchurch"]),
+    ui.hr(),
+    ui.output_text("full_greeting")
+)
+
+def server(input, output, session):
+    @render.text
+    def full_greeting():
+        first = input.first_name()
+        last = input.last_name()
+        city = input.city()
+        
+        if first == "" or last == "":
+            return "Please enter your name."
+        
+        return f"Hello {first} {last} from {city}!"
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+### Exercise 1.5: Simple Data Table
+
+**Task:** Create an app that:
+- Has a text input for entering a suburb name
+- Has a number slider for population
+- Shows a pandas DataFrame table with these two values
+
+**Learning goal:** Create table outputs
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render
+import pandas as pd
+
+app_ui = ui.page_fluid(
+    ui.h2("Suburb Data Entry"),
+    ui.input_text("suburb", "Suburb name:", ""),
+    ui.input_slider("population", "Population:", 
+                    min=0, max=50000, value=10000, step=1000),
+    ui.hr(),
+    ui.output_table("data_table")
+)
+
+def server(input, output, session):
+    @render.table
+    def data_table():
+        df = pd.DataFrame({
+            'Suburb': [input.suburb()],
+            'Population': [input.population()]
+        })
+        return df
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+## Part 2: Reactivity Basics
+
+### Exercise 2.1: Temperature Converter
+
+**Task:** Create a temperature converter that:
+- Has a slider for Celsius (0-100)
+- Shows Fahrenheit in text output
+- Shows Kelvin in separate text output
+- Formula: F = C × 9/5 + 32, K = C + 273.15
+
+**Learning goal:** One input, multiple outputs
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render
+
+app_ui = ui.page_fluid(
+    ui.h2("Temperature Converter"),
+    ui.input_slider("celsius", "Temperature (°C):", 
+                    min=0, max=100, value=20),
+    ui.hr(),
+    ui.output_text("fahrenheit"),
+    ui.output_text("kelvin")
+)
+
+def server(input, output, session):
+    @render.text
+    def fahrenheit():
+        c = input.celsius()
+        f = c * 9/5 + 32
+        return f"{c}°C = {f:.1f}°F"
+    
+    @render.text
+    def kelvin():
+        c = input.celsius()
+        k = c + 273.15
+        return f"{c}°C = {k:.2f}K"
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+### Exercise 2.2: Using Reactive Calculations
+
+**Task:** Create a BMI calculator that:
+- Has slider for height (cm, 140-220)
+- Has slider for weight (kg, 40-150)
+- Uses `@reactive.calc` to calculate BMI once
+- Shows BMI value in text
+- Shows BMI category in separate text (underweight <18.5, normal 18.5-25, overweight >25)
+
+**Learning goal:** Use `@reactive.calc` to avoid repeated calculations
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render, reactive
+
+app_ui = ui.page_fluid(
+    ui.h2("BMI Calculator"),
+    ui.input_slider("height", "Height (cm):", 
+                    min=140, max=220, value=170),
+    ui.input_slider("weight", "Weight (kg):", 
+                    min=40, max=150, value=70),
+    ui.hr(),
+    ui.output_text("bmi_value"),
+    ui.output_text("bmi_category")
+)
+
+def server(input, output, session):
+    # Reactive calculation - calculates BMI once
+    @reactive.calc
+    def calculate_bmi():
+        height_m = input.height() / 100  # Convert cm to m
+        weight = input.weight()
+        bmi = weight / (height_m ** 2)
+        return bmi
+    
+    @render.text
+    def bmi_value():
+        bmi = calculate_bmi()  # Use the reactive calc
+        return f"Your BMI: {bmi:.1f}"
+    
+    @render.text
+    def bmi_category():
+        bmi = calculate_bmi()  # Use the same reactive calc
+        if bmi < 18.5:
+            category = "Underweight"
+        elif bmi < 25:
+            category = "Normal weight"
+        else:
+            category = "Overweight"
+        return f"Category: {category}"
+
+app = App(app_ui, server)
+```
+
+**Why use `@reactive.calc`?** 
+Without it, BMI would be calculated twice (once in each output). With it, it's calculated once and shared.
+
+</details>
+
+---
+
+### Exercise 2.3: Filtering Data
+
+**Task:** Create a suburb filter that:
+- Creates a small DataFrame with suburb data:
+  ```python
+  suburbs = pd.DataFrame({
+      'name': ['Ponsonby', 'Parnell', 'Mt Eden', 'Newmarket', 'Grey Lynn'],
+      'population': [12500, 8900, 15300, 11200, 14800]
+  })
+  ```
+- Has slider for minimum population
+- Uses `@reactive.calc` to filter suburbs
+- Shows count of matching suburbs
+- Shows table of matching suburbs
+
+**Learning goal:** Filter data reactively
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render, reactive
+import pandas as pd
+
+# Load data once
+suburbs = pd.DataFrame({
+    'name': ['Ponsonby', 'Parnell', 'Mt Eden', 'Newmarket', 'Grey Lynn'],
+    'population': [12500, 8900, 15300, 11200, 14800]
+})
+
+app_ui = ui.page_fluid(
+    ui.h2("Auckland Suburbs Filter"),
+    ui.input_slider("min_pop", "Minimum population:", 
+                    min=0, max=20000, value=0, step=2000),
+    ui.hr(),
+    ui.output_text("count"),
+    ui.output_table("filtered_table")
+)
+
+def server(input, output, session):
+    # Reactive: filter the data
+    @reactive.calc
+    def filtered_suburbs():
+        min_population = input.min_pop()
+        return suburbs[suburbs['population'] >= min_population]
+    
+    @render.text
+    def count():
+        data = filtered_suburbs()
+        return f"Found {len(data)} suburbs"
+    
+    @render.table
+    def filtered_table():
+        return filtered_suburbs()
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+### Exercise 2.4: Simple Bar Chart
+
+**Task:** Extend Exercise 2.3 to add a bar chart showing the populations of filtered suburbs.
+
+**Learning goal:** Create plot outputs with matplotlib
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render, reactive
+import pandas as pd
+import matplotlib.pyplot as plt
+
+suburbs = pd.DataFrame({
+    'name': ['Ponsonby', 'Parnell', 'Mt Eden', 'Newmarket', 'Grey Lynn'],
+    'population': [12500, 8900, 15300, 11200, 14800]
+})
+
+app_ui = ui.page_fluid(
+    ui.h2("Auckland Suburbs Dashboard"),
+    ui.input_slider("min_pop", "Minimum population:", 
+                    min=0, max=20000, value=0, step=2000),
+    ui.hr(),
+    ui.output_text("count"),
+    ui.output_table("filtered_table"),
+    ui.output_plot("pop_chart")
+)
+
+def server(input, output, session):
+    @reactive.calc
+    def filtered_suburbs():
+        min_population = input.min_pop()
+        return suburbs[suburbs['population'] >= min_population]
+    
+    @render.text
+    def count():
+        data = filtered_suburbs()
+        return f"Found {len(data)} suburbs"
+    
+    @render.table
+    def filtered_table():
+        return filtered_suburbs()
+    
+    @render.plot
+    def pop_chart():
+        data = filtered_suburbs()
+        
+        # Handle empty data
+        if len(data) == 0:
+            fig, ax = plt.subplots(figsize=(8, 4))
+            ax.text(0.5, 0.5, 'No suburbs to display', 
+                   ha='center', va='center', fontsize=14)
+            ax.axis('off')
+            return fig
+        
+        # Create bar chart
+        fig, ax = plt.subplots(figsize=(8, 5))
+        ax.barh(data['name'], data['population'], color='steelblue')
+        ax.set_xlabel('Population')
+        ax.set_title('Population by Suburb')
+        plt.tight_layout()
+        
+        return fig
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+## Part 3: Working with Spatial Data
+
+### Exercise 3.1: Simple Map (Setup)
+
+**Task:** Create a basic GeoDataFrame and display it as a map:
+- Create sample polygon data:
+  ```python
+  from shapely.geometry import box
+  import geopandas as gpd
+  
+  gdf = gpd.GeoDataFrame({
+      'name': ['Area A', 'Area B', 'Area C'],
+      'value': [10, 20, 15],
+      'geometry': [
+          box(0, 0, 1, 1),
+          box(1, 0, 2, 1),
+          box(0, 1, 1, 2)
+      ]
+  })
+  ```
+- Show a simple choropleth map colored by 'value'
+
+**Learning goal:** Display basic spatial data
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render
+import geopandas as gpd
+from shapely.geometry import box
+import matplotlib.pyplot as plt
+
+# Create sample spatial data
+gdf = gpd.GeoDataFrame({
+    'name': ['Area A', 'Area B', 'Area C'],
+    'value': [10, 20, 15],
+    'geometry': [
+        box(0, 0, 1, 1),
+        box(1, 0, 2, 1),
+        box(0, 1, 1, 2)
+    ]
+})
+
+app_ui = ui.page_fluid(
+    ui.h2("Simple Spatial Data"),
+    ui.output_plot("simple_map")
+)
+
+def server(input, output, session):
+    @render.plot
+    def simple_map():
+        fig, ax = plt.subplots(figsize=(8, 6))
+        gdf.plot(column='value', ax=ax, legend=True, 
+                cmap='YlOrRd', edgecolor='black')
+        ax.set_title('Areas by Value')
+        return fig
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+### Exercise 3.2: Interactive Spatial Filter
+
+**Task:** Building on Exercise 3.1:
+- Add a slider to filter areas by minimum value
+- Use `@reactive.calc` to filter the GeoDataFrame
+- Show count of areas
+- Show filtered map
+
+**Learning goal:** Filter spatial data reactively
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render, reactive
+import geopandas as gpd
+from shapely.geometry import box
+import matplotlib.pyplot as plt
+
+# Sample spatial data
+gdf = gpd.GeoDataFrame({
+    'name': ['Area A', 'Area B', 'Area C', 'Area D', 'Area E'],
+    'value': [10, 20, 15, 5, 25],
+    'geometry': [
+        box(0, 0, 1, 1),
+        box(1, 0, 2, 1),
+        box(0, 1, 1, 2),
+        box(1, 1, 2, 2),
+        box(2, 0, 3, 1)
+    ]
+})
+
+app_ui = ui.page_fluid(
+    ui.h2("Interactive Spatial Filter"),
+    ui.input_slider("min_value", "Minimum value:", 
+                    min=0, max=30, value=0, step=5),
+    ui.hr(),
+    ui.output_text("area_count"),
+    ui.output_plot("filtered_map")
+)
+
+def server(input, output, session):
+    @reactive.calc
+    def filtered_areas():
+        min_val = input.min_value()
+        return gdf[gdf['value'] >= min_val]
+    
+    @render.text
+    def area_count():
+        data = filtered_areas()
+        return f"Showing {len(data)} of {len(gdf)} areas"
+    
+    @render.plot
+    def filtered_map():
+        data = filtered_areas()
+        
+        if len(data) == 0:
+            fig, ax = plt.subplots(figsize=(8, 6))
+            ax.text(0.5, 0.5, 'No areas match filter', 
+                   ha='center', va='center', fontsize=14)
+            ax.axis('off')
+            return fig
+        
+        fig, ax = plt.subplots(figsize=(8, 6))
+        data.plot(column='value', ax=ax, legend=True,
+                 cmap='YlOrRd', edgecolor='black')
+        ax.set_title(f'Filtered Areas (n={len(data)})')
+        return fig
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+## Part 4: Challenge Exercises
+
+### Challenge 4.1: Multi-Filter Dashboard
+
+**Task:** Create a comprehensive dashboard with:
+- Data with 3 columns: name, population, income
+- Two sliders: minimum population, minimum income
+- Checkbox: "Sort by population" (if checked, sort descending)
+- Outputs: count text, filtered table, bar chart of population
+
+**Learning goal:** Combine multiple filters and conditional logic
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render, reactive
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Sample data
+data = pd.DataFrame({
+    'name': ['Ponsonby', 'Parnell', 'Mt Eden', 'Newmarket', 'Grey Lynn', 'Remuera'],
+    'population': [12500, 8900, 15300, 11200, 14800, 9600],
+    'income': [75000, 95000, 68000, 82000, 71000, 105000]
+})
+
+app_ui = ui.page_fluid(
+    ui.h2("Multi-Filter Suburb Dashboard"),
+    
+    ui.layout_sidebar(
+        ui.sidebar(
+            ui.h4("Filters"),
+            ui.input_slider("min_pop", "Min Population:", 
+                          min=0, max=20000, value=0, step=2000),
+            ui.input_slider("min_income", "Min Income ($):", 
+                          min=60000, max=110000, value=60000, step=5000),
+            ui.input_checkbox("sort_pop", "Sort by population", value=False)
+        ),
+        
+        ui.h4("Results"),
+        ui.output_text("summary"),
+        ui.output_table("data_table"),
+        ui.output_plot("pop_chart")
+    )
+)
+
+def server(input, output, session):
+    @reactive.calc
+    def filtered_data():
+        # Apply both filters
+        result = data.copy()
+        result = result[result['population'] >= input.min_pop()]
+        result = result[result['income'] >= input.min_income()]
+        
+        # Conditional sorting
+        if input.sort_pop():
+            result = result.sort_values('population', ascending=False)
+        
+        return result
+    
+    @render.text
+    def summary():
+        df = filtered_data()
+        if len(df) == 0:
+            return "No suburbs match your criteria."
+        avg_pop = df['population'].mean()
+        avg_income = df['income'].mean()
+        return f"Found {len(df)} suburbs | Avg Pop: {avg_pop:,.0f} | Avg Income: ${avg_income:,.0f}"
+    
+    @render.table
+    def data_table():
+        return filtered_data()
+    
+    @render.plot
+    def pop_chart():
+        df = filtered_data()
+        
+        if len(df) == 0:
+            fig, ax = plt.subplots(figsize=(8, 4))
+            ax.text(0.5, 0.5, 'No data to display', 
+                   ha='center', va='center', fontsize=12)
+            ax.axis('off')
+            return fig
+        
+        fig, ax = plt.subplots(figsize=(8, 5))
+        ax.barh(df['name'], df['population'], color='steelblue')
+        ax.set_xlabel('Population')
+        ax.set_title('Population by Suburb')
+        plt.tight_layout()
+        return fig
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+### Challenge 4.2: Dynamic Suburb Selector
+
+**Task:** Create an app where:
+- Dropdown menu lets user select ONE suburb
+- Shows detailed information about that suburb in a formatted text display
+- Shows a small map highlighting just that suburb
+- Use the GeoDataFrame approach
+
+**Learning goal:** Select and display individual features
+
+<details>
+<summary>Click to see solution</summary>
+
+```python
+from shiny import App, ui, render, reactive
+import geopandas as gpd
+from shapely.geometry import box
+import matplotlib.pyplot as plt
+
+# Create spatial data with more details
+gdf = gpd.GeoDataFrame({
+    'name': ['Ponsonby', 'Parnell', 'Mt Eden', 'Newmarket'],
+    'population': [12500, 8900, 15300, 11200],
+    'area_km2': [2.1, 1.8, 3.4, 2.7],
+    'geometry': [
+        box(0, 0, 2, 2),
+        box(2, 0, 4, 2),
+        box(0, 2, 2, 4),
+        box(2, 2, 4, 4)
+    ]
+})
+
+# Calculate density
+gdf['density'] = gdf['population'] / gdf['area_km2']
+
+app_ui = ui.page_fluid(
+    ui.h2("Suburb Explorer"),
+    ui.input_select("suburb", "Select a suburb:", 
+                    choices=gdf['name'].tolist()),
+    ui.hr(),
+    ui.output_text("details"),
+    ui.output_plot("suburb_map")
+)
+
+def server(input, output, session):
+    @reactive.calc
+    def selected_suburb():
+        suburb_name = input.suburb()
+        return gdf[gdf['name'] == suburb_name]
+    
+    @render.text
+    def details():
+        suburb = selected_suburb()
+        if len(suburb) == 0:
+            return "No suburb selected"
+        
+        row = suburb.iloc[0]
+        return f"""
+        Suburb: {row['name']}
+        Population: {row['population']:,}
+        Area: {row['area_km2']:.1f} km²
+        Density: {row['density']:.0f} people/km²
+        """
+    
+    @render.plot
+    def suburb_map():
+        suburb = selected_suburb()
+        
+        fig, ax = plt.subplots(figsize=(6, 6))
+        
+        # Plot all suburbs in grey
+        gdf.plot(ax=ax, color='lightgrey', edgecolor='black', alpha=0.5)
+        
+        # Highlight selected suburb
+        if len(suburb) > 0:
+            suburb.plot(ax=ax, color='steelblue', edgecolor='black')
+        
+        ax.set_title(f'Location of {input.suburb()}')
+        ax.axis('off')
+        return fig
+
+app = App(app_ui, server)
+```
+
+</details>
+
+---
+
+## Tips for Success
+
+1. **Start simple:** Get one input and one output working before adding complexity
+2. **Test frequently:** Run your app after each small change
+3. **Check IDs:** The most common error is mismatched IDs between UI and server
+4. **Use @reactive.calc:** When the same calculation is used multiple times
+5. **Load data once:** Put data loading outside the server function
+6. **Handle empty data:** Always check if filtered data is empty before plotting
+7. **Read error messages:** They usually tell you exactly what's wrong
+
+## Common Error Messages and Solutions
+
+**Error:** `NameError: name 'render' is not defined`
+**Solution:** Add `render` to your imports: `from shiny import App, ui, render`
+
+**Error:** `AttributeError: 'function' object has no attribute 'value'`
+**Solution:** You forgot `()` after the input. Use `input.my_slider()` not `input.my_slider`
+
+**Error:** Output doesn't update
+**Solution:** Check that the function name matches the output ID exactly
+
+**Error:** `KeyError` in DataFrame
+**Solution:** Check column names match exactly (case-sensitive)
+
+## Next Steps
+
+Once you're comfortable with these exercises:
+1. Try combining multiple concepts in one app
+2. Work with your own data
+3. Explore layout options (sidebars, tabs, columns)
+4. Learn about more advanced reactive patterns
+5. Add styling with CSS
+
+Happy coding! 🚀

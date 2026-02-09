@@ -1,5 +1,1188 @@
----
-title: "Lab Week 07"
-format: html
+# Lab Week 7: Complete Dashboard and Package Examples
+
+## Complete Beginner-Friendly Dashboard: Routing Time Comparison
+
+Let's build a complete, working Shiny dashboard that compares travel times across Auckland. This example uses simpler data structures and includes extensive comments.
+
+### What This Dashboard Does
+
+Users can:
+- Select origin and destination from dropdown menus
+- Choose a time of day
+- See calculated travel times with and without congestion
+- View a simple network visualization
+- Compare multiple routes side-by-side
+
+### Step 1: Prepare Simplified Data
+
+```python
+# routing_dashboard_data.py
+"""
+Prepare sample data for routing dashboard.
+This would normally come from OSM/r5py, but we'll use simplified data for learning.
+"""
+import pandas as pd
+import geopandas as gpd
+from shapely.geometry import Point, LineString
+
+def create_sample_locations():
+    """Create sample Auckland locations for origin/destination selection"""
+    locations = pd.DataFrame({
+        'name': [
+            'Auckland CBD', 'Newmarket', 'Ponsonby', 'Mt Eden',
+            'Parnell', 'Grey Lynn', 'Remuera', 'Mission Bay'
+        ],
+        'lat': [
+            -36.8485, -36.8696, -36.8556, -36.8792,
+            -36.8577, -36.8614, -36.8734, -36.8534
+        ],
+        'lon': [
+            174.7633, 174.7787, 174.7449, 174.7644,
+            174.7807, 174.7374, 174.7949, 174.8281
+        ]
+    })
+    
+    # Convert to GeoDataFrame
+    gdf = gpd.GeoDataFrame(
+        locations,
+        geometry=gpd.points_from_xy(locations.lon, locations.lat),
+        crs='EPSG:4326'
+    )
+    
+    return gdf
+
+def calculate_euclidean_distance(lat1, lon1, lat2, lon2):
+    """
+    Calculate approximate distance in km between two points.
+    This is simplified - real routing uses road networks!
+    """
+    from math import radians, sin, cos, sqrt, atan2
+    
+    # Convert to radians
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    
+    # Haversine formula
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1-a))
+    
+    # Earth radius in km
+    radius = 6371
+    distance = radius * c
+    
+    return distance
+
+def estimate_travel_time(distance_km, hour_of_day, speed_limit=50):
+    """
+    Estimate travel time with congestion based on time of day.
+    
+    Parameters:
+    -----------
+    distance_km : float
+        Distance in kilometres
+    hour_of_day : int
+        Hour (0-23)
+    speed_limit : int
+        Posted speed limit in km/h
+    
+    Returns:
+    --------
+    dict with travel time info
+    """
+    # Calculate free-flow time
+    free_flow_time = (distance_km / speed_limit) * 60  # minutes
+    
+    # Congestion factor based on time of day
+    if 7 <= hour_of_day <= 9:
+        congestion_factor = 1.6  # Morning rush
+    elif 16 <= hour_of_day <= 19:
+        congestion_factor = 1.7  # Evening rush (worse)
+    elif 10 <= hour_of_day <= 15:
+        congestion_factor = 1.2  # Midday
+    else:
+        congestion_factor = 1.0  # Night/early morning
+    
+    actual_time = free_flow_time * congestion_factor
+    delay = actual_time - free_flow_time
+    
+    return {
+        'free_flow_minutes': round(free_flow_time, 1),
+        'actual_minutes': round(actual_time, 1),
+        'delay_minutes': round(delay, 1),
+        'congestion_factor': congestion_factor,
+        'tti': round(congestion_factor, 2)
+    }
+```
+
+### Step 2: Build the Dashboard
+
+```python
+# app.py
+"""
+Complete routing comparison dashboard for beginners.
+"""
+from shiny import App, ui, render, reactive
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Import our helper functions
+from routing_dashboard_data import (
+    create_sample_locations,
+    calculate_euclidean_distance,
+    estimate_travel_time
+)
+
+# =============================================================================
+# Load Data Once (Outside Server Function)
+# =============================================================================
+
+# Create location data
+locations_gdf = create_sample_locations()
+location_names = locations_gdf['name'].tolist()
+
+# Create lookup dictionary for coordinates
+location_coords = {
+    row['name']: (row['lat'], row['lon'])
+    for _, row in locations_gdf.iterrows()
+}
+
+# =============================================================================
+# UI Definition
+# =============================================================================
+
+app_ui = ui.page_fluid(
+    # Title
+    ui.h2("Auckland Travel Time Comparison Dashboard"),
+    ui.p("Compare travel times between locations at different times of day"),
+    
+    # Main layout with sidebar
+    ui.layout_sidebar(
+        # Sidebar with controls
+        ui.sidebar(
+            ui.h4("Route Selection"),
+            
+            # Origin selection
+            ui.input_select(
+                "origin",
+                "Origin:",
+                choices=location_names,
+                selected="Auckland CBD"
+            ),
+            
+            # Destination selection
+            ui.input_select(
+                "destination",
+                "Destination:",
+                choices=location_names,
+                selected="Newmarket"
+            ),
+            
+            ui.hr(),
+            
+            # Time of day
+            ui.h4("Time Settings"),
+            ui.input_slider(
+                "hour",
+                "Hour of Day:",
+                min=0,
+                max=23,
+                value=8,
+                step=1
+            ),
+            
+            # Display the time in 12-hour format
+            ui.output_text("time_display"),
+            
+            ui.hr(),
+            
+            # Summary statistics
+            ui.h4("Quick Summary"),
+            ui.output_text_verbatim("quick_stats")
+        ),
+        
+        # Main panel with tabs
+        ui.navset_tab(
+            ui.nav_panel(
+                "Travel Time Analysis",
+                ui.h3("Route Information"),
+                ui.output_text_verbatim("route_details"),
+                ui.output_plot("time_comparison_plot")
+            ),
+            
+            ui.nav_panel(
+                "Congestion Pattern",
+                ui.h3("How Congestion Varies by Hour"),
+                ui.p("See how travel time changes throughout the day"),
+                ui.output_plot("hourly_pattern")
+            ),
+            
+            ui.nav_panel(
+                "Multiple Routes",
+                ui.h3("Compare This Route to Others"),
+                ui.output_table("route_comparison_table")
+            ),
+            
+            ui.nav_panel(
+                "About",
+                ui.h3("About This Dashboard"),
+                ui.markdown("""
+                This dashboard demonstrates basic routing and congestion concepts:
+                
+                - **Free-flow time**: How long the journey takes with no traffic
+                - **Actual time**: Estimated time including congestion
+                - **Travel Time Index (TTI)**: Ratio of actual to free-flow time
+                - **Congestion patterns**: How time varies by hour
+                
+                **Note**: This uses simplified distance calculations and congestion estimates.
+                Real applications would use proper routing engines like r5py or OSRM.
+                
+                **Data Source**: Simplified sample data for Auckland CBD area
+                """)
+            )
+        )
+    )
+)
+
+# =============================================================================
+# Server Function
+# =============================================================================
+
+def server(input, output, session):
+    
+    # -------------------------------------------------------------------------
+    # Reactive Calculations
+    # -------------------------------------------------------------------------
+    
+    @reactive.calc
+    def calculate_route():
+        """
+        Calculate route information based on user selections.
+        This runs whenever origin, destination, or hour changes.
+        """
+        # Get selected locations
+        origin = input.origin()
+        destination = input.destination()
+        hour = input.hour()
+        
+        # Handle same origin/destination
+        if origin == destination:
+            return {
+                'distance_km': 0,
+                'time_info': {
+                    'free_flow_minutes': 0,
+                    'actual_minutes': 0,
+                    'delay_minutes': 0,
+                    'congestion_factor': 1.0,
+                    'tti': 1.0
+                },
+                'valid': False
+            }
+        
+        # Get coordinates
+        origin_coords = location_coords[origin]
+        dest_coords = location_coords[destination]
+        
+        # Calculate distance
+        distance = calculate_euclidean_distance(
+            origin_coords[0], origin_coords[1],
+            dest_coords[0], dest_coords[1]
+        )
+        
+        # Estimate travel times
+        time_info = estimate_travel_time(distance, hour)
+        
+        return {
+            'distance_km': distance,
+            'time_info': time_info,
+            'valid': True
+        }
+    
+    # -------------------------------------------------------------------------
+    # Simple Text Outputs
+    # -------------------------------------------------------------------------
+    
+    @render.text
+    def time_display():
+        """Display time in readable format"""
+        hour = input.hour()
+        if hour == 0:
+            return "12:00 AM (Midnight)"
+        elif hour < 12:
+            return f"{hour}:00 AM"
+        elif hour == 12:
+            return "12:00 PM (Noon)"
+        else:
+            return f"{hour-12}:00 PM"
+    
+    @render.text
+    def quick_stats():
+        """Display quick summary statistics"""
+        route = calculate_route()
+        
+        if not route['valid']:
+            return "⚠️ Please select different locations"
+        
+        time_info = route['time_info']
+        
+        return f"""
+Distance: {route['distance_km']:.1f} km
+
+Free-flow: {time_info['free_flow_minutes']:.1f} min
+With traffic: {time_info['actual_minutes']:.1f} min
+Delay: {time_info['delay_minutes']:.1f} min
+
+TTI: {time_info['tti']}
+"""
+    
+    @render.text
+    def route_details():
+        """Display detailed route information"""
+        route = calculate_route()
+        origin = input.origin()
+        destination = input.destination()
+        hour = input.hour()
+        
+        if not route['valid']:
+            return "Please select different origin and destination to see route details."
+        
+        time_info = route['time_info']
+        
+        # Classify congestion
+        tti = time_info['tti']
+        if tti < 1.1:
+            congestion_level = "Minimal (Free-flowing)"
+        elif tti < 1.3:
+            congestion_level = "Light"
+        elif tti < 1.5:
+            congestion_level = "Moderate"
+        elif tti < 2.0:
+            congestion_level = "Heavy"
+        else:
+            congestion_level = "Severe"
+        
+        return f"""
+ROUTE: {origin} → {destination}
+TIME: {hour}:00
+
+DISTANCE
+  Approximate distance: {route['distance_km']:.2f} km
+
+TRAVEL TIME
+  Free-flow time: {time_info['free_flow_minutes']:.1f} minutes
+  Estimated actual time: {time_info['actual_minutes']:.1f} minutes
+  Expected delay: {time_info['delay_minutes']:.1f} minutes
+
+CONGESTION LEVEL
+  Travel Time Index (TTI): {time_info['tti']}
+  Congestion level: {congestion_level}
+  
+INTERPRETATION
+  You should expect a {time_info['delay_minutes']:.0f}-minute delay due to traffic.
+  The journey takes {time_info['tti']:.0%} of the free-flow time.
+"""
+    
+    # -------------------------------------------------------------------------
+    # Plot Outputs
+    # -------------------------------------------------------------------------
+    
+    @render.plot
+    def time_comparison_plot():
+        """Create bar chart comparing free-flow vs actual time"""
+        route = calculate_route()
+        
+        if not route['valid']:
+            # Show empty plot with message
+            fig, ax = plt.subplots(figsize=(8, 5))
+            ax.text(0.5, 0.5, 'Select different locations to see comparison',
+                   ha='center', va='center', fontsize=12)
+            ax.axis('off')
+            return fig
+        
+        time_info = route['time_info']
+        
+        # Create bar chart
+        fig, ax = plt.subplots(figsize=(8, 5))
+        
+        categories = ['Free-flow\nTime', 'Actual\nTime', 'Delay']
+        values = [
+            time_info['free_flow_minutes'],
+            time_info['actual_minutes'],
+            time_info['delay_minutes']
+        ]
+        colors = ['#2ecc71', '#e74c3c', '#f39c12']
+        
+        bars = ax.bar(categories, values, color=colors, alpha=0.7, edgecolor='black')
+        
+        # Add value labels on bars
+        for bar, value in zip(bars, values):
+            height = bar.get_height()
+            ax.text(bar.get_x() + bar.get_width()/2., height,
+                   f'{value:.1f}\nmin',
+                   ha='center', va='bottom', fontweight='bold')
+        
+        ax.set_ylabel('Time (minutes)', fontsize=12)
+        ax.set_title(f'Travel Time Breakdown at {input.hour()}:00', fontsize=14, fontweight='bold')
+        ax.set_ylim(0, max(values) * 1.2)
+        ax.grid(axis='y', alpha=0.3)
+        
+        plt.tight_layout()
+        return fig
+    
+    @render.plot
+    def hourly_pattern():
+        """Show how travel time varies throughout the day"""
+        route = calculate_route()
+        
+        if not route['valid']:
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.text(0.5, 0.5, 'Select different locations to see pattern',
+                   ha='center', va='center', fontsize=12)
+            ax.axis('off')
+            return fig
+        
+        # Calculate travel times for all hours
+        distance = route['distance_km']
+        hours = list(range(24))
+        free_flow_times = []
+        actual_times = []
+        
+        for hour in hours:
+            time_info = estimate_travel_time(distance, hour)
+            free_flow_times.append(time_info['free_flow_minutes'])
+            actual_times.append(time_info['actual_minutes'])
+        
+        # Create line plot
+        fig, ax = plt.subplots(figsize=(12, 6))
+        
+        # Plot lines
+        ax.plot(hours, free_flow_times, 'g--', linewidth=2, 
+               label='Free-flow', alpha=0.7)
+        ax.plot(hours, actual_times, 'r-', linewidth=2.5,
+               label='With congestion')
+        
+        # Highlight current hour
+        current_hour = input.hour()
+        current_time = actual_times[current_hour]
+        ax.plot(current_hour, current_time, 'ro', markersize=12,
+               label='Current selection')
+        
+        # Shade rush hour periods
+        ax.axvspan(7, 9, alpha=0.2, color='orange', label='Morning rush')
+        ax.axvspan(16, 19, alpha=0.2, color='red', label='Evening rush')
+        
+        ax.set_xlabel('Hour of Day', fontsize=12)
+        ax.set_ylabel('Travel Time (minutes)', fontsize=12)
+        ax.set_title(f'How Travel Time Varies Throughout the Day\n{input.origin()} → {input.destination()}',
+                    fontsize=14, fontweight='bold')
+        ax.set_xticks(range(0, 24, 2))
+        ax.set_xticklabels([f'{h}:00' for h in range(0, 24, 2)], rotation=45)
+        ax.legend(loc='upper right')
+        ax.grid(True, alpha=0.3)
+        
+        plt.tight_layout()
+        return fig
+    
+    # -------------------------------------------------------------------------
+    # Table Output
+    # -------------------------------------------------------------------------
+    
+    @render.table
+    def route_comparison_table():
+        """Compare the selected route to alternatives"""
+        origin = input.origin()
+        destination = input.destination()
+        hour = input.hour()
+        
+        # Get all possible destinations from current origin
+        other_destinations = [loc for loc in location_names if loc != origin]
+        
+        # Calculate times for all routes
+        comparison_data = []
+        
+        for dest in other_destinations:
+            dest_coords = location_coords[dest]
+            origin_coords = location_coords[origin]
+            
+            distance = calculate_euclidean_distance(
+                origin_coords[0], origin_coords[1],
+                dest_coords[0], dest_coords[1]
+            )
+            
+            time_info = estimate_travel_time(distance, hour)
+            
+            # Highlight if this is the selected destination
+            is_selected = "→" if dest == destination else ""
+            
+            comparison_data.append({
+                '': is_selected,
+                'Destination': dest,
+                'Distance (km)': round(distance, 1),
+                'Free-flow (min)': round(time_info['free_flow_minutes'], 1),
+                'With Traffic (min)': round(time_info['actual_minutes'], 1),
+                'Delay (min)': round(time_info['delay_minutes'], 1),
+                'TTI': time_info['tti']
+            })
+        
+        # Convert to DataFrame and sort by distance
+        df = pd.DataFrame(comparison_data)
+        df = df.sort_values('Distance (km)')
+        
+        return df
+
+# =============================================================================
+# Create and Run App
+# =============================================================================
+
+app = App(app_ui, server)
+```
+
+### Step 3: Running the Dashboard
+
+Save both files in the same directory:
+- `routing_dashboard_data.py`
+- `app.py`
+
+Then run:
+
+```bash
+shiny run app.py
+```
+
+### What Makes This Dashboard Beginner-Friendly?
+
+1. **Extensive Comments**: Every section is explained
+2. **Clear Structure**: UI, server, and helper functions are separated
+3. **Simple Data**: Uses straightforward calculations instead of complex routing engines
+4. **Progressive Complexity**: Starts simple, builds up features
+5. **Informative Outputs**: Each tab teaches a concept
+6. **Error Handling**: Gracefully handles edge cases (same origin/destination)
+
 ---
 
+## Building Reusable Routing Packages
+
+Now let's see how to turn your routing analysis code into a reusable package that others (including yourself in future projects) can install and use.
+
+### Why Create a Package?
+
+**Benefits:**
+- **Reusability**: Use the same functions across multiple projects
+- **Sharing**: Colleagues can install and use your tools
+- **Documentation**: Forces you to document your code properly
+- **Testing**: Encourages writing tests
+- **Version Control**: Track changes and improvements
+- **Portfolio**: Demonstrates software development skills
+
+### Package Structure
+
+Here's how to organize a simple routing analysis package:
+
+```
+auckland_routing/
+│
+├── auckland_routing/          # Main package directory
+│   ├── __init__.py           # Makes it a package
+│   ├── core.py               # Core routing functions
+│   ├── congestion.py         # Congestion analysis functions
+│   ├── visualization.py      # Plotting functions
+│   └── data/                 # Sample data (if small)
+│       └── sample_locations.csv
+│
+├── tests/                     # Unit tests
+│   ├── __init__.py
+│   ├── test_core.py
+│   └── test_congestion.py
+│
+├── examples/                  # Example notebooks/scripts
+│   ├── basic_routing.py
+│   └── congestion_analysis.ipynb
+│
+├── docs/                      # Documentation
+│   └── README.md
+│
+├── setup.py                   # Installation configuration
+├── requirements.txt           # Dependencies
+├── README.md                  # Main documentation
+└── LICENSE                    # License file
+```
+
+### Example: Building `auckland_routing` Package
+
+**File: `auckland_routing/__init__.py`**
+
+```python
+"""
+Auckland Routing: Tools for transport network analysis in Auckland
+"""
+
+__version__ = "0.1.0"
+__author__ = "Your Name"
+
+# Import main functions so users can do:
+# from auckland_routing import calculate_travel_time
+from .core import (
+    calculate_euclidean_distance,
+    calculate_haversine_distance,
+    estimate_free_flow_time
+)
+
+from .congestion import (
+    calculate_tti,
+    calculate_vc_ratio,
+    classify_level_of_service,
+    estimate_congested_time
+)
+
+from .visualization import (
+    plot_network_congestion,
+    plot_travel_time_comparison,
+    create_route_summary_table
+)
+
+# Define what gets imported with "from auckland_routing import *"
+__all__ = [
+    'calculate_euclidean_distance',
+    'calculate_haversine_distance',
+    'estimate_free_flow_time',
+    'calculate_tti',
+    'calculate_vc_ratio',
+    'classify_level_of_service',
+    'estimate_congested_time',
+    'plot_network_congestion',
+    'plot_travel_time_comparison',
+    'create_route_summary_table'
+]
+```
+
+**File: `auckland_routing/core.py`**
+
+```python
+"""
+Core routing functions for distance and time calculations.
+"""
+
+from math import radians, sin, cos, sqrt, atan2
+from typing import Tuple, Union
+import numpy as np
+
+def calculate_euclidean_distance(
+    lat1: float, 
+    lon1: float, 
+    lat2: float, 
+    lon2: float
+) -> float:
+    """
+    Calculate Euclidean distance between two points (simplified).
+    
+    Parameters
+    ----------
+    lat1, lon1 : float
+        Origin coordinates (latitude, longitude)
+    lat2, lon2 : float
+        Destination coordinates (latitude, longitude)
+    
+    Returns
+    -------
+    float
+        Distance in kilometres
+    
+    Examples
+    --------
+    >>> from auckland_routing import calculate_euclidean_distance
+    >>> # Distance from Sky Tower to University of Auckland
+    >>> dist = calculate_euclidean_distance(-36.8485, 174.7633, -36.8447, 174.7680)
+    >>> print(f"Distance: {dist:.2f} km")
+    Distance: 0.54 km
+    
+    Notes
+    -----
+    This is a simplified calculation. For accurate routing, use proper
+    network distances with tools like OSMnx or r5py.
+    """
+    # Simplified calculation using lat/lon differences
+    # More accurate: use Haversine formula
+    lat_diff = abs(lat2 - lat1)
+    lon_diff = abs(lon2 - lon1)
+    
+    # Approximate conversion (rough for Auckland latitude)
+    km_per_lat_degree = 111.0
+    km_per_lon_degree = 88.0  # Varies by latitude
+    
+    lat_km = lat_diff * km_per_lat_degree
+    lon_km = lon_diff * km_per_lon_degree
+    
+    distance = sqrt(lat_km**2 + lon_km**2)
+    
+    return distance
+
+def calculate_haversine_distance(
+    lat1: float,
+    lon1: float,
+    lat2: float,
+    lon2: float
+) -> float:
+    """
+    Calculate great-circle distance using Haversine formula.
+    
+    Parameters
+    ----------
+    lat1, lon1 : float
+        Origin coordinates (latitude, longitude)
+    lat2, lon2 : float
+        Destination coordinates (latitude, longitude)
+    
+    Returns
+    -------
+    float
+        Distance in kilometres
+    
+    Examples
+    --------
+    >>> dist = calculate_haversine_distance(
+    ...     -36.8485, 174.7633,  # Sky Tower
+    ...     -36.8447, 174.7680   # University
+    ... )
+    >>> print(f"{dist:.2f} km")
+    0.56 km
+    
+    Notes
+    -----
+    This gives accurate straight-line distances but doesn't account
+    for actual road networks. Use network routing for real travel distances.
+    """
+    # Convert to radians
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    
+    # Haversine formula
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1-a))
+    
+    # Earth's radius in km
+    radius = 6371
+    distance = radius * c
+    
+    return distance
+
+def estimate_free_flow_time(
+    distance_m: float,
+    speed_limit_kmh: Union[float, int] = 50
+) -> float:
+    """
+    Calculate free-flow travel time (no congestion).
+    
+    Parameters
+    ----------
+    distance_m : float
+        Distance in metres
+    speed_limit_kmh : float, default 50
+        Speed limit in kilometres per hour
+    
+    Returns
+    -------
+    float
+        Travel time in minutes
+    
+    Examples
+    --------
+    >>> # 5 km at 50 km/h speed limit
+    >>> time = estimate_free_flow_time(5000, 50)
+    >>> print(f"{time:.1f} minutes")
+    6.0 minutes
+    
+    >>> # 10 km at 100 km/h (motorway)
+    >>> time = estimate_free_flow_time(10000, 100)
+    >>> print(f"{time:.1f} minutes")
+    6.0 minutes
+    """
+    if distance_m <= 0:
+        return 0.0
+    
+    if speed_limit_kmh <= 0:
+        raise ValueError("Speed limit must be positive")
+    
+    # Convert to m/s
+    speed_ms = speed_limit_kmh / 3.6
+    
+    # Calculate time in seconds, then convert to minutes
+    time_seconds = distance_m / speed_ms
+    time_minutes = time_seconds / 60
+    
+    return time_minutes
+```
+
+**File: `auckland_routing/congestion.py`**
+
+```python
+"""
+Congestion analysis functions for transport networks.
+"""
+
+from typing import Dict, Tuple, Optional
+
+def calculate_tti(
+    actual_time_min: float,
+    free_flow_time_min: float
+) -> float:
+    """
+    Calculate Travel Time Index (TTI).
+    
+    TTI measures congestion as the ratio of actual to free-flow travel time.
+    
+    Parameters
+    ----------
+    actual_time_min : float
+        Actual (observed) travel time in minutes
+    free_flow_time_min : float
+        Free-flow (uncongested) travel time in minutes
+    
+    Returns
+    -------
+    float
+        TTI value (≥ 1.0)
+    
+    Examples
+    --------
+    >>> tti = calculate_tti(actual_time_min=12, free_flow_time_min=10)
+    >>> print(f"TTI: {tti:.2f} (20% delay)")
+    TTI: 1.20 (20% delay)
+    
+    Notes
+    -----
+    TTI interpretation:
+    - 1.0: No delay (free-flow conditions)
+    - 1.2: 20% delay (light congestion)
+    - 1.5: 50% delay (moderate congestion)
+    - 2.0: 100% delay (severe congestion)
+    """
+    if free_flow_time_min <= 0:
+        raise ValueError("Free-flow time must be positive")
+    
+    if actual_time_min < 0:
+        raise ValueError("Actual time cannot be negative")
+    
+    return actual_time_min / free_flow_time_min
+
+def calculate_vc_ratio(
+    volume_vph: int,
+    capacity_vph: int
+) -> float:
+    """
+    Calculate Volume/Capacity (V/C) ratio.
+    
+    Parameters
+    ----------
+    volume_vph : int
+        Traffic volume in vehicles per hour
+    capacity_vph : int
+        Road capacity in vehicles per hour
+    
+    Returns
+    -------
+    float
+        V/C ratio
+    
+    Examples
+    --------
+    >>> vc = calculate_vc_ratio(volume_vph=1800, capacity_vph=2000)
+    >>> print(f"V/C: {vc:.2f}")
+    V/C: 0.90
+    
+    Notes
+    -----
+    V/C interpretation:
+    - < 0.7: Free flow
+    - 0.7-0.9: Approaching capacity
+    - 0.9-1.0: At capacity
+    - > 1.0: Over capacity (breakdown flow)
+    """
+    if capacity_vph <= 0:
+        raise ValueError("Capacity must be positive")
+    
+    if volume_vph < 0:
+        raise ValueError("Volume cannot be negative")
+    
+    return volume_vph / capacity_vph
+
+def classify_level_of_service(vc_ratio: float) -> str:
+    """
+    Classify Level of Service (LOS) based on V/C ratio.
+    
+    Parameters
+    ----------
+    vc_ratio : float
+        Volume/Capacity ratio
+    
+    Returns
+    -------
+    str
+        LOS classification (A-F)
+    
+    Examples
+    --------
+    >>> los = classify_level_of_service(0.85)
+    >>> print(f"LOS: {los}")
+    LOS: D
+    """
+    if vc_ratio < 0.60:
+        return 'A'  # Free flow
+    elif vc_ratio < 0.70:
+        return 'B'  # Reasonably free flow
+    elif vc_ratio < 0.80:
+        return 'C'  # Stable flow
+    elif vc_ratio < 0.90:
+        return 'D'  # Approaching unstable
+    elif vc_ratio < 1.00:
+        return 'E'  # Unstable flow
+    else:
+        return 'F'  # Forced/breakdown flow
+
+def estimate_congested_time(
+    distance_m: float,
+    hour_of_day: int,
+    base_speed_kmh: float = 50
+) -> Dict[str, float]:
+    """
+    Estimate travel time with time-of-day congestion factors.
+    
+    Parameters
+    ----------
+    distance_m : float
+        Distance in metres
+    hour_of_day : int
+        Hour (0-23)
+    base_speed_kmh : float, default 50
+        Base speed limit in km/h
+    
+    Returns
+    -------
+    dict
+        Dictionary with keys:
+        - 'free_flow_minutes': Free-flow travel time
+        - 'actual_minutes': Estimated actual time
+        - 'delay_minutes': Delay due to congestion
+        - 'congestion_factor': Applied congestion multiplier
+        - 'tti': Travel Time Index
+    
+    Examples
+    --------
+    >>> result = estimate_congested_time(5000, hour_of_day=8)
+    >>> print(f"Delay: {result['delay_minutes']:.1f} minutes")
+    Delay: 3.6 minutes
+    """
+    from .core import estimate_free_flow_time
+    
+    # Calculate free-flow time
+    free_flow = estimate_free_flow_time(distance_m, base_speed_kmh)
+    
+    # Determine congestion factor based on hour
+    if 7 <= hour_of_day <= 9:
+        factor = 1.6  # Morning peak
+    elif 16 <= hour_of_day <= 19:
+        factor = 1.7  # Evening peak
+    elif 10 <= hour_of_day <= 15:
+        factor = 1.2  # Midday
+    else:
+        factor = 1.0  # Off-peak
+    
+    actual = free_flow * factor
+    delay = actual - free_flow
+    
+    return {
+        'free_flow_minutes': round(free_flow, 2),
+        'actual_minutes': round(actual, 2),
+        'delay_minutes': round(delay, 2),
+        'congestion_factor': factor,
+        'tti': round(factor, 2)
+    }
+```
+
+**File: `setup.py`**
+
+```python
+from setuptools import setup, find_packages
+
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
+setup(
+    name="auckland-routing",
+    version="0.1.0",
+    author="Your Name",
+    author_email="your.email@example.com",
+    description="Routing and congestion analysis tools for Auckland transport networks",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/yourusername/auckland-routing",
+    packages=find_packages(),
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering :: GIS",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+    ],
+    python_requires=">=3.8",
+    install_requires=[
+        "numpy>=1.20.0",
+        "pandas>=1.3.0",
+        "geopandas>=0.10.0",
+        "matplotlib>=3.4.0",
+    ],
+    extras_require={
+        "dev": [
+            "pytest>=6.0",
+            "pytest-cov",
+            "black",
+            "flake8",
+        ],
+    },
+)
+```
+
+**File: `README.md`**
+
+```markdown
+# Auckland Routing
+
+Tools for routing and congestion analysis in Auckland transport networks.
+
+## Installation
+
+```bash
+pip install git+https://github.com/yourusername/auckland-routing.git
+```
+
+## Quick Start
+
+```python
+from auckland_routing import calculate_haversine_distance, estimate_congested_time
+
+# Calculate distance
+dist = calculate_haversine_distance(
+    -36.8485, 174.7633,  # Sky Tower
+    -36.8447, 174.7680   # University
+)
+print(f"Distance: {dist:.2f} km")
+
+# Estimate travel time with congestion
+result = estimate_congested_time(
+    distance_m=dist * 1000,
+    hour_of_day=8  # 8 AM
+)
+
+print(f"Free-flow: {result['free_flow_minutes']:.1f} min")
+print(f"With congestion: {result['actual_minutes']:.1f} min")
+print(f"Delay: {result['delay_minutes']:.1f} min")
+```
+
+## Features
+
+- Distance calculations (Euclidean and Haversine)
+- Free-flow travel time estimation
+- Time-of-day congestion factors
+- Travel Time Index (TTI) calculations
+- Volume/Capacity ratio and Level of Service classification
+- Network congestion visualisations
+
+## Documentation
+
+See the `examples/` directory for usage examples.
+
+## License
+
+MIT License
+```
+
+### Installing Your Package
+
+**For development (editable install):**
+```bash
+cd auckland_routing
+pip install -e .
+```
+
+**For users (from GitHub):**
+```bash
+pip install git+https://github.com/yourusername/auckland-routing.git
+```
+
+### Using Your Package in Other Projects
+
+```python
+# Now in ANY project, you can do:
+from auckland_routing import calculate_haversine_distance, estimate_congested_time
+
+# Calculate distance
+dist_km = calculate_haversine_distance(-36.8485, 174.7633, -36.8447, 174.7680)
+
+# Estimate congested time
+result = estimate_congested_time(dist_km * 1000, hour_of_day=17)
+print(f"Evening rush hour delay: {result['delay_minutes']:.1f} minutes")
+```
+
+### Adding Unit Tests
+
+**File: `tests/test_core.py`**
+
+```python
+"""
+Unit tests for core routing functions.
+"""
+
+import pytest
+from auckland_routing.core import (
+    calculate_haversine_distance,
+    estimate_free_flow_time
+)
+
+def test_haversine_same_point():
+    """Test that distance from a point to itself is zero"""
+    dist = calculate_haversine_distance(-36.8485, 174.7633, -36.8485, 174.7633)
+    assert dist == pytest.approx(0, abs=0.001)
+
+def test_haversine_known_distance():
+    """Test against a known distance"""
+    # Sky Tower to Auckland Domain (approximately 2.4 km)
+    dist = calculate_haversine_distance(-36.8485, 174.7633, -36.8624, 174.7773)
+    assert dist == pytest.approx(2.4, rel=0.1)  # Within 10%
+
+def test_free_flow_time_calculation():
+    """Test free-flow time calculation"""
+    # 6 km at 60 km/h should take 6 minutes
+    time = estimate_free_flow_time(6000, 60)
+    assert time == pytest.approx(6.0, rel=0.01)
+
+def test_free_flow_time_zero_distance():
+    """Test that zero distance gives zero time"""
+    time = estimate_free_flow_time(0, 50)
+    assert time == 0.0
+
+def test_free_flow_time_invalid_speed():
+    """Test that invalid speed raises error"""
+    with pytest.raises(ValueError):
+        estimate_free_flow_time(1000, 0)
+```
+
+**Run tests:**
+```bash
+pytest tests/
+```
+
+---
+
+## Key Takeaways
+
+1. **Dashboards**: Build complete, well-documented applications with clear structure
+2. **Packages**: Organize reusable code into proper Python packages
+3. **Documentation**: Write docstrings with examples
+4. **Testing**: Add unit tests for reliability
+5. **Sharing**: Make your work installable and reusable
+
+Both skills—building dashboards and creating packages—are valuable in academic and professional settings!

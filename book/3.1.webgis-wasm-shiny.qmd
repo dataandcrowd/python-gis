@@ -1,13 +1,5 @@
 # 3.1 Web GIS, WASM, and Shiny {.unnumbered}
 
-## Story problem
-
-**Why does my dashboard feel slow?**
-
-- A `folium` map loads quickly, then the app becomes sluggish.
-- You learn where computation happens and how to move work upstream.
-- You learn to keep packages and data lean for the web.
-
 ## What you will learn
 
 - What runs in the browser versus on the server.
@@ -197,5 +189,7 @@ One important difference between traditional Shiny and Shinylive deployments is 
 In many cases, the client browser will have more compute power than a server, especially since the compute power of the user’s machine is not shared across multiple users. However, in other cases, this can be a roadblock, such as when a powerful server is needed to perform very intensive computations or requires access to a private data store.
 
 
-
+As of February 2026, I found that the `folium` (webmap) package is not available in the Pyodide list (https://shiny.posit.co/py/get-started/shinylive.html#installed-packages).
+This means that Folium will not work on your Shiny app when you use `shinyLive`.
+Alternatively, we will learn `ipyleaflet` to get it through!
 

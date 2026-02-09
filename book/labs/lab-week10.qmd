@@ -1,5 +1,1 @@
----
-title: "Lab Week 10"
-format: html
----
-
+# Lab Week 10 {.unnumbered}
