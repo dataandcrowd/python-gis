@@ -14,7 +14,7 @@
 | **Semester** | Semester 1, 2026 |
 | **Duration** | 12 weeks |
 | **Instructor** | Dr Hyesop Shin |
-| **Contact** | h.shin@auckland.ac.nz |
+| **Contact** | hyesop.shin@auckland.ac.nz |
 | **Office Hours** | By appointment |
 | **Course Delivery** | Lectures + Laboratory Sessions |
 
