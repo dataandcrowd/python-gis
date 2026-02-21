@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Python Package Development – Python GIS at UoA</title>
+<title>Part 4. Python Package Development – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./4.1.package-fundamentals.html" rel="next">
-<link href="./3.5.networks.html" rel="prev">
+<link href="./3.4.origin-destination.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Python Package Development</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -151,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Syllabus (Semester 1, 2026)</span></span></a>
+ <span class="menu-text">Syllabus (Semester 1, 2026)</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -172,7 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1.2.uv.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">1.2 uv environments</span></a>
+ <span class="menu-text">1.2 UV environments</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -186,7 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2. Geospatial Python Programming</span></a>
+ <span class="menu-text">Part 2. Geospatial Python Programming</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -201,19 +201,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.2.dataframes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.2. DataFrames</span></a>
+ <span class="menu-text">2.2. DataFrames and Pandas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2.3.geospatial.html" class="sidebar-item-text sidebar-link">
+  <a href="./2.3.data-visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2.3. Data Visualisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2.4.geospatial.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.3. Geospatial Data</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./2.4.data-visualisation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.4. Data Visualisation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./3.0.chapter3-shiny_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interactive Dashboards with Shiny for Python</span></a>
+ <span class="menu-text">Part 3. Interactive Dashboards with Shiny for Python</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -263,18 +263,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">3.4. Origin-Destination Analysis</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.5.networks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.5. Network Analysis for GIS</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./4.0.python-packaging.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Python Package Development</span></a>
+ <span class="menu-text">Part 4. Python Package Development</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -308,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./labs.html" class="sidebar-item-text sidebar-link">
+            <a href="./labs/labs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">labs.html</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -318,61 +312,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab Week 01</span></span></a>
+ <span class="menu-text">Lab Week 01</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Lab Week 02</span></span></a>
+ <span class="menu-text">Lab Week 02</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Lab Week 03</span></span></a>
+ <span class="menu-text">Lab Week 03</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Lab Week 04</span></span></a>
+ <span class="menu-text">Lab Week 04</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lab Week 05</span></span></a>
+ <span class="menu-text">Lab Week 05</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Lab Week 06</span></span></a>
+ <span class="menu-text">Lab Week 6: Shiny Practice Exercises with Solutions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Lab Week 07</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Lab Week 7: Complete Dashboard and Package Examples</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab Week 08</span></span></a>
+ <span class="menu-text">Lab Week 08</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Week 09</span></span></a>
+ <span class="menu-text">Lab Week 09</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lab Week 10</span></span></a>
+ <span class="menu-text">Lab Week 10</span></a>
   </div>
 </li>
       </ul>
@@ -451,7 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-python-packaging" class="quarto-section-identifier">Python Package Development</span></h1>
+<h1 class="title">Part 4. Python Package Development</h1>
 </div>
 
 
@@ -504,7 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="what-you-will-learn">What You Will Learn</h2>
 <p>This chapter covers the complete package development lifecycle:</p>
 <section id="week-9-structure-and-building-sec-package-fundamentals" class="level3">
-<h3 class="anchored" data-anchor-id="week-9-structure-and-building-sec-package-fundamentals">Week 9: Structure and Building (<a href="#sec-package-fundamentals" class="quarto-xref"><span class="quarto-unresolved-ref">sec-package-fundamentals</span></a>)</h3>
+<h3 class="anchored" data-anchor-id="week-9-structure-and-building-sec-package-fundamentals">Week 9: Structure and Building (<span class="quarto-unresolved-ref">?sec-package-fundamentals</span>)</h3>
 <ul>
 <li>Why packaging matters for urban analytics</li>
 <li>Package architecture: the <code>src/</code> layout</li>
@@ -514,7 +508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 <section id="week-10-testing-and-publishing-sec-testing-quality" class="level3">
-<h3 class="anchored" data-anchor-id="week-10-testing-and-publishing-sec-testing-quality">Week 10: Testing and Publishing (<a href="#sec-testing-quality" class="quarto-xref"><span class="quarto-unresolved-ref">sec-testing-quality</span></a>)</h3>
+<h3 class="anchored" data-anchor-id="week-10-testing-and-publishing-sec-testing-quality">Week 10: Testing and Publishing (<span class="quarto-unresolved-ref">?sec-testing-quality</span>)</h3>
 <ul>
 <li>Writing tests with pytest</li>
 <li>Testing geospatial operations</li>
@@ -524,7 +518,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 <section id="week-11-production-quality-sec-geospatial-package-example" class="level3">
-<h3 class="anchored" data-anchor-id="week-11-production-quality-sec-geospatial-package-example">Week 11: Production Quality (<a href="#sec-geospatial-package-example" class="quarto-xref"><span class="quarto-unresolved-ref">sec-geospatial-package-example</span></a>)</h3>
+<h3 class="anchored" data-anchor-id="week-11-production-quality-sec-geospatial-package-example">Week 11: Production Quality (<span class="quarto-unresolved-ref">?sec-geospatial-package-example</span>)</h3>
 <ul>
 <li>Real-world package examples</li>
 <li>CI/CD with GitHub Actions<br>
@@ -534,7 +528,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 <section id="week-12-publishing-to-pypi-sec-publish-pypi" class="level3">
-<h3 class="anchored" data-anchor-id="week-12-publishing-to-pypi-sec-publish-pypi">Week 12: Publishing to PyPI (<a href="#sec-publish-pypi" class="quarto-xref"><span class="quarto-unresolved-ref">sec-publish-pypi</span></a>)</h3>
+<h3 class="anchored" data-anchor-id="week-12-publishing-to-pypi-sec-publish-pypi">Week 12: Publishing to PyPI (<span class="quarto-unresolved-ref">?sec-publish-pypi</span>)</h3>
 <ul>
 <li>Production PyPI publication</li>
 <li>Version management</li>
@@ -705,22 +699,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="chapter-structure" class="level2">
 <h2 class="anchored" data-anchor-id="chapter-structure">Chapter Structure</h2>
 <section id="sec-package-fundamentals-package-structure-and-building" class="level3">
-<h3 class="anchored" data-anchor-id="sec-package-fundamentals-package-structure-and-building"><a href="#sec-package-fundamentals" class="quarto-xref"><span class="quarto-unresolved-ref">sec-package-fundamentals</span></a>: Package Structure and Building</h3>
+<h3 class="anchored" data-anchor-id="sec-package-fundamentals-package-structure-and-building"><span class="quarto-unresolved-ref">?sec-package-fundamentals</span>: Package Structure and Building</h3>
 <p>Learn the fundamentals: - Why packaging matters for GIS workflows - Package architecture (<code>src/</code> layout best practices) - Understanding <code>pyproject.toml</code> configuration - Building distributions with <code>uv</code> - Local testing before publication</p>
 <p><strong>Week 9 focus</strong>: Get everyone building packages successfully</p>
 </section>
 <section id="sec-testing-quality-testing-and-quality-assurance" class="level3">
-<h3 class="anchored" data-anchor-id="sec-testing-quality-testing-and-quality-assurance"><a href="#sec-testing-quality" class="quarto-xref"><span class="quarto-unresolved-ref">sec-testing-quality</span></a>: Testing and Quality Assurance</h3>
+<h3 class="anchored" data-anchor-id="sec-testing-quality-testing-and-quality-assurance"><span class="quarto-unresolved-ref">?sec-testing-quality</span>: Testing and Quality Assurance</h3>
 <p>Add robustness: - Writing tests with pytest - Testing geospatial operations - Handling edge cases (empty geometries, CRS issues) - Documentation strategies - TestPyPI publication</p>
 <p><strong>Week 10 focus</strong>: Practice publication in safe environment</p>
 </section>
 <section id="sec-geospatial-package-example-real-world-package-examples" class="level3">
-<h3 class="anchored" data-anchor-id="sec-geospatial-package-example-real-world-package-examples"><a href="#sec-geospatial-package-example" class="quarto-xref"><span class="quarto-unresolved-ref">sec-geospatial-package-example</span></a>: Real-World Package Examples</h3>
+<h3 class="anchored" data-anchor-id="sec-geospatial-package-example-real-world-package-examples"><span class="quarto-unresolved-ref">?sec-geospatial-package-example</span>: Real-World Package Examples</h3>
 <p>See it in action: - Complete package walkthroughs - Auckland utilities toolkit - Micromobility analysis example - CI/CD setup with GitHub Actions - Advanced packaging patterns</p>
 <p><strong>Week 11 focus</strong>: Polish for production release</p>
 </section>
 <section id="sec-publish-pypi-publishing-to-production-pypi" class="level3">
-<h3 class="anchored" data-anchor-id="sec-publish-pypi-publishing-to-production-pypi"><a href="#sec-publish-pypi" class="quarto-xref"><span class="quarto-unresolved-ref">sec-publish-pypi</span></a>: Publishing to Production PyPI</h3>
+<h3 class="anchored" data-anchor-id="sec-publish-pypi-publishing-to-production-pypi"><span class="quarto-unresolved-ref">?sec-publish-pypi</span>: Publishing to Production PyPI</h3>
 <p>Final release: - Real PyPI publication process - Semantic versioning strategies - Release notes and changelogs - Package maintenance - Community engagement</p>
 <p><strong>Week 12 focus</strong>: Complete Assignment 3 and showcase</p>
 </section>
@@ -790,7 +784,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="lets-begin" class="level2">
 <h2 class="anchored" data-anchor-id="lets-begin">Let’s Begin</h2>
 <p>Package development transforms you from a code user to a code creator. You’ll learn to build tools that last, share knowledge effectively, and contribute to the broader geospatial community.</p>
-<p>Ready to publish your first package? Let’s start with the fundamentals in <a href="#sec-package-fundamentals" class="quarto-xref"><span class="quarto-unresolved-ref">sec-package-fundamentals</span></a>.</p>
+<p>Ready to publish your first package? Let’s start with the fundamentals in <span class="quarto-unresolved-ref">?sec-package-fundamentals</span>.</p>
 </section>
 <section id="resources" class="level2">
 <h2 class="anchored" data-anchor-id="resources">Resources</h2>
@@ -1210,8 +1204,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3.5.networks.html" class="pagination-link" aria-label="3.5. Network Analysis for GIS">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.5. Network Analysis for GIS</span>
+      <a href="./3.4.origin-destination.html" class="pagination-link" aria-label="3.4. Origin-Destination Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.4. Origin-Destination Analysis</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
