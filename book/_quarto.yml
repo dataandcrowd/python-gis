@@ -28,19 +28,19 @@ book:
     
     - part: 3.0.chapter3-shiny_python.qmd
       chapters:
-        - 3.1.webgis-wasm-shiny.qmd
-        - 3.2.shiny-functions-reactivity.qmd
-        - 3.3.routing-and-congestion.qmd
-        - 3.4.origin-destination.qmd
+        #- 3.1.webgis-wasm-shiny.qmd
+        #- 3.2.shiny-functions-reactivity.qmd
+        #- 3.3.routing-and-congestion.qmd
+        #- 3.4.origin-destination.qmd
         #- 3.5.networks.qmd
         #- 3.6.shiny-assignment.qmd
     
     - part: 4.0.python-packaging.qmd
       chapters:
-        - 4.1.package-fundamentals.qmd
-        - 4.2.testing-and-quality.qmd
-        - 4.3.geospatial-package-example.qmd
-        - 4.4.publish-pypi.qmd
+        #- 4.1.package-fundamentals.qmd
+        #- 4.2.testing-and-quality.qmd
+        #- 4.3.geospatial-package-example.qmd
+        #- 4.4.publish-pypi.qmd
         #- 4.8.packaging-assignment.qmd
   
     - part: labs/labs.qmd
@@ -50,11 +50,11 @@ book:
         - labs/lab-week03.qmd
         - labs/lab-week04.qmd
         - labs/lab-week05.qmd
-        - labs/lab-week06.qmd
-        - labs/lab-week07.qmd
-        - labs/lab-week08.qmd
-        - labs/lab-week09.qmd
-        - labs/lab-week10.qmd
+        #- labs/lab-week06.qmd
+        #- labs/lab-week07.qmd
+        #- labs/lab-week08.qmd
+        #- labs/lab-week09.qmd
+        #- labs/lab-week10.qmd
 
     - references.qmd
 bibliography: references.bib
