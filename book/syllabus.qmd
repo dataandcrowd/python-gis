@@ -14,6 +14,7 @@ This course provides comprehensive training in Python for urban analytics, progr
 
 **Level**: Intermediate to Advanced  
 **Contact hours**:
+
 - Lecture: 2 hours per week (Monday 13:00-15:00)
 - Lab: 2 hours per week (Tuesday 13:00-15:00)
 
@@ -44,7 +45,7 @@ By the end of this course, students will be able to:
 
 ### Essential
 - Python 3.10 or higher
-- Positron IDE (or VS Code/PyCharm)
+- Positron IDE (or VS Code)
 - Quarto for literate programming
 - uv for package management
 - Git and GitHub account
@@ -58,9 +59,9 @@ By the end of this course, students will be able to:
 - Documentation: mkdocs, mkdocs-material, mkdocstrings
 
 ### Platforms
-- shinylive account for dashboard hosting
 - GitHub for version control
 - Substack account for blogging (Assignment 1)
+- shinylive account for dashboard hosting (Assignment 2)
 
 ---
 
@@ -68,10 +69,11 @@ By the end of this course, students will be able to:
 
 | Assessment | Weight | Due date |
 |------------|--------|----------|
-| Assignment 1: Data Blog Post | 20% | 3 April (Friday, Week 5) |
+| Weekly quizzes | 15% | Weeks 2-10 (not wk8)|
+| Assignment 1: Data Blog Post | 15% | 3 April (Friday, Week 5) |
 | Canvas Mid-term Test | 15% | 27-29 March (Week 4) |
-| Assignment 2: Shiny Dashboard | 25% | 8 May (Friday, Week 8) |
-| Poster Showcase | 10% | 5 June (Week 12, separate venue) |
+| Assignment 2: Shiny Dashboard | 15% | 8 May (Friday, Week 8) |
+| Poster Showcase | 10% | 5 June (Week 12, B301 Ground floor) |
 | Assignment 3: PyPI Package | 30% | 5 June (Friday, Week 12) |
 
 **Total**: 100%
@@ -89,6 +91,7 @@ By the end of this course, students will be able to:
 #### Week 1: Course introduction and Python setup (2 March)
 
 **Lecture topics**
+
 - Course overview and expectations
 - Python for geospatial analysis: why and how?
 - Python fundamentals review: modules, packages, environments
@@ -96,6 +99,7 @@ By the end of this course, students will be able to:
 - Modern package management with uv (in lab session)
 
 **Lab activities**
+
 - Install Python, Positron, and Quarto
 - Set up development environment with uv
 - Install essential geospatial packages
@@ -116,6 +120,7 @@ By the end of this course, students will be able to:
 **Lecture topics**
 
 *Python skills*
+
 - Importing geospatial datasets (GeoJSON, Shapefiles, GeoPackage)
 - Data structures: long vs wide formatting
 - Data manipulation fundamentals: filtering, selecting, sorting
@@ -127,12 +132,14 @@ By the end of this course, students will be able to:
 - ESDA basics
 
 *Urban analytics*
+
 - Data quality issues in real-world urban data
 - Identifying outliers and missing data in urban datasets
 - Statistical imputation methods: mean, median, interpolation
 - Working with census geographies (SA2 level in NZ)
 
 **Lab activities**
+
 - Install and configure Git for version control
 - Long/wide formatting with urban datasets
 - Data manipulation exercises: filtering, groupby, merge operations
@@ -151,6 +158,7 @@ By the end of this course, students will be able to:
 **Lecture topics**
 
 *Python skills*
+
 - Choropleths and classification (Jenks, quantiles, equal interval)
 - Interactive web mapping with folium
 - Spatial aggregation: counting points within polygons (SA2)
@@ -160,12 +168,14 @@ By the end of this course, students will be able to:
 - Spatial indexing and performance
 
 *Urban analytics context*
-- The 15-minute city concept
+
+- Introduction to pedestrian mobility
 - Introduction to urban morphology with `momepy`
 - Walkability indices and street connectivity
 - Census geography in NZ (SA1, SA2, SA3) and aggregation choices
 
 **Lab activities**
+
 - Download SA2 boundaries for Auckland (Stats NZ)
 - Count sensors by SA2 and compute average footfall per SA2
 - Distance matrix between sensors and key destinations
@@ -185,8 +195,9 @@ By the end of this course, students will be able to:
 - Case studies of morphology and walkability analysis
 
 **Lecture topics (Tuesday 24 March)**
+
 - Connecting morphology to pedestrian behaviour
-- Walkability frameworks and composite indices
+- Walkability frameworks with OSMnx
 - Test preparation guidance
 - Preview: decorators and advanced functions (Week 5)
 
@@ -203,11 +214,13 @@ By the end of this course, students will be able to:
 #### Week 5: Functions and workflows (30 March)
 
 **Lecture topics**
+
 - Writing effective functions and code organisation - important for Assignment 1 and 3
 - Functions for extremes (max/min) and grouped summaries
 - GitHub workflows and reproducibility
 
 **Lab activities**
+
 - Reusable functions for blog analysis
 - Comparing years (pre/post COVID)
 - Refactoring and code review
@@ -229,13 +242,15 @@ No classes. Classes resume Monday 20 April (Week 6).
 #### Week 6: Introduction to WebGIS and Shiny (20 April)
 
 **Lecture topics**
+
 - WebGIS fundamentals, Wasm overview
-- Shiny for Python architecture (UI/server) and reactivity
+- Shiny for Python architecture (UI/server)
 - Interactive maps with ipyleaflet
 
 **Guest lecture: Alex Raichev (14:15-15:00)**
 
 **Lab activities**
+
 - Build a first Shiny app locally
 - Reactive outputs (maps, plots, tables)
 - Controls (sliders, dropdowns)
@@ -347,17 +362,20 @@ Code submitted for Assignments 2 and 3 must:
 
 ### Academic Integrity
 Standard university academic integrity policies apply. All work must be your own. You may:
+
 - Discuss concepts and approaches with peers
 - Use AI assistants (GitHub Copilot, ChatGPT, Claude) for debugging and learning
 - Reference external code with proper attribution
 
 You may not:
+
 - Copy code from peers or external sources without attribution
 - Submit work that you don't understand
 - Share solution code before deadlines
 
 ### Data Ethics
 When working with urban data:
+
 - Respect individual privacy (avoid identifying individuals)
 - Consider impacts on communities represented in data
 - Acknowledge data sources and limitations
@@ -366,6 +384,7 @@ When working with urban data:
 
 ### Accessibility
 Dashboards must consider accessibility:
+
 - Colourblind-safe palettes
 - Keyboard navigation
 - Clear labels and instructions
@@ -378,12 +397,14 @@ Dashboards must consider accessibility:
 
 ### Use of AI Tools
 AI tools are permitted for:
+
 - Debugging and error resolution
 - Learning new concepts
 - Documentation writing
 - Code suggestions and completion
 
 However:
+
 - You must understand all code you submit
 - Document AI tool usage in development notes
 - Creative design and analytical approach must be your own
@@ -394,11 +415,13 @@ However:
 ## Weekly Time Expectations
 
 Students should expect to spend approximately 10-12 hours per week:
+
 - Lecture: 1.75 hours
 - Lab: 2 hours
 - Independent work: 6-8 hours (readings, assignments, practise)
 
 **Peak workload weeks**:
+
 - Week 5: Assignment 1 completion (12-15 hours)
 - Week 8: Assignment 2 completion (12-15 hours)
 - Week 11-12: Assignment 3 completion (15-18 hours)
@@ -441,12 +464,14 @@ Students should expect to spend approximately 10-12 hours per week:
 ### Getting Help
 
 **Before Asking**:
+
 1. Check official documentation
 2. Search Stack Overflow and GitHub issues
 3. Review lecture materials and labs
 4. Try debugging with print statements or debugger
 
 **When Asking**:
+
 1. **Canvas Discussion Forum**: General questions, peer support (response: 24-48 hours)
 2. **Lab Sessions**: Hands-on help from tutors and instructor
 3. **Office Hours**: Dr Shin - Fridays 2-4pm (by appointment)
@@ -460,23 +485,27 @@ Students should expect to spend approximately 10-12 hours per week:
 ### Common Issues
 
 **uv Problems**:
+
 - Update: `uv self update`
 - Clear cache: `uv cache clean`
 - Check Python version compatibility
 
 **Shiny Deployment**:
+
 - Test locally first
 - Check file sizes (shinylive has limits)
 - Use relative paths, not absolute
 - Verify all dependencies
 
 **Testing Spatial Data**:
+
 - Use appropriate geometric tolerances
 - Mock external data sources
 - Create small test fixtures
 - Test edge cases
 
 **PyPI Publication**:
+
 - Test on TestPyPI first
 - Ensure unique package name
 - Complete all metadata in `pyproject.toml`
@@ -487,10 +516,11 @@ Students should expect to spend approximately 10-12 hours per week:
 ## Technical Prerequisites Check
 
 Before Week 1, ensure you can:
+
 - [ ] Access a computer with Python 3.10+
 - [ ] Install software (admin rights may be needed)
 - [ ] Create GitHub account
-- [ ] Basic command line usage
+- [ ] Call Powershell (Windows) or Terminal (MacOSX/Linux)
 - [ ] Understand basic Git concepts (or willing to learn)
 
 ---
@@ -500,7 +530,7 @@ Before Week 1, ensure you can:
 **Instructor**: Dr Hyesop Shin  
 **Email**: hyesop.shin@auckland.ac.nz  
 **Office**: Room 301-529B, Building 301  
-**Office Hours**: Mondays 3-5pm (drop-in or book via email)
+**Office Hours**: Mondays 3-5pm (book via email)
 
 **Course Materials**:
 - **Canvas**: Main course hub for announcements, assignments, and resources
@@ -510,7 +540,7 @@ Before Week 1, ensure you can:
 **Getting Help**:
 - **During Lab Sessions**: Ask tutors and instructor for immediate help
 - **Canvas Discussion Forum**: Post questions for peer and instructor support (24-48 hour response)
-- **Office Hours**: Drop in Mondays 3-5pm or email to arrange another time
+- **Office Hours**: Mondays 3-5pm or email to arrange another time
 - **Email**: For personal matters or urgent issues (allow 48 hours for response)
 
 ---
@@ -528,7 +558,7 @@ Before Week 1, ensure you can:
 | 1 | 2 Mar | Course intro, Python setup | - |
 | 2 | 9 Mar | Geospatial Python fundamentals | - |
 | 3 | 16 Mar | Advanced geospatial operations | - |
-| 4 | 23 Mar | Urban morphology + Shriv guest (1-2pm) | Canvas Test (27-28 Mar) |
+| 4 | 23 Mar | Guest (1-2pm) + Walkability | Canvas Test (27-28 Mar) |
 | 5 | 30 Mar | Functions and workflows | **A1 Due (3 Apr)** |
 | - | **3-17 Apr** | **EASTER/MID-SEMESTER BREAK** | - |
 | 6 | 20 Apr | WebGIS and Shiny intro (+ Guest) | - |
@@ -536,7 +566,7 @@ Before Week 1, ensure you can:
 | 8 | 4 May | Advanced dashboards and networks | **A2 Due (8 May)** |
 | 9 | 11 May | Micromobility and package structure | - |
 | 10 | 18 May | Testing and documentation | **Poster Due** |
-| 11 | 25 May | CI/CD and TestPyPI | - |
+| 11 | 25 May | Showcase | - |
 | 12 | 1 June | **NO LECTURE (King's Birthday) - Labs only** | **Package submission due** |
 
 **Note on Assignment 2**: Due date moved to 8 May (Thursday of Week 8) to account for ANZAC Day week having no lecture. Students get Week 7 labs to work on dashboards.
@@ -553,7 +583,7 @@ The integration of modern tools (uv, Positron, shinylive) represents the evolvin
 
 ---
 
-**Last Updated**: January 2026  
-**Version**: 1.0 (Full Semester Course)
+**Last Updated**: Feb 2026  
+**Version**: 2.0
 
-*This course emphasizes practical skills for urban analytics research, planning, and policy support. The combination of spatial analysis, interactive visualisation, and software development prepares students for careers in academia, government, consulting, and technology sectors.*
+*This course emphasises practical skills for urban analytics research, planning, and policy support. The combination of spatial analysis, interactive visualisation, and software development prepares students for careers in academia, government, consulting, and technology sectors.*
