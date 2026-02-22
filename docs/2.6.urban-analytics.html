@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Python GIS at UoA - 2.4 Urban analytics indicators</title>
+<title>2.4 Urban analytics indicators – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -85,15 +86,16 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./3.0.chapter3-shiny_python.html" rel="next">
 <link href="./2.5.creating-functions.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -125,19 +127,19 @@ div.csl-indent {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2.0.chapter2-geospatial_python.html">2.4. Geospatial Python Programming</a></li><li class="breadcrumb-item"><a href="./2.6.urban-analytics.html">2.4 Urban analytics indicators</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2.0.chapter2-geospatial_python.html">Part 2. Geospatial Python Programming</a></li><li class="breadcrumb-item"><a href="./2.6.urban-analytics.html">2.4 Urban analytics indicators</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -175,7 +177,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./1.0.chapter1-setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 1: Setup</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -203,8 +205,8 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.4. Geospatial Python Programming</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+ <span class="menu-text">Part 2. Geospatial Python Programming</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -250,8 +252,8 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./3.0.chapter3-shiny_python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interactive Dashboards with Shiny for Python</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+ <span class="menu-text">Part 3. Interactive Dashboards with Shiny for Python</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -280,19 +282,13 @@ div.csl-indent {
  <span class="menu-text">3.4. Origin-Destination Analysis</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.5.networks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.5. Network Analysis for GIS</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./4.0.python-packaging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Python Package Development</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+ <span class="menu-text">Part 4. Python Package Development</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -327,7 +323,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./labs/labs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">labs.html</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -335,61 +331,61 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Lab Week 01</span></span></a>
+ <span class="menu-text">Lab Week 01</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Lab Week 02</span></span></a>
+ <span class="menu-text">Lab Week 02</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Lab Week 03</span></span></a>
+ <span class="menu-text">Lab Week 03</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Lab Week 04</span></span></a>
+ <span class="menu-text">Lab Week 04</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Lab Week 05</span></span></a>
+ <span class="menu-text">Lab Week 05</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Lab Week 06</span></span></a>
+ <span class="menu-text">Lab Week 6: Shiny Practice Exercises with Solutions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Lab Week 07</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Lab Week 7: Complete Dashboard and Package Examples</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Lab Week 08</span></span></a>
+ <span class="menu-text">Lab Week 08</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Lab Week 09</span></span></a>
+ <span class="menu-text">Lab Week 09</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Lab Week 10</span></span></a>
+ <span class="menu-text">Lab Week 10</span></a>
   </div>
 </li>
       </ul>
@@ -445,7 +441,7 @@ div.csl-indent {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2.0.chapter2-geospatial_python.html">2.4. Geospatial Python Programming</a></li><li class="breadcrumb-item"><a href="./2.6.urban-analytics.html">2.4 Urban analytics indicators</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2.0.chapter2-geospatial_python.html">Part 2. Geospatial Python Programming</a></li><li class="breadcrumb-item"><a href="./2.6.urban-analytics.html">2.4 Urban analytics indicators</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span id="sec-urban-analytics" class="quarto-section-identifier">2.4 Urban analytics indicators</span></h1>
 </div>
@@ -533,25 +529,25 @@ Important caveats
 </section>
 <section id="visualising-density" class="level3">
 <h3 class="anchored" data-anchor-id="visualising-density">Visualising density</h3>
-<div id="fig-density-map" class="cell quarto-figure quarto-figure-center quarto-float anchored" data-execution_count="3">
+<div id="fig-density-map" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="3">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-density-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="fig-density-map" data-execution_count="3"><pre class="sourceCode python cell code-with-copy"><code class="sourceCode python"><span id="fig-density-map-1"><a href="#fig-density-map-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
-<span id="fig-density-map-2"><a href="#fig-density-map-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-density-map-3"><a href="#fig-density-map-3" aria-hidden="true" tabindex="-1"></a>meshblocks.plot(column<span class="op">=</span><span class="st">'pop_density'</span>, </span>
-<span id="fig-density-map-4"><a href="#fig-density-map-4" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span>ax,</span>
-<span id="fig-density-map-5"><a href="#fig-density-map-5" aria-hidden="true" tabindex="-1"></a>                legend<span class="op">=</span><span class="va">True</span>,</span>
-<span id="fig-density-map-6"><a href="#fig-density-map-6" aria-hidden="true" tabindex="-1"></a>                scheme<span class="op">=</span><span class="st">'quantiles'</span>,  <span class="co"># Use quantiles for better distribution</span></span>
-<span id="fig-density-map-7"><a href="#fig-density-map-7" aria-hidden="true" tabindex="-1"></a>                k<span class="op">=</span><span class="dv">5</span>,  <span class="co"># 5 classes</span></span>
-<span id="fig-density-map-8"><a href="#fig-density-map-8" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'YlOrRd'</span>,</span>
-<span id="fig-density-map-9"><a href="#fig-density-map-9" aria-hidden="true" tabindex="-1"></a>                edgecolor<span class="op">=</span><span class="st">'grey'</span>,</span>
-<span id="fig-density-map-10"><a href="#fig-density-map-10" aria-hidden="true" tabindex="-1"></a>                linewidth<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="fig-density-map-11"><a href="#fig-density-map-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-density-map-12"><a href="#fig-density-map-12" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Population Density in Auckland (persons/km²)'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="fig-density-map-13"><a href="#fig-density-map-13" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="fig-density-map-14"><a href="#fig-density-map-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-density-map-15"><a href="#fig-density-map-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="fig-density-map-16"><a href="#fig-density-map-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>meshblocks.plot(column<span class="op">=</span><span class="st">'pop_density'</span>, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span>ax,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                legend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                scheme<span class="op">=</span><span class="st">'quantiles'</span>,  <span class="co"># Use quantiles for better distribution</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                k<span class="op">=</span><span class="dv">5</span>,  <span class="co"># 5 classes</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'YlOrRd'</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                edgecolor<span class="op">=</span><span class="st">'grey'</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                linewidth<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Population Density in Auckland (persons/km²)'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-density-map-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1
@@ -579,33 +575,33 @@ Interpretation tip
 <section id="finding-nearest-park-distance" class="level3">
 <h3 class="anchored" data-anchor-id="finding-nearest-park-distance">Finding nearest park distance</h3>
 <div id="nearest-park" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> cKDTree</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load parks data</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>parks <span class="op">=</span> gpd.read_file(<span class="st">"data/auckland_parks.gpkg"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure both datasets use the same CRS</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>meshblocks <span class="op">=</span> meshblocks.to_crs(epsg<span class="op">=</span><span class="dv">2193</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>parks <span class="op">=</span> parks.to_crs(epsg<span class="op">=</span><span class="dv">2193</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Get centroids of meshblocks</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>meshblock_points <span class="op">=</span> np.array(<span class="bu">list</span>(meshblocks.geometry.centroid.<span class="bu">apply</span>(<span class="kw">lambda</span> x: (x.x, x.y))))</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>park_points <span class="op">=</span> np.array(<span class="bu">list</span>(parks.geometry.centroid.<span class="bu">apply</span>(<span class="kw">lambda</span> x: (x.x, x.y))))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Build KD-tree for efficient nearest neighbour search</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> cKDTree(park_points)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Find nearest park for each meshblock</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>distances, indices <span class="op">=</span> tree.query(meshblock_points, k<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Add distance to dataframe (in metres)</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>meshblocks[<span class="st">'nearest_park_m'</span>] <span class="op">=</span> distances</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to kilometres for readability</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>meshblocks[<span class="st">'nearest_park_km'</span>] <span class="op">=</span> meshblocks[<span class="st">'nearest_park_m'</span>] <span class="op">/</span> <span class="dv">1000</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean distance to nearest park: </span><span class="sc">{</span>meshblocks[<span class="st">'nearest_park_km'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss"> km"</span>)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Median distance to nearest park: </span><span class="sc">{</span>meshblocks[<span class="st">'nearest_park_km'</span>]<span class="sc">.</span>median()<span class="sc">:.2f}</span><span class="ss"> km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial <span class="im">import</span> cKDTree</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load parks data</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>parks <span class="op">=</span> gpd.read_file(<span class="st">"data/auckland_parks.gpkg"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure both datasets use the same CRS</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>meshblocks <span class="op">=</span> meshblocks.to_crs(epsg<span class="op">=</span><span class="dv">2193</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>parks <span class="op">=</span> parks.to_crs(epsg<span class="op">=</span><span class="dv">2193</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Get centroids of meshblocks</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>meshblock_points <span class="op">=</span> np.array(<span class="bu">list</span>(meshblocks.geometry.centroid.<span class="bu">apply</span>(<span class="kw">lambda</span> x: (x.x, x.y))))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>park_points <span class="op">=</span> np.array(<span class="bu">list</span>(parks.geometry.centroid.<span class="bu">apply</span>(<span class="kw">lambda</span> x: (x.x, x.y))))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Build KD-tree for efficient nearest neighbour search</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>tree <span class="op">=</span> cKDTree(park_points)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Find nearest park for each meshblock</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>distances, indices <span class="op">=</span> tree.query(meshblock_points, k<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Add distance to dataframe (in metres)</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>meshblocks[<span class="st">'nearest_park_m'</span>] <span class="op">=</span> distances</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to kilometres for readability</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>meshblocks[<span class="st">'nearest_park_km'</span>] <span class="op">=</span> meshblocks[<span class="st">'nearest_park_m'</span>] <span class="op">/</span> <span class="dv">1000</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mean distance to nearest park: </span><span class="sc">{</span>meshblocks[<span class="st">'nearest_park_km'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss"> km"</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Median distance to nearest park: </span><span class="sc">{</span>meshblocks[<span class="st">'nearest_park_km'</span>]<span class="sc">.</span>median()<span class="sc">:.2f}</span><span class="ss"> km"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="caveats-and-limitations" class="level3">
@@ -636,35 +632,35 @@ Note
 <h2 class="anchored" data-anchor-id="aggregating-to-larger-zones">Aggregating to larger zones</h2>
 <p>Often we want to summarise indicators at larger geographical units – suburbs, wards, or custom analysis zones. Here’s how to aggregate meshblock data to suburbs:</p>
 <div id="aggregate-suburbs" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load suburbs boundaries</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>suburbs <span class="op">=</span> gpd.read_file(<span class="st">"data/auckland_suburbs.gpkg"</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial join: which meshblocks fall in which suburbs?</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>meshblocks_with_suburb <span class="op">=</span> gpd.sjoin(meshblocks, suburbs, how<span class="op">=</span><span class="st">'left'</span>, predicate<span class="op">=</span><span class="st">'within'</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate to suburb level</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>suburb_summary <span class="op">=</span> meshblocks_with_suburb.groupby(<span class="st">'suburb_name'</span>).agg({</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'population'</span>: <span class="st">'sum'</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'area_km2'</span>: <span class="st">'sum'</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'nearest_park_km'</span>: <span class="st">'mean'</span>,  <span class="co"># Mean distance across meshblocks</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Recalculate density at suburb level</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>suburb_summary[<span class="st">'pop_density'</span>] <span class="op">=</span> suburb_summary[<span class="st">'population'</span>] <span class="op">/</span> suburb_summary[<span class="st">'area_km2'</span>]</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(suburb_summary.sort_values(<span class="st">'pop_density'</span>, ascending<span class="op">=</span><span class="va">False</span>).head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load suburbs boundaries</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>suburbs <span class="op">=</span> gpd.read_file(<span class="st">"data/auckland_suburbs.gpkg"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial join: which meshblocks fall in which suburbs?</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>meshblocks_with_suburb <span class="op">=</span> gpd.sjoin(meshblocks, suburbs, how<span class="op">=</span><span class="st">'left'</span>, predicate<span class="op">=</span><span class="st">'within'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate to suburb level</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>suburb_summary <span class="op">=</span> meshblocks_with_suburb.groupby(<span class="st">'suburb_name'</span>).agg({</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'population'</span>: <span class="st">'sum'</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'area_km2'</span>: <span class="st">'sum'</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'nearest_park_km'</span>: <span class="st">'mean'</span>,  <span class="co"># Mean distance across meshblocks</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>}).reset_index()</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Recalculate density at suburb level</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>suburb_summary[<span class="st">'pop_density'</span>] <span class="op">=</span> suburb_summary[<span class="st">'population'</span>] <span class="op">/</span> suburb_summary[<span class="st">'area_km2'</span>]</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(suburb_summary.sort_values(<span class="st">'pop_density'</span>, ascending<span class="op">=</span><span class="va">False</span>).head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This aggregation lets you compare suburbs:</p>
 <div id="compare-suburbs" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare CBD suburbs vs suburban areas</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cbd_suburbs <span class="op">=</span> suburb_summary[suburb_summary[<span class="st">'suburb_name'</span>].isin([<span class="st">'Auckland Central'</span>, <span class="st">'Grafton'</span>, <span class="st">'Newmarket'</span>])]</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>suburban <span class="op">=</span> suburb_summary[suburb_summary[<span class="st">'suburb_name'</span>].isin([<span class="st">'Albany'</span>, <span class="st">'Howick'</span>, <span class="st">'Papakura'</span>])]</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">CBD areas:"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cbd_suburbs[[<span class="st">'suburb_name'</span>, <span class="st">'pop_density'</span>, <span class="st">'nearest_park_km'</span>]])</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Suburban areas:"</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(suburban[[<span class="st">'suburb_name'</span>, <span class="st">'pop_density'</span>, <span class="st">'nearest_park_km'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare CBD suburbs vs suburban areas</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>cbd_suburbs <span class="op">=</span> suburb_summary[suburb_summary[<span class="st">'suburb_name'</span>].isin([<span class="st">'Auckland Central'</span>, <span class="st">'Grafton'</span>, <span class="st">'Newmarket'</span>])]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>suburban <span class="op">=</span> suburb_summary[suburb_summary[<span class="st">'suburb_name'</span>].isin([<span class="st">'Albany'</span>, <span class="st">'Howick'</span>, <span class="st">'Papakura'</span>])]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">CBD areas:"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cbd_suburbs[[<span class="st">'suburb_name'</span>, <span class="st">'pop_density'</span>, <span class="st">'nearest_park_km'</span>]])</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Suburban areas:"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(suburban[[<span class="st">'suburb_name'</span>, <span class="st">'pop_density'</span>, <span class="st">'nearest_park_km'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="urban-morphology-using-momepy" class="level2">
@@ -673,53 +669,53 @@ Note
 <section id="installing-and-importing-momepy" class="level3">
 <h3 class="anchored" data-anchor-id="installing-and-importing-momepy">Installing and importing momepy</h3>
 <div id="import-momepy" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install if needed: pip install momepy</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> momepy</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install if needed: pip install momepy</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> momepy</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="street-network-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="street-network-analysis">Street network analysis</h3>
 <p>Let’s analyse Auckland’s street network to identify which streets are most important for pedestrian movement:</p>
 <div id="street-network" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load street network (you might use OSMnx to download this)</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download Auckland CBD street network</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>place_name <span class="op">=</span> <span class="st">"Auckland CBD, New Zealand"</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> ox.graph_from_place(place_name, network_type<span class="op">=</span><span class="st">'walk'</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to GeoDataFrame</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> ox.graph_to_gdfs(G, nodes<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> ox.graph_to_gdfs(G, nodes<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate basic network metrics</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>edges[<span class="st">'length'</span>] <span class="op">=</span> edges.geometry.length</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate betweenness centrality - which streets are on the most paths?</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># This can take a while for large networks</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>betweenness <span class="op">=</span> nx.betweenness_centrality(G, weight<span class="op">=</span><span class="st">'length'</span>, normalized<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add centrality to edges</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>nodes[<span class="st">'betweenness'</span>] <span class="op">=</span> nodes.index.<span class="bu">map</span>(betweenness)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load street network (you might use OSMnx to download this)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download Auckland CBD street network</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>place_name <span class="op">=</span> <span class="st">"Auckland CBD, New Zealand"</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> ox.graph_from_place(place_name, network_type<span class="op">=</span><span class="st">'walk'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to GeoDataFrame</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>edges <span class="op">=</span> ox.graph_to_gdfs(G, nodes<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>nodes <span class="op">=</span> ox.graph_to_gdfs(G, nodes<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate basic network metrics</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>edges[<span class="st">'length'</span>] <span class="op">=</span> edges.geometry.length</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate betweenness centrality - which streets are on the most paths?</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># This can take a while for large networks</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>betweenness <span class="op">=</span> nx.betweenness_centrality(G, weight<span class="op">=</span><span class="st">'length'</span>, normalized<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add centrality to edges</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>nodes[<span class="st">'betweenness'</span>] <span class="op">=</span> nodes.index.<span class="bu">map</span>(betweenness)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fig-betweenness" class="cell quarto-figure quarto-figure-center quarto-float anchored" data-execution_count="9">
+<div id="fig-betweenness" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="9">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-betweenness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="fig-betweenness" data-execution_count="9"><pre class="sourceCode python cell code-with-copy"><code class="sourceCode python"><span id="fig-betweenness-1"><a href="#fig-betweenness-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise</span></span>
-<span id="fig-betweenness-2"><a href="#fig-betweenness-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
-<span id="fig-betweenness-3"><a href="#fig-betweenness-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-betweenness-4"><a href="#fig-betweenness-4" aria-hidden="true" tabindex="-1"></a>edges.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'lightgrey'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="fig-betweenness-5"><a href="#fig-betweenness-5" aria-hidden="true" tabindex="-1"></a>nodes.plot(column<span class="op">=</span><span class="st">'betweenness'</span>, </span>
-<span id="fig-betweenness-6"><a href="#fig-betweenness-6" aria-hidden="true" tabindex="-1"></a>           ax<span class="op">=</span>ax, </span>
-<span id="fig-betweenness-7"><a href="#fig-betweenness-7" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'Reds'</span>, </span>
-<span id="fig-betweenness-8"><a href="#fig-betweenness-8" aria-hidden="true" tabindex="-1"></a>           markersize<span class="op">=</span><span class="dv">20</span>,</span>
-<span id="fig-betweenness-9"><a href="#fig-betweenness-9" aria-hidden="true" tabindex="-1"></a>           legend<span class="op">=</span><span class="va">True</span>)</span>
-<span id="fig-betweenness-10"><a href="#fig-betweenness-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-betweenness-11"><a href="#fig-betweenness-11" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Street Betweenness Centrality in Auckland CBD'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="fig-betweenness-12"><a href="#fig-betweenness-12" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="fig-betweenness-13"><a href="#fig-betweenness-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="fig-betweenness-14"><a href="#fig-betweenness-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>edges.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'lightgrey'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>nodes.plot(column<span class="op">=</span><span class="st">'betweenness'</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>           ax<span class="op">=</span>ax, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'Reds'</span>, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>           markersize<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>           legend<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Street Betweenness Centrality in Auckland CBD'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-betweenness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2
@@ -743,41 +739,41 @@ What does betweenness centrality tell us?
 <section id="calculating-reach-and-closeness" class="level3">
 <h3 class="anchored" data-anchor-id="calculating-reach-and-closeness">Calculating reach and closeness</h3>
 <div id="calculate-reach" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reach: How many other nodes can you reach within a given distance?</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This simulates walkable catchment areas</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_reach(G, distance<span class="op">=</span><span class="dv">800</span>):  <span class="co"># 800m = ~10 minute walk</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate how many destinations reachable within distance"""</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    reach <span class="op">=</span> {}</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> node <span class="kw">in</span> G.nodes():</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get all nodes within distance</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        reachable <span class="op">=</span> nx.single_source_dijkstra_path_length(</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            G, node, cutoff<span class="op">=</span>distance, weight<span class="op">=</span><span class="st">'length'</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        reach[node] <span class="op">=</span> <span class="bu">len</span>(reachable)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reach</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate 800m reach (roughly 10-minute walk)</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>nodes[<span class="st">'reach_800m'</span>] <span class="op">=</span> nodes.index.<span class="bu">map</span>(calculate_reach(G, distance<span class="op">=</span><span class="dv">800</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reach: How many other nodes can you reach within a given distance?</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This simulates walkable catchment areas</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_reach(G, distance<span class="op">=</span><span class="dv">800</span>):  <span class="co"># 800m = ~10 minute walk</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate how many destinations reachable within distance"""</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    reach <span class="op">=</span> {}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> node <span class="kw">in</span> G.nodes():</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get all nodes within distance</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        reachable <span class="op">=</span> nx.single_source_dijkstra_path_length(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            G, node, cutoff<span class="op">=</span>distance, weight<span class="op">=</span><span class="st">'length'</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        reach[node] <span class="op">=</span> <span class="bu">len</span>(reachable)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> reach</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate 800m reach (roughly 10-minute walk)</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>nodes[<span class="st">'reach_800m'</span>] <span class="op">=</span> nodes.index.<span class="bu">map</span>(calculate_reach(G, distance<span class="op">=</span><span class="dv">800</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fig-reach" class="cell quarto-figure quarto-figure-center quarto-float anchored" data-execution_count="11">
+<div id="fig-reach" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="11">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="fig-reach" data-execution_count="11"><pre class="sourceCode python cell code-with-copy"><code class="sourceCode python"><span id="fig-reach-1"><a href="#fig-reach-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise</span></span>
-<span id="fig-reach-2"><a href="#fig-reach-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
-<span id="fig-reach-3"><a href="#fig-reach-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-reach-4"><a href="#fig-reach-4" aria-hidden="true" tabindex="-1"></a>edges.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'lightgrey'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="fig-reach-5"><a href="#fig-reach-5" aria-hidden="true" tabindex="-1"></a>nodes.plot(column<span class="op">=</span><span class="st">'reach_800m'</span>, </span>
-<span id="fig-reach-6"><a href="#fig-reach-6" aria-hidden="true" tabindex="-1"></a>           ax<span class="op">=</span>ax, </span>
-<span id="fig-reach-7"><a href="#fig-reach-7" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'viridis'</span>, </span>
-<span id="fig-reach-8"><a href="#fig-reach-8" aria-hidden="true" tabindex="-1"></a>           markersize<span class="op">=</span><span class="dv">20</span>,</span>
-<span id="fig-reach-9"><a href="#fig-reach-9" aria-hidden="true" tabindex="-1"></a>           legend<span class="op">=</span><span class="va">True</span>,</span>
-<span id="fig-reach-10"><a href="#fig-reach-10" aria-hidden="true" tabindex="-1"></a>           legend_kwds<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Number of reachable nodes (800m)'</span>})</span>
-<span id="fig-reach-11"><a href="#fig-reach-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-reach-12"><a href="#fig-reach-12" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Walkable Reach in Auckland CBD'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="fig-reach-13"><a href="#fig-reach-13" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="fig-reach-14"><a href="#fig-reach-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="fig-reach-15"><a href="#fig-reach-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">12</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>edges.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'lightgrey'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>nodes.plot(column<span class="op">=</span><span class="st">'reach_800m'</span>, </span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>           ax<span class="op">=</span>ax, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>           cmap<span class="op">=</span><span class="st">'viridis'</span>, </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>           markersize<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>           legend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>           legend_kwds<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">'Number of reachable nodes (800m)'</span>})</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Walkable Reach in Auckland CBD'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-reach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3
@@ -790,24 +786,24 @@ Figure&nbsp;3
 <h3 class="anchored" data-anchor-id="building-footprint-analysis-optional">Building footprint analysis (optional)</h3>
 <p>If you have building footprint data, <code>momepy</code> can calculate building-level metrics:</p>
 <div id="building-analysis" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load buildings</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>buildings <span class="op">=</span> gpd.read_file(<span class="st">"data/auckland_buildings.gpkg"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate building area</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>buildings[<span class="st">'area'</span>] <span class="op">=</span> buildings.geometry.area</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate perimeter</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>buildings[<span class="st">'perimeter'</span>] <span class="op">=</span> buildings.geometry.length</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate form factor (compactness)</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># More compact = closer to circular</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>buildings[<span class="st">'form_factor'</span>] <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">*</span> buildings[<span class="st">'area'</span>]) <span class="op">/</span> (buildings[<span class="st">'perimeter'</span>] <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate orientation</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>buildings[<span class="st">'orientation'</span>] <span class="op">=</span> momepy.Orientation(buildings).series</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Buildings elongated north-south vs east-west can affect microclimates</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># and walking comfort</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load buildings</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>buildings <span class="op">=</span> gpd.read_file(<span class="st">"data/auckland_buildings.gpkg"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate building area</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>buildings[<span class="st">'area'</span>] <span class="op">=</span> buildings.geometry.area</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate perimeter</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>buildings[<span class="st">'perimeter'</span>] <span class="op">=</span> buildings.geometry.length</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate form factor (compactness)</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># More compact = closer to circular</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>buildings[<span class="st">'form_factor'</span>] <span class="op">=</span> (<span class="dv">4</span> <span class="op">*</span> np.pi <span class="op">*</span> buildings[<span class="st">'area'</span>]) <span class="op">/</span> (buildings[<span class="st">'perimeter'</span>] <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate orientation</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>buildings[<span class="st">'orientation'</span>] <span class="op">=</span> momepy.Orientation(buildings).series</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Buildings elongated north-south vs east-west can affect microclimates</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># and walking comfort</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -823,51 +819,51 @@ Figure&nbsp;3
 <section id="example-analysis-workflow" class="level3">
 <h3 class="anchored" data-anchor-id="example-analysis-workflow">Example analysis workflow</h3>
 <div id="footfall-analysis" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load your pedestrian count data</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>footfall <span class="op">=</span> pd.read_csv(<span class="st">"data/pedestrian_counts_2023.csv"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Join with street network centrality data</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>footfall_with_centrality <span class="op">=</span> footfall.merge(</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    nodes[[<span class="st">'betweenness'</span>, <span class="st">'reach_800m'</span>]], </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    left_on<span class="op">=</span><span class="st">'sensor_location'</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    right_index<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">'left'</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load your pedestrian count data</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>footfall <span class="op">=</span> pd.read_csv(<span class="st">"data/pedestrian_counts_2023.csv"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Join with street network centrality data</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>footfall_with_centrality <span class="op">=</span> footfall.merge(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    nodes[[<span class="st">'betweenness'</span>, <span class="st">'reach_800m'</span>]], </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    left_on<span class="op">=</span><span class="st">'sensor_location'</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    right_index<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">'left'</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fig-centrality-footfall" class="cell quarto-figure quarto-figure-center quarto-float anchored" data-fig-width="14" data-execution_count="14" data-fig-height="5">
+<div id="fig-centrality-footfall" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-fig-width="14" data-execution_count="14" data-fig-height="5">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-centrality-footfall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="sourceCode cell-code" id="fig-centrality-footfall" data-fig-width="14" data-execution_count="14" data-fig-height="5"><pre class="sourceCode python cell code-with-copy"><code class="sourceCode python"><span id="fig-centrality-footfall-1"><a href="#fig-centrality-footfall-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyse relationship</span></span>
-<span id="fig-centrality-footfall-2"><a href="#fig-centrality-footfall-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="fig-centrality-footfall-3"><a href="#fig-centrality-footfall-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-centrality-footfall-4"><a href="#fig-centrality-footfall-4" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
-<span id="fig-centrality-footfall-5"><a href="#fig-centrality-footfall-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-centrality-footfall-6"><a href="#fig-centrality-footfall-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 1: Centrality vs footfall</span></span>
-<span id="fig-centrality-footfall-7"><a href="#fig-centrality-footfall-7" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>footfall_with_centrality, </span>
-<span id="fig-centrality-footfall-8"><a href="#fig-centrality-footfall-8" aria-hidden="true" tabindex="-1"></a>                x<span class="op">=</span><span class="st">'betweenness'</span>, </span>
-<span id="fig-centrality-footfall-9"><a href="#fig-centrality-footfall-9" aria-hidden="true" tabindex="-1"></a>                y<span class="op">=</span><span class="st">'daily_count'</span>,</span>
-<span id="fig-centrality-footfall-10"><a href="#fig-centrality-footfall-10" aria-hidden="true" tabindex="-1"></a>                alpha<span class="op">=</span><span class="fl">0.6</span>,</span>
-<span id="fig-centrality-footfall-11"><a href="#fig-centrality-footfall-11" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
-<span id="fig-centrality-footfall-12"><a href="#fig-centrality-footfall-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Betweenness Centrality'</span>)</span>
-<span id="fig-centrality-footfall-13"><a href="#fig-centrality-footfall-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Daily Pedestrian Count'</span>)</span>
-<span id="fig-centrality-footfall-14"><a href="#fig-centrality-footfall-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Network Centrality vs Footfall'</span>)</span>
-<span id="fig-centrality-footfall-15"><a href="#fig-centrality-footfall-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-centrality-footfall-16"><a href="#fig-centrality-footfall-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 2: Reach vs footfall</span></span>
-<span id="fig-centrality-footfall-17"><a href="#fig-centrality-footfall-17" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>footfall_with_centrality, </span>
-<span id="fig-centrality-footfall-18"><a href="#fig-centrality-footfall-18" aria-hidden="true" tabindex="-1"></a>                x<span class="op">=</span><span class="st">'reach_800m'</span>, </span>
-<span id="fig-centrality-footfall-19"><a href="#fig-centrality-footfall-19" aria-hidden="true" tabindex="-1"></a>                y<span class="op">=</span><span class="st">'daily_count'</span>,</span>
-<span id="fig-centrality-footfall-20"><a href="#fig-centrality-footfall-20" aria-hidden="true" tabindex="-1"></a>                alpha<span class="op">=</span><span class="fl">0.6</span>,</span>
-<span id="fig-centrality-footfall-21"><a href="#fig-centrality-footfall-21" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
-<span id="fig-centrality-footfall-22"><a href="#fig-centrality-footfall-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Walkable Reach (800m)'</span>)</span>
-<span id="fig-centrality-footfall-23"><a href="#fig-centrality-footfall-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Daily Pedestrian Count'</span>)</span>
-<span id="fig-centrality-footfall-24"><a href="#fig-centrality-footfall-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Walkable Accessibility vs Footfall'</span>)</span>
-<span id="fig-centrality-footfall-25"><a href="#fig-centrality-footfall-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-centrality-footfall-26"><a href="#fig-centrality-footfall-26" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="fig-centrality-footfall-27"><a href="#fig-centrality-footfall-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="fig-centrality-footfall-28"><a href="#fig-centrality-footfall-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="fig-centrality-footfall-29"><a href="#fig-centrality-footfall-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate correlation</span></span>
-<span id="fig-centrality-footfall-30"><a href="#fig-centrality-footfall-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Correlation with betweenness: </span><span class="sc">{</span>footfall_with_centrality[[<span class="st">'betweenness'</span>, <span class="st">'daily_count'</span>]]<span class="sc">.</span>corr()<span class="sc">.</span>iloc[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="fig-centrality-footfall-31"><a href="#fig-centrality-footfall-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Correlation with reach: </span><span class="sc">{</span>footfall_with_centrality[[<span class="st">'reach_800m'</span>, <span class="st">'daily_count'</span>]]<span class="sc">.</span>corr()<span class="sc">.</span>iloc[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyse relationship</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 1: Centrality vs footfall</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>footfall_with_centrality, </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                x<span class="op">=</span><span class="st">'betweenness'</span>, </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                y<span class="op">=</span><span class="st">'daily_count'</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>                alpha<span class="op">=</span><span class="fl">0.6</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Betweenness Centrality'</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="st">'Daily Pedestrian Count'</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">'Network Centrality vs Footfall'</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 2: Reach vs footfall</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>footfall_with_centrality, </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>                x<span class="op">=</span><span class="st">'reach_800m'</span>, </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>                y<span class="op">=</span><span class="st">'daily_count'</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>                alpha<span class="op">=</span><span class="fl">0.6</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>                ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Walkable Reach (800m)'</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="st">'Daily Pedestrian Count'</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">'Walkable Accessibility vs Footfall'</span>)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate correlation</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Correlation with betweenness: </span><span class="sc">{</span>footfall_with_centrality[[<span class="st">'betweenness'</span>, <span class="st">'daily_count'</span>]]<span class="sc">.</span>corr()<span class="sc">.</span>iloc[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Correlation with reach: </span><span class="sc">{</span>footfall_with_centrality[[<span class="st">'reach_800m'</span>, <span class="st">'daily_count'</span>]]<span class="sc">.</span>corr()<span class="sc">.</span>iloc[<span class="dv">0</span>,<span class="dv">1</span>]<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-centrality-footfall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4
@@ -947,228 +943,242 @@ For your assignment
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1176,185 +1186,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./2.5.creating-functions.html" class="pagination-link" aria-label="2.5. Creating Functions">
@@ -1362,8 +1348,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./3.0.chapter3-shiny_python.html" class="pagination-link" aria-label="Interactive Dashboards with Shiny for Python">
-        <span class="nav-page-text">Interactive Dashboards with Shiny for Python</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./3.0.chapter3-shiny_python.html" class="pagination-link" aria-label="Part 3. Interactive Dashboards with Shiny for Python">
+        <span class="nav-page-text">Part 3. Interactive Dashboards with Shiny for Python</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
