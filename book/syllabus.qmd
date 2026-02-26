@@ -1,10 +1,12 @@
 # Syllabus (Semester 1, 2026) {.unnumbered}
 
-## Interactive Dashboards and Research Software Development
+## GISCI 343: Geo-Spatial Data Science
 
-**University of Auckland, 2026**  
-**Instructor**: Dr Hyesop Shin  
-**Semester 1**: 12 weeks (2 March - 2 June 2026)
+* **University of Auckland, 2026**  
+* **Instructor**: Dr Hyesop Shin  
+* **Semester 1**: 12 weeks (2 March - 2 June 2026)
+* Book: https://dataandcrowd.github.io/python-gis/
+
 
 ---
 
@@ -19,7 +21,7 @@ This course provides comprehensive training in Python for urban analytics, progr
 - Lab: 2 hours per week (Tuesday 13:00-15:00)
 
 **Prerequisites**:
-- Nothing in principle
+- Nothing in principle (but previous exposure helps)
 - Recommended: basic programming experience (any language)
 - Familiarity with GIS concepts
 - Statistical thinking
@@ -30,7 +32,7 @@ This course provides comprehensive training in Python for urban analytics, progr
 
 By the end of this course, students will be able to:
 
-1. Manipulate and analyse geospatial data using Python (GeoPandas, rasterio, OSMnx)
+1. Manipulate and analyse geospatial data using Python (GeoPandas, OSMnx, momepy)
 2. Apply spatial analysis techniques to urban analytics problems
 3. Design and build interactive web dashboards using Shiny for Python
 4. Structure, document, and test Python packages following best practices
@@ -55,11 +57,11 @@ By the end of this course, students will be able to:
 - Core geospatial: geopandas, shapely, pyproj, rasterio, contextily
 - Network analysis: osmnx, networkx, momepy
 - Dashboard: shiny, shinylive, ipyleaflet, plotly, shinyswatch
-- Development: pytest, pytest-cov, ruff, mypy, black
-- Documentation: mkdocs, mkdocs-material, mkdocstrings
+<!-- - Development: pytest, pytest-cov, ruff, mypy, black
+- Documentation: mkdocs, mkdocs-material, mkdocstrings -->
 
 ### Platforms
-- GitHub for version control
+- GitHub for version control (essential across assignments)
 - Substack account for blogging (Assignment 1)
 - shinylive account for dashboard hosting (Assignment 2)
 
@@ -70,17 +72,17 @@ By the end of this course, students will be able to:
 | Assessment | Weight | Due date |
 |------------|--------|----------|
 | Weekly quizzes | 15% | Weeks 2-10 (not wk8)|
-| Assignment 1: Data Blog Post | 15% | 3 April (Friday, Week 5) |
-| Canvas Mid-term Test | 15% | 27-29 March (Week 4) |
-| Assignment 2: Shiny Dashboard | 15% | 8 May (Friday, Week 8) |
-| Poster Showcase | 10% | 5 June (Week 12, B301 Ground floor) |
-| Assignment 3: PyPI Package | 30% | 5 June (Friday, Week 12) |
+| Assignment 1: Data Blog Post | 15% | 5 April (Week 5) |
+| Canvas Mid-sem Test | 15% | 27-29 March (Week 4) |
+| Assignment 2: Shiny Dashboard | 15% | 10 May (Week 8) |
+| Poster Showcase | 10% | 26th May (Week 11, B301 Ground floor) |
+| Assignment 3: PyPI Package | 30% | 7 June (Week 12) |
 
 **Total**: 100%
 
-**Note on Assignment 2**: Due date adjusted to 8 May (instead of 1 May) to account for ANZAC Day week having no lecture. Students receive Week 7 (ANZAC week) as dedicated lab time for dashboard development.
+**Note on Assignment 2**: Due date adjusted to 10 May to account for ANZAC Day week having no lecture. Students receive Week 7 (ANZAC week) as dedicated lab time for dashboard development.
 
-**Note on Poster Showcase**: Students will present an A1 poster describing their PyPI package at a designated showcase event (venue and time to be announced).
+**Note on Poster Showcase**: Students will present an A1 poster describing their packages at a designated showcase event (B301-G10).
 
 ---
 
@@ -88,7 +90,7 @@ By the end of this course, students will be able to:
 
 ### Part 1: Introduction to geospatial analysis in Python
 
-#### Week 1: Course introduction and Python setup (2 March)
+#### Week 1: Course introduction and Python setup (2-3rd March)
 
 **Lecture topics**
 
@@ -97,6 +99,7 @@ By the end of this course, students will be able to:
 - Python fundamentals review: modules, packages, environments
 - Introduction to Quarto for literate programming
 - Modern package management with uv (in lab session)
+- Basic Python that you need to know
 
 **Lab activities**
 
@@ -115,33 +118,34 @@ By the end of this course, students will be able to:
 
 ---
 
-#### Week 2: Fundamentals of geospatial Python (9 March)
+#### Week 2: Fundamentals of Python (9 March)
 
 **Lecture topics**
 
 *Python skills*
 
-- Importing geospatial datasets (GeoJSON, Shapefiles, GeoPackage)
+- Module imports: `import`, `from...import`, `import...as`
 - Data structures: long vs wide formatting
 - Data manipulation fundamentals: filtering, selecting, sorting
 - Pandas operations: groupby, merge, join
-- Calculating basic distance measures (Euclidean, haversine)
-- Point-in-polygon operations and spatial joins
+- Data visualisation
+- Dealing with possible errors
+- Importing geospatial datasets (GeoJSON, Shapefiles, GeoPackage)
 - Vector and raster data visualisation with GeoPandas and matplotlib
-- Module imports: `import`, `from...import`, `import...as`
-- ESDA basics
+- Calculating basic distance measures (Euclidean, haversine)
 
 *Urban analytics*
 
 - Data quality issues in real-world urban data
 - Identifying outliers and missing data in urban datasets
-- Statistical imputation methods: mean, median, interpolation
+- Statistical imputation methods
 - Working with census geographies (SA2 level in NZ)
 
 **Lab activities**
 
-- Install and configure Git for version control
-- Long/wide formatting with urban datasets
+- Disclosing Assignment 1
+- Install and configure **Git** for version control
+- Long/wide formatting with pedestrian footfall datasets (Heart of City)
 - Data manipulation exercises: filtering, groupby, merge operations
 - Work with messy pedestrian count data (intro to Assignment 1 dataset)
 - Imputation practice: mean/median/forward fill
@@ -159,6 +163,7 @@ By the end of this course, students will be able to:
 
 *Python skills*
 
+- Vector and raster data visualisation with GeoPandas and matplotlib
 - Choropleths and classification (Jenks, quantiles, equal interval)
 - Interactive web mapping with folium
 - Spatial aggregation: counting points within polygons (SA2)
@@ -193,13 +198,14 @@ By the end of this course, students will be able to:
 **Guest lecture: Shriv (Monday 23 March, 13:00-14:00)**
 - Urban morphology using momepy: concepts and applications
 - Case studies of morphology and walkability analysis
-
-**Lecture topics (Tuesday 24 March)**
-
 - Connecting morphology to pedestrian behaviour
 - Walkability frameworks with OSMnx
+
+
+**Test guide**
+
 - Test preparation guidance
-- Preview: decorators and advanced functions (Week 5)
+
 
 **Lab**
 - Assignment 1 work session and test preparation
@@ -227,7 +233,7 @@ By the end of this course, students will be able to:
 - Quarto structure and formatting
 - Final Assignment 1 work session
 
-**Assignment 1 due**: 3 April (Friday)
+**Assignment 1 due**: 5 April Sunday 23:59
 
 ---
 
@@ -244,13 +250,15 @@ No classes. Classes resume Monday 20 April (Week 6).
 **Lecture topics**
 
 - WebGIS fundamentals, Wasm overview
-- Shiny for Python architecture (UI/server)
+- Shiny for Python 
 - Interactive maps with ipyleaflet
+- Building your architecture: Ideation is key!
 
 **Guest lecture: Alex Raichev (14:15-15:00)**
 
 **Lab activities**
 
+- Announcement of Assignment 2
 - Build a first Shiny app locally
 - Reactive outputs (maps, plots, tables)
 - Controls (sliders, dropdowns)
@@ -262,9 +270,13 @@ No classes. Classes resume Monday 20 April (Week 6).
 #### Week 7: Dashboard work session (ANZAC week) (27 April)
 
 **ANZAC Day**: Monday 27 April 2026  
+
+- Watch Video of urban mobility OD flows.
+
 **No lecture**. Labs run as normal.
 
 **Lab activities**
+
 - Intensive dashboard development
 - One-on-one consultations, peer code review
 - OSM data workshop and network analysis support
@@ -275,89 +287,103 @@ No classes. Classes resume Monday 20 April (Week 6).
 #### Week 8: Advanced dashboards, networks, and temporal analysis (4 May)
 
 **Lecture topics**
+
 - Multi-page apps (`ui.nav_panel()`)
 - shinylive deployment workflow
-- OSMnx routing and OD flows
 - Temporal controls and animation patterns
 - Dashboard UX principles and performance
 
 **Lab activities**
+
 - Final refinement, performance testing
 - Deployment troubleshooting
 - Submission preparation
 
-**Assignment 2 due**: 8 May (Friday)
+**Assignment 2 due**: 10th May Sunday 23:59
 
 ---
 
 ### Part 3: Publishing your first Python package
 
-#### Week 9: Cities as networks and micromobility analysis (11 May)
+#### Week 9: Built environment and pedestrian policy (11 May)
 
 **Lecture topics**
-- Micromobility and OD flows
-- Package structure and `pyproject.toml` (PEP 621)
-- Modular design, `src` layout
+
+- The built environment and walking: land-use mix, density, street design, and pedestrian infrastructure
+- Policy levers for pedestrian mobility: low-traffic neighbourhoods, shared spaces, speed management, pedestrianisation
+- International case studies: Superblocks (Barcelona), School Streets, 15-minute city (Paris)
+- Package structure and `pyproject.toml`, modular design, `src` layout
+
 
 **Lab activities**
-- Network analysis with micromobility data
+
+- Scoping your package: what policy-relevant pedestrian analysis could your tool support?
 - `uv init`, package scaffolding, module organisation
+- Pair work on design architecture
 
 ---
 
-#### Week 10: Testing geospatial code and documentation (18 May)
+#### Week 10: Pedestrian equity, safety, and testing geospatial code (18 May)
 
 **Lecture topics**
-- pytest for spatial functions, fixtures, edge cases
-- Docstrings, type hints, ruff/black/mypy
-- MkDocs documentation workflows
+
+- Equity in pedestrian infrastructure provision: who benefits, who is underserved?
+- Pedestrian safety: collisions, exposure to air/noise pollution 
+- Accessibility for diverse populations: older adults, children, disabled walkers
+- Writing and structuring tests for spatial functions
 
 **Lab activities**
+
 - Write tests for geofencing, distances, OD aggregation
 - Build docs and tutorials
+- Final docs, demo notebook, poster finalisation
+- Poster finalisation
 
 ---
 
 #### Week 11: CI/CD and pre-publication (25 May)
 
 **Lecture topics**
+
+- Walkability policy and practice
 - GitHub Actions, pre-commit, semantic versioning
 - Build and publish to TestPyPI with uv
 - Licensing and release workflow
 - Poster design basics
 
-**Lab activities**
-- CI setup, `uv build`, TestPyPI publish and install testing
-- Poster drafting
+**Poster showcase**: 26th May (B301-G10)
+
 
 ---
 
 #### Week 12: Final publication and poster showcase prep (1 June)
 
 **King's Birthday**: Monday 1 June 2026  
-**No lecture**. Labs run as normal.
 
-**Lab activities**
+**No lecture**. 
+
+**Lab activities**.
+
+- Q&A
+- CI setup, `uv build`, TestPyPI publish and install testing
 - Publish to PyPI (if not already)
-- Final docs, demo notebook, poster finalisation
-- Practise 2-minute pitch
 
-**Assignment 3 due**: 5 June (Friday)  
-**Poster showcase**: 5 June (venue TBA)
+
+**Assignment 3 due**: 7 June Sunday 23:59  
 
 ---
 
 ## Course Policies
 
 ### Open Science and Reproducibility
-All code must be version controlled using Git from Week 1. Students are required to make their packages open source under an appropriate licence (MIT, BSD, or Apache 2.0 recommended). Dashboards and blog posts should be publicly accessible unless they contain sensitive data.
+All code must be version controlled using Git from Week 1. Students are required to make their packages open source under an appropriate licence (MIT recommended). Dashboards and blog posts should be publicly accessible ~~unless they contain sensitive data~~.
 
 ### Code Quality Standards
 Code submitted for Assignments 2 and 3 must:
 - Pass automated linting (ruff/black)
 - Include type hints for public functions (Assignment 3)
 - Have comprehensive docstrings
-- Follow PEP 8 style guidelines
+- Follow PEP 8 style guidelines (https://peps.python.org/pep-0008/)
 - Be properly documented
 
 ### Academic Integrity
@@ -391,7 +417,7 @@ Dashboards must consider accessibility:
 - Responsive design
 
 ### Late Submissions
-- Late submissions incur 5% penalty per day (including weekends)
+- Late submissions incur 10% penalty per day (including weekends)
 - Extensions available for documented circumstances (apply in advance)
 - Technical issues: contact instructor immediately, not after deadline
 
@@ -406,9 +432,9 @@ AI tools are permitted for:
 However:
 
 - You must understand all code you submit
-- Document AI tool usage in development notes
+- Your writing must be your own (if you have used AI in your work, do mention that)
 - Creative design and analytical approach must be your own
-- Over-reliance on AI without understanding is apparent and penalized
+- Over-reliance on AI without understanding is apparent and penalised
 
 ---
 
@@ -416,15 +442,15 @@ However:
 
 Students should expect to spend approximately 10-12 hours per week:
 
-- Lecture: 1.75 hours
+- Lecture: 2 hours
 - Lab: 2 hours
 - Independent work: 6-8 hours (readings, assignments, practise)
 
 **Peak workload weeks**:
 
 - Week 5: Assignment 1 completion (12-15 hours)
-- Week 8: Assignment 2 completion (12-15 hours)
-- Week 11-12: Assignment 3 completion (15-18 hours)
+- Week 8: Assignment 2 completion (15-20 hours)
+- Week 11-12: Assignment 3 completion (20+ hours)
 
 ---
 
@@ -474,12 +500,13 @@ Students should expect to spend approximately 10-12 hours per week:
 
 1. **Canvas Discussion Forum**: General questions, peer support (response: 24-48 hours)
 2. **Lab Sessions**: Hands-on help from tutors and instructor
-3. **Office Hours**: Dr Shin - Fridays 2-4pm (by appointment)
-4. **Email**: h.shin@auckland.ac.nz (allow 48 hours for response)
+3. **Office Hours for Hyesop**: Mondays 3-4pm (by appointment)
+4. **Email**: hyesop.shin@auckland.ac.nz (allow 48 hours for response)
 
 **For Technical Issues**:
+
 - ITS Service Desk: Software installation problems
-- Course tutors: Python/GIS questions
+- Course tutors: Python/GIS questions, project opinions
 - Instructor: Project-specific guidance, conceptual questions
 
 ### Common Issues
@@ -530,12 +557,12 @@ Before Week 1, ensure you can:
 **Instructor**: Dr Hyesop Shin  
 **Email**: hyesop.shin@auckland.ac.nz  
 **Office**: Room 301-529B, Building 301  
-**Office Hours**: Mondays 3-5pm (book via email)
+**Office Hours**: Mondays 3-4pm (book via email)
 
 **Course Materials**:
 - **Canvas**: Main course hub for announcements, assignments, and resources
-- **GitHub Organisation**: [Course repository link - to be provided Week 1]
-- **Discussion Forum**: Canvas discussion board
+- **Webbook**: https://dataandcrowd.github.io/python-gis/
+- **Discussion Forum**: Ed Disucssion board
 
 **Getting Help**:
 - **During Lab Sessions**: Ask tutors and instructor for immediate help
@@ -550,7 +577,6 @@ Before Week 1, ensure you can:
 **Important Dates:**
 - **Easter/Mid-Semester Break**: 3 April - 17 April 2026 (two weeks, no classes)
 - **ANZAC Day**: Monday 27 April 2026 (no lecture)
-- **Graduation Week**: 4-7 May 2026 (lectures continue as normal)
 - **King's Birthday**: Monday 1 June 2026
 
 | Week | Dates | Topic | Assessment |
@@ -563,15 +589,15 @@ Before Week 1, ensure you can:
 | - | **3-17 Apr** | **EASTER/MID-SEMESTER BREAK** | - |
 | 6 | 20 Apr | WebGIS and Shiny intro (+ Guest) | - |
 | 7 | 27 Apr | **NO LECTURE (ANZAC Day) - Labs only** | - |
-| 8 | 4 May | Advanced dashboards and networks | **A2 Due (8 May)** |
-| 9 | 11 May | Micromobility and package structure | - |
-| 10 | 18 May | Testing and documentation | **Poster Due** |
-| 11 | 25 May | Showcase | - |
+| 8 | 4 May | Advanced dashboards and networks | **A2 Due (10 May)** |
+| 9 | 11 May | Package structure \ built environment | **Pair work on design architecture** |
+| 10 | 18 May | Adding functions, data, and documentation \ Pedestrian safety |  |
+| 11 | 25 May | Walkability and Policy \ Poster showcase | - |
 | 12 | 1 June | **NO LECTURE (King's Birthday) - Labs only** | **Package submission due** |
 
 **Note on Assignment 2**: Due date moved to 8 May (Thursday of Week 8) to account for ANZAC Day week having no lecture. Students get Week 7 labs to work on dashboards.
 
-**Note on Assignment 3 & Poster**: Both due 5 June (Thursday of Week 12). Poster showcase event at separate venue (details to be announced).
+**Note on Assignment 3 & Poster**: Both due 7 June. Poster showcase event at separate venue (details to be announced).
 
 ---
 
@@ -583,7 +609,7 @@ The integration of modern tools (uv, Positron, shinylive) represents the evolvin
 
 ---
 
-**Last Updated**: Feb 2026  
-**Version**: 2.0
+**Last Updated**: March 2026  
+**Version**: 3.0
 
 *This course emphasises practical skills for urban analytics research, planning, and policy support. The combination of spatial analysis, interactive visualisation, and software development prepares students for careers in academia, government, consulting, and technology sectors.*
