@@ -46,10 +46,14 @@ book:
     - part: labs/labs.qmd
       chapters: 
         - labs/lab-week01.qmd
-        - labs/lab-week02.qmd
-        - labs/lab-week03.qmd
-        - labs/lab-week04.qmd
-        - labs/lab-week05.qmd
+        #- labs/lab-week02.qmd
+        #- labs/lab-week03.qmd
+        #- labs/lab-week04.qmd
+        #- labs/lab-week05.qmd
+        #- labs/lab-week02.qmd
+        #- labs/lab-week03.qmd
+        #- labs/lab-week04.qmd
+        #- labs/lab-week05.qmd
         #- labs/lab-week06.qmd
         #- labs/lab-week07.qmd
         #- labs/lab-week08.qmd
