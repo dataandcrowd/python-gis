@@ -274,9 +274,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#story-problem" id="toc-story-problem" class="nav-link active" data-scroll-target="#story-problem">Story problem</a></li>
   <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn">What you will learn</a></li>
   <li><a href="#prerequisites-checklist" id="toc-prerequisites-checklist" class="nav-link" data-scroll-target="#prerequisites-checklist">Prerequisites checklist</a></li>
-  <li><a href="#step-1-install-python-3.12" id="toc-step-1-install-python-3.12" class="nav-link" data-scroll-target="#step-1-install-python-3.12">Step 1: Install Python 3.12</a>
+  <li><a href="#step-1-install-python-3.1x" id="toc-step-1-install-python-3.1x" class="nav-link" data-scroll-target="#step-1-install-python-3.1x">Step 1: Install Python 3.1X</a>
   <ul class="collapse">
-  <li><a href="#why-python-3.12-hs-subjective-opinion" id="toc-why-python-3.12-hs-subjective-opinion" class="nav-link" data-scroll-target="#why-python-3.12-hs-subjective-opinion">Why Python 3.12? (H’s subjective opinion)</a></li>
+  <li><a href="#why-you-should-use-the-latest-python-version" id="toc-why-you-should-use-the-latest-python-version" class="nav-link" data-scroll-target="#why-you-should-use-the-latest-python-version">Why You Should Use the Latest Python Version?</a></li>
   <li><a href="#installation-macos" id="toc-installation-macos" class="nav-link" data-scroll-target="#installation-macos">Installation: macOS</a></li>
   <li><a href="#installation-windows" id="toc-installation-windows" class="nav-link" data-scroll-target="#installation-windows">Installation: Windows</a></li>
   <li><a href="#verify-python-installation" id="toc-verify-python-installation" class="nav-link" data-scroll-target="#verify-python-installation">Verify Python installation</a></li>
@@ -286,15 +286,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#option-1-positron-recommended-for-data-science" id="toc-option-1-positron-recommended-for-data-science" class="nav-link" data-scroll-target="#option-1-positron-recommended-for-data-science">Option 1: Positron (recommended for data science)</a></li>
   <li><a href="#option-2-vs-code-industry-standard" id="toc-option-2-vs-code-industry-standard" class="nav-link" data-scroll-target="#option-2-vs-code-industry-standard">Option 2: VS Code (industry standard)</a></li>
   </ul></li>
-  <li><a href="#step-2a-text-editor" id="toc-step-2a-text-editor" class="nav-link" data-scroll-target="#step-2a-text-editor">Step 2a: Text Editor</a></li>
-  <li><a href="#step-3-install-uv-package-manager" id="toc-step-3-install-uv-package-manager" class="nav-link" data-scroll-target="#step-3-install-uv-package-manager">Step 3: Install <code>uv</code> package manager</a>
+  <li><a href="#step-2a-a-text-editor-for-quick-edits" id="toc-step-2a-a-text-editor-for-quick-edits" class="nav-link" data-scroll-target="#step-2a-a-text-editor-for-quick-edits">Step 2a: A text editor for quick edits</a></li>
+  <li><a href="#step-3-install-quarto" id="toc-step-3-install-quarto" class="nav-link" data-scroll-target="#step-3-install-quarto">Step 3: Install Quarto</a>
+  <ul class="collapse">
+  <li><a href="#what-is-quarto-and-why-do-we-need-it" id="toc-what-is-quarto-and-why-do-we-need-it" class="nav-link" data-scroll-target="#what-is-quarto-and-why-do-we-need-it">What is Quarto and why do we need it?</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#verify-quarto-installation" id="toc-verify-quarto-installation" class="nav-link" data-scroll-target="#verify-quarto-installation">Verify Quarto installation</a></li>
+  <li><a href="#quick-test-render-a-document" id="toc-quick-test-render-a-document" class="nav-link" data-scroll-target="#quick-test-render-a-document">Quick test: Render a document</a></li>
+  </ul></li>
+  <li><a href="#step-4-install-uv-package-manager" id="toc-step-4-install-uv-package-manager" class="nav-link" data-scroll-target="#step-4-install-uv-package-manager">Step 4: Install <code>uv</code> package manager</a>
   <ul class="collapse">
   <li><a href="#why-uv-instead-of-pip" id="toc-why-uv-instead-of-pip" class="nav-link" data-scroll-target="#why-uv-instead-of-pip">Why <code>uv</code> instead of <code>pip</code>?</a></li>
   <li><a href="#installation-macos-1" id="toc-installation-macos-1" class="nav-link" data-scroll-target="#installation-macos-1">Installation: macOS</a></li>
   <li><a href="#installation-windows-1" id="toc-installation-windows-1" class="nav-link" data-scroll-target="#installation-windows-1">Installation: Windows</a></li>
   <li><a href="#verify-uv-installation" id="toc-verify-uv-installation" class="nav-link" data-scroll-target="#verify-uv-installation">Verify <code>uv</code> installation</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#youre-all-set" id="toc-youre-all-set" class="nav-link" data-scroll-target="#youre-all-set">You’re all set!</a></li>
   </ul>
 </nav>
     </div>
@@ -323,13 +330,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="story-problem" class="level2">
 <h2 class="anchored" data-anchor-id="story-problem">Story problem</h2>
 <p><strong>The first successful GIS import</strong></p>
-<p>You want to: - Import GeoPandas without mysterious errors - Run a terminal command that proves everything is working - Keep the setup steps short and repeatable - Have the same environment as your classmates</p>
+<p>You want to:</p>
+<ul>
+<li>Import GeoPandas without mysterious errors</li>
+<li>Run a terminal command that proves everything is working</li>
+<li>Keep the setup steps short and repeatable</li>
+<li>Have the same environment as your classmates</li>
+</ul>
 </section>
 <section id="what-you-will-learn" class="level2">
 <h2 class="anchored" data-anchor-id="what-you-will-learn">What you will learn</h2>
 <ul>
-<li>Install Python 3.12 and verify it works</li>
+<li>Install Python 3.1X and verify it works</li>
 <li>Install a modern code editor (Positron or VS Code)</li>
+<li>Install Quarto for creating beautiful reports and documents</li>
 <li>Install <code>uv</code> package manager</li>
 <li>Verify your GIS stack imports correctly</li>
 </ul>
@@ -346,35 +360,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <hr>
 </section>
-<section id="step-1-install-python-3.12" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-install-python-3.12">Step 1: Install Python 3.12</h2>
-<section id="why-python-3.12-hs-subjective-opinion" class="level3">
-<h3 class="anchored" data-anchor-id="why-python-3.12-hs-subjective-opinion">Why Python 3.12? (H’s subjective opinion)</h3>
+<section id="step-1-install-python-3.1x" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-install-python-3.1x">Step 1: Install Python 3.1X</h2>
+<section id="why-you-should-use-the-latest-python-version" class="level3">
+<h3 class="anchored" data-anchor-id="why-you-should-use-the-latest-python-version">Why You Should Use the Latest Python Version?</h3>
 <p><img src="figs/part1/python312.png" class="img-fluid"></p>
-<p>Python 3.12 offers: - Improved performance (up to 25% faster) - Better error messages - Full compatibility with modern GIS packages - Long-term support</p>
+<ul>
+<li>Better Performance: Newer versions (e.g., 3.11+) are significantly faster than older ones.</li>
+<li>New Features &amp; Syntax: Latest versions provide cleaner syntax, such as structural pattern matching and improved error messages.</li>
+<li>Security Updates: Only the latest versions receive security patches, protecting your code from vulnerabilities.</li>
+<li>Library Support: Modern libraries and frameworks often require newer versions to function correctly.</li>
+</ul>
+<p>Using the latest version allows your projects are faster, safer, and easier to maintain.</p>
 </section>
 <section id="installation-macos" class="level3">
 <h3 class="anchored" data-anchor-id="installation-macos">Installation: macOS</h3>
 <p><strong>Option 1: Official installer (recommended for beginners)</strong></p>
+<p>This is the simplest approach. You’ll download an installer that works just like installing any other app on your Mac.</p>
 <ol type="1">
-<li>Visit <a href="https://www.python.org/downloads/">python.org/downloads</a></li>
-<li>Download <strong>Python 3.12.x</strong> for macOS</li>
-<li>Open the downloaded <code>.pkg</code> file</li>
-<li>Follow the installation wizard</li>
+<li>Open your web browser and go to <a href="https://www.python.org/downloads/">python.org/downloads</a></li>
+<li>Look for the button that says <strong>Python 3.12.x</strong> (the <code>x</code> will be whatever the latest patch number is—that’s fine, any 3.12 version works)</li>
+<li>Click it to download a <code>.pkg</code> file</li>
+<li>Once it finishes downloading, open the <code>.pkg</code> file from your Downloads folder</li>
+<li>The installer wizard will walk you through the process—just keep clicking “Continue” and then “Install”</li>
 </ol>
 <p><img src="https://devguide.python.org/_static/release-cycle.svg" class="img-fluid"></p>
 <p><img src="figs/part1/download.png" class="img-fluid"></p>
-<p>If you have Homebrew installed:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install python@3.12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Pick ONE method---do not mix!">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pick ONE method—do not mix!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Install Python using <strong>either</strong> the official installer <strong>or</strong> Homebrew, but <strong>not both</strong>. If you install Python from the website and then also install it via Homebrew, you’ll end up with two separate copies of Python on your machine. Your terminal won’t know which one to use, your packages will get installed into the wrong copy, and you’ll spend hours debugging “module not found” errors that have nothing to do with your actual code.</p>
+<p>If you’re not sure what Homebrew is, just use the official installer above and move on—you’ll be fine.</p>
+<p>If you <em>do</em> already have Homebrew and prefer using it:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </section>
 <section id="installation-windows" class="level3">
 <h3 class="anchored" data-anchor-id="installation-windows">Installation: Windows</h3>
 <ol type="1">
-<li>Visit <a href="https://www.python.org/downloads/">python.org/downloads</a></li>
+<li>Open your web browser and go to <a href="https://www.python.org/downloads/">python.org/downloads</a></li>
 <li>Download <strong>Python 3.12.x</strong> for Windows (64-bit)</li>
-<li>Run the installer</li>
-<li><strong>CRITICAL</strong>: ✅ Check “Add Python to PATH”</li>
-<li>Click “Install Now”</li>
+<li>Find the downloaded file and double-click to run the installer</li>
+<li><strong>This next step is critical—don’t skip it!</strong> At the very bottom of the first installer screen, you’ll see a checkbox that says <strong>“Add Python to PATH”</strong>. Make sure you tick that box before doing anything else.</li>
+<li>Now click “Install Now” and let it finish</li>
 </ol>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -386,57 +422,37 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you forget to check “Add Python to PATH”, you’ll need to uninstall and reinstall Python.</p>
+<p><strong>Why does “Add Python to PATH” matter?</strong> PATH is how your computer knows where to find programs when you type commands in the terminal. Without it, your computer won’t know where Python lives, and every command you try will fail with a “not found” error. If you accidentally skipped this step, the easiest fix is to uninstall Python completely and reinstall it with the checkbox ticked.</p>
+<p>If you need a step-by-step guide, follow the <a href="https://www.youtube.com/watch?v=AOQX6LZUaGo&amp;t=13s">YouTube Link</a></p>
 </div>
 </div>
 </section>
 <section id="verify-python-installation" class="level3">
 <h3 class="anchored" data-anchor-id="verify-python-installation">Verify Python installation</h3>
-<p>Open your terminal:</p>
-<p><strong>macOS</strong>: Applications → Utilities → Terminal<br>
-<strong>Windows</strong>: Press Windows key, type “PowerShell”, press Enter</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Screenshot placeholder">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Screenshot placeholder
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>[SCREENSHOT NEEDED: macOS Terminal application]</strong></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled" title="Screenshot placeholder">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Screenshot placeholder
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>[SCREENSHOT NEEDED: Windows PowerShell window]</strong></p>
-</div>
-</div>
-<p>Run the following command:</p>
+<p>Great—Python should now be on your machine! Let’s make sure it actually works. To do that, we need to open a <strong>terminal</strong> (also called a command line). If you’ve never used one before, don’t worry—it’s just a text-based way to talk to your computer.</p>
+<p><strong>How to open your terminal:</strong></p>
+<ul>
+<li><strong>macOS</strong>: Open Finder, go to Applications → Utilities, and double-click on <strong>Terminal</strong>. Alternatively, press <code>Cmd + Space</code> to open Spotlight, type “Terminal”, and hit Enter.</li>
+<li><strong>Windows</strong>: Press the Windows key on your keyboard, type <strong>“PowerShell”</strong>, and press Enter.</li>
+</ul>
+<p>You should see a window with a blinking cursor waiting for you to type something. That’s your terminal!</p>
+<p>Now type the following command and press Enter:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Windows</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Expected output:</p>
+<p>You should see something like:</p>
 <pre><code>Python 3.12.x</code></pre>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>python <span class="op">--</span>version</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Expected output:</p>
+<p>You should see something like:</p>
 <pre><code>Python 3.12.x</code></pre>
 </div>
 </div>
 </div>
+<p>If you see a version number starting with <code>3.12</code>, congratulations—Python is installed and working!</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -447,7 +463,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>On macOS, always use <code>python3</code> (not <code>python</code>) to ensure you’re using Python 3. On Windows, you can use <code>python</code>.</p>
+<p><strong>A small but important difference:</strong> On macOS, you need to type <code>python3</code> (with the <code>3</code>), because older Macs sometimes have an ancient version of Python 2 pre-installed, and just typing <code>python</code> might accidentally use that one. On Windows, <code>python</code> is fine.</p>
 </div>
 </div>
 <hr>
@@ -455,29 +471,29 @@ Tip
 </section>
 <section id="step-2-install-a-code-editor" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-install-a-code-editor">Step 2: Install a code editor</h2>
-<p>You need a code editor to write Python scripts. We recommend either:</p>
+<p>A code editor is where you’ll actually write your Python scripts. Think of it as Microsoft Word, but designed for writing code—it highlights your syntax in different colours, catches typos, and helps you run your programs. Here are two great options.</p>
 <section id="option-1-positron-recommended-for-data-science" class="level3">
 <h3 class="anchored" data-anchor-id="option-1-positron-recommended-for-data-science">Option 1: Positron (recommended for data science)</h3>
-<p>Positron is a new IDE specifically designed for data science and works excellently with Python, R, and Quarto.</p>
+<p>Positron is a newer editor built specifically for people doing data analysis and science. It feels familiar if you’ve used RStudio before, and it works beautifully with Python, R, and Quarto (which we’ll install shortly).</p>
 <ol type="1">
-<li>Visit <a href="https://positron.posit.co/">positron.posit.co</a></li>
-<li>Download for your operating system</li>
-<li>Install using the standard installer</li>
+<li>Go to <a href="https://positron.posit.co/">positron.posit.co</a></li>
+<li>Click the download button for your operating system (macOS or Windows)</li>
+<li>Install it the same way you’d install any app—open the downloaded file and follow the prompts</li>
 </ol>
 <p><video src="https://positron.posit.co/videos/positron-hero-fast-tour.mp4" class="img-fluid" controls=""><a href="https://positron.posit.co/videos/positron-hero-fast-tour.mp4">Video</a></video></p>
 </section>
 <section id="option-2-vs-code-industry-standard" class="level3">
 <h3 class="anchored" data-anchor-id="option-2-vs-code-industry-standard">Option 2: VS Code (industry standard)</h3>
-<p>VS Code is widely used and has excellent Python support.</p>
+<p>VS Code (Visual Studio Code) is the most widely used code editor in the world. It’s free, fast, and has thousands of extensions. If you’re thinking about a career in tech, learning VS Code is a valuable skill.</p>
 <ol type="1">
-<li>Visit <a href="https://code.visualstudio.com/">code.visualstudio.com</a></li>
-<li>Download for your operating system</li>
-<li>Install using the standard installer</li>
-<li>After opening VS Code, install the <strong>Python extension</strong>:
+<li>Go to <a href="https://code.visualstudio.com/">code.visualstudio.com</a></li>
+<li>Download it for your operating system</li>
+<li>Install it by opening the downloaded file and following the prompts</li>
+<li>Once VS Code is open, you’ll want to install the <strong>Python extension</strong> so it understands Python code:
 <ul>
-<li>Click Extensions icon (or press Ctrl+Shift+X / Cmd+Shift+X)</li>
-<li>Search for “Python”</li>
-<li>Install the Microsoft Python extension</li>
+<li>Look for the square icon on the left sidebar (or press <code>Ctrl+Shift+X</code> on Windows / <code>Cmd+Shift+X</code> on Mac)</li>
+<li>In the search bar that appears, type “Python”</li>
+<li>Click <strong>Install</strong> on the one made by Microsoft (it’ll be the first result)</li>
 </ul></li>
 </ol>
 <div class="callout callout-style-default callout-note callout-titled" title="VS Code download page">
@@ -496,68 +512,174 @@ VS Code download page
 <hr>
 </section>
 </section>
-<section id="step-2a-text-editor" class="level2">
-<h2 class="anchored" data-anchor-id="step-2a-text-editor">Step 2a: Text Editor</h2>
-<p>Getting a good text editor as your buddy is always handy. It’s because you might be caught into a situation to write necessary codes and annonations where CLI is not made possible.</p>
-<p>For this course, I highly recommend you download Sublime text (https://www.sublimetext.com/)</p>
+<section id="step-2a-a-text-editor-for-quick-edits" class="level2">
+<h2 class="anchored" data-anchor-id="step-2a-a-text-editor-for-quick-edits">Step 2a: A text editor for quick edits</h2>
+<p>It’s also handy to have a lightweight text editor on your computer—something you can open quickly to peek at a file or make a small edit without launching your full code editor. Think of it as the difference between opening a full word processor versus a quick notepad.</p>
+<p>I recommend <a href="https://www.sublimetext.com/">Sublime Text</a>—it opens instantly, handles large files without breaking a sweat, and has a clean interface.</p>
 <p><img src="https://www.sublimehq.com/images/sublime_text.png" class="img-fluid"></p>
 <hr>
 </section>
-<section id="step-3-install-uv-package-manager" class="level2">
-<h2 class="anchored" data-anchor-id="step-3-install-uv-package-manager">Step 3: Install <code>uv</code> package manager</h2>
+<section id="step-3-install-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-install-quarto">Step 3: Install Quarto</h2>
+<section id="what-is-quarto-and-why-do-we-need-it" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-quarto-and-why-do-we-need-it">What is Quarto and why do we need it?</h3>
+<p>Quarto is a publishing tool that lets you combine your Python code, its output (tables, maps, charts), and your written analysis into a single, polished document. Instead of writing code in one place, copying charts into Word, and formatting everything separately, Quarto does it all at once. You write one file, hit render, and out comes a beautiful HTML page, PDF, or Word document.</p>
+<p>In this course, you’ll use Quarto for your assignments and lab reports. It’s how you’ll present your GIS analysis in a professional, reproducible way.</p>
+</section>
+<section id="installation" class="level3">
+<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<p>Quarto has a straightforward installer for both macOS and Windows.</p>
+<ol type="1">
+<li>Go to <a href="https://quarto.org/docs/get-started/">quarto.org/docs/get-started</a></li>
+<li>You’ll see download buttons for different operating systems. Click the one that matches yours.</li>
+</ol>
+<p><img src="figs/part1/quarto-download.png" alt="Quarto Download" width="70%"></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">macOS</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Windows</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<ol start="3" type="1">
+<li>Download the <code>.pkg</code> file</li>
+<li>Open it from your Downloads folder</li>
+<li>The installer will guide you through the process—just keep clicking “Continue” and then “Install”, the same way you installed Python</li>
+</ol>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<ol start="3" type="1">
+<li>Download the <code>.exe</code> installer</li>
+<li>Double-click the downloaded file to run it</li>
+<li>Follow the installation wizard—click “Next” through each step and then “Install”</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="verify-quarto-installation" class="level3">
+<h3 class="anchored" data-anchor-id="verify-quarto-installation">Verify Quarto installation</h3>
+<p>Just like we did with Python, let’s make sure Quarto installed correctly. Open your terminal again and type:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should see a version number like:</p>
+<pre><code>1.7.x</code></pre>
+<p><img src="figs/part1/quarto-version.png" class="img-fluid"></p>
+<p>If you see a version number, you’re all set!</p>
+<p>If you get a “command not found” error, try closing your terminal and opening a new one—sometimes the terminal needs a fresh start to recognise newly installed programs.</p>
+</section>
+<section id="quick-test-render-a-document" class="level3">
+<h3 class="anchored" data-anchor-id="quick-test-render-a-document">Quick test: Render a document</h3>
+<p>Let’s do a quick sanity check to make sure Quarto can actually render something. Don’t worry about understanding every detail here—we just want to confirm it works.</p>
+<ol type="1">
+<li>Open your code editor (Positron or VS Code)</li>
+<li>Create a new file and paste the following content:</li>
+</ol>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>test.qmd</strong></pre>
+</div>
+<div class="sourceCode" id="cb8" data-filename="test.qmd"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "My First Quarto Document"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Hello Quarto!</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>This is a test document. If you can see this as a nicely formatted HTML page, Quarto is working.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sorry guys, I did it through the old fashion way using the nano editor embedded in the terminal!</p>
+<p><img src="figs/part1/quarto-save_file.png" class="img-fluid"></p>
+<p><br></p>
+<ol start="3" type="1">
+<li>Save the file as <code>test.qmd</code> somewhere easy to find (like your Desktop or Documents folder)</li>
+<li>Go back to your terminal, navigate to where you saved the file, and run:</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render test.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="figs/part1/quarto-render_file.png" class="img-fluid"></p>
+<p>If a web browser pops open showing a nicely formatted page with “My First Quarto Document” as the title, everything is working perfectly. You can delete this test file afterwards.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Positron users</strong>: Positron has built-in Quarto support, so you can also render documents directly from the editor using the “Render” button at the top of <code>.qmd</code> files. Very convenient!</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="step-4-install-uv-package-manager" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-install-uv-package-manager">Step 4: Install <code>uv</code> package manager</h2>
 <section id="why-uv-instead-of-pip" class="level3">
 <h3 class="anchored" data-anchor-id="why-uv-instead-of-pip">Why <code>uv</code> instead of <code>pip</code>?</h3>
-<p>Traditional Python used <code>pip</code> for package management, but it has limitations:</p>
+<p>If you’ve seen any Python tutorials online, they probably told you to install packages with <code>pip install something</code>. That works, but it has some real drawbacks that become painful as your projects grow:</p>
 <ul>
-<li><strong>Slow</strong>: Installing complex packages can take minutes</li>
-<li><strong>Dependency conflicts</strong>: Different packages might require incompatible versions</li>
-<li><strong>Not reproducible</strong>: <code>pip install pandas</code> might install different versions on different days</li>
+<li><strong>It’s slow.</strong> Installing a big package like GeoPandas with all its dependencies can take minutes with <code>pip</code>, and you’ll be staring at your screen wondering if it’s stuck.</li>
+<li><strong>Dependency conflicts.</strong> Different packages sometimes need different versions of the same library. <code>pip</code> isn’t great at figuring this out, and you can end up with broken environments.</li>
+<li><strong>Not reproducible.</strong> Running <code>pip install pandas</code> today might install a different version than running it next month. This means your classmate’s code might not work on your machine, even if you installed the “same” packages.</li>
 </ul>
-<p><code>uv</code> solves these problems:</p>
-<ul>
-<li><strong>Fast</strong>: Written in Rust, 10-100x faster than pip</li>
-<li><strong>Reliable</strong>: Better dependency resolution</li>
-<li><strong>Reproducible</strong>: Lock files ensure everyone gets the same versions</li>
-</ul>
-<p><strong>Performance comparison</strong> (installing transformers library + dependencies): - <code>pip</code>: ~50 seconds - <code>uv</code>: ~1.8 seconds</p>
+<p><code>uv</code> is a modern replacement that fixes all of these problems. It’s written in Rust (a very fast programming language), and it’s typically <strong>10 to 100 times faster</strong> than <code>pip</code>. It also handles dependency conflicts properly and creates lock files so everyone gets exactly the same package versions.</p>
+<p><strong>To give you a sense of the speed difference:</strong> installing the <code>transformers</code> library and all its dependencies takes about 50 seconds with <code>pip</code>, but only about 1.8 seconds with <code>uv</code>.</p>
 </section>
 <section id="installation-macos-1" class="level3">
 <h3 class="anchored" data-anchor-id="installation-macos-1">Installation: macOS</h3>
-<p><strong>Option 1: pip (recommended)</strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install uv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Option 2: Standalone installer</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LsSf</span> https://astral.sh/uv/install.sh <span class="kw">|</span> <span class="fu">sh</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Option 3: Using brew</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install uv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The simplest way to install <code>uv</code> on a Mac is with the standalone installer. Open your terminal and paste this command:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LsSf</span> https://astral.sh/uv/install.sh <span class="kw">|</span> <span class="fu">sh</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This downloads and runs the official install script. When it finishes, close your terminal and open a new one so the changes take effect.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Alternative methods</strong> (if you prefer):</p>
+<p>Using pip:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install uv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Using Homebrew:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">brew</span> install uv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </section>
 <section id="installation-windows-1" class="level3">
 <h3 class="anchored" data-anchor-id="installation-windows-1">Installation: Windows</h3>
-<p><strong>Option 1: Standalone installer (recommended)</strong></p>
-<p>Open PowerShell and run:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>powershell <span class="op">-</span>ExecutionPolicy ByPass <span class="op">-</span>c <span class="st">"irm https://astral.sh/uv/install.ps1 | iex"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Option 2: Using pip</strong></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pip install uv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Open PowerShell and paste this command:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>powershell <span class="op">-</span>ExecutionPolicy ByPass <span class="op">-</span>c <span class="st">"irm https://astral.sh/uv/install.ps1 | iex"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This runs the official Windows installer for <code>uv</code>. Once it finishes, close PowerShell and open a new one.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Alternative method</strong>: You can also install via pip:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pip install uv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </section>
 <section id="verify-uv-installation" class="level3">
 <h3 class="anchored" data-anchor-id="verify-uv-installation">Verify <code>uv</code> installation</h3>
-<p>In your terminal:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Open a fresh terminal window and type:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><img src="figs/part1/uv_version.png" class="img-fluid"></p>
-<hr>
-<p>If all three commands show version numbers, you’re ready to proceed! 🎉</p>
+<p>If you see a version number, <code>uv</code> is ready to go!</p>
 <hr>
 </section>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>You should now have:</p>
-<ul class="task-list">
-<li><label><input type="checkbox" checked="">Python 3.12 installed and verified</label></li>
-<li><label><input type="checkbox" checked="">A code editor (Positron or VS Code)</label></li>
-</ul>
-<p><strong>Next step</strong>: Learn how to manage projects with <code>uv</code> environments (Section 1.2).</p>
-<iframe width="560" height="315" src="https://youtu.be/8zggSBvTQbM" frameborder="0" allowfullscreen="">
-</iframe>
+<section id="youre-all-set" class="level2">
+<h2 class="anchored" data-anchor-id="youre-all-set">You’re all set!</h2>
+<p>If all four tools are installed and verified—Python, a code editor, Quarto, and <code>uv</code>—you’ve got everything you need to start working with geospatial Python. That’s a lot of installing, and you’ve done great getting through it.</p>
+<p><strong>Next step</strong>: Head to Section 1.2 to learn how to manage projects with <code>uv</code> environments. That’s where things start getting interesting—you’ll create your first project and import GeoPandas for the first time.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/8zggSBvTQbM" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 
 
 </section>

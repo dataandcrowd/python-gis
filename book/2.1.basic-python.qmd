@@ -725,4 +725,4 @@ These fundamentals form the foundation for all Python programming in geospatial 
 
 ## Next Steps
 
-Now that you understand Python basics, you're ready to work with tabular data in @sec-dataframes, where you'll learn to use pandas for data manipulation—an essential skill for geospatial analysis.
+Now that you understand Python basics, you're ready to work with tabular data in the following section **Dataframes with Pandas**, where you'll learn to use pandas for data manipulation—an essential skill for geospatial analysis.

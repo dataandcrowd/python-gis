@@ -24,6 +24,10 @@ You've built a Python script that analyses bus routes in Auckland. Your supervis
 
 ### The problem: Global installations
 
+Before we jump into commands, let's understand *why* virtual environments exist---because once this clicks, everything else in this section will make sense.
+
+When you install Python packages globally (i.e., just running `pip install pandas` without any project setup), those packages go into a single shared location on your computer. That works fine when you only have one project. But the moment you start a second project, you can run into trouble.
+
 Imagine this scenario:
 
 ```
@@ -38,51 +42,56 @@ Project A needs:        Project B needs:
 └── numpy 1.24.0       └── numpy 1.23.0
 ```
 
-**Problem**: You can't have two versions of pandas installed globally!
+You can't have two versions of pandas installed at the same time in the same place. So Project A would work, but Project B would break---or vice versa. And this isn't a hypothetical; it's one of the most common frustrations in Python development.
 
 ### The solution: Virtual environments
 
-Each project gets its own isolated environment:
+The fix is surprisingly simple: give each project its own private copy of Python and its packages. That's what a virtual environment is---a self-contained folder inside your project that holds everything that project needs, completely separate from everything else.
 
 ```
 Your computer:
 ├── Project A/
-│   └── .venv/           ← Isolated environment
+│   └── .venv/           ← Project A's private packages
 │       ├── pandas 2.0.0
 │       ├── geopandas 0.14.0
 │       └── numpy 1.24.0
 └── Project B/
-    └── .venv/           ← Separate isolated environment
+    └── .venv/           ← Project B's private packages
         ├── pandas 1.5.0
         ├── geopandas 0.12.0
         └── numpy 1.23.0
 ```
 
-**Benefits**:
-- No conflicts between projects
-- Each project has exactly what it needs
-- Easy to share and reproduce
+Now both projects work perfectly, because they each have their own copy of everything. No conflicts, no surprises. And when you share your project with a classmate, they can recreate your exact environment on their machine with a single command.
 
 ---
 
-## Key `uv` commands
+## Key `uv` commands at a glance
 
-| Command | Purpose |
+Don't worry about memorising these right now---we'll walk through each one step by step below. This table is just here for you to come back to later as a quick reference.
+
+| Command | What it does |
 |---------|---------|
-| `uv init` | Create a new project |
-| `uv venv` | Create virtual environment |
-| `uv add <package>` | Install a package |
-| `uv remove <package>` | Uninstall a package |
-| `uv sync` | Install all locked dependencies |
-| `uv run <command>` | Run command in environment |
-| `uv pip list` | List installed packages |
-| `uv lock` | Update lock file |
+| `uv init` | Sets up a brand-new project |
+| `uv venv` | Creates the virtual environment folder |
+| `uv add <package>` | Installs a package into your project |
+| `uv remove <package>` | Uninstalls a package |
+| `uv sync` | Installs everything listed in the lock file |
+| `uv run <command>` | Runs a command using your project's environment |
+| `uv pip list` | Shows what's currently installed |
+| `uv lock` | Updates the lock file |
 
 ---
 
 ## Creating your first project
 
-### Step 1: Create project directory
+Alright, let's actually build something! We're going to create a project folder for this course and set it up with `uv`. By the end of this section, you'll have a working GIS environment that you'll use for the rest of the semester.
+
+### Step 1: Create a project folder
+
+First, we need a folder to hold your coursework. Open your terminal and run the following commands to create a folder called `class343` inside your Documents directory.
+
+::: {.panel-tabset}
 
 ## macOS
 ```bash
@@ -100,25 +109,28 @@ cd class343
 
 :::
 
+You're now inside your empty project folder. Let's turn it into a proper Python project.
+
 ### Step 2: Initialise with `uv`
+
+This is where the magic starts. Run:
 
 ```bash
 uv init
 ```
 
-This creates:
-- `pyproject.toml` - project configuration file
-- `main.py` - sample Python script
-- `README.md` - Documentation
-- `.python-version` - specifies Python version
+This single command sets up your project structure. When it finishes, you'll see that `uv` has created a few files for you:
+
+- **`pyproject.toml`** --- This is the most important one. It's your project's "recipe card" that lists what Python version you need and what packages your project depends on.
+- **`main.py`** --- A sample Python script to get you started.
+- **`README.md`** --- A documentation file where you can describe what your project does.
+- **`.python-version`** --- A tiny file that records which Python version this project uses.
 
 ![](figs/part1/uv_init.png)
 
+### Step 3: Take a peek at `pyproject.toml`
 
-
-### Step 3: Examine `pyproject.toml`
-
-Open `pyproject.toml` in your editor:
+Open `pyproject.toml` in your code editor. You'll see something like this:
 
 ```toml
 [project]
@@ -128,22 +140,20 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []
-
 ```
 
-This file tracks:
-- Project metadata
-- Python version requirement
-- Dependencies (currently empty)
+Notice that `dependencies` is an empty list right now. That makes sense---we haven't installed any packages yet. As we add packages in the next steps, you'll see this list grow automatically. You'll never have to edit this file by hand.
 
-### Step 4: Create virtual environment
+### Step 4: Create the virtual environment
+
+Now let's create the actual virtual environment---the private folder where all your packages will live:
 
 ```bash
 uv venv
 ```
 
+You should see output like this:
 
-Output:
 ```
 Using Python 3.12.x
 Creating virtual environment at: .venv
@@ -152,26 +162,24 @@ Activate with: source .venv/bin/activate (Linux/macOS) or .venv\Scripts\activate
 
 ![](figs/part1/uv_venv.png)
 
-The `.venv` folder contains:
+What just happened? `uv` created a hidden folder called `.venv` inside your project. This folder is your virtual environment. It contains:
 
 ```
 .venv/
 ├── bin/ (macOS) or Scripts/ (Windows)  ← Python executables
-├── lib/                                 ← Installed packages
+├── lib/                                 ← Where packages will be installed
 └── pyvenv.cfg                          ← Configuration
 ```
 
 ::: {.callout-tip}
-The `.venv` folder can be large (100MB+). You'll add it to `.gitignore` later so it's not tracked in Git.
-
-We will do this later when we learn git!
+The `.venv` folder can grow quite large (100MB or more) once you start adding packages. Don't worry---when we learn Git in the next section, we'll set things up so this folder is ignored and never uploaded. Each person recreates their own `.venv` from the project recipe instead.
 :::
 
 ![](figs/part1/uv_source.png)
 
-To see the list structure of the code, hit:
+If you're curious about what your project folder looks like now, you can run this to see its structure:
 
-```
+```bash
 find . -maxdepth 2 -print
 ```
 
@@ -181,24 +189,23 @@ find . -maxdepth 2 -print
 
 ### Install your first package
 
-Let's install pandas:
+Now for the exciting part---let's start installing the tools you'll need for GIS work. We'll begin with pandas, the foundational data analysis library:
 
 ```bash
 uv add pandas
 ```
 
-Watch what happens:
+Watch your terminal as `uv` works. It's doing three things at once:
 
-1. `uv` downloads pandas and its dependencies
-2. Updates `pyproject.toml`
-3. Creates/updates `uv.lock`
+1. **Downloading** pandas and all the other packages pandas depends on (like numpy)
+2. **Updating** your `pyproject.toml` to record that your project now needs pandas
+3. **Creating a lock file** (`uv.lock`) that records the *exact* versions of everything it installed
 
-
-Now check `pyproject.toml`:
+If you open `pyproject.toml` again, you'll see the change:
 
 ```toml
 [project]
-name = "auckland-greenspaces"
+name = "class343"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -208,28 +215,23 @@ dependencies = [
 ]
 ```
 
-### Install multiple packages
+You didn't have to edit this file yourself---`uv` took care of it.
 
-Install all GIS packages you need:
+### Install multiple packages at once
+
+You can install several packages in one go. Let's add the rest of the GIS stack you'll need:
 
 ```bash
 uv add geopandas matplotlib
 ```
 
-Watch as `uv` quickly installs each package and its dependencies!
+Notice how fast that was? This is where `uv` really shines compared to `pip`.
 
-![](figs/part1/uv_add.png)
+Every time you run `uv add`, the same four things happen behind the scenes: the package is downloaded, dependencies are resolved (so nothing conflicts), `pyproject.toml` is updated, and `uv.lock` is updated.
 
+### Understanding `uv.lock` --- your reproducibility guarantee
 
-Each `uv add` command:
-- Installs the package
-- Resolves dependencies
-- Updates `pyproject.toml`
-- Updates `uv.lock`
-
-### Understanding `uv.lock`
-
-Open `uv.lock` - it's long! It contains:
+Open the `uv.lock` file in your editor. It's long and detailed---that's a good thing! Here's a small excerpt of what it looks like:
 
 ```toml
 [[package]]
@@ -244,16 +246,11 @@ dependencies = [
 ...
 ```
 
-**Purpose**: This file locks *exact* versions of every package and dependency.
-
-**Result**: Anyone who runs `uv sync` gets **identical** package versions.
+This file records the *exact* version of every single package in your environment, including all the packages that your packages depend on (called "transitive dependencies"). Why does this matter? Because when your classmate or supervisor runs `uv sync` on their machine, they'll get **precisely** the same versions you have. No surprises, no "works on my machine" problems.
 
 ::: {.callout-important}
-**Always commit `uv.lock` to Git!** This ensures reproducibility.
+**Keep `uv.lock` safe---it's your reproducibility guarantee.** When we learn Git in the next section, this will be one of the files you'll want to save and share. Without it, someone else trying to run your project might end up with different package versions and things could break.
 :::
-
-
-
 
 ---
 
@@ -261,20 +258,22 @@ dependencies = [
 
 ### Quick test
 
-Run this one-liner to check if GeoPandas imports correctly:
+Let's make sure everything is working. Run this one-liner in your terminal to check that GeoPandas imports correctly:
 
 ```bash
 uv run python -c "import geopandas as gpd; print('✅ GeoPandas', gpd.__version__)"
 ```
 
-Expected output:
+If everything is set up properly, you should see:
 ```
 ✅ GeoPandas 1.1.x
 ```
 
+Notice that we used `uv run python` instead of just `python`. This is important---`uv run` makes sure the command uses your project's virtual environment (the packages in your `.venv` folder) rather than whatever Python happens to be installed globally on your machine.
+
 ### Comprehensive test
 
-Create a test script called `verify_setup.py`:
+Let's do a more thorough check. Create a new file called `verify_setup.py` in your `class343` folder and paste in the following code:
 
 ```python
 """
@@ -322,7 +321,7 @@ print("\n✅ All tests passed! Your GIS environment is ready.")
 print("\n" + "=" * 50)
 ```
 
-Run the verification script:
+Now run it:
 
 ```bash
 uv run python verify_setup.py
@@ -330,28 +329,28 @@ uv run python verify_setup.py
 
 ![](figs/part1/uv_verify_setup.png)
 
-Expected output should show:
-- Python 3.12.x
-- Package versions
-- A table with three New Zealand cities
-- "All tests passed!" message
-
+If everything is working, you should see a nice table with three New Zealand cities and a row of green checkmarks. If you do---congratulations, your GIS environment is fully set up!
 
 ::: {.callout-tip}
-**Recommendation**: Use `uv run` instead of manual activation. It's simpler and less error-prone.
+**Why `uv run` and not just `python`?** When you type `uv run python verify_setup.py`, `uv` automatically activates your project's virtual environment, runs the script inside it, and then cleans up. You don't have to manually "activate" anything. It's simpler, and it means you'll never accidentally run code with the wrong set of packages.
 :::
 
 ---
 
 ## Managing dependencies
 
-### View installed packages
+As you work through the semester, you'll occasionally need to check what's installed, add new packages, or remove ones you no longer need. Here's how.
+
+### Seeing what's installed
+
+To get a list of everything in your environment:
 
 ```bash
 uv pip list
 ```
 
-Output:
+You'll see a neat table like this:
+
 ```
 Package      Version
 ------------ -------
@@ -361,21 +360,21 @@ geopandas    1.1.2
 ...
 ```
 
+This is handy when you want to double-check which version of a package you're running, or when you're troubleshooting an issue.
 
-### Remove a package
+### Removing a package
+
+If you installed something you no longer need, you can remove it cleanly:
 
 ```bash
 uv remove folium
 ```
 
-This:
-- Uninstalls folium
-- Removes it from `pyproject.toml`
-- Updates `uv.lock`
+This doesn't just delete the package---it also updates `pyproject.toml` and `uv.lock` so your project recipe stays accurate.
 
-### Upgrade packages
+### Upgrading packages
 
-To upgrade all packages to latest compatible versions:
+Occasionally you might want to update your packages to get bug fixes or new features:
 
 ```bash
 uv lock --upgrade
@@ -383,36 +382,37 @@ uv sync
 ```
 
 ::: {.callout-warning}
-Be cautious with upgrades! Test your code after upgrading packages.
+**A word of caution about upgrading:** Newer isn't always better. Sometimes a package update can change how a function behaves, which might break your existing code. It's best to upgrade early in a project (before you've written much code) rather than right before a deadline. And always test your code after upgrading to make sure everything still works.
 :::
-
 
 ---
 
 ## Quick reference
 
+Here's everything from this section in one place. Come back to this whenever you need a reminder.
+
 ```bash
-# Create project
+# Start a new project
 uv init
 uv venv
 
 # Add packages
 uv add pandas geopandas matplotlib
 
-# Run code
+# Run your code
 uv run python script.py
 
-# Recreate environment (new machine)
+# Recreate the environment on a new machine
 uv venv
 uv sync
 
-# View packages
+# See what's installed
 uv pip list
 
-# Update packages
+# Update all packages
 uv lock --upgrade
 uv sync
 
-# Remove package
+# Remove a package
 uv remove package-name
 ```
