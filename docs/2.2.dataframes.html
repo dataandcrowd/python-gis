@@ -333,7 +333,7 @@ div.csl-indent {
   </ul></li>
   <li><a href="#reading-the-auckland-pedestrian-data" id="toc-reading-the-auckland-pedestrian-data" class="nav-link" data-scroll-target="#reading-the-auckland-pedestrian-data">Reading the Auckland Pedestrian Data</a>
   <ul class="collapse">
-  <li><a href="#reading-an-excel-file" id="toc-reading-an-excel-file" class="nav-link" data-scroll-target="#reading-an-excel-file">Reading an Excel File</a></li>
+  <li><a href="#reading-a-csv-file" id="toc-reading-a-csv-file" class="nav-link" data-scroll-target="#reading-a-csv-file">Reading a CSV File</a></li>
   <li><a href="#other-file-formats" id="toc-other-file-formats" class="nav-link" data-scroll-target="#other-file-formats">Other File Formats</a></li>
   <li><a href="#saving-dataframes" id="toc-saving-dataframes" class="nav-link" data-scroll-target="#saving-dataframes">Saving DataFrames</a></li>
   </ul></li>
@@ -641,14 +641,13 @@ Dictionaries are Everywhere in GIS
 <h3 class="anchored" data-anchor-id="installing-packages">Installing Packages</h3>
 <p>Python’s standard library covers the basics, but most data analysis and geospatial work relies on third-party packages. You install them once, then import them into any script that needs them.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using uv (recommended for this course)</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># uv add pandas openpyxl</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># uv add pandas</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Using pip</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># pip install pandas openpyxl</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># pip install pandas</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Using conda</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># conda install pandas openpyxl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You will need <code>openpyxl</code> alongside <code>pandas</code> to read <code>.xlsx</code> files.</p>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># conda install pandas</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="the-import-statement" class="level3">
 <h3 class="anchored" data-anchor-id="the-import-statement">The <code>import</code> Statement</h3>
@@ -772,21 +771,22 @@ Why <code>pd</code> and not <code>pandas</code>?
 <section id="reading-the-auckland-pedestrian-data" class="level2">
 <h2 class="anchored" data-anchor-id="reading-the-auckland-pedestrian-data">Reading the Auckland Pedestrian Data</h2>
 <p>Now let us move from toy examples to a real dataset. Throughout the rest of this section, we will work with hourly pedestrian count data collected from 20 sensor locations across Auckland CBD during 2024. This dataset is in <strong>wide format</strong>: each sensor location is its own column, and each row represents one hour of one day.</p>
-<section id="reading-an-excel-file" class="level3">
-<h3 class="anchored" data-anchor-id="reading-an-excel-file">Reading an Excel File</h3>
+<section id="reading-a-csv-file" class="level3">
+<h3 class="anchored" data-anchor-id="reading-a-csv-file">Reading a CSV File</h3>
 <div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Auckland pedestrian count data</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> pd.read_excel(<span class="st">'data/All pedestrian data day by hour 2024.xlsx'</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick look at the first few rows</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ped.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>pd.read_excel()</code> function reads <code>.xlsx</code> files into a DataFrame. You will need the <code>openpyxl</code> package installed for this to work. The function accepts many of the same arguments as <code>pd.read_csv()</code>, including <code>sheet_name</code> to specify which sheet to read, <code>skiprows</code> to skip metadata rows, and <code>usecols</code> to select specific columns.</p>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Auckland pedestrian count data from GitHub</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/dataandcrowd/GISCI343/refs/heads/main/pedestrians/akl_ped-2024.csv'</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick look at the first few rows</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ped.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>pd.read_csv()</code> function reads comma-separated values into a DataFrame. You can pass it a local file path or a URL, which makes it straightforward to load data hosted on GitHub or other repositories. The function accepts many useful arguments, including <code>sep</code> for specifying the delimiter, <code>skiprows</code> for skipping metadata rows, and <code>usecols</code> for selecting specific columns.</p>
 </section>
 <section id="other-file-formats" class="level3">
 <h3 class="anchored" data-anchor-id="other-file-formats">Other File Formats</h3>
-<p>pandas can read many file formats beyond Excel. The most common ones you will encounter in geospatial work are:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CSV (Comma-Separated Values) - the most common format</span></span>
+<p>pandas can read many file formats beyond CSV. The most common ones you will encounter in geospatial work are:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Local CSV file</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data.csv'</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Tab-separated files</span></span>
@@ -795,9 +795,8 @@ Why <code>pd</code> and not <code>pandas</code>?
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># JSON (common from APIs and GeoJSON)</span></span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_json(<span class="st">'data.json'</span>)</span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading from a URL</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/data.csv'</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Excel files (requires openpyxl)</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_excel(<span class="st">'data.xlsx'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Common arguments</strong> that work across most <code>read_</code> functions include <code>skiprows</code> for skipping header metadata, <code>header</code> for specifying which row contains column names, <code>dtype</code> for setting column data types, <code>na_values</code> for defining what counts as missing data, <code>parse_dates</code> for converting date strings to datetime objects, <code>usecols</code> for selecting specific columns, and <code>nrows</code> for reading only the first <em>n</em> rows.</p>
 </section>
 <section id="saving-dataframes" class="level3">
@@ -805,8 +804,8 @@ Why <code>pd</code> and not <code>pandas</code>?
 <div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save to CSV (most portable)</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">'output.csv'</span>, index<span class="op">=</span><span class="va">False</span>)  <span class="co"># index=False avoids an extra column</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save to Excel</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>df.to_excel(<span class="st">'output.xlsx'</span>, sheet_name<span class="op">=</span><span class="st">'Data'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save to Excel (requires openpyxl)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># df.to_excel('output.xlsx', sheet_name='Data', index=False)</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Save to JSON</span></span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>df.to_json(<span class="st">'output.json'</span>, orient<span class="op">=</span><span class="st">'records'</span>, indent<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -946,23 +945,25 @@ Why <code>pd</code> and not <code>pandas</code>?
 <section id="filtering-by-date-and-time" class="level3">
 <h3 class="anchored" data-anchor-id="filtering-by-date-and-time">Filtering by Date and Time</h3>
 <p>The pedestrian data includes <code>Date</code> and <code>Time</code> columns, which allow temporal filtering:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure Date is a datetime type</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>ped[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(ped[<span class="st">'Date'</span>])</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for a specific month (e.g. March 2024)</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>march <span class="op">=</span> ped[ped[<span class="st">'Date'</span>].dt.month <span class="op">==</span> <span class="dv">3</span>]</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"March rows: </span><span class="sc">{</span><span class="bu">len</span>(march)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for a specific day of the week (0 = Monday, 6 = Sunday)</span></span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>weekdays <span class="op">=</span> ped[ped[<span class="st">'Date'</span>].dt.dayofweek <span class="op">&lt;</span> <span class="dv">5</span>]  <span class="co"># Monday to Friday</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>weekends <span class="op">=</span> ped[ped[<span class="st">'Date'</span>].dt.dayofweek <span class="op">&gt;=</span> <span class="dv">5</span>]  <span class="co"># Saturday and Sunday</span></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Weekday rows: </span><span class="sc">{</span><span class="bu">len</span>(weekdays)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Weekend rows: </span><span class="sc">{</span><span class="bu">len</span>(weekends)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for morning peak hours (using the Time string column)</span></span>
-<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>morning_peak <span class="op">=</span> ped[ped[<span class="st">'Time'</span>].isin([<span class="st">'7:00-7:59'</span>, <span class="st">'8:00-8:59'</span>, <span class="st">'9:00-9:59'</span>])]</span>
-<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Morning peak rows: </span><span class="sc">{</span><span class="bu">len</span>(morning_peak)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean non-data rows first, then convert Date to datetime</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> ped.dropna(subset<span class="op">=</span>[<span class="st">'Date'</span>, <span class="st">'Time'</span>])</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> ped[ped[<span class="st">'Date'</span>] <span class="op">!=</span> <span class="st">'Daylight Savings'</span>]</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>ped[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(ped[<span class="st">'Date'</span>])</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for a specific month (e.g. March 2024)</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>march <span class="op">=</span> ped[ped[<span class="st">'Date'</span>].dt.month <span class="op">==</span> <span class="dv">3</span>]</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"March rows: </span><span class="sc">{</span><span class="bu">len</span>(march)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for a specific day of the week (0 = Monday, 6 = Sunday)</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>weekdays <span class="op">=</span> ped[ped[<span class="st">'Date'</span>].dt.dayofweek <span class="op">&lt;</span> <span class="dv">5</span>]  <span class="co"># Monday to Friday</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>weekends <span class="op">=</span> ped[ped[<span class="st">'Date'</span>].dt.dayofweek <span class="op">&gt;=</span> <span class="dv">5</span>]  <span class="co"># Saturday and Sunday</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Weekday rows: </span><span class="sc">{</span><span class="bu">len</span>(weekdays)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Weekend rows: </span><span class="sc">{</span><span class="bu">len</span>(weekends)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for morning peak hours (using the Time string column)</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>morning_peak <span class="op">=</span> ped[ped[<span class="st">'Time'</span>].isin([<span class="st">'7:00-7:59'</span>, <span class="st">'8:00-8:59'</span>, <span class="st">'9:00-9:59'</span>])]</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Morning peak rows: </span><span class="sc">{</span><span class="bu">len</span>(morning_peak)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="the-.query-method" class="level3">
 <h3 class="anchored" data-anchor-id="the-.query-method">The <code>.query()</code> Method</h3>
@@ -1411,134 +1412,139 @@ Section 2.3 Goes Deeper
 <span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. LOAD DATA</span></span>
 <span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
 <span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> pd.read_excel(<span class="st">'data/All pedestrian data day by hour 2024.xlsx'</span>)</span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data loaded: </span><span class="sc">{</span>ped<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> rows, </span><span class="sc">{</span>ped<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> columns"</span>)</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/dataandcrowd/GISCI343/refs/heads/main/pedestrians/akl_ped-2024.csv'</span></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> pd.read_csv(url)</span>
 <span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. INITIAL EXPLORATION</span></span>
-<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Column names:"</span>)</span>
-<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ped.columns.tolist())</span>
-<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Missing values:</span><span class="ch">\n</span><span class="sc">{</span>ped<span class="sc">.</span>isnull()<span class="sc">.</span><span class="bu">sum</span>()[ped.isnull().<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. DATA PREPARATION</span></span>
-<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> ped.copy()</span>
-<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'Date'</span>])</span>
-<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Month'</span>] <span class="op">=</span> df[<span class="st">'Date'</span>].dt.month</span>
-<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'DayOfWeek'</span>] <span class="op">=</span> df[<span class="st">'Date'</span>].dt.day_name()</span>
-<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'IsWeekend'</span>] <span class="op">=</span> df[<span class="st">'Date'</span>].dt.dayofweek <span class="op">&gt;=</span> <span class="dv">5</span></span>
-<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Hour'</span>] <span class="op">=</span> df[<span class="st">'Time'</span>].<span class="bu">str</span>.split(<span class="st">':'</span>).<span class="bu">str</span>[<span class="dv">0</span>].astype(<span class="bu">int</span>)</span>
-<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the 20 sensor location columns</span></span>
-<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>location_cols <span class="op">=</span> df.columns[<span class="dv">2</span>:<span class="dv">22</span>]</span>
-<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Total'</span>] <span class="op">=</span> df[location_cols].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Prepared data shape: </span><span class="sc">{</span>df<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. TEMPORAL ANALYSIS</span></span>
-<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-41"><a href="#cb60-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Average pedestrian count by hour across all sensors</span></span>
-<span id="cb60-42"><a href="#cb60-42" aria-hidden="true" tabindex="-1"></a>hourly_avg <span class="op">=</span> df.groupby(<span class="st">'Hour'</span>)[<span class="st">'Total'</span>].mean().<span class="bu">round</span>(<span class="dv">0</span>)</span>
-<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Average total pedestrians by hour:"</span>)</span>
-<span id="cb60-44"><a href="#cb60-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hourly_avg)</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop non-data rows (blank separators and Daylight Savings marker)</span></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> ped.dropna(subset<span class="op">=</span>[<span class="st">'Date'</span>, <span class="st">'Time'</span>])</span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> ped[ped[<span class="st">'Date'</span>] <span class="op">!=</span> <span class="st">'Daylight Savings'</span>]</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data loaded: </span><span class="sc">{</span>ped<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> rows, </span><span class="sc">{</span>ped<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> columns"</span>)</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. INITIAL EXPLORATION</span></span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Column names:"</span>)</span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ped.columns.tolist())</span>
+<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Missing values:</span><span class="ch">\n</span><span class="sc">{</span>ped<span class="sc">.</span>isnull()<span class="sc">.</span><span class="bu">sum</span>()[ped.isnull().<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. DATA PREPARATION</span></span>
+<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> ped.copy()</span>
+<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'Date'</span>])</span>
+<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Month'</span>] <span class="op">=</span> df[<span class="st">'Date'</span>].dt.month</span>
+<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'DayOfWeek'</span>] <span class="op">=</span> df[<span class="st">'Date'</span>].dt.day_name()</span>
+<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'IsWeekend'</span>] <span class="op">=</span> df[<span class="st">'Date'</span>].dt.dayofweek <span class="op">&gt;=</span> <span class="dv">5</span></span>
+<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Hour'</span>] <span class="op">=</span> df[<span class="st">'Time'</span>].<span class="bu">str</span>.split(<span class="st">':'</span>).<span class="bu">str</span>[<span class="dv">0</span>].astype(<span class="bu">int</span>)</span>
+<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-36"><a href="#cb60-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the 20 sensor location columns</span></span>
+<span id="cb60-37"><a href="#cb60-37" aria-hidden="true" tabindex="-1"></a>location_cols <span class="op">=</span> df.columns[<span class="dv">2</span>:<span class="dv">22</span>]</span>
+<span id="cb60-38"><a href="#cb60-38" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Total'</span>] <span class="op">=</span> df[location_cols].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb60-39"><a href="#cb60-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-40"><a href="#cb60-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Prepared data shape: </span><span class="sc">{</span>df<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb60-41"><a href="#cb60-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-42"><a href="#cb60-42" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-43"><a href="#cb60-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. TEMPORAL ANALYSIS</span></span>
+<span id="cb60-44"><a href="#cb60-44" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
 <span id="cb60-45"><a href="#cb60-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-46"><a href="#cb60-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Weekday vs weekend comparison</span></span>
-<span id="cb60-47"><a href="#cb60-47" aria-hidden="true" tabindex="-1"></a>weekday_avg <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">'IsWeekend'</span>]].groupby(<span class="st">'Hour'</span>)[<span class="st">'Total'</span>].mean()</span>
-<span id="cb60-48"><a href="#cb60-48" aria-hidden="true" tabindex="-1"></a>weekend_avg <span class="op">=</span> df[df[<span class="st">'IsWeekend'</span>]].groupby(<span class="st">'Hour'</span>)[<span class="st">'Total'</span>].mean()</span>
-<span id="cb60-49"><a href="#cb60-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-50"><a href="#cb60-50" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-51"><a href="#cb60-51" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. LOCATION ANALYSIS</span></span>
-<span id="cb60-52"><a href="#cb60-52" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-53"><a href="#cb60-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-54"><a href="#cb60-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Rank locations by total annual volume</span></span>
-<span id="cb60-55"><a href="#cb60-55" aria-hidden="true" tabindex="-1"></a>annual_totals <span class="op">=</span> df[location_cols].<span class="bu">sum</span>().sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb60-56"><a href="#cb60-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Top 5 locations by annual volume:"</span>)</span>
-<span id="cb60-57"><a href="#cb60-57" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> loc, total <span class="kw">in</span> annual_totals.head(<span class="dv">5</span>).items():</span>
-<span id="cb60-58"><a href="#cb60-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>loc<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>total<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
-<span id="cb60-59"><a href="#cb60-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-60"><a href="#cb60-60" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-61"><a href="#cb60-61" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. RESHAPE AND MERGE</span></span>
-<span id="cb60-62"><a href="#cb60-62" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-63"><a href="#cb60-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-64"><a href="#cb60-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt to long format for cross-location analysis</span></span>
-<span id="cb60-65"><a href="#cb60-65" aria-hidden="true" tabindex="-1"></a>df_long <span class="op">=</span> df.melt(</span>
-<span id="cb60-66"><a href="#cb60-66" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span>[<span class="st">'Date'</span>, <span class="st">'Time'</span>, <span class="st">'Hour'</span>, <span class="st">'Month'</span>, <span class="st">'DayOfWeek'</span>, <span class="st">'IsWeekend'</span>],</span>
-<span id="cb60-67"><a href="#cb60-67" aria-hidden="true" tabindex="-1"></a>    value_vars<span class="op">=</span>location_cols,</span>
-<span id="cb60-68"><a href="#cb60-68" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">'Location'</span>,</span>
-<span id="cb60-69"><a href="#cb60-69" aria-hidden="true" tabindex="-1"></a>    value_name<span class="op">=</span><span class="st">'Count'</span></span>
-<span id="cb60-70"><a href="#cb60-70" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb60-71"><a href="#cb60-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-72"><a href="#cb60-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Average by location and whether it is a weekday or weekend</span></span>
-<span id="cb60-73"><a href="#cb60-73" aria-hidden="true" tabindex="-1"></a>location_comparison <span class="op">=</span> df_long.groupby([<span class="st">'Location'</span>, <span class="st">'IsWeekend'</span>])[<span class="st">'Count'</span>].mean().unstack()</span>
-<span id="cb60-74"><a href="#cb60-74" aria-hidden="true" tabindex="-1"></a>location_comparison.columns <span class="op">=</span> [<span class="st">'Weekday'</span>, <span class="st">'Weekend'</span>]</span>
-<span id="cb60-75"><a href="#cb60-75" aria-hidden="true" tabindex="-1"></a>location_comparison[<span class="st">'Ratio'</span>] <span class="op">=</span> (location_comparison[<span class="st">'Weekend'</span>] <span class="op">/</span> location_comparison[<span class="st">'Weekday'</span>]).<span class="bu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb60-76"><a href="#cb60-76" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Weekend-to-weekday ratio by location:"</span>)</span>
-<span id="cb60-77"><a href="#cb60-77" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(location_comparison.sort_values(<span class="st">'Ratio'</span>, ascending<span class="op">=</span><span class="va">False</span>))</span>
-<span id="cb60-78"><a href="#cb60-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-79"><a href="#cb60-79" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-80"><a href="#cb60-80" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. VISUALISATION</span></span>
-<span id="cb60-81"><a href="#cb60-81" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-82"><a href="#cb60-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-83"><a href="#cb60-83" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">10</span>))</span>
-<span id="cb60-84"><a href="#cb60-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-85"><a href="#cb60-85" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 1: Average hourly pattern (weekday vs weekend)</span></span>
-<span id="cb60-86"><a href="#cb60-86" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(weekday_avg.index, weekday_avg.values, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">'Weekday'</span>)</span>
-<span id="cb60-87"><a href="#cb60-87" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(weekend_avg.index, weekend_avg.values, marker<span class="op">=</span><span class="st">'s'</span>, label<span class="op">=</span><span class="st">'Weekend'</span>)</span>
-<span id="cb60-88"><a href="#cb60-88" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">'Average Hourly Pedestrian Counts'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb60-89"><a href="#cb60-89" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Hour of Day'</span>)</span>
-<span id="cb60-90"><a href="#cb60-90" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Total Count (all sensors)'</span>)</span>
-<span id="cb60-91"><a href="#cb60-91" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].legend()</span>
-<span id="cb60-92"><a href="#cb60-92" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
-<span id="cb60-93"><a href="#cb60-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-94"><a href="#cb60-94" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 2: Top 10 locations by annual volume</span></span>
-<span id="cb60-95"><a href="#cb60-95" aria-hidden="true" tabindex="-1"></a>top_10 <span class="op">=</span> annual_totals.head(<span class="dv">10</span>)</span>
-<span id="cb60-96"><a href="#cb60-96" aria-hidden="true" tabindex="-1"></a>top_10.plot(kind<span class="op">=</span><span class="st">'barh'</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>, <span class="dv">1</span>], color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
-<span id="cb60-97"><a href="#cb60-97" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">'Top 10 Locations by Annual Volume'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb60-98"><a href="#cb60-98" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'Total Annual Count'</span>)</span>
-<span id="cb60-99"><a href="#cb60-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-100"><a href="#cb60-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 3: Monthly trend</span></span>
-<span id="cb60-101"><a href="#cb60-101" aria-hidden="true" tabindex="-1"></a>monthly_total <span class="op">=</span> df.groupby(<span class="st">'Month'</span>)[<span class="st">'Total'</span>].<span class="bu">sum</span>()</span>
-<span id="cb60-102"><a href="#cb60-102" aria-hidden="true" tabindex="-1"></a>monthly_total.plot(kind<span class="op">=</span><span class="st">'bar'</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">0</span>], color<span class="op">=</span><span class="st">'forestgreen'</span>)</span>
-<span id="cb60-103"><a href="#cb60-103" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">'Total Pedestrian Counts by Month'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb60-104"><a href="#cb60-104" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Month'</span>)</span>
-<span id="cb60-105"><a href="#cb60-105" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Total Count'</span>)</span>
-<span id="cb60-106"><a href="#cb60-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-107"><a href="#cb60-107" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 4: Distribution of hourly counts at the busiest location</span></span>
-<span id="cb60-108"><a href="#cb60-108" aria-hidden="true" tabindex="-1"></a>busiest_location <span class="op">=</span> annual_totals.index[<span class="dv">0</span>]</span>
-<span id="cb60-109"><a href="#cb60-109" aria-hidden="true" tabindex="-1"></a>df[busiest_location].plot(kind<span class="op">=</span><span class="st">'hist'</span>, bins<span class="op">=</span><span class="dv">30</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">1</span>],</span>
-<span id="cb60-110"><a href="#cb60-110" aria-hidden="true" tabindex="-1"></a>                           edgecolor<span class="op">=</span><span class="st">'black'</span>, color<span class="op">=</span><span class="st">'coral'</span>)</span>
-<span id="cb60-111"><a href="#cb60-111" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="ss">f'Hourly Count Distribution: </span><span class="sc">{</span>busiest_location<span class="sc">}</span><span class="ss">'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
-<span id="cb60-112"><a href="#cb60-112" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'Hourly Count'</span>)</span>
-<span id="cb60-113"><a href="#cb60-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-114"><a href="#cb60-114" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb60-115"><a href="#cb60-115" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb60-116"><a href="#cb60-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-117"><a href="#cb60-117" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-118"><a href="#cb60-118" aria-hidden="true" tabindex="-1"></a><span class="co"># 8. EXPORT RESULTS</span></span>
-<span id="cb60-119"><a href="#cb60-119" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
-<span id="cb60-120"><a href="#cb60-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-121"><a href="#cb60-121" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the enriched dataset</span></span>
-<span id="cb60-122"><a href="#cb60-122" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">'auckland_pedestrian_enriched.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb60-123"><a href="#cb60-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-124"><a href="#cb60-124" aria-hidden="true" tabindex="-1"></a><span class="co"># Save location summary</span></span>
-<span id="cb60-125"><a href="#cb60-125" aria-hidden="true" tabindex="-1"></a>annual_totals.to_csv(<span class="st">'location_annual_totals.csv'</span>)</span>
-<span id="cb60-126"><a href="#cb60-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-127"><a href="#cb60-127" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Analysis complete."</span>)</span>
-<span id="cb60-128"><a href="#cb60-128" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total sensor-hours analysed: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">:,}</span><span class="ss">"</span>)</span>
-<span id="cb60-129"><a href="#cb60-129" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total pedestrian counts recorded: </span><span class="sc">{</span>df[<span class="st">'Total'</span>]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
-<span id="cb60-130"><a href="#cb60-130" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Busiest location: </span><span class="sc">{</span>annual_totals<span class="sc">.</span>index[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb60-131"><a href="#cb60-131" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Busiest month: month </span><span class="sc">{</span>monthly_total<span class="sc">.</span>idxmax()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb60-46"><a href="#cb60-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Average pedestrian count by hour across all sensors</span></span>
+<span id="cb60-47"><a href="#cb60-47" aria-hidden="true" tabindex="-1"></a>hourly_avg <span class="op">=</span> df.groupby(<span class="st">'Hour'</span>)[<span class="st">'Total'</span>].mean().<span class="bu">round</span>(<span class="dv">0</span>)</span>
+<span id="cb60-48"><a href="#cb60-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Average total pedestrians by hour:"</span>)</span>
+<span id="cb60-49"><a href="#cb60-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(hourly_avg)</span>
+<span id="cb60-50"><a href="#cb60-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-51"><a href="#cb60-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Weekday vs weekend comparison</span></span>
+<span id="cb60-52"><a href="#cb60-52" aria-hidden="true" tabindex="-1"></a>weekday_avg <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">'IsWeekend'</span>]].groupby(<span class="st">'Hour'</span>)[<span class="st">'Total'</span>].mean()</span>
+<span id="cb60-53"><a href="#cb60-53" aria-hidden="true" tabindex="-1"></a>weekend_avg <span class="op">=</span> df[df[<span class="st">'IsWeekend'</span>]].groupby(<span class="st">'Hour'</span>)[<span class="st">'Total'</span>].mean()</span>
+<span id="cb60-54"><a href="#cb60-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-55"><a href="#cb60-55" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-56"><a href="#cb60-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. LOCATION ANALYSIS</span></span>
+<span id="cb60-57"><a href="#cb60-57" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-58"><a href="#cb60-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-59"><a href="#cb60-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Rank locations by total annual volume</span></span>
+<span id="cb60-60"><a href="#cb60-60" aria-hidden="true" tabindex="-1"></a>annual_totals <span class="op">=</span> df[location_cols].<span class="bu">sum</span>().sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb60-61"><a href="#cb60-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Top 5 locations by annual volume:"</span>)</span>
+<span id="cb60-62"><a href="#cb60-62" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> loc, total <span class="kw">in</span> annual_totals.head(<span class="dv">5</span>).items():</span>
+<span id="cb60-63"><a href="#cb60-63" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>loc<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>total<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb60-64"><a href="#cb60-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-65"><a href="#cb60-65" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-66"><a href="#cb60-66" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. RESHAPE AND MERGE</span></span>
+<span id="cb60-67"><a href="#cb60-67" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-68"><a href="#cb60-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-69"><a href="#cb60-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt to long format for cross-location analysis</span></span>
+<span id="cb60-70"><a href="#cb60-70" aria-hidden="true" tabindex="-1"></a>df_long <span class="op">=</span> df.melt(</span>
+<span id="cb60-71"><a href="#cb60-71" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span>[<span class="st">'Date'</span>, <span class="st">'Time'</span>, <span class="st">'Hour'</span>, <span class="st">'Month'</span>, <span class="st">'DayOfWeek'</span>, <span class="st">'IsWeekend'</span>],</span>
+<span id="cb60-72"><a href="#cb60-72" aria-hidden="true" tabindex="-1"></a>    value_vars<span class="op">=</span>location_cols,</span>
+<span id="cb60-73"><a href="#cb60-73" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">'Location'</span>,</span>
+<span id="cb60-74"><a href="#cb60-74" aria-hidden="true" tabindex="-1"></a>    value_name<span class="op">=</span><span class="st">'Count'</span></span>
+<span id="cb60-75"><a href="#cb60-75" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb60-76"><a href="#cb60-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-77"><a href="#cb60-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Average by location and whether it is a weekday or weekend</span></span>
+<span id="cb60-78"><a href="#cb60-78" aria-hidden="true" tabindex="-1"></a>location_comparison <span class="op">=</span> df_long.groupby([<span class="st">'Location'</span>, <span class="st">'IsWeekend'</span>])[<span class="st">'Count'</span>].mean().unstack()</span>
+<span id="cb60-79"><a href="#cb60-79" aria-hidden="true" tabindex="-1"></a>location_comparison.columns <span class="op">=</span> [<span class="st">'Weekday'</span>, <span class="st">'Weekend'</span>]</span>
+<span id="cb60-80"><a href="#cb60-80" aria-hidden="true" tabindex="-1"></a>location_comparison[<span class="st">'Ratio'</span>] <span class="op">=</span> (location_comparison[<span class="st">'Weekend'</span>] <span class="op">/</span> location_comparison[<span class="st">'Weekday'</span>]).<span class="bu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb60-81"><a href="#cb60-81" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Weekend-to-weekday ratio by location:"</span>)</span>
+<span id="cb60-82"><a href="#cb60-82" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(location_comparison.sort_values(<span class="st">'Ratio'</span>, ascending<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb60-83"><a href="#cb60-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-84"><a href="#cb60-84" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-85"><a href="#cb60-85" aria-hidden="true" tabindex="-1"></a><span class="co"># 7. VISUALISATION</span></span>
+<span id="cb60-86"><a href="#cb60-86" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-87"><a href="#cb60-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-88"><a href="#cb60-88" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">10</span>))</span>
+<span id="cb60-89"><a href="#cb60-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-90"><a href="#cb60-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 1: Average hourly pattern (weekday vs weekend)</span></span>
+<span id="cb60-91"><a href="#cb60-91" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(weekday_avg.index, weekday_avg.values, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">'Weekday'</span>)</span>
+<span id="cb60-92"><a href="#cb60-92" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].plot(weekend_avg.index, weekend_avg.values, marker<span class="op">=</span><span class="st">'s'</span>, label<span class="op">=</span><span class="st">'Weekend'</span>)</span>
+<span id="cb60-93"><a href="#cb60-93" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">'Average Hourly Pedestrian Counts'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb60-94"><a href="#cb60-94" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Hour of Day'</span>)</span>
+<span id="cb60-95"><a href="#cb60-95" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Total Count (all sensors)'</span>)</span>
+<span id="cb60-96"><a href="#cb60-96" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].legend()</span>
+<span id="cb60-97"><a href="#cb60-97" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb60-98"><a href="#cb60-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-99"><a href="#cb60-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 2: Top 10 locations by annual volume</span></span>
+<span id="cb60-100"><a href="#cb60-100" aria-hidden="true" tabindex="-1"></a>top_10 <span class="op">=</span> annual_totals.head(<span class="dv">10</span>)</span>
+<span id="cb60-101"><a href="#cb60-101" aria-hidden="true" tabindex="-1"></a>top_10.plot(kind<span class="op">=</span><span class="st">'barh'</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>, <span class="dv">1</span>], color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
+<span id="cb60-102"><a href="#cb60-102" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">'Top 10 Locations by Annual Volume'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb60-103"><a href="#cb60-103" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'Total Annual Count'</span>)</span>
+<span id="cb60-104"><a href="#cb60-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-105"><a href="#cb60-105" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 3: Monthly trend</span></span>
+<span id="cb60-106"><a href="#cb60-106" aria-hidden="true" tabindex="-1"></a>monthly_total <span class="op">=</span> df.groupby(<span class="st">'Month'</span>)[<span class="st">'Total'</span>].<span class="bu">sum</span>()</span>
+<span id="cb60-107"><a href="#cb60-107" aria-hidden="true" tabindex="-1"></a>monthly_total.plot(kind<span class="op">=</span><span class="st">'bar'</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">0</span>], color<span class="op">=</span><span class="st">'forestgreen'</span>)</span>
+<span id="cb60-108"><a href="#cb60-108" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">'Total Pedestrian Counts by Month'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb60-109"><a href="#cb60-109" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Month'</span>)</span>
+<span id="cb60-110"><a href="#cb60-110" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Total Count'</span>)</span>
+<span id="cb60-111"><a href="#cb60-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-112"><a href="#cb60-112" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot 4: Distribution of hourly counts at the busiest location</span></span>
+<span id="cb60-113"><a href="#cb60-113" aria-hidden="true" tabindex="-1"></a>busiest_location <span class="op">=</span> annual_totals.index[<span class="dv">0</span>]</span>
+<span id="cb60-114"><a href="#cb60-114" aria-hidden="true" tabindex="-1"></a>df[busiest_location].plot(kind<span class="op">=</span><span class="st">'hist'</span>, bins<span class="op">=</span><span class="dv">30</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>, <span class="dv">1</span>],</span>
+<span id="cb60-115"><a href="#cb60-115" aria-hidden="true" tabindex="-1"></a>                           edgecolor<span class="op">=</span><span class="st">'black'</span>, color<span class="op">=</span><span class="st">'coral'</span>)</span>
+<span id="cb60-116"><a href="#cb60-116" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="ss">f'Hourly Count Distribution: </span><span class="sc">{</span>busiest_location<span class="sc">}</span><span class="ss">'</span>, fontweight<span class="op">=</span><span class="st">'bold'</span>)</span>
+<span id="cb60-117"><a href="#cb60-117" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'Hourly Count'</span>)</span>
+<span id="cb60-118"><a href="#cb60-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-119"><a href="#cb60-119" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb60-120"><a href="#cb60-120" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb60-121"><a href="#cb60-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-122"><a href="#cb60-122" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-123"><a href="#cb60-123" aria-hidden="true" tabindex="-1"></a><span class="co"># 8. EXPORT RESULTS</span></span>
+<span id="cb60-124"><a href="#cb60-124" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================</span></span>
+<span id="cb60-125"><a href="#cb60-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-126"><a href="#cb60-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the enriched dataset</span></span>
+<span id="cb60-127"><a href="#cb60-127" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">'auckland_pedestrian_enriched.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb60-128"><a href="#cb60-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-129"><a href="#cb60-129" aria-hidden="true" tabindex="-1"></a><span class="co"># Save location summary</span></span>
+<span id="cb60-130"><a href="#cb60-130" aria-hidden="true" tabindex="-1"></a>annual_totals.to_csv(<span class="st">'location_annual_totals.csv'</span>)</span>
+<span id="cb60-131"><a href="#cb60-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-132"><a href="#cb60-132" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Analysis complete."</span>)</span>
+<span id="cb60-133"><a href="#cb60-133" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total sensor-hours analysed: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb60-134"><a href="#cb60-134" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total pedestrian counts recorded: </span><span class="sc">{</span>df[<span class="st">'Total'</span>]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb60-135"><a href="#cb60-135" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Busiest location: </span><span class="sc">{</span>annual_totals<span class="sc">.</span>index[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb60-136"><a href="#cb60-136" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Busiest month: month </span><span class="sc">{</span>monthly_total<span class="sc">.</span>idxmax()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This section has taken you through the complete pandas workflow, from raw data to analytical insight, using Auckland’s real pedestrian count data as the throughline. You began with dictionaries, Python’s key-value data structure that underpins GeoJSON and API responses, and the gateway through which most real-world geospatial data enters your analysis pipeline. You then learned how to create DataFrames from dictionaries and read real data from Excel files, each with their own set of import arguments for handling headers, data types, and missing values.</p>
+<p>This section has taken you through the complete pandas workflow, from raw data to analytical insight, using Auckland’s real pedestrian count data as the throughline. You began with dictionaries, Python’s key-value data structure that underpins GeoJSON and API responses, and the gateway through which most real-world geospatial data enters your analysis pipeline. You then learned how to create DataFrames from dictionaries and read real data from CSV files, each with their own set of import arguments for handling headers, data types, and missing values.</p>
 <p>Exploring DataFrames through methods like <code>.describe()</code>, <code>.info()</code>, <code>.head()</code>, and <code>.tail()</code> gives you the initial understanding of your data’s structure, size, and quality. Selecting and filtering data, whether through column selection, <code>.iloc[]</code>/<code>.loc[]</code> indexing, boolean indexing, or the <code>.query()</code> method, allows you to isolate the records and variables relevant to your analysis. The <code>.copy()</code> method ensures that your filtered subsets do not inadvertently modify the original data.</p>
 <p>The groupby operation, which follows the split-apply-combine pattern, is perhaps the single most important analytical tool in pandas for geospatial work. Whether you are computing average pedestrian counts by hour of day, total volumes by sensor location, or weekday-vs-weekend ratios across the city centre, groupby is the mechanism that makes this possible. Pivot tables and melting operations complement groupby by reshaping data between wide and long formats, each suited to different analytical and visualisation tasks.</p>
 <p>You also addressed the reality of messy data by learning to detect, remove, and fill missing values, and you combined datasets through merge operations (inner, left, right, and outer joins) that directly parallel the spatial joins you will learn in Section 2.4. Finally, a preview of pandas’ built-in plotting capabilities demonstrated how quick visualisations can verify your data processing at each stage of an analysis.</p>
@@ -1597,24 +1603,23 @@ Essential Skills for GIS Analysis
 <span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[[<span class="st">'name'</span>, <span class="st">'distance'</span>]])</span>
 <span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Closest sensor to Britomart: </span><span class="sc">{</span>closest<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Exercise 2: Exploring the Pedestrian Data</strong></p>
+<p><strong>Exercise 2: Exploring the Pedestrian Data</strong> (ungraded, but worth trying)</p>
 <p>Load the Auckland pedestrian data and answer these questions:</p>
 <ol type="1">
-<li>How many rows and columns does the dataset have? (quiz 4)</li>
-<li>Which location has the highest single-hour count in the entire year? (quiz 5)</li>
-<li>What percentage of values are missing across the whole dataset? (quiz 6)</li>
-<li>What is the average hourly count at each location? (bonus)</li>
+<li>How many rows and columns does the dataset have?</li>
+<li>Which location has the highest single-hour count in the entire year?</li>
+<li>What percentage of values are missing across the whole dataset?</li>
+<li>What is the average hourly count at each location?</li>
+</ol>
+<p><strong>Exercise 3: Filtering and Temporal Analysis</strong> (ungraded, but worth trying)</p>
+<p>Using the pedestrian data:</p>
+<ol type="1">
+<li>Filter for only weekend data (Saturday and Sunday)</li>
+<li>Filter for the evening peak (17:00-18:59)</li>
+<li>Find all hours where 45 Queen Street had more than 1000 pedestrians</li>
+<li>What day of the year had the highest total pedestrian count across all sensors?</li>
 </ol>
 <!--
-**Exercise 3: Filtering and Temporal Analysis**
-
-Using the pedestrian data:
-
-1. Filter for only weekend data (Saturday and Sunday)
-2. Filter for the evening peak (17:00-18:59)
-3. Find all hours where 45 Queen Street had more than 1000 pedestrians
-4. What day of the year had the highest total pedestrian count across all sensors?
-
 **Exercise 4: Reshaping and Grouping**
 
 1. Melt the pedestrian data to long format
@@ -1639,7 +1644,7 @@ Conduct a full analysis of one sensor location of your choice:
 <section id="further-reading" class="level2">
 <h2 class="anchored" data-anchor-id="further-reading">Further Reading</h2>
 <p>The <a href="https://pandas.pydata.org/docs/">pandas documentation</a> is comprehensive and well-maintained, and the <a href="https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf">pandas Cheat Sheet</a> provides a useful quick reference. For a deeper treatment, VanderPlas’s <a href="https://jakevdp.github.io/PythonDataScienceHandbook/">Python Data Science Handbook</a> (freely available online) covers pandas alongside NumPy and matplotlib in an integrated manner. <a href="https://realpython.com/learning-paths/pandas-data-science/">Real Python’s pandas tutorials</a> and the <a href="https://www.kaggle.com/learn/pandas">Kaggle pandas course</a> offer interactive learning paths.</p>
-<p>For those interested in the pedestrian mobility context discussed throughout this section, Sevtsuk and Kalvo’s <span class="citation" data-cites="sevtsuk2024">(<a href="2.6.urban-analytics.html#ref-sevtsuk2024" role="doc-biblioref">2024</a>)</span> paper on modelling pedestrian activity with urban network analysis demonstrates how tabular data operations feed into spatial network models.</p>
+<p>For those interested in the pedestrian mobility context discussed throughout this section, Sevtsuk and Kalvo’s <span class="citation" data-cites="sevtsuk2024">(<a href="#ref-sevtsuk2024" role="doc-biblioref">2024</a>)</span> paper on modelling pedestrian activity with urban network analysis demonstrates how tabular data operations feed into spatial network models.</p>
 <hr>
 </section>
 <section id="next-steps" class="level2">
@@ -1649,7 +1654,7 @@ Conduct a full analysis of one sensor location of your choice:
 <p>The pandas skills you have learned transfer directly, because GeoPandas is fundamentally pandas with geometry.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-sevtsuk2024" class="csl-entry" role="listitem">
 Sevtsuk, Andres, and Raul Kalvo. 2024. <span>“Modeling Pedestrian Activity in Cities with Urban Network Analysis.”</span> <em>Environment and Planning B: Urban Analytics and City Science</em>. <a href="https://doi.org/10.1177/23998083241261766">https://doi.org/10.1177/23998083241261766</a>.
 </div>

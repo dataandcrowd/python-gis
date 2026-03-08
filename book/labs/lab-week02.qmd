@@ -11,7 +11,7 @@ By the end of this lab, you will have practised the core skills from Sections 2.
 **What you need:**
 
 - Python 3.10+ with `pandas`, `matplotlib`, and `seaborn` installed
-- The file `akl_ped-2024.csv` (https://github.com/dataandcrowd/GISCI343/tree/main/pedestrians)
+- The file `akl_ped-2024.csv` (https://raw.githubusercontent.com/dataandcrowd/GISCI343/refs/heads/main/pedestrians/akl_ped-2024.csv)
 - A Python script, Jupyter notebook,  or Quarto document to write your code
 
 **Structure:**
@@ -414,41 +414,99 @@ print(location_avg.head().round(0))
 
 ## Task 14: Handling Missing Data
 
-Real sensor data almost always has gaps: equipment failures, maintenance windows, or transmission errors.
+Real sensor data almost always has gaps: equipment failures, maintenance windows, or transmission errors. After our earlier cleaning step (dropping blank rows and the Daylight Savings marker), this particular dataset happens to be complete. Let us verify that first, and then deliberately introduce gaps so we can practise imputation strategies you will need in other projects.
 
 ```{python}
-# Check missing values per column
+# Check for missing values across all sensor columns
 missing = ped[sensor_cols].isna().sum()
-missing_pct = (missing / len(ped) * 100).round(1)
+print(f"Total missing cells: {missing.sum()}")
+```
 
-missing_summary = pd.DataFrame({
-    "missing_count": missing,
-    "missing_pct": missing_pct
-})
-print(missing_summary[missing_summary["missing_count"] > 0].sort_values("missing_count", ascending=False))
+Good news: zero missing values. But you will rarely be this lucky. To practise imputation, we will create a copy of one sensor's data and knock out a block of hours to simulate a sensor outage.
+
+```{python}
+# Simulate a sensor outage: remove hours 10-15 on a busy weekday
+sensor = "45 Queen Street"
+sim = ped[["Date", "Time", "hour", sensor]].copy()
+
+# Pick a Wednesday in March (a busy weekday)
+target_date = pd.Timestamp("2024-03-06")
+mask = (sim["Date"] == target_date) & (sim["hour"].between(10, 15))
+print(f"Rows to blank out: {mask.sum()}")
+print(f"True values we are hiding:")
+print(sim.loc[mask, ["hour", sensor]].to_string(index=False))
+
+# Replace with NaN
+sim.loc[mask, sensor] = np.nan
+```
+
+Now we have a realistic gap: six consecutive hours of missing data during peak time, but we know the true values. Let us see how different imputation strategies recover them.
+
+```{python}
+# Apply four strategies
+sim["fill_zero"] = sim[sensor].fillna(0)
+sim["fill_ffill"] = sim[sensor].ffill()
+sim["fill_bfill"] = sim[sensor].bfill()
+sim["fill_interp"] = sim[sensor].interpolate()
 ```
 
 ```{python}
-# Strategy 1: Fill with 0 (assumes no sensor reading = no people)
-ped_zero = ped[sensor_cols].fillna(0)
+# Compare strategies for the gap period
+gap_rows = sim[mask].copy()
+gap_rows = gap_rows.rename(columns={sensor: "true_value"})
 
-# Strategy 2: Forward fill (carry last known value)
-ped_ffill = ped[sensor_cols].ffill()
+# Retrieve the true values from the original ped DataFrame
+gap_rows["true_value"] = ped.loc[mask, sensor].values
 
-# Strategy 3: Interpolate (estimate between known values)
-ped_interp = ped[sensor_cols].interpolate()
-
-# Strategy 4: Drop rows with any missing
-ped_clean = ped.dropna(subset=sensor_cols.tolist())
-print(f"Rows after dropping missing: {len(ped_clean)} (from {len(ped)})")
+comparison = gap_rows[["hour", "true_value", "fill_zero", "fill_ffill", "fill_bfill", "fill_interp"]]
+comparison.columns = ["Hour", "True", "Zero", "Fwd Fill", "Bck Fill", "Interpolate"]
+print(comparison.to_string(index=False))
 ```
+
+```{python}
+# Compute the error for each strategy
+for strategy in ["Zero", "Fwd Fill", "Bck Fill", "Interpolate"]:
+    mae = (comparison[strategy] - comparison["True"]).abs().mean()
+    print(f"  {strategy:12s}  Mean Absolute Error = {mae:,.0f}")
+```
+
+```{python}
+# Visualise the gap and each strategy's attempt to fill it
+import matplotlib.pyplot as plt
+
+day = sim[sim["Date"] == target_date].copy()
+
+fig, ax = plt.subplots(figsize=(10, 4))
+
+# True values (from original data)
+true_day = ped.loc[ped["Date"] == target_date, ["hour", sensor]]
+ax.plot(true_day["hour"], true_day[sensor], "ko-", label="True", linewidth=2, zorder=5)
+
+# Each strategy
+ax.plot(day["hour"], day["fill_zero"], "s--", label="Fill 0", alpha=0.7)
+ax.plot(day["hour"], day["fill_ffill"], "^--", label="Forward fill", alpha=0.7)
+ax.plot(day["hour"], day["fill_bfill"], "v--", label="Backward fill", alpha=0.7)
+ax.plot(day["hour"], day["fill_interp"], "D-", label="Interpolate", alpha=0.7)
+
+# Shade the gap
+ax.axvspan(9.5, 15.5, color="grey", alpha=0.12, label="Simulated gap")
+
+ax.set_title(f"Imputation strategies: {sensor}, {target_date.date()}", fontweight="bold")
+ax.set_xlabel("Hour of day")
+ax.set_ylabel("Pedestrian count")
+ax.legend(fontsize=9)
+plt.tight_layout()
+plt.show()
+```
+
+The black line shows the true values we hid. Filling with zero massively undercounts during peak hours. Forward fill flatlines at the 9 AM value, missing the lunchtime surge entirely. Backward fill flatlines at the 4 PM value, which overshoots the morning but undershoots lunch. Interpolation draws a straight line between 9 AM and 4 PM, which at least captures the general trend but still misses the midday peak.
 
 ::: {.callout-note}
 ## Which Strategy?
-There is no single correct answer. Filling with zero assumes sensor silence means no pedestrians, which may undercount. Forward fill assumes counts stay constant, which may overcount. Interpolation is often a reasonable middle ground for continuous time series. Always document and justify your choice.
+There is no single correct answer. Filling with zero assumes sensor silence means no pedestrians, which can severely undercount during busy periods. Forward and backward fill create flat lines that ignore temporal patterns. Interpolation is often a reasonable middle ground for short gaps but struggles with longer ones where the underlying pattern is non-linear. For time series with strong daily rhythms (like pedestrian counts), more sophisticated approaches such as filling with the average for the same hour and day of week can perform better. Always document and justify your choice.
 :::
 
-**Your turn:** For a single sensor of your choice, compare the mean count using each of the four strategies above. How much do the results differ?
+**Your turn:** Try a smarter imputation: for each missing hour, fill with the mean count for that same hour across all other Wednesdays. How does the error compare to simple interpolation?
 
 ## Task 15: Merging DataFrames
 
