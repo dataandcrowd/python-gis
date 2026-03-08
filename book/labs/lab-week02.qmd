@@ -1,2 +1,687 @@
 # Lab Week 02 {.unnumbered}
 
+## Overview
+
+This lab takes you through a complete data analysis workflow using real hourly pedestrian counts from 21 sensor locations across Auckland's city centre in 2024. The data are sourced from [Heart of the City](https://www.hotcity.co.nz/city-centre/results-and-statistics/pedestrian-counts) and record how many people passed each sensor during every hour of the year.
+
+By the end of this lab, you will have practised the core skills from Sections 2.1, 2.2, and 2.3 of the course textbook, all applied to one real-world dataset.
+
+**Duration:** approximately 2 hours (or longer if you complete all extension tasks)
+
+**What you need:**
+
+- Python 3.10+ with `pandas`, `matplotlib`, and `seaborn` installed
+- The file `akl_ped-2024.csv` (https://github.com/dataandcrowd/GISCI343/tree/main/pedestrians)
+- A Python script, Jupyter notebook,  or Quarto document to write your code
+
+**Structure:**
+
+| Part | Topic | Approx. Time |
+|------|-------|--------------|
+| 2.1 | Python foundations review | 30 min |
+| 2.2 | DataFrames and pandas | 60 min |
+| 2.3 | Data visualisation | 30 min |
+| — | Final challenge | 20 min |
+
+---
+
+# Part 2.1: Python Foundations Review {.unnumbered}
+
+Before loading the pedestrian dataset, let us ensure you are comfortable with the Python building blocks that underpin everything in Parts 2.2 and 2.3.
+
+## Task 1: Variables and Data Types
+
+Create variables that describe one of the pedestrian sensors. Use appropriate types: `str` for text, `int` for whole numbers, `float` for decimal numbers, and `bool` for true/false.
+
+```{python}
+sensor_name = "45 Queen Street"
+sensor_id = 5
+avg_hourly_count = 487.3
+is_active = True
+
+print(f"Sensor: {sensor_name}")
+print(f"ID: {sensor_id}")
+print(f"Average hourly count: {avg_hourly_count}")
+print(f"Active: {is_active}")
+print(f"Type of avg_hourly_count: {type(avg_hourly_count)}")
+```
+
+::: {.callout-tip}
+## f-strings
+The `f"..."` syntax (formatted string literals) lets you embed variables directly inside text. The expression inside `{}` is evaluated and inserted. This is the most readable way to build output messages in Python.
+:::
+
+**Your turn:** Create variables for a different sensor location. Include the sensor's street name, the number of hours it records per day (integer), and whether it has any missing data (boolean). Print all values using f-strings.
+
+## Task 2: Lists
+
+Lists store ordered sequences of items. They are fundamental to working with collections of sensor names, count values, and time periods.
+
+```{python}
+# Auckland CBD sensor locations
+locations = [
+    "107 Quay Street",
+    "45 Queen Street",
+    "30 Queen Street",
+    "2 High Street",
+    "150 K Road"
+]
+
+# Access by index (0-based)
+print(f"First location: {locations[0]}")
+print(f"Last location: {locations[-1]}")
+print(f"Total locations: {len(locations)}")
+
+# Slice to get a subset
+print(f"Middle three: {locations[1:4]}")
+```
+
+```{python}
+# Hourly counts for 107 Quay Street on 1 Jan 2024 (6am-9pm)
+counts = [78, 201, 644, 394, 861, 1283, 1335, 1423, 1159, 1005, 995, 780, 602, 498, 310, 195]
+hours = list(range(6, 22))
+
+print(f"Hours recorded: {len(counts)}")
+print(f"Maximum count: {max(counts)}")
+print(f"Minimum count: {min(counts)}")
+print(f"Total daily: {sum(counts):,}")
+```
+
+**Your turn:** Create a list of the hour labels (e.g., `"6:00-6:59"`, `"7:00-7:59"`, ..., `"21:00-21:59"`) using a list comprehension. Hint: `[f"{h}:00-{h}:59" for h in range(6, 22)]`.
+
+## Task 3: Loops
+
+Loops let you repeat operations across collections. When working with pedestrian data, you will frequently iterate through locations, time periods, or rows of a table.
+
+```{python}
+locations = ["107 Quay Street", "45 Queen Street", "30 Queen Street", "2 High Street", "150 K Road"]
+peak_counts = [1423, 1076, 1245, 129, 381]
+
+print("=== Peak Hourly Counts ===")
+for i, loc in enumerate(locations):
+    print(f"  {i+1}. {loc}: {peak_counts[i]:,}")
+
+print(f"\nTotal across 5 sensors: {sum(peak_counts):,}")
+```
+
+```{python}
+# Calculate a running total
+running_total = 0
+for count in peak_counts:
+    running_total += count
+    print(f"  Adding {count:,} -> Running total: {running_total:,}")
+```
+
+**Your turn:** Write a loop that prints each sensor location alongside the percentage of the total peak count it represents. For example, "107 Quay Street: 33.4%".
+
+## Task 4: Conditionals
+
+Conditionals let you make decisions in code. In pedestrian analysis, you frequently need to classify counts, flag anomalies, or filter by thresholds.
+
+```{python}
+sensor_counts = {
+    "107 Quay Street": 1423,
+    "45 Queen Street": 1076,
+    "30 Queen Street": 1245,
+    "2 High Street": 129,
+    "150 K Road": 381,
+    "61 Federal Street": 141,
+    "19 Shortland Street": 176
+}
+
+print("=== Traffic Classification ===")
+for loc, count in sensor_counts.items():
+    if count > 1000:
+        level = "HIGH"
+    elif count > 300:
+        level = "MEDIUM"
+    else:
+        level = "LOW"
+    print(f"  {loc}: {count:,} -> {level}")
+```
+
+```{python}
+# Count how many locations fall into each category
+high = sum(1 for c in sensor_counts.values() if c > 1000)
+med = sum(1 for c in sensor_counts.values() if 300 < c <= 1000)
+low = sum(1 for c in sensor_counts.values() if c <= 300)
+
+print(f"\nHigh traffic: {high} locations")
+print(f"Medium traffic: {med} locations")
+print(f"Low traffic: {low} locations")
+```
+
+**Your turn:** Modify the thresholds so that "HIGH" is above 800, "MEDIUM" is 200-800, and "LOW" is below 200. How does the classification change?
+
+## Task 5: Combining Concepts
+
+Now combine variables, lists, loops, and conditionals in a single task.
+
+```{python}
+# Simulated hourly data for 107 Quay Street (1 Jan 2024, 6am-9pm)
+hours = list(range(6, 22))
+counts = [78, 201, 644, 394, 861, 1283, 1335, 1423, 1159, 1005, 995, 780, 602, 498, 310, 195]
+
+peak_hour = hours[0]
+peak_count = counts[0]
+off_peak_hours = []
+
+for i in range(len(hours)):
+    if counts[i] > peak_count:
+        peak_count = counts[i]
+        peak_hour = hours[i]
+    if counts[i] < 300:
+        off_peak_hours.append(hours[i])
+
+print(f"Peak hour: {peak_hour}:00 with {peak_count:,} pedestrians")
+print(f"Off-peak hours (< 300): {[f'{h}:00' for h in off_peak_hours]}")
+print(f"Average count: {sum(counts) / len(counts):,.0f}")
+```
+
+**Your turn:** Find the two consecutive hours with the highest combined count. For example, if hour 12 has 1,335 and hour 13 has 1,423, their combined count is 2,758. Which consecutive pair is the busiest?
+
+---
+
+# Part 2.2: DataFrames and Pandas {.unnumbered}
+
+Now we move from basic Python to structured data analysis with pandas. Everything you practised in Part 2.1 (variables, lists, loops, conditionals) will reappear here, but pandas gives you far more powerful tools for working with tabular data.
+
+## Task 6: Importing Libraries and Reading Data
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+The `import ... as ...` syntax loads an external library and assigns it a short alias. `pd` for pandas and `np` for numpy are universal conventions that you will see in virtually every data science tutorial and textbook.
+
+```{python}
+url = "https://raw.githubusercontent.com/dataandcrowd/GISCI343/refs/heads/main/pedestrians/akl_ped-2024.csv"
+ped = pd.read_csv(url)
+print(f"Shape: {ped.shape}")
+print(f"Rows: {ped.shape[0]}, Columns: {ped.shape[1]}")
+```
+
+The `.shape` attribute returns a tuple of (rows, columns). With 5,856 rows and 23 columns, each row represents one hour at one date, and the 23 columns include Date, Time, and 21 sensor locations.
+
+```{python}
+ped.head()
+```
+
+**Your turn:** Use `ped.tail()` to see the last 5 rows. What date and time does the dataset end on?
+
+## Task 7: Exploring the Data
+
+Before any analysis, you need to understand the structure, types, and quality of your data.
+
+```{python}
+ped.info()
+```
+
+The `.info()` method tells you: the number of non-null values per column (which reveals missing data), the data type of each column, and the memory usage. Notice that Date is stored as an `object` (text), not as a datetime. We will fix that shortly.
+
+```{python}
+ped.describe()
+```
+
+`.describe()` provides summary statistics for all numeric columns: count, mean, standard deviation, min, max, and quartiles. Scan through these values. Are there any suspiciously low counts (possibly sensor outages) or unusually high values (possible data errors)?
+
+```{python}
+# How many sensor locations?
+sensor_cols = ped.columns[2:]  # Everything after Date and Time
+print(f"Sensor locations: {len(sensor_cols)}")
+print(f"\nColumn names:")
+for col in sensor_cols:
+    print(f"  - {col}")
+```
+
+::: {.callout-note}
+## Spot the Typo
+Look carefully at the column names. One of them has a spelling error: "59 High Stret" instead of "59 High Street". Real-world data is rarely perfectly clean. We will leave it as-is for now, but in a formal analysis you might rename it with `ped.rename(columns={"59 High Stret": "59 High Street"}, inplace=True)`.
+:::
+
+**Your turn:** Which sensor location has the highest mean count? Which has the most missing values? Use `.describe()` and `.isna().sum()` to find out.
+
+## Task 8: Selecting Columns and Rows
+
+Selecting subsets of data is one of the most frequent operations in pandas.
+
+```{python}
+# Select a single column (returns a Series)
+queen45 = ped["45 Queen Street"]
+print(type(queen45))
+print(queen45.head())
+```
+
+```{python}
+# Select multiple columns (returns a DataFrame)
+subset = ped[["Date", "Time", "45 Queen Street", "30 Queen Street"]]
+subset.head()
+```
+
+```{python}
+# Select by position with .iloc[]
+# First 5 rows, first 4 columns
+ped.iloc[0:5, 0:4]
+```
+
+```{python}
+# Select by label with .loc[]
+# All rows, specific columns
+ped.loc[:, ["Date", "Time", "150 K Road"]].head()
+```
+
+**Your turn:** Create a subset containing only the Quay Street sensors (107 Quay Street, 188 Quay Street Lower Albert EW and NS) plus Date and Time. How many columns does your subset have?
+
+## Task 9: Filtering Rows with Boolean Indexing
+
+Boolean indexing is the pandas equivalent of the `if` statements you wrote in Part 2.1, but applied to entire columns at once.
+
+```{python}
+# Where was 45 Queen Street count above 1000?
+high_traffic = ped[ped["45 Queen Street"] > 1000]
+print(f"Hours with >1000 pedestrians at 45 Queen St: {len(high_traffic)}")
+```
+
+```{python}
+# Multiple conditions: use & (and), | (or), with parentheses
+busy_both = ped[
+    (ped["45 Queen Street"] > 500) &
+    (ped["30 Queen Street"] > 500)
+]
+print(f"Hours where BOTH Queen St sensors > 500: {len(busy_both)}")
+```
+
+```{python}
+# The .query() method is an alternative syntax (often more readable)
+result = ped.query("`45 Queen Street` > 1000 and `30 Queen Street` > 800")
+print(f"Both high: {len(result)} rows")
+```
+
+::: {.callout-tip}
+## Backticks in .query()
+When column names contain spaces, wrap them in backticks inside `.query()` strings: `` `45 Queen Street` ``. This is a common source of errors.
+:::
+
+**Your turn:** Filter the dataset to find all rows where at least one sensor recorded more than 2,000 pedestrians in a single hour. Hint: you can compute a row maximum with `ped[sensor_cols].max(axis=1)` and use that as a filter condition.
+
+## Task 10: Creating New Columns
+
+Adding computed columns transforms raw data into analysis-ready features.
+
+```{python}
+# The CSV contains a "Daylight Savings" marker row and 11 blank separator rows.
+# Drop all non-data rows before converting.
+ped = ped.dropna(subset=["Date", "Time"]).copy()
+ped = ped[ped["Date"] != "Daylight Savings"].copy()
+
+# Convert Date to datetime type
+ped["Date"] = pd.to_datetime(ped["Date"])
+
+# Extract temporal features
+ped["month"] = ped["Date"].dt.month
+ped["day_of_week"] = ped["Date"].dt.day_name()
+ped["day_num"] = ped["Date"].dt.dayofweek  # 0=Monday, 6=Sunday
+
+# Extract hour from the Time column
+ped["hour"] = ped["Time"].str.split(":").str[0].astype(int)
+
+ped[["Date", "Time", "month", "day_of_week", "hour"]].head(10)
+```
+
+```{python}
+# Create a total count across all sensors
+ped["total_count"] = ped[sensor_cols].sum(axis=1)
+
+print(f"Highest single-hour total: {ped['total_count'].max():,.0f}")
+print(f"Lowest single-hour total: {ped['total_count'].min():,.0f}")
+```
+
+**Your turn:** Create a boolean column called `is_weekend` that is `True` for Saturday and Sunday and `False` otherwise. Then filter to show only weekend rows and check how many there are.
+
+## Task 11: The Importance of .copy()
+
+When you slice a DataFrame, pandas sometimes returns a *view* (a window into the original) rather than an independent copy. Modifying a view can accidentally change your original data.
+
+```{python}
+# Safe: always use .copy() when creating subsets you will modify
+january = ped[ped["month"] == 1].copy()
+january["season"] = "Summer"
+
+# The original ped DataFrame is unaffected
+print(f"'season' in ped columns: {'season' in ped.columns}")
+print(f"'season' in january columns: {'season' in january.columns}")
+```
+
+::: {.callout-warning}
+## Rule of Thumb
+If you plan to add or modify columns on a subset, always call `.copy()` first. This avoids the `SettingWithCopyWarning` and prevents silent data corruption.
+:::
+
+## Task 12: Grouping and Aggregation
+
+`.groupby()` splits data into groups, applies a function, and combines results. This is how you answer questions like "what is the average count per month?" or "which hour is busiest on weekdays?"
+
+```{python}
+# Average hourly count by month for 45 Queen Street
+monthly_avg = ped.groupby("month")["45 Queen Street"].mean()
+print(monthly_avg.round(0))
+```
+
+```{python}
+# Average by hour across all sensors
+hourly_avg = ped.groupby("hour")[sensor_cols.tolist()].mean()
+hourly_total = hourly_avg.sum(axis=1)
+print(f"\nBusiest hour (all sensors): {hourly_total.idxmax()}:00")
+print(f"Quietest hour (all sensors): {hourly_total.idxmin()}:00")
+```
+
+```{python}
+# Multiple aggregations at once
+agg_stats = ped.groupby("month")["45 Queen Street"].agg(["mean", "median", "std", "min", "max"])
+agg_stats.round(0)
+```
+
+**Your turn:** Group by `day_of_week` and calculate the mean `total_count`. Which day has the highest average footfall across all sensors? Is it a weekday or weekend day?
+
+## Task 13: Reshaping Data (Wide to Long)
+
+The CSV is in **wide format**: each sensor is its own column. Many analysis and plotting tasks work better with **long format**, where each row represents a single sensor-time observation.
+
+```{python}
+# Melt from wide to long
+ped_long = pd.melt(
+    ped,
+    id_vars=["Date", "Time", "month", "day_of_week", "day_num", "hour"],
+    value_vars=sensor_cols.tolist(),
+    var_name="location",
+    value_name="count"
+)
+
+print(f"Wide shape: {ped.shape}")
+print(f"Long shape: {ped_long.shape}")
+ped_long.head()
+```
+
+```{python}
+# Now we can easily group by location
+location_avg = ped_long.groupby("location")["count"].mean().sort_values(ascending=False)
+print("Top 5 busiest locations (average hourly count):")
+print(location_avg.head().round(0))
+```
+
+**Your turn:** Using `ped_long`, find the average hourly count for each location during weekday lunchtime hours (12:00 and 13:00, Monday to Friday). Which location is busiest at lunchtime?
+
+## Task 14: Handling Missing Data
+
+Real sensor data almost always has gaps: equipment failures, maintenance windows, or transmission errors.
+
+```{python}
+# Check missing values per column
+missing = ped[sensor_cols].isna().sum()
+missing_pct = (missing / len(ped) * 100).round(1)
+
+missing_summary = pd.DataFrame({
+    "missing_count": missing,
+    "missing_pct": missing_pct
+})
+print(missing_summary[missing_summary["missing_count"] > 0].sort_values("missing_count", ascending=False))
+```
+
+```{python}
+# Strategy 1: Fill with 0 (assumes no sensor reading = no people)
+ped_zero = ped[sensor_cols].fillna(0)
+
+# Strategy 2: Forward fill (carry last known value)
+ped_ffill = ped[sensor_cols].ffill()
+
+# Strategy 3: Interpolate (estimate between known values)
+ped_interp = ped[sensor_cols].interpolate()
+
+# Strategy 4: Drop rows with any missing
+ped_clean = ped.dropna(subset=sensor_cols.tolist())
+print(f"Rows after dropping missing: {len(ped_clean)} (from {len(ped)})")
+```
+
+::: {.callout-note}
+## Which Strategy?
+There is no single correct answer. Filling with zero assumes sensor silence means no pedestrians, which may undercount. Forward fill assumes counts stay constant, which may overcount. Interpolation is often a reasonable middle ground for continuous time series. Always document and justify your choice.
+:::
+
+**Your turn:** For a single sensor of your choice, compare the mean count using each of the four strategies above. How much do the results differ?
+
+## Task 15: Merging DataFrames
+
+In real analyses, you often need to combine data from multiple sources. This task simulates merging sensor metadata with count data.
+
+```{python}
+# Create a simple metadata table
+metadata = pd.DataFrame({
+    "location": ["107 Quay Street", "45 Queen Street", "30 Queen Street",
+                  "150 K Road", "183 K Road", "2 High Street"],
+    "zone": ["Waterfront", "CBD Core", "CBD Core", "K Road", "K Road", "CBD Core"],
+    "installed_year": [2019, 2018, 2018, 2020, 2020, 2019]
+})
+
+metadata
+```
+
+```{python}
+# Merge with long-format data
+merged = ped_long.merge(metadata, on="location", how="inner")
+print(f"Merged shape: {merged.shape}")
+merged.head()
+```
+
+```{python}
+# Now we can group by zone
+zone_avg = merged.groupby("zone")["count"].mean().sort_values(ascending=False)
+print("Average hourly count by zone:")
+print(zone_avg.round(0))
+```
+
+::: {.callout-tip}
+## Join Types
+`how="inner"` keeps only locations that appear in both DataFrames. Use `how="left"` to keep all rows from the left DataFrame (adding NaN where no match exists), `how="right"` for the opposite, and `how="outer"` to keep everything from both sides.
+:::
+
+**Your turn:** Add more locations to the metadata table (at least 5 more sensors). Assign each to a zone. Re-run the merge and groupby to see how the zone averages change.
+
+---
+
+# Part 2.3: Data Visualisation {.unnumbered}
+
+With your data loaded, cleaned, and transformed, it is time to make it visual. Visualisation reveals patterns that summary statistics alone cannot convey.
+
+## Task 16: Setup and Line Plot
+
+```{python}
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Clean style for all plots
+sns.set_style("whitegrid")
+```
+
+```{python}
+# Daily total for 45 Queen Street
+daily_queen = ped.groupby("Date")["45 Queen Street"].sum()
+
+fig, ax = plt.subplots(figsize=(10, 4))
+daily_queen.plot(ax=ax, color="#065A82", linewidth=0.7, alpha=0.8)
+ax.set_title("45 Queen Street: Daily Pedestrian Count (2024)", fontsize=14, fontweight="bold")
+ax.set_xlabel("Date")
+ax.set_ylabel("Daily Count")
+ax.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+What patterns can you see? Look for weekly cycles (dips on weekends), seasonal trends (lower in winter), and any anomalous spikes or drops.
+
+**Your turn:** Create the same plot for "107 Quay Street" and "150 K Road" on the same axes. Use different colours and add a legend. Do waterfront and K Road sensors show the same seasonal pattern as Queen Street?
+
+## Task 17: Bar Chart Comparing Locations
+
+```{python}
+# Average hourly count per location
+avg_by_location = ped[sensor_cols].mean().sort_values()
+
+fig, ax = plt.subplots(figsize=(8, 7))
+colours = ["#F96167" if v >= avg_by_location.nlargest(3).min() else "#065A82"
+           for v in avg_by_location]
+avg_by_location.plot.barh(ax=ax, color=colours)
+ax.set_title("Average Hourly Pedestrian Count by Location", fontsize=14, fontweight="bold")
+ax.set_xlabel("Average Hourly Count")
+plt.tight_layout()
+plt.show()
+```
+
+The three sensors with the highest average counts are highlighted in coral. Note the large variation across locations: some sensors record hundreds of people per hour while others see only a few dozen.
+
+**Your turn:** Create a similar bar chart but showing the **standard deviation** of counts instead of the mean. Do the most variable locations correspond to the busiest ones?
+
+## Task 18: Heatmap (Hour vs Day of Week)
+
+A heatmap is an excellent way to see two-dimensional patterns. Here we will plot average pedestrian counts by hour of day and day of week.
+
+```{python}
+# Pivot table: hour (rows) x day_of_week (columns)
+pivot = ped.pivot_table(
+    values="45 Queen Street",
+    index="hour",
+    columns="day_of_week",
+    aggfunc="mean"
+)
+
+# Reorder days logically
+day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+pivot = pivot[day_order]
+
+fig, ax = plt.subplots(figsize=(9, 6))
+sns.heatmap(pivot, cmap="YlOrRd", annot=True, fmt=".0f", linewidths=0.5, ax=ax)
+ax.set_title("45 Queen Street: Average Count by Hour and Day", fontsize=14, fontweight="bold")
+ax.set_ylabel("Hour of Day")
+ax.set_xlabel("Day of Week")
+plt.tight_layout()
+plt.show()
+```
+
+This heatmap reveals the temporal rhythm of the street: strong weekday lunchtime peaks, lower weekend activity, and near-zero counts in the early morning hours.
+
+**Your turn:** Create the same heatmap for "150 K Road". How does K Road's temporal pattern differ from Queen Street? Does the weekend pattern differ?
+
+## Task 19: Box Plots by Month
+
+```{python}
+fig, ax = plt.subplots(figsize=(10, 5))
+month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+ped["month_name"] = ped["month"].map(dict(zip(range(1, 13), month_names)))
+month_order = month_names[:ped["month"].max()]
+
+sns.boxplot(data=ped, x="month_name", y="45 Queen Street",
+            order=month_order, palette="coolwarm", ax=ax)
+ax.set_title("Monthly Distribution: 45 Queen Street", fontsize=14, fontweight="bold")
+ax.set_xlabel("Month")
+ax.set_ylabel("Hourly Count")
+plt.tight_layout()
+plt.show()
+```
+
+Box plots show the distribution (median, quartiles, and outliers) for each month. This helps you see whether the variability changes seasonally, not just the average.
+
+**Your turn:** Create box plots grouped by `day_of_week` instead of month. Use the `order=day_order` parameter to keep days in logical sequence.
+
+## Task 20: Multi-Panel Figure
+
+Combining multiple plots into a single figure is essential for reports and presentations.
+
+```{python}
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+
+# Panel 1: Daily trend
+daily_queen.plot(ax=axes[0, 0], color="#065A82", linewidth=0.6)
+axes[0, 0].set_title("Daily Total (45 Queen St)", fontweight="bold")
+axes[0, 0].set_xlabel("")
+
+# Panel 2: Hourly average profile
+hourly_profile = ped.groupby("hour")["45 Queen Street"].mean()
+hourly_profile.plot.bar(ax=axes[0, 1], color="#1C7293", width=0.8)
+axes[0, 1].set_title("Average Hourly Profile", fontweight="bold")
+axes[0, 1].set_xlabel("Hour")
+axes[0, 1].set_ylabel("Avg Count")
+
+# Panel 3: Weekday vs Weekend comparison
+weekday_mask = ped["day_num"] < 5
+weekday_profile = ped[weekday_mask].groupby("hour")["45 Queen Street"].mean()
+weekend_profile = ped[~weekday_mask].groupby("hour")["45 Queen Street"].mean()
+axes[1, 0].plot(weekday_profile.index, weekday_profile.values, label="Weekday", color="#065A82", linewidth=2)
+axes[1, 0].plot(weekend_profile.index, weekend_profile.values, label="Weekend", color="#F96167", linewidth=2)
+axes[1, 0].legend()
+axes[1, 0].set_title("Weekday vs Weekend Profile", fontweight="bold")
+axes[1, 0].set_xlabel("Hour")
+axes[1, 0].set_ylabel("Avg Count")
+
+# Panel 4: Top 5 locations bar chart
+top5 = ped[sensor_cols].mean().nlargest(5).sort_values()
+top5.plot.barh(ax=axes[1, 1], color=["#1C7293", "#1C7293", "#1C7293", "#065A82", "#065A82"])
+axes[1, 1].set_title("Top 5 Busiest Locations", fontweight="bold")
+axes[1, 1].set_xlabel("Avg Hourly Count")
+
+plt.suptitle("Auckland CBD Pedestrian Analysis (2024)", fontsize=16, fontweight="bold", y=1.01)
+plt.tight_layout()
+plt.show()
+```
+
+**Your turn:** Replace one of the four panels with a visualisation of your own design. Ideas: a scatter plot of weekday vs weekend averages by location, a stacked area chart of hourly counts, or a violin plot by month.
+
+---
+
+# Final Challenge {.unnumbered}
+
+## Putting It All Together
+
+Using everything from Parts 2.1, 2.2, and 2.3, produce a short analysis (in the same notebook) that answers the following question:
+
+> **How do pedestrian patterns differ between weekdays and weekends across Auckland CBD, and do these differences vary by location type?**
+
+Your analysis should include:
+
+1. **Data preparation** (Part 2.1 & 2.2): Load the CSV, create temporal features, handle any missing values, and create a long-format version with zone metadata.
+
+2. **At least three different visualisations** (Part 2.3):
+   - One comparing weekday vs weekend patterns over time (e.g., line plot or area chart)
+   - One comparing locations or zones (e.g., grouped bar chart or heatmap)
+   - One of your own design that adds insight
+
+3. **Written interpretation**: Below each figure, write 2-3 sentences explaining what the visualisation shows and what it means for understanding pedestrian behaviour in Auckland.
+
+4. **A concluding paragraph** summarising your key findings and suggesting one follow-up question that could be investigated with additional data (e.g., weather, events, public transport schedules).
+
+::: {.callout-tip}
+## Suggested Zone Classification
+You can use or modify this categorisation for the merge:
+
+| Zone | Sensors |
+|------|---------|
+| Waterfront | 107 Quay Street, Te Ara Tahuhu Walkway, 188 Quay St (both) |
+| CBD Core | 45 Queen Street, 30 Queen Street, 210 Queen Street, 205 Queen Street |
+| Upper Queen | 261 Queen Street, 297 Queen Street |
+| K Road | 150 K Road, 183 K Road |
+| Side Streets | Commerce Street West, 7 Custom Street East, 19 Shortland Street, 2 High Street, 1 Courthouse Lane, 61 Federal Street, 59 High Stret, 8 Darby Street (both) |
+:::
+
+**Time:** approximately 20 minutes
+
+---
+
+## What You Have Learnt
+
+This lab covered the complete data analysis workflow from raw CSV to publication-quality figures:
+
+1. **Part 2.1** refreshed your Python fundamentals (variables, lists, loops, conditionals) using Auckland pedestrian sensor data as context.
+2. **Part 2.2** introduced pandas DataFrames for reading, exploring, filtering, grouping, reshaping, handling missing data, and merging.
+3. **Part 2.3** demonstrated how to create line plots, bar charts, heatmaps, box plots, and multi-panel figures using matplotlib and seaborn.
+
+These skills form the foundation for Section 2.4, where you will add the spatial dimension through GeoPandas, and for the Auckland Footfall Analytics assignment.

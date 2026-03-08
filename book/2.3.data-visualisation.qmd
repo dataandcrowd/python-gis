@@ -8,63 +8,49 @@ Before we dive into geospatial visualisation, you need to master the core plotti
 
 ## Why Visualisation Matters
 
-Visualisation helps us:
+Visualisation is not merely an aesthetic exercise; it is an analytical tool that reveals patterns invisible in summary statistics alone. 
+A well-constructed plot helps you explore data patterns and relationships, identify outliers and anomalies that might indicate data quality issues or genuinely unusual phenomena, communicate findings to audiences with varying levels of technical expertise, validate the results of your analytical operations, and guide the direction of further investigation. 
 
-- **Explore** data patterns and relationships
-- **Identify** outliers and anomalies
-- **Communicate** findings to diverse audiences
-- **Validate** analytical results
-- **Guide** further analysis and investigation
+In pedestrian mobility research, visualisation is particularly powerful because human movement patterns are inherently spatial and temporal, and a single time-series plot of pedestrian counts can reveal commuting peaks, lunchtime surges, and weekend patterns that no summary statistic could convey.
 
 ::: {.callout-note}
 ## Anscombe's Quartet
 
-Four datasets with identical summary statistics but completely different patterns—only visible through visualisation. This classic example demonstrates why we must always plot our data!
+Four datasets with identical summary statistics but completely different patterns. Only visible through visualisation. This classic example demonstrates why we must always plot our data!
+
+![](https://michael-franke.github.io/intro-data-analysis/I2DA_files/figure-html/ch-02-anscombe-1.png)
+
 :::
 
 ## Python Visualisation Libraries
 
 ### The Ecosystem
 
-Python has a rich ecosystem of visualisation libraries. Understanding how they relate to each other helps you choose the right tool:
+Python has a rich ecosystem of visualisation libraries, and understanding how they relate to each other helps you choose the right tool for each task.
 
-**matplotlib**: The foundation
-- Low-level control over every plot element
-- Verbose but powerful
-- Basis for most other plotting libraries
-- Best when you need precise control
+**matplotlib** is the foundation of Python plotting. It gives you low-level control over every element of a figure, from tick mark placement to colour gradients. This verbosity makes it powerful but sometimes tedious for quick exploration. Nearly all other Python plotting libraries are built on top of matplotlib, so understanding its architecture pays dividends across the ecosystem.
 
-**pandas plotting**: Quick and convenient
-- Built-in plotting methods on DataFrames
-- Good for rapid exploration
-- Uses matplotlib behind the scenes
-- Limited customisation
+**pandas plotting** provides built-in plotting methods directly on DataFrames and Series. It is the fastest route from data to plot, ideal for rapid exploration during analysis. Because it uses matplotlib behind the scenes, you can always drop down to matplotlib's API when you need more customisation.
 
-**seaborn**: Statistical graphics
-- Beautiful default styles
-- Statistical functions built-in
-- High-level interface to matplotlib
-- Excellent for exploratory data analysis
+**seaborn** offers a high-level interface to matplotlib specifically designed for statistical graphics. Its default styles are polished and publication-ready, and it includes built-in functions for regression lines, distribution fits, and categorical comparisons. For exploratory data analysis, seaborn is often the most efficient choice.
 
-**plotly**: Interactive plots
-- Web-based interactive graphics
-- Hover information, zooming, panning
-- Excellent for dashboards
-- Can export to HTML
+**plotly** produces web-based interactive graphics with hover information, zooming, and panning. It excels in dashboard contexts and can export standalone HTML files, making it well-suited for sharing results with collaborators who may not have Python installed.
 
 ::: {.callout-tip}
 ## Which library should I use?
 
-- **Quick exploration**: pandas plotting
-- **Statistical analysis**: seaborn
-- **Publication-quality plots**: matplotlib
-- **Interactive dashboards**: plotly
-- **GIS/spatial data**: See Chapter 2.4
+The choice depends on your immediate goal. For quick exploration during an analysis session, pandas plotting is the fastest path. 
+
+For statistical analysis where you want to see distributions, regression fits, or categorical comparisons, seaborn provides the richest set of built-in tools. 
+
+When you need precise control over every element for publication-quality figures, matplotlib's object-oriented interface gives you that power. 
+
+For interactive dashboards that stakeholders or collaborators can explore in their browser, plotly is the best option. For GIS and spatial data visualisation, Section 2.4 introduces specialised tools built on these foundations.
 :::
 
 ### Installation
 
-```python
+```{python}
 # matplotlib and pandas come with most Python installations
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -128,7 +114,7 @@ In matplotlib, `ax` typically refers to an Axes object, not an axis line!
 There are two main approaches to creating matplotlib plots:
 
 **1. pyplot interface (implicit)**
-```python
+```{python}
 import matplotlib.pyplot as plt
 
 plt.plot([1, 2, 3], [1, 4, 9])
@@ -139,7 +125,7 @@ plt.show()
 ```
 
 **2. Object-oriented interface (explicit) - RECOMMENDED**
-```python
+```{python}
 import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()  # Create figure and axes explicitly
@@ -702,11 +688,7 @@ Seaborn provides a high-level interface for creating beautiful statistical graph
 
 ### Why Use Seaborn?
 
-- **Better defaults**: Plots look professional out of the box
-- **Statistical functions**: Built-in regression, distributions, etc.
-- **Easier syntax**: Less code for common statistical plots
-- **Colour palettes**: Beautiful, accessible colour schemes
-- **Seamless pandas integration**: Works directly with DataFrames
+Seaborn addresses several limitations of raw matplotlib. Its default aesthetics produce plots that look professional without manual styling, saving considerable time during exploratory analysis. It includes built-in statistical functions such as regression lines, kernel density estimates, and confidence intervals, eliminating the need to compute these separately. Its syntax is more concise than matplotlib for common statistical plots, and it comes with carefully designed colour palettes that are both visually appealing and accessible to colour-blind readers. Perhaps most importantly for our workflow, seaborn integrates seamlessly with pandas DataFrames, accepting column names directly as plot parameters.
 
 ### Setting Up Seaborn
 
@@ -1035,7 +1017,7 @@ This comprehensive example demonstrates:
 
 ### Design Principles
 
-**1. Choose the Right Plot Type**
+**1. Choose the Right Plot Type.** The most common mistake in data visualisation is selecting a plot type that does not match the analytical question. The table below provides a starting framework, though real-world situations often require judgement. For pedestrian mobility data, time-series line plots are essential for understanding temporal patterns in foot traffic, scatter plots reveal relationships between built environment features and walking volumes, and bar charts compare pedestrian counts across different locations or time periods.
 
 | Data Type | Question | Plot Type |
 |-----------|----------|-----------|
@@ -1045,57 +1027,21 @@ This comprehensive example demonstrates:
 | Relationship | How do X and Y relate? | Scatter plot |
 | Composition | What are the parts of the whole? | Pie chart, stacked bar |
 
-**2. Keep It Simple**
-- One main message per plot
-- Remove unnecessary elements (chartjunk)
-- Use clear labels and titles
-- Appropriate axis ranges
+**2. Keep It Simple.** Edward Tufte's principle of maximising the "data-ink ratio" remains the gold standard: every element on your plot should serve a purpose. Each plot should convey one main message, unnecessary decorative elements (what Tufte calls "chartjunk") should be removed, labels and titles should be clear and descriptive, and axis ranges should be appropriate for the data without distorting perception.
 
-**3. Make It Readable**
-- Font sizes ≥ 10pt (larger for presentations)
-- Adequate spacing between elements
-- Clear axis labels with units
-- Informative titles that explain the takeaway
+**3. Make It Readable.** Font sizes should be at least 10 points for screen display and larger for presentations. Axis labels must include units (e.g. "Pedestrian count (persons/hour)" rather than just "Count"). Titles should explain the takeaway rather than merely describe the plot type.
 
-**4. Use Colour Effectively**
-- Limit to 5-7 colours per plot
-- Use colourblind-friendly palettes
-- Consistent colour meanings across figures
-- Consider grayscale readability
+**4. Use Colour Effectively.** Limit your palette to 5-7 colours per plot to avoid visual overload. Always use colourblind-friendly palettes (seaborn's `'colorblind'` palette is a good default), maintain consistent colour meanings across related figures, and consider whether your plots remain interpretable in grayscale. Wong [-@wong2011] provides an accessible guide to colour choices in scientific figures.
 
-**5. Guide the Viewer**
-- Highlight important features
-- Use annotations strategically
-- Provide context with reference lines
-- Order data meaningfully
+**5. Guide the Viewer.** Use annotations to highlight important features, reference lines to provide context (e.g. a WHO guideline threshold on an air quality plot), and meaningful data ordering (e.g. sorting bars by value rather than alphabetically) to make patterns immediately apparent.
 
 ### Common Pitfalls to Avoid
 
-**❌ Don't:**
-- Use 3D charts unnecessarily (they distort perception)
-- Start y-axis at non-zero to exaggerate differences
-- Use too many colours or patterns
-- Create overly complex visualisations
-- Ignore aspect ratios
-- Use defaults without thought
-- Truncate axes to mislead
-
-**✓ Do:**
-- Show data honestly and clearly
-- Label everything comprehensively
-- Use appropriate scales (linear, log, etc.)
-- Consider your audience's expertise
-- Test with others before finalising
-- Provide context and interpretation
-- Use consistent formatting across related figures
+Several common mistakes undermine otherwise good analyses. Three-dimensional charts should be avoided because they distort perception and make accurate value comparison difficult. Starting a y-axis at a non-zero value can exaggerate differences and mislead viewers. Using too many colours or overly complex layouts creates cognitive overload. Truncating axes to make trends appear more dramatic is a form of visual dishonesty. Instead, show data honestly and clearly, label everything comprehensively, use appropriate scales (linear, logarithmic, etc.), consider your audience's expertise level, test your visualisations with others before finalising, provide context and interpretation, and maintain consistent formatting across related figures.
 
 ### Accessibility Guidelines
 
-1. **Colour blindness**: Use patterns/shapes in addition to colour
-2. **Text size**: Minimum 10pt, larger for presentations
-3. **Contrast**: Ensure sufficient contrast for readability
-4. **Alt text**: When publishing, provide descriptions
-5. **Simplicity**: Complex plots are harder to understand
+Accessible visualisation is not optional in professional and academic contexts. For colour blindness (which affects approximately 8% of males and 0.5% of females of European descent), use patterns, shapes, or line styles in addition to colour to encode information. Ensure text meets minimum size requirements of 10 points, use sufficient contrast between foreground and background elements, provide descriptive alt text when publishing figures online, and keep visualisations as simple as possible since complexity disproportionately affects comprehension for all viewers.
 
 ## Saving High-Quality Figures
 
@@ -1137,29 +1083,11 @@ fig.savefig('plot.png', dpi=300, bbox_inches='tight', transparent=True)
 
 ## Summary
 
-In this section, you've learned:
+This section has equipped you with the core data visualisation toolkit for Python. You have learned matplotlib's three-layer architecture (backend, artist, and scripting layers) and how the Figure, Axes, and Artist hierarchy governs every plot you create. The object-oriented interface (`fig, ax = plt.subplots()`) provides explicit control and is the recommended approach for all but the simplest visualisations. You have worked through the fundamental plot types, including line plots for temporal trends, scatter plots for variable relationships, bar charts for categorical comparisons, and histograms for distributions, and you understand when each is appropriate. Through pandas integration, you can now produce quick exploratory plots directly from DataFrames, and through seaborn, you can create polished statistical graphics with minimal code.
 
-- **Matplotlib architecture**: Understanding Figure, Axes, and Artists
-- **Object-oriented plotting**: The recommended approach for creating plots
-- **Basic plot types**: Line, scatter, bar, histogram, and their use cases
-- **Pandas integration**: Quick plotting directly from DataFrames
-- **Datetime handling**: Working with time series data effectively
-- **Subplots**: Creating multi-panel figures
-- **Customisation**: Colours, styles, legends, annotations
-- **Seaborn**: Beautiful statistical visualisations
-- **Best practices**: Design principles and accessibility
-- **Production**: Saving publication-quality figures
+The practical skills of handling datetime data, creating multi-panel subplot figures, customising colours, legends, and annotations, and saving figures at publication-appropriate resolution complete your visualisation toolkit. The design principles and accessibility guidelines discussed at the end are not afterthoughts but essential professional practices, particularly in academic and policy contexts where your visualisations must be honest, readable, and inclusive.
 
-**Key takeaways:**
-
-1. Always use the object-oriented interface: `fig, ax = plt.subplots()`
-2. Choose plot types based on your data and question
-3. Label everything clearly with units
-4. Use colour thoughtfully and accessibly
-5. Test your plots with others
-6. Save at appropriate resolution for your use case
-
-These skills form the foundation for all data visualisation in Python, including the geospatial visualisation you'll learn in the next section (@sec-geospatial).
+Six key principles should guide your practice. Always use the object-oriented interface for reproducible, explicit control. Choose plot types based on your data and analytical question, not habit. Label everything clearly, including units. Use colour thoughtfully and accessibly. Test your visualisations with others before finalising. Save figures at the appropriate resolution for their intended use. These skills form the foundation for the geospatial visualisation you will learn in the next section (@sec-geospatial), where maps add a spatial dimension to the analytical graphics covered here.
 
 ## Practice Exercises
 

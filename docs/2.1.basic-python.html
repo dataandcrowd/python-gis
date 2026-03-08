@@ -55,7 +55,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -181,6 +201,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">1.3 Version control with Git</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1.4.download-from-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.4. Download data from github</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -213,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.4.geospatial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.3. Geospatial Data</span></a>
+ <span class="menu-text">2.4. Geospatial Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -225,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.6.urban-analytics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.4 Urban analytics indicators</span></a>
+ <span class="menu-text">2.6 Urban analytics indicators</span></a>
   </div>
 </li>
       </ul>
@@ -251,6 +277,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 01</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Week 02</span></a>
   </div>
 </li>
       </ul>
@@ -284,7 +316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#end-of-line-terminates-statements" id="toc-end-of-line-terminates-statements" class="nav-link" data-scroll-target="#end-of-line-terminates-statements">End-of-Line Terminates Statements</a></li>
   <li><a href="#whitespace-within-lines" id="toc-whitespace-within-lines" class="nav-link" data-scroll-target="#whitespace-within-lines">Whitespace Within Lines</a></li>
   <li><a href="#indentation-matters" id="toc-indentation-matters" class="nav-link" data-scroll-target="#indentation-matters">Indentation Matters!</a></li>
-  <li><a href="#parentheses-round-brackets" id="toc-parentheses-round-brackets" class="nav-link" data-scroll-target="#parentheses-round-brackets">Parentheses (Round Brackets)</a></li>
+  <li><a href="#round-brackets" id="toc-round-brackets" class="nav-link" data-scroll-target="#round-brackets">Round Brackets</a></li>
   </ul></li>
   <li><a href="#variables-and-assignment" id="toc-variables-and-assignment" class="nav-link" data-scroll-target="#variables-and-assignment">Variables and Assignment</a>
   <ul class="collapse">
@@ -325,16 +357,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#practical-example-processing-sensor-data" id="toc-practical-example-processing-sensor-data" class="nav-link" data-scroll-target="#practical-example-processing-sensor-data">Practical Example: Processing Sensor Data</a></li>
   </ul></li>
   <li><a href="#methods-and-dot-notation" id="toc-methods-and-dot-notation" class="nav-link" data-scroll-target="#methods-and-dot-notation">Methods and Dot Notation</a></li>
-  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting Help</a>
-  <ul class="collapse">
-  <li><a href="#documentation" id="toc-documentation" class="nav-link" data-scroll-target="#documentation">Documentation</a></li>
-  <li><a href="#online-resources" id="toc-online-resources" class="nav-link" data-scroll-target="#online-resources">Online Resources</a></li>
-  <li><a href="#ai-assistance" id="toc-ai-assistance" class="nav-link" data-scroll-target="#ai-assistance">AI Assistance</a></li>
-  </ul></li>
+  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting Help</a></li>
   <li><a href="#practical-exercise-auckland-transport" id="toc-practical-exercise-auckland-transport" class="nav-link" data-scroll-target="#practical-exercise-auckland-transport">Practical Exercise: Auckland Transport</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
-  <li><a href="#practice-exercises" id="toc-practice-exercises" class="nav-link" data-scroll-target="#practice-exercises">Practice Exercises</a></li>
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
   </ul>
 </nav>
@@ -363,9 +389,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="your-first-python-code" class="level2">
 <h2 class="anchored" data-anchor-id="your-first-python-code">Your First Python Code</h2>
-<p>Let’s start with the traditional first programme:</p>
+<p>Every programming journey begins with a simple act of communication between you and the machine. In Python, that act is the <code>print()</code> function, one of the language’s most frequently used built-in tools.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This simple command displays text on the screen. The <code>print()</code> function is one of Python’s most useful built-in functions.</p>
+<p>This command tells Python to display text on the screen. While this may seem trivial, <code>print()</code> will become one of your most important debugging tools as you progress through geospatial analysis. When you are processing pedestrian count data across hundreds of street segments, for instance, strategically placed <code>print()</code> statements help you verify that your code is producing the expected results at each stage of the analysis pipeline.</p>
 <section id="adding-comments" class="level3">
 <h3 class="anchored" data-anchor-id="adding-comments">Adding Comments</h3>
 <p>Comments help document your code. Python supports two types:</p>
@@ -396,7 +422,7 @@ Write Clear Comments
 </section>
 <section id="python-as-a-calculator" class="level2">
 <h2 class="anchored" data-anchor-id="python-as-a-calculator">Python as a Calculator</h2>
-<p>Python can perform mathematical operations directly:</p>
+<p>Before you analyse complex datasets, you should know that Python works as a powerful calculator out of the box. This matters because much of urban analytics involves arithmetic operations on spatial and demographic data. Whether you are computing pedestrian density (people per square metre), walkability scores, or average trip distances, mathematical operations form the foundation of every analysis.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Addition</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span>  <span class="co"># Returns: 2</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -410,6 +436,7 @@ Write Clear Comments
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">%</span> <span class="dv">2</span>  <span class="co"># Returns: 0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="more-mathematical-operators" class="level3">
 <h3 class="anchored" data-anchor-id="more-mathematical-operators">More Mathematical Operators</h3>
+<p>The table below summarises Python’s core arithmetic operators. Pay particular attention to the distinction between true division (<code>/</code>) and floor division (<code>//</code>), as this distinction becomes important when you work with spatial binning or grid-based analyses where you need integer results.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -475,10 +502,12 @@ Write Clear Comments
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Floor division gives integer result (rounds down)</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">11</span> <span class="op">//</span> <span class="dv">2</span>)  <span class="co"># Output: 5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For instance, if you have 11 pedestrian sensors across 2 city zones and want to know how many full sensors each zone gets, floor division gives you <code>5</code>, while the modulus operator (<code>11 % 2 = 1</code>) tells you one sensor remains unassigned.</p>
 </section>
 </section>
 <section id="python-syntax-essentials" class="level2">
 <h2 class="anchored" data-anchor-id="python-syntax-essentials">Python Syntax Essentials</h2>
+<p>Understanding Python’s syntax rules early on prevents frustrating errors later. Unlike languages such as Java or C++ that use braces and semicolons, Python relies on whitespace and line breaks to structure code. This design philosophy, championed by Python’s creator Guido van Rossum, prioritises readability, which is especially valuable when collaborating on geospatial projects where code must be understood by team members from different disciplinary backgrounds.</p>
 <section id="end-of-line-terminates-statements" class="level3">
 <h3 class="anchored" data-anchor-id="end-of-line-terminates-statements">End-of-Line Terminates Statements</h3>
 <p>In Python, the end of a line marks the end of a statement:</p>
@@ -498,7 +527,7 @@ Write Clear Comments
 </section>
 <section id="indentation-matters" class="level3">
 <h3 class="anchored" data-anchor-id="indentation-matters">Indentation Matters!</h3>
-<p>Unlike many languages, Python uses indentation to define code blocks:</p>
+<p>This is one of Python’s most distinctive features and a common source of early frustration. Unlike many programming languages that use curly braces <code>{}</code> to define blocks of code, Python uses indentation. This was a deliberate design choice to enforce readable code. In practice, it means that the visual structure of your programme directly reflects its logical structure, which makes Python code easier to read and review during collaborative geospatial projects.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correct indentation</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">25</span>:</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's hot!"</span>)</span>
@@ -521,47 +550,43 @@ Consistent Indentation
 </div>
 </div>
 </section>
-<section id="parentheses-round-brackets" class="level3">
-<h3 class="anchored" data-anchor-id="parentheses-round-brackets">Parentheses (Round Brackets)</h3>
-<p>Parentheses have multiple uses in Python:</p>
-<ol type="1">
-<li><strong>Grouping mathematical operations</strong>:</li>
-</ol>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">*</span> (<span class="dv">3</span> <span class="op">+</span> <span class="dv">4</span>)  <span class="co"># Returns: 14</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="2" type="1">
-<li><strong>Calling functions</strong>:</li>
-</ol>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'first value:'</span>, <span class="dv">1</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(<span class="st">'Hello World'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="3" type="1">
-<li><strong>Executing methods</strong>:</li>
-</ol>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>L.sort()  <span class="co"># Parentheses execute the sort method</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(L)  <span class="co"># Output: [1, 2, 3, 4]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="round-brackets" class="level3">
+<h3 class="anchored" data-anchor-id="round-brackets">Round Brackets</h3>
+<p>Round brackets (or parentheses in the US context) serve three distinct purposes in Python, and recognising which role they play in any given line of code helps you read programmes fluently. First, they group mathematical operations to control the order of evaluation, just as they do in standard arithmetic. Second, they call functions, instructing Python to execute a named block of code. Third, they execute methods, which are functions that belong to a specific object. The examples below illustrate each role:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Grouping mathematical operations</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="op">*</span> (<span class="dv">3</span> <span class="op">+</span> <span class="dv">4</span>)  <span class="co"># Returns: 14</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Calling functions</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'first value:'</span>, <span class="dv">1</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(<span class="st">'Hello World'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Executing methods on objects</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> [<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>L.sort()  <span class="co"># Parentheses execute the sort method</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(L)  <span class="co"># Output: [1, 2, 3, 4]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="variables-and-assignment" class="level2">
 <h2 class="anchored" data-anchor-id="variables-and-assignment">Variables and Assignment</h2>
-<p>A <strong>variable</strong> stores values for later use. Think of it as a labelled box in computer memory.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>weather <span class="op">=</span> <span class="st">"Freezing"</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(weather)  <span class="co"># Output: Freezing</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="dv">15</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temperature)  <span class="co"># Output: 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A <strong>variable</strong> stores values for later use. Think of it as a labelled box in computer memory. Variables are the mechanism through which your programme remembers information between operations. In pedestrian mobility research, you might store a walkability index score, the number of pedestrians counted at an intersection during peak hours, or the coordinates of a survey location. Without variables, every computation would be a one-off calculation with no way to build upon previous results.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>weather <span class="op">=</span> <span class="st">"Freezing"</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(weather)  <span class="co"># Output: Freezing</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="dv">15</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(temperature)  <span class="co"># Output: 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="variables-as-pointers" class="level3">
 <h3 class="anchored" data-anchor-id="variables-as-pointers">Variables as Pointers</h3>
 <p>Variables in Python are <strong>references</strong> (pointers) to objects in memory:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x  <span class="co"># Both x and y point to the same list</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Modifying the list through x</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>x.append(<span class="dv">4</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)  <span class="co"># Output: [1, 2, 3, 4] - y sees the change!</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Reassigning x</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">'something else'</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)  <span class="co"># Output: [1, 2, 3, 4] - y is unchanged</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x  <span class="co"># Both x and y point to the same list</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Modifying the list through x</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>x.append(<span class="dv">4</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)  <span class="co"># Output: [1, 2, 3, 4] - y sees the change!</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Reassigning x</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">'something else'</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y)  <span class="co"># Output: [1, 2, 3, 4] - y is unchanged</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This behaviour is important when working with data structures in geospatial analysis.</p>
 </section>
 </section>
@@ -569,23 +594,26 @@ Consistent Indentation
 <h2 class="anchored" data-anchor-id="data-types">Data Types</h2>
 <section id="everything-is-an-object" class="level3">
 <h3 class="anchored" data-anchor-id="everything-is-an-object">Everything Is an Object</h3>
-<p>Python is an <strong>object-oriented</strong> language. Every entity has:</p>
-<ul>
-<li><strong>Attributes</strong>: Data associated with the object</li>
-<li><strong>Methods</strong>: Functions that operate on the object</li>
-</ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)  <span class="co"># Returns: &lt;class 'int'&gt;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">'hello'</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)  <span class="co"># Returns: &lt;class 'str'&gt;</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">3.14159</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)  <span class="co"># Returns: &lt;class 'float'&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Python is an <strong>object-oriented</strong> language, which means that every piece of data you work with is an <strong>“object”</strong> that carries both information and behaviour.</p>
+<p>Each object has <strong>attributes</strong> (data associated with it) and <strong>methods</strong> (functions that can operate on it). This design is not merely an academic abstraction. When you work with geospatial libraries like GeoPandas in Section 2.4, every geometry object (a point, line, or polygon) will come with built-in methods such as <code>.buffer()</code>, <code>.centroid</code>, and <code>.area</code> that you can call directly. Understanding the object-oriented paradigm now will make those later sections far more intuitive.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)  <span class="co"># Returns: &lt;class 'int'&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="st">'hello'</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)  <span class="co"># Returns: &lt;class 'str'&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">3.14159</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(x)  <span class="co"># Returns: &lt;class 'float'&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="basic-data-types" class="level3">
 <h3 class="anchored" data-anchor-id="basic-data-types">Basic Data Types</h3>
-<p>Python has four fundamental data types:</p>
+<p>Python has four fundamental data types, each suited to representing different kinds of real-world information.</p>
+<ul>
+<li>Integers (<code>int</code>) represent whole numbers and are ideal for counts, such as the number of pedestrians passing a sensor.</li>
+<li>Floats (<code>float</code>) handle decimal numbers and are essential for measurements like walking distances in kilometres or pollution concentrations in micrograms per cubic metre.</li>
+<li>Strings (<code>str</code>) store text, from street names to neighbourhood classifications.</li>
+<li>Booleans (<code>bool</code>) represent binary true/false values and are used for logical tests, such as whether a street segment falls within a low-emission zone.</li>
+</ul>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -620,23 +648,23 @@ Consistent Indentation
 </section>
 <section id="working-with-strings" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-strings">Working with Strings</h3>
-<p>Strings represent text data:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>city <span class="op">=</span> <span class="st">"Auckland"</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city)  <span class="co"># Output: Auckland</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Length of string</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(city)  <span class="co"># Returns: 8</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># String concatenation</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>greeting <span class="op">=</span> <span class="st">"Hello, "</span> <span class="op">+</span> city</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(greeting)  <span class="co"># Output: Hello, Auckland</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># String repetition</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city <span class="op">*</span> <span class="dv">3</span>)  <span class="co"># Output: AucklandAucklandAuckland</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Case transformations</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city.upper())  <span class="co"># Output: AUCKLAND</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city.lower())  <span class="co"># Output: auckland</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Strings represent text data and are ubiquitous in geospatial work. Street names, suburb classifications, CRS identifiers, and file paths are all strings. Knowing how to manipulate them, whether through concatenation, case conversion, or splitting, is essential for data cleaning tasks that precede any spatial analysis.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>city <span class="op">=</span> <span class="st">"Auckland"</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city)  <span class="co"># Output: Auckland</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Length of string</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(city)  <span class="co"># Returns: 8</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># String concatenation</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>greeting <span class="op">=</span> <span class="st">"Hello, "</span> <span class="op">+</span> city</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(greeting)  <span class="co"># Output: Hello, Auckland</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># String repetition</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city <span class="op">*</span> <span class="dv">3</span>)  <span class="co"># Output: AucklandAucklandAuckland</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Case transformations</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city.upper())  <span class="co"># Output: AUCKLAND</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(city.lower())  <span class="co"># Output: auckland</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -648,44 +676,44 @@ String Methods
 </div>
 <div class="callout-body-container callout-body">
 <p>Strings have many useful methods. Access them with dot notation:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"  Hello World  "</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>text.strip()     <span class="co"># Remove whitespace: "Hello World"</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>text.replace(<span class="st">"World"</span>, <span class="st">"Python"</span>)  <span class="co"># Replace text</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>text.split()     <span class="co"># Split into list: ["Hello", "World"]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"  Hello World  "</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>text.strip()     <span class="co"># Remove whitespace: "Hello World"</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>text.replace(<span class="st">"World"</span>, <span class="st">"Python"</span>)  <span class="co"># Replace text</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>text.split()     <span class="co"># Split into list: ["Hello", "World"]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
 <section id="working-with-numbers" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-numbers">Working with Numbers</h3>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>my_float <span class="op">=</span> <span class="fl">24.3</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixing int and float gives float</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">+</span> my_float  <span class="co"># Returns: 26.3 (float)</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Division always returns float</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">/</span> <span class="dv">5</span>  <span class="co"># Returns: 2.0 (not 2)</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Floor division returns int</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">//</span> <span class="dv">3</span>  <span class="co"># Returns: 3</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Modulus returns remainder</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">%</span> <span class="dv">3</span>  <span class="co"># Returns: 1</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Exponentiation</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="op">**</span><span class="dv">3</span>  <span class="co"># Returns: 8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>my_float <span class="op">=</span> <span class="fl">24.3</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Mixing int and float gives float</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>my_int <span class="op">+</span> my_float  <span class="co"># Returns: 26.3 (float)</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Division always returns float</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">/</span> <span class="dv">5</span>  <span class="co"># Returns: 2.0 (not 2)</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Floor division returns int</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">//</span> <span class="dv">3</span>  <span class="co"># Returns: 3</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Modulus returns remainder</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="op">%</span> <span class="dv">3</span>  <span class="co"># Returns: 1</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Exponentiation</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="op">**</span><span class="dv">3</span>  <span class="co"># Returns: 8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="boolean-values" class="level3">
 <h3 class="anchored" data-anchor-id="boolean-values">Boolean Values</h3>
-<p>Booleans represent truth values and are essential for conditional logic:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparison returns boolean</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">&gt;</span> y)      <span class="co"># Output: True</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="kw">not</span>(x <span class="op">&gt;</span> y)) <span class="co"># Output: False</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">==</span> y)     <span class="co"># Output: False</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">!=</span> y)     <span class="co"># Output: True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Booleans represent truth values and are the engine behind every decision your programme makes. When you filter a dataset to include only streets with pedestrian counts above a certain threshold, or check whether a coordinate falls within a study area boundary, you are relying on boolean logic. Understanding booleans is therefore a prerequisite for the conditional statements and data filtering operations covered later in this section and throughout the book.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparison returns boolean</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">&gt;</span> y)      <span class="co"># Output: True</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="kw">not</span>(x <span class="op">&gt;</span> y)) <span class="co"># Output: False</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">==</span> y)     <span class="co"># Output: False</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x <span class="op">!=</span> y)     <span class="co"># Output: True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="comparison-operators" class="level2">
@@ -732,11 +760,11 @@ String Methods
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if a number is odd</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="dv">25</span> <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">1</span>  <span class="co"># Returns: True</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if a number is even</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="dv">66</span> <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>  <span class="co"># Returns: True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if a number is odd</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dv">25</span> <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">1</span>  <span class="co"># Returns: True</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if a number is even</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="dv">66</span> <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>  <span class="co"># Returns: True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="boolean-operations" class="level2">
 <h2 class="anchored" data-anchor-id="boolean-operations">Boolean Operations</h2>
@@ -767,69 +795,70 @@ String Methods
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Both conditions must be true</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>(x <span class="op">&lt;</span> <span class="dv">6</span>) <span class="kw">and</span> (x <span class="op">&gt;</span> <span class="dv">2</span>)  <span class="co"># Returns: True</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># At least one condition must be true</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>(x <span class="op">&gt;</span> <span class="dv">10</span>) <span class="kw">or</span> (x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>)  <span class="co"># Returns: True</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Invert the condition</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="kw">not</span> (x <span class="op">&lt;</span> <span class="dv">6</span>)  <span class="co"># Returns: False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Both conditions must be true</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>(x <span class="op">&lt;</span> <span class="dv">6</span>) <span class="kw">and</span> (x <span class="op">&gt;</span> <span class="dv">2</span>)  <span class="co"># Returns: True</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># At least one condition must be true</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>(x <span class="op">&gt;</span> <span class="dv">10</span>) <span class="kw">or</span> (x <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>)  <span class="co"># Returns: True</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Invert the condition</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="kw">not</span> (x <span class="op">&lt;</span> <span class="dv">6</span>)  <span class="co"># Returns: False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lists" class="level2">
 <h2 class="anchored" data-anchor-id="lists">Lists</h2>
-<p>Lists are ordered collections that can hold multiple values:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>cities <span class="op">=</span> [<span class="st">"Auckland"</span>, <span class="st">"Wellington"</span>, <span class="st">"Christchurch"</span>]</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Access elements (zero-indexed)</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>cities[<span class="dv">0</span>]  <span class="co"># Returns: "Auckland"</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>cities[<span class="dv">1</span>]  <span class="co"># Returns: "Wellington"</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>cities[<span class="op">-</span><span class="dv">1</span>] <span class="co"># Returns: "Christchurch" (last item)</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># List length</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(cities)  <span class="co"># Returns: 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Lists are one of Python’s most versatile data structures and will be your workhorse throughout this book.</p>
+<p>A list is an ordered collection that can hold multiple values, making it the natural choice for storing sequences of related data such as a series of pedestrian counts from different time intervals, a collection of street names along a walking route, or latitude-longitude pairs for survey locations. Sevtsuk and Kalvo <span class="citation" data-cites="sevtsuk2024">(<a href="2.6.urban-analytics.html#ref-sevtsuk2024" role="doc-biblioref">2024</a>)</span> demonstrate how lists of origin and destination points feed into network-based pedestrian trip models, underscoring the practical importance of this data structure in urban mobility research.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>cities <span class="op">=</span> [<span class="st">"Auckland"</span>, <span class="st">"Wellington"</span>, <span class="st">"Christchurch"</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Access elements (zero-indexed)</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>cities[<span class="dv">0</span>]  <span class="co"># Returns: "Auckland"</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>cities[<span class="dv">1</span>]  <span class="co"># Returns: "Wellington"</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>cities[<span class="op">-</span><span class="dv">1</span>] <span class="co"># Returns: "Christchurch" (last item)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># List length</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(cities)  <span class="co"># Returns: 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="list-operations" class="level3">
 <h3 class="anchored" data-anchor-id="list-operations">List Operations</h3>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list of numbers</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Slicing: get a subset</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>numbers[<span class="dv">1</span>:<span class="dv">3</span>]   <span class="co"># Returns: [2, 3]</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>numbers[:<span class="dv">3</span>]    <span class="co"># Returns: [1, 2, 3] (first three)</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>numbers[<span class="dv">2</span>:]    <span class="co"># Returns: [3, 4, 5] (from index 2 onwards)</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify a list</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>numbers[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(numbers)  <span class="co"># Output: [10, 2, 3, 4, 5]</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Append an item</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>numbers.append(<span class="dv">6</span>)</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(numbers)  <span class="co"># Output: [10, 2, 3, 4, 5, 6]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list of numbers</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Slicing: get a subset</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>numbers[<span class="dv">1</span>:<span class="dv">3</span>]   <span class="co"># Returns: [2, 3]</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>numbers[:<span class="dv">3</span>]    <span class="co"># Returns: [1, 2, 3] (first three)</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>numbers[<span class="dv">2</span>:]    <span class="co"># Returns: [3, 4, 5] (from index 2 onwards)</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify a list</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>numbers[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(numbers)  <span class="co"># Output: [10, 2, 3, 4, 5]</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Append an item</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>numbers.append(<span class="dv">6</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(numbers)  <span class="co"># Output: [10, 2, 3, 4, 5, 6]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="more-list-methods" class="level3">
 <h3 class="anchored" data-anchor-id="more-list-methods">More List Methods</h3>
-<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>western_line <span class="op">=</span> [<span class="st">"Britomart"</span>, <span class="st">"Parnell"</span>, <span class="st">"Newmarket"</span>, <span class="st">"Grafton"</span>]</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add an item to the end</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>western_line.append(<span class="st">"Mt Eden"</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extend with another list</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>more_stations <span class="op">=</span> [<span class="st">"Kingsland"</span>, <span class="st">"Morningside"</span>, <span class="st">"Baldwin Ave"</span>]</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>western_line.extend(more_stations)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Insert at specific position</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>western_line.insert(<span class="dv">1</span>, <span class="st">"Strand"</span>)</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove an item</span></span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>western_line.remove(<span class="st">"Strand"</span>)</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the list</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">2</span>, <span class="dv">6</span>]</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>numbers.sort()</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(numbers)  <span class="co"># Output: [1, 1, 2, 3, 4, 5, 6, 9]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>western_line <span class="op">=</span> [<span class="st">"Britomart"</span>, <span class="st">"Parnell"</span>, <span class="st">"Newmarket"</span>, <span class="st">"Grafton"</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Add an item to the end</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>western_line.append(<span class="st">"Mt Eden"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Extend with another list</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>more_stations <span class="op">=</span> [<span class="st">"Kingsland"</span>, <span class="st">"Morningside"</span>, <span class="st">"Baldwin Ave"</span>]</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>western_line.extend(more_stations)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Insert at specific position</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>western_line.insert(<span class="dv">1</span>, <span class="st">"Strand"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove an item</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>western_line.remove(<span class="st">"Strand"</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the list</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">2</span>, <span class="dv">6</span>]</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>numbers.sort()</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(numbers)  <span class="co"># Output: [1, 1, 2, 3, 4, 5, 6, 9]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -843,24 +872,26 @@ Lists are Versatile
 <p>Lists can contain: - Different data types: <code>[1, "hello", 3.14, True]</code> - Other lists: <code>[[1, 2], [3, 4], [5, 6]]</code> - Any Python objects</p>
 </div>
 </div>
+<hr>
 </section>
 </section>
 <section id="for-loops" class="level2">
 <h2 class="anchored" data-anchor-id="for-loops">For Loops</h2>
-<p>Loops allow you to repeat operations efficiently. They’re essential for processing multiple data items.</p>
+<p>Loops are what transform Python from a simple calculator into a powerful analytical tool. A <code>for</code> loop allows you to apply the same operation to every item in a collection, eliminating the need to write repetitive code for each data point. This capability is essential in urban analytics, where datasets routinely contain thousands or millions of records.</p>
+<p>Consider a practical scenario: if you have pedestrian count data from 500 street segments across Auckland, a for loop lets you calculate the walking volume per metre of pavement for every segment in a single block of code, rather than writing 500 separate calculations. As Lovelace et al. <span class="citation" data-cites="lovelace2019">(<a href="2.6.urban-analytics.html#ref-lovelace2019" role="doc-biblioref">2019</a>)</span> note in <em>Geocomputation with R</em> (whose principles translate directly to Python), automation through iteration is a cornerstone of reproducible geographic analysis.</p>
 <section id="basic-for-loop-syntax" class="level3">
 <h3 class="anchored" data-anchor-id="basic-for-loop-syntax">Basic For Loop Syntax</h3>
-<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> variable <span class="kw">in</span> collection:</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    do_something_with_variable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Key points: - The loop statement must end with a colon (<code>:</code>) - Code inside the loop must be indented (4 spaces) - No special end statement needed—just return to normal indentation</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> variable <span class="kw">in</span> collection:</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    do_something_with_variable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There are three syntax rules to remember. The loop statement must end with a colon (<code>:</code>), the code inside the loop must be indented by 4 spaces, and no special end statement is needed because Python uses the return to normal indentation to mark the end of the loop body.</p>
 </section>
 <section id="example-iterating-through-a-list" class="level3">
 <h3 class="anchored" data-anchor-id="example-iterating-through-a-list">Example: Iterating Through a List</h3>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>western_line <span class="op">=</span> [<span class="st">"Britomart"</span>, <span class="st">"Parnell"</span>, <span class="st">"Newmarket"</span>, <span class="st">"Grafton"</span>,</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Mt Eden"</span>, <span class="st">"Kingsland"</span>, <span class="st">"Morningside"</span>, <span class="st">"Baldwin Ave"</span>]</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> station <span class="kw">in</span> western_line:</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(station)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>western_line <span class="op">=</span> [<span class="st">"Britomart"</span>, <span class="st">"Parnell"</span>, <span class="st">"Newmarket"</span>, <span class="st">"Grafton"</span>,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Mt Eden"</span>, <span class="st">"Kingsland"</span>, <span class="st">"Morningside"</span>, <span class="st">"Baldwin Ave"</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> station <span class="kw">in</span> western_line:</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(station)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Output:</p>
 <pre><code>Britomart
 Parnell
@@ -874,32 +905,32 @@ Baldwin Ave</code></pre>
 <section id="using-range" class="level3">
 <h3 class="anchored" data-anchor-id="using-range">Using Range</h3>
 <p>The <code>range()</code> function generates sequences of numbers:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print numbers 0 to 4</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> value <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(value)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 0</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print numbers 0 to 4</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> value <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(value)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 0</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="working-with-multiple-lists" class="level3">
 <h3 class="anchored" data-anchor-id="working-with-multiple-lists">Working with Multiple Lists</h3>
-<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>cities <span class="op">=</span> [<span class="st">"Helsinki"</span>, <span class="st">"Stockholm"</span>, <span class="st">"Oslo"</span>, <span class="st">"Reykjavik"</span>, <span class="st">"Copenhagen"</span>]</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>countries <span class="op">=</span> [<span class="st">"Finland"</span>, <span class="st">"Sweden"</span>, <span class="st">"Norway"</span>, <span class="st">"Iceland"</span>, <span class="st">"Denmark"</span>]</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate using indices</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(cities)):</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(cities[i], <span class="st">"is the capital of"</span>, countries[i])</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Helsinki is the capital of Finland</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Stockholm is the capital of Sweden</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Oslo is the capital of Norway</span></span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Reykjavik is the capital of Iceland</span></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Copenhagen is the capital of Denmark</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cities <span class="op">=</span> [<span class="st">"Helsinki"</span>, <span class="st">"Stockholm"</span>, <span class="st">"Oslo"</span>, <span class="st">"Reykjavik"</span>, <span class="st">"Copenhagen"</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>countries <span class="op">=</span> [<span class="st">"Finland"</span>, <span class="st">"Sweden"</span>, <span class="st">"Norway"</span>, <span class="st">"Iceland"</span>, <span class="st">"Denmark"</span>]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterate using indices</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(cities)):</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(cities[i], <span class="st">"is the capital of"</span>, countries[i])</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Helsinki is the capital of Finland</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Stockholm is the capital of Sweden</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Oslo is the capital of Norway</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Reykjavik is the capital of Iceland</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Copenhagen is the capital of Denmark</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -910,153 +941,132 @@ Real-World Application
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In geospatial analysis, you’ll use loops to: - Process multiple data files - Calculate statistics for each region - Create maps for different time periods - Apply transformations to all features in a dataset</p>
+<p>In geospatial analysis, loops are the mechanism that makes batch processing possible. You will use them to read and process multiple data files (e.g.&nbsp;pedestrian count CSVs from different months), to calculate summary statistics for each region or street segment in a dataset, to generate maps for different time periods or scenarios, and to apply coordinate transformations or spatial operations to every feature in a GeoDataFrame. The MIT 11.024x course on pedestrian mobility in cities, for example, uses iterative analysis over street networks to compute accessibility indices for every node in a city’s pedestrian graph.</p>
 </div>
 </div>
 </section>
 </section>
 <section id="conditional-statements" class="level2">
 <h2 class="anchored" data-anchor-id="conditional-statements">Conditional Statements</h2>
-<p>Conditional statements allow your code to make decisions based on conditions.</p>
+<p>Conditional statements give your programme the ability to make decisions, executing different blocks of code depending on whether a condition is true or false. This is how you translate domain knowledge into computational logic. For example, in pedestrian exposure research, you might classify street segments as “high exposure” or “low exposure” based on whether pollutant concentrations exceed a World Health Organisation guideline threshold. Without conditionals, your programme would treat every data point identically, which is rarely what real-world analysis requires.</p>
 <section id="if-else-structure" class="level3">
 <h3 class="anchored" data-anchor-id="if-else-structure">If-Else Structure</h3>
-<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="dv">17</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">25</span>:</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's hot!"</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's not hot!"</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: It's not hot!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="dv">17</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">25</span>:</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's hot!"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"It's not hot!"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: It's not hot!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="if-without-else" class="level3">
 <h3 class="anchored" data-anchor-id="if-without-else">If Without Else</h3>
 <p>Sometimes you only need action when a condition is true:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="dv">17</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">25</span>:</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(temperature, <span class="st">"is greater than 25"</span>)</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># No output because condition is False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="dv">17</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">25</span>:</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(temperature, <span class="st">"is greater than 25"</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># No output because condition is False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="if-elif-else" class="level3">
 <h3 class="anchored" data-anchor-id="if-elif-else">If-Elif-Else</h3>
 <p>Use <code>elif</code> (else if) for multiple conditions:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="op">-</span><span class="dv">3</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(temperature, <span class="st">"degrees celsius is above freezing"</span>)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> temperature <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(temperature, <span class="st">"degrees celsius is at the freezing point"</span>)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(temperature, <span class="st">"degrees celsius is below freezing"</span>)</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: -3 degrees celsius is below freezing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="op">-</span><span class="dv">3</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(temperature, <span class="st">"degrees celsius is above freezing"</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> temperature <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(temperature, <span class="st">"degrees celsius is at the freezing point"</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(temperature, <span class="st">"degrees celsius is below freezing"</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: -3 degrees celsius is below freezing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Python checks conditions in order and executes the first true block.</p>
 </section>
 <section id="comparison-with-strings" class="level3">
 <h3 class="anchored" data-anchor-id="comparison-with-strings">Comparison with Strings</h3>
-<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>weather <span class="op">=</span> <span class="st">"rain"</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> weather <span class="op">==</span> <span class="st">"rain"</span>:</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Wear a raincoat!"</span>)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No raincoat needed."</span>)</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: Wear a raincoat!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>weather <span class="op">=</span> <span class="st">"rain"</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> weather <span class="op">==</span> <span class="st">"rain"</span>:</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Wear a raincoat!"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"No raincoat needed."</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: Wear a raincoat!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="combining-conditions" class="level2">
 <h2 class="anchored" data-anchor-id="combining-conditions">Combining Conditions</h2>
 <p>Use <code>and</code> and <code>or</code> to create complex conditions:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>weather <span class="op">=</span> <span class="st">"rain"</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>wind_speed <span class="op">=</span> <span class="dv">14</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>comfort_limit <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions with 'or'</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (weather <span class="op">==</span> <span class="st">"rain"</span>) <span class="kw">or</span> (wind_speed <span class="op">&gt;=</span> comfort_limit):</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Just stay at home"</span>)</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Go out and enjoy the weather!"</span>)</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: Just stay at home</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>weather <span class="op">=</span> <span class="st">"rain"</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>wind_speed <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>comfort_limit <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions with 'or'</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (weather <span class="op">==</span> <span class="st">"rain"</span>) <span class="kw">or</span> (wind_speed <span class="op">&gt;=</span> comfort_limit):</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Just stay at home"</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Go out and enjoy the weather!"</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Output: Just stay at home</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="combining-loops-and-conditionals" class="level2">
 <h2 class="anchored" data-anchor-id="combining-loops-and-conditionals">Combining Loops and Conditionals</h2>
-<p>One of the most powerful patterns in programming:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">12</span>, <span class="dv">17</span>, <span class="dv">28</span>, <span class="dv">30</span>]</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check each temperature</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> temperature <span class="kw">in</span> temperatures:</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">25</span>:</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(temperature, <span class="st">"is hot"</span>)</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(temperature, <span class="st">"is not hot"</span>)</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 is not hot</span></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 12 is not hot</span></span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 17 is not hot</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 28 is hot</span></span>
-<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 30 is hot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Combining loops with conditionals is arguably the most powerful pattern in introductory programming, because it allows you to iterate through an entire dataset while applying different logic to different records. This pattern underpins virtually all data processing pipelines in urban analytics. For instance, when Sevtsuk’s Urban Network Analysis framework computes pedestrian trip distributions across a city’s street network, it iterates over each network edge (a loop) and evaluates whether that edge meets certain accessibility or connectivity criteria (a conditional) before assigning trip volumes.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>temperatures <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">12</span>, <span class="dv">17</span>, <span class="dv">28</span>, <span class="dv">30</span>]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check each temperature</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> temperature <span class="kw">in</span> temperatures:</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> temperature <span class="op">&gt;</span> <span class="dv">25</span>:</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(temperature, <span class="st">"is hot"</span>)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(temperature, <span class="st">"is not hot"</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Output:</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 is not hot</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 12 is not hot</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 17 is not hot</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 28 is hot</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 30 is hot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="practical-example-processing-sensor-data" class="level3">
 <h3 class="anchored" data-anchor-id="practical-example-processing-sensor-data">Practical Example: Processing Sensor Data</h3>
-<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sensor_readings <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">23.1</span>, <span class="fl">45.7</span>, <span class="fl">12.8</span>, <span class="fl">38.9</span>]</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">30.0</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>high_readings <span class="op">=</span> []</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> reading <span class="kw">in</span> sensor_readings:</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> reading <span class="op">&gt;</span> threshold:</span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>        high_readings.append(reading)</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Alert: Reading </span><span class="sc">{</span>reading<span class="sc">}</span><span class="ss"> exceeds threshold!"</span>)</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Total high readings: </span><span class="sc">{</span><span class="bu">len</span>(high_readings)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sensor_readings <span class="op">=</span> [<span class="fl">15.2</span>, <span class="fl">23.1</span>, <span class="fl">45.7</span>, <span class="fl">12.8</span>, <span class="fl">38.9</span>]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">30.0</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>high_readings <span class="op">=</span> []</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> reading <span class="kw">in</span> sensor_readings:</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> reading <span class="op">&gt;</span> threshold:</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        high_readings.append(reading)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Alert: Reading </span><span class="sc">{</span>reading<span class="sc">}</span><span class="ss"> exceeds threshold!"</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Total high readings: </span><span class="sc">{</span><span class="bu">len</span>(high_readings)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="methods-and-dot-notation" class="level2">
 <h2 class="anchored" data-anchor-id="methods-and-dot-notation">Methods and Dot Notation</h2>
 <p>Objects in Python have <strong>methods</strong>—functions that belong to the object:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Append method adds an item</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>L.append(<span class="dv">100</span>)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(L)  <span class="co"># Output: [1, 2, 3, 100]</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if a float is an integer</span></span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">4.5</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>x.is_integer()  <span class="co"># Returns: False</span></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">4.0</span></span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>x.is_integer()  <span class="co"># Returns: True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Append method adds an item</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>L.append(<span class="dv">100</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(L)  <span class="co"># Output: [1, 2, 3, 100]</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if a float is an integer</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">4.5</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>x.is_integer()  <span class="co"># Returns: False</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="fl">4.0</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>x.is_integer()  <span class="co"># Returns: True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The dot (<code>.</code>) connects the object to its method: <code>object.method()</code></p>
 </section>
 <section id="getting-help" class="level2">
 <h2 class="anchored" data-anchor-id="getting-help">Getting Help</h2>
-<p>You don’t need to memorise everything! Resources for help:</p>
-<section id="documentation" class="level3">
-<h3 class="anchored" data-anchor-id="documentation">Documentation</h3>
-<ul>
-<li>Official Python docs: <a href="https://www.python.org/doc">https://www.python.org/doc</a></li>
-<li>Built-in help: <code>help(function_name)</code></li>
-<li>Function docstrings: <code>print(function_name.__doc__)</code></li>
-</ul>
-</section>
-<section id="online-resources" class="level3">
-<h3 class="anchored" data-anchor-id="online-resources">Online Resources</h3>
-<ul>
-<li>Stack Overflow: Search for error messages and solutions</li>
-<li>Real Python: Tutorials and guides</li>
-<li>Python Package documentation</li>
-</ul>
-</section>
-<section id="ai-assistance" class="level3">
-<h3 class="anchored" data-anchor-id="ai-assistance">AI Assistance</h3>
-<ul>
-<li>ChatGPT and Gemini can help explain concepts</li>
-<li><strong>Always understand the code they generate</strong></li>
-<li>Don’t blindly copy without learning</li>
-</ul>
+<p>You do not need to memorise every function or method in Python. Professional developers rely heavily on documentation and community resources, and you should too. The official Python documentation at <a href="https://www.python.org/doc">https://www.python.org/doc</a> is comprehensive and well-organised. Within Python itself, you can use <code>help(function_name)</code> to access built-in documentation, or <code>print(function_name.__doc__)</code> to read a function’s docstring directly.</p>
+<p>Beyond the official documentation, Stack Overflow is an invaluable resource for searching error messages and finding solutions that others have encountered. Real Python offers well-structured tutorials, and the documentation for specific packages (pandas, geopandas, matplotlib) is often the fastest route to understanding how a particular function works.</p>
+<p><em>AI tools such as ChatGPT and Gemini can help explain concepts and generate code snippets.</em> However, it is essential that you understand the code they produce rather than blindly copying it into your projects. You will need that understanding for debugging, adapting code to new datasets, and explaining your methodology in academic or professional contexts.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1067,64 +1077,71 @@ Understanding vs Copying
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>While AI tools are helpful, make sure you understand how the code works. You’ll need this understanding for debugging and adapting code to new situations.</p>
+<p>While AI tools accelerate learning, treat their output as a starting point rather than a finished product. Verify that generated code follows the conventions used in your project, handles edge cases in your data, and produces results you can explain and defend. This is especially important in research settings where reproducibility and methodological transparency are non-negotiable.</p>
 </div>
 </div>
-</section>
 </section>
 <section id="practical-exercise-auckland-transport" class="level2">
 <h2 class="anchored" data-anchor-id="practical-exercise-auckland-transport">Practical Exercise: Auckland Transport</h2>
 <p>Let’s combine everything we’ve learned:</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Auckland transport data</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>stations <span class="op">=</span> [<span class="st">"Britomart"</span>, <span class="st">"Newmarket"</span>, <span class="st">"Mt Eden"</span>, <span class="st">"Henderson"</span>]</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>daily_passengers <span class="op">=</span> [<span class="dv">15000</span>, <span class="dv">8500</span>, <span class="dv">6200</span>, <span class="dv">4100</span>]</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> <span class="dv">7000</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Auckland Transport Station Analysis"</span>)</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">40</span>)</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Analyse each station</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(stations)):</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    station <span class="op">=</span> stations[i]</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    passengers <span class="op">=</span> daily_passengers[i]</span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span>station<span class="sc">}</span><span class="ss"> Station:"</span>)</span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Daily passengers: </span><span class="sc">{</span>passengers<span class="sc">:,}</span><span class="ss">"</span>)</span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if station meets target</span></span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> passengers <span class="op">&gt;=</span> target:</span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  ✓ Meets target (</span><span class="sc">{</span>target<span class="sc">:,}</span><span class="ss"> passengers)"</span>)</span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Further categorisation</span></span>
-<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> passengers <span class="op">&gt;=</span> <span class="dv">10000</span>:</span>
-<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"  Status: High volume station"</span>)</span>
-<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"  Status: Medium volume station"</span>)</span>
-<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>        shortfall <span class="op">=</span> target <span class="op">-</span> passengers</span>
-<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  ✗ Below target by </span><span class="sc">{</span>shortfall<span class="sc">:,}</span><span class="ss"> passengers"</span>)</span>
-<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"  Status: Low volume station"</span>)</span>
-<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
-<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>total_passengers <span class="op">=</span> <span class="bu">sum</span>(daily_passengers)</span>
-<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>average_passengers <span class="op">=</span> total_passengers <span class="op">/</span> <span class="bu">len</span>(daily_passengers)</span>
-<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">40</span>)</span>
-<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total daily passengers: </span><span class="sc">{</span>total_passengers<span class="sc">:,}</span><span class="ss">"</span>)</span>
-<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average per station: </span><span class="sc">{</span>average_passengers<span class="sc">:,.0f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Auckland transport data</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>stations <span class="op">=</span> [<span class="st">"Britomart"</span>, <span class="st">"Newmarket"</span>, <span class="st">"Mt Eden"</span>, <span class="st">"Henderson"</span>]</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>daily_passengers <span class="op">=</span> [<span class="dv">15000</span>, <span class="dv">8500</span>, <span class="dv">6200</span>, <span class="dv">4100</span>]</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>target <span class="op">=</span> <span class="dv">7000</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(stations)):</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    station <span class="op">=</span> stations[i]</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    passengers <span class="op">=</span> daily_passengers[i]</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span>station<span class="sc">}</span><span class="ss"> Station:"</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Daily passengers: </span><span class="sc">{</span>passengers<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> passengers <span class="op">&gt;=</span> <span class="dv">10000</span>:</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"  Status: High volume station ✓"</span>)</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> passengers <span class="op">&gt;=</span> ______:        <span class="co"># &lt;-- Quiz 1</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"  Status: Medium volume station ✓"</span>)</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>        shortfall <span class="op">=</span> target <span class="op">-</span> passengers</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  ✗ Below target by </span><span class="sc">{</span>shortfall<span class="sc">:,}</span><span class="ss"> passengers"</span>)</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"  Status: Low volume station"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quiz 1: What is the correct order of conditions?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Given <code>target = 7000</code>, which ordering works correctly?</p>
+<ul>
+<li>A. <code>if passengers &gt;= target</code> → <code>elif passengers &gt;= 10000</code></li>
+<li>B. <code>if passengers &gt;= 10000</code> → <code>elif passengers &gt;= target</code><br>
+</li>
+<li>C. <code>if passengers &gt;= 10000</code> → <code>elif passengers &lt;= target</code></li>
+<li>D. <code>if passengers &lt;= target</code> → <code>elif passengers &gt;= 10000</code></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quiz 2: Given target number, what is the value of shortfall for Henderson station?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>In this section, you’ve learned:</p>
-<ul>
-<li><strong>Python basics</strong>: Syntax, indentation, and code structure</li>
-<li><strong>Data types</strong>: Integers, floats, strings, booleans, lists</li>
-<li><strong>Operators</strong>: Mathematical, comparison, and boolean operations</li>
-<li><strong>Variables</strong>: Assignment and how Python references work</li>
-<li><strong>Control flow</strong>: For loops and conditional statements</li>
-<li><strong>Combining concepts</strong>: Using loops with conditionals for real analysis</li>
-</ul>
-<p>These fundamentals form the foundation for all Python programming in geospatial analysis.</p>
+<p>This section has covered the foundational building blocks of Python programming. You have learned how Python’s syntax, particularly its use of indentation to define code structure, enforces readable and maintainable code. You have worked with the four basic data types (integers, floats, strings, and booleans) and seen how each maps to real-world data you will encounter in geospatial analysis, from pedestrian counts to street names to logical classification criteria. You have explored how variables store and reference data in memory, and why understanding Python’s reference-based variable model matters when working with mutable data structures. Through lists, for loops, and conditional statements, you have gained the ability to store collections of data, process them iteratively, and apply decision logic to each element. Combining these concepts, as demonstrated in the Auckland transport exercise, gives you the basic analytical capability to process real urban datasets.</p>
+<p>These fundamentals are not merely academic prerequisites. They form the computational substrate upon which all subsequent geospatial analysis in this book is built. The DataFrames you will meet in Section 2.2, the visualisations in Section 2.3, and the spatial operations in Section 2.4 all rely on the patterns introduced here.</p>
 </section>
 <section id="key-takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
@@ -1138,42 +1155,31 @@ Essential Concepts
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>The six concepts you should take away from this section are as follows.</p>
 <ol type="1">
-<li><strong>Indentation matters</strong> in Python—it defines code structure</li>
-<li><strong>Variables are references</strong> to objects in memory</li>
-<li><strong>Lists are mutable</strong> and can be modified after creation</li>
-<li><strong>For loops</strong> iterate through collections efficiently</li>
-<li><strong>Conditionals</strong> enable decision-making in your code</li>
-<li><strong>Combine loops and conditionals</strong> for powerful data processing</li>
+<li>Indentation matters in Python because it defines code structure, not merely aesthetics.</li>
+<li>Variables are references (pointers) to objects in memory, which has implications for how data is shared and modified.</li>
+<li>Lists are mutable ordered collections that serve as the foundation for handling sequences of spatial or temporal data.</li>
+<li>For loops enable you to iterate through collections efficiently, which is essential for batch processing in geospatial workflows.</li>
+<li>Conditional statements allow your code to make decisions based on data values, translating domain knowledge into computational logic.</li>
+<li>Combining loops with conditionals is the pattern you will use most frequently when processing and classifying real-world urban datasets.</li>
 </ol>
 </div>
 </div>
-</section>
-<section id="practice-exercises" class="level2">
-<h2 class="anchored" data-anchor-id="practice-exercises">Practice Exercises</h2>
-<ol type="1">
-<li><p><strong>Temperature Converter</strong>: Write a programme that converts a list of temperatures from Celsius to Fahrenheit using a for loop</p></li>
-<li><p><strong>Data Filtering</strong>: Create a list of pedestrian counts for different streets. Use a loop with conditionals to find all streets with counts above a threshold</p></li>
-<li><p><strong>String Processing</strong>: Given a list of street names, write code that:</p>
-<ul>
-<li>Converts all names to uppercase</li>
-<li>Counts how many contain the word “Street”</li>
-<li>Creates a new list with only names longer than 10 characters</li>
-</ul></li>
-<li><p><strong>Statistical Calculations</strong>: For a list of numbers representing rainfall measurements:</p>
-<ul>
-<li>Calculate the total rainfall</li>
-<li>Find the maximum and minimum values</li>
-<li>Count how many days had rainfall above 50mm</li>
-</ul></li>
-<li><p><strong>Auckland Suburbs</strong>: Create two lists—one with suburb names, one with populations. Write a programme that prints each suburb with its population and categorises them as small (&lt;50,000), medium (50,000-100,000), or large (&gt;100,000)</p></li>
-</ol>
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<p>Now that you understand Python basics, you’re ready to work with tabular data in <span class="quarto-unresolved-ref">?sec-dataframes</span>, where you’ll learn to use pandas for data manipulation—an essential skill for geospatial analysis.</p>
+<p>Now that you understand Python basics, you’re ready to work with tabular data in the following section <strong>Dataframes with Pandas</strong>, where you’ll learn to use pandas for data manipulation.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-lovelace2019" class="csl-entry" role="listitem">
+Lovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2019. <em>Geocomputation with r</em>. Chapman; Hall/CRC. <a href="https://r.geocompx.org/">https://r.geocompx.org/</a>.
+</div>
+<div id="ref-sevtsuk2024" class="csl-entry" role="listitem">
+Sevtsuk, Andres, and Raul Kalvo. 2024. <span>“Modeling Pedestrian Activity in Cities with Urban Network Analysis.”</span> <em>Environment and Planning B: Urban Analytics and City Science</em>. <a href="https://doi.org/10.1177/23998083241261766">https://doi.org/10.1177/23998083241261766</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

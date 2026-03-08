@@ -2,14 +2,9 @@
 
 ## Introduction
 
-Functions are fundamental building blocks in Python programming. They allow you to:
+Functions are fundamental building blocks in Python programming, and mastering them marks the transition from writing scripts to writing *software*. A function encapsulates a specific operation into a reusable, named block of code. This matters for four interconnected reasons. First, functions allow you to write code once and reuse it across multiple analyses, eliminating redundancy. Second, they make your analysis more readable by replacing complex operations with descriptive function names (e.g. `calculate_walkability_score()` is immediately clearer than 15 lines of inline arithmetic). Third, they reduce errors through standardisation, because once a function is tested and verified, every call to it produces consistent results. Fourth, they enable you to share functionality across projects and with collaborators, which is the foundation of the Python packaging workflow you will learn in Part 4.
 
-- Write code once and reuse it multiple times
-- Make your analysis more readable and maintainable
-- Reduce errors through standardisation
-- Share functionality across projects
-
-In geospatial analysis, functions are particularly useful for repetitive tasks like data cleaning, coordinate transformations, spatial calculations, and map generation.
+In geospatial analysis specifically, functions are indispensable because the same operations recur across different datasets and study areas. Data cleaning, coordinate transformations, distance calculations, buffer generation, and map creation are tasks you will perform repeatedly, and wrapping them in well-documented functions saves time and reduces the risk of introducing errors through copy-paste modifications. Sevtsuk's open-source Madina library for pedestrian trip modelling, for example, is structured entirely as a collection of functions and classes that users call with different parameters for different cities and scenarios.
 
 ## Why Create Functions?
 
@@ -66,13 +61,7 @@ def function_name(parameter1, parameter2):
     return result
 ```
 
-Key components:
-
-- `def`: Keyword to define a function
-- `function_name`: Descriptive name (use lowercase with underscores)
-- `parameters`: Inputs to the function (optional)
-- `docstring`: Documentation (highly recommended)
-- `return`: Output from the function (optional)
+A function definition has five key components. The `def` keyword signals to Python that you are defining a function. The `function_name` should be descriptive and follow Python's naming convention of lowercase words separated by underscores (e.g. `calculate_buffer_area` rather than `CalcBufArea`). The `parameters` in parentheses define the inputs your function accepts. The `docstring` (the triple-quoted text immediately after the function signature) documents what the function does, what it expects, and what it returns. Finally, the `return` statement specifies the output. Both parameters and return statements are optional, but functions without them are less useful in analytical workflows.
 
 ### Simple Example
 
@@ -576,16 +565,9 @@ quick_map(data, column='population', title='Population Map')
 
 ## Summary
 
-In this section, you've learned:
+This section has covered the principles and practice of creating functions in Python, completing the core programming toolkit you need for geospatial analysis. You have learned how to define functions with parameters, default values, and return statements, and why docstrings are essential for making your code understandable to others (and to your future self). Through geospatial examples, you have seen how to encapsulate common operations like centroid extraction, CRS reprojection, distance calculation, multi-ring buffering, and standardised choropleth map creation into reusable, well-documented functions. Error handling with `try-except` blocks and input validation ensure that your functions fail gracefully and provide informative messages when given unexpected inputs.
 
-- How to define and use functions in Python
-- The importance of parameters, return values, and docstrings
-- How to create geospatial functions for common tasks
-- Error handling and input validation
-- Best practices for writing maintainable code
-- How to build a personal toolkit of reusable functions
-
-Functions are powerful tools that will make your geospatial analysis more efficient, reliable, and shareable. As you continue working with Python, you'll develop your own collection of frequently-used functions.
+The best practices discussed in this section, including writing clear docstrings, keeping functions focused on a single task, using meaningful names, and avoiding reliance on global variables, are not merely stylistic preferences. They are engineering principles that determine whether your code can be maintained, extended, and shared effectively. Building a personal GIS toolkit of reusable functions, as demonstrated with the `my_gis_tools.py` example, is the first step towards the Python packaging workflow you will learn in Part 4, where you will publish your tools as installable packages that others can use in their own pedestrian mobility and urban analytics projects.
 
 ## Practice Exercises
 

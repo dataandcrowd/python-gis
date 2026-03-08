@@ -15,6 +15,7 @@ book:
         - 1.1.installation.qmd
         - 1.2.uv.qmd
         - 1.3.version-control.qmd
+        - 1.4.download-from-github.qmd
         
     - part: 2.0.chapter2-geospatial_python.qmd
       chapters:
@@ -46,7 +47,7 @@ book:
     - part: labs/labs.qmd
       chapters: 
         - labs/lab-week01.qmd
-        #- labs/lab-week02.qmd
+        - labs/lab-week02.qmd
         #- labs/lab-week03.qmd
         #- labs/lab-week04.qmd
         #- labs/lab-week05.qmd

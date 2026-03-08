@@ -1,4 +1,4 @@
-# 2.4 Urban analytics indicators {.unnumbered #sec-urban-analytics}
+# 2.6 Urban analytics indicators {.unnumbered #sec-urban-analytics}
 
 ## What you will learn {.unnumbered}
 

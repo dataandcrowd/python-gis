@@ -3,13 +3,13 @@
 
 ## Your First Python Code
 
-Let's start with the traditional first programme:
+Every programming journey begins with a simple act of communication between you and the machine. In Python, that act is the `print()` function, one of the language's most frequently used built-in tools.
 
 ```python
 print("Hello World")
 ```
 
-This simple command displays text on the screen. The `print()` function is one of Python's most useful built-in functions.
+This command tells Python to display text on the screen. While this may seem trivial, `print()` will become one of your most important debugging tools as you progress through geospatial analysis. When you are processing pedestrian count data across hundreds of street segments, for instance, strategically placed `print()` statements help you verify that your code is producing the expected results at each stage of the analysis pipeline.
 
 ### Adding Comments
 
@@ -35,7 +35,7 @@ Good comments explain *why* you're doing something, not just *what* you're doing
 
 ## Python as a Calculator
 
-Python can perform mathematical operations directly:
+Before you analyse complex datasets, you should know that Python works as a powerful calculator out of the box. This matters because much of urban analytics involves arithmetic operations on spatial and demographic data. Whether you are computing pedestrian density (people per square metre), walkability scores, or average trip distances, mathematical operations form the foundation of every analysis.
 
 ```python
 # Addition
@@ -52,6 +52,8 @@ Python can perform mathematical operations directly:
 ```
 
 ### More Mathematical Operators
+
+The table below summarises Python's core arithmetic operators. Pay particular attention to the distinction between true division (`/`) and floor division (`//`), as this distinction becomes important when you work with spatial binning or grid-based analyses where you need integer results.
 
 | Operation | Operator | Example | Result |
 |-----------|----------|---------|--------|
@@ -72,7 +74,11 @@ print(11 / 2)  # Output: 5.5
 print(11 // 2)  # Output: 5
 ```
 
+For instance, if you have 11 pedestrian sensors across 2 city zones and want to know how many full sensors each zone gets, floor division gives you `5`, while the modulus operator (`11 % 2 = 1`) tells you one sensor remains unassigned.
+
 ## Python Syntax Essentials
+
+Understanding Python's syntax rules early on prevents frustrating errors later. Unlike languages such as Java or C++ that use braces and semicolons, Python relies on whitespace and line breaks to structure code. This design philosophy, championed by Python's creator Guido van Rossum, prioritises readability, which is especially valuable when collaborating on geospatial projects where code must be understood by team members from different disciplinary backgrounds.
 
 ### End-of-Line Terminates Statements
 
@@ -105,7 +111,7 @@ All three lines are equivalent, but which is most **readable**? The second optio
 
 ### Indentation Matters!
 
-Unlike many languages, Python uses indentation to define code blocks:
+This is one of Python's most distinctive features and a common source of early frustration. Unlike many programming languages that use curly braces `{}` to define blocks of code, Python uses indentation. This was a deliberate design choice to enforce readable code. In practice, it means that the visual structure of your programme directly reflects its logical structure, which makes Python code easier to read and review during collaborative geospatial projects.
 
 ```python
 # Correct indentation
@@ -123,23 +129,22 @@ print("It's hot!")  # IndentationError!
 Always use 4 spaces for indentation (most editors can convert Tab to spaces automatically). Mixing tabs and spaces will cause errors.
 :::
 
-### Parentheses (Round Brackets)
+### Round Brackets 
 
-Parentheses have multiple uses in Python:
+Round brackets (or parentheses in the US context) serve three distinct purposes in Python, and recognising which role they play in any given line of code helps you read programmes fluently. 
+First, they group mathematical operations to control the order of evaluation, just as they do in standard arithmetic. 
+Second, they call functions, instructing Python to execute a named block of code. 
+Third, they execute methods, which are functions that belong to a specific object. The examples below illustrate each role:
 
-1. **Grouping mathematical operations**:
 ```python
+# 1. Grouping mathematical operations
 2 * (3 + 4)  # Returns: 14
-```
 
-2. **Calling functions**:
-```python
+# 2. Calling functions
 print('first value:', 1)
 len('Hello World')
-```
 
-3. **Executing methods**:
-```python
+# 3. Executing methods on objects
 L = [4, 2, 3, 1]
 L.sort()  # Parentheses execute the sort method
 print(L)  # Output: [1, 2, 3, 4]
@@ -147,7 +152,8 @@ print(L)  # Output: [1, 2, 3, 4]
 
 ## Variables and Assignment
 
-A **variable** stores values for later use. Think of it as a labelled box in computer memory.
+A **variable** stores values for later use. Think of it as a labelled box in computer memory. 
+Variables are the mechanism through which your programme remembers information between operations. In pedestrian mobility research, you might store a walkability index score, the number of pedestrians counted at an intersection during peak hours, or the coordinates of a survey location. Without variables, every computation would be a one-off calculation with no way to build upon previous results.
 
 ```python
 weather = "Freezing"
@@ -180,10 +186,12 @@ This behaviour is important when working with data structures in geospatial anal
 
 ### Everything Is an Object
 
-Python is an **object-oriented** language. Every entity has:
+Python is an **object-oriented** language, which means that every piece of data you work with is an **"object"** that carries both information and behaviour. 
 
-- **Attributes**: Data associated with the object
-- **Methods**: Functions that operate on the object
+Each object has **attributes** (data associated with it) and **methods** (functions that can operate on it). 
+This design is not merely an academic abstraction. 
+When you work with geospatial libraries like GeoPandas in Section 2.4, every geometry object (a point, line, or polygon) will come with built-in methods such as `.buffer()`, `.centroid`, and `.area` that you can call directly. 
+Understanding the object-oriented paradigm now will make those later sections far more intuitive.
 
 ```python
 x = 4
@@ -198,7 +206,12 @@ type(x)  # Returns: <class 'float'>
 
 ### Basic Data Types
 
-Python has four fundamental data types:
+Python has four fundamental data types, each suited to representing different kinds of real-world information. 
+
+* Integers (`int`) represent whole numbers and are ideal for counts, such as the number of pedestrians passing a sensor. 
+* Floats (`float`) handle decimal numbers and are essential for measurements like walking distances in kilometres or pollution concentrations in micrograms per cubic metre. 
+* Strings (`str`) store text, from street names to neighbourhood classifications. 
+* Booleans (`bool`) represent binary true/false values and are used for logical tests, such as whether a street segment falls within a low-emission zone.
 
 | Type | Description | Example |
 |------|-------------|---------|
@@ -209,7 +222,7 @@ Python has four fundamental data types:
 
 ### Working with Strings
 
-Strings represent text data:
+Strings represent text data and are ubiquitous in geospatial work. Street names, suburb classifications, CRS identifiers, and file paths are all strings. Knowing how to manipulate them, whether through concatenation, case conversion, or splitting, is essential for data cleaning tasks that precede any spatial analysis.
 
 ```python
 city = "Auckland"
@@ -265,7 +278,7 @@ my_int + my_float  # Returns: 26.3 (float)
 
 ### Boolean Values
 
-Booleans represent truth values and are essential for conditional logic:
+Booleans represent truth values and are the engine behind every decision your programme makes. When you filter a dataset to include only streets with pedestrian counts above a certain threshold, or check whether a coordinate falls within a study area boundary, you are relying on boolean logic. Understanding booleans is therefore a prerequisite for the conditional statements and data filtering operations covered later in this section and throughout the book.
 
 ```python
 x = 5
@@ -324,7 +337,10 @@ not (x < 6)  # Returns: False
 
 ## Lists
 
-Lists are ordered collections that can hold multiple values:
+Lists are one of Python's most versatile data structures and will be your workhorse throughout this book. 
+
+A list is an ordered collection that can hold multiple values, making it the natural choice for storing sequences of related data such as a series of pedestrian counts from different time intervals, a collection of street names along a walking route, or latitude-longitude pairs for survey locations. 
+Sevtsuk and Kalvo [-@sevtsuk2024] demonstrate how lists of origin and destination points feed into network-based pedestrian trip models, underscoring the practical importance of this data structure in urban mobility research.
 
 ```python
 # Create a list
@@ -391,9 +407,15 @@ Lists can contain:
 - Any Python objects
 :::
 
+----
+
 ## For Loops
 
-Loops allow you to repeat operations efficiently. They're essential for processing multiple data items.
+Loops are what transform Python from a simple calculator into a powerful analytical tool. 
+A `for` loop allows you to apply the same operation to every item in a collection, eliminating the need to write repetitive code for each data point. 
+This capability is essential in urban analytics, where datasets routinely contain thousands or millions of records. 
+
+Consider a practical scenario: if you have pedestrian count data from 500 street segments across Auckland, a for loop lets you calculate the walking volume per metre of pavement for every segment in a single block of code, rather than writing 500 separate calculations. As Lovelace et al. [-@lovelace2019] note in *Geocomputation with R* (whose principles translate directly to Python), automation through iteration is a cornerstone of reproducible geographic analysis.
 
 ### Basic For Loop Syntax
 
@@ -402,10 +424,7 @@ for variable in collection:
     do_something_with_variable
 ```
 
-Key points:
-- The loop statement must end with a colon (`:`)
-- Code inside the loop must be indented (4 spaces)
-- No special end statement needed—just return to normal indentation
+There are three syntax rules to remember. The loop statement must end with a colon (`:`), the code inside the loop must be indented by 4 spaces, and no special end statement is needed because Python uses the return to normal indentation to mark the end of the loop body.
 
 ### Example: Iterating Through a List
 
@@ -466,16 +485,12 @@ for i in range(len(cities)):
 
 ::: {.callout-tip}
 ## Real-World Application
-In geospatial analysis, you'll use loops to:
-- Process multiple data files
-- Calculate statistics for each region
-- Create maps for different time periods
-- Apply transformations to all features in a dataset
+In geospatial analysis, loops are the mechanism that makes batch processing possible. You will use them to read and process multiple data files (e.g. pedestrian count CSVs from different months), to calculate summary statistics for each region or street segment in a dataset, to generate maps for different time periods or scenarios, and to apply coordinate transformations or spatial operations to every feature in a GeoDataFrame. The MIT 11.024x course on pedestrian mobility in cities, for example, uses iterative analysis over street networks to compute accessibility indices for every node in a city's pedestrian graph.
 :::
 
 ## Conditional Statements
 
-Conditional statements allow your code to make decisions based on conditions.
+Conditional statements give your programme the ability to make decisions, executing different blocks of code depending on whether a condition is true or false. This is how you translate domain knowledge into computational logic. For example, in pedestrian exposure research, you might classify street segments as "high exposure" or "low exposure" based on whether pollutant concentrations exceed a World Health Organisation guideline threshold. Without conditionals, your programme would treat every data point identically, which is rarely what real-world analysis requires.
 
 ### If-Else Structure
 
@@ -555,7 +570,7 @@ else:
 
 ## Combining Loops and Conditionals
 
-One of the most powerful patterns in programming:
+Combining loops with conditionals is arguably the most powerful pattern in introductory programming, because it allows you to iterate through an entire dataset while applying different logic to different records. This pattern underpins virtually all data processing pipelines in urban analytics. For instance, when Sevtsuk's Urban Network Analysis framework computes pedestrian trip distributions across a city's street network, it iterates over each network edge (a loop) and evaluates whether that edge meets certain accessibility or connectivity criteria (a conditional) before assigning trip volumes.
 
 ```python
 temperatures = [0, 12, 17, 28, 30]
@@ -591,6 +606,7 @@ for reading in sensor_readings:
 print(f"\nTotal high readings: {len(high_readings)}")
 ```
 
+
 ## Methods and Dot Notation
 
 Objects in Python have **methods**—functions that belong to the object:
@@ -614,26 +630,16 @@ The dot (`.`) connects the object to its method: `object.method()`
 
 ## Getting Help
 
-You don't need to memorise everything! Resources for help:
+You do not need to memorise every function or method in Python. Professional developers rely heavily on documentation and community resources, and you should too. The official Python documentation at [https://www.python.org/doc](https://www.python.org/doc) is comprehensive and well-organised. Within Python itself, you can use `help(function_name)` to access built-in documentation, or `print(function_name.__doc__)` to read a function's docstring directly.
 
-### Documentation
-- Official Python docs: [https://www.python.org/doc](https://www.python.org/doc)
-- Built-in help: `help(function_name)`
-- Function docstrings: `print(function_name.__doc__)`
+Beyond the official documentation, Stack Overflow is an invaluable resource for searching error messages and finding solutions that others have encountered. Real Python offers well-structured tutorials, and the documentation for specific packages (pandas, geopandas, matplotlib) is often the fastest route to understanding how a particular function works.
 
-### Online Resources
-- Stack Overflow: Search for error messages and solutions
-- Real Python: Tutorials and guides
-- Python Package documentation
-
-### AI Assistance
-- ChatGPT and Gemini can help explain concepts
-- **Always understand the code they generate**
-- Don't blindly copy without learning
+*AI tools such as ChatGPT and Gemini can help explain concepts and generate code snippets.*
+However, it is essential that you understand the code they produce rather than blindly copying it into your projects. You will need that understanding for debugging, adapting code to new datasets, and explaining your methodology in academic or professional contexts.
 
 ::: {.callout-warning}
 ## Understanding vs Copying
-While AI tools are helpful, make sure you understand how the code works. You'll need this understanding for debugging and adapting code to new situations.
+While AI tools accelerate learning, treat their output as a starting point rather than a finished product. Verify that generated code follows the conventions used in your project, handles edge cases in your data, and produces results you can explain and defend. This is especially important in research settings where reproducibility and methodological transparency are non-negotiable.
 :::
 
 ## Practical Exercise: Auckland Transport
@@ -646,83 +652,66 @@ stations = ["Britomart", "Newmarket", "Mt Eden", "Henderson"]
 daily_passengers = [15000, 8500, 6200, 4100]
 target = 7000
 
-print("Auckland Transport Station Analysis")
-print("=" * 40)
-
-# Analyse each station
 for i in range(len(stations)):
     station = stations[i]
     passengers = daily_passengers[i]
-    
+
     print(f"\n{station} Station:")
     print(f"  Daily passengers: {passengers:,}")
-    
-    # Check if station meets target
-    if passengers >= target:
-        print(f"  ✓ Meets target ({target:,} passengers)")
-        
-        # Further categorisation
-        if passengers >= 10000:
-            print("  Status: High volume station")
-        else:
-            print("  Status: Medium volume station")
+
+    if passengers >= 10000:
+        print("  Status: High volume station ✓")
+    elif passengers >= ______:        # <-- Quiz 1
+        print("  Status: Medium volume station ✓")
     else:
         shortfall = target - passengers
         print(f"  ✗ Below target by {shortfall:,} passengers")
         print("  Status: Low volume station")
-
-# Summary statistics
-total_passengers = sum(daily_passengers)
-average_passengers = total_passengers / len(daily_passengers)
-
-print("\n" + "=" * 40)
-print(f"Total daily passengers: {total_passengers:,}")
-print(f"Average per station: {average_passengers:,.0f}")
 ```
+
+
+
+::: {.callout-caution}
+## Quiz 1: What is the correct order of conditions?
+
+Given `target = 7000`, which ordering works correctly?
+
+- A. `if passengers >= target` → `elif passengers >= 10000`
+- B. `if passengers >= 10000` → `elif passengers >= target`  
+- C. `if passengers >= 10000` → `elif passengers <= target`
+- D. `if passengers <= target` → `elif passengers >= 10000`
+
+:::
+
+
+::: {.callout-caution}
+## Quiz 2: Given target number, what is the value of shortfall for Henderson station?
+
+:::
+
+
+
 
 ## Summary
 
-In this section, you've learned:
+This section has covered the foundational building blocks of Python programming. You have learned how Python's syntax, particularly its use of indentation to define code structure, enforces readable and maintainable code. You have worked with the four basic data types (integers, floats, strings, and booleans) and seen how each maps to real-world data you will encounter in geospatial analysis, from pedestrian counts to street names to logical classification criteria. You have explored how variables store and reference data in memory, and why understanding Python's reference-based variable model matters when working with mutable data structures. Through lists, for loops, and conditional statements, you have gained the ability to store collections of data, process them iteratively, and apply decision logic to each element. Combining these concepts, as demonstrated in the Auckland transport exercise, gives you the basic analytical capability to process real urban datasets.
 
-- **Python basics**: Syntax, indentation, and code structure
-- **Data types**: Integers, floats, strings, booleans, lists
-- **Operators**: Mathematical, comparison, and boolean operations
-- **Variables**: Assignment and how Python references work
-- **Control flow**: For loops and conditional statements
-- **Combining concepts**: Using loops with conditionals for real analysis
-
-These fundamentals form the foundation for all Python programming in geospatial analysis.
+These fundamentals are not merely academic prerequisites. They form the computational substrate upon which all subsequent geospatial analysis in this book is built. The DataFrames you will meet in Section 2.2, the visualisations in Section 2.3, and the spatial operations in Section 2.4 all rely on the patterns introduced here.
 
 ## Key Takeaways
 
 ::: {.callout-important}
 ## Essential Concepts
-1. **Indentation matters** in Python—it defines code structure
-2. **Variables are references** to objects in memory
-3. **Lists are mutable** and can be modified after creation
-4. **For loops** iterate through collections efficiently
-5. **Conditionals** enable decision-making in your code
-6. **Combine loops and conditionals** for powerful data processing
+The six concepts you should take away from this section are as follows. 
+
+1. Indentation matters in Python because it defines code structure, not merely aesthetics. 
+2. Variables are references (pointers) to objects in memory, which has implications for how data is shared and modified. 
+3. Lists are mutable ordered collections that serve as the foundation for handling sequences of spatial or temporal data. 
+4. For loops enable you to iterate through collections efficiently, which is essential for batch processing in geospatial workflows. 
+5. Conditional statements allow your code to make decisions based on data values, translating domain knowledge into computational logic. 
+6. Combining loops with conditionals is the pattern you will use most frequently when processing and classifying real-world urban datasets.
 :::
-
-## Practice Exercises
-
-1. **Temperature Converter**: Write a programme that converts a list of temperatures from Celsius to Fahrenheit using a for loop
-
-2. **Data Filtering**: Create a list of pedestrian counts for different streets. Use a loop with conditionals to find all streets with counts above a threshold
-
-3. **String Processing**: Given a list of street names, write code that:
-   - Converts all names to uppercase
-   - Counts how many contain the word "Street"
-   - Creates a new list with only names longer than 10 characters
-
-4. **Statistical Calculations**: For a list of numbers representing rainfall measurements:
-   - Calculate the total rainfall
-   - Find the maximum and minimum values
-   - Count how many days had rainfall above 50mm
-
-5. **Auckland Suburbs**: Create two lists—one with suburb names, one with populations. Write a programme that prints each suburb with its population and categorises them as small (<50,000), medium (50,000-100,000), or large (>100,000)
 
 ## Next Steps
 
-Now that you understand Python basics, you're ready to work with tabular data in the following section **Dataframes with Pandas**, where you'll learn to use pandas for data manipulation—an essential skill for geospatial analysis.
+Now that you understand Python basics, you're ready to work with tabular data in the following section **Dataframes with Pandas**, where you'll learn to use pandas for data manipulation.

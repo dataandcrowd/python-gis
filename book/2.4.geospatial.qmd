@@ -1,8 +1,10 @@
-# 2.3. Geospatial Data {.unnumbered}
+# 2.4. Geospatial Data {.unnumbered}
 
 ## Introduction
 
-Geographic Information Systems (GIS) combine spatial data (where things are) with attribute data (what things are). In this section, you'll learn the fundamentals of working with geospatial data in Python, focusing on vector data analysis using the geopandas library.
+Geographic Information Systems (GIS) combine spatial data (where things are) with attribute data (what things are). This dual nature makes GIS uniquely powerful for urban analysis, because questions about cities are almost always questions about *place*. Where do pedestrians walk most frequently? How does proximity to green spaces relate to physical activity levels? Which neighbourhoods lack adequate footpath infrastructure? Answering these questions requires the ability to handle, analyse, and visualise data that has a geographic component.
+
+In this section, you will learn the fundamentals of working with geospatial data in Python, focusing on vector data analysis using the GeoPandas library. GeoPandas extends the pandas DataFrames you mastered in Section 2.2 by adding a geometry column, which means that every filtering, grouping, and merging operation you have already learned applies directly to spatial data. This design philosophy, building spatial capabilities on top of a familiar tabular interface, is what makes Python's geospatial ecosystem so accessible compared to traditional desktop GIS software.
 
 ## What is GIS?
 
@@ -17,30 +19,19 @@ All data in GIS are **georeferenced**, meaning each feature has:
 
 ### GIS Applications
 
-GIS enables us to answer complex spatial questions. For example, with crime data we can explore:
+GIS enables us to answer complex spatial questions that would be impossible with tabular data alone. In criminology, for instance, researchers use GIS to identify where the most vulnerable communities are located, to investigate why crimes occur in one area and not another, to trace how offenders travel to crime locations, and to detect where stop-and-search rates are disproportionately high or low relative to local demographics.
 
-- Where are the most vulnerable communities located?
-- Why do crimes occur in one area and not another?
-- How do offenders travel to crime locations?
-- Where are there more or fewer stop and searches than expected?
+In pedestrian mobility research, GIS applications are equally varied and consequential. Sevtsuk's Urban Network Analysis framework uses GIS to model how pedestrians navigate street networks, computing accessibility indices that quantify how easily residents can reach destinations on foot. Colaninno et al. [-@colaninno2024] combined pedestrian mobility modelling with urban microclimate data in a GIS environment to assess sidewalk-level heat risk, demonstrating that high-traffic pedestrian corridors often coincide with urban heat islands. These applications illustrate how GIS transforms abstract spatial questions into quantifiable, actionable analyses.
 
 ## Types of Maps
 
 ### Reference Maps
 
-Reference maps are used to communicate location and static data points:
-
-- Purpose: To 'pin point' data on a map
-- Nature: Descriptive
-- Examples: Road maps, topographic maps, navigation tools
+Reference maps serve a primarily descriptive purpose: they communicate the locations of features and help users orient themselves in space. Their goal is to "pin point" data on a map, and they tend to be static and factual. Road maps, topographic maps, and navigation tools are all reference maps. In pedestrian research, a reference map might show the locations of pedestrian counting stations across a city, or the layout of footpaths in a study area.
 
 ### Thematic Maps
 
-Thematic maps highlight spatial relationships and patterns:
-
-- Purpose: To 'study a theme' within spatial data
-- Nature: Explanatory
-- Examples: Choropleth maps, heat maps, cartograms
+Thematic maps go beyond location to highlight spatial relationships and patterns. Their purpose is explanatory rather than merely descriptive: they help the viewer "study a theme" within spatial data. Choropleth maps (where regions are shaded according to a variable's value), heat maps (showing continuous surfaces of intensity), and cartograms (where area is distorted to represent a variable) are all thematic maps. In pedestrian mobility studies, a thematic map might shade neighbourhoods by walkability score or display pedestrian flow volumes as graduated line widths along street segments.
 
 ::: {.callout-note}
 ## Rail Maps: Reference or Thematic?
@@ -55,48 +46,29 @@ Transport maps like Auckland's rail network can be both:
 
 ### Vector Data
 
-Vector data represents discrete features using points, lines, and polygons:
-
-- **Points**: Individual locations (cities, sensors, trees)
-- **Lines**: Linear features (roads, rivers, routes)
-- **Polygons**: Areas with boundaries (parcels, countries, lakes)
-
-Vector data is preferred in social sciences because human settlements and processes tend to have discrete borders.
+Vector data represents discrete features using three geometric primitives. **Points** represent individual locations, such as cities, pedestrian counting sensors, or individual trees in an urban canopy study. **Lines** represent linear features like roads, rivers, or walking routes. **Polygons** represent areas with defined boundaries, such as land parcels, census tracts, or parks. Vector data is the dominant format in social sciences and urban analytics because human settlements, administrative boundaries, and transport networks tend to have discrete, well-defined extents. In pedestrian mobility modelling, street networks are typically represented as line geometries, with intersections as point geometries, forming the graph structure over which walking trips are simulated.
 
 ### Raster Data
 
-Raster data represents continuous surfaces using a grid of pixels:
-
-- Each pixel has a value
-- Commonly used for: satellite imagery, elevation models, temperature surfaces
-- Dominated in environmental sciences due to remote sensing
+Raster data represents continuous surfaces using a grid of cells (pixels), where each pixel carries a numeric value. Satellite imagery, digital elevation models, and temperature or pollution surfaces are common examples. Raster data dominates in environmental sciences because remote sensing instruments capture the world as gridded measurements. In pedestrian research, raster data appears when modelling continuous phenomena such as noise levels, air quality surfaces, or thermal comfort indices along walking routes. However, for most of the analytical tasks in this book, you will work primarily with vector data.
 
 ## File Formats
 
 ### Vector Formats
 
-- **Shapefile (.shp)**: Traditional GIS format (requires multiple files: .shp, .shx, .dbf, .prj)
-- **GeoJSON (.geojson)**: Web-friendly, human-readable format
-- **GeoPackage (.gpkg)**: Modern, single-file format supporting multiple layers
-- **KML/KMZ**: Google Earth format
+The **Shapefile** (.shp) is the traditional GIS format, developed by Esri in the 1990s. Despite its age and limitations (it requires multiple companion files: .shp for geometry, .shx for the spatial index, .dbf for attributes, and .prj for the coordinate reference system), it remains widely used because of its universal support across GIS software. **GeoJSON** (.geojson) is a web-friendly, human-readable format based on the JSON standard you encountered in Section 2.2. Its readability makes it ideal for web mapping applications and API data exchange, though it can become unwieldy for large datasets. **GeoPackage** (.gpkg) is the modern alternative: a single SQLite database file that supports multiple layers, large datasets, and both vector and raster data. For new projects, GeoPackage is generally the recommended choice. **KML/KMZ** files are associated with Google Earth and are useful for quick spatial data sharing but lack some of the analytical capabilities of the other formats.
 
 ### Raster Formats
 
-- **GeoTIFF (.tif)**: Standard format with embedded spatial information
-- **NetCDF**: Multi-dimensional arrays (climate data)
-- **HDF5**: Hierarchical data format
+**GeoTIFF** (.tif) is the standard raster format, embedding coordinate reference system information and spatial extent directly within the file. **NetCDF** (Network Common Data Form) handles multi-dimensional arrays and is the dominant format for climate and atmospheric data. **HDF5** (Hierarchical Data Format) serves a similar purpose for large, complex datasets in earth observation and remote sensing.
 
 ## Coordinate Reference Systems (CRS)
 
 ### Understanding Projections
 
-The Earth is a 3D sphere (technically an oblate spheroid), but maps are 2D. This creates **distortion**.
+The Earth is a three-dimensional oblate spheroid, but maps are two-dimensional. Transforming the former into the latter inevitably creates **distortion** in shape, area, distance, or direction (and usually several of these simultaneously). A Coordinate Reference System (CRS) defines how geographic coordinates on the Earth's surface map to positions on a flat surface, and choosing the right CRS is one of the most consequential decisions in any spatial analysis.
 
-Common CRS systems:
-
-- **EPSG:4326 (WGS84)**: Unprojected geographic coordinates (latitude/longitude in degrees)
-- **EPSG:3857**: Web Mercator (used by Google Maps, metres)
-- **EPSG:2193**: NZTM (New Zealand Transverse Mercator, metres)
+Three CRS systems are particularly relevant for this book. **EPSG:4326 (WGS84)** uses unprojected geographic coordinates expressed in degrees of latitude and longitude. It is the default for GPS devices and most web APIs, but because its units are degrees rather than metres, it is unsuitable for distance or area calculations. **EPSG:3857 (Web Mercator)** is the projection used by Google Maps, OpenStreetMap, and most web mapping platforms. Its units are metres, but it severely distorts areas at high latitudes, making it inappropriate for area-based analyses. **EPSG:2193 (NZTM)**, the New Zealand Transverse Mercator, is the standard projected CRS for New Zealand. Its units are metres, and it minimises distortion across the country, making it the correct choice for distance and area calculations in Auckland and across Aotearoa.
 
 ::: {.callout-important}
 ## CRS Matters!
@@ -183,15 +155,9 @@ gdf = gpd.GeoDataFrame(
 
 ## Spatial Relationships
 
-GeoPandas provides functions to test spatial relationships:
+Spatial relationships describe how geometries relate to each other in space, and they are the foundation of spatial queries and joins. GeoPandas implements the DE-9IM (Dimensionally Extended 9-Intersection Model) standard through a set of intuitive methods. The `contains()` method tests whether geometry A fully encloses geometry B, while `within()` tests the inverse (whether A lies entirely inside B). The `intersects()` method is the most general test, returning `True` whenever geometries share any space at all. The `touches()` method identifies geometries that share a boundary but no interior area, `crosses()` detects geometries that cross each other (e.g. a road crossing a river), `overlaps()` identifies partial overlap between geometries of the same dimension, and `disjoint()` confirms that two geometries are completely separate.
 
-- `contains()`: Does geometry A contain geometry B?
-- `within()`: Is geometry A within geometry B?
-- `intersects()`: Do geometries A and B intersect?
-- `touches()`: Do geometries share a boundary but not area?
-- `crosses()`: Do geometries cross each other?
-- `overlaps()`: Do geometries overlap partially?
-- `disjoint()`: Are geometries completely separate?
+In pedestrian mobility analysis, these spatial relationships are used constantly. For example, you might use `within()` to determine which pedestrian counting stations fall inside a particular neighbourhood polygon, or `intersects()` to identify which street segments cross a proposed low-emission zone boundary.
 
 ### Example: Finding Which Country Contains a City
 
@@ -227,10 +193,7 @@ print(joined[['city_name', 'country_name', 'continent']])
 
 ### Common Spatial Join Use Cases
 
-- Assigning census data to geographic units
-- Finding which administrative area a point falls within
-- Counting features within polygons
-- Aggregating data by spatial location
+Spatial joins are among the most frequently used operations in urban analytics. They allow you to assign census or demographic data to geographic units (e.g. attaching population figures to meshblock polygons), determine which administrative area a point falls within (e.g. identifying which suburb each pedestrian sensor belongs to), count the number of features within polygons (e.g. how many bus stops are within each neighbourhood), and aggregate data by spatial location (e.g. computing the total pedestrian volume for each census area unit by summing counts from all sensors within it). In Sevtsuk's pedestrian modelling work, spatial joins are used to associate land-use attributes with street network edges, enabling the model to weight pedestrian trip generation based on the mix and density of activities along each street segment.
 
 ## Coordinate Transformations
 
@@ -342,15 +305,12 @@ plt.show()
 
 ## The Modifiable Areal Unit Problem (MAUP)
 
-MAUP refers to the sensitivity of statistical results to the choice of spatial units:
-
-- **Scale Effect**: Changing the size of spatial units affects results
-- **Zoning Effect**: Different arrangements of the same-sized units produce different results
+The Modifiable Areal Unit Problem (MAUP), first formalised by Openshaw [-@openshaw1984], is one of the most important conceptual challenges in spatial analysis. It refers to the sensitivity of statistical results to the choice of spatial units used for aggregation. MAUP manifests in two ways. The **scale effect** means that changing the size of spatial units (e.g. analysing at the meshblock level vs. the territorial authority level) produces different statistical results, even from the same underlying data. The **zoning effect** means that different arrangements of the same-sized units can also produce different results. For instance, two different ways of dividing Auckland into 50 equal-area zones could yield different conclusions about the spatial distribution of pedestrian activity.
 
 ::: {.callout-warning}
 ## Be Aware of MAUP
 
-When aggregating or analysing spatial data, remember that your choice of geographic units can influence your findings. Always consider whether your results might change with different spatial aggregations.
+When aggregating or analysing spatial data, your choice of geographic units can materially influence your findings. This is not merely a technical nuisance; it has real consequences for policy. A walkability analysis conducted at the suburb level might mask significant within-suburb variation in pedestrian infrastructure quality. Always consider whether your results might change with different spatial aggregations, and where possible, conduct sensitivity analyses at multiple scales to test the robustness of your conclusions.
 :::
 
 ## Practical Exercise
@@ -401,15 +361,9 @@ plt.show()
 
 ## Summary
 
-In this section, you've learned:
+This section has introduced the foundational concepts and tools for geospatial analysis in Python. You now understand the distinction between vector data (discrete features represented as points, lines, and polygons) and raster data (continuous surfaces represented as grids), and you know when each is appropriate. Through GeoPandas, you have learned to read spatial data from multiple file formats, explore GeoDataFrames using the same methods you mastered for pandas DataFrames in Section 2.2, and perform spatial operations including filtering, creating geometries, testing spatial relationships, executing spatial joins, reprojecting between coordinate reference systems, buffering, dissolving, and overlaying geometries. You have also learned to create choropleth maps and multi-layer visualisations, and you understand the Modifiable Areal Unit Problem (MAUP) and its implications for the reliability of spatial analyses.
 
-- Core GIS concepts and the difference between vector and raster data
-- How to work with geospatial data using geopandas
-- Coordinate reference systems and why they matter
-- Spatial relationships and how to test them
-- Common spatial operations: buffers, dissolves, overlays
-- How to create effective maps and visualisations
-- The importance of considering spatial scale (MAUP)
+These capabilities form the core toolkit for spatial analysis in urban and pedestrian mobility contexts. The ability to compute distances, create buffers around points of interest, join datasets based on spatial relationships, and visualise patterns through maps is what transforms raw geographic data into actionable insights about how people move through and interact with urban environments.
 
 ## Further Reading
 
