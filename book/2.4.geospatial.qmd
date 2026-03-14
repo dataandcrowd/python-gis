@@ -6,6 +6,8 @@ Geographic Information Systems (GIS) combine spatial data (where things are) wit
 
 In this section, you will learn the fundamentals of working with geospatial data in Python, focusing on vector data analysis using the GeoPandas library. GeoPandas extends the pandas DataFrames you mastered in Section 2.2 by adding a geometry column, which means that every filtering, grouping, and merging operation you have already learned applies directly to spatial data. This design philosophy, building spatial capabilities on top of a familiar tabular interface, is what makes Python's geospatial ecosystem so accessible compared to traditional desktop GIS software.
 
+
+
 ## What is GIS?
 
 Roger Tomlinson coined the term "GIS" (Geographic Information Systems), defining it as:
@@ -23,11 +25,12 @@ GIS enables us to answer complex spatial questions that would be impossible with
 
 In pedestrian mobility research, GIS applications are equally varied and consequential. Sevtsuk's Urban Network Analysis framework uses GIS to model how pedestrians navigate street networks, computing accessibility indices that quantify how easily residents can reach destinations on foot. Colaninno et al. [-@colaninno2024] combined pedestrian mobility modelling with urban microclimate data in a GIS environment to assess sidewalk-level heat risk, demonstrating that high-traffic pedestrian corridors often coincide with urban heat islands. These applications illustrate how GIS transforms abstract spatial questions into quantifiable, actionable analyses.
 
+
 ## Types of Maps
 
 ### Reference Maps
 
-Reference maps serve a primarily descriptive purpose: they communicate the locations of features and help users orient themselves in space. Their goal is to "pin point" data on a map, and they tend to be static and factual. Road maps, topographic maps, and navigation tools are all reference maps. In pedestrian research, a reference map might show the locations of pedestrian counting stations across a city, or the layout of footpaths in a study area.
+Reference maps serve a primarily descriptive purpose: they communicate the locations of features and help users orient themselves in space. Their goal is to "pin point" data on a map, and they tend to be static and factual. Road maps, topographic maps, and navigation tools such as Google Maps are all reference maps. In pedestrian research, a reference map might show the locations of pedestrian counting stations across a city, or the layout of footpaths in a study area.
 
 ### Thematic Maps
 
@@ -36,11 +39,14 @@ Thematic maps go beyond location to highlight spatial relationships and patterns
 ::: {.callout-note}
 ## Rail Maps: Reference or Thematic?
 
-Transport maps like Auckland's rail network can be both:
+Transport maps like Auckland's rail network can be classified as both:
 
-- **Reference**: They show station locations and line routes
-- **Thematic**: They can reveal patterns in life expectancy, poverty, or house prices along transport corridors
+- **Reference maps** because they show the location of different stations and the location of each line
+- **Thematic maps** because they can be used to predict life expectancy, poverty, and median house prices along transport corridors
+
+Other examples to consider: the visualisation of road networks to improve road safety measures is a thematic map. The visualisation of the earth's surface showing its elevation is a topographic map. Navigation tools such as Google Maps are reference (or navigational) maps.
 :::
+
 
 ## Geospatial Data Types
 
@@ -52,29 +58,67 @@ Vector data represents discrete features using three geometric primitives. **Poi
 
 Raster data represents continuous surfaces using a grid of cells (pixels), where each pixel carries a numeric value. Satellite imagery, digital elevation models, and temperature or pollution surfaces are common examples. Raster data dominates in environmental sciences because remote sensing instruments capture the world as gridded measurements. In pedestrian research, raster data appears when modelling continuous phenomena such as noise levels, air quality surfaces, or thermal comfort indices along walking routes. However, for most of the analytical tasks in this book, you will work primarily with vector data.
 
+
 ## File Formats
 
 ### Vector Formats
 
-The **Shapefile** (.shp) is the traditional GIS format, developed by Esri in the 1990s. Despite its age and limitations (it requires multiple companion files: .shp for geometry, .shx for the spatial index, .dbf for attributes, and .prj for the coordinate reference system), it remains widely used because of its universal support across GIS software. **GeoJSON** (.geojson) is a web-friendly, human-readable format based on the JSON standard you encountered in Section 2.2. Its readability makes it ideal for web mapping applications and API data exchange, though it can become unwieldy for large datasets. **GeoPackage** (.gpkg) is the modern alternative: a single SQLite database file that supports multiple layers, large datasets, and both vector and raster data. For new projects, GeoPackage is generally the recommended choice. **KML/KMZ** files are associated with Google Earth and are useful for quick spatial data sharing but lack some of the analytical capabilities of the other formats.
+The **Shapefile** (.shp) is the traditional GIS format, developed by Esri in the 1990s. Despite its age and limitations (it requires multiple companion files: .shp for geometry, .shx for the spatial index, .dbf for attributes, and .prj for the coordinate reference system), it remains widely used because of its universal support across GIS software.
+
+**GeoJSON** (.geojson) is a web-friendly, human-readable format based on the JSON standard you encountered in Section 2.2. Its readability makes it ideal for web mapping applications and API data exchange, though it can become unwieldy for large datasets.
+
+**GeoPackage** (.gpkg) is the modern alternative: a single SQLite-based format that supports multiple layers, large datasets, and both vector and raster data. For new projects, GeoPackage is generally the recommended choice.
+
+Other formats include **KML/KMZ** (used primarily in Google Earth), **File Geodatabase** (Esri's proprietary format), **CSV with coordinates** (plain text that can be georeferenced using lat/lon columns), **DXF/DWG** (CAD files convertible to GIS formats), **GPX** (GPS Exchange Format for routes, tracks, and waypoints), and **MapInfo TAB/MIF** files.
 
 ### Raster Formats
 
-**GeoTIFF** (.tif) is the standard raster format, embedding coordinate reference system information and spatial extent directly within the file. **NetCDF** (Network Common Data Form) handles multi-dimensional arrays and is the dominant format for climate and atmospheric data. **HDF5** (Hierarchical Data Format) serves a similar purpose for large, complex datasets in earth observation and remote sensing.
+**GeoTIFF** (.tif) is the standard raster format, embedding coordinate reference system information and spatial extent directly within the file.
+
+**NetCDF** (Network Common Data Form) handles multi-dimensional arrays and is the dominant format for climate and atmospheric data.
+
+**HDF5** (Hierarchical Data Format) serves a similar purpose for large, complex datasets in earth observation and remote sensing.
+
 
 ## Coordinate Reference Systems (CRS)
 
 ### Understanding Projections
 
-The Earth is a three-dimensional oblate spheroid, but maps are two-dimensional. Transforming the former into the latter inevitably creates **distortion** in shape, area, distance, or direction (and usually several of these simultaneously). A Coordinate Reference System (CRS) defines how geographic coordinates on the Earth's surface map to positions on a flat surface, and choosing the right CRS is one of the most consequential decisions in any spatial analysis.
+The Earth is a three-dimensional oblate spheroid, but maps are two-dimensional. Transforming the former into the latter inevitably creates **distortion** in one or more of: area, shape, distance, and direction. A Coordinate Reference System (CRS) defines how geographic coordinates on the Earth's surface map to positions on a flat surface, and choosing the right CRS is one of the most consequential decisions in any spatial analysis.
 
-Three CRS systems are particularly relevant for this book. **EPSG:4326 (WGS84)** uses unprojected geographic coordinates expressed in degrees of latitude and longitude. It is the default for GPS devices and most web APIs, but because its units are degrees rather than metres, it is unsuitable for distance or area calculations. **EPSG:3857 (Web Mercator)** is the projection used by Google Maps, OpenStreetMap, and most web mapping platforms. Its units are metres, but it severely distorts areas at high latitudes, making it inappropriate for area-based analyses. **EPSG:2193 (NZTM)**, the New Zealand Transverse Mercator, is the standard projected CRS for New Zealand. Its units are metres, and it minimises distortion across the country, making it the correct choice for distance and area calculations in Auckland and across Aotearoa.
+There are three main families of map projections: **cylindrical** (which wraps the globe in a cylinder), **conical** (which uses a cone), and **planar** (which projects onto a flat plane). Each preserves certain properties at the expense of others.
+
+### Key CRS for This Course
+
+Three CRS systems are particularly relevant for this book. **EPSG:4326 (WGS84)** uses unprojected geographic coordinates expressed in degrees of latitude and longitude. It is the default for GPS devices and most web APIs, but because its units are degrees rather than metres, it is unsuitable for distance or area calculations.
+
+**EPSG:3857 (Web Mercator)** is the projection used by Google Maps, OpenStreetMap, and most web mapping platforms. Its units are metres, but it severely distorts areas at high latitudes, making it inappropriate for area-based analyses.
+
+**EPSG:2193 (NZTM)**, the New Zealand Transverse Mercator, is the standard projected CRS for New Zealand. Its units are metres, and it minimises distortion across the country, making it the correct choice for distance and area calculations in Auckland and across Aotearoa.
 
 ::: {.callout-important}
 ## CRS Matters!
 
-Always check and match CRS when combining datasets. Mixing CRS will give incorrect results.
+Always check and match CRS when combining datasets. Mixing CRS will give incorrect results. Use `gdf.crs` to inspect a dataset's CRS and `gdf.to_crs()` to reproject.
 :::
+
+
+## Python Tools for Geospatial Data
+
+### Vector Data
+
+| Package      | Level      | Description                                                           |
+|--------------|------------|-----------------------------------------------------------------------|
+| `shapely`    | Low-level  | Handles individual geometry objects (points, lines, polygons)         |
+| `geopandas`  | High-level | Works with GeoSeries and GeoDataFrames (vector layers); built on shapely |
+
+### Raster Data
+
+| Package       | Focus           | Description                                                          |
+|---------------|-----------------|----------------------------------------------------------------------|
+| `rasterio`    | Simple rasters  | Uses `numpy` arrays + metadata dictionary (CRS, transform, etc.)     |
+| `xarray`      | Complex rasters | Uses `xarray.Dataset` and `DataArray`; ideal for NetCDF and multi-band rasters |
+
 
 ## Working with GeoPandas
 
@@ -86,125 +130,133 @@ import matplotlib.pyplot as plt
 from shapely.geometry import Point, LineString, Polygon
 ```
 
-### Reading Spatial Data
+### Reading and Writing Spatial Data
+
+Use `gpd.read_file()` to read various spatial data formats (Shapefiles, GeoJSON, GeoPackage) and `to_file()` to write:
 
 ```python
-# Read from various formats
+# Read from various formats (illustrative examples)
 countries = gpd.read_file('countries.shp')
 cities = gpd.read_file('cities.geojson')
 regions = gpd.read_file('regions.gpkg')
 
 # Read from URL
-url = 'https://example.com/data.geojson'
-gdf = gpd.read_file(url)
+countries = gpd.read_file("world.gpkg")
+
+# Write data
+regions.to_file('output.gpkg', driver='GPKG')
 ```
 
-### Exploring GeoDataFrames
+### The GeoDataFrame
+
+A GeoDataFrame is just like a pandas DataFrame, but with a special `geometry` column:
 
 ```python
-# View first few rows
 countries.head()
-
-# Check the CRS
-countries.crs
-
-# Get column information
-countries.columns
-
-# Summary statistics
-countries.describe()
-
-# Access geometry column
-countries.geometry
 ```
 
-### Basic Operations
-
-#### Filtering Data
-
-```python
-# Filter by attribute
-oceania = countries[countries['continent'] == 'Oceania']
-
-# Filter by spatial relationship
-# Select countries that contain a specific point
-auckland = Point(174.76, -36.85)
-nz = countries[countries.contains(auckland)]
+```
+iso_a3  name              continent    pop_est   gdp_md_est  geometry
+AFG     Afghanistan       Asia         34124811  64080       POLYGON ((61.21082 ...
+AGO     Angola            Africa       29310273  189000      MULTIPOLYGON (((23.9...
+ALB     Albania           Europe       3047987   33900       POLYGON ((21.02004 ...
 ```
 
-#### Creating Geometries
+```python
+type(countries)
+```
+
+```
+geopandas.geodataframe.GeoDataFrame
+```
+
+You can access the geometry column directly:
 
 ```python
-# Create a point
-point = Point(174.76, -36.85)
+countries["geometry"].head(n=3)
+```
 
-# Create a line
-line = LineString([(174.76, -36.85), (174.77, -36.86)])
+And inspect individual geometries using `.iloc[]`:
 
-# Create a polygon
-polygon = Polygon([(0, 0), (1, 0), (1, 1), (0, 1)])
+```python
+countries['geometry'].iloc[0]
+```
 
-# Create a GeoDataFrame from scratch
+### Basic Mapping
+
+GeoPandas provides two quick mapping methods:
+
+```python
+# Static map
+countries.plot()
+
+# Interactive map (opens in browser)
+countries.explore()
+```
+
+### Leveraging pandas Operations
+
+Because a GeoDataFrame inherits from pandas DataFrame, all the operations you learned in Section 2.2 work directly:
+
+```python
+# Total world population
+countries["pop"].sum() / 1e9  # In billions
+
+# Population by continent using groupby
+grouped = countries.groupby("continent")
+pop_by_continent = grouped["pop"].sum()
+```
+
+### Filtering Data
+
+```python
+# Boolean selection
+is_NZ = countries["name"] == "New Zealand"
+NZ = countries.loc[is_NZ]
+```
+
+### The `squeeze()` Method
+
+If you have a DataFrame with only one row, `squeeze()` removes the row dimension and returns a Series:
+
+```python
+NZsqueezed = NZ.squeeze()
+print("The type of NZ is: ", type(NZsqueezed))
+NZsqueezed.geometry
+```
+
+### Creating Geometries and GeoDataFrames
+
+You can create point geometries from a regular DataFrame containing latitude and longitude columns:
+
+```python
+data = {
+    "Name": ["New York City", "São Paulo", "Tokyo", "Lagos", "Sydney"],
+    "Population": [8419600, 12325232, 13929286, 15000000, 5312163],
+    "Latitude": [40.7128, -23.5505, 35.6895, 6.5244, -33.8688],
+    "Longitude": [-74.0060, -46.6333, 139.6917, 3.3792, 151.2093]
+}
+
+cities_df = pd.DataFrame(data)
+
 gdf = gpd.GeoDataFrame(
-    {'name': ['Auckland'], 
-     'population': [1672000]},
-    geometry=[Point(174.76, -36.85)],
+    cities_df,
+    geometry=gpd.points_from_xy(
+        cities_df['Longitude'],
+        cities_df['Latitude']
+    ),
     crs='EPSG:4326'
 )
 ```
 
-## Spatial Relationships
-
-Spatial relationships describe how geometries relate to each other in space, and they are the foundation of spatial queries and joins. GeoPandas implements the DE-9IM (Dimensionally Extended 9-Intersection Model) standard through a set of intuitive methods. The `contains()` method tests whether geometry A fully encloses geometry B, while `within()` tests the inverse (whether A lies entirely inside B). The `intersects()` method is the most general test, returning `True` whenever geometries share any space at all. The `touches()` method identifies geometries that share a boundary but no interior area, `crosses()` detects geometries that cross each other (e.g. a road crossing a river), `overlaps()` identifies partial overlap between geometries of the same dimension, and `disjoint()` confirms that two geometries are completely separate.
-
-In pedestrian mobility analysis, these spatial relationships are used constantly. For example, you might use `within()` to determine which pedestrian counting stations fall inside a particular neighbourhood polygon, or `intersects()` to identify which street segments cross a proposed low-emission zone boundary.
-
-### Example: Finding Which Country Contains a City
-
-```python
-# Create a point for New York
-new_york = Point(-74.006, 40.7128)
-
-# Find the country containing New York
-country_with_ny = countries[countries.contains(new_york)]
-print(country_with_ny['name'].values)  # Output: ['United States']
-
-# Test if New York is within the USA
-usa = countries[countries['name'] == 'United States'].geometry.iloc[0]
-new_york.within(usa)  # Returns: True
-```
-
-## Spatial Joins
-
-Spatial joins combine attributes from two datasets based on spatial relationships:
-
-```python
-# Join cities to countries based on spatial location
-joined = gpd.sjoin(
-    cities,           # Left GeoDataFrame
-    countries,        # Right GeoDataFrame
-    predicate='within',  # Spatial relationship
-    how='left'        # Join type (left, right, inner)
-)
-
-# Now cities have country attributes
-print(joined[['city_name', 'country_name', 'continent']])
-```
-
-### Common Spatial Join Use Cases
-
-Spatial joins are among the most frequently used operations in urban analytics. They allow you to assign census or demographic data to geographic units (e.g. attaching population figures to meshblock polygons), determine which administrative area a point falls within (e.g. identifying which suburb each pedestrian sensor belongs to), count the number of features within polygons (e.g. how many bus stops are within each neighbourhood), and aggregate data by spatial location (e.g. computing the total pedestrian volume for each census area unit by summing counts from all sensors within it). In Sevtsuk's pedestrian modelling work, spatial joins are used to associate land-use attributes with street network edges, enabling the model to weight pedestrian trip generation based on the mix and density of activities along each street segment.
-
-## Coordinate Transformations
-
-### Reprojecting Data
+### Coordinate Transformations
 
 ```python
 # Check current CRS
 print(gdf.crs)
 
 # Reproject to a different CRS
-gdf_projected = gdf.to_crs('EPSG:3857')  # Web Mercator
+gdf_projected = gdf.to_crs('EPSG:3857')
 
 # Reproject to match another dataset
 gdf_matched = gdf.to_crs(other_gdf.crs)
@@ -213,83 +265,224 @@ gdf_matched = gdf.to_crs(other_gdf.crs)
 ::: {.callout-tip}
 ## When to Reproject
 
-- For distance/area calculations: Use a projected CRS (in metres)
-- For web mapping: Use EPSG:3857
-- For spatial operations: Ensure all datasets have the same CRS
+- For distance and area calculations: use a projected CRS (in metres), e.g. EPSG:2193 for New Zealand
+- For web mapping: use EPSG:3857
+- For spatial operations: ensure all datasets share the same CRS
 :::
 
-## Geometric Operations
-
-### Buffering
-
-Create a zone around features:
+### Plotting with CRS
 
 ```python
-# Create 10km buffer around cities (data must be in metres)
-cities_projected = cities.to_crs('EPSG:3857')
-cities_buffered = cities_projected.copy()
-cities_buffered['geometry'] = cities_buffered.buffer(10000)  # 10km in metres
+# Equirectangular projection (EPSG:4326)
+fig, ax = plt.subplots(figsize=(10, 6))
+ax = countries.plot(ax=ax, facecolor="none", edgecolor="black")
+ax.set_title("Equirectangular Projection")
+
+# Mercator projection
+no_antarctica = countries.loc[countries["name_long"] != "Antarctica"]
+countries_mercator = no_antarctica.to_crs(epsg=3395)
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax = countries_mercator.plot(ax=ax, facecolor="none", edgecolor="black")
+ax.set_title("Mercator Projection")
 ```
 
-### Dissolve
 
-Combine features based on an attribute:
+## Spatial Relationships
+
+Spatial relationships describe how geometries relate to each other in space, and they are the foundation of spatial queries and joins. GeoPandas implements the DE-9IM (Dimensionally Extended 9-Intersection Model) standard through a set of intuitive methods: `equals`, `contains`, `crosses`, `disjoint`, `intersects`, `overlaps`, `touches`, `within`, and `covers`.
+
+### Example: Finding Which Country Contains a City
 
 ```python
-# Dissolve countries by continent
-continents = countries.dissolve(by='continent', aggfunc='sum')
+cities_url = "https://raw.githubusercontent.com/dataandcrowd/GISCI343/main/docs/Lecture4/data/ne_110m_populated_places.gpkg"
+cities = gpd.read_file(cities_url)
+
+# Select the Point representing New York City
+new_york = cities.loc[cities["name"] == "New York"].geometry.squeeze()
+
+type(new_york)
+# shapely.geometry.point.Point
+
+# Which countries contain New York?
+countries.contains(new_york)
+
+# Find the country
+countries.loc[countries.contains(new_york)]
+
+# Test the inverse relationship
+USA = countries.loc[countries.contains(new_york)].squeeze().geometry
+new_york.within(USA)  # Returns: True
 ```
 
-### Overlay Operations
+::: {.callout-note}
+## Your Turn: Find Auckland
 
-Combine geometries from two datasets:
+Using the same approach as above, find the country that contains Auckland by selecting Auckland from the cities dataset and using `contains()`.
+:::
+
+
+## Spatial Joins
+
+Spatial joins merge attributes from two GeoDataFrames based on their spatial relationship. The operation requires specifying: the GeoDataFrame to which you want to add information, the GeoDataFrame that contains the information, the spatial relationship to match on (`intersects`, `contains`, `within`), and the type of join (`left` or `inner`).
 
 ```python
-# Intersection: areas where both datasets overlap
-intersection = gpd.overlay(gdf1, gdf2, how='intersection')
+joined = gpd.sjoin(
+    cities,
+    countries,
+    predicate="within",
+    how="left",
+    lsuffix="city",
+    rsuffix="country",
+)
 
-# Union: all areas from both datasets
-union = gpd.overlay(gdf1, gdf2, how='union')
-
-# Difference: areas in gdf1 not in gdf2
-difference = gpd.overlay(gdf1, gdf2, how='difference')
+joined.head()
 ```
+
+```
+    name_city        geometry                  index_country iso_a3 name_country continent  pop_est  gdp_md_est
+0   Vatican City     POINT (12.45339 41.90328) 79.0          ITA    Italy        Europe     62137802 2221000
+1   San Marino       POINT (12.44177 43.93610) 79.0          ITA    Italy        Europe     62137802 2221000
+2   Vaduz            POINT (9.51667 47.13372)  9.0           AUT    Austria      Europe     8754413  416600
+```
+
+### Filtering Joined Data
+
+```python
+# Select cities in Italy
+cities_in_italy = joined.loc[joined["name_long"] == "Italy"]
+
+# Plot Italy with its cities
+italy = countries.loc[countries["name"] == "Italy"]
+
+fig, ax = plt.subplots(figsize=(8, 8))
+italy.plot(ax=ax, facecolor="none", edgecolor="black")
+ax.set_axis_off()
+ax.set_aspect("equal")
+cities_in_italy.plot(ax=ax, color="red")
+```
+
+
+## Vector Tools
+
+Vector tools are the core spatial operations for manipulating discrete geographic features. The most commonly used operations are:
+
+- **Buffer**: creates a zone around a feature at a defined distance, useful for proximity analysis
+- **Clip**: extracts a specific area from one dataset using another dataset as a boundary
+- **Dissolve**: merges multiple features into one based on a common attribute
+- **Difference (Erase)**: removes areas of one layer that overlap with another
+- **Intersect**: extracts overlapping portions of two layers
+- **Merge**: combines two or more layers into one
+- **Spatial Join**: matches features based on their relative spatial locations
+
+### Vector Tools in Python
+
+```python
+import geopandas as gpd
+from shapely.geometry import Polygon, Point, LineString
+
+gdf.buffer(distance)                         # Buffer
+gpd.clip(gdf, mask)                          # Clip
+gpd.overlay(A, B, how='difference')          # Difference (Erase)
+gdf.dissolve(by='region')                    # Dissolve
+gpd.overlay(A, B, how='intersection')        # Intersect
+```
+
+### Buffering Example
+
+```python
+# Reproject to a metric CRS
+cities_3857 = cities.to_crs(epsg=3857)
+
+# Create a copy and add a 250km buffer around all cities
+buffered_cities = cities_3857.copy()
+buffered_cities["geometry"] = buffered_cities.buffer(250e3)
+```
+
+### Overlay Example: Difference
+
+```python
+africa = countries.loc[countries["continent"] == "Africa"]
+africa = africa.to_crs(epsg=3857)
+
+fig, ax = plt.subplots(figsize=(8, 8))
+
+# Calculate the difference of the geometry sets
+diff = gpd.overlay(africa, buffered_cities, how="difference")
+
+diff.plot(facecolor="#b9f2b1", ax=ax)
+ax.set_axis_off()
+ax.set_aspect("equal")
+```
+
+### Dissolve Example
+
+```python
+# Dissolve NZ regions by island
+dissolved = pop23.dissolve(by='Island').reset_index()
+dissolved.plot(column='Island')
+```
+
 
 ## Visualisation
 
-### Basic Plotting
+### Basic Choropleth Maps
 
 ```python
 # Simple plot
 countries.plot()
 
-# Customised plot
+# Choropleth map coloured by population
 fig, ax = plt.subplots(figsize=(10, 10))
-countries.plot(ax=ax, 
-               column='pop_est',      # Colour by population
-               cmap='YlOrRd',         # Colour scheme
-               legend=True,           # Show legend
-               edgecolor='black')     # Border colour
+countries.plot(
+    ax=ax,
+    column='pop_est',
+    cmap='YlOrRd',
+    legend=True,
+    edgecolor='black'
+)
 ax.set_title('World Population by Country')
 plt.show()
 ```
 
-### Choropleth Maps
+### Classified Choropleth Maps
+
+Classification schemes divide continuous data into discrete classes for mapping. The `mapclassify` library provides several schemes:
 
 ```python
-# Create a classified choropleth map
-countries.plot(column='gdp_per_capita',
-               scheme='quantiles',     # Classification scheme
-               k=5,                    # Number of classes
-               cmap='viridis',
-               legend=True,
-               legend_kwds={'title': 'GDP per Capita (Quantiles)'})
+import mapclassify as mc
+
+fig, ax = plt.subplots(figsize=(8, 8))
+
+pop23.plot(
+    ax=ax,
+    column="VAR_1_23",
+    edgecolor="black",
+    linewidth=0.5,
+    legend=True,
+    legend_kwds=dict(loc="lower right", fontsize=10),
+    scheme="FisherJenks",
+    cmap="viridis"
+)
+
+ax.set_title("Fisher Jenks: k = 5")
+ax.set_axis_off()
+ax.set_aspect("equal")
+```
+
+### Interactive Maps
+
+```python
+pop23.explore(
+    column="VAR_1_23",
+    cmap="viridis",
+    tiles="CartoDB positron",
+)
 ```
 
 ### Multiple Layers
 
 ```python
-# Plot multiple layers together
 fig, ax = plt.subplots(figsize=(12, 8))
 
 # Base layer
@@ -303,6 +496,44 @@ ax.set_axis_off()
 plt.show()
 ```
 
+
+## Raster Data Analysis
+
+So far we have been working mainly with vector data using `geopandas`. Raster data is the other major geospatial data type: gridded or pixelated data that maps naturally to arrays.
+
+### Raster Characteristics
+
+Raster datasets have two key properties. **Resolution** is the spatial distance that a single pixel covers on the ground: higher resolution means smaller pixels and more detail. **Extent** is the bounding box that covers the entire spatial footprint of the dataset.
+
+Raster data can be **continuous** (multispectral satellite imagery, digital elevation models, canopy height from LiDAR) or **categorical** (land cover maps, snowcover masks).
+
+### Multi-band Raster Data
+
+Colour images are multi-band rasters, where each band measures light reflected from a different part of the electromagnetic spectrum (e.g. red, green, blue, near-infrared). The standard raster format is **GeoTIFF**, a `.tif` file with embedded spatial metadata including geotransform (extent, resolution), CRS, and NoData values.
+
+### Working with `rasterio`
+
+```python
+import rasterio as rio
+
+elev = rio.open('nz_elev.tif')
+elev.crs          # Coordinate reference system
+elev.bounds       # Spatial extent
+elev.count        # Number of bands
+elev.indexes      # Band numbers available
+elev.shape        # Pixel dimensions (rows, cols)
+elev.meta         # All metadata
+```
+
+### Common Raster Operations
+
+**Slope** identifies the steepness at each cell of a raster surface using a moving window (typically 3x3). Lower slope values indicate flatter terrain; higher values indicate steeper terrain.
+
+**Mask raster by vector boundaries** clips a raster to the extent of a vector boundary, useful for extracting raster values within a study area.
+
+**Zonal statistics** calculates summary statistics (mean, sum, count, etc.) on raster cell values within zones defined by a vector dataset.
+
+
 ## The Modifiable Areal Unit Problem (MAUP)
 
 The Modifiable Areal Unit Problem (MAUP), first formalised by Openshaw [-@openshaw1984], is one of the most important conceptual challenges in spatial analysis. It refers to the sensitivity of statistical results to the choice of spatial units used for aggregation. MAUP manifests in two ways. The **scale effect** means that changing the size of spatial units (e.g. analysing at the meshblock level vs. the territorial authority level) produces different statistical results, even from the same underlying data. The **zoning effect** means that different arrangements of the same-sized units can also produce different results. For instance, two different ways of dividing Auckland into 50 equal-area zones could yield different conclusions about the spatial distribution of pedestrian activity.
@@ -313,57 +544,111 @@ The Modifiable Areal Unit Problem (MAUP), first formalised by Openshaw [-@opensh
 When aggregating or analysing spatial data, your choice of geographic units can materially influence your findings. This is not merely a technical nuisance; it has real consequences for policy. A walkability analysis conducted at the suburb level might mask significant within-suburb variation in pedestrian infrastructure quality. Always consider whether your results might change with different spatial aggregations, and where possible, conduct sensitivity analyses at multiple scales to test the robustness of your conclusions.
 :::
 
-## Practical Exercise
 
-### Example: Analysing New Zealand Regions
+## Practical Exercise: Analysing New Zealand Regional Data
+
+Follow the steps below to perform spatial and statistical analysis using the 2023 population data:
 
 ```python
-# Load NZ regional data
-nz_regions = gpd.read_file('nz_regions.gpkg')
+import geopandas as gpd
+import matplotlib.pyplot as plt
+import mapclassify as mc
 
-# Check CRS
-print(nz_regions.crs)
+pop23 = gpd.read_file(
+    'https://raw.githubusercontent.com/dataandcrowd/GISCI343/main/docs/Lecture03/data/pop23.gpkg'
+)
+pop23.head(2)
+```
 
-# Reproject to NZTM for accurate measurements
-nz_regions = nz_regions.to_crs('EPSG:2193')
+### 1. Calculate the Centroid of Each Region
 
-# Calculate area in square kilometres
-nz_regions['area_km2'] = nz_regions.geometry.area / 1_000_000
+```python
+pop23["centroid"] = pop23.centroid
+```
 
-# Calculate population density
-nz_regions['pop_density'] = (nz_regions['population'] / 
-                               nz_regions['area_km2'])
+### 2. Measure Distances from Wellington
 
-# Find regions within 100km of Auckland
-auckland_point = gpd.GeoDataFrame(
-    {'name': ['Auckland']},
-    geometry=[Point(1756673, 5917750)],  # NZTM coordinates
-    crs='EPSG:2193'
+```python
+wellington = pop23[
+    pop23["REGC2023_2"].str.contains("Wellington", case=False)
+]
+wellington_centroids = wellington.centroid.values[0]
+
+pop23["distance_to_wellys"] = pop23["centroid"].distance(wellington_centroids)
+pop23["distance_to_wellys_km"] = round(pop23["distance_to_wellys"] / 1000, 2)
+pop23[["REGC2023_2", "centroid", "distance_to_wellys_km"]]
+```
+
+### 3. Classify Total Population Using Jenks Natural Breaks
+
+```python
+fig, ax = plt.subplots(figsize=(8, 8))
+
+pop23.plot(
+    ax=ax,
+    column="VAR_1_23",
+    edgecolor="black",
+    linewidth=0.5,
+    legend=True,
+    legend_kwds=dict(loc="lower right", fontsize=10),
+    scheme="FisherJenks",
+    cmap="viridis"
 )
 
-# Buffer Auckland
-auckland_buffer = auckland_point.buffer(100000)  # 100km
+ax.set_title("Fisher Jenks: k = 5")
+ax.set_axis_off()
+ax.set_aspect("equal")
+```
 
-# Spatial join
-nearby_regions = nz_regions[
-    nz_regions.intersects(auckland_buffer.iloc[0])
-]
+### 4. Dissolve Regions by North and South Islands
 
-# Visualise
-fig, ax = plt.subplots(figsize=(10, 12))
-nz_regions.plot(ax=ax, column='pop_density', 
-                cmap='YlOrRd', legend=True)
-auckland_buffer.plot(ax=ax, facecolor='none', 
-                     edgecolor='blue', linewidth=2)
-plt.title('NZ Population Density and 100km Buffer from Auckland')
+```python
+dissolved = pop23.dissolve(by='Island').reset_index()
+dissolved.plot(column='Island')
+```
+
+### 5. Calculate Total Population Density by Region
+
+```python
+pop23["area"] = pop23.area
+pop23['popden'] = pop23['VAR_1_23'] / pop23['area']
+pop23[['REGC2023_2', 'popden']]
+```
+
+::: {.callout-tip}
+## Formatting Population Density
+
+To display population density with two decimal places, use a lambda function:
+
+```python
+pop23['popden_str'] = pop23['popden'].apply(lambda x: f'{x:.2f}')
+```
+:::
+
+
+## Working with the NZ Regional Council 2025 Data
+
+Stats NZ publishes updated regional council boundaries as GeoPackage files. The `regional-council-2025-clipped.gpkg` file contains the latest boundaries for all regional councils in New Zealand.
+
+```python
+rc2025 = gpd.read_file('regional-council-2025-clipped.gpkg')
+print(rc2025.crs)
+rc2025.head()
+
+# Plot the regional council boundaries
+fig, ax = plt.subplots(figsize=(8, 12))
+rc2025.plot(ax=ax, edgecolor='black', facecolor='lightyellow')
+ax.set_title('NZ Regional Council Boundaries (2025)')
+ax.set_axis_off()
+ax.set_aspect('equal')
 plt.show()
 ```
 
+
 ## Summary
 
-This section has introduced the foundational concepts and tools for geospatial analysis in Python. You now understand the distinction between vector data (discrete features represented as points, lines, and polygons) and raster data (continuous surfaces represented as grids), and you know when each is appropriate. Through GeoPandas, you have learned to read spatial data from multiple file formats, explore GeoDataFrames using the same methods you mastered for pandas DataFrames in Section 2.2, and perform spatial operations including filtering, creating geometries, testing spatial relationships, executing spatial joins, reprojecting between coordinate reference systems, buffering, dissolving, and overlaying geometries. You have also learned to create choropleth maps and multi-layer visualisations, and you understand the Modifiable Areal Unit Problem (MAUP) and its implications for the reliability of spatial analyses.
+This section has introduced the foundational concepts and tools for geospatial analysis in Python, following the progression from data wrangling (melt and pivot) through GIS fundamentals (map types, vector vs. raster data, file formats, CRS and projections) to practical spatial analysis (GeoPandas operations, spatial relationships, joins, vector tools, visualisation, and raster basics). You have learned to read spatial data from multiple file formats, explore GeoDataFrames using the same methods you mastered for pandas DataFrames in Section 2.2, perform spatial operations including filtering, spatial joins, reprojecting, buffering, dissolving, and overlaying geometries, and create both static and interactive maps. You also understand the Modifiable Areal Unit Problem (MAUP) and its implications for the reliability of spatial analyses. These capabilities form the core toolkit for spatial analysis in urban and pedestrian mobility contexts.
 
-These capabilities form the core toolkit for spatial analysis in urban and pedestrian mobility contexts. The ability to compute distances, create buffers around points of interest, join datasets based on spatial relationships, and visualise patterns through maps is what transforms raw geographic data into actionable insights about how people move through and interact with urban environments.
 
 ## Further Reading
 
@@ -371,11 +656,14 @@ These capabilities form the core toolkit for spatial analysis in urban and pedes
 - [Shapely Manual](https://shapely.readthedocs.io/)
 - Geocomputation with Python: https://py.geocompx.org/
 - Geographic Data Science with Python: https://geographicdata.science/book
+- [GeoPandas: Managing Projections](https://geopandas.org/en/stable/docs/user_guide/projections.html)
+
 
 ## Practice Exercises
 
-1. Load a shapefile of your choice and explore its attributes and geometry
-2. Reproject the data to at least two different CRS and observe the differences
-3. Create a 5km buffer around all points in a dataset
-4. Perform a spatial join to combine two datasets
-5. Create a choropleth map showing a variable of interest with a suitable classification scheme
+1. Load the NZ Regional Council 2025 GeoPackage and explore its attributes and geometry
+2. Reproject the data to EPSG:2193 (NZTM) and calculate the area of each region in square kilometres
+3. Create a 50km buffer around each regional centroid
+4. Perform a spatial join between the regional boundaries and a point dataset of your choice
+5. Create a classified choropleth map of population density using Fisher Jenks classification
+6. Dissolve regions by island and compare total areas of the North and South Islands

@@ -11,7 +11,7 @@
 
 Urban indicators are the building blocks of understanding how cities work. Think of them as the vital signs of urban life – just as a doctor measures heart rate and blood pressure, urban analysts measure density, accessibility, and connectivity to diagnose how well a city is functioning. In this chapter, we'll focus on computing meaningful indicators for Auckland and learning how to interpret them responsibly.
 
-Why does this matter? Well-chosen indicators can reveal patterns invisible to the naked eye: which neighbourhoods lack green space access, where pedestrian activity concentrates, or how street networks facilitate movement. These insights directly inform urban planning decisions – from where to build new parks to how to design low-emission zones [@shin2022assessing].
+Why does this matter? Well-chosen indicators can reveal patterns invisible to the naked eye: which neighbourhoods lack green space access, where pedestrian activity concentrates, or how street networks facilitate movement. These insights directly inform urban planning decisions – from where to build new parks to how to design low-emission zones.
 
 ## Example indicators
 

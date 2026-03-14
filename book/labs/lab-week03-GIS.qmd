@@ -1,0 +1,405 @@
+# Lab Week 03 GIS {.unnumbered}
+
+## Overview
+
+In this short tutorial you will put pedestrian count data on a map. The goal is simple: see *where* people walk in Auckland CBD and *how* that changes throughout the day.
+
+You do not need to memorise the code. Focus on understanding the logic of each step and interpreting the maps you produce.
+
+**Duration:** approximately 30 minutes
+
+**What you need:**
+
+- Python 3.10+ with `pandas`, `geopandas`, `matplotlib`, `folium`, and `mapclassify` installed
+- The files `akl_ped-2024.csv` and `akl_ped-Geodata.csv`
+
+---
+
+## Step 1: Load and Clean the Data
+
+We start by loading the pedestrian counts and doing some basic cleaning.
+
+```{python}
+import pandas as pd
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+# Load the pedestrian data
+ped = pd.read_csv("data/akl_ped-2024.csv")
+
+# Remove rows that are not actual data
+ped = ped.dropna(subset=["Date", "Time"]).copy()
+ped = ped[ped["Date"] != "Daylight Savings"].copy()
+
+# Convert the Date column to a proper date format
+ped["Date"] = pd.to_datetime(ped["Date"])
+
+# Extract the hour number from the Time column (e.g. "7:00-7:59" becomes 7)
+ped["hour"] = ped["Time"].str.split(":").str[0].astype(int)
+
+# Extract the month number (e.g. March = 3)
+ped["month"] = ped["Date"].dt.month
+
+print(f"We have {ped.shape[0]} rows and {ped.shape[1]} columns")
+ped.head(3)
+```
+
+
+## Step 2: Filter to March and Pick Eight Hours
+
+We want to focus on March 2024 and eight time slots that capture a full day: 7 am, 9 am, 11 am, 1 pm, 3 pm, 5 pm, 7 pm, and 9 pm.
+
+```{python}
+# Keep only March
+march = ped[ped["month"] == 3].copy()
+
+# The eight hours we want
+target_hours = [7, 9, 11, 13, 15, 17, 19, 21]
+
+# Filter to just those hours
+march_filtered = march[march["hour"].isin(target_hours)]
+
+print(f"March has {march.shape[0]} rows in total")
+print(f"After filtering to our 8 hours: {march_filtered.shape[0]} rows")
+```
+
+
+## Step 3: Calculate the Average Count per Sensor per Hour
+
+March has 31 days, so each sensor has 31 readings for each hour. We take the **mean** to get a single "typical March day".
+
+```{python}
+# These are the 21 sensor columns (everything after Date and Time)
+sensor_cols = ped.columns[2:23]
+
+# Group by hour, then take the mean of each sensor column
+hourly_avg = march_filtered.groupby("hour")[sensor_cols].mean()
+hourly_avg = hourly_avg.round(0)
+
+# print(hourly_avg)  # un-comment this and have a go!
+```
+
+
+## Step 4: Reshape to Long Format
+
+Right now each sensor is its own column (wide format). To put the data on a map, we need one row per sensor per hour (long format). The `melt()` function does this.
+
+```{python}
+hourly_long = hourly_avg.reset_index().melt(
+    id_vars="hour",
+    var_name="Address",
+    value_name="avg_count"
+)
+
+print(f"Long format: {hourly_long.shape[0]} rows")
+hourly_long.head()
+```
+
+::: {.callout-tip}
+## What Just Happened?
+We had 8 rows (one per hour) and 21 columns (one per sensor). After melting, we have 8 x 21 = 168 rows, with each row telling us the average count for one sensor at one hour.
+:::
+
+
+## Step 5: Add Coordinates and Make a GeoDataFrame
+
+The pedestrian CSV has counts but no coordinates. A separate file tells us where each sensor is located. We merge them together and convert to a GeoDataFrame.
+
+```{python}
+# Load the sensor locations
+geo = pd.read_csv("data/akl_ped-Geodata.csv")
+
+# The file has some notes at the bottom; drop those
+geo = geo.dropna(subset=["Latitude", "Longitude"]).copy()
+
+print(f"We have coordinates for {len(geo)} sensors")
+geo.head()
+```
+
+```{python}
+# Merge: attach coordinates to each row of our aggregated data
+merged = hourly_long.merge(geo, on="Address", how="inner")
+
+print(f"After merging: {merged.shape[0]} rows, {merged['Address'].nunique()} sensors")
+merged.head()
+```
+
+```{python}
+# Convert to a GeoDataFrame so we can map it
+gdf = gpd.GeoDataFrame(
+    merged,
+    geometry=gpd.points_from_xy(merged["Longitude"], merged["Latitude"]),
+    crs="EPSG:4326"
+)
+
+gdf.head()
+```
+
+
+## Step 6: Your First Web Map
+
+Let us put the 5 pm data on an interactive web map. GeoPandas has a built-in function called `.explore()` that creates an interactive Leaflet map with one line of code.
+
+```{python}
+# Filter to just the 5 pm hour
+hour_17 = gdf[gdf["hour"] == 17]
+
+# Create an interactive map!
+hour_17.explore(
+    column="avg_count",
+    cmap="YlOrRd",
+    tooltip=["Address", "avg_count"],
+    tooltip_kwds={"aliases": ["Sensor", "Avg Count"]},
+    tiles="CartoDB positron",
+    marker_kwds={"radius": 10},
+    legend=True,
+    legend_kwds={"caption": "Avg Pedestrian Count (5 pm)"},
+    style_kwds={"weight": 1, "color": "black"},
+)
+```
+
+Hover over the dots to see which sensor they represent and how many pedestrians pass by. Zoom in and out to explore the CBD area.
+
+::: {.callout-tip}
+## Try a Different Basemap
+Change `tiles="CartoDB positron"` to one of these and re-run:
+
+- `"OpenStreetMap"` (shows street detail)
+- `"CartoDB dark_matter"` (dark theme)
+
+Which basemap makes the pedestrian data easiest to read?
+:::
+
+**Your turn:** Change `hour == 17` to `hour == 7` to see the 7 am pattern. How does it differ from 5 pm?
+
+
+## Step 7: Web Map with Sized Circles
+
+The `.explore()` map uses the same dot size for every sensor. We can use the `folium` library to draw circles whose size reflects the pedestrian count, making busy sensors visually larger.
+
+```{python}
+import folium
+
+# Create a base map centred on Auckland CBD
+m = folium.Map(
+    location=[-36.849, 174.765],
+    zoom_start=15,
+    tiles="CartoDB positron"
+)
+
+# Filter to 5 pm
+hour_17 = gdf[gdf["hour"] == 17]
+
+# Add a circle for each sensor.
+# Don't worry about this loop syntax for now -- just run it!
+# It goes through each sensor one at a time and places a circle on the map.
+for _, row in hour_17.iterrows():
+    folium.CircleMarker(
+        location=[row["Latitude"], row["Longitude"]],
+        radius=row["avg_count"] / 80,       # bigger count = bigger circle
+        color="black",
+        weight=0.5,
+        fill=True,
+        fill_color="red",
+        fill_opacity=0.6,
+        tooltip=f"{row['Address']}: {int(row['avg_count'])} avg/hr"
+    ).add_to(m)
+
+m
+```
+
+**Your turn:** Try mapping `hour == 13` (1 pm lunchtime). Which sensors have the biggest circles? Are they the same ones as at 5 pm?
+
+
+## Step 8: Static Map of a Single Hour
+
+Interactive maps are great for exploration, but static maps are better for reports and comparisons. Here is the 5 pm data as a static matplotlib plot.
+
+```{python}
+hour_17 = gdf[gdf["hour"] == 17]
+
+fig, ax = plt.subplots(figsize=(8, 8))
+
+hour_17.plot(
+    ax=ax,
+    column="avg_count",
+    cmap="YlOrRd",
+    markersize=hour_17["avg_count"] / 3,
+    edgecolor="black",
+    linewidth=0.5,
+    legend=True,
+    legend_kwds={"label": "Avg Pedestrian Count", "shrink": 0.6}
+)
+
+ax.set_title("Average Pedestrian Count at 5 pm (March 2024)", fontweight="bold")
+ax.set_axis_off()
+ax.set_aspect("equal")
+plt.tight_layout()
+plt.show()
+```
+
+
+## Step 9: Compare Two Hours Side by Side
+
+A useful way to see change through the day is to place two maps next to each other.
+
+```{python}
+# Pick two hours to compare
+morning = gdf[gdf["hour"] == 7]
+evening = gdf[gdf["hour"] == 17]
+
+# Use a consistent colour scale so the maps are comparable
+vmin = gdf["avg_count"].min()
+vmax = gdf["avg_count"].max()
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+# Morning map
+morning.plot(
+    ax=ax1,
+    column="avg_count",
+    cmap="YlOrRd",
+    markersize=morning["avg_count"] / 3,
+    edgecolor="black",
+    linewidth=0.3,
+    vmin=vmin,
+    vmax=vmax,
+    legend=False
+)
+ax1.set_title("7 am", fontsize=14, fontweight="bold")
+ax1.set_axis_off()
+ax1.set_aspect("equal")
+
+# Evening map
+evening.plot(
+    ax=ax2,
+    column="avg_count",
+    cmap="YlOrRd",
+    markersize=evening["avg_count"] / 3,
+    edgecolor="black",
+    linewidth=0.3,
+    vmin=vmin,
+    vmax=vmax,
+    legend=False
+)
+ax2.set_title("5 pm", fontsize=14, fontweight="bold")
+ax2.set_axis_off()
+ax2.set_aspect("equal")
+
+plt.suptitle("Auckland CBD: Morning vs Evening (March 2024)", fontsize=15, fontweight="bold")
+plt.tight_layout()
+plt.show()
+```
+
+**Your turn:** Change the two hours to compare lunchtime (13) vs late evening (21). What do you notice?
+
+
+## Step 10: Which Sensors Are Busiest?
+
+Let us find out which sensors see the most foot traffic overall.
+
+```{python}
+# Sum each sensor's average counts across all 8 time slots
+total_by_sensor = gdf.groupby("Address")["avg_count"].sum().sort_values(ascending=False)
+
+print("Top 5 busiest sensors:")
+print(total_by_sensor.head())
+print()
+print("Bottom 5 quietest sensors:")
+print(total_by_sensor.tail())
+```
+
+```{python}
+# A simple bar chart of total counts
+fig, ax = plt.subplots(figsize=(8, 6))
+total_by_sensor.sort_values().plot.barh(ax=ax, color="steelblue", edgecolor="white")
+ax.set_xlabel("Total Avg Count (8 time slots)")
+ax.set_title("Sensor Ranking: Total Pedestrian Activity (March 2024)", fontweight="bold")
+plt.tight_layout()
+plt.show()
+```
+
+
+---
+
+## Questions to Think About
+
+Now that you have produced the maps, take some time to reflect on the patterns. Discuss these with your lab partner or write short answers in your notebook.
+
+::: {.callout-note}
+## Q1: Spatial Shift Through the Day
+
+Compare the 7 am and 5 pm maps. Does the "centre of gravity" of pedestrian activity shift location between morning and evening? In which direction, and why?
+:::
+
+::: {.callout-note}
+## Q2: Morning vs Evening Symmetry
+
+Are the 7 am and 7 pm maps roughly symmetrical (similar numbers but reversed in time), or do they look different? What might explain any asymmetry?
+:::
+
+::: {.callout-note}
+## Q3: Lunchtime Hotspots
+
+At 1 pm, which sensors show the highest counts? Are these the same sensors that dominate at 5 pm? What does this tell you about the difference between lunchtime foot traffic and commuter foot traffic?
+:::
+
+::: {.callout-note}
+## Q4: Waterfront vs Queen Street
+
+Compare the Quay Street sensors (waterfront) with the Queen Street sensors (retail corridor). Do they follow the same daily pattern, or do they peak at different times? What urban functions might explain the difference?
+:::
+
+::: {.callout-note}
+## Q5: K Road vs CBD Core
+
+The K Road sensors (150 and 183 K Road) are roughly 1.5 km south of the CBD core. How do their counts compare in absolute terms? Do they peak at the same hour as the CBD sensors?
+:::
+
+::: {.callout-note}
+## Q6: Aggregation Choices
+
+We averaged across all 31 days in March. How might the maps change if you:
+
+- Used **median** instead of **mean**?
+- Separated **weekdays** from **weekends**?
+- Chose different hours (e.g. 8 am instead of 7 am)?
+:::
+
+::: {.callout-note}
+## Q7: Data Limitations
+
+The sensors only capture 21 locations. How representative are these of pedestrian activity across the entire CBD? What additional data sources might help fill the gaps?
+:::
+
+
+---
+
+## Extension: Weekday vs Weekend
+
+If you finish early, try splitting March into weekdays and weekends and comparing the maps.
+
+```{python}
+#| eval: false
+
+# Add a day-of-week number: 0 = Monday, 6 = Sunday
+march["day_num"] = march["Date"].dt.dayofweek
+
+# Create a weekend flag
+march["is_weekend"] = march["day_num"] >= 5
+
+# Weekday average
+weekday_data = march[(march["is_weekend"] == False) & (march["hour"].isin(target_hours))]
+weekday_avg = weekday_data.groupby("hour")[sensor_cols].mean().round(0)
+
+# Weekend average
+weekend_data = march[(march["is_weekend"] == True) & (march["hour"].isin(target_hours))]
+weekend_avg = weekend_data.groupby("hour")[sensor_cols].mean().round(0)
+
+# Then reshape, merge with geo, and map as before...
+```
+
+::: {.callout-tip}
+## What to Look For
+Weekend maps will likely show later morning peaks, reduced lunchtime activity, and a different spatial pattern: waterfront and leisure areas gaining share while office corridors lose it.
+:::

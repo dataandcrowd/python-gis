@@ -48,7 +48,8 @@ book:
       chapters: 
         - labs/lab-week01.qmd
         - labs/lab-week02.qmd
-        #- labs/lab-week03.qmd
+        - labs/lab-week03.qmd
+        - labs/lab-week03-GIS.qmd
         #- labs/lab-week04.qmd
         #- labs/lab-week05.qmd
         #- labs/lab-week02.qmd

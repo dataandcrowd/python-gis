@@ -3995,7 +3995,7 @@
   {
     "objectID": "2.6.urban-analytics.html",
     "href": "2.6.urban-analytics.html",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "",
     "text": "What you will learn",
     "crumbs": [
@@ -4006,7 +4006,7 @@
   {
     "objectID": "2.6.urban-analytics.html#what-you-will-learn",
     "href": "2.6.urban-analytics.html#what-you-will-learn",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "",
     "text": "Compute interpretable Auckland indicators (density, access proxies)\nAggregate to zones and compare across space\nExplain results with units and caveats\nApply morphological analysis using momepy",
     "crumbs": [
@@ -4017,9 +4017,9 @@
   {
     "objectID": "2.6.urban-analytics.html#introduction",
     "href": "2.6.urban-analytics.html#introduction",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Introduction",
-    "text": "Introduction\nUrban indicators are the building blocks of understanding how cities work. Think of them as the vital signs of urban life – just as a doctor measures heart rate and blood pressure, urban analysts measure density, accessibility, and connectivity to diagnose how well a city is functioning. In this chapter, we’ll focus on computing meaningful indicators for Auckland and learning how to interpret them responsibly.\nWhy does this matter? Well-chosen indicators can reveal patterns invisible to the naked eye: which neighbourhoods lack green space access, where pedestrian activity concentrates, or how street networks facilitate movement. These insights directly inform urban planning decisions – from where to build new parks to how to design low-emission zones (shin2022assessing?).",
+    "text": "Introduction\nUrban indicators are the building blocks of understanding how cities work. Think of them as the vital signs of urban life – just as a doctor measures heart rate and blood pressure, urban analysts measure density, accessibility, and connectivity to diagnose how well a city is functioning. In this chapter, we’ll focus on computing meaningful indicators for Auckland and learning how to interpret them responsibly.\nWhy does this matter? Well-chosen indicators can reveal patterns invisible to the naked eye: which neighbourhoods lack green space access, where pedestrian activity concentrates, or how street networks facilitate movement. These insights directly inform urban planning decisions – from where to build new parks to how to design low-emission zones.",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.6 Urban analytics indicators"
@@ -4028,7 +4028,7 @@
   {
     "objectID": "2.6.urban-analytics.html#example-indicators",
     "href": "2.6.urban-analytics.html#example-indicators",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Example indicators",
     "text": "Example indicators\nWe’ll explore three fundamental types of urban indicators:\n\nPopulation density – How many people live in an area?\nNearest park distance – How accessible is green space?\nNetwork centrality (optional) – Which streets are most important for movement?\n\nEach of these tells us something different about urban form and function. Let’s work through them systematically.",
     "crumbs": [
@@ -4039,7 +4039,7 @@
   {
     "objectID": "2.6.urban-analytics.html#population-density-the-foundation",
     "href": "2.6.urban-analytics.html#population-density-the-foundation",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Population density: The foundation",
     "text": "Population density: The foundation\nPopulation density is perhaps the most fundamental urban indicator. It’s simply the number of people per unit area, typically expressed as persons per km². But simple doesn’t mean simplistic – density reveals patterns of urbanisation, housing pressure, and service demand.\n\nComputing density\nLet’s calculate population density for Auckland meshblocks:\n\nimport geopandas as gpd\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n\n# Load Auckland census data\nmeshblocks = gpd.read_file(\"data/auckland_meshblocks.gpkg\")\n\n# Calculate area in km²\nmeshblocks['area_km2'] = meshblocks.geometry.area / 1_000_000\n\n# Calculate population density\nmeshblocks['pop_density'] = meshblocks['population'] / meshblocks['area_km2']\n\n# View the results\nprint(meshblocks[['meshblock_id', 'population', 'area_km2', 'pop_density']].head())\n\n\n\n\n\n\n\nImportant caveats\n\n\n\n\nUnits matter! Always check whether your coordinates are in metres, degrees, or something else. For Auckland, NZGD2000 / New Zealand Transverse Mercator 2000 (EPSG:2193) uses metres.\nZero-area problem: Some meshblocks might have very small areas, leading to unrealistic density values. Filter these out or handle them carefully.\nResidential vs. total area: Density can be misleading in industrial or commercial zones with few residents but large areas.\n\n\n\n\n\nVisualising density\n\n\n\nfig, ax = plt.subplots(1, 1, figsize=(12, 10))\n\nmeshblocks.plot(column='pop_density', \n                ax=ax,\n                legend=True,\n                scheme='quantiles',  # Use quantiles for better distribution\n                k=5,  # 5 classes\n                cmap='YlOrRd',\n                edgecolor='grey',\n                linewidth=0.1)\n\nax.set_title('Population Density in Auckland (persons/km²)', fontsize=14)\nax.set_axis_off()\n\nplt.tight_layout()\nplt.show()\n\n\nFigure 1\n\n\n\n\n\n\n\n\n\nInterpretation tip\n\n\n\nHigh density doesn’t automatically mean “bad” or “good”. Auckland’s CBD shows extremely high density, which supports walkability and public transport viability. Conversely, some suburban areas have very low density, which can make service provision expensive but offers larger living spaces. Context is everything.",
     "crumbs": [
@@ -4050,7 +4050,7 @@
   {
     "objectID": "2.6.urban-analytics.html#access-to-green-space-distance-proxies",
     "href": "2.6.urban-analytics.html#access-to-green-space-distance-proxies",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Access to green space: Distance proxies",
     "text": "Access to green space: Distance proxies\nAccess to parks and green spaces is crucial for physical activity, mental health, and urban liveability (who2016urban?). We can approximate access by calculating the distance from each residential area to the nearest park.\n\nFinding nearest park distance\n\nfrom scipy.spatial import cKDTree\n\n# Load parks data\nparks = gpd.read_file(\"data/auckland_parks.gpkg\")\n\n# Ensure both datasets use the same CRS\nmeshblocks = meshblocks.to_crs(epsg=2193)\nparks = parks.to_crs(epsg=2193)\n\n# Get centroids of meshblocks\nmeshblock_points = np.array(list(meshblocks.geometry.centroid.apply(lambda x: (x.x, x.y))))\npark_points = np.array(list(parks.geometry.centroid.apply(lambda x: (x.x, x.y))))\n\n# Build KD-tree for efficient nearest neighbour search\ntree = cKDTree(park_points)\n\n# Find nearest park for each meshblock\ndistances, indices = tree.query(meshblock_points, k=1)\n\n# Add distance to dataframe (in metres)\nmeshblocks['nearest_park_m'] = distances\n\n# Convert to kilometres for readability\nmeshblocks['nearest_park_km'] = meshblocks['nearest_park_m'] / 1000\n\nprint(f\"Mean distance to nearest park: {meshblocks['nearest_park_km'].mean():.2f} km\")\nprint(f\"Median distance to nearest park: {meshblocks['nearest_park_km'].median():.2f} km\")\n\n\n\nCaveats and limitations\nThis “straight-line” distance (Euclidean distance) is a proxy for true accessibility. Real-world access involves:\n\nNetwork distance: How far you actually walk along streets (usually 20-40% longer than straight-line distance)\nBarriers: Motorways, rivers, and railways can make nearby parks difficult to reach\nPark quality: A tiny pocket park and a large regional park both count as “nearest park”\nPerceptions: Perceived safety and amenities affect whether people actually use parks\n\n\n\n\n\n\n\nNote\n\n\n\nFor your assignment on pedestrian footfall, consider: Do areas with better park access show different pedestrian patterns? Could parks act as destinations or origins for walking trips?",
     "crumbs": [
@@ -4061,7 +4061,7 @@
   {
     "objectID": "2.6.urban-analytics.html#aggregating-to-larger-zones",
     "href": "2.6.urban-analytics.html#aggregating-to-larger-zones",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Aggregating to larger zones",
     "text": "Aggregating to larger zones\nOften we want to summarise indicators at larger geographical units – suburbs, wards, or custom analysis zones. Here’s how to aggregate meshblock data to suburbs:\n\n# Load suburbs boundaries\nsuburbs = gpd.read_file(\"data/auckland_suburbs.gpkg\")\n\n# Spatial join: which meshblocks fall in which suburbs?\nmeshblocks_with_suburb = gpd.sjoin(meshblocks, suburbs, how='left', predicate='within')\n\n# Aggregate to suburb level\nsuburb_summary = meshblocks_with_suburb.groupby('suburb_name').agg({\n    'population': 'sum',\n    'area_km2': 'sum',\n    'nearest_park_km': 'mean',  # Mean distance across meshblocks\n}).reset_index()\n\n# Recalculate density at suburb level\nsuburb_summary['pop_density'] = suburb_summary['population'] / suburb_summary['area_km2']\n\nprint(suburb_summary.sort_values('pop_density', ascending=False).head())\n\nThis aggregation lets you compare suburbs:\n\n# Compare CBD suburbs vs suburban areas\ncbd_suburbs = suburb_summary[suburb_summary['suburb_name'].isin(['Auckland Central', 'Grafton', 'Newmarket'])]\nsuburban = suburb_summary[suburb_summary['suburb_name'].isin(['Albany', 'Howick', 'Papakura'])]\n\nprint(\"\\nCBD areas:\")\nprint(cbd_suburbs[['suburb_name', 'pop_density', 'nearest_park_km']])\n\nprint(\"\\nSuburban areas:\")\nprint(suburban[['suburb_name', 'pop_density', 'nearest_park_km']])",
     "crumbs": [
@@ -4072,7 +4072,7 @@
   {
     "objectID": "2.6.urban-analytics.html#urban-morphology-using-momepy",
     "href": "2.6.urban-analytics.html#urban-morphology-using-momepy",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Urban morphology using momepy",
     "text": "Urban morphology using momepy\nUrban morphology studies the form and structure of cities. The momepy package (fleischmann2019momepy?) provides tools to quantify urban form characteristics like street connectivity, building patterns, and block structure. This is particularly relevant for understanding pedestrian movement – more connected street networks generally support more walkability.\n\nInstalling and importing momepy\n\n# Install if needed: pip install momepy\nimport momepy\nimport networkx as nx\n\n\n\nStreet network analysis\nLet’s analyse Auckland’s street network to identify which streets are most important for pedestrian movement:\n\n# Load street network (you might use OSMnx to download this)\nimport osmnx as ox\n\n# Download Auckland CBD street network\nplace_name = \"Auckland CBD, New Zealand\"\nG = ox.graph_from_place(place_name, network_type='walk')\n\n# Convert to GeoDataFrame\nedges = ox.graph_to_gdfs(G, nodes=False)\nnodes = ox.graph_to_gdfs(G, nodes=True)\n\n# Calculate basic network metrics\nedges['length'] = edges.geometry.length\n\n# Calculate betweenness centrality - which streets are on the most paths?\n# This can take a while for large networks\nbetweenness = nx.betweenness_centrality(G, weight='length', normalized=True)\n\n# Add centrality to edges\nnodes['betweenness'] = nodes.index.map(betweenness)\n\n\n\n\n# Visualise\nfig, ax = plt.subplots(1, 1, figsize=(12, 12))\n\nedges.plot(ax=ax, color='lightgrey', linewidth=0.5)\nnodes.plot(column='betweenness', \n           ax=ax, \n           cmap='Reds', \n           markersize=20,\n           legend=True)\n\nax.set_title('Street Betweenness Centrality in Auckland CBD', fontsize=14)\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\n\nFigure 2\n\n\n\n\n\n\n\n\n\nWhat does betweenness centrality tell us?\n\n\n\nStreets with high betweenness centrality are “important” in the network – many shortest paths pass through them. In pedestrian studies, these are the streets where you’d expect to see the most footfall, all else being equal. Sound familiar? This connects directly to your assignment!\n\n\n\n\nCalculating reach and closeness\n\n# Reach: How many other nodes can you reach within a given distance?\n# This simulates walkable catchment areas\n\ndef calculate_reach(G, distance=800):  # 800m = ~10 minute walk\n    \"\"\"Calculate how many destinations reachable within distance\"\"\"\n    reach = {}\n    for node in G.nodes():\n        # Get all nodes within distance\n        reachable = nx.single_source_dijkstra_path_length(\n            G, node, cutoff=distance, weight='length'\n        )\n        reach[node] = len(reachable)\n    return reach\n\n# Calculate 800m reach (roughly 10-minute walk)\nnodes['reach_800m'] = nodes.index.map(calculate_reach(G, distance=800))\n\n\n\n\n# Visualise\nfig, ax = plt.subplots(1, 1, figsize=(12, 12))\n\nedges.plot(ax=ax, color='lightgrey', linewidth=0.5)\nnodes.plot(column='reach_800m', \n           ax=ax, \n           cmap='viridis', \n           markersize=20,\n           legend=True,\n           legend_kwds={'label': 'Number of reachable nodes (800m)'})\n\nax.set_title('Walkable Reach in Auckland CBD', fontsize=14)\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\n\nFigure 3\n\n\n\nHigh-reach locations are well-connected – you can walk to many destinations from there. These locations often show higher pedestrian activity because they’re convenient starting points or destinations.\n\n\nBuilding footprint analysis (optional)\nIf you have building footprint data, momepy can calculate building-level metrics:\n\n# Load buildings\nbuildings = gpd.read_file(\"data/auckland_buildings.gpkg\")\n\n# Calculate building area\nbuildings['area'] = buildings.geometry.area\n\n# Calculate perimeter\nbuildings['perimeter'] = buildings.geometry.length\n\n# Calculate form factor (compactness)\n# More compact = closer to circular\nbuildings['form_factor'] = (4 * np.pi * buildings['area']) / (buildings['perimeter'] ** 2)\n\n# Calculate orientation\nbuildings['orientation'] = momepy.Orientation(buildings).series\n\n# Buildings elongated north-south vs east-west can affect microclimates\n# and walking comfort",
     "crumbs": [
@@ -4083,7 +4083,7 @@
   {
     "objectID": "2.6.urban-analytics.html#connecting-to-your-assignment",
     "href": "2.6.urban-analytics.html#connecting-to-your-assignment",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Connecting to your assignment",
     "text": "Connecting to your assignment\nLet’s bring this together for analysing pedestrian footfall:\nHypothesis generation: Based on the indicators we’ve computed, we can form testable hypotheses:\n\nDensity hypothesis: Areas with higher population density should show higher pedestrian footfall (more nearby residents).\nCentrality hypothesis: Streets with higher betweenness centrality should show higher footfall (more through-traffic).\nAccess hypothesis: Areas near parks or other amenities might show different temporal patterns (weekend spikes?).\n\n\nExample analysis workflow\n\n# Load your pedestrian count data\nfootfall = pd.read_csv(\"data/pedestrian_counts_2023.csv\")\n\n# Join with street network centrality data\nfootfall_with_centrality = footfall.merge(\n    nodes[['betweenness', 'reach_800m']], \n    left_on='sensor_location',\n    right_index=True,\n    how='left'\n)\n\n\n\n\n# Analyse relationship\nimport seaborn as sns\n\nfig, axes = plt.subplots(1, 2, figsize=(14, 5))\n\n# Plot 1: Centrality vs footfall\nsns.scatterplot(data=footfall_with_centrality, \n                x='betweenness', \n                y='daily_count',\n                alpha=0.6,\n                ax=axes[0])\naxes[0].set_xlabel('Betweenness Centrality')\naxes[0].set_ylabel('Daily Pedestrian Count')\naxes[0].set_title('Network Centrality vs Footfall')\n\n# Plot 2: Reach vs footfall\nsns.scatterplot(data=footfall_with_centrality, \n                x='reach_800m', \n                y='daily_count',\n                alpha=0.6,\n                ax=axes[1])\naxes[1].set_xlabel('Walkable Reach (800m)')\naxes[1].set_ylabel('Daily Pedestrian Count')\naxes[1].set_title('Walkable Accessibility vs Footfall')\n\nplt.tight_layout()\nplt.show()\n\n# Calculate correlation\nprint(f\"Correlation with betweenness: {footfall_with_centrality[['betweenness', 'daily_count']].corr().iloc[0,1]:.3f}\")\nprint(f\"Correlation with reach: {footfall_with_centrality[['reach_800m', 'daily_count']].corr().iloc[0,1]:.3f}\")\n\n\nFigure 4\n\n\n\n\n\n\n\n\n\nFor your blog post\n\n\n\nYou might write something like:\n\n“Queen Street shows consistently higher footfall than other CBD locations, which makes sense given its network position. Our analysis reveals a betweenness centrality score of 0.28, compared to an average of 0.12 for other CBD streets – meaning it sits on 2.3 times more shortest paths through the network. This isn’t just about people shopping on Queen Street; it’s about everyone who needs to get through the CBD.”",
     "crumbs": [
@@ -4094,7 +4094,7 @@
   {
     "objectID": "2.6.urban-analytics.html#key-takeaways-and-responsible-interpretation",
     "href": "2.6.urban-analytics.html#key-takeaways-and-responsible-interpretation",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Key takeaways and responsible interpretation",
     "text": "Key takeaways and responsible interpretation\n\nAlways state your units. Is that persons/km² or persons/hectare? Metres or kilometres?\nAcknowledge limitations. Straight-line distance isn’t walking distance. Betweenness centrality assumes people take shortest paths (they don’t always).\nContext matters. A “walkable” distance in Auckland might differ from Singapore or Helsinki based on climate, culture, and urban form.\nCorrelation ≠ causation. High centrality streets might have high footfall, but this doesn’t mean improving centrality will automatically increase pedestrian activity.\nTemporal dynamics. Urban indicators are often static (density, network structure), but phenomena like pedestrian movement are highly dynamic. Your assignment asks you to explore these temporal patterns – which is where things get really interesting!",
     "crumbs": [
@@ -4105,7 +4105,7 @@
   {
     "objectID": "2.6.urban-analytics.html#further-reading",
     "href": "2.6.urban-analytics.html#further-reading",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Further reading",
     "text": "Further reading\n\n\nColaninno, Nicola, Rounaq Basu, Maryam Hosseini, Abdulaziz Alhassan, Liu\nLiu, and Andres Sevtsuk. 2024. “A Sidewalk-Level Urban Heat Risk\nAssessment Framework Using Pedestrian Mobility and Urban Microclimate\nModeling.” Environment and Planning B: Urban Analytics and\nCity Science. https://doi.org/10.1177/23998083241280746.\n\n\nLovelace, Robin, Jakub Nowosad, and Jannes Muenchow. 2019.\nGeocomputation with r. Chapman; Hall/CRC. https://r.geocompx.org/.\n\n\nOpenshaw, Stan. 1984. “The Modifiable Areal Unit Problem.”\nConcepts and Techniques in Modern Geography 38.\n\n\nSevtsuk, Andres, and Raul Kalvo. 2024. “Modeling Pedestrian\nActivity in Cities with Urban Network Analysis.” Environment\nand Planning B: Urban Analytics and City Science. https://doi.org/10.1177/23998083241261766.\n\n\nWong, Bang. 2011. “Points of View: Color Blindness.”\nNature Methods 8 (6): 441. https://doi.org/10.1038/nmeth.1618.",
     "crumbs": [
@@ -4116,7 +4116,7 @@
   {
     "objectID": "2.6.urban-analytics.html#exercises",
     "href": "2.6.urban-analytics.html#exercises",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "Exercises",
     "text": "Exercises\n\nCalculate population density for your assigned Auckland area. What’s the range? Are there any outliers?\nFind the suburb with the worst park access. How might this relate to health outcomes?\nDownload the street network for a location with pedestrian count data. Calculate betweenness centrality. Do high-centrality streets show higher footfall?\nCreate a function that categorises locations as “high footfall potential” based on density, centrality, and park access. Test your predictions against real data.\n\n\n\n\n\n\n\n\nFor your assignment\n\n\n\nThink about how these indicators might have changed between 2019 and 2023. Did COVID-19 affect how network centrality relates to footfall? Did certain types of streets recover faster than others? These morphological characteristics are relatively stable, making them excellent controls for understanding what changed about human behaviour rather than the city itself.",
     "crumbs": [
@@ -4127,7 +4127,7 @@
   {
     "objectID": "2.6.urban-analytics.html#references",
     "href": "2.6.urban-analytics.html#references",
-    "title": "2.4 Urban analytics indicators",
+    "title": "2.6 Urban analytics indicators",
     "section": "References",
     "text": "References\n\n\nFleischmann, M. (2019). momepy: Urban Morphology Measuring Toolkit. Journal of Open Source Software, 4(43), 1807. https://doi.org/10.21105/joss.01807\nShin, H., Shaban-Nejad, A., Bierman, A. S., Cressman, T., Dunn, J. R., & Sutherland, J. (2022). Assessing the impact of low emission zones on air quality: A case study of Glasgow, UK. Environment International, 158, 107010.\nWorld Health Organization. (2016). Urban green spaces and health. WHO Regional Office for Europe.\nBoeing, G. (2017). OSMnx: New methods for acquiring, constructing, analyzing, and visualizing complex street networks. Computers, Environment and Urban Systems, 65, 126-139.\n\n\n```",
     "crumbs": [
@@ -4426,7 +4426,7 @@
     "href": "2.4.geospatial.html#types-of-maps",
     "title": "2.4. Geospatial Data",
     "section": "Types of Maps",
-    "text": "Types of Maps\n\nReference Maps\nReference maps serve a primarily descriptive purpose: they communicate the locations of features and help users orient themselves in space. Their goal is to “pin point” data on a map, and they tend to be static and factual. Road maps, topographic maps, and navigation tools are all reference maps. In pedestrian research, a reference map might show the locations of pedestrian counting stations across a city, or the layout of footpaths in a study area.\n\n\nThematic Maps\nThematic maps go beyond location to highlight spatial relationships and patterns. Their purpose is explanatory rather than merely descriptive: they help the viewer “study a theme” within spatial data. Choropleth maps (where regions are shaded according to a variable’s value), heat maps (showing continuous surfaces of intensity), and cartograms (where area is distorted to represent a variable) are all thematic maps. In pedestrian mobility studies, a thematic map might shade neighbourhoods by walkability score or display pedestrian flow volumes as graduated line widths along street segments.\n\n\n\n\n\n\nRail Maps: Reference or Thematic?\n\n\n\nTransport maps like Auckland’s rail network can be both:\n\nReference: They show station locations and line routes\nThematic: They can reveal patterns in life expectancy, poverty, or house prices along transport corridors",
+    "text": "Types of Maps\n\nReference Maps\nReference maps serve a primarily descriptive purpose: they communicate the locations of features and help users orient themselves in space. Their goal is to “pin point” data on a map, and they tend to be static and factual. Road maps, topographic maps, and navigation tools such as Google Maps are all reference maps. In pedestrian research, a reference map might show the locations of pedestrian counting stations across a city, or the layout of footpaths in a study area.\n\n\nThematic Maps\nThematic maps go beyond location to highlight spatial relationships and patterns. Their purpose is explanatory rather than merely descriptive: they help the viewer “study a theme” within spatial data. Choropleth maps (where regions are shaded according to a variable’s value), heat maps (showing continuous surfaces of intensity), and cartograms (where area is distorted to represent a variable) are all thematic maps. In pedestrian mobility studies, a thematic map might shade neighbourhoods by walkability score or display pedestrian flow volumes as graduated line widths along street segments.\n\n\n\n\n\n\nRail Maps: Reference or Thematic?\n\n\n\nTransport maps like Auckland’s rail network can be classified as both:\n\nReference maps because they show the location of different stations and the location of each line\nThematic maps because they can be used to predict life expectancy, poverty, and median house prices along transport corridors\n\nOther examples to consider: the visualisation of road networks to improve road safety measures is a thematic map. The visualisation of the earth’s surface showing its elevation is a topographic map. Navigation tools such as Google Maps are reference (or navigational) maps.",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4448,7 +4448,7 @@
     "href": "2.4.geospatial.html#file-formats",
     "title": "2.4. Geospatial Data",
     "section": "File Formats",
-    "text": "File Formats\n\nVector Formats\nThe Shapefile (.shp) is the traditional GIS format, developed by Esri in the 1990s. Despite its age and limitations (it requires multiple companion files: .shp for geometry, .shx for the spatial index, .dbf for attributes, and .prj for the coordinate reference system), it remains widely used because of its universal support across GIS software. GeoJSON (.geojson) is a web-friendly, human-readable format based on the JSON standard you encountered in Section 2.2. Its readability makes it ideal for web mapping applications and API data exchange, though it can become unwieldy for large datasets. GeoPackage (.gpkg) is the modern alternative: a single SQLite database file that supports multiple layers, large datasets, and both vector and raster data. For new projects, GeoPackage is generally the recommended choice. KML/KMZ files are associated with Google Earth and are useful for quick spatial data sharing but lack some of the analytical capabilities of the other formats.\n\n\nRaster Formats\nGeoTIFF (.tif) is the standard raster format, embedding coordinate reference system information and spatial extent directly within the file. NetCDF (Network Common Data Form) handles multi-dimensional arrays and is the dominant format for climate and atmospheric data. HDF5 (Hierarchical Data Format) serves a similar purpose for large, complex datasets in earth observation and remote sensing.",
+    "text": "File Formats\n\nVector Formats\nThe Shapefile (.shp) is the traditional GIS format, developed by Esri in the 1990s. Despite its age and limitations (it requires multiple companion files: .shp for geometry, .shx for the spatial index, .dbf for attributes, and .prj for the coordinate reference system), it remains widely used because of its universal support across GIS software.\nGeoJSON (.geojson) is a web-friendly, human-readable format based on the JSON standard you encountered in Section 2.2. Its readability makes it ideal for web mapping applications and API data exchange, though it can become unwieldy for large datasets.\nGeoPackage (.gpkg) is the modern alternative: a single SQLite-based format that supports multiple layers, large datasets, and both vector and raster data. For new projects, GeoPackage is generally the recommended choice.\nOther formats include KML/KMZ (used primarily in Google Earth), File Geodatabase (Esri’s proprietary format), CSV with coordinates (plain text that can be georeferenced using lat/lon columns), DXF/DWG (CAD files convertible to GIS formats), GPX (GPS Exchange Format for routes, tracks, and waypoints), and MapInfo TAB/MIF files.\n\n\nRaster Formats\nGeoTIFF (.tif) is the standard raster format, embedding coordinate reference system information and spatial extent directly within the file.\nNetCDF (Network Common Data Form) handles multi-dimensional arrays and is the dominant format for climate and atmospheric data.\nHDF5 (Hierarchical Data Format) serves a similar purpose for large, complex datasets in earth observation and remote sensing.",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4459,7 +4459,7 @@
     "href": "2.4.geospatial.html#coordinate-reference-systems-crs",
     "title": "2.4. Geospatial Data",
     "section": "Coordinate Reference Systems (CRS)",
-    "text": "Coordinate Reference Systems (CRS)\n\nUnderstanding Projections\nThe Earth is a three-dimensional oblate spheroid, but maps are two-dimensional. Transforming the former into the latter inevitably creates distortion in shape, area, distance, or direction (and usually several of these simultaneously). A Coordinate Reference System (CRS) defines how geographic coordinates on the Earth’s surface map to positions on a flat surface, and choosing the right CRS is one of the most consequential decisions in any spatial analysis.\nThree CRS systems are particularly relevant for this book. EPSG:4326 (WGS84) uses unprojected geographic coordinates expressed in degrees of latitude and longitude. It is the default for GPS devices and most web APIs, but because its units are degrees rather than metres, it is unsuitable for distance or area calculations. EPSG:3857 (Web Mercator) is the projection used by Google Maps, OpenStreetMap, and most web mapping platforms. Its units are metres, but it severely distorts areas at high latitudes, making it inappropriate for area-based analyses. EPSG:2193 (NZTM), the New Zealand Transverse Mercator, is the standard projected CRS for New Zealand. Its units are metres, and it minimises distortion across the country, making it the correct choice for distance and area calculations in Auckland and across Aotearoa.\n\n\n\n\n\n\nCRS Matters!\n\n\n\nAlways check and match CRS when combining datasets. Mixing CRS will give incorrect results.",
+    "text": "Coordinate Reference Systems (CRS)\n\nUnderstanding Projections\nThe Earth is a three-dimensional oblate spheroid, but maps are two-dimensional. Transforming the former into the latter inevitably creates distortion in one or more of: area, shape, distance, and direction. A Coordinate Reference System (CRS) defines how geographic coordinates on the Earth’s surface map to positions on a flat surface, and choosing the right CRS is one of the most consequential decisions in any spatial analysis.\nThere are three main families of map projections: cylindrical (which wraps the globe in a cylinder), conical (which uses a cone), and planar (which projects onto a flat plane). Each preserves certain properties at the expense of others.\n\n\nKey CRS for This Course\nThree CRS systems are particularly relevant for this book. EPSG:4326 (WGS84) uses unprojected geographic coordinates expressed in degrees of latitude and longitude. It is the default for GPS devices and most web APIs, but because its units are degrees rather than metres, it is unsuitable for distance or area calculations.\nEPSG:3857 (Web Mercator) is the projection used by Google Maps, OpenStreetMap, and most web mapping platforms. Its units are metres, but it severely distorts areas at high latitudes, making it inappropriate for area-based analyses.\nEPSG:2193 (NZTM), the New Zealand Transverse Mercator, is the standard projected CRS for New Zealand. Its units are metres, and it minimises distortion across the country, making it the correct choice for distance and area calculations in Auckland and across Aotearoa.\n\n\n\n\n\n\nCRS Matters!\n\n\n\nAlways check and match CRS when combining datasets. Mixing CRS will give incorrect results. Use gdf.crs to inspect a dataset’s CRS and gdf.to_crs() to reproject.",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4470,7 +4470,7 @@
     "href": "2.4.geospatial.html#working-with-geopandas",
     "title": "2.4. Geospatial Data",
     "section": "Working with GeoPandas",
-    "text": "Working with GeoPandas\n\nInstallation and Setup\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\nfrom shapely.geometry import Point, LineString, Polygon\n\n\nReading Spatial Data\n# Read from various formats\ncountries = gpd.read_file('countries.shp')\ncities = gpd.read_file('cities.geojson')\nregions = gpd.read_file('regions.gpkg')\n\n# Read from URL\nurl = 'https://example.com/data.geojson'\ngdf = gpd.read_file(url)\n\n\nExploring GeoDataFrames\n# View first few rows\ncountries.head()\n\n# Check the CRS\ncountries.crs\n\n# Get column information\ncountries.columns\n\n# Summary statistics\ncountries.describe()\n\n# Access geometry column\ncountries.geometry\n\n\nBasic Operations\n\nFiltering Data\n# Filter by attribute\noceania = countries[countries['continent'] == 'Oceania']\n\n# Filter by spatial relationship\n# Select countries that contain a specific point\nauckland = Point(174.76, -36.85)\nnz = countries[countries.contains(auckland)]\n\n\nCreating Geometries\n# Create a point\npoint = Point(174.76, -36.85)\n\n# Create a line\nline = LineString([(174.76, -36.85), (174.77, -36.86)])\n\n# Create a polygon\npolygon = Polygon([(0, 0), (1, 0), (1, 1), (0, 1)])\n\n# Create a GeoDataFrame from scratch\ngdf = gpd.GeoDataFrame(\n    {'name': ['Auckland'], \n     'population': [1672000]},\n    geometry=[Point(174.76, -36.85)],\n    crs='EPSG:4326'\n)",
+    "text": "Working with GeoPandas\n\nInstallation and Setup\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\nfrom shapely.geometry import Point, LineString, Polygon\n\n\nReading and Writing Spatial Data\nUse gpd.read_file() to read various spatial data formats (Shapefiles, GeoJSON, GeoPackage) and to_file() to write:\n# Read from various formats (illustrative examples)\ncountries = gpd.read_file('countries.shp')\ncities = gpd.read_file('cities.geojson')\nregions = gpd.read_file('regions.gpkg')\n\n# Read from URL\ncountries = gpd.read_file(\"world.gpkg\")\n\n# Write data\nregions.to_file('output.gpkg', driver='GPKG')\n\n\nThe GeoDataFrame\nA GeoDataFrame is just like a pandas DataFrame, but with a special geometry column:\ncountries.head()\niso_a3  name              continent    pop_est   gdp_md_est  geometry\nAFG     Afghanistan       Asia         34124811  64080       POLYGON ((61.21082 ...\nAGO     Angola            Africa       29310273  189000      MULTIPOLYGON (((23.9...\nALB     Albania           Europe       3047987   33900       POLYGON ((21.02004 ...\ntype(countries)\ngeopandas.geodataframe.GeoDataFrame\nYou can access the geometry column directly:\ncountries[\"geometry\"].head(n=3)\nAnd inspect individual geometries using .iloc[]:\ncountries['geometry'].iloc[0]\n\n\nBasic Mapping\nGeoPandas provides two quick mapping methods:\n# Static map\ncountries.plot()\n\n# Interactive map (opens in browser)\ncountries.explore()\n\n\nLeveraging pandas Operations\nBecause a GeoDataFrame inherits from pandas DataFrame, all the operations you learned in Section 2.2 work directly:\n# Total world population\ncountries[\"pop\"].sum() / 1e9  # In billions\n\n# Population by continent using groupby\ngrouped = countries.groupby(\"continent\")\npop_by_continent = grouped[\"pop\"].sum()\n\n\nFiltering Data\n# Boolean selection\nis_NZ = countries[\"name\"] == \"New Zealand\"\nNZ = countries.loc[is_NZ]\n\n\nThe squeeze() Method\nIf you have a DataFrame with only one row, squeeze() removes the row dimension and returns a Series:\nNZsqueezed = NZ.squeeze()\nprint(\"The type of NZ is: \", type(NZsqueezed))\nNZsqueezed.geometry\n\n\nCreating Geometries and GeoDataFrames\nYou can create point geometries from a regular DataFrame containing latitude and longitude columns:\ndata = {\n    \"Name\": [\"New York City\", \"São Paulo\", \"Tokyo\", \"Lagos\", \"Sydney\"],\n    \"Population\": [8419600, 12325232, 13929286, 15000000, 5312163],\n    \"Latitude\": [40.7128, -23.5505, 35.6895, 6.5244, -33.8688],\n    \"Longitude\": [-74.0060, -46.6333, 139.6917, 3.3792, 151.2093]\n}\n\ncities_df = pd.DataFrame(data)\n\ngdf = gpd.GeoDataFrame(\n    cities_df,\n    geometry=gpd.points_from_xy(\n        cities_df['Longitude'],\n        cities_df['Latitude']\n    ),\n    crs='EPSG:4326'\n)\n\n\nCoordinate Transformations\n# Check current CRS\nprint(gdf.crs)\n\n# Reproject to a different CRS\ngdf_projected = gdf.to_crs('EPSG:3857')\n\n# Reproject to match another dataset\ngdf_matched = gdf.to_crs(other_gdf.crs)\n\n\n\n\n\n\nWhen to Reproject\n\n\n\n\nFor distance and area calculations: use a projected CRS (in metres), e.g. EPSG:2193 for New Zealand\nFor web mapping: use EPSG:3857\nFor spatial operations: ensure all datasets share the same CRS\n\n\n\n\n\nPlotting with CRS\n# Equirectangular projection (EPSG:4326)\nfig, ax = plt.subplots(figsize=(10, 6))\nax = countries.plot(ax=ax, facecolor=\"none\", edgecolor=\"black\")\nax.set_title(\"Equirectangular Projection\")\n\n# Mercator projection\nno_antarctica = countries.loc[countries[\"name_long\"] != \"Antarctica\"]\ncountries_mercator = no_antarctica.to_crs(epsg=3395)\n\nfig, ax = plt.subplots(figsize=(10, 6))\nax = countries_mercator.plot(ax=ax, facecolor=\"none\", edgecolor=\"black\")\nax.set_title(\"Mercator Projection\")",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4481,7 +4481,7 @@
     "href": "2.4.geospatial.html#spatial-relationships",
     "title": "2.4. Geospatial Data",
     "section": "Spatial Relationships",
-    "text": "Spatial Relationships\nSpatial relationships describe how geometries relate to each other in space, and they are the foundation of spatial queries and joins. GeoPandas implements the DE-9IM (Dimensionally Extended 9-Intersection Model) standard through a set of intuitive methods. The contains() method tests whether geometry A fully encloses geometry B, while within() tests the inverse (whether A lies entirely inside B). The intersects() method is the most general test, returning True whenever geometries share any space at all. The touches() method identifies geometries that share a boundary but no interior area, crosses() detects geometries that cross each other (e.g. a road crossing a river), overlaps() identifies partial overlap between geometries of the same dimension, and disjoint() confirms that two geometries are completely separate.\nIn pedestrian mobility analysis, these spatial relationships are used constantly. For example, you might use within() to determine which pedestrian counting stations fall inside a particular neighbourhood polygon, or intersects() to identify which street segments cross a proposed low-emission zone boundary.\n\nExample: Finding Which Country Contains a City\n# Create a point for New York\nnew_york = Point(-74.006, 40.7128)\n\n# Find the country containing New York\ncountry_with_ny = countries[countries.contains(new_york)]\nprint(country_with_ny['name'].values)  # Output: ['United States']\n\n# Test if New York is within the USA\nusa = countries[countries['name'] == 'United States'].geometry.iloc[0]\nnew_york.within(usa)  # Returns: True",
+    "text": "Spatial Relationships\nSpatial relationships describe how geometries relate to each other in space, and they are the foundation of spatial queries and joins. GeoPandas implements the DE-9IM (Dimensionally Extended 9-Intersection Model) standard through a set of intuitive methods: equals, contains, crosses, disjoint, intersects, overlaps, touches, within, and covers.\n\nExample: Finding Which Country Contains a City\ncities_url = \"https://raw.githubusercontent.com/dataandcrowd/GISCI343/main/docs/Lecture4/data/ne_110m_populated_places.gpkg\"\ncities = gpd.read_file(cities_url)\n\n# Select the Point representing New York City\nnew_york = cities.loc[cities[\"name\"] == \"New York\"].geometry.squeeze()\n\ntype(new_york)\n# shapely.geometry.point.Point\n\n# Which countries contain New York?\ncountries.contains(new_york)\n\n# Find the country\ncountries.loc[countries.contains(new_york)]\n\n# Test the inverse relationship\nUSA = countries.loc[countries.contains(new_york)].squeeze().geometry\nnew_york.within(USA)  # Returns: True\n\n\n\n\n\n\nYour Turn: Find Auckland\n\n\n\nUsing the same approach as above, find the country that contains Auckland by selecting Auckland from the cities dataset and using contains().",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4492,7 +4492,7 @@
     "href": "2.4.geospatial.html#spatial-joins",
     "title": "2.4. Geospatial Data",
     "section": "Spatial Joins",
-    "text": "Spatial Joins\nSpatial joins combine attributes from two datasets based on spatial relationships:\n# Join cities to countries based on spatial location\njoined = gpd.sjoin(\n    cities,           # Left GeoDataFrame\n    countries,        # Right GeoDataFrame\n    predicate='within',  # Spatial relationship\n    how='left'        # Join type (left, right, inner)\n)\n\n# Now cities have country attributes\nprint(joined[['city_name', 'country_name', 'continent']])\n\nCommon Spatial Join Use Cases\nSpatial joins are among the most frequently used operations in urban analytics. They allow you to assign census or demographic data to geographic units (e.g. attaching population figures to meshblock polygons), determine which administrative area a point falls within (e.g. identifying which suburb each pedestrian sensor belongs to), count the number of features within polygons (e.g. how many bus stops are within each neighbourhood), and aggregate data by spatial location (e.g. computing the total pedestrian volume for each census area unit by summing counts from all sensors within it). In Sevtsuk’s pedestrian modelling work, spatial joins are used to associate land-use attributes with street network edges, enabling the model to weight pedestrian trip generation based on the mix and density of activities along each street segment.",
+    "text": "Spatial Joins\nSpatial joins merge attributes from two GeoDataFrames based on their spatial relationship. The operation requires specifying: the GeoDataFrame to which you want to add information, the GeoDataFrame that contains the information, the spatial relationship to match on (intersects, contains, within), and the type of join (left or inner).\njoined = gpd.sjoin(\n    cities,\n    countries,\n    predicate=\"within\",\n    how=\"left\",\n    lsuffix=\"city\",\n    rsuffix=\"country\",\n)\n\njoined.head()\n    name_city        geometry                  index_country iso_a3 name_country continent  pop_est  gdp_md_est\n0   Vatican City     POINT (12.45339 41.90328) 79.0          ITA    Italy        Europe     62137802 2221000\n1   San Marino       POINT (12.44177 43.93610) 79.0          ITA    Italy        Europe     62137802 2221000\n2   Vaduz            POINT (9.51667 47.13372)  9.0           AUT    Austria      Europe     8754413  416600\n\nFiltering Joined Data\n# Select cities in Italy\ncities_in_italy = joined.loc[joined[\"name_long\"] == \"Italy\"]\n\n# Plot Italy with its cities\nitaly = countries.loc[countries[\"name\"] == \"Italy\"]\n\nfig, ax = plt.subplots(figsize=(8, 8))\nitaly.plot(ax=ax, facecolor=\"none\", edgecolor=\"black\")\nax.set_axis_off()\nax.set_aspect(\"equal\")\ncities_in_italy.plot(ax=ax, color=\"red\")",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4525,7 +4525,7 @@
     "href": "2.4.geospatial.html#visualisation",
     "title": "2.4. Geospatial Data",
     "section": "Visualisation",
-    "text": "Visualisation\n\nBasic Plotting\n# Simple plot\ncountries.plot()\n\n# Customised plot\nfig, ax = plt.subplots(figsize=(10, 10))\ncountries.plot(ax=ax, \n               column='pop_est',      # Colour by population\n               cmap='YlOrRd',         # Colour scheme\n               legend=True,           # Show legend\n               edgecolor='black')     # Border colour\nax.set_title('World Population by Country')\nplt.show()\n\n\nChoropleth Maps\n# Create a classified choropleth map\ncountries.plot(column='gdp_per_capita',\n               scheme='quantiles',     # Classification scheme\n               k=5,                    # Number of classes\n               cmap='viridis',\n               legend=True,\n               legend_kwds={'title': 'GDP per Capita (Quantiles)'})\n\n\nMultiple Layers\n# Plot multiple layers together\nfig, ax = plt.subplots(figsize=(12, 8))\n\n# Base layer\ncountries.plot(ax=ax, color='lightgrey', edgecolor='black')\n\n# Add cities\ncities.plot(ax=ax, color='red', markersize=20, alpha=0.6)\n\nax.set_title('World Countries and Major Cities')\nax.set_axis_off()\nplt.show()",
+    "text": "Visualisation\n\nBasic Choropleth Maps\n# Simple plot\ncountries.plot()\n\n# Choropleth map coloured by population\nfig, ax = plt.subplots(figsize=(10, 10))\ncountries.plot(\n    ax=ax,\n    column='pop_est',\n    cmap='YlOrRd',\n    legend=True,\n    edgecolor='black'\n)\nax.set_title('World Population by Country')\nplt.show()\n\n\nClassified Choropleth Maps\nClassification schemes divide continuous data into discrete classes for mapping. The mapclassify library provides several schemes:\nimport mapclassify as mc\n\nfig, ax = plt.subplots(figsize=(8, 8))\n\npop23.plot(\n    ax=ax,\n    column=\"VAR_1_23\",\n    edgecolor=\"black\",\n    linewidth=0.5,\n    legend=True,\n    legend_kwds=dict(loc=\"lower right\", fontsize=10),\n    scheme=\"FisherJenks\",\n    cmap=\"viridis\"\n)\n\nax.set_title(\"Fisher Jenks: k = 5\")\nax.set_axis_off()\nax.set_aspect(\"equal\")\n\n\nInteractive Maps\npop23.explore(\n    column=\"VAR_1_23\",\n    cmap=\"viridis\",\n    tiles=\"CartoDB positron\",\n)\n\n\nMultiple Layers\nfig, ax = plt.subplots(figsize=(12, 8))\n\n# Base layer\ncountries.plot(ax=ax, color='lightgrey', edgecolor='black')\n\n# Add cities\ncities.plot(ax=ax, color='red', markersize=20, alpha=0.6)\n\nax.set_title('World Countries and Major Cities')\nax.set_axis_off()\nplt.show()",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4558,7 +4558,7 @@
     "href": "2.4.geospatial.html#summary",
     "title": "2.4. Geospatial Data",
     "section": "Summary",
-    "text": "Summary\nThis section has introduced the foundational concepts and tools for geospatial analysis in Python. You now understand the distinction between vector data (discrete features represented as points, lines, and polygons) and raster data (continuous surfaces represented as grids), and you know when each is appropriate. Through GeoPandas, you have learned to read spatial data from multiple file formats, explore GeoDataFrames using the same methods you mastered for pandas DataFrames in Section 2.2, and perform spatial operations including filtering, creating geometries, testing spatial relationships, executing spatial joins, reprojecting between coordinate reference systems, buffering, dissolving, and overlaying geometries. You have also learned to create choropleth maps and multi-layer visualisations, and you understand the Modifiable Areal Unit Problem (MAUP) and its implications for the reliability of spatial analyses.\nThese capabilities form the core toolkit for spatial analysis in urban and pedestrian mobility contexts. The ability to compute distances, create buffers around points of interest, join datasets based on spatial relationships, and visualise patterns through maps is what transforms raw geographic data into actionable insights about how people move through and interact with urban environments.",
+    "text": "Summary\nThis section has introduced the foundational concepts and tools for geospatial analysis in Python, following the progression from data wrangling (melt and pivot) through GIS fundamentals (map types, vector vs. raster data, file formats, CRS and projections) to practical spatial analysis (GeoPandas operations, spatial relationships, joins, vector tools, visualisation, and raster basics). You have learned to read spatial data from multiple file formats, explore GeoDataFrames using the same methods you mastered for pandas DataFrames in Section 2.2, perform spatial operations including filtering, spatial joins, reprojecting, buffering, dissolving, and overlaying geometries, and create both static and interactive maps. You also understand the Modifiable Areal Unit Problem (MAUP) and its implications for the reliability of spatial analyses. These capabilities form the core toolkit for spatial analysis in urban and pedestrian mobility contexts.",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4569,7 +4569,7 @@
     "href": "2.4.geospatial.html#further-reading",
     "title": "2.4. Geospatial Data",
     "section": "Further Reading",
-    "text": "Further Reading\n\nGeoPandas Documentation\nShapely Manual\nGeocomputation with Python: https://py.geocompx.org/\nGeographic Data Science with Python: https://geographicdata.science/book",
+    "text": "Further Reading\n\nGeoPandas Documentation\nShapely Manual\nGeocomputation with Python: https://py.geocompx.org/\nGeographic Data Science with Python: https://geographicdata.science/book\nGeoPandas: Managing Projections",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -4580,7 +4580,7 @@
     "href": "2.4.geospatial.html#practice-exercises",
     "title": "2.4. Geospatial Data",
     "section": "Practice Exercises",
-    "text": "Practice Exercises\n\nLoad a shapefile of your choice and explore its attributes and geometry\nReproject the data to at least two different CRS and observe the differences\nCreate a 5km buffer around all points in a dataset\nPerform a spatial join to combine two datasets\nCreate a choropleth map showing a variable of interest with a suitable classification scheme\n\n\n\n\n\nColaninno, Nicola, Rounaq Basu, Maryam Hosseini, Abdulaziz Alhassan, Liu Liu, and Andres Sevtsuk. 2024. “A Sidewalk-Level Urban Heat Risk Assessment Framework Using Pedestrian Mobility and Urban Microclimate Modeling.” Environment and Planning B: Urban Analytics and City Science. https://doi.org/10.1177/23998083241280746.\n\n\nOpenshaw, Stan. 1984. “The Modifiable Areal Unit Problem.” Concepts and Techniques in Modern Geography 38.",
+    "text": "Practice Exercises\n\nLoad the NZ Regional Council 2025 GeoPackage and explore its attributes and geometry\nReproject the data to EPSG:2193 (NZTM) and calculate the area of each region in square kilometres\nCreate a 50km buffer around each regional centroid\nPerform a spatial join between the regional boundaries and a point dataset of your choice\nCreate a classified choropleth map of population density using Fisher Jenks classification\nDissolve regions by island and compare total areas of the North and South Islands\n\n\n\n\n\nColaninno, Nicola, Rounaq Basu, Maryam Hosseini, Abdulaziz Alhassan, Liu Liu, and Andres Sevtsuk. 2024. “A Sidewalk-Level Urban Heat Risk Assessment Framework Using Pedestrian Mobility and Urban Microclimate Modeling.” Environment and Planning B: Urban Analytics and City Science. https://doi.org/10.1177/23998083241280746.\n\n\nOpenshaw, Stan. 1984. “The Modifiable Areal Unit Problem.” Concepts and Techniques in Modern Geography 38.",
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.4. Geospatial Data"
@@ -5398,7 +5398,7 @@
     "href": "labs/lab-week02.html#task-2-lists",
     "title": "Lab Week 02",
     "section": "Task 2: Lists",
-    "text": "Task 2: Lists\nLists store ordered sequences of items. They are fundamental to working with collections of sensor names, count values, and time periods.\n\n# Auckland CBD sensor locations\nlocations = [\n    \"107 Quay Street\",\n    \"45 Queen Street\",\n    \"30 Queen Street\",\n    \"2 High Street\",\n    \"150 K Road\"\n]\n\n# Access by index (0-based)\nprint(f\"First location: {locations[0]}\")\nprint(f\"Last location: {locations[-1]}\")\nprint(f\"Total locations: {len(locations)}\")\n\n# Slice to get a subset\nprint(f\"Middle three: {locations[1:4]}\")\n\nFirst location: 107 Quay Street\nLast location: 150 K Road\nTotal locations: 5\nMiddle three: ['45 Queen Street', '30 Queen Street', '2 High Street']\n\n\n\n# Hourly counts for 107 Quay Street on 1 Jan 2024 (6am-9pm)\ncounts = [78, 201, 644, 394, 861, 1283, 1335, 1423, 1159, 1005, 995, 780, 602, 498, 310, 195]\nhours = list(range(6, 22))\n\nprint(f\"Hours recorded: {len(counts)}\")\nprint(f\"Maximum count: {max(counts)}\")\nprint(f\"Minimum count: {min(counts)}\")\nprint(f\"Total daily: {sum(counts):,}\")\n\nHours recorded: 16\nMaximum count: 1423\nMinimum count: 78\nTotal daily: 11,763\n\n\nYour turn: Create a list of the hour labels (e.g., \"6:00-6:59\", \"7:00-7:59\", …, \"21:00-21:59\") using a list comprehension. Hint: [f\"{h}:00-{h}:59\" for h in range(6, 22)].",
+    "text": "Task 2: Lists\nLists store ordered sequences of items. They are fundamental to working with collections of sensor names, count values, and time periods.\n\n# Auckland CBD sensor locations\nlocations = [\n    \"107 Quay Street\",\n    \"45 Queen Street\",\n    \"30 Queen Street\",\n    \"2 High Street\",\n    \"150 K Road\"\n]\n\n# Access by index (0-based)\nprint(f\"First location: {locations[0]}\")\nprint(f\"Last location: {locations[-1]}\")\nprint(f\"Total locations: {len(locations)}\")\n\n# Slice to get a subset\nprint(f\"Middle three: {locations[1:4]}\")\n\nFirst location: 107 Quay Street\nLast location: 150 K Road\nTotal locations: 5\nMiddle three: ['45 Queen Street', '30 Queen Street', '2 High Street']\n\n\n\n# Hourly counts for 107 Quay Street on 1 Jan 2024 (6am-9pm)\ncounts = [78, 201, 644, 394, 861, 1283, 1335, 1423, 1159, 1005, 995, 780, 602, 498, 310, 195]\nhours = list(range(6, 22))\n\nprint(f\"Hours recorded: {len(counts)}\")\nprint(f\"Maximum count: {max(counts)}\")\nprint(f\"Minimum count: {min(counts)}\")\nprint(f\"Total daily: {sum(counts):,}\")\n\nHours recorded: 16\nMaximum count: 1423\nMinimum count: 78\nTotal daily: 11,763\n\n\nYour turn: Create a new list that contains only the counts above 500. Use a for loop and an if statement to build the list. How many hours had more than 500 pedestrians?",
     "crumbs": [
       "labs.html",
       "Lab Week 02"
@@ -5409,7 +5409,7 @@
     "href": "labs/lab-week02.html#task-3-loops",
     "title": "Lab Week 02",
     "section": "Task 3: Loops",
-    "text": "Task 3: Loops\nLoops let you repeat operations across collections. When working with pedestrian data, you will frequently iterate through locations, time periods, or rows of a table.\n\nlocations = [\"107 Quay Street\", \"45 Queen Street\", \"30 Queen Street\", \"2 High Street\", \"150 K Road\"]\npeak_counts = [1423, 1076, 1245, 129, 381]\n\nprint(\"=== Peak Hourly Counts ===\")\nfor i, loc in enumerate(locations):\n    print(f\"  {i+1}. {loc}: {peak_counts[i]:,}\")\n\nprint(f\"\\nTotal across 5 sensors: {sum(peak_counts):,}\")\n\n=== Peak Hourly Counts ===\n  1. 107 Quay Street: 1,423\n  2. 45 Queen Street: 1,076\n  3. 30 Queen Street: 1,245\n  4. 2 High Street: 129\n  5. 150 K Road: 381\n\nTotal across 5 sensors: 4,254\n\n\n\n# Calculate a running total\nrunning_total = 0\nfor count in peak_counts:\n    running_total += count\n    print(f\"  Adding {count:,} -&gt; Running total: {running_total:,}\")\n\n  Adding 1,423 -&gt; Running total: 1,423\n  Adding 1,076 -&gt; Running total: 2,499\n  Adding 1,245 -&gt; Running total: 3,744\n  Adding 129 -&gt; Running total: 3,873\n  Adding 381 -&gt; Running total: 4,254\n\n\nYour turn: Write a loop that prints each sensor location alongside the percentage of the total peak count it represents. For example, “107 Quay Street: 33.4%”.",
+    "text": "Task 3: Loops\nLoops let you repeat operations across collections. When working with pedestrian data, you will frequently iterate through locations, time periods, or rows of a table.\n\nlocations = [\"107 Quay Street\", \"45 Queen Street\", \"30 Queen Street\", \"2 High Street\", \"150 K Road\"]\n\nprint(\"=== Sensor Locations ===\")\nfor loc in locations:\n    print(f\"  - {loc}\")\n\nprint(f\"\\nTotal locations: {len(locations)}\")\n\n=== Sensor Locations ===\n  - 107 Quay Street\n  - 45 Queen Street\n  - 30 Queen Street\n  - 2 High Street\n  - 150 K Road\n\nTotal locations: 5\n\n\n\n# Loop through a list of counts\npeak_counts = [1423, 1076, 1245, 129, 381]\n\ntotal = 0\nfor count in peak_counts:\n    total = total + count\n    print(f\"  Adding {count:,} -&gt; Running total: {total:,}\")\n\nprint(f\"\\nGrand total: {total:,}\")\n\n  Adding 1,423 -&gt; Running total: 1,423\n  Adding 1,076 -&gt; Running total: 2,499\n  Adding 1,245 -&gt; Running total: 3,744\n  Adding 129 -&gt; Running total: 3,873\n  Adding 381 -&gt; Running total: 4,254\n\nGrand total: 4,254\n\n\nYour turn: Write a loop that prints only the locations with a peak count above 500. Hint: use zip(locations, peak_counts) to pair each name with its count.",
     "crumbs": [
       "labs.html",
       "Lab Week 02"
@@ -5420,7 +5420,7 @@
     "href": "labs/lab-week02.html#task-4-conditionals",
     "title": "Lab Week 02",
     "section": "Task 4: Conditionals",
-    "text": "Task 4: Conditionals\nConditionals let you make decisions in code. In pedestrian analysis, you frequently need to classify counts, flag anomalies, or filter by thresholds.\n\nsensor_counts = {\n    \"107 Quay Street\": 1423,\n    \"45 Queen Street\": 1076,\n    \"30 Queen Street\": 1245,\n    \"2 High Street\": 129,\n    \"150 K Road\": 381,\n    \"61 Federal Street\": 141,\n    \"19 Shortland Street\": 176\n}\n\nprint(\"=== Traffic Classification ===\")\nfor loc, count in sensor_counts.items():\n    if count &gt; 1000:\n        level = \"HIGH\"\n    elif count &gt; 300:\n        level = \"MEDIUM\"\n    else:\n        level = \"LOW\"\n    print(f\"  {loc}: {count:,} -&gt; {level}\")\n\n=== Traffic Classification ===\n  107 Quay Street: 1,423 -&gt; HIGH\n  45 Queen Street: 1,076 -&gt; HIGH\n  30 Queen Street: 1,245 -&gt; HIGH\n  2 High Street: 129 -&gt; LOW\n  150 K Road: 381 -&gt; MEDIUM\n  61 Federal Street: 141 -&gt; LOW\n  19 Shortland Street: 176 -&gt; LOW\n\n\n\n# Count how many locations fall into each category\nhigh = sum(1 for c in sensor_counts.values() if c &gt; 1000)\nmed = sum(1 for c in sensor_counts.values() if 300 &lt; c &lt;= 1000)\nlow = sum(1 for c in sensor_counts.values() if c &lt;= 300)\n\nprint(f\"\\nHigh traffic: {high} locations\")\nprint(f\"Medium traffic: {med} locations\")\nprint(f\"Low traffic: {low} locations\")\n\n\nHigh traffic: 3 locations\nMedium traffic: 1 locations\nLow traffic: 3 locations\n\n\nYour turn: Modify the thresholds so that “HIGH” is above 800, “MEDIUM” is 200-800, and “LOW” is below 200. How does the classification change?",
+    "text": "Task 4: Conditionals\nConditionals let you make decisions in code. In pedestrian analysis, you frequently need to classify counts, flag anomalies, or filter by thresholds.\n\ncounts = [1423, 1076, 1245, 129, 381, 141, 176]\n\nprint(\"=== Traffic Classification ===\")\nfor count in counts:\n    if count &gt; 1000:\n        level = \"HIGH\"\n    elif count &gt; 300:\n        level = \"MEDIUM\"\n    else:\n        level = \"LOW\"\n    print(f\"  {count:,} pedestrians -&gt; {level}\")\n\n=== Traffic Classification ===\n  1,423 pedestrians -&gt; HIGH\n  1,076 pedestrians -&gt; HIGH\n  1,245 pedestrians -&gt; HIGH\n  129 pedestrians -&gt; LOW\n  381 pedestrians -&gt; MEDIUM\n  141 pedestrians -&gt; LOW\n  176 pedestrians -&gt; LOW\n\n\n\n# Count how many locations fall into each category\nhigh = 0\nmed = 0\nlow = 0\n\nfor count in counts:\n    if count &gt; 1000:\n        high = high + 1\n    elif count &gt; 300:\n        med = med + 1\n    else:\n        low = low + 1\n\nprint(f\"High traffic: {high} locations\")\nprint(f\"Medium traffic: {med} locations\")\nprint(f\"Low traffic: {low} locations\")\n\nHigh traffic: 3 locations\nMedium traffic: 1 locations\nLow traffic: 3 locations\n\n\nYour turn: Change the thresholds so that “HIGH” is above 800, “MEDIUM” is 200 to 800, and “LOW” is below 200. How does the classification change?",
     "crumbs": [
       "labs.html",
       "Lab Week 02"
@@ -5431,7 +5431,7 @@
     "href": "labs/lab-week02.html#task-5-combining-concepts",
     "title": "Lab Week 02",
     "section": "Task 5: Combining Concepts",
-    "text": "Task 5: Combining Concepts\nNow combine variables, lists, loops, and conditionals in a single task.\n\n# Simulated hourly data for 107 Quay Street (1 Jan 2024, 6am-9pm)\nhours = list(range(6, 22))\ncounts = [78, 201, 644, 394, 861, 1283, 1335, 1423, 1159, 1005, 995, 780, 602, 498, 310, 195]\n\npeak_hour = hours[0]\npeak_count = counts[0]\noff_peak_hours = []\n\nfor i in range(len(hours)):\n    if counts[i] &gt; peak_count:\n        peak_count = counts[i]\n        peak_hour = hours[i]\n    if counts[i] &lt; 300:\n        off_peak_hours.append(hours[i])\n\nprint(f\"Peak hour: {peak_hour}:00 with {peak_count:,} pedestrians\")\nprint(f\"Off-peak hours (&lt; 300): {[f'{h}:00' for h in off_peak_hours]}\")\nprint(f\"Average count: {sum(counts) / len(counts):,.0f}\")\n\nPeak hour: 13:00 with 1,423 pedestrians\nOff-peak hours (&lt; 300): ['6:00', '7:00', '21:00']\nAverage count: 735\n\n\nYour turn: Find the two consecutive hours with the highest combined count. For example, if hour 12 has 1,335 and hour 13 has 1,423, their combined count is 2,758. Which consecutive pair is the busiest?",
+    "text": "Task 5: Combining Concepts\nNow combine variables, lists, loops, and conditionals in a single task.\n\n# Hourly data for 107 Quay Street (1 Jan 2024, 6am-9pm)\ncounts = [78, 201, 644, 394, 861, 1283, 1335, 1423, 1159, 1005, 995, 780, 602, 498, 310, 195]\n\n# Find the peak count and off-peak hours\npeak_count = 0\noff_peak = []\n\nfor count in counts:\n    if count &gt; peak_count:\n        peak_count = count\n    if count &lt; 300:\n        off_peak.append(count)\n\nprint(f\"Peak count: {peak_count:,} pedestrians\")\nprint(f\"Number of off-peak hours (&lt; 300): {len(off_peak)}\")\nprint(f\"Average count: {sum(counts) / len(counts):,.0f}\")\n\nPeak count: 1,423 pedestrians\nNumber of off-peak hours (&lt; 300): 3\nAverage count: 735\n\n\nYour turn: Write a loop that builds a new list containing only the counts above 1,000. How many hours had more than 1,000 pedestrians?",
     "crumbs": [
       "labs.html",
       "Lab Week 02"
@@ -5585,7 +5585,7 @@
     "href": "labs/lab-week02.html#task-19-box-plots-by-month",
     "title": "Lab Week 02",
     "section": "Task 19: Box Plots by Month",
-    "text": "Task 19: Box Plots by Month\n\nfig, ax = plt.subplots(figsize=(10, 5))\nmonth_names = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n               \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"]\nped[\"month_name\"] = ped[\"month\"].map(dict(zip(range(1, 13), month_names)))\nmonth_order = month_names[:ped[\"month\"].max()]\n\nsns.boxplot(data=ped, x=\"month_name\", y=\"45 Queen Street\",\n            order=month_order, palette=\"coolwarm\", ax=ax)\nax.set_title(\"Monthly Distribution: 45 Queen Street\", fontsize=14, fontweight=\"bold\")\nax.set_xlabel(\"Month\")\nax.set_ylabel(\"Hourly Count\")\nplt.tight_layout()\nplt.show()\n\n/var/folders/th/wzvst6957_v02h6ztkc7qxw5_3lzg7/T/ipykernel_28951/1570749334.py:7: FutureWarning:\n\n\n\nPassing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.\n\n\n\n\n\n\n\n\n\n\n\nBox plots show the distribution (median, quartiles, and outliers) for each month. This helps you see whether the variability changes seasonally, not just the average.\nYour turn: Create box plots grouped by day_of_week instead of month. Use the order=day_order parameter to keep days in logical sequence.",
+    "text": "Task 19: Box Plots by Month\n\nfig, ax = plt.subplots(figsize=(10, 5))\nmonth_names = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\",\n               \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"]\nped[\"month_name\"] = ped[\"month\"].map(dict(zip(range(1, 13), month_names)))\nmonth_order = month_names[:ped[\"month\"].max()]\n\nsns.boxplot(data=ped, x=\"month_name\", y=\"45 Queen Street\",\n            order=month_order, palette=\"coolwarm\", ax=ax)\nax.set_title(\"Monthly Distribution: 45 Queen Street\", fontsize=14, fontweight=\"bold\")\nax.set_xlabel(\"Month\")\nax.set_ylabel(\"Hourly Count\")\nplt.tight_layout()\nplt.show()\n\n/var/folders/th/wzvst6957_v02h6ztkc7qxw5_3lzg7/T/ipykernel_35910/1570749334.py:7: FutureWarning:\n\n\n\nPassing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.\n\n\n\n\n\n\n\n\n\n\n\nBox plots show the distribution (median, quartiles, and outliers) for each month. This helps you see whether the variability changes seasonally, not just the average.\nYour turn: Create box plots grouped by day_of_week instead of month. Use the order=day_order parameter to keep days in logical sequence.",
     "crumbs": [
       "labs.html",
       "Lab Week 02"
@@ -5633,6 +5633,314 @@
     "crumbs": [
       "Part 2. Geospatial Python Programming",
       "2.2. DataFrames and Pandas"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#reshaping-data-with-melt-and-pivot",
+    "href": "2.4.geospatial.html#reshaping-data-with-melt-and-pivot",
+    "title": "2.4. Geospatial Data",
+    "section": "Reshaping Data with Melt and Pivot",
+    "text": "Reshaping Data with Melt and Pivot\nBefore diving into geospatial analysis, there is one more pandas operation that proves indispensable when preparing data for spatial visualisation: reshaping between wide and long formats. The melt() function converts a wide DataFrame (where each variable occupies its own column) into a long format (where variable names become values in a single column). The inverse operation, pivot(), converts long data back to wide.\nimport pandas as pd\n\ndf = pd.DataFrame({\n    'City': ['Auckland', 'Wellington', 'Christchurch'],\n    'Jan_Temp': [25, 22, 20],\n    'Feb_Temp': [24, 21, 19],\n    'Mar_Temp': [23, 20, 18]\n})\n\nprint(\"Original DataFrame:\")\nprint(df)\n\n# Using melt to reshape the DataFrame\ndf_melted = pd.melt(\n    df,\n    id_vars=['City'],\n    var_name='Month',\n    value_name='Temperature'\n)\n\nprint(\"\\nMelted DataFrame:\")\nprint(df_melted)\nThe id_vars parameter specifies which columns should remain as identifiers (i.e. they stay as columns), while all remaining columns are “unpivoted” into two new columns: one for the variable names (var_name) and one for their values (value_name). This long format is essential for many plotting libraries such as seaborn, which expect data in tidy (long) format.\nimport seaborn as sns\nimport matplotlib.pyplot as plt\n\nsns.set(style=\"whitegrid\")\n\nplt.figure(figsize=(10, 6))\nsns.lineplot(\n    data=df_melted,\n    x='Month',\n    y='Temperature',\n    hue='City',\n    marker='o'\n)\n\nplt.title('Monthly Temperatures Across Cities', fontsize=16)\nplt.xlabel('Month')\nplt.ylabel('Temperature (°C)')\nplt.xticks(rotation=45)\nplt.legend(title='City')\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\nYour Turn: Melt the Measles Data\n\n\n\nLoad the measles dataset from the URL below and assign it as measles_data_raw. Then use melt() with \"YEAR\" and \"WEEK\" as id_vars, setting var_name='state' and value_name='incidence'. Assign the result as measles_data.\nurl = \"https://raw.githubusercontent.com/dataandcrowd/GISCI343/main/docs/Lecture4/data/measles.csv\"",
+    "crumbs": [
+      "Part 2. Geospatial Python Programming",
+      "2.4. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#python-tools-for-geospatial-data",
+    "href": "2.4.geospatial.html#python-tools-for-geospatial-data",
+    "title": "2.4. Geospatial Data",
+    "section": "Python Tools for Geospatial Data",
+    "text": "Python Tools for Geospatial Data\n\nVector Data\n\n\n\n\n\n\n\n\nPackage\nLevel\nDescription\n\n\n\n\nshapely\nLow-level\nHandles individual geometry objects (points, lines, polygons)\n\n\ngeopandas\nHigh-level\nWorks with GeoSeries and GeoDataFrames (vector layers); built on shapely\n\n\n\n\n\nRaster Data\n\n\n\n\n\n\n\n\nPackage\nFocus\nDescription\n\n\n\n\nrasterio\nSimple rasters\nUses numpy arrays + metadata dictionary (CRS, transform, etc.)\n\n\nxarray\nComplex rasters\nUses xarray.Dataset and DataArray; ideal for NetCDF and multi-band rasters",
+    "crumbs": [
+      "Part 2. Geospatial Python Programming",
+      "2.4. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#vector-tools",
+    "href": "2.4.geospatial.html#vector-tools",
+    "title": "2.4. Geospatial Data",
+    "section": "Vector Tools",
+    "text": "Vector Tools\nVector tools are the core spatial operations for manipulating discrete geographic features. The most commonly used operations are:\n\nBuffer: creates a zone around a feature at a defined distance, useful for proximity analysis\nClip: extracts a specific area from one dataset using another dataset as a boundary\nDissolve: merges multiple features into one based on a common attribute\nDifference (Erase): removes areas of one layer that overlap with another\nIntersect: extracts overlapping portions of two layers\nMerge: combines two or more layers into one\nSpatial Join: matches features based on their relative spatial locations\n\n\nVector Tools in Python\nimport geopandas as gpd\nfrom shapely.geometry import Polygon, Point, LineString\n\ngdf.buffer(distance)                         # Buffer\ngpd.clip(gdf, mask)                          # Clip\ngpd.overlay(A, B, how='difference')          # Difference (Erase)\ngdf.dissolve(by='region')                    # Dissolve\ngpd.overlay(A, B, how='intersection')        # Intersect\n\n\nBuffering Example\n# Reproject to a metric CRS\ncities_3857 = cities.to_crs(epsg=3857)\n\n# Create a copy and add a 250km buffer around all cities\nbuffered_cities = cities_3857.copy()\nbuffered_cities[\"geometry\"] = buffered_cities.buffer(250e3)\n\n\nOverlay Example: Difference\nafrica = countries.loc[countries[\"continent\"] == \"Africa\"]\nafrica = africa.to_crs(epsg=3857)\n\nfig, ax = plt.subplots(figsize=(8, 8))\n\n# Calculate the difference of the geometry sets\ndiff = gpd.overlay(africa, buffered_cities, how=\"difference\")\n\ndiff.plot(facecolor=\"#b9f2b1\", ax=ax)\nax.set_axis_off()\nax.set_aspect(\"equal\")\n\n\nDissolve Example\n# Dissolve NZ regions by island\ndissolved = pop23.dissolve(by='Island').reset_index()\ndissolved.plot(column='Island')",
+    "crumbs": [
+      "Part 2. Geospatial Python Programming",
+      "2.4. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#raster-data-analysis",
+    "href": "2.4.geospatial.html#raster-data-analysis",
+    "title": "2.4. Geospatial Data",
+    "section": "Raster Data Analysis",
+    "text": "Raster Data Analysis\nSo far we have been working mainly with vector data using geopandas. Raster data is the other major geospatial data type: gridded or pixelated data that maps naturally to arrays.\n\nRaster Characteristics\nRaster datasets have two key properties. Resolution is the spatial distance that a single pixel covers on the ground: higher resolution means smaller pixels and more detail. Extent is the bounding box that covers the entire spatial footprint of the dataset.\nRaster data can be continuous (multispectral satellite imagery, digital elevation models, canopy height from LiDAR) or categorical (land cover maps, snowcover masks).\n\n\nMulti-band Raster Data\nColour images are multi-band rasters, where each band measures light reflected from a different part of the electromagnetic spectrum (e.g. red, green, blue, near-infrared). The standard raster format is GeoTIFF, a .tif file with embedded spatial metadata including geotransform (extent, resolution), CRS, and NoData values.\n\n\nWorking with rasterio\nimport rasterio as rio\n\nelev = rio.open('nz_elev.tif')\nelev.crs          # Coordinate reference system\nelev.bounds       # Spatial extent\nelev.count        # Number of bands\nelev.indexes      # Band numbers available\nelev.shape        # Pixel dimensions (rows, cols)\nelev.meta         # All metadata\n\n\nCommon Raster Operations\nSlope identifies the steepness at each cell of a raster surface using a moving window (typically 3x3). Lower slope values indicate flatter terrain; higher values indicate steeper terrain.\nMask raster by vector boundaries clips a raster to the extent of a vector boundary, useful for extracting raster values within a study area.\nZonal statistics calculates summary statistics (mean, sum, count, etc.) on raster cell values within zones defined by a vector dataset.",
+    "crumbs": [
+      "Part 2. Geospatial Python Programming",
+      "2.4. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#practical-exercise-analysing-new-zealand-regional-data",
+    "href": "2.4.geospatial.html#practical-exercise-analysing-new-zealand-regional-data",
+    "title": "2.4. Geospatial Data",
+    "section": "Practical Exercise: Analysing New Zealand Regional Data",
+    "text": "Practical Exercise: Analysing New Zealand Regional Data\nFollow the steps below to perform spatial and statistical analysis using the 2023 population data:\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\nimport mapclassify as mc\n\npop23 = gpd.read_file(\n    'https://raw.githubusercontent.com/dataandcrowd/GISCI343/main/docs/Lecture03/data/pop23.gpkg'\n)\npop23.head(2)\n\n1. Calculate the Centroid of Each Region\npop23[\"centroid\"] = pop23.centroid\n\n\n2. Measure Distances from Wellington\nwellington = pop23[\n    pop23[\"REGC2023_2\"].str.contains(\"Wellington\", case=False)\n]\nwellington_centroids = wellington.centroid.values[0]\n\npop23[\"distance_to_wellys\"] = pop23[\"centroid\"].distance(wellington_centroids)\npop23[\"distance_to_wellys_km\"] = round(pop23[\"distance_to_wellys\"] / 1000, 2)\npop23[[\"REGC2023_2\", \"centroid\", \"distance_to_wellys_km\"]]\n\n\n3. Classify Total Population Using Jenks Natural Breaks\nfig, ax = plt.subplots(figsize=(8, 8))\n\npop23.plot(\n    ax=ax,\n    column=\"VAR_1_23\",\n    edgecolor=\"black\",\n    linewidth=0.5,\n    legend=True,\n    legend_kwds=dict(loc=\"lower right\", fontsize=10),\n    scheme=\"FisherJenks\",\n    cmap=\"viridis\"\n)\n\nax.set_title(\"Fisher Jenks: k = 5\")\nax.set_axis_off()\nax.set_aspect(\"equal\")\n\n\n4. Dissolve Regions by North and South Islands\ndissolved = pop23.dissolve(by='Island').reset_index()\ndissolved.plot(column='Island')\n\n\n5. Calculate Total Population Density by Region\npop23[\"area\"] = pop23.area\npop23['popden'] = pop23['VAR_1_23'] / pop23['area']\npop23[['REGC2023_2', 'popden']]\n\n\n\n\n\n\nFormatting Population Density\n\n\n\nTo display population density with two decimal places, use a lambda function:\npop23['popden_str'] = pop23['popden'].apply(lambda x: f'{x:.2f}')",
+    "crumbs": [
+      "Part 2. Geospatial Python Programming",
+      "2.4. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "2.4.geospatial.html#working-with-the-nz-regional-council-2025-data",
+    "href": "2.4.geospatial.html#working-with-the-nz-regional-council-2025-data",
+    "title": "2.4. Geospatial Data",
+    "section": "Working with the NZ Regional Council 2025 Data",
+    "text": "Working with the NZ Regional Council 2025 Data\nStats NZ publishes updated regional council boundaries as GeoPackage files. The regional-council-2025-clipped.gpkg file contains the latest boundaries for all regional councils in New Zealand.\nrc2025 = gpd.read_file('regional-council-2025-clipped.gpkg')\nprint(rc2025.crs)\nrc2025.head()\n\n# Plot the regional council boundaries\nfig, ax = plt.subplots(figsize=(8, 12))\nrc2025.plot(ax=ax, edgecolor='black', facecolor='lightyellow')\nax.set_title('NZ Regional Council Boundaries (2025)')\nax.set_axis_off()\nax.set_aspect('equal')\nplt.show()",
+    "crumbs": [
+      "Part 2. Geospatial Python Programming",
+      "2.4. Geospatial Data"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html",
+    "href": "labs/lab-week03-GIS.html",
+    "title": "Lab Week 03 GIS",
+    "section": "",
+    "text": "Overview\nIn this short tutorial you will put pedestrian count data on a map. The goal is simple: see where people walk in Auckland CBD and how that changes throughout the day.\nYou do not need to memorise the code. Focus on understanding the logic of each step and interpreting the maps you produce.\nDuration: approximately 30 minutes\nWhat you need:",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#overview",
+    "href": "labs/lab-week03-GIS.html#overview",
+    "title": "Lab Week 03 GIS",
+    "section": "",
+    "text": "Python 3.10+ with pandas, geopandas, matplotlib, folium, and mapclassify installed\nThe files akl_ped-2024.csv and akl_ped-Geodata.csv",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-1-load-and-clean-the-pedestrian-data",
+    "href": "labs/lab-week03-GIS.html#step-1-load-and-clean-the-pedestrian-data",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 1: Load and Clean the Pedestrian Data",
+    "text": "Step 1: Load and Clean the Pedestrian Data\n\nimport pandas as pd\nimport numpy as np\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\nped = pd.read_csv(\"data/akl_ped-2024.csv\") # To download the data, go to Section 1.4\n\n# Remove non-data rows\nped = ped.dropna(subset=[\"Date\", \"Time\"]).copy()\nped = ped[ped[\"Date\"] != \"Daylight Savings\"].copy()\n\n# Parse date and extract hour\nped[\"Date\"] = pd.to_datetime(ped[\"Date\"])\nped[\"hour\"] = ped[\"Time\"].str.split(\":\").str[0].astype(int)\nped[\"month\"] = ped[\"Date\"].dt.month\n\nprint(f\"Shape: {ped.shape}\")\nped.head(3)\n\nShape: (8783, 25)\n\n\n\n\n\n\n\n\n\nDate\nTime\n107 Quay Street\nTe Ara Tahuhu Walkway\nCommerce Street West\n7 Custom Street East\n45 Queen Street\n30 Queen Street\n19 Shortland Street\n2 High Street\n...\n8 Darby Street EW\n8 Darby Street NS\n261 Queen Street\n297 Queen Street\n150 K Road\n183 K Road\n188 Quay Street Lower Albert (EW)\n188 Quay Street Lower Albert (NS)\nhour\nmonth\n\n\n\n\n0\n2024-01-01\n6:00-6:59\n78.0\n53.0\n24.0\n9.0\n87.0\n67.0\n10.0\n11.0\n...\n8.0\n22.0\n75.0\n77.0\n15.0\n68.0\n53.0\n115.0\n6\n1\n\n\n1\n2024-01-01\n7:00-7:59\n201.0\n39.0\n29.0\n38.0\n143.0\n123.0\n12.0\n21.0\n...\n6.0\n21.0\n93.0\n73.0\n21.0\n56.0\n74.0\n81.0\n7\n1\n\n\n2\n2024-01-01\n8:00-8:59\n644.0\n55.0\n50.0\n52.0\n243.0\n291.0\n62.0\n23.0\n...\n9.0\n34.0\n186.0\n157.0\n31.0\n75.0\n132.0\n150.0\n8\n1\n\n\n\n\n3 rows × 25 columns",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-2-filter-to-march-2024-and-target-hours",
+    "href": "labs/lab-week03-GIS.html#step-2-filter-to-march-2024-and-target-hours",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 2: Filter to March 2024 and Target Hours",
+    "text": "Step 2: Filter to March 2024 and Target Hours\nWe select eight time slots that capture the rhythm of an urban day: early morning (7 am), mid-morning (9 am), late morning (11 am), lunchtime (1 pm), mid-afternoon (3 pm), evening commute (5 pm), early evening (7 pm), and late evening (9 pm).\n\nmarch = ped[ped[\"month\"] == 3].copy()\n\ntarget_hours = [7, 9, 11, 13, 15, 17, 19, 21]\nmarch_filtered = march[march[\"hour\"].isin(target_hours)]\n\nprint(f\"March rows (all hours): {march.shape[0]}\")\nprint(f\"March rows (target hours): {march_filtered.shape[0]}\")\n\nMarch rows (all hours): 744\nMarch rows (target hours): 248",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-3-aggregate-across-all-march-days",
+    "href": "labs/lab-week03-GIS.html#step-3-aggregate-across-all-march-days",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 3: Aggregate Across All March Days",
+    "text": "Step 3: Aggregate Across All March Days\nWe compute the mean pedestrian count at each sensor for each of the eight time slots, averaged across all 31 days in March. This gives us a single “typical March day” profile for each location.\n\nsensor_cols = ped.columns[2:23]\n\nhourly_avg = march_filtered.groupby(\"hour\")[sensor_cols].mean()\nhourly_avg = hourly_avg.round(0)\n\n#print(hourly_avg) # un-comment that and have a go!",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-4-reshape-to-long-format",
+    "href": "labs/lab-week03-GIS.html#step-4-reshape-to-long-format",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 4: Reshape to Long Format",
+    "text": "Step 4: Reshape to Long Format\nRight now each sensor is its own column (wide format). To put the data on a map, we need one row per sensor per hour (long format). The melt() function does this.\n\nhourly_long = hourly_avg.reset_index().melt(\n    id_vars=\"hour\",\n    var_name=\"Address\",\n    value_name=\"avg_count\"\n)\n\nprint(f\"Long format: {hourly_long.shape[0]} rows\")\nhourly_long.head()\n\nLong format: 168 rows\n\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n\n\n1\n9\n107 Quay Street\n535.0\n\n\n2\n11\n107 Quay Street\n689.0\n\n\n3\n13\n107 Quay Street\n885.0\n\n\n4\n15\n107 Quay Street\n922.0\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat Just Happened?\n\n\n\nWe had 8 rows (one per hour) and 21 columns (one per sensor). After melting, we have 8 x 21 = 168 rows, with each row telling us the average count for one sensor at one hour.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-5-load-sensor-coordinates-and-create-a-geodataframe",
+    "href": "labs/lab-week03-GIS.html#step-5-load-sensor-coordinates-and-create-a-geodataframe",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 5: Load Sensor Coordinates and Create a GeoDataFrame",
+    "text": "Step 5: Load Sensor Coordinates and Create a GeoDataFrame\n\ngeo = pd.read_csv(\"data/akl_ped-Geodata.csv\")\n\n# Drop empty rows (notes at bottom of file)\ngeo = geo.dropna(subset=[\"Latitude\", \"Longitude\"]).copy()\n\nprint(geo)\n\n                              Address   Latitude   Longitude\n0                     107 Quay Street -36.843015  174.766494\n1   188 Quay Street Lower Albert (EW) -36.843060  174.765730\n2   188 Quay Street Lower Albert (NS) -36.843060  174.765730\n3               Te Ara Tahuhu Walkway -36.844650  174.769645\n4                Commerce Street West -36.844912  174.768065\n5                7 Custom Street East -36.844722  174.767057\n6                     45 Queen Street -36.845001  174.766266\n7                     30 Queen Street -36.844950  174.766575\n8                 19 Shortland Street -36.846576  174.766946\n9                       2 High Street -36.846846  174.766855\n10                  1 Courthouse Lane -36.848170  174.767050\n11                  61 Federal Street -36.847964  174.762729\n12                      59 High Stret -36.848924  174.766186\n13                   210 Queen Street -36.848899  174.765410\n14                   205 Queen Street -36.848986  174.764784\n15                  8 Darby Street EW -36.849422  174.764172\n16                  8 Darby Street NS -36.849422  174.764172\n17                   261 Queen Street -36.850792  174.764556\n18                   297 Queen Street -36.852232  174.763915\n19                         150 K Road -36.857973  174.760382\n20                         183 K Road -36.857774  174.760123\n\n\n\n# Merge coordinates with the aggregated counts\nmerged = hourly_long.merge(geo, on=\"Address\", how=\"inner\")\n\nprint(f\"Merged shape: {merged.shape}\")\nprint(f\"Unique sensors matched: {merged['Address'].nunique()}\")\nmerged.head()\n\nMerged shape: (168, 5)\nUnique sensors matched: 21\n\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\nLatitude\nLongitude\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n-36.843015\n174.766494\n\n\n1\n9\n107 Quay Street\n535.0\n-36.843015\n174.766494\n\n\n2\n11\n107 Quay Street\n689.0\n-36.843015\n174.766494\n\n\n3\n13\n107 Quay Street\n885.0\n-36.843015\n174.766494\n\n\n4\n15\n107 Quay Street\n922.0\n-36.843015\n174.766494\n\n\n\n\n\n\n\n\n# Convert to GeoDataFrame\ngdf = gpd.GeoDataFrame(\n    merged,\n    geometry=gpd.points_from_xy(merged[\"Longitude\"], merged[\"Latitude\"]),\n    crs=\"EPSG:4326\"\n)\n\ngdf.head()\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\nLatitude\nLongitude\ngeometry\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n1\n9\n107 Quay Street\n535.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n2\n11\n107 Quay Street\n689.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n3\n13\n107 Quay Street\n885.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n4\n15\n107 Quay Street\n922.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-6-map-a-single-time-slot",
+    "href": "labs/lab-week03-GIS.html#step-6-map-a-single-time-slot",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 6: Map a Single Time Slot",
+    "text": "Step 6: Map a Single Time Slot\nBefore producing the full set of maps, let us check that the data looks right by mapping the 5 pm commute hour.\n\nhour_17 = gdf[gdf[\"hour\"] == 17]\n\nfig, ax = plt.subplots(figsize=(8, 8))\nhour_17.plot(\n    ax=ax,\n    column=\"avg_count\",\n    cmap=\"YlOrRd\",\n    markersize=hour_17[\"avg_count\"] / 3,\n    edgecolor=\"black\",\n    linewidth=0.5,\n    legend=True,\n    legend_kwds={\"label\": \"Avg Pedestrian Count\", \"shrink\": 0.6}\n)\n\nfor _, row in hour_17.iterrows():\n    ax.annotate(\n        row[\"Address\"].replace(\" Street\", \" St\").replace(\" Lower Albert\", \"\"),\n        xy=(row[\"Longitude\"], row[\"Latitude\"]),\n        fontsize=5,\n        ha=\"left\",\n        xytext=(4, 4),\n        textcoords=\"offset points\"\n    )\n\nax.set_title(\"Average Pedestrian Count at 5 pm (March 2024)\", fontweight=\"bold\")\nax.set_axis_off()\nax.set_aspect(\"equal\")\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-7-map-all-eight-time-slots",
+    "href": "labs/lab-week03-GIS.html#step-7-map-all-eight-time-slots",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 7: Map All Eight Time Slots",
+    "text": "Step 7: Map All Eight Time Slots\nNow we produce a 2x4 grid of maps showing how pedestrian activity shifts across the day.\n\nhour_labels = {\n    7: \"7 am\", 9: \"9 am\", 11: \"11 am\", 13: \"1 pm\",\n    15: \"3 pm\", 17: \"5 pm\", 19: \"7 pm\", 21: \"9 pm\"\n}\n\nfig, axes = plt.subplots(2, 4, figsize=(20, 10))\naxes = axes.flatten()\n\n# Use a consistent colour scale across all panels\nvmin = gdf[\"avg_count\"].min()\nvmax = gdf[\"avg_count\"].max()\n\nfor i, hour in enumerate(target_hours):\n    ax = axes[i]\n    subset = gdf[gdf[\"hour\"] == hour]\n\n    subset.plot(\n        ax=ax,\n        column=\"avg_count\",\n        cmap=\"YlOrRd\",\n        markersize=subset[\"avg_count\"] / 3,\n        edgecolor=\"black\",\n        linewidth=0.3,\n        vmin=vmin,\n        vmax=vmax,\n        legend=False\n    )\n\n    ax.set_title(hour_labels[hour], fontsize=14, fontweight=\"bold\")\n    ax.set_axis_off()\n    ax.set_aspect(\"equal\")\n\nplt.suptitle(\n    \"Auckland CBD: Average Pedestrian Counts Across the Day (March 2024)\",\n    fontsize=16,\n    fontweight=\"bold\",\n    y=1.02\n)\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-8-identify-the-busiest-and-quietest-sensors",
+    "href": "labs/lab-week03-GIS.html#step-8-identify-the-busiest-and-quietest-sensors",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 8: Identify the Busiest and Quietest Sensors",
+    "text": "Step 8: Identify the Busiest and Quietest Sensors\n\n# Overall busiest sensor across all 8 time slots\ntotal_by_sensor = gdf.groupby(\"Address\")[\"avg_count\"].sum().sort_values(ascending=False)\n\nprint(\"Top 5 sensors by total daily count (8 time slots):\")\nprint(total_by_sensor.head().to_string())\nprint()\n\nprint(\"Bottom 5 sensors:\")\nprint(total_by_sensor.tail().to_string())\n\nTop 5 sensors by total daily count (8 time slots):\nAddress\n30 Queen Street     9014.0\n210 Queen Street    7855.0\n261 Queen Street    7829.0\n45 Queen Street     6548.0\n107 Quay Street     5353.0\n\nBottom 5 sensors:\nAddress\nCommerce Street West    1587.0\n150 K Road              1516.0\n2 High Street           1299.0\n1 Courthouse Lane        681.0\n8 Darby Street EW        660.0\n\n\n\n# Which sensor peaks earliest? Latest?\npeak_hour = gdf.loc[gdf.groupby(\"Address\")[\"avg_count\"].idxmax()][[\"Address\", \"hour\", \"avg_count\"]]\npeak_hour = peak_hour.sort_values(\"hour\")\n\nprint(\"Peak hour by sensor:\")\nprint(peak_hour.to_string(index=False))\n\nPeak hour by sensor:\n                          Address  hour  avg_count\n                1 Courthouse Lane    13      132.0\n             7 Custom Street East    13      814.0\n                    59 High Stret    13      706.0\n                 205 Queen Street    13      542.0\n                    2 High Street    13      262.0\n              19 Shortland Street    13      481.0\n            Te Ara Tahuhu Walkway    13      588.0\n                 210 Queen Street    15     1616.0\n                  45 Queen Street    15     1211.0\n188 Quay Street Lower Albert (EW)    17      674.0\n                       183 K Road    17      560.0\n             Commerce Street West    17      295.0\n                 297 Queen Street    17      790.0\n                  30 Queen Street    17     1738.0\n                       150 K Road    17      285.0\n                61 Federal Street    17      332.0\n                  107 Quay Street    17     1060.0\n                8 Darby Street EW    17      121.0\n                8 Darby Street NS    17      415.0\n188 Quay Street Lower Albert (NS)    17      576.0\n                 261 Queen Street    17     1664.0",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#questions-to-think-about",
+    "href": "labs/lab-week03-GIS.html#questions-to-think-about",
+    "title": "Lab Week 03 GIS",
+    "section": "Questions to Think About",
+    "text": "Questions to Think About\nNow that you have produced the maps, take some time to reflect on the patterns. Discuss these with your lab partner or write short answers in your notebook.\n\n\n\n\n\n\nQ1: Spatial Shift Through the Day\n\n\n\nCompare the 7 am and 5 pm maps. Does the “centre of gravity” of pedestrian activity shift location between morning and evening? In which direction, and why?\n\n\n\n\n\n\n\n\nQ2: Morning vs Evening Symmetry\n\n\n\nAre the 7 am and 7 pm maps roughly symmetrical (similar numbers but reversed in time), or do they look different? What might explain any asymmetry?\n\n\n\n\n\n\n\n\nQ3: Lunchtime Hotspots\n\n\n\nAt 1 pm, which sensors show the highest counts? Are these the same sensors that dominate at 5 pm? What does this tell you about the difference between lunchtime foot traffic and commuter foot traffic?\n\n\n\n\n\n\n\n\nQ4: Waterfront vs Queen Street\n\n\n\nCompare the Quay Street sensors (waterfront) with the Queen Street sensors (retail corridor). Do they follow the same daily pattern, or do they peak at different times? What urban functions might explain the difference?\n\n\n\n\n\n\n\n\nQ5: K Road vs CBD Core\n\n\n\nThe K Road sensors (150 and 183 K Road) are roughly 1.5 km south of the CBD core. How do their counts compare in absolute terms? Do they peak at the same hour as the CBD sensors?\n\n\n\n\n\n\n\n\nQ6: Aggregation Choices\n\n\n\nWe averaged across all 31 days in March. How might the maps change if you:\n\nUsed median instead of mean?\nSeparated weekdays from weekends?\nChose different hours (e.g. 8 am instead of 7 am)?\n\n\n\n\n\n\n\n\n\nQ7: Data Limitations\n\n\n\nThe sensors only capture 21 locations. How representative are these of pedestrian activity across the entire CBD? What additional data sources might help fill the gaps?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#extension-weekday-vs-weekend-comparison",
+    "href": "labs/lab-week03-GIS.html#extension-weekday-vs-weekend-comparison",
+    "title": "Lab Week 03 GIS",
+    "section": "Extension: Weekday vs Weekend Comparison",
+    "text": "Extension: Weekday vs Weekend Comparison\nIf you finish early, try producing two separate 2x4 grids: one for weekday March averages and one for weekend March averages.\n\nmarch[\"day_num\"] = march[\"Date\"].dt.dayofweek  # 0=Mon, 6=Sun\nmarch[\"is_weekend\"] = march[\"day_num\"] &gt;= 5\n\n# Weekday aggregation\nweekday_march = march[(march[\"is_weekend\"] == False) & (march[\"hour\"].isin(target_hours))]\nweekday_avg = weekday_march.groupby(\"hour\")[sensor_cols].mean().round(0)\n\n# Weekend aggregation\nweekend_march = march[(march[\"is_weekend\"] == True) & (march[\"hour\"].isin(target_hours))]\nweekend_avg = weekend_march.groupby(\"hour\")[sensor_cols].mean().round(0)\n\n# Reshape and merge with geo, then map both grids...\n\n\n\n\n\n\n\nWhat to Look For\n\n\n\nWeekend maps will likely show later morning peaks, reduced lunchtime activity, and a different spatial distribution, with waterfront and leisure areas gaining relative share while office-dominated corridors lose it.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-1-load-and-clean-the-data",
+    "href": "labs/lab-week03-GIS.html#step-1-load-and-clean-the-data",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 1: Load and Clean the Data",
+    "text": "Step 1: Load and Clean the Data\nWe start by loading the pedestrian counts and doing some basic cleaning.\n\nimport pandas as pd\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Load the pedestrian data\nped = pd.read_csv(\"data/akl_ped-2024.csv\")\n\n# Remove rows that are not actual data\nped = ped.dropna(subset=[\"Date\", \"Time\"]).copy()\nped = ped[ped[\"Date\"] != \"Daylight Savings\"].copy()\n\n# Convert the Date column to a proper date format\nped[\"Date\"] = pd.to_datetime(ped[\"Date\"])\n\n# Extract the hour number from the Time column (e.g. \"7:00-7:59\" becomes 7)\nped[\"hour\"] = ped[\"Time\"].str.split(\":\").str[0].astype(int)\n\n# Extract the month number (e.g. March = 3)\nped[\"month\"] = ped[\"Date\"].dt.month\n\nprint(f\"We have {ped.shape[0]} rows and {ped.shape[1]} columns\")\nped.head(3)\n\nWe have 8783 rows and 25 columns\n\n\n\n\n\n\n\n\n\nDate\nTime\n107 Quay Street\nTe Ara Tahuhu Walkway\nCommerce Street West\n7 Custom Street East\n45 Queen Street\n30 Queen Street\n19 Shortland Street\n2 High Street\n...\n8 Darby Street EW\n8 Darby Street NS\n261 Queen Street\n297 Queen Street\n150 K Road\n183 K Road\n188 Quay Street Lower Albert (EW)\n188 Quay Street Lower Albert (NS)\nhour\nmonth\n\n\n\n\n0\n2024-01-01\n6:00-6:59\n78.0\n53.0\n24.0\n9.0\n87.0\n67.0\n10.0\n11.0\n...\n8.0\n22.0\n75.0\n77.0\n15.0\n68.0\n53.0\n115.0\n6\n1\n\n\n1\n2024-01-01\n7:00-7:59\n201.0\n39.0\n29.0\n38.0\n143.0\n123.0\n12.0\n21.0\n...\n6.0\n21.0\n93.0\n73.0\n21.0\n56.0\n74.0\n81.0\n7\n1\n\n\n2\n2024-01-01\n8:00-8:59\n644.0\n55.0\n50.0\n52.0\n243.0\n291.0\n62.0\n23.0\n...\n9.0\n34.0\n186.0\n157.0\n31.0\n75.0\n132.0\n150.0\n8\n1\n\n\n\n\n3 rows × 25 columns",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-2-filter-to-march-and-pick-eight-hours",
+    "href": "labs/lab-week03-GIS.html#step-2-filter-to-march-and-pick-eight-hours",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 2: Filter to March and Pick Eight Hours",
+    "text": "Step 2: Filter to March and Pick Eight Hours\nWe want to focus on March 2024 and eight time slots that capture a full day: 7 am, 9 am, 11 am, 1 pm, 3 pm, 5 pm, 7 pm, and 9 pm.\n\n# Keep only March\nmarch = ped[ped[\"month\"] == 3].copy()\n\n# The eight hours we want\ntarget_hours = [7, 9, 11, 13, 15, 17, 19, 21]\n\n# Filter to just those hours\nmarch_filtered = march[march[\"hour\"].isin(target_hours)]\n\nprint(f\"March has {march.shape[0]} rows in total\")\nprint(f\"After filtering to our 8 hours: {march_filtered.shape[0]} rows\")\n\nMarch has 744 rows in total\nAfter filtering to our 8 hours: 248 rows",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-3-calculate-the-average-count-per-sensor-per-hour",
+    "href": "labs/lab-week03-GIS.html#step-3-calculate-the-average-count-per-sensor-per-hour",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 3: Calculate the Average Count per Sensor per Hour",
+    "text": "Step 3: Calculate the Average Count per Sensor per Hour\nMarch has 31 days, so each sensor has 31 readings for each hour. We take the mean to get a single “typical March day”.\n\n# These are the 21 sensor columns (everything after Date and Time)\nsensor_cols = ped.columns[2:23]\n\n# Group by hour, then take the mean of each sensor column\nhourly_avg = march_filtered.groupby(\"hour\")[sensor_cols].mean()\nhourly_avg = hourly_avg.round(0)\n\n# print(hourly_avg)  # un-comment this and have a go!",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-5-add-coordinates-and-make-a-geodataframe",
+    "href": "labs/lab-week03-GIS.html#step-5-add-coordinates-and-make-a-geodataframe",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 5: Add Coordinates and Make a GeoDataFrame",
+    "text": "Step 5: Add Coordinates and Make a GeoDataFrame\nThe pedestrian CSV has counts but no coordinates. A separate file tells us where each sensor is located. We merge them together and convert to a GeoDataFrame.\n\n# Load the sensor locations\ngeo = pd.read_csv(\"data/akl_ped-Geodata.csv\")\n\n# The file has some notes at the bottom; drop those\ngeo = geo.dropna(subset=[\"Latitude\", \"Longitude\"]).copy()\n\nprint(f\"We have coordinates for {len(geo)} sensors\")\ngeo.head()\n\nWe have coordinates for 21 sensors\n\n\n\n\n\n\n\n\n\nAddress\nLatitude\nLongitude\n\n\n\n\n0\n107 Quay Street\n-36.843015\n174.766494\n\n\n1\n188 Quay Street Lower Albert (EW)\n-36.843060\n174.765730\n\n\n2\n188 Quay Street Lower Albert (NS)\n-36.843060\n174.765730\n\n\n3\nTe Ara Tahuhu Walkway\n-36.844650\n174.769645\n\n\n4\nCommerce Street West\n-36.844912\n174.768065\n\n\n\n\n\n\n\n\n# Merge: attach coordinates to each row of our aggregated data\nmerged = hourly_long.merge(geo, on=\"Address\", how=\"inner\")\n\nprint(f\"After merging: {merged.shape[0]} rows, {merged['Address'].nunique()} sensors\")\nmerged.head()\n\nAfter merging: 168 rows, 21 sensors\n\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\nLatitude\nLongitude\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n-36.843015\n174.766494\n\n\n1\n9\n107 Quay Street\n535.0\n-36.843015\n174.766494\n\n\n2\n11\n107 Quay Street\n689.0\n-36.843015\n174.766494\n\n\n3\n13\n107 Quay Street\n885.0\n-36.843015\n174.766494\n\n\n4\n15\n107 Quay Street\n922.0\n-36.843015\n174.766494\n\n\n\n\n\n\n\n\n# Convert to a GeoDataFrame so we can map it\ngdf = gpd.GeoDataFrame(\n    merged,\n    geometry=gpd.points_from_xy(merged[\"Longitude\"], merged[\"Latitude\"]),\n    crs=\"EPSG:4326\"\n)\n\ngdf.head()\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\nLatitude\nLongitude\ngeometry\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n1\n9\n107 Quay Street\n535.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n2\n11\n107 Quay Street\n689.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n3\n13\n107 Quay Street\n885.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n4\n15\n107 Quay Street\n922.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-6-your-first-web-map",
+    "href": "labs/lab-week03-GIS.html#step-6-your-first-web-map",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 6: Your First Web Map",
+    "text": "Step 6: Your First Web Map\nLet us put the 5 pm data on an interactive web map. GeoPandas has a built-in function called .explore() that creates an interactive Leaflet map with one line of code.\n\n# Filter to just the 5 pm hour\nhour_17 = gdf[gdf[\"hour\"] == 17]\n\n# Create an interactive map!\nhour_17.explore(\n    column=\"avg_count\",\n    cmap=\"YlOrRd\",\n    tooltip=[\"Address\", \"avg_count\"],\n    tooltip_kwds={\"aliases\": [\"Sensor\", \"Avg Count\"]},\n    tiles=\"CartoDB positron\",\n    marker_kwds={\"radius\": 10},\n    legend=True,\n    legend_kwds={\"caption\": \"Avg Pedestrian Count (5 pm)\"},\n    style_kwds={\"weight\": 1, \"color\": \"black\"},\n)\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nHover over the dots to see which sensor they represent and how many pedestrians pass by. Zoom in and out to explore the CBD area.\n\n\n\n\n\n\nTry a Different Basemap\n\n\n\nChange tiles=\"CartoDB positron\" to one of these and re-run:\n\n\"OpenStreetMap\" (shows street detail)\n\"CartoDB dark_matter\" (dark theme)\n\nWhich basemap makes the pedestrian data easiest to read?\n\n\nYour turn: Change hour == 17 to hour == 7 to see the 7 am pattern. How does it differ from 5 pm?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-7-web-map-with-sized-circles",
+    "href": "labs/lab-week03-GIS.html#step-7-web-map-with-sized-circles",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 7: Web Map with Sized Circles",
+    "text": "Step 7: Web Map with Sized Circles\nThe .explore() map uses the same dot size for every sensor. We can use the folium library to draw circles whose size reflects the pedestrian count, making busy sensors visually larger.\n\nimport folium\n\n# Create a base map centred on Auckland CBD\nm = folium.Map(\n    location=[-36.849, 174.765],\n    zoom_start=15,\n    tiles=\"CartoDB positron\"\n)\n\n# Filter to 5 pm\nhour_17 = gdf[gdf[\"hour\"] == 17]\n\n# Add a circle for each sensor.\n# Don't worry about this loop syntax for now -- just run it!\n# It goes through each sensor one at a time and places a circle on the map.\nfor _, row in hour_17.iterrows():\n    folium.CircleMarker(\n        location=[row[\"Latitude\"], row[\"Longitude\"]],\n        radius=row[\"avg_count\"] / 80,       # bigger count = bigger circle\n        color=\"black\",\n        weight=0.5,\n        fill=True,\n        fill_color=\"red\",\n        fill_opacity=0.6,\n        tooltip=f\"{row['Address']}: {int(row['avg_count'])} avg/hr\"\n    ).add_to(m)\n\nm\n\nMake this Notebook Trusted to load map: File -&gt; Trust Notebook\n\n\nYour turn: Try mapping hour == 13 (1 pm lunchtime). Which sensors have the biggest circles? Are they the same ones as at 5 pm?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-8-static-map-of-a-single-hour",
+    "href": "labs/lab-week03-GIS.html#step-8-static-map-of-a-single-hour",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 8: Static Map of a Single Hour",
+    "text": "Step 8: Static Map of a Single Hour\nInteractive maps are great for exploration, but static maps are better for reports and comparisons. Here is the 5 pm data as a static matplotlib plot.\n\nhour_17 = gdf[gdf[\"hour\"] == 17]\n\nfig, ax = plt.subplots(figsize=(8, 8))\n\nhour_17.plot(\n    ax=ax,\n    column=\"avg_count\",\n    cmap=\"YlOrRd\",\n    markersize=hour_17[\"avg_count\"] / 3,\n    edgecolor=\"black\",\n    linewidth=0.5,\n    legend=True,\n    legend_kwds={\"label\": \"Avg Pedestrian Count\", \"shrink\": 0.6}\n)\n\nax.set_title(\"Average Pedestrian Count at 5 pm (March 2024)\", fontweight=\"bold\")\nax.set_axis_off()\nax.set_aspect(\"equal\")\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-9-compare-two-hours-side-by-side",
+    "href": "labs/lab-week03-GIS.html#step-9-compare-two-hours-side-by-side",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 9: Compare Two Hours Side by Side",
+    "text": "Step 9: Compare Two Hours Side by Side\nA useful way to see change through the day is to place two maps next to each other.\n\n# Pick two hours to compare\nmorning = gdf[gdf[\"hour\"] == 7]\nevening = gdf[gdf[\"hour\"] == 17]\n\n# Use a consistent colour scale so the maps are comparable\nvmin = gdf[\"avg_count\"].min()\nvmax = gdf[\"avg_count\"].max()\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))\n\n# Morning map\nmorning.plot(\n    ax=ax1,\n    column=\"avg_count\",\n    cmap=\"YlOrRd\",\n    markersize=morning[\"avg_count\"] / 3,\n    edgecolor=\"black\",\n    linewidth=0.3,\n    vmin=vmin,\n    vmax=vmax,\n    legend=False\n)\nax1.set_title(\"7 am\", fontsize=14, fontweight=\"bold\")\nax1.set_axis_off()\nax1.set_aspect(\"equal\")\n\n# Evening map\nevening.plot(\n    ax=ax2,\n    column=\"avg_count\",\n    cmap=\"YlOrRd\",\n    markersize=evening[\"avg_count\"] / 3,\n    edgecolor=\"black\",\n    linewidth=0.3,\n    vmin=vmin,\n    vmax=vmax,\n    legend=False\n)\nax2.set_title(\"5 pm\", fontsize=14, fontweight=\"bold\")\nax2.set_axis_off()\nax2.set_aspect(\"equal\")\n\nplt.suptitle(\"Auckland CBD: Morning vs Evening (March 2024)\", fontsize=15, fontweight=\"bold\")\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\nYour turn: Change the two hours to compare lunchtime (13) vs late evening (21). What do you notice?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#step-10-which-sensors-are-busiest",
+    "href": "labs/lab-week03-GIS.html#step-10-which-sensors-are-busiest",
+    "title": "Lab Week 03 GIS",
+    "section": "Step 10: Which Sensors Are Busiest?",
+    "text": "Step 10: Which Sensors Are Busiest?\nLet us find out which sensors see the most foot traffic overall.\n\n# Sum each sensor's average counts across all 8 time slots\ntotal_by_sensor = gdf.groupby(\"Address\")[\"avg_count\"].sum().sort_values(ascending=False)\n\nprint(\"Top 5 busiest sensors:\")\nprint(total_by_sensor.head())\nprint()\nprint(\"Bottom 5 quietest sensors:\")\nprint(total_by_sensor.tail())\n\nTop 5 busiest sensors:\nAddress\n30 Queen Street     9014.0\n210 Queen Street    7855.0\n261 Queen Street    7829.0\n45 Queen Street     6548.0\n107 Quay Street     5353.0\nName: avg_count, dtype: float64\n\nBottom 5 quietest sensors:\nAddress\nCommerce Street West    1587.0\n150 K Road              1516.0\n2 High Street           1299.0\n1 Courthouse Lane        681.0\n8 Darby Street EW        660.0\nName: avg_count, dtype: float64\n\n\n\n# A simple bar chart of total counts\nfig, ax = plt.subplots(figsize=(8, 6))\ntotal_by_sensor.sort_values().plot.barh(ax=ax, color=\"steelblue\", edgecolor=\"white\")\nax.set_xlabel(\"Total Avg Count (8 time slots)\")\nax.set_title(\"Sensor Ranking: Total Pedestrian Activity (March 2024)\", fontweight=\"bold\")\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week03-GIS.html#extension-weekday-vs-weekend",
+    "href": "labs/lab-week03-GIS.html#extension-weekday-vs-weekend",
+    "title": "Lab Week 03 GIS",
+    "section": "Extension: Weekday vs Weekend",
+    "text": "Extension: Weekday vs Weekend\nIf you finish early, try splitting March into weekdays and weekends and comparing the maps.\n\n# Add a day-of-week number: 0 = Monday, 6 = Sunday\nmarch[\"day_num\"] = march[\"Date\"].dt.dayofweek\n\n# Create a weekend flag\nmarch[\"is_weekend\"] = march[\"day_num\"] &gt;= 5\n\n# Weekday average\nweekday_data = march[(march[\"is_weekend\"] == False) & (march[\"hour\"].isin(target_hours))]\nweekday_avg = weekday_data.groupby(\"hour\")[sensor_cols].mean().round(0)\n\n# Weekend average\nweekend_data = march[(march[\"is_weekend\"] == True) & (march[\"hour\"].isin(target_hours))]\nweekend_avg = weekend_data.groupby(\"hour\")[sensor_cols].mean().round(0)\n\n# Then reshape, merge with geo, and map as before...\n\n\n\n\n\n\n\nWhat to Look For\n\n\n\nWeekend maps will likely show later morning peaks, reduced lunchtime activity, and a different spatial pattern: waterfront and leisure areas gaining share while office corridors lose it.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 03 GIS"
     ]
   }
 ]

@@ -397,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="task-1-variables-and-data-types" class="level2">
 <h2 class="anchored" data-anchor-id="task-1-variables-and-data-types">Task 1: Variables and Data Types</h2>
 <p>Create variables that describe one of the pedestrian sensors. Use appropriate types: <code>str</code> for text, <code>int</code> for whole numbers, <code>float</code> for decimal numbers, and <code>bool</code> for true/false.</p>
-<div id="50592476" class="cell" data-execution_count="1">
+<div id="507a0d8f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sensor_name <span class="op">=</span> <span class="st">"45 Queen Street"</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sensor_id <span class="op">=</span> <span class="dv">5</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>avg_hourly_count <span class="op">=</span> <span class="fl">487.3</span></span>
@@ -434,7 +434,7 @@ f-strings
 <section id="task-2-lists" class="level2">
 <h2 class="anchored" data-anchor-id="task-2-lists">Task 2: Lists</h2>
 <p>Lists store ordered sequences of items. They are fundamental to working with collections of sensor names, count values, and time periods.</p>
-<div id="2ad810fe" class="cell" data-execution_count="2">
+<div id="f6f3b6b0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Auckland CBD sensor locations</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>locations <span class="op">=</span> [</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"107 Quay Street"</span>,</span>
@@ -458,7 +458,7 @@ Total locations: 5
 Middle three: ['45 Queen Street', '30 Queen Street', '2 High Street']</code></pre>
 </div>
 </div>
-<div id="7ee39d94" class="cell" data-execution_count="3">
+<div id="2717ca8e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hourly counts for 107 Quay Street on 1 Jan 2024 (6am-9pm)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> [<span class="dv">78</span>, <span class="dv">201</span>, <span class="dv">644</span>, <span class="dv">394</span>, <span class="dv">861</span>, <span class="dv">1283</span>, <span class="dv">1335</span>, <span class="dv">1423</span>, <span class="dv">1159</span>, <span class="dv">1005</span>, <span class="dv">995</span>, <span class="dv">780</span>, <span class="dv">602</span>, <span class="dv">498</span>, <span class="dv">310</span>, <span class="dv">195</span>]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>hours <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">6</span>, <span class="dv">22</span>))</span>
@@ -474,128 +474,130 @@ Minimum count: 78
 Total daily: 11,763</code></pre>
 </div>
 </div>
-<p><strong>Your turn:</strong> Create a list of the hour labels (e.g., <code>"6:00-6:59"</code>, <code>"7:00-7:59"</code>, …, <code>"21:00-21:59"</code>) using a list comprehension. Hint: <code>[f"{h}:00-{h}:59" for h in range(6, 22)]</code>.</p>
+<p><strong>Your turn:</strong> Create a new list that contains only the counts above 500. Use a <code>for</code> loop and an <code>if</code> statement to build the list. How many hours had more than 500 pedestrians?</p>
 </section>
 <section id="task-3-loops" class="level2">
 <h2 class="anchored" data-anchor-id="task-3-loops">Task 3: Loops</h2>
 <p>Loops let you repeat operations across collections. When working with pedestrian data, you will frequently iterate through locations, time periods, or rows of a table.</p>
-<div id="e1c2e965" class="cell" data-execution_count="4">
+<div id="455e7e2f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>locations <span class="op">=</span> [<span class="st">"107 Quay Street"</span>, <span class="st">"45 Queen Street"</span>, <span class="st">"30 Queen Street"</span>, <span class="st">"2 High Street"</span>, <span class="st">"150 K Road"</span>]</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>peak_counts <span class="op">=</span> [<span class="dv">1423</span>, <span class="dv">1076</span>, <span class="dv">1245</span>, <span class="dv">129</span>, <span class="dv">381</span>]</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== Peak Hourly Counts ==="</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, loc <span class="kw">in</span> <span class="bu">enumerate</span>(locations):</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">. </span><span class="sc">{</span>loc<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>peak_counts[i]<span class="sc">:,}</span><span class="ss">"</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Total across 5 sensors: </span><span class="sc">{</span><span class="bu">sum</span>(peak_counts)<span class="sc">:,}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== Sensor Locations ==="</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> loc <span class="kw">in</span> locations:</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  - </span><span class="sc">{</span>loc<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Total locations: </span><span class="sc">{</span><span class="bu">len</span>(locations)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>=== Peak Hourly Counts ===
-  1. 107 Quay Street: 1,423
-  2. 45 Queen Street: 1,076
-  3. 30 Queen Street: 1,245
-  4. 2 High Street: 129
-  5. 150 K Road: 381
+<pre><code>=== Sensor Locations ===
+  - 107 Quay Street
+  - 45 Queen Street
+  - 30 Queen Street
+  - 2 High Street
+  - 150 K Road
 
-Total across 5 sensors: 4,254</code></pre>
+Total locations: 5</code></pre>
 </div>
 </div>
-<div id="3e687081" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate a running total</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>running_total <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> count <span class="kw">in</span> peak_counts:</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    running_total <span class="op">+=</span> count</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Adding </span><span class="sc">{</span>count<span class="sc">:,}</span><span class="ss"> -&gt; Running total: </span><span class="sc">{</span>running_total<span class="sc">:,}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="34fcf4e1" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through a list of counts</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>peak_counts <span class="op">=</span> [<span class="dv">1423</span>, <span class="dv">1076</span>, <span class="dv">1245</span>, <span class="dv">129</span>, <span class="dv">381</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> count <span class="kw">in</span> peak_counts:</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> total <span class="op">+</span> count</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  Adding </span><span class="sc">{</span>count<span class="sc">:,}</span><span class="ss"> -&gt; Running total: </span><span class="sc">{</span>total<span class="sc">:,}</span><span class="ss">"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Grand total: </span><span class="sc">{</span>total<span class="sc">:,}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Adding 1,423 -&gt; Running total: 1,423
   Adding 1,076 -&gt; Running total: 2,499
   Adding 1,245 -&gt; Running total: 3,744
   Adding 129 -&gt; Running total: 3,873
-  Adding 381 -&gt; Running total: 4,254</code></pre>
+  Adding 381 -&gt; Running total: 4,254
+
+Grand total: 4,254</code></pre>
 </div>
 </div>
-<p><strong>Your turn:</strong> Write a loop that prints each sensor location alongside the percentage of the total peak count it represents. For example, “107 Quay Street: 33.4%”.</p>
+<p><strong>Your turn:</strong> Write a loop that prints only the locations with a peak count above 500. Hint: use <code>zip(locations, peak_counts)</code> to pair each name with its count.</p>
 </section>
 <section id="task-4-conditionals" class="level2">
 <h2 class="anchored" data-anchor-id="task-4-conditionals">Task 4: Conditionals</h2>
 <p>Conditionals let you make decisions in code. In pedestrian analysis, you frequently need to classify counts, flag anomalies, or filter by thresholds.</p>
-<div id="203377cc" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sensor_counts <span class="op">=</span> {</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"107 Quay Street"</span>: <span class="dv">1423</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"45 Queen Street"</span>: <span class="dv">1076</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"30 Queen Street"</span>: <span class="dv">1245</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"2 High Street"</span>: <span class="dv">129</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"150 K Road"</span>: <span class="dv">381</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"61 Federal Street"</span>: <span class="dv">141</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"19 Shortland Street"</span>: <span class="dv">176</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== Traffic Classification ==="</span>)</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> loc, count <span class="kw">in</span> sensor_counts.items():</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> count <span class="op">&gt;</span> <span class="dv">1000</span>:</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        level <span class="op">=</span> <span class="st">"HIGH"</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> count <span class="op">&gt;</span> <span class="dv">300</span>:</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        level <span class="op">=</span> <span class="st">"MEDIUM"</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        level <span class="op">=</span> <span class="st">"LOW"</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>loc<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>count<span class="sc">:,}</span><span class="ss"> -&gt; </span><span class="sc">{</span>level<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e4bb74fe" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> [<span class="dv">1423</span>, <span class="dv">1076</span>, <span class="dv">1245</span>, <span class="dv">129</span>, <span class="dv">381</span>, <span class="dv">141</span>, <span class="dv">176</span>]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"=== Traffic Classification ==="</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> count <span class="kw">in</span> counts:</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> count <span class="op">&gt;</span> <span class="dv">1000</span>:</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        level <span class="op">=</span> <span class="st">"HIGH"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> count <span class="op">&gt;</span> <span class="dv">300</span>:</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        level <span class="op">=</span> <span class="st">"MEDIUM"</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        level <span class="op">=</span> <span class="st">"LOW"</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>count<span class="sc">:,}</span><span class="ss"> pedestrians -&gt; </span><span class="sc">{</span>level<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>=== Traffic Classification ===
-  107 Quay Street: 1,423 -&gt; HIGH
-  45 Queen Street: 1,076 -&gt; HIGH
-  30 Queen Street: 1,245 -&gt; HIGH
-  2 High Street: 129 -&gt; LOW
-  150 K Road: 381 -&gt; MEDIUM
-  61 Federal Street: 141 -&gt; LOW
-  19 Shortland Street: 176 -&gt; LOW</code></pre>
+  1,423 pedestrians -&gt; HIGH
+  1,076 pedestrians -&gt; HIGH
+  1,245 pedestrians -&gt; HIGH
+  129 pedestrians -&gt; LOW
+  381 pedestrians -&gt; MEDIUM
+  141 pedestrians -&gt; LOW
+  176 pedestrians -&gt; LOW</code></pre>
 </div>
 </div>
-<div id="8914c2e7" class="cell" data-execution_count="7">
+<div id="a63f44d7" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count how many locations fall into each category</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>high <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> c <span class="kw">in</span> sensor_counts.values() <span class="cf">if</span> c <span class="op">&gt;</span> <span class="dv">1000</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>med <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> c <span class="kw">in</span> sensor_counts.values() <span class="cf">if</span> <span class="dv">300</span> <span class="op">&lt;</span> c <span class="op">&lt;=</span> <span class="dv">1000</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>low <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> c <span class="kw">in</span> sensor_counts.values() <span class="cf">if</span> c <span class="op">&lt;=</span> <span class="dv">300</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>high <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>med <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>low <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">High traffic: </span><span class="sc">{</span>high<span class="sc">}</span><span class="ss"> locations"</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Medium traffic: </span><span class="sc">{</span>med<span class="sc">}</span><span class="ss"> locations"</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Low traffic: </span><span class="sc">{</span>low<span class="sc">}</span><span class="ss"> locations"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> count <span class="kw">in</span> counts:</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> count <span class="op">&gt;</span> <span class="dv">1000</span>:</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        high <span class="op">=</span> high <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> count <span class="op">&gt;</span> <span class="dv">300</span>:</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        med <span class="op">=</span> med <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        low <span class="op">=</span> low <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"High traffic: </span><span class="sc">{</span>high<span class="sc">}</span><span class="ss"> locations"</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Medium traffic: </span><span class="sc">{</span>med<span class="sc">}</span><span class="ss"> locations"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Low traffic: </span><span class="sc">{</span>low<span class="sc">}</span><span class="ss"> locations"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-High traffic: 3 locations
+<pre><code>High traffic: 3 locations
 Medium traffic: 1 locations
 Low traffic: 3 locations</code></pre>
 </div>
 </div>
-<p><strong>Your turn:</strong> Modify the thresholds so that “HIGH” is above 800, “MEDIUM” is 200-800, and “LOW” is below 200. How does the classification change?</p>
+<p><strong>Your turn:</strong> Change the thresholds so that “HIGH” is above 800, “MEDIUM” is 200 to 800, and “LOW” is below 200. How does the classification change?</p>
 </section>
 <section id="task-5-combining-concepts" class="level2">
 <h2 class="anchored" data-anchor-id="task-5-combining-concepts">Task 5: Combining Concepts</h2>
 <p>Now combine variables, lists, loops, and conditionals in a single task.</p>
-<div id="b228429c" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulated hourly data for 107 Quay Street (1 Jan 2024, 6am-9pm)</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>hours <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">6</span>, <span class="dv">22</span>))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> [<span class="dv">78</span>, <span class="dv">201</span>, <span class="dv">644</span>, <span class="dv">394</span>, <span class="dv">861</span>, <span class="dv">1283</span>, <span class="dv">1335</span>, <span class="dv">1423</span>, <span class="dv">1159</span>, <span class="dv">1005</span>, <span class="dv">995</span>, <span class="dv">780</span>, <span class="dv">602</span>, <span class="dv">498</span>, <span class="dv">310</span>, <span class="dv">195</span>]</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>peak_hour <span class="op">=</span> hours[<span class="dv">0</span>]</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>peak_count <span class="op">=</span> counts[<span class="dv">0</span>]</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>off_peak_hours <span class="op">=</span> []</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(hours)):</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> counts[i] <span class="op">&gt;</span> peak_count:</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        peak_count <span class="op">=</span> counts[i]</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        peak_hour <span class="op">=</span> hours[i]</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> counts[i] <span class="op">&lt;</span> <span class="dv">300</span>:</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        off_peak_hours.append(hours[i])</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Peak hour: </span><span class="sc">{</span>peak_hour<span class="sc">}</span><span class="ss">:00 with </span><span class="sc">{</span>peak_count<span class="sc">:,}</span><span class="ss"> pedestrians"</span>)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Off-peak hours (&lt; 300): </span><span class="sc">{</span>[<span class="ss">f'</span><span class="sc">{</span>h<span class="sc">}</span><span class="ss">:00'</span> <span class="cf">for</span> h <span class="kw">in</span> off_peak_hours]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average count: </span><span class="sc">{</span><span class="bu">sum</span>(counts) <span class="op">/</span> <span class="bu">len</span>(counts)<span class="sc">:,.0f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1c589192" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hourly data for 107 Quay Street (1 Jan 2024, 6am-9pm)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> [<span class="dv">78</span>, <span class="dv">201</span>, <span class="dv">644</span>, <span class="dv">394</span>, <span class="dv">861</span>, <span class="dv">1283</span>, <span class="dv">1335</span>, <span class="dv">1423</span>, <span class="dv">1159</span>, <span class="dv">1005</span>, <span class="dv">995</span>, <span class="dv">780</span>, <span class="dv">602</span>, <span class="dv">498</span>, <span class="dv">310</span>, <span class="dv">195</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the peak count and off-peak hours</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>peak_count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>off_peak <span class="op">=</span> []</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> count <span class="kw">in</span> counts:</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> count <span class="op">&gt;</span> peak_count:</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        peak_count <span class="op">=</span> count</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> count <span class="op">&lt;</span> <span class="dv">300</span>:</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>        off_peak.append(count)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Peak count: </span><span class="sc">{</span>peak_count<span class="sc">:,}</span><span class="ss"> pedestrians"</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of off-peak hours (&lt; 300): </span><span class="sc">{</span><span class="bu">len</span>(off_peak)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average count: </span><span class="sc">{</span><span class="bu">sum</span>(counts) <span class="op">/</span> <span class="bu">len</span>(counts)<span class="sc">:,.0f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Peak hour: 13:00 with 1,423 pedestrians
-Off-peak hours (&lt; 300): ['6:00', '7:00', '21:00']
+<pre><code>Peak count: 1,423 pedestrians
+Number of off-peak hours (&lt; 300): 3
 Average count: 735</code></pre>
 </div>
 </div>
-<p><strong>Your turn:</strong> Find the two consecutive hours with the highest combined count. For example, if hour 12 has 1,335 and hour 13 has 1,423, their combined count is 2,758. Which consecutive pair is the busiest?</p>
+<p><strong>Your turn:</strong> Write a loop that builds a new list containing only the counts above 1,000. How many hours had more than 1,000 pedestrians?</p>
 <hr>
 </section>
 </section>
@@ -604,12 +606,12 @@ Average count: 735</code></pre>
 <p>Now we move from basic Python to structured data analysis with pandas. Everything you practised in Part 2.1 (variables, lists, loops, conditionals) will reappear here, but pandas gives you far more powerful tools for working with tabular data.</p>
 <section id="task-6-importing-libraries-and-reading-data" class="level2">
 <h2 class="anchored" data-anchor-id="task-6-importing-libraries-and-reading-data">Task 6: Importing Libraries and Reading Data</h2>
-<div id="7d04a4ce" class="cell" data-execution_count="9">
+<div id="64af4fd6" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>import ... as ...</code> syntax loads an external library and assigns it a short alias. <code>pd</code> for pandas and <code>np</code> for numpy are universal conventions that you will see in virtually every data science tutorial and textbook.</p>
-<div id="6d985504" class="cell" data-execution_count="10">
+<div id="f1493450" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/dataandcrowd/GISCI343/refs/heads/main/pedestrians/akl_ped-2024.csv"</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> pd.read_csv(url)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Shape: </span><span class="sc">{</span>ped<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -620,7 +622,7 @@ Rows: 8795, Columns: 23</code></pre>
 </div>
 </div>
 <p>The <code>.shape</code> attribute returns a tuple of (rows, columns). With 5,856 rows and 23 columns, each row represents one hour at one date, and the 23 columns include Date, Time, and 21 sensor locations.</p>
-<div id="e8bd0d2e" class="cell" data-execution_count="11">
+<div id="3bf147d3" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ped.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
@@ -786,7 +788,7 @@ Rows: 8795, Columns: 23</code></pre>
 <section id="task-7-exploring-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="task-7-exploring-the-data">Task 7: Exploring the Data</h2>
 <p>Before any analysis, you need to understand the structure, types, and quality of your data.</p>
-<div id="6483803d" class="cell" data-execution_count="12">
+<div id="22f56647" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ped.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -822,7 +824,7 @@ memory usage: 1.5+ MB</code></pre>
 </div>
 </div>
 <p>The <code>.info()</code> method tells you: the number of non-null values per column (which reveals missing data), the data type of each column, and the memory usage. Notice that Date is stored as an <code>object</code> (text), not as a datetime. We will fix that shortly.</p>
-<div id="a6dbeb93" class="cell" data-execution_count="13">
+<div id="fecebc06" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ped.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <div>
@@ -1056,7 +1058,7 @@ memory usage: 1.5+ MB</code></pre>
 </div>
 </div>
 <p><code>.describe()</code> provides summary statistics for all numeric columns: count, mean, standard deviation, min, max, and quartiles. Scan through these values. Are there any suspiciously low counts (possibly sensor outages) or unusually high values (possible data errors)?</p>
-<div id="ac1ffe80" class="cell" data-execution_count="14">
+<div id="c068e198" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many sensor locations?</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>sensor_cols <span class="op">=</span> ped.columns[<span class="dv">2</span>:]  <span class="co"># Everything after Date and Time</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sensor locations: </span><span class="sc">{</span><span class="bu">len</span>(sensor_cols)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -1108,7 +1110,7 @@ Spot the Typo
 <section id="task-8-selecting-columns-and-rows" class="level2">
 <h2 class="anchored" data-anchor-id="task-8-selecting-columns-and-rows">Task 8: Selecting Columns and Rows</h2>
 <p>Selecting subsets of data is one of the most frequent operations in pandas.</p>
-<div id="b13f9d2f" class="cell" data-execution_count="15">
+<div id="61f57828" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a single column (returns a Series)</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>queen45 <span class="op">=</span> ped[<span class="st">"45 Queen Street"</span>]</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(queen45))</span>
@@ -1123,7 +1125,7 @@ Spot the Typo
 Name: 45 Queen Street, dtype: float64</code></pre>
 </div>
 </div>
-<div id="daabf642" class="cell" data-execution_count="16">
+<div id="ed280a77" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select multiple columns (returns a DataFrame)</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>subset <span class="op">=</span> ped[[<span class="st">"Date"</span>, <span class="st">"Time"</span>, <span class="st">"45 Queen Street"</span>, <span class="st">"30 Queen Street"</span>]]</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>subset.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1183,7 +1185,7 @@ Name: 45 Queen Street, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="c2d1c333" class="cell" data-execution_count="17">
+<div id="81a8c996" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select by position with .iloc[]</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co"># First 5 rows, first 4 columns</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>ped.iloc[<span class="dv">0</span>:<span class="dv">5</span>, <span class="dv">0</span>:<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1243,7 +1245,7 @@ Name: 45 Queen Street, dtype: float64</code></pre>
 </div>
 </div>
 </div>
-<div id="5c774dd0" class="cell" data-execution_count="18">
+<div id="2ccaedf6" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select by label with .loc[]</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># All rows, specific columns</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>ped.loc[:, [<span class="st">"Date"</span>, <span class="st">"Time"</span>, <span class="st">"150 K Road"</span>]].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1302,7 +1304,7 @@ Name: 45 Queen Street, dtype: float64</code></pre>
 <section id="task-9-filtering-rows-with-boolean-indexing" class="level2">
 <h2 class="anchored" data-anchor-id="task-9-filtering-rows-with-boolean-indexing">Task 9: Filtering Rows with Boolean Indexing</h2>
 <p>Boolean indexing is the pandas equivalent of the <code>if</code> statements you wrote in Part 2.1, but applied to entire columns at once.</p>
-<div id="328bee2f" class="cell" data-execution_count="19">
+<div id="59cbbd5d" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Where was 45 Queen Street count above 1000?</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>high_traffic <span class="op">=</span> ped[ped[<span class="st">"45 Queen Street"</span>] <span class="op">&gt;</span> <span class="dv">1000</span>]</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Hours with &gt;1000 pedestrians at 45 Queen St: </span><span class="sc">{</span><span class="bu">len</span>(high_traffic)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1310,7 +1312,7 @@ Name: 45 Queen Street, dtype: float64</code></pre>
 <pre><code>Hours with &gt;1000 pedestrians at 45 Queen St: 1968</code></pre>
 </div>
 </div>
-<div id="06ababbd" class="cell" data-execution_count="20">
+<div id="ba7d7b6e" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple conditions: use &amp; (and), | (or), with parentheses</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>busy_both <span class="op">=</span> ped[</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    (ped[<span class="st">"45 Queen Street"</span>] <span class="op">&gt;</span> <span class="dv">500</span>) <span class="op">&amp;</span></span>
@@ -1321,7 +1323,7 @@ Name: 45 Queen Street, dtype: float64</code></pre>
 <pre><code>Hours where BOTH Queen St sensors &gt; 500: 4527</code></pre>
 </div>
 </div>
-<div id="9a0adb4f" class="cell" data-execution_count="21">
+<div id="f5f7b3a2" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The .query() method is an alternative syntax (often more readable)</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> ped.query(<span class="st">"`45 Queen Street` &gt; 1000 and `30 Queen Street` &gt; 800"</span>)</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Both high: </span><span class="sc">{</span><span class="bu">len</span>(result)<span class="sc">}</span><span class="ss"> rows"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1347,7 +1349,7 @@ Backticks in .query()
 <section id="task-10-creating-new-columns" class="level2">
 <h2 class="anchored" data-anchor-id="task-10-creating-new-columns">Task 10: Creating New Columns</h2>
 <p>Adding computed columns transforms raw data into analysis-ready features.</p>
-<div id="c3a0508f" class="cell" data-execution_count="22">
+<div id="ed23f705" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The CSV contains a "Daylight Savings" marker row and 11 blank separator rows.</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop all non-data rows before converting.</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>ped <span class="op">=</span> ped.dropna(subset<span class="op">=</span>[<span class="st">"Date"</span>, <span class="st">"Time"</span>]).copy()</span>
@@ -1467,7 +1469,7 @@ Backticks in .query()
 </div>
 </div>
 </div>
-<div id="0b7859e1" class="cell" data-execution_count="23">
+<div id="f31c651f" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a total count across all sensors</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>ped[<span class="st">"total_count"</span>] <span class="op">=</span> ped[sensor_cols].<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1483,7 +1485,7 @@ Lowest single-hour total: 101</code></pre>
 <section id="task-11-the-importance-of-.copy" class="level2">
 <h2 class="anchored" data-anchor-id="task-11-the-importance-of-.copy">Task 11: The Importance of .copy()</h2>
 <p>When you slice a DataFrame, pandas sometimes returns a <em>view</em> (a window into the original) rather than an independent copy. Modifying a view can accidentally change your original data.</p>
-<div id="314f1301" class="cell" data-execution_count="24">
+<div id="5ba54bb3" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Safe: always use .copy() when creating subsets you will modify</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>january <span class="op">=</span> ped[ped[<span class="st">"month"</span>] <span class="op">==</span> <span class="dv">1</span>].copy()</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>january[<span class="st">"season"</span>] <span class="op">=</span> <span class="st">"Summer"</span></span>
@@ -1513,7 +1515,7 @@ Rule of Thumb
 <section id="task-12-grouping-and-aggregation" class="level2">
 <h2 class="anchored" data-anchor-id="task-12-grouping-and-aggregation">Task 12: Grouping and Aggregation</h2>
 <p><code>.groupby()</code> splits data into groups, applies a function, and combines results. This is how you answer questions like “what is the average count per month?” or “which hour is busiest on weekdays?”</p>
-<div id="85add683" class="cell" data-execution_count="25">
+<div id="9b461ea0" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average hourly count by month for 45 Queen Street</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>monthly_avg <span class="op">=</span> ped.groupby(<span class="st">"month"</span>)[<span class="st">"45 Queen Street"</span>].mean()</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(monthly_avg.<span class="bu">round</span>(<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1534,7 +1536,7 @@ Rule of Thumb
 Name: 45 Queen Street, dtype: float64</code></pre>
 </div>
 </div>
-<div id="2aea7ff2" class="cell" data-execution_count="26">
+<div id="dedeec17" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average by hour across all sensors</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>hourly_avg <span class="op">=</span> ped.groupby(<span class="st">"hour"</span>)[sensor_cols.tolist()].mean()</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>hourly_total <span class="op">=</span> hourly_avg.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1546,7 +1548,7 @@ Busiest hour (all sensors): 17:00
 Quietest hour (all sensors): 4:00</code></pre>
 </div>
 </div>
-<div id="a4ec3443" class="cell" data-execution_count="27">
+<div id="a1b59c46" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple aggregations at once</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>agg_stats <span class="op">=</span> ped.groupby(<span class="st">"month"</span>)[<span class="st">"45 Queen Street"</span>].agg([<span class="st">"mean"</span>, <span class="st">"median"</span>, <span class="st">"std"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>])</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>agg_stats.<span class="bu">round</span>(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1681,7 +1683,7 @@ Quietest hour (all sensors): 4:00</code></pre>
 <section id="task-13-reshaping-data-wide-to-long" class="level2">
 <h2 class="anchored" data-anchor-id="task-13-reshaping-data-wide-to-long">Task 13: Reshaping Data (Wide to Long)</h2>
 <p>The CSV is in <strong>wide format</strong>: each sensor is its own column. Many analysis and plotting tasks work better with <strong>long format</strong>, where each row represents a single sensor-time observation.</p>
-<div id="bcc5d4de" class="cell" data-execution_count="28">
+<div id="f7ec5e6d" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Melt from wide to long</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>ped_long <span class="op">=</span> pd.melt(</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    ped,</span>
@@ -1778,7 +1780,7 @@ Long shape: (184443, 8)</code></pre>
 </div>
 </div>
 </div>
-<div id="174e7266" class="cell" data-execution_count="29">
+<div id="239efc6f" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we can easily group by location</span></span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>location_avg <span class="op">=</span> ped_long.groupby(<span class="st">"location"</span>)[<span class="st">"count"</span>].mean().sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top 5 busiest locations (average hourly count):"</span>)</span>
@@ -1799,7 +1801,7 @@ Name: count, dtype: float64</code></pre>
 <section id="task-14-handling-missing-data" class="level2">
 <h2 class="anchored" data-anchor-id="task-14-handling-missing-data">Task 14: Handling Missing Data</h2>
 <p>Real sensor data almost always has gaps: equipment failures, maintenance windows, or transmission errors. After our earlier cleaning step (dropping blank rows and the Daylight Savings marker), this particular dataset happens to be complete. Let us verify that first, and then deliberately introduce gaps so we can practise imputation strategies you will need in other projects.</p>
-<div id="06a871c2" class="cell" data-execution_count="30">
+<div id="fecf4939" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values across all sensor columns</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>missing <span class="op">=</span> ped[sensor_cols].isna().<span class="bu">sum</span>()</span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Total missing cells: </span><span class="sc">{</span>missing<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1808,7 +1810,7 @@ Name: count, dtype: float64</code></pre>
 </div>
 </div>
 <p>Good news: zero missing values. But you will rarely be this lucky. To practise imputation, we will create a copy of one sensor’s data and knock out a block of hours to simulate a sensor outage.</p>
-<div id="c2817371" class="cell" data-execution_count="31">
+<div id="3dec5091" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate a sensor outage: remove hours 10-15 on a busy weekday</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>sensor <span class="op">=</span> <span class="st">"45 Queen Street"</span></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> ped[[<span class="st">"Date"</span>, <span class="st">"Time"</span>, <span class="st">"hour"</span>, sensor]].copy()</span>
@@ -1835,14 +1837,14 @@ True values we are hiding:
 </div>
 </div>
 <p>Now we have a realistic gap: six consecutive hours of missing data during peak time, but we know the true values. Let us see how different imputation strategies recover them.</p>
-<div id="7d9e57e5" class="cell" data-execution_count="32">
+<div id="10df0ed8" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply four strategies</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>sim[<span class="st">"fill_zero"</span>] <span class="op">=</span> sim[sensor].fillna(<span class="dv">0</span>)</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>sim[<span class="st">"fill_ffill"</span>] <span class="op">=</span> sim[sensor].ffill()</span>
 <span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>sim[<span class="st">"fill_bfill"</span>] <span class="op">=</span> sim[sensor].bfill()</span>
 <span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>sim[<span class="st">"fill_interp"</span>] <span class="op">=</span> sim[sensor].interpolate()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e220909e" class="cell" data-execution_count="33">
+<div id="c4a079de" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare strategies for the gap period</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>gap_rows <span class="op">=</span> sim[mask].copy()</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>gap_rows <span class="op">=</span> gap_rows.rename(columns<span class="op">=</span>{sensor: <span class="st">"true_value"</span>})</span>
@@ -1863,7 +1865,7 @@ True values we are hiding:
    15 1159.0   0.0     858.0    1280.0  1219.714286</code></pre>
 </div>
 </div>
-<div id="3af44bbb" class="cell" data-execution_count="34">
+<div id="71d63923" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the error for each strategy</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> strategy <span class="kw">in</span> [<span class="st">"Zero"</span>, <span class="st">"Fwd Fill"</span>, <span class="st">"Bck Fill"</span>, <span class="st">"Interpolate"</span>]:</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    mae <span class="op">=</span> (comparison[strategy] <span class="op">-</span> comparison[<span class="st">"True"</span>]).<span class="bu">abs</span>().mean()</span>
@@ -1875,7 +1877,7 @@ True values we are hiding:
   Interpolate   Mean Absolute Error = 216</code></pre>
 </div>
 </div>
-<div id="cd9e702a" class="cell" data-execution_count="35">
+<div id="aad4f886" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise the gap and each strategy's attempt to fill it</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1929,7 +1931,7 @@ Which Strategy?
 <section id="task-15-merging-dataframes" class="level2">
 <h2 class="anchored" data-anchor-id="task-15-merging-dataframes">Task 15: Merging DataFrames</h2>
 <p>In real analyses, you often need to combine data from multiple sources. This task simulates merging sensor metadata with count data.</p>
-<div id="ab56ccc7" class="cell" data-execution_count="36">
+<div id="e5e62a58" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simple metadata table</span></span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>metadata <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"location"</span>: [<span class="st">"107 Quay Street"</span>, <span class="st">"45 Queen Street"</span>, <span class="st">"30 Queen Street"</span>,</span>
@@ -1995,7 +1997,7 @@ Which Strategy?
 </div>
 </div>
 </div>
-<div id="1c728a15" class="cell" data-execution_count="37">
+<div id="e8a1ed6d" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge with long-format data</span></span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>merged <span class="op">=</span> ped_long.merge(metadata, on<span class="op">=</span><span class="st">"location"</span>, how<span class="op">=</span><span class="st">"inner"</span>)</span>
 <span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Merged shape: </span><span class="sc">{</span>merged<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -2095,7 +2097,7 @@ Which Strategy?
 </div>
 </div>
 </div>
-<div id="80336a9c" class="cell" data-execution_count="38">
+<div id="f146cfe9" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we can group by zone</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>zone_avg <span class="op">=</span> merged.groupby(<span class="st">"zone"</span>)[<span class="st">"count"</span>].mean().sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Average hourly count by zone:"</span>)</span>
@@ -2131,14 +2133,14 @@ Join Types
 <p>With your data loaded, cleaned, and transformed, it is time to make it visual. Visualisation reveals patterns that summary statistics alone cannot convey.</p>
 <section id="task-16-setup-and-line-plot" class="level2">
 <h2 class="anchored" data-anchor-id="task-16-setup-and-line-plot">Task 16: Setup and Line Plot</h2>
-<div id="50443081" class="cell" data-execution_count="39">
+<div id="31aed845" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean style for all plots</span></span>
 <span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"whitegrid"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c7823f7c" class="cell" data-execution_count="40">
+<div id="b1cb4058" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Daily total for 45 Queen Street</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>daily_queen <span class="op">=</span> ped.groupby(<span class="st">"Date"</span>)[<span class="st">"45 Queen Street"</span>].<span class="bu">sum</span>()</span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2163,7 +2165,7 @@ Join Types
 </section>
 <section id="task-17-bar-chart-comparing-locations" class="level2">
 <h2 class="anchored" data-anchor-id="task-17-bar-chart-comparing-locations">Task 17: Bar Chart Comparing Locations</h2>
-<div id="690ab825" class="cell" data-execution_count="41">
+<div id="af7bbf66" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average hourly count per location</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>avg_by_location <span class="op">=</span> ped[sensor_cols].mean().sort_values()</span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2189,7 +2191,7 @@ Join Types
 <section id="task-18-heatmap-hour-vs-day-of-week" class="level2">
 <h2 class="anchored" data-anchor-id="task-18-heatmap-hour-vs-day-of-week">Task 18: Heatmap (Hour vs Day of Week)</h2>
 <p>A heatmap is an excellent way to see two-dimensional patterns. Here we will plot average pedestrian counts by hour of day and day of week.</p>
-<div id="2e8f3363" class="cell" data-execution_count="42">
+<div id="2a0b6b85" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivot table: hour (rows) x day_of_week (columns)</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>pivot <span class="op">=</span> ped.pivot_table(</span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">"45 Queen Street"</span>,</span>
@@ -2222,7 +2224,7 @@ Join Types
 </section>
 <section id="task-19-box-plots-by-month" class="level2">
 <h2 class="anchored" data-anchor-id="task-19-box-plots-by-month">Task 19: Box Plots by Month</h2>
-<div id="fcc73c60" class="cell" data-execution_count="43">
+<div id="c7e2227f" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>month_names <span class="op">=</span> [<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>,</span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span>, <span class="st">"Dec"</span>]</span>
@@ -2237,7 +2239,7 @@ Join Types
 <span id="cb70-12"><a href="#cb70-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb70-13"><a href="#cb70-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/th/wzvst6957_v02h6ztkc7qxw5_3lzg7/T/ipykernel_28951/1570749334.py:7: FutureWarning:
+<pre><code>/var/folders/th/wzvst6957_v02h6ztkc7qxw5_3lzg7/T/ipykernel_35910/1570749334.py:7: FutureWarning:
 
 
 
@@ -2259,7 +2261,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <section id="task-20-multi-panel-figure" class="level2">
 <h2 class="anchored" data-anchor-id="task-20-multi-panel-figure">Task 20: Multi-Panel Figure</h2>
 <p>Combining multiple plots into a single figure is essential for reports and presentations.</p>
-<div id="eb5348e0" class="cell" data-execution_count="44">
+<div id="d1837d6c" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">10</span>))</span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: Daily trend</span></span>

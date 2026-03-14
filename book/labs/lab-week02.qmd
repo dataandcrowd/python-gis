@@ -87,7 +87,7 @@ print(f"Minimum count: {min(counts)}")
 print(f"Total daily: {sum(counts):,}")
 ```
 
-**Your turn:** Create a list of the hour labels (e.g., `"6:00-6:59"`, `"7:00-7:59"`, ..., `"21:00-21:59"`) using a list comprehension. Hint: `[f"{h}:00-{h}:59" for h in range(6, 22)]`.
+**Your turn:** Create a new list that contains only the counts above 500. Use a `for` loop and an `if` statement to build the list. How many hours had more than 500 pedestrians?
 
 ## Task 3: Loops
 
@@ -95,90 +95,91 @@ Loops let you repeat operations across collections. When working with pedestrian
 
 ```{python}
 locations = ["107 Quay Street", "45 Queen Street", "30 Queen Street", "2 High Street", "150 K Road"]
-peak_counts = [1423, 1076, 1245, 129, 381]
 
-print("=== Peak Hourly Counts ===")
-for i, loc in enumerate(locations):
-    print(f"  {i+1}. {loc}: {peak_counts[i]:,}")
+print("=== Sensor Locations ===")
+for loc in locations:
+    print(f"  - {loc}")
 
-print(f"\nTotal across 5 sensors: {sum(peak_counts):,}")
+print(f"\nTotal locations: {len(locations)}")
 ```
 
 ```{python}
-# Calculate a running total
-running_total = 0
+# Loop through a list of counts
+peak_counts = [1423, 1076, 1245, 129, 381]
+
+total = 0
 for count in peak_counts:
-    running_total += count
-    print(f"  Adding {count:,} -> Running total: {running_total:,}")
+    total = total + count
+    print(f"  Adding {count:,} -> Running total: {total:,}")
+
+print(f"\nGrand total: {total:,}")
 ```
 
-**Your turn:** Write a loop that prints each sensor location alongside the percentage of the total peak count it represents. For example, "107 Quay Street: 33.4%".
+**Your turn:** Write a loop that prints only the locations with a peak count above 500. Hint: use `zip(locations, peak_counts)` to pair each name with its count.
 
 ## Task 4: Conditionals
 
 Conditionals let you make decisions in code. In pedestrian analysis, you frequently need to classify counts, flag anomalies, or filter by thresholds.
 
 ```{python}
-sensor_counts = {
-    "107 Quay Street": 1423,
-    "45 Queen Street": 1076,
-    "30 Queen Street": 1245,
-    "2 High Street": 129,
-    "150 K Road": 381,
-    "61 Federal Street": 141,
-    "19 Shortland Street": 176
-}
+counts = [1423, 1076, 1245, 129, 381, 141, 176]
 
 print("=== Traffic Classification ===")
-for loc, count in sensor_counts.items():
+for count in counts:
     if count > 1000:
         level = "HIGH"
     elif count > 300:
         level = "MEDIUM"
     else:
         level = "LOW"
-    print(f"  {loc}: {count:,} -> {level}")
+    print(f"  {count:,} pedestrians -> {level}")
 ```
 
 ```{python}
 # Count how many locations fall into each category
-high = sum(1 for c in sensor_counts.values() if c > 1000)
-med = sum(1 for c in sensor_counts.values() if 300 < c <= 1000)
-low = sum(1 for c in sensor_counts.values() if c <= 300)
+high = 0
+med = 0
+low = 0
 
-print(f"\nHigh traffic: {high} locations")
+for count in counts:
+    if count > 1000:
+        high = high + 1
+    elif count > 300:
+        med = med + 1
+    else:
+        low = low + 1
+
+print(f"High traffic: {high} locations")
 print(f"Medium traffic: {med} locations")
 print(f"Low traffic: {low} locations")
 ```
 
-**Your turn:** Modify the thresholds so that "HIGH" is above 800, "MEDIUM" is 200-800, and "LOW" is below 200. How does the classification change?
+**Your turn:** Change the thresholds so that "HIGH" is above 800, "MEDIUM" is 200 to 800, and "LOW" is below 200. How does the classification change?
 
 ## Task 5: Combining Concepts
 
 Now combine variables, lists, loops, and conditionals in a single task.
 
 ```{python}
-# Simulated hourly data for 107 Quay Street (1 Jan 2024, 6am-9pm)
-hours = list(range(6, 22))
+# Hourly data for 107 Quay Street (1 Jan 2024, 6am-9pm)
 counts = [78, 201, 644, 394, 861, 1283, 1335, 1423, 1159, 1005, 995, 780, 602, 498, 310, 195]
 
-peak_hour = hours[0]
-peak_count = counts[0]
-off_peak_hours = []
+# Find the peak count and off-peak hours
+peak_count = 0
+off_peak = []
 
-for i in range(len(hours)):
-    if counts[i] > peak_count:
-        peak_count = counts[i]
-        peak_hour = hours[i]
-    if counts[i] < 300:
-        off_peak_hours.append(hours[i])
+for count in counts:
+    if count > peak_count:
+        peak_count = count
+    if count < 300:
+        off_peak.append(count)
 
-print(f"Peak hour: {peak_hour}:00 with {peak_count:,} pedestrians")
-print(f"Off-peak hours (< 300): {[f'{h}:00' for h in off_peak_hours]}")
+print(f"Peak count: {peak_count:,} pedestrians")
+print(f"Number of off-peak hours (< 300): {len(off_peak)}")
 print(f"Average count: {sum(counts) / len(counts):,.0f}")
 ```
 
-**Your turn:** Find the two consecutive hours with the highest combined count. For example, if hour 12 has 1,335 and hour 13 has 1,423, their combined count is 2,758. Which consecutive pair is the busiest?
+**Your turn:** Write a loop that builds a new list containing only the counts above 1,000. How many hours had more than 1,000 pedestrians?
 
 ---
 

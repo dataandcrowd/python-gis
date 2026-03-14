@@ -201,6 +201,12 @@ div.csl-indent {
  <span class="menu-text">1.3 Version control with Git</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1.4.download-from-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.4. Download data from github</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -245,7 +251,7 @@ div.csl-indent {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.6.urban-analytics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.4 Urban analytics indicators</span></a>
+ <span class="menu-text">2.6 Urban analytics indicators</span></a>
   </div>
 </li>
       </ul>
@@ -271,6 +277,12 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 01</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Week 02</span></a>
   </div>
 </li>
       </ul>
@@ -314,13 +326,25 @@ div.csl-indent {
   <li><a href="#coordinate-reference-systems-crs" id="toc-coordinate-reference-systems-crs" class="nav-link" data-scroll-target="#coordinate-reference-systems-crs">Coordinate Reference Systems (CRS)</a>
   <ul class="collapse">
   <li><a href="#understanding-projections" id="toc-understanding-projections" class="nav-link" data-scroll-target="#understanding-projections">Understanding Projections</a></li>
+  <li><a href="#key-crs-for-this-course" id="toc-key-crs-for-this-course" class="nav-link" data-scroll-target="#key-crs-for-this-course">Key CRS for This Course</a></li>
+  </ul></li>
+  <li><a href="#python-tools-for-geospatial-data" id="toc-python-tools-for-geospatial-data" class="nav-link" data-scroll-target="#python-tools-for-geospatial-data">Python Tools for Geospatial Data</a>
+  <ul class="collapse">
+  <li><a href="#vector-data-1" id="toc-vector-data-1" class="nav-link" data-scroll-target="#vector-data-1">Vector Data</a></li>
+  <li><a href="#raster-data-1" id="toc-raster-data-1" class="nav-link" data-scroll-target="#raster-data-1">Raster Data</a></li>
   </ul></li>
   <li><a href="#working-with-geopandas" id="toc-working-with-geopandas" class="nav-link" data-scroll-target="#working-with-geopandas">Working with GeoPandas</a>
   <ul class="collapse">
   <li><a href="#installation-and-setup" id="toc-installation-and-setup" class="nav-link" data-scroll-target="#installation-and-setup">Installation and Setup</a></li>
-  <li><a href="#reading-spatial-data" id="toc-reading-spatial-data" class="nav-link" data-scroll-target="#reading-spatial-data">Reading Spatial Data</a></li>
-  <li><a href="#exploring-geodataframes" id="toc-exploring-geodataframes" class="nav-link" data-scroll-target="#exploring-geodataframes">Exploring GeoDataFrames</a></li>
-  <li><a href="#basic-operations" id="toc-basic-operations" class="nav-link" data-scroll-target="#basic-operations">Basic Operations</a></li>
+  <li><a href="#reading-and-writing-spatial-data" id="toc-reading-and-writing-spatial-data" class="nav-link" data-scroll-target="#reading-and-writing-spatial-data">Reading and Writing Spatial Data</a></li>
+  <li><a href="#the-geodataframe" id="toc-the-geodataframe" class="nav-link" data-scroll-target="#the-geodataframe">The GeoDataFrame</a></li>
+  <li><a href="#basic-mapping" id="toc-basic-mapping" class="nav-link" data-scroll-target="#basic-mapping">Basic Mapping</a></li>
+  <li><a href="#leveraging-pandas-operations" id="toc-leveraging-pandas-operations" class="nav-link" data-scroll-target="#leveraging-pandas-operations">Leveraging pandas Operations</a></li>
+  <li><a href="#filtering-data" id="toc-filtering-data" class="nav-link" data-scroll-target="#filtering-data">Filtering Data</a></li>
+  <li><a href="#the-squeeze-method" id="toc-the-squeeze-method" class="nav-link" data-scroll-target="#the-squeeze-method">The <code>squeeze()</code> Method</a></li>
+  <li><a href="#creating-geometries-and-geodataframes" id="toc-creating-geometries-and-geodataframes" class="nav-link" data-scroll-target="#creating-geometries-and-geodataframes">Creating Geometries and GeoDataFrames</a></li>
+  <li><a href="#coordinate-transformations" id="toc-coordinate-transformations" class="nav-link" data-scroll-target="#coordinate-transformations">Coordinate Transformations</a></li>
+  <li><a href="#plotting-with-crs" id="toc-plotting-with-crs" class="nav-link" data-scroll-target="#plotting-with-crs">Plotting with CRS</a></li>
   </ul></li>
   <li><a href="#spatial-relationships" id="toc-spatial-relationships" class="nav-link" data-scroll-target="#spatial-relationships">Spatial Relationships</a>
   <ul class="collapse">
@@ -328,29 +352,39 @@ div.csl-indent {
   </ul></li>
   <li><a href="#spatial-joins" id="toc-spatial-joins" class="nav-link" data-scroll-target="#spatial-joins">Spatial Joins</a>
   <ul class="collapse">
-  <li><a href="#common-spatial-join-use-cases" id="toc-common-spatial-join-use-cases" class="nav-link" data-scroll-target="#common-spatial-join-use-cases">Common Spatial Join Use Cases</a></li>
+  <li><a href="#filtering-joined-data" id="toc-filtering-joined-data" class="nav-link" data-scroll-target="#filtering-joined-data">Filtering Joined Data</a></li>
   </ul></li>
-  <li><a href="#coordinate-transformations" id="toc-coordinate-transformations" class="nav-link" data-scroll-target="#coordinate-transformations">Coordinate Transformations</a>
+  <li><a href="#vector-tools" id="toc-vector-tools" class="nav-link" data-scroll-target="#vector-tools">Vector Tools</a>
   <ul class="collapse">
-  <li><a href="#reprojecting-data" id="toc-reprojecting-data" class="nav-link" data-scroll-target="#reprojecting-data">Reprojecting Data</a></li>
-  </ul></li>
-  <li><a href="#geometric-operations" id="toc-geometric-operations" class="nav-link" data-scroll-target="#geometric-operations">Geometric Operations</a>
-  <ul class="collapse">
-  <li><a href="#buffering" id="toc-buffering" class="nav-link" data-scroll-target="#buffering">Buffering</a></li>
-  <li><a href="#dissolve" id="toc-dissolve" class="nav-link" data-scroll-target="#dissolve">Dissolve</a></li>
-  <li><a href="#overlay-operations" id="toc-overlay-operations" class="nav-link" data-scroll-target="#overlay-operations">Overlay Operations</a></li>
+  <li><a href="#vector-tools-in-python" id="toc-vector-tools-in-python" class="nav-link" data-scroll-target="#vector-tools-in-python">Vector Tools in Python</a></li>
+  <li><a href="#buffering-example" id="toc-buffering-example" class="nav-link" data-scroll-target="#buffering-example">Buffering Example</a></li>
+  <li><a href="#overlay-example-difference" id="toc-overlay-example-difference" class="nav-link" data-scroll-target="#overlay-example-difference">Overlay Example: Difference</a></li>
+  <li><a href="#dissolve-example" id="toc-dissolve-example" class="nav-link" data-scroll-target="#dissolve-example">Dissolve Example</a></li>
   </ul></li>
   <li><a href="#visualisation" id="toc-visualisation" class="nav-link" data-scroll-target="#visualisation">Visualisation</a>
   <ul class="collapse">
-  <li><a href="#basic-plotting" id="toc-basic-plotting" class="nav-link" data-scroll-target="#basic-plotting">Basic Plotting</a></li>
-  <li><a href="#choropleth-maps" id="toc-choropleth-maps" class="nav-link" data-scroll-target="#choropleth-maps">Choropleth Maps</a></li>
+  <li><a href="#basic-choropleth-maps" id="toc-basic-choropleth-maps" class="nav-link" data-scroll-target="#basic-choropleth-maps">Basic Choropleth Maps</a></li>
+  <li><a href="#classified-choropleth-maps" id="toc-classified-choropleth-maps" class="nav-link" data-scroll-target="#classified-choropleth-maps">Classified Choropleth Maps</a></li>
+  <li><a href="#interactive-maps" id="toc-interactive-maps" class="nav-link" data-scroll-target="#interactive-maps">Interactive Maps</a></li>
   <li><a href="#multiple-layers" id="toc-multiple-layers" class="nav-link" data-scroll-target="#multiple-layers">Multiple Layers</a></li>
   </ul></li>
-  <li><a href="#the-modifiable-areal-unit-problem-maup" id="toc-the-modifiable-areal-unit-problem-maup" class="nav-link" data-scroll-target="#the-modifiable-areal-unit-problem-maup">The Modifiable Areal Unit Problem (MAUP)</a></li>
-  <li><a href="#practical-exercise" id="toc-practical-exercise" class="nav-link" data-scroll-target="#practical-exercise">Practical Exercise</a>
+  <li><a href="#raster-data-analysis" id="toc-raster-data-analysis" class="nav-link" data-scroll-target="#raster-data-analysis">Raster Data Analysis</a>
   <ul class="collapse">
-  <li><a href="#example-analysing-new-zealand-regions" id="toc-example-analysing-new-zealand-regions" class="nav-link" data-scroll-target="#example-analysing-new-zealand-regions">Example: Analysing New Zealand Regions</a></li>
+  <li><a href="#raster-characteristics" id="toc-raster-characteristics" class="nav-link" data-scroll-target="#raster-characteristics">Raster Characteristics</a></li>
+  <li><a href="#multi-band-raster-data" id="toc-multi-band-raster-data" class="nav-link" data-scroll-target="#multi-band-raster-data">Multi-band Raster Data</a></li>
+  <li><a href="#working-with-rasterio" id="toc-working-with-rasterio" class="nav-link" data-scroll-target="#working-with-rasterio">Working with <code>rasterio</code></a></li>
+  <li><a href="#common-raster-operations" id="toc-common-raster-operations" class="nav-link" data-scroll-target="#common-raster-operations">Common Raster Operations</a></li>
   </ul></li>
+  <li><a href="#the-modifiable-areal-unit-problem-maup" id="toc-the-modifiable-areal-unit-problem-maup" class="nav-link" data-scroll-target="#the-modifiable-areal-unit-problem-maup">The Modifiable Areal Unit Problem (MAUP)</a></li>
+  <li><a href="#practical-exercise-analysing-new-zealand-regional-data" id="toc-practical-exercise-analysing-new-zealand-regional-data" class="nav-link" data-scroll-target="#practical-exercise-analysing-new-zealand-regional-data">Practical Exercise: Analysing New Zealand Regional Data</a>
+  <ul class="collapse">
+  <li><a href="#calculate-the-centroid-of-each-region" id="toc-calculate-the-centroid-of-each-region" class="nav-link" data-scroll-target="#calculate-the-centroid-of-each-region">1. Calculate the Centroid of Each Region</a></li>
+  <li><a href="#measure-distances-from-wellington" id="toc-measure-distances-from-wellington" class="nav-link" data-scroll-target="#measure-distances-from-wellington">2. Measure Distances from Wellington</a></li>
+  <li><a href="#classify-total-population-using-jenks-natural-breaks" id="toc-classify-total-population-using-jenks-natural-breaks" class="nav-link" data-scroll-target="#classify-total-population-using-jenks-natural-breaks">3. Classify Total Population Using Jenks Natural Breaks</a></li>
+  <li><a href="#dissolve-regions-by-north-and-south-islands" id="toc-dissolve-regions-by-north-and-south-islands" class="nav-link" data-scroll-target="#dissolve-regions-by-north-and-south-islands">4. Dissolve Regions by North and South Islands</a></li>
+  <li><a href="#calculate-total-population-density-by-region" id="toc-calculate-total-population-density-by-region" class="nav-link" data-scroll-target="#calculate-total-population-density-by-region">5. Calculate Total Population Density by Region</a></li>
+  </ul></li>
+  <li><a href="#working-with-the-nz-regional-council-2025-data" id="toc-working-with-the-nz-regional-council-2025-data" class="nav-link" data-scroll-target="#working-with-the-nz-regional-council-2025-data">Working with the NZ Regional Council 2025 Data</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further Reading</a></li>
   <li><a href="#practice-exercises" id="toc-practice-exercises" class="nav-link" data-scroll-target="#practice-exercises">Practice Exercises</a></li>
@@ -405,7 +439,7 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="types-of-maps">Types of Maps</h2>
 <section id="reference-maps" class="level3">
 <h3 class="anchored" data-anchor-id="reference-maps">Reference Maps</h3>
-<p>Reference maps serve a primarily descriptive purpose: they communicate the locations of features and help users orient themselves in space. Their goal is to “pin point” data on a map, and they tend to be static and factual. Road maps, topographic maps, and navigation tools are all reference maps. In pedestrian research, a reference map might show the locations of pedestrian counting stations across a city, or the layout of footpaths in a study area.</p>
+<p>Reference maps serve a primarily descriptive purpose: they communicate the locations of features and help users orient themselves in space. Their goal is to “pin point” data on a map, and they tend to be static and factual. Road maps, topographic maps, and navigation tools such as Google Maps are all reference maps. In pedestrian research, a reference map might show the locations of pedestrian counting stations across a city, or the layout of footpaths in a study area.</p>
 </section>
 <section id="thematic-maps" class="level3">
 <h3 class="anchored" data-anchor-id="thematic-maps">Thematic Maps</h3>
@@ -420,11 +454,12 @@ Rail Maps: Reference or Thematic?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Transport maps like Auckland’s rail network can be both:</p>
+<p>Transport maps like Auckland’s rail network can be classified as both:</p>
 <ul>
-<li><strong>Reference</strong>: They show station locations and line routes</li>
-<li><strong>Thematic</strong>: They can reveal patterns in life expectancy, poverty, or house prices along transport corridors</li>
+<li><strong>Reference maps</strong> because they show the location of different stations and the location of each line</li>
+<li><strong>Thematic maps</strong> because they can be used to predict life expectancy, poverty, and median house prices along transport corridors</li>
 </ul>
+<p>Other examples to consider: the visualisation of road networks to improve road safety measures is a thematic map. The visualisation of the earth’s surface showing its elevation is a topographic map. Navigation tools such as Google Maps are reference (or navigational) maps.</p>
 </div>
 </div>
 </section>
@@ -444,19 +479,30 @@ Rail Maps: Reference or Thematic?
 <h2 class="anchored" data-anchor-id="file-formats">File Formats</h2>
 <section id="vector-formats" class="level3">
 <h3 class="anchored" data-anchor-id="vector-formats">Vector Formats</h3>
-<p>The <strong>Shapefile</strong> (.shp) is the traditional GIS format, developed by Esri in the 1990s. Despite its age and limitations (it requires multiple companion files: .shp for geometry, .shx for the spatial index, .dbf for attributes, and .prj for the coordinate reference system), it remains widely used because of its universal support across GIS software. <strong>GeoJSON</strong> (.geojson) is a web-friendly, human-readable format based on the JSON standard you encountered in Section 2.2. Its readability makes it ideal for web mapping applications and API data exchange, though it can become unwieldy for large datasets. <strong>GeoPackage</strong> (.gpkg) is the modern alternative: a single SQLite database file that supports multiple layers, large datasets, and both vector and raster data. For new projects, GeoPackage is generally the recommended choice. <strong>KML/KMZ</strong> files are associated with Google Earth and are useful for quick spatial data sharing but lack some of the analytical capabilities of the other formats.</p>
+<p>The <strong>Shapefile</strong> (.shp) is the traditional GIS format, developed by Esri in the 1990s. Despite its age and limitations (it requires multiple companion files: .shp for geometry, .shx for the spatial index, .dbf for attributes, and .prj for the coordinate reference system), it remains widely used because of its universal support across GIS software.</p>
+<p><strong>GeoJSON</strong> (.geojson) is a web-friendly, human-readable format based on the JSON standard you encountered in Section 2.2. Its readability makes it ideal for web mapping applications and API data exchange, though it can become unwieldy for large datasets.</p>
+<p><strong>GeoPackage</strong> (.gpkg) is the modern alternative: a single SQLite-based format that supports multiple layers, large datasets, and both vector and raster data. For new projects, GeoPackage is generally the recommended choice.</p>
+<p>Other formats include <strong>KML/KMZ</strong> (used primarily in Google Earth), <strong>File Geodatabase</strong> (Esri’s proprietary format), <strong>CSV with coordinates</strong> (plain text that can be georeferenced using lat/lon columns), <strong>DXF/DWG</strong> (CAD files convertible to GIS formats), <strong>GPX</strong> (GPS Exchange Format for routes, tracks, and waypoints), and <strong>MapInfo TAB/MIF</strong> files.</p>
 </section>
 <section id="raster-formats" class="level3">
 <h3 class="anchored" data-anchor-id="raster-formats">Raster Formats</h3>
-<p><strong>GeoTIFF</strong> (.tif) is the standard raster format, embedding coordinate reference system information and spatial extent directly within the file. <strong>NetCDF</strong> (Network Common Data Form) handles multi-dimensional arrays and is the dominant format for climate and atmospheric data. <strong>HDF5</strong> (Hierarchical Data Format) serves a similar purpose for large, complex datasets in earth observation and remote sensing.</p>
+<p><strong>GeoTIFF</strong> (.tif) is the standard raster format, embedding coordinate reference system information and spatial extent directly within the file.</p>
+<p><strong>NetCDF</strong> (Network Common Data Form) handles multi-dimensional arrays and is the dominant format for climate and atmospheric data.</p>
+<p><strong>HDF5</strong> (Hierarchical Data Format) serves a similar purpose for large, complex datasets in earth observation and remote sensing.</p>
 </section>
 </section>
 <section id="coordinate-reference-systems-crs" class="level2">
 <h2 class="anchored" data-anchor-id="coordinate-reference-systems-crs">Coordinate Reference Systems (CRS)</h2>
 <section id="understanding-projections" class="level3">
 <h3 class="anchored" data-anchor-id="understanding-projections">Understanding Projections</h3>
-<p>The Earth is a three-dimensional oblate spheroid, but maps are two-dimensional. Transforming the former into the latter inevitably creates <strong>distortion</strong> in shape, area, distance, or direction (and usually several of these simultaneously). A Coordinate Reference System (CRS) defines how geographic coordinates on the Earth’s surface map to positions on a flat surface, and choosing the right CRS is one of the most consequential decisions in any spatial analysis.</p>
-<p>Three CRS systems are particularly relevant for this book. <strong>EPSG:4326 (WGS84)</strong> uses unprojected geographic coordinates expressed in degrees of latitude and longitude. It is the default for GPS devices and most web APIs, but because its units are degrees rather than metres, it is unsuitable for distance or area calculations. <strong>EPSG:3857 (Web Mercator)</strong> is the projection used by Google Maps, OpenStreetMap, and most web mapping platforms. Its units are metres, but it severely distorts areas at high latitudes, making it inappropriate for area-based analyses. <strong>EPSG:2193 (NZTM)</strong>, the New Zealand Transverse Mercator, is the standard projected CRS for New Zealand. Its units are metres, and it minimises distortion across the country, making it the correct choice for distance and area calculations in Auckland and across Aotearoa.</p>
+<p>The Earth is a three-dimensional oblate spheroid, but maps are two-dimensional. Transforming the former into the latter inevitably creates <strong>distortion</strong> in one or more of: area, shape, distance, and direction. A Coordinate Reference System (CRS) defines how geographic coordinates on the Earth’s surface map to positions on a flat surface, and choosing the right CRS is one of the most consequential decisions in any spatial analysis.</p>
+<p>There are three main families of map projections: <strong>cylindrical</strong> (which wraps the globe in a cylinder), <strong>conical</strong> (which uses a cone), and <strong>planar</strong> (which projects onto a flat plane). Each preserves certain properties at the expense of others.</p>
+</section>
+<section id="key-crs-for-this-course" class="level3">
+<h3 class="anchored" data-anchor-id="key-crs-for-this-course">Key CRS for This Course</h3>
+<p>Three CRS systems are particularly relevant for this book. <strong>EPSG:4326 (WGS84)</strong> uses unprojected geographic coordinates expressed in degrees of latitude and longitude. It is the default for GPS devices and most web APIs, but because its units are degrees rather than metres, it is unsuitable for distance or area calculations.</p>
+<p><strong>EPSG:3857 (Web Mercator)</strong> is the projection used by Google Maps, OpenStreetMap, and most web mapping platforms. Its units are metres, but it severely distorts areas at high latitudes, making it inappropriate for area-based analyses.</p>
+<p><strong>EPSG:2193 (NZTM)</strong>, the New Zealand Transverse Mercator, is the standard projected CRS for New Zealand. Its units are metres, and it minimises distortion across the country, making it the correct choice for distance and area calculations in Auckland and across Aotearoa.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -467,9 +513,70 @@ CRS Matters!
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Always check and match CRS when combining datasets. Mixing CRS will give incorrect results.</p>
+<p>Always check and match CRS when combining datasets. Mixing CRS will give incorrect results. Use <code>gdf.crs</code> to inspect a dataset’s CRS and <code>gdf.to_crs()</code> to reproject.</p>
 </div>
 </div>
+</section>
+</section>
+<section id="python-tools-for-geospatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="python-tools-for-geospatial-data">Python Tools for Geospatial Data</h2>
+<section id="vector-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="vector-data-1">Vector Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Level</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>shapely</code></td>
+<td>Low-level</td>
+<td>Handles individual geometry objects (points, lines, polygons)</td>
+</tr>
+<tr class="even">
+<td><code>geopandas</code></td>
+<td>High-level</td>
+<td>Works with GeoSeries and GeoDataFrames (vector layers); built on shapely</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="raster-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="raster-data-1">Raster Data</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 16%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Focus</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rasterio</code></td>
+<td>Simple rasters</td>
+<td>Uses <code>numpy</code> arrays + metadata dictionary (CRS, transform, etc.)</td>
+</tr>
+<tr class="even">
+<td><code>xarray</code></td>
+<td>Complex rasters</td>
+<td>Uses <code>xarray.Dataset</code> and <code>DataArray</code>; ideal for NetCDF and multi-band rasters</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 <section id="working-with-geopandas" class="level2">
@@ -480,115 +587,98 @@ CRS Matters!
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point, LineString, Polygon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="reading-spatial-data" class="level3">
-<h3 class="anchored" data-anchor-id="reading-spatial-data">Reading Spatial Data</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read from various formats</span></span>
+<section id="reading-and-writing-spatial-data" class="level3">
+<h3 class="anchored" data-anchor-id="reading-and-writing-spatial-data">Reading and Writing Spatial Data</h3>
+<p>Use <code>gpd.read_file()</code> to read various spatial data formats (Shapefiles, GeoJSON, GeoPackage) and <code>to_file()</code> to write:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read from various formats (illustrative examples)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>countries <span class="op">=</span> gpd.read_file(<span class="st">'countries.shp'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>cities <span class="op">=</span> gpd.read_file(<span class="st">'cities.geojson'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>regions <span class="op">=</span> gpd.read_file(<span class="st">'regions.gpkg'</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read from URL</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://example.com/data.geojson'</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>countries <span class="op">=</span> gpd.read_file(<span class="st">"world.gpkg"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Write data</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>regions.to_file(<span class="st">'output.gpkg'</span>, driver<span class="op">=</span><span class="st">'GPKG'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="exploring-geodataframes" class="level3">
-<h3 class="anchored" data-anchor-id="exploring-geodataframes">Exploring GeoDataFrames</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View first few rows</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>countries.head()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the CRS</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>countries.crs</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Get column information</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>countries.columns</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>countries.describe()</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Access geometry column</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>countries.geometry</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="the-geodataframe" class="level3">
+<h3 class="anchored" data-anchor-id="the-geodataframe">The GeoDataFrame</h3>
+<p>A GeoDataFrame is just like a pandas DataFrame, but with a special <code>geometry</code> column:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>countries.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>iso_a3  name              continent    pop_est   gdp_md_est  geometry
+AFG     Afghanistan       Asia         34124811  64080       POLYGON ((61.21082 ...
+AGO     Angola            Africa       29310273  189000      MULTIPOLYGON (((23.9...
+ALB     Albania           Europe       3047987   33900       POLYGON ((21.02004 ...</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(countries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>geopandas.geodataframe.GeoDataFrame</code></pre>
+<p>You can access the geometry column directly:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>countries[<span class="st">"geometry"</span>].head(n<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And inspect individual geometries using <code>.iloc[]</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>countries[<span class="st">'geometry'</span>].iloc[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="basic-operations" class="level3">
-<h3 class="anchored" data-anchor-id="basic-operations">Basic Operations</h3>
-<section id="filtering-data" class="level4">
-<h4 class="anchored" data-anchor-id="filtering-data">Filtering Data</h4>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by attribute</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>oceania <span class="op">=</span> countries[countries[<span class="st">'continent'</span>] <span class="op">==</span> <span class="st">'Oceania'</span>]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter by spatial relationship</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Select countries that contain a specific point</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>auckland <span class="op">=</span> Point(<span class="fl">174.76</span>, <span class="op">-</span><span class="fl">36.85</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>nz <span class="op">=</span> countries[countries.contains(auckland)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="basic-mapping" class="level3">
+<h3 class="anchored" data-anchor-id="basic-mapping">Basic Mapping</h3>
+<p>GeoPandas provides two quick mapping methods:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Static map</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>countries.plot()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Interactive map (opens in browser)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>countries.explore()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="creating-geometries" class="level4">
-<h4 class="anchored" data-anchor-id="creating-geometries">Creating Geometries</h4>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a point</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>point <span class="op">=</span> Point(<span class="fl">174.76</span>, <span class="op">-</span><span class="fl">36.85</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a line</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>line <span class="op">=</span> LineString([(<span class="fl">174.76</span>, <span class="op">-</span><span class="fl">36.85</span>), (<span class="fl">174.77</span>, <span class="op">-</span><span class="fl">36.86</span>)])</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a polygon</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>polygon <span class="op">=</span> Polygon([(<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">0</span>), (<span class="dv">1</span>, <span class="dv">1</span>), (<span class="dv">0</span>, <span class="dv">1</span>)])</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a GeoDataFrame from scratch</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.GeoDataFrame(</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: [<span class="st">'Auckland'</span>], </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>     <span class="st">'population'</span>: [<span class="dv">1672000</span>]},</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span>[Point(<span class="fl">174.76</span>, <span class="op">-</span><span class="fl">36.85</span>)],</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span><span class="st">'EPSG:4326'</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="leveraging-pandas-operations" class="level3">
+<h3 class="anchored" data-anchor-id="leveraging-pandas-operations">Leveraging pandas Operations</h3>
+<p>Because a GeoDataFrame inherits from pandas DataFrame, all the operations you learned in Section 2.2 work directly:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Total world population</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>countries[<span class="st">"pop"</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="fl">1e9</span>  <span class="co"># In billions</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Population by continent using groupby</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>grouped <span class="op">=</span> countries.groupby(<span class="st">"continent"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>pop_by_continent <span class="op">=</span> grouped[<span class="st">"pop"</span>].<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="filtering-data" class="level3">
+<h3 class="anchored" data-anchor-id="filtering-data">Filtering Data</h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Boolean selection</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>is_NZ <span class="op">=</span> countries[<span class="st">"name"</span>] <span class="op">==</span> <span class="st">"New Zealand"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>NZ <span class="op">=</span> countries.loc[is_NZ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="the-squeeze-method" class="level3">
+<h3 class="anchored" data-anchor-id="the-squeeze-method">The <code>squeeze()</code> Method</h3>
+<p>If you have a DataFrame with only one row, <code>squeeze()</code> removes the row dimension and returns a Series:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>NZsqueezed <span class="op">=</span> NZ.squeeze()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The type of NZ is: "</span>, <span class="bu">type</span>(NZsqueezed))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>NZsqueezed.geometry</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="spatial-relationships" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-relationships">Spatial Relationships</h2>
-<p>Spatial relationships describe how geometries relate to each other in space, and they are the foundation of spatial queries and joins. GeoPandas implements the DE-9IM (Dimensionally Extended 9-Intersection Model) standard through a set of intuitive methods. The <code>contains()</code> method tests whether geometry A fully encloses geometry B, while <code>within()</code> tests the inverse (whether A lies entirely inside B). The <code>intersects()</code> method is the most general test, returning <code>True</code> whenever geometries share any space at all. The <code>touches()</code> method identifies geometries that share a boundary but no interior area, <code>crosses()</code> detects geometries that cross each other (e.g.&nbsp;a road crossing a river), <code>overlaps()</code> identifies partial overlap between geometries of the same dimension, and <code>disjoint()</code> confirms that two geometries are completely separate.</p>
-<p>In pedestrian mobility analysis, these spatial relationships are used constantly. For example, you might use <code>within()</code> to determine which pedestrian counting stations fall inside a particular neighbourhood polygon, or <code>intersects()</code> to identify which street segments cross a proposed low-emission zone boundary.</p>
-<section id="example-finding-which-country-contains-a-city" class="level3">
-<h3 class="anchored" data-anchor-id="example-finding-which-country-contains-a-city">Example: Finding Which Country Contains a City</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a point for New York</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>new_york <span class="op">=</span> Point(<span class="op">-</span><span class="fl">74.006</span>, <span class="fl">40.7128</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the country containing New York</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>country_with_ny <span class="op">=</span> countries[countries.contains(new_york)]</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(country_with_ny[<span class="st">'name'</span>].values)  <span class="co"># Output: ['United States']</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Test if New York is within the USA</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>usa <span class="op">=</span> countries[countries[<span class="st">'name'</span>] <span class="op">==</span> <span class="st">'United States'</span>].geometry.iloc[<span class="dv">0</span>]</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>new_york.within(usa)  <span class="co"># Returns: True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="creating-geometries-and-geodataframes" class="level3">
+<h3 class="anchored" data-anchor-id="creating-geometries-and-geodataframes">Creating Geometries and GeoDataFrames</h3>
+<p>You can create point geometries from a regular DataFrame containing latitude and longitude columns:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Name"</span>: [<span class="st">"New York City"</span>, <span class="st">"São Paulo"</span>, <span class="st">"Tokyo"</span>, <span class="st">"Lagos"</span>, <span class="st">"Sydney"</span>],</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Population"</span>: [<span class="dv">8419600</span>, <span class="dv">12325232</span>, <span class="dv">13929286</span>, <span class="dv">15000000</span>, <span class="dv">5312163</span>],</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Latitude"</span>: [<span class="fl">40.7128</span>, <span class="op">-</span><span class="fl">23.5505</span>, <span class="fl">35.6895</span>, <span class="fl">6.5244</span>, <span class="op">-</span><span class="fl">33.8688</span>],</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Longitude"</span>: [<span class="op">-</span><span class="fl">74.0060</span>, <span class="op">-</span><span class="fl">46.6333</span>, <span class="fl">139.6917</span>, <span class="fl">3.3792</span>, <span class="fl">151.2093</span>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>cities_df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.GeoDataFrame(</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    cities_df,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span>gpd.points_from_xy(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        cities_df[<span class="st">'Longitude'</span>],</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        cities_df[<span class="st">'Latitude'</span>]</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span><span class="st">'EPSG:4326'</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-</section>
-<section id="spatial-joins" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-joins">Spatial Joins</h2>
-<p>Spatial joins combine attributes from two datasets based on spatial relationships:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join cities to countries based on spatial location</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>joined <span class="op">=</span> gpd.sjoin(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    cities,           <span class="co"># Left GeoDataFrame</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    countries,        <span class="co"># Right GeoDataFrame</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    predicate<span class="op">=</span><span class="st">'within'</span>,  <span class="co"># Spatial relationship</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">'left'</span>        <span class="co"># Join type (left, right, inner)</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Now cities have country attributes</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(joined[[<span class="st">'city_name'</span>, <span class="st">'country_name'</span>, <span class="st">'continent'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="common-spatial-join-use-cases" class="level3">
-<h3 class="anchored" data-anchor-id="common-spatial-join-use-cases">Common Spatial Join Use Cases</h3>
-<p>Spatial joins are among the most frequently used operations in urban analytics. They allow you to assign census or demographic data to geographic units (e.g.&nbsp;attaching population figures to meshblock polygons), determine which administrative area a point falls within (e.g.&nbsp;identifying which suburb each pedestrian sensor belongs to), count the number of features within polygons (e.g.&nbsp;how many bus stops are within each neighbourhood), and aggregate data by spatial location (e.g.&nbsp;computing the total pedestrian volume for each census area unit by summing counts from all sensors within it). In Sevtsuk’s pedestrian modelling work, spatial joins are used to associate land-use attributes with street network edges, enabling the model to weight pedestrian trip generation based on the mix and density of activities along each street segment.</p>
-</section>
-</section>
-<section id="coordinate-transformations" class="level2">
-<h2 class="anchored" data-anchor-id="coordinate-transformations">Coordinate Transformations</h2>
-<section id="reprojecting-data" class="level3">
-<h3 class="anchored" data-anchor-id="reprojecting-data">Reprojecting Data</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check current CRS</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf.crs)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to a different CRS</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>gdf_projected <span class="op">=</span> gdf.to_crs(<span class="st">'EPSG:3857'</span>)  <span class="co"># Web Mercator</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to match another dataset</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>gdf_matched <span class="op">=</span> gdf.to_crs(other_gdf.crs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="coordinate-transformations" class="level3">
+<h3 class="anchored" data-anchor-id="coordinate-transformations">Coordinate Transformations</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check current CRS</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf.crs)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to a different CRS</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>gdf_projected <span class="op">=</span> gdf.to_crs(<span class="st">'EPSG:3857'</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to match another dataset</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>gdf_matched <span class="op">=</span> gdf.to_crs(other_gdf.crs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -600,84 +690,245 @@ When to Reproject
 </div>
 <div class="callout-body-container callout-body">
 <ul>
-<li>For distance/area calculations: Use a projected CRS (in metres)</li>
-<li>For web mapping: Use EPSG:3857</li>
-<li>For spatial operations: Ensure all datasets have the same CRS</li>
+<li>For distance and area calculations: use a projected CRS (in metres), e.g.&nbsp;EPSG:2193 for New Zealand</li>
+<li>For web mapping: use EPSG:3857</li>
+<li>For spatial operations: ensure all datasets share the same CRS</li>
 </ul>
 </div>
 </div>
 </section>
+<section id="plotting-with-crs" class="level3">
+<h3 class="anchored" data-anchor-id="plotting-with-crs">Plotting with CRS</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equirectangular projection (EPSG:4326)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> countries.plot(ax<span class="op">=</span>ax, facecolor<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Equirectangular Projection"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Mercator projection</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>no_antarctica <span class="op">=</span> countries.loc[countries[<span class="st">"name_long"</span>] <span class="op">!=</span> <span class="st">"Antarctica"</span>]</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>countries_mercator <span class="op">=</span> no_antarctica.to_crs(epsg<span class="op">=</span><span class="dv">3395</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> countries_mercator.plot(ax<span class="op">=</span>ax, facecolor<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Mercator Projection"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="geometric-operations" class="level2">
-<h2 class="anchored" data-anchor-id="geometric-operations">Geometric Operations</h2>
-<section id="buffering" class="level3">
-<h3 class="anchored" data-anchor-id="buffering">Buffering</h3>
-<p>Create a zone around features:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create 10km buffer around cities (data must be in metres)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cities_projected <span class="op">=</span> cities.to_crs(<span class="st">'EPSG:3857'</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>cities_buffered <span class="op">=</span> cities_projected.copy()</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>cities_buffered[<span class="st">'geometry'</span>] <span class="op">=</span> cities_buffered.<span class="bu">buffer</span>(<span class="dv">10000</span>)  <span class="co"># 10km in metres</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="dissolve" class="level3">
-<h3 class="anchored" data-anchor-id="dissolve">Dissolve</h3>
-<p>Combine features based on an attribute:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissolve countries by continent</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>continents <span class="op">=</span> countries.dissolve(by<span class="op">=</span><span class="st">'continent'</span>, aggfunc<span class="op">=</span><span class="st">'sum'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="spatial-relationships" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-relationships">Spatial Relationships</h2>
+<p>Spatial relationships describe how geometries relate to each other in space, and they are the foundation of spatial queries and joins. GeoPandas implements the DE-9IM (Dimensionally Extended 9-Intersection Model) standard through a set of intuitive methods: <code>equals</code>, <code>contains</code>, <code>crosses</code>, <code>disjoint</code>, <code>intersects</code>, <code>overlaps</code>, <code>touches</code>, <code>within</code>, and <code>covers</code>.</p>
+<section id="example-finding-which-country-contains-a-city" class="level3">
+<h3 class="anchored" data-anchor-id="example-finding-which-country-contains-a-city">Example: Finding Which Country Contains a City</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cities_url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/dataandcrowd/GISCI343/main/docs/Lecture4/data/ne_110m_populated_places.gpkg"</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cities <span class="op">=</span> gpd.read_file(cities_url)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the Point representing New York City</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>new_york <span class="op">=</span> cities.loc[cities[<span class="st">"name"</span>] <span class="op">==</span> <span class="st">"New York"</span>].geometry.squeeze()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(new_york)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># shapely.geometry.point.Point</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Which countries contain New York?</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>countries.contains(new_york)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the country</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>countries.loc[countries.contains(new_york)]</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Test the inverse relationship</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>USA <span class="op">=</span> countries.loc[countries.contains(new_york)].squeeze().geometry</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>new_york.within(USA)  <span class="co"># Returns: True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Your Turn: Find Auckland
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the same approach as above, find the country that contains Auckland by selecting Auckland from the cities dataset and using <code>contains()</code>.</p>
+</div>
+</div>
 </section>
-<section id="overlay-operations" class="level3">
-<h3 class="anchored" data-anchor-id="overlay-operations">Overlay Operations</h3>
-<p>Combine geometries from two datasets:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Intersection: areas where both datasets overlap</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>intersection <span class="op">=</span> gpd.overlay(gdf1, gdf2, how<span class="op">=</span><span class="st">'intersection'</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Union: all areas from both datasets</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>union <span class="op">=</span> gpd.overlay(gdf1, gdf2, how<span class="op">=</span><span class="st">'union'</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Difference: areas in gdf1 not in gdf2</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>difference <span class="op">=</span> gpd.overlay(gdf1, gdf2, how<span class="op">=</span><span class="st">'difference'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="spatial-joins" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-joins">Spatial Joins</h2>
+<p>Spatial joins merge attributes from two GeoDataFrames based on their spatial relationship. The operation requires specifying: the GeoDataFrame to which you want to add information, the GeoDataFrame that contains the information, the spatial relationship to match on (<code>intersects</code>, <code>contains</code>, <code>within</code>), and the type of join (<code>left</code> or <code>inner</code>).</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>joined <span class="op">=</span> gpd.sjoin(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    cities,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    countries,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    predicate<span class="op">=</span><span class="st">"within"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">"left"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    lsuffix<span class="op">=</span><span class="st">"city"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    rsuffix<span class="op">=</span><span class="st">"country"</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>joined.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>    name_city        geometry                  index_country iso_a3 name_country continent  pop_est  gdp_md_est
+0   Vatican City     POINT (12.45339 41.90328) 79.0          ITA    Italy        Europe     62137802 2221000
+1   San Marino       POINT (12.44177 43.93610) 79.0          ITA    Italy        Europe     62137802 2221000
+2   Vaduz            POINT (9.51667 47.13372)  9.0           AUT    Austria      Europe     8754413  416600</code></pre>
+<section id="filtering-joined-data" class="level3">
+<h3 class="anchored" data-anchor-id="filtering-joined-data">Filtering Joined Data</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select cities in Italy</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>cities_in_italy <span class="op">=</span> joined.loc[joined[<span class="st">"name_long"</span>] <span class="op">==</span> <span class="st">"Italy"</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Italy with its cities</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>italy <span class="op">=</span> countries.loc[countries[<span class="st">"name"</span>] <span class="op">==</span> <span class="st">"Italy"</span>]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>italy.plot(ax<span class="op">=</span>ax, facecolor<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>cities_in_italy.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="vector-tools" class="level2">
+<h2 class="anchored" data-anchor-id="vector-tools">Vector Tools</h2>
+<p>Vector tools are the core spatial operations for manipulating discrete geographic features. The most commonly used operations are:</p>
+<ul>
+<li><strong>Buffer</strong>: creates a zone around a feature at a defined distance, useful for proximity analysis</li>
+<li><strong>Clip</strong>: extracts a specific area from one dataset using another dataset as a boundary</li>
+<li><strong>Dissolve</strong>: merges multiple features into one based on a common attribute</li>
+<li><strong>Difference (Erase)</strong>: removes areas of one layer that overlap with another</li>
+<li><strong>Intersect</strong>: extracts overlapping portions of two layers</li>
+<li><strong>Merge</strong>: combines two or more layers into one</li>
+<li><strong>Spatial Join</strong>: matches features based on their relative spatial locations</li>
+</ul>
+<section id="vector-tools-in-python" class="level3">
+<h3 class="anchored" data-anchor-id="vector-tools-in-python">Vector Tools in Python</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Polygon, Point, LineString</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>gdf.<span class="bu">buffer</span>(distance)                         <span class="co"># Buffer</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>gpd.clip(gdf, mask)                          <span class="co"># Clip</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>gpd.overlay(A, B, how<span class="op">=</span><span class="st">'difference'</span>)          <span class="co"># Difference (Erase)</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>gdf.dissolve(by<span class="op">=</span><span class="st">'region'</span>)                    <span class="co"># Dissolve</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>gpd.overlay(A, B, how<span class="op">=</span><span class="st">'intersection'</span>)        <span class="co"># Intersect</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="buffering-example" class="level3">
+<h3 class="anchored" data-anchor-id="buffering-example">Buffering Example</h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to a metric CRS</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>cities_3857 <span class="op">=</span> cities.to_crs(epsg<span class="op">=</span><span class="dv">3857</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a copy and add a 250km buffer around all cities</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>buffered_cities <span class="op">=</span> cities_3857.copy()</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>buffered_cities[<span class="st">"geometry"</span>] <span class="op">=</span> buffered_cities.<span class="bu">buffer</span>(<span class="fl">250e3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="overlay-example-difference" class="level3">
+<h3 class="anchored" data-anchor-id="overlay-example-difference">Overlay Example: Difference</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>africa <span class="op">=</span> countries.loc[countries[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Africa"</span>]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>africa <span class="op">=</span> africa.to_crs(epsg<span class="op">=</span><span class="dv">3857</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the difference of the geometry sets</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>diff <span class="op">=</span> gpd.overlay(africa, buffered_cities, how<span class="op">=</span><span class="st">"difference"</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>diff.plot(facecolor<span class="op">=</span><span class="st">"#b9f2b1"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="dissolve-example" class="level3">
+<h3 class="anchored" data-anchor-id="dissolve-example">Dissolve Example</h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissolve NZ regions by island</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dissolved <span class="op">=</span> pop23.dissolve(by<span class="op">=</span><span class="st">'Island'</span>).reset_index()</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>dissolved.plot(column<span class="op">=</span><span class="st">'Island'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="visualisation" class="level2">
 <h2 class="anchored" data-anchor-id="visualisation">Visualisation</h2>
-<section id="basic-plotting" class="level3">
-<h3 class="anchored" data-anchor-id="basic-plotting">Basic Plotting</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple plot</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>countries.plot()</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Customised plot</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>countries.plot(ax<span class="op">=</span>ax, </span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>               column<span class="op">=</span><span class="st">'pop_est'</span>,      <span class="co"># Colour by population</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>               cmap<span class="op">=</span><span class="st">'YlOrRd'</span>,         <span class="co"># Colour scheme</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>               legend<span class="op">=</span><span class="va">True</span>,           <span class="co"># Show legend</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>               edgecolor<span class="op">=</span><span class="st">'black'</span>)     <span class="co"># Border colour</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'World Population by Country'</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="basic-choropleth-maps" class="level3">
+<h3 class="anchored" data-anchor-id="basic-choropleth-maps">Basic Choropleth Maps</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple plot</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>countries.plot()</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Choropleth map coloured by population</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>countries.plot(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>ax,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">'pop_est'</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">'YlOrRd'</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">'black'</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'World Population by Country'</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="choropleth-maps" class="level3">
-<h3 class="anchored" data-anchor-id="choropleth-maps">Choropleth Maps</h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a classified choropleth map</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>countries.plot(column<span class="op">=</span><span class="st">'gdp_per_capita'</span>,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>               scheme<span class="op">=</span><span class="st">'quantiles'</span>,     <span class="co"># Classification scheme</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>               k<span class="op">=</span><span class="dv">5</span>,                    <span class="co"># Number of classes</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>               cmap<span class="op">=</span><span class="st">'viridis'</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>               legend<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>               legend_kwds<span class="op">=</span>{<span class="st">'title'</span>: <span class="st">'GDP per Capita (Quantiles)'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="classified-choropleth-maps" class="level3">
+<h3 class="anchored" data-anchor-id="classified-choropleth-maps">Classified Choropleth Maps</h3>
+<p>Classification schemes divide continuous data into discrete classes for mapping. The <code>mapclassify</code> library provides several schemes:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mapclassify <span class="im">as</span> mc</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>pop23.plot(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>ax,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">"VAR_1_23"</span>,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    linewidth<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    legend_kwds<span class="op">=</span><span class="bu">dict</span>(loc<span class="op">=</span><span class="st">"lower right"</span>, fontsize<span class="op">=</span><span class="dv">10</span>),</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    scheme<span class="op">=</span><span class="st">"FisherJenks"</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"viridis"</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Fisher Jenks: k = 5"</span>)</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="interactive-maps" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-maps">Interactive Maps</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pop23.explore(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">"VAR_1_23"</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"viridis"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    tiles<span class="op">=</span><span class="st">"CartoDB positron"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="multiple-layers" class="level3">
 <h3 class="anchored" data-anchor-id="multiple-layers">Multiple Layers</h3>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot multiple layers together</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Base layer</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>countries.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'lightgrey'</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add cities</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>cities.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'red'</span>, markersize<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'World Countries and Major Cities'</span>)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Base layer</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>countries.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'lightgrey'</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Add cities</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>cities.plot(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">'red'</span>, markersize<span class="op">=</span><span class="dv">20</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'World Countries and Major Cities'</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="raster-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="raster-data-analysis">Raster Data Analysis</h2>
+<p>So far we have been working mainly with vector data using <code>geopandas</code>. Raster data is the other major geospatial data type: gridded or pixelated data that maps naturally to arrays.</p>
+<section id="raster-characteristics" class="level3">
+<h3 class="anchored" data-anchor-id="raster-characteristics">Raster Characteristics</h3>
+<p>Raster datasets have two key properties. <strong>Resolution</strong> is the spatial distance that a single pixel covers on the ground: higher resolution means smaller pixels and more detail. <strong>Extent</strong> is the bounding box that covers the entire spatial footprint of the dataset.</p>
+<p>Raster data can be <strong>continuous</strong> (multispectral satellite imagery, digital elevation models, canopy height from LiDAR) or <strong>categorical</strong> (land cover maps, snowcover masks).</p>
+</section>
+<section id="multi-band-raster-data" class="level3">
+<h3 class="anchored" data-anchor-id="multi-band-raster-data">Multi-band Raster Data</h3>
+<p>Colour images are multi-band rasters, where each band measures light reflected from a different part of the electromagnetic spectrum (e.g.&nbsp;red, green, blue, near-infrared). The standard raster format is <strong>GeoTIFF</strong>, a <code>.tif</code> file with embedded spatial metadata including geotransform (extent, resolution), CRS, and NoData values.</p>
+</section>
+<section id="working-with-rasterio" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-rasterio">Working with <code>rasterio</code></h3>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio <span class="im">as</span> rio</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>elev <span class="op">=</span> rio.<span class="bu">open</span>(<span class="st">'nz_elev.tif'</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>elev.crs          <span class="co"># Coordinate reference system</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>elev.bounds       <span class="co"># Spatial extent</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>elev.count        <span class="co"># Number of bands</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>elev.indexes      <span class="co"># Band numbers available</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>elev.shape        <span class="co"># Pixel dimensions (rows, cols)</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>elev.meta         <span class="co"># All metadata</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="common-raster-operations" class="level3">
+<h3 class="anchored" data-anchor-id="common-raster-operations">Common Raster Operations</h3>
+<p><strong>Slope</strong> identifies the steepness at each cell of a raster surface using a moving window (typically 3x3). Lower slope values indicate flatter terrain; higher values indicate steeper terrain.</p>
+<p><strong>Mask raster by vector boundaries</strong> clips a raster to the extent of a vector boundary, useful for extracting raster values within a study area.</p>
+<p><strong>Zonal statistics</strong> calculates summary statistics (mean, sum, count, etc.) on raster cell values within zones defined by a vector dataset.</p>
 </section>
 </section>
 <section id="the-modifiable-areal-unit-problem-maup" class="level2">
@@ -697,55 +948,95 @@ Be Aware of MAUP
 </div>
 </div>
 </section>
-<section id="practical-exercise" class="level2">
-<h2 class="anchored" data-anchor-id="practical-exercise">Practical Exercise</h2>
-<section id="example-analysing-new-zealand-regions" class="level3">
-<h3 class="anchored" data-anchor-id="example-analysing-new-zealand-regions">Example: Analysing New Zealand Regions</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load NZ regional data</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>nz_regions <span class="op">=</span> gpd.read_file(<span class="st">'nz_regions.gpkg'</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check CRS</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nz_regions.crs)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to NZTM for accurate measurements</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>nz_regions <span class="op">=</span> nz_regions.to_crs(<span class="st">'EPSG:2193'</span>)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate area in square kilometres</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>nz_regions[<span class="st">'area_km2'</span>] <span class="op">=</span> nz_regions.geometry.area <span class="op">/</span> <span class="dv">1_000_000</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate population density</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>nz_regions[<span class="st">'pop_density'</span>] <span class="op">=</span> (nz_regions[<span class="st">'population'</span>] <span class="op">/</span> </span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                               nz_regions[<span class="st">'area_km2'</span>])</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Find regions within 100km of Auckland</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>auckland_point <span class="op">=</span> gpd.GeoDataFrame(</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'name'</span>: [<span class="st">'Auckland'</span>]},</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span>[Point(<span class="dv">1756673</span>, <span class="dv">5917750</span>)],  <span class="co"># NZTM coordinates</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span><span class="st">'EPSG:2193'</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Buffer Auckland</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>auckland_buffer <span class="op">=</span> auckland_point.<span class="bu">buffer</span>(<span class="dv">100000</span>)  <span class="co"># 100km</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Spatial join</span></span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>nearby_regions <span class="op">=</span> nz_regions[</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    nz_regions.intersects(auckland_buffer.iloc[<span class="dv">0</span>])</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualise</span></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">12</span>))</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>nz_regions.plot(ax<span class="op">=</span>ax, column<span class="op">=</span><span class="st">'pop_density'</span>, </span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>                cmap<span class="op">=</span><span class="st">'YlOrRd'</span>, legend<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>auckland_buffer.plot(ax<span class="op">=</span>ax, facecolor<span class="op">=</span><span class="st">'none'</span>, </span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>                     edgecolor<span class="op">=</span><span class="st">'blue'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'NZ Population Density and 100km Buffer from Auckland'</span>)</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="practical-exercise-analysing-new-zealand-regional-data" class="level2">
+<h2 class="anchored" data-anchor-id="practical-exercise-analysing-new-zealand-regional-data">Practical Exercise: Analysing New Zealand Regional Data</h2>
+<p>Follow the steps below to perform spatial and statistical analysis using the 2023 population data:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mapclassify <span class="im">as</span> mc</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>pop23 <span class="op">=</span> gpd.read_file(</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://raw.githubusercontent.com/dataandcrowd/GISCI343/main/docs/Lecture03/data/pop23.gpkg'</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>pop23.head(<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="calculate-the-centroid-of-each-region" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-the-centroid-of-each-region">1. Calculate the Centroid of Each Region</h3>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pop23[<span class="st">"centroid"</span>] <span class="op">=</span> pop23.centroid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="measure-distances-from-wellington" class="level3">
+<h3 class="anchored" data-anchor-id="measure-distances-from-wellington">2. Measure Distances from Wellington</h3>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>wellington <span class="op">=</span> pop23[</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    pop23[<span class="st">"REGC2023_2"</span>].<span class="bu">str</span>.contains(<span class="st">"Wellington"</span>, case<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>wellington_centroids <span class="op">=</span> wellington.centroid.values[<span class="dv">0</span>]</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>pop23[<span class="st">"distance_to_wellys"</span>] <span class="op">=</span> pop23[<span class="st">"centroid"</span>].distance(wellington_centroids)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>pop23[<span class="st">"distance_to_wellys_km"</span>] <span class="op">=</span> <span class="bu">round</span>(pop23[<span class="st">"distance_to_wellys"</span>] <span class="op">/</span> <span class="dv">1000</span>, <span class="dv">2</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>pop23[[<span class="st">"REGC2023_2"</span>, <span class="st">"centroid"</span>, <span class="st">"distance_to_wellys_km"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="classify-total-population-using-jenks-natural-breaks" class="level3">
+<h3 class="anchored" data-anchor-id="classify-total-population-using-jenks-natural-breaks">3. Classify Total Population Using Jenks Natural Breaks</h3>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>pop23.plot(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    ax<span class="op">=</span>ax,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">"VAR_1_23"</span>,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    linewidth<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    legend_kwds<span class="op">=</span><span class="bu">dict</span>(loc<span class="op">=</span><span class="st">"lower right"</span>, fontsize<span class="op">=</span><span class="dv">10</span>),</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    scheme<span class="op">=</span><span class="st">"FisherJenks"</span>,</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"viridis"</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Fisher Jenks: k = 5"</span>)</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">"equal"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="dissolve-regions-by-north-and-south-islands" class="level3">
+<h3 class="anchored" data-anchor-id="dissolve-regions-by-north-and-south-islands">4. Dissolve Regions by North and South Islands</h3>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>dissolved <span class="op">=</span> pop23.dissolve(by<span class="op">=</span><span class="st">'Island'</span>).reset_index()</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>dissolved.plot(column<span class="op">=</span><span class="st">'Island'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="calculate-total-population-density-by-region" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-total-population-density-by-region">5. Calculate Total Population Density by Region</h3>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>pop23[<span class="st">"area"</span>] <span class="op">=</span> pop23.area</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>pop23[<span class="st">'popden'</span>] <span class="op">=</span> pop23[<span class="st">'VAR_1_23'</span>] <span class="op">/</span> pop23[<span class="st">'area'</span>]</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>pop23[[<span class="st">'REGC2023_2'</span>, <span class="st">'popden'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Formatting Population Density
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To display population density with two decimal places, use a lambda function:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pop23[<span class="st">'popden_str'</span>] <span class="op">=</span> pop23[<span class="st">'popden'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="ss">f'</span><span class="sc">{</span>x<span class="sc">:.2f}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="working-with-the-nz-regional-council-2025-data" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-the-nz-regional-council-2025-data">Working with the NZ Regional Council 2025 Data</h2>
+<p>Stats NZ publishes updated regional council boundaries as GeoPackage files. The <code>regional-council-2025-clipped.gpkg</code> file contains the latest boundaries for all regional councils in New Zealand.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>rc2025 <span class="op">=</span> gpd.read_file(<span class="st">'regional-council-2025-clipped.gpkg'</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rc2025.crs)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>rc2025.head()</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the regional council boundaries</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">12</span>))</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>rc2025.plot(ax<span class="op">=</span>ax, edgecolor<span class="op">=</span><span class="st">'black'</span>, facecolor<span class="op">=</span><span class="st">'lightyellow'</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'NZ Regional Council Boundaries (2025)'</span>)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(<span class="st">'equal'</span>)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This section has introduced the foundational concepts and tools for geospatial analysis in Python. You now understand the distinction between vector data (discrete features represented as points, lines, and polygons) and raster data (continuous surfaces represented as grids), and you know when each is appropriate. Through GeoPandas, you have learned to read spatial data from multiple file formats, explore GeoDataFrames using the same methods you mastered for pandas DataFrames in Section 2.2, and perform spatial operations including filtering, creating geometries, testing spatial relationships, executing spatial joins, reprojecting between coordinate reference systems, buffering, dissolving, and overlaying geometries. You have also learned to create choropleth maps and multi-layer visualisations, and you understand the Modifiable Areal Unit Problem (MAUP) and its implications for the reliability of spatial analyses.</p>
-<p>These capabilities form the core toolkit for spatial analysis in urban and pedestrian mobility contexts. The ability to compute distances, create buffers around points of interest, join datasets based on spatial relationships, and visualise patterns through maps is what transforms raw geographic data into actionable insights about how people move through and interact with urban environments.</p>
+<p>This section has introduced the foundational concepts and tools for geospatial analysis in Python, following the progression from data wrangling (melt and pivot) through GIS fundamentals (map types, vector vs.&nbsp;raster data, file formats, CRS and projections) to practical spatial analysis (GeoPandas operations, spatial relationships, joins, vector tools, visualisation, and raster basics). You have learned to read spatial data from multiple file formats, explore GeoDataFrames using the same methods you mastered for pandas DataFrames in Section 2.2, perform spatial operations including filtering, spatial joins, reprojecting, buffering, dissolving, and overlaying geometries, and create both static and interactive maps. You also understand the Modifiable Areal Unit Problem (MAUP) and its implications for the reliability of spatial analyses. These capabilities form the core toolkit for spatial analysis in urban and pedestrian mobility contexts.</p>
 </section>
 <section id="further-reading" class="level2">
 <h2 class="anchored" data-anchor-id="further-reading">Further Reading</h2>
@@ -754,16 +1045,18 @@ Be Aware of MAUP
 <li><a href="https://shapely.readthedocs.io/">Shapely Manual</a></li>
 <li>Geocomputation with Python: https://py.geocompx.org/</li>
 <li>Geographic Data Science with Python: https://geographicdata.science/book</li>
+<li><a href="https://geopandas.org/en/stable/docs/user_guide/projections.html">GeoPandas: Managing Projections</a></li>
 </ul>
 </section>
 <section id="practice-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="practice-exercises">Practice Exercises</h2>
 <ol type="1">
-<li>Load a shapefile of your choice and explore its attributes and geometry</li>
-<li>Reproject the data to at least two different CRS and observe the differences</li>
-<li>Create a 5km buffer around all points in a dataset</li>
-<li>Perform a spatial join to combine two datasets</li>
-<li>Create a choropleth map showing a variable of interest with a suitable classification scheme</li>
+<li>Load the NZ Regional Council 2025 GeoPackage and explore its attributes and geometry</li>
+<li>Reproject the data to EPSG:2193 (NZTM) and calculate the area of each region in square kilometres</li>
+<li>Create a 50km buffer around each regional centroid</li>
+<li>Perform a spatial join between the regional boundaries and a point dataset of your choice</li>
+<li>Create a classified choropleth map of population density using Fisher Jenks classification</li>
+<li>Dissolve regions by island and compare total areas of the North and South Islands</li>
 </ol>
 
 
