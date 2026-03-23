@@ -2,704 +2,775 @@
 
 ## Overview
 
-Welcome to the Tutorial! This lab introduces **momepy** (Morphological Measuring in Python) for analysing urban form and its relationship to pedestrian behaviour. You will download Auckland CBD's walkable street network, calculate connectivity and centrality measures, and test whether urban form helps explain the pedestrian count patterns you explored in earlier labs.
+This lab introduces you to working with **web APIs** (Application Programming Interfaces) to download geospatial data programmatically. You will start with two short, self-contained examples that demonstrate how APIs work in practice, then move on to New Zealand's national spatial data services.
 
-By the end of this lab you will be able to retrieve a street network from OpenStreetMap, compute morphological indicators with momepy, and link those indicators to real footfall data.
-
-**Duration:** approximately 1.5 hours
+**Duration:** approximately 2 hours
 
 **What you need:**
 
-- Python 3.10+ with `pandas`, `geopandas`, `matplotlib`, `osmnx`, `momepy`, `networkx`, and `scipy` installed
-- The files `akl_ped-2024.csv` and `akl_ped-Geodata.csv`
+- Python 3.10+ with `requests`, `geopandas`, `matplotlib`, `pandas`, `contextily`, and (optionally) `holoviews` / `hvplot` installed
 - A Python script, Jupyter notebook, or Quarto document to write your code
 
 **Structure:**
 
 | Part | Topic | Approx. Time |
 |------|-------|--------------|
-| 1 | Street networks with OSMnx | 25 min |
-| 2 | Morphological measures with momepy | 35 min |
-| 3 | Linking urban form to pedestrian footfall | 40 min |
-| 4 | Visualising walkability | 20 min |
-| -- | Final challenge | 15 min |
-
-::: {.callout-note}
-## Why Momepy?
-Urban form influences how people move. More connected, human-scale streets tend to have higher pedestrian activity, better walkability scores, and more vibrant urban life. Momepy lets us quantify these characteristics so that we can move beyond subjective judgements and test hypotheses with data.
-:::
+| 1 | Earthquake data from USGS | 15 min |
+| 2 | Philadelphia shootings from CARTO | 30 min |
+| 3 | Downloading GIS data from Stats NZ and LINZ | 75 min |
 
 ---
 
-# Part 1: Street Networks with OSMnx {.unnumbered}
+# Part 1: Earthquake Data from USGS {.unnumbered}
 
-## About OSMnx
+## What is an API?
 
-[OSMnx](https://osmnx.readthedocs.io/) is a Python library that downloads street network data from OpenStreetMap and converts it into a NetworkX graph. We can then extract nodes (intersections and dead ends) and edges (street segments) as GeoDataFrames for spatial analysis.
+An API (Application Programming Interface) is a set of rules that lets your code talk to a remote server and request data. Instead of downloading a file manually from a website, you send a structured request to a URL and receive structured data back. This is the foundation of reproducible data acquisition: your script *is* the download step.
 
-## Task 1: Downloading the Auckland CBD Network
+## Downloading Earthquake Data
+
+We begin with the simplest possible API example. The United States Geological Survey (USGS) publishes a real-time feed of recent earthquakes as GeoJSON. Because `geopandas` can read GeoJSON directly from a URL, a single line of code is enough to turn this feed into a spatial dataframe.
+
+The USGS earthquake feed at [earthquake.usgs.gov](https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson) returns all magnitude 2.5+ earthquakes from the past seven days.
 
 ```{python}
-import osmnx as ox
+#| eval: false
+import geopandas as gpd
+
+# Download data on magnitude 2.5+ quakes from the past week
+endpoint_url = (
+     "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson"
+ )
+earthquakes = gpd.read_file(endpoint_url)
+print(earthquakes.head())
+```
+
+That is the entire script. The key insight is that the USGS server returns a GeoJSON `FeatureCollection`, which is a format that GeoPandas understands natively. No authentication is required for this feed.
+
+::: {.callout-tip}
+## Try it yourself
+
+Run the code above and inspect the resulting dataframe. What columns are available? Try plotting the earthquakes on a world map with `earthquakes.plot()`. You can also colour the points by magnitude: `earthquakes.plot(column="mag", cmap="OrRd", legend=True)`.
+:::
+
+## Understanding the Pattern
+
+Even though this example is short, it demonstrates the core API pattern that we will use throughout this lab:
+
+| Step | What happens |
+|------|-------------|
+| 1. Construct a URL | The URL encodes *what* you want (earthquake data, magnitude 2.5+, past week) |
+| 2. Send a request | `gpd.read_file()` sends an HTTP GET request to the server |
+| 3. Parse the response | The GeoJSON response is automatically converted to a GeoDataFrame |
+
+In Parts 2 and 3, we will see how to add query parameters, authentication, and more complex workflows, but the fundamental pattern remains the same.
+
+---
+
+# Part 2: Philadelphia Shootings from CARTO {.unnumbered}
+
+This example uses the **CARTO SQL API**, which lets you query a hosted PostGIS database using SQL. The City of Philadelphia publishes its shootings data through CARTO, and we can construct queries to filter, aggregate, and download exactly the subset we need.
+
+## Step 1: Query the API
+
+Unlike the USGS feed, the CARTO API takes **query parameters**. We pass a SQL query (`q`), the output format (`format`), and optionally which fields to skip.
+
+```{python}
+#| eval: false
 import geopandas as gpd
 import pandas as pd
-import numpy as np
+import requests
+from matplotlib import pyplot as plt
+
+pd.options.display.max_columns = 999
+
+# The API endpoint
+carto_api_endpoint = "https://phl.carto.com/api/v2/sql"
+
+# The query parameters
+params = {
+    "q": "SELECT * FROM shootings",
+    "format": "geojson",
+    "skipfields": "cartodb_id",
+}
+
+response = requests.get(carto_api_endpoint, params=params)
+response
+```
+
+::: {.callout-note}
+## SQL via API
+
+The CARTO SQL API is powerful because it lets you run arbitrary SQL queries on the server side. This means you can filter and aggregate data *before* downloading it, reducing both bandwidth and processing time on your local machine.
+:::
+
+## Step 2: Parse the Response
+
+The response is a GeoJSON dictionary. We can inspect its structure and then convert it to a GeoDataFrame.
+
+```{python}
+#| eval: false
+# Get the returned data in JSON format
+# This is a dictionary
+features = response.json()
+type(features)
+
+# What are the keys?
+list(features.keys())
+
+# Let's look at the first feature
+features["features"][0]
+
+# Create a GeoDataFrame
+shootings = gpd.GeoDataFrame.from_features(features, crs="EPSG:4326")
+shootings.head()
+```
+
+## Step 3: Clean and Project
+
+```{python}
+#| eval: false
+# Make sure we remove missing geometries
+shootings = shootings.dropna(subset=["geometry"])
+
+# Convert to a better CRS
+shootings = shootings.to_crs(epsg=3857)
+
+# Load city limits to clip the data
+city_limits = gpd.read_file(
+    "https://opendata.arcgis.com/datasets/405ec3da942d4e20869d4e1449a2be48_0.geojson"
+).to_crs(epsg=3857)
+
+# Remove any shootings that are outside the city limits
+shootings = gpd.sjoin(
+    shootings, city_limits, predicate="within", how="inner"
+).drop(columns=["index_right"])
+```
+
+## Step 4: Visualisation
+
+With the cleaned data in hand, we can produce two complementary visualisations: a point map and a hexbin map.
+
+```{python}
+#| eval: false
+# From Open Data Philly
+zip_codes = gpd.read_file(
+    "https://opendata.arcgis.com/datasets/b54ec5210cee41c3a884c9086f7af1be_0.geojson"
+).to_crs(epsg=3857)
+
+fig, ax = plt.subplots(figsize=(6, 6))
+
+# ZIP Codes
+zip_codes.plot(ax=ax, facecolor="none", edgecolor="black")
+
+# Shootings
+shootings.plot(ax=ax, color="crimson", markersize=10, alpha=0.4)
+ax.set_axis_off()
+```
+
+### Hexbin Map
+
+A hexbin map aggregates point events into hexagonal bins, revealing density patterns that are hard to see in a simple point map.
+
+```{python}
+#| eval: false
+# Initialize the axes
+fig, ax = plt.subplots(figsize=(10, 10), facecolor=plt.get_cmap("viridis")(0))
+
+# Convert to Web Mercator and plot the hexbins
+x = shootings.geometry.x
+y = shootings.geometry.y
+ax.hexbin(x, y, gridsize=40, mincnt=1, cmap="viridis")
+
+# Overlay the city limits
+zip_codes.plot(ax=ax, facecolor="none", linewidth=0.5, edgecolor="white")
+ax.set_axis_off()
+```
+
+## Step 5: Filtering with SQL
+
+One of the strengths of the CARTO API is that you can filter on the server side using SQL.
+
+```{python}
+#| eval: false
+# Example: Count the total number of rows in a table
+response = requests.get(
+    carto_api_endpoint, params={"q": "SELECT COUNT(*) FROM shootings"}
+)
+response.json()
+
+# Select nonfatal shootings only
+query = "SELECT * FROM shootings WHERE fatal = 0"
+params = {"q": query, "format": "geojson"}
+response = requests.get(carto_api_endpoint, params=params)
+
+# Make the GeoDataFrame
+nonfatal = gpd.GeoDataFrame.from_features(response.json(), crs="EPSG:4326")
+print("number of nonfatal shootings = ", len(nonfatal))
+
+# Select based on "date_"
+query = "SELECT * FROM shootings WHERE date_ >= '1/1/23'"
+params = {"q": query, "format": "geojson"}
+response = requests.get(carto_api_endpoint, params=params)
+
+# Make the GeoDataFrame
+shootings_2023 = gpd.GeoDataFrame.from_features(response.json(), crs="EPSG:4326")
+print("number of shootings in 2023 = ", len(shootings_2023))
+```
+
+## At-Home Exercise: Explore Trends by Month and Day of Week
+
+```{python}
+#| eval: false
+# Convert the date column to a datetime object
+shootings["date"] = pd.to_datetime(shootings["date_"])
+
+# Add new columns: Month and Day of Week
+shootings["Month"] = shootings["date"].dt.month
+shootings["Day of Week"] = shootings["date"].dt.dayofweek  # Monday is 0, Sunday is 6
+
+count = shootings.groupby(["Month", "Day of Week"]).size()
+count = count.reset_index(name="Count")
+count.head()
+```
+
+```{python}
+#| eval: false
+import hvplot.pandas
+
+# Remember 0 is Monday and 6 is Sunday
+count.hvplot.heatmap(
+    x="Day of Week",
+    y="Month",
+    C="Count",
+    cmap="viridis",
+    width=400,
+    height=500,
+    flip_yaxis=True,
+)
+```
+
+::: {.callout-tip}
+## Key takeaway from Part 2
+
+The CARTO example shows a more realistic API workflow: you construct query parameters, send a request with `requests.get()`, parse the JSON response, and convert it to a GeoDataFrame. This pattern appears in many geospatial web services.
+:::
+
+---
+
+# Part 3: Downloading GIS Data from Stats NZ and LINZ {#sec-lab-statsNZ .unnumbered}
+
+## Introduction
+
+This part introduces two programmatic methods for downloading GIS layers from New Zealand's national spatial data services: the **Stats NZ Geographic Data Service** ([datafinder.stats.govt.nz](https://datafinder.stats.govt.nz/)) and the **LINZ Data Service** ([data.linz.govt.nz](https://data.linz.govt.nz/)). Rather than clicking through the web interface every time, you will write Python scripts that fetch, poll, and load geospatial data automatically. This is an essential habit in reproducible research: when your data acquisition step is scripted, anyone can re-run your entire workflow from scratch.
+
+Both services are built on the **Koordinates** platform, which exposes a REST API. Every dataset you can browse in the web interface is also accessible programmatically using either of the two methods below.
+
+::: {.callout-note}
+## Why programmatic download?
+
+A manual download is fine for a one-off task, but it breaks reproducibility. If you are sharing your analysis through GitHub, a Quarto report, or a package, your collaborators cannot re-run the data acquisition step unless the exact same file is committed to the repository (which is impractical for large GIS files). A short script that downloads the data on demand is far more transparent and maintainable.
+:::
+
+### Methods covered
+
+| Method | Approach | Best for |
+|--------|----------|----------|
+| **Method A** | Koordinates Export API | Saving a local GeoPackage or Shapefile; offline workflows |
+| **Method B** | WFS (Web Feature Service) | Loading directly into a GeoDataFrame; spatial subsetting with a bounding box |
+
+---
+
+## Prerequisites
+
+Make sure the following packages are installed before starting:
+
+```{python}
+#| eval: false
+# Install if needed
+# uv pip install requests geopandas matplotlib contextily
+```
+
+```{python}
+#| eval: false
+import requests
+import time
+import zipfile
+import io
+import geopandas as gpd
 import matplotlib.pyplot as plt
-
-# Download the walkable street network for Auckland CBD
-# network_type='walk' includes footpaths, pedestrian streets, and shared paths
-# We use a bounding box centred on the CBD to capture the sensor area
-G = ox.graph_from_bbox(
-    bbox=(-36.839, -36.862, 174.755, 174.775),
-    network_type='walk'
-)
-
-print(f"Nodes (intersections): {G.number_of_nodes()}")
-print(f"Edges (street segments): {G.number_of_edges()}")
 ```
-
-```{python}
-# Convert the graph to GeoDataFrames
-nodes, edges = ox.graph_to_gdfs(G)
-
-print(f"Nodes shape: {nodes.shape}")
-print(f"Edges shape: {edges.shape}")
-```
-
-```{python}
-# Inspect the nodes table
-nodes.head()
-```
-
-```{python}
-# Inspect the edges table
-edges.head()
-```
-
-Each node has a latitude, longitude, and geometry (point). Each edge has a length in metres, a geometry (linestring), and street attributes such as name and highway type.
-
-**Your turn:** How many unique street names appear in the edges table? Use `edges["name"].nunique()` (you may need to handle lists first). Are there any unnamed segments?
-
-## Task 2: Visualising the Network
-
-```{python}
-fig, ax = ox.plot_graph(
-    G,
-    figsize=(10, 10),
-    node_size=5,
-    node_color="#1C7293",
-    edge_color="#999999",
-    edge_linewidth=0.5,
-    bgcolor="white",
-    show=False,
-    close=False
-)
-ax.set_title("Auckland CBD: Walkable Street Network", fontweight="bold", fontsize=14)
-plt.tight_layout()
-plt.show()
-```
-
-::: {.callout-tip}
-## Place Name Alternative
-If you prefer, you can also download by place name. Note that the geocoding result depends on how OpenStreetMap defines the boundary. If the place name returns an empty graph, fall back to the bounding box approach above.
-
-```python
-G = ox.graph_from_place("Auckland, New Zealand", network_type='walk')
-```
-
-You can also use `ox.graph_from_point()` with a distance radius:
-
-```python
-G = ox.graph_from_point((-36.849, 174.765), dist=1000, network_type='walk')
-```
-:::
-
-**Your turn:** Try downloading the network with `network_type='drive'` instead. How does the number of edges change? Why might the walkable network have more edges than the drivable one?
 
 ---
 
-# Part 2: Morphological Measures with Momepy {.unnumbered}
+## Step 1: Create an Account and Obtain an API Key
 
-Momepy provides functions to quantify the morphological characteristics of urban form. We focus on three street network measures that are relevant to walkability: **node degree**, **meshedness**, and **closeness centrality**.
+Both methods require a personal API key. Navigate to the Stats NZ Geographic Data Service and log in using your Koordinates ID. If you do not yet have one, click **Sign Up** on the login page.
 
-## Task 3: Node Degree
+![Log in to Stats NZ Geographic Data Service using your Koordinates ID. If you do not have an account, click **Sign Up** to register.](../figs/lab4/lab4-login.jpg){fig-alt="Login page for Stats NZ Geographic Data Service showing email input and Next button" width="60%"}
 
-Node degree is the number of street segments meeting at an intersection. A 4-way intersection has degree 4; a dead end has degree 1. Higher average degree indicates a more connected, grid-like network with more route choices for pedestrians.
+Once logged in, go to:
 
-```{python}
-import momepy
+> **[https://datafinder.stats.govt.nz/my/api/](https://datafinder.stats.govt.nz/my/api/)**
 
-# Calculate node degree
-# momepy expects the graph as a NetworkX object
-degree_dict = dict(G.degree())
-
-# Add degree to the nodes GeoDataFrame
-nodes["degree"] = nodes.index.map(degree_dict)
-
-print(f"Average node degree: {nodes['degree'].mean():.2f}")
-print(f"Maximum degree: {nodes['degree'].max()}")
-print(f"Minimum degree: {nodes['degree'].min()}")
-```
-
-```{python}
-# Distribution of node degrees
-print(nodes["degree"].value_counts().sort_index())
-```
-
-```{python}
-# Map node degree
-fig, ax = plt.subplots(figsize=(10, 10))
-
-nodes.plot(
-    ax=ax,
-    column="degree",
-    cmap="YlOrRd",
-    markersize=nodes["degree"] * 8,
-    edgecolor="black",
-    linewidth=0.3,
-    legend=True,
-    legend_kwds={"label": "Node Degree", "shrink": 0.6}
-)
-
-edges.plot(ax=ax, color="#cccccc", linewidth=0.3, zorder=0)
-
-ax.set_title("Auckland CBD: Node Degree (Street Connectivity)", fontweight="bold")
-ax.set_axis_off()
-plt.tight_layout()
-plt.show()
-```
-
-::: {.callout-note}
-## What Does Node Degree Tell Us?
-A node with degree 1 is a dead end. Degree 2 means the street simply continues (no intersection). Degree 3 is a T-junction, and degree 4 is a standard crossroads. Nodes with degree 5 or higher are complex intersections with many route choices. For walkability, higher average degree generally means a more permeable network.
-:::
-
-**Your turn:** What percentage of nodes are dead ends (degree 1)? What percentage are crossroads or higher (degree >= 4)?
-
-## Task 4: Closeness Centrality
-
-Closeness centrality measures how close a node is to all other nodes in the network. A node with high closeness centrality can be reached from anywhere in the network with relatively short travel distances. This is a proxy for accessibility.
-
-```{python}
-import networkx as nx
-
-# Calculate closeness centrality using network distance (edge length)
-centrality = nx.closeness_centrality(G, distance="length")
-
-# Add to nodes GeoDataFrame
-nodes["closeness"] = nodes.index.map(centrality)
-
-print(f"Mean closeness centrality: {nodes['closeness'].mean():.6f}")
-print(f"Max closeness centrality: {nodes['closeness'].max():.6f}")
-print(f"Min closeness centrality: {nodes['closeness'].min():.6f}")
-```
-
-```{python}
-# Map closeness centrality
-fig, ax = plt.subplots(figsize=(10, 10))
-
-nodes.plot(
-    ax=ax,
-    column="closeness",
-    cmap="plasma",
-    markersize=15,
-    edgecolor="none",
-    legend=True,
-    legend_kwds={"label": "Closeness Centrality", "shrink": 0.6}
-)
-
-edges.plot(ax=ax, color="#cccccc", linewidth=0.3, zorder=0)
-
-ax.set_title("Auckland CBD: Closeness Centrality", fontweight="bold")
-ax.set_axis_off()
-plt.tight_layout()
-plt.show()
-```
-
-**Your turn:** Which area of the CBD has the highest closeness centrality? Does this align with where you would expect the most accessible location to be?
-
-## Task 5: Betweenness Centrality
-
-Betweenness centrality measures how often a node lies on the shortest path between other pairs of nodes. A node with high betweenness is a critical route through the network. Removing it would force pedestrians to take longer detours.
-
-```{python}
-# Calculate betweenness centrality (may take a moment)
-betweenness = nx.betweenness_centrality(G, weight="length")
-
-nodes["betweenness"] = nodes.index.map(betweenness)
-
-print(f"Mean betweenness: {nodes['betweenness'].mean():.6f}")
-print(f"Max betweenness: {nodes['betweenness'].max():.6f}")
-```
-
-```{python}
-# Map betweenness centrality
-fig, ax = plt.subplots(figsize=(10, 10))
-
-nodes.plot(
-    ax=ax,
-    column="betweenness",
-    cmap="inferno",
-    markersize=15,
-    edgecolor="none",
-    legend=True,
-    legend_kwds={"label": "Betweenness Centrality", "shrink": 0.6}
-)
-
-edges.plot(ax=ax, color="#cccccc", linewidth=0.3, zorder=0)
-
-ax.set_title("Auckland CBD: Betweenness Centrality", fontweight="bold")
-ax.set_axis_off()
-plt.tight_layout()
-plt.show()
-```
-
-::: {.callout-note}
-## Closeness vs Betweenness
-Closeness centrality answers "how easy is it to reach everywhere from here?" whilst betweenness centrality answers "how many shortest paths pass through here?" A node can be highly central by closeness but low by betweenness if it is well-located but not on many through-routes. Both are useful for understanding pedestrian flow patterns.
-:::
-
-**Your turn:** Create a side-by-side comparison (1 x 2 subplot) of closeness and betweenness centrality maps. Do the spatial patterns differ?
-
-## Task 6: Network Summary Statistics
-
-Momepy and NetworkX together provide several summary statistics that characterise the overall walkability of a street network.
-
-```{python}
-# Basic network statistics from OSMnx
-stats = ox.stats.basic_stats(G)
-
-print("=== Network Summary ===")
-print(f"Number of nodes:        {stats['n']}")
-print(f"Number of edges:        {stats['m']}")
-print(f"Average node degree:    {stats['k_avg']:.2f}")
-print(f"Total edge length:      {stats['edge_length_total']:.0f} m")
-print(f"Average edge length:    {stats['edge_length_avg']:.1f} m")
-```
-
-```{python}
-# Intersection count (nodes with degree > 1)
-intersections = nodes[nodes["degree"] > 1]
-dead_ends = nodes[nodes["degree"] == 1]
-
-print(f"\nIntersections:          {len(intersections)}")
-print(f"Dead ends:              {len(dead_ends)}")
-print(f"Dead-end ratio:         {len(dead_ends) / len(nodes):.1%}")
-```
-
-```{python}
-# Meshedness ratio: proportion of actual loops relative to maximum possible
-# A higher meshedness means more route choices
-n_nodes = G.number_of_nodes()
-n_edges = G.number_of_edges()
-meshedness = (n_edges - n_nodes + 1) / (2 * n_nodes - 5) if n_nodes > 2 else 0
-
-print(f"\nMeshedness ratio:       {meshedness:.3f}")
-print("(0 = tree/no loops, 1 = maximally connected)")
-```
-
-::: {.callout-tip}
-## Interpreting Meshedness
-A meshedness ratio close to 0 means the network is tree-like with few alternative routes. A ratio closer to 1 means there are many loops and route choices. Most urban street networks fall between 0.1 and 0.5. Higher values generally indicate better walkability because pedestrians have more route options.
-:::
-
-**Your turn:** Compare the meshedness of the walk network with the drive network. Which is more "meshed" and why?
-
----
-
-# Part 3: Linking Urban Form to Pedestrian Footfall {.unnumbered}
-
-Now we connect the morphological measures from Part 2 with the pedestrian count data from the Auckland CBD sensors. The central hypothesis is: **more connected, more central streets should have higher pedestrian activity**.
-
-## Task 7: Loading and Preparing the Pedestrian Data
-
-```{python}
-# Load pedestrian counts and geodata
-ped = pd.read_csv("data/akl_ped-2024.csv")
-geo = pd.read_csv("data/akl_ped-Geodata.csv")
-
-# Clean the pedestrian data
-ped = ped.dropna(subset=["Date", "Time"]).copy()
-ped = ped[ped["Date"] != "Daylight Savings"].copy()
-ped["Date"] = pd.to_datetime(ped["Date"])
-
-# Extract temporal features
-ped["hour"] = ped["Time"].str.split(":").str[0].astype(int)
-ped["month"] = ped["Date"].dt.month
-
-# Sensor columns
-sensor_cols = ped.columns[2:23]
-
-print(f"Pedestrian data: {ped.shape}")
-print(f"Sensor locations: {len(geo)}")
-```
-
-```{python}
-# Calculate the annual average hourly count for each sensor
-avg_counts = ped[sensor_cols].mean()
-
-# Create a summary table with coordinates
-sensor_summary = geo.copy()
-sensor_summary["avg_count"] = sensor_summary["Address"].map(avg_counts)
-sensor_summary = sensor_summary.dropna(subset=["avg_count"])
-
-print("Average hourly count by sensor:")
-print(sensor_summary[["Address", "avg_count"]].sort_values("avg_count", ascending=False).to_string(index=False))
-```
-
-## Task 8: Creating a Spatial Join
-
-To link pedestrian sensors with network nodes, we need to find the nearest node to each sensor location. This requires projecting both datasets to a metric coordinate reference system (NZGD2000 / New Zealand Transverse Mercator, EPSG:2193).
-
-```{python}
-# Convert sensors to GeoDataFrame
-sensor_gdf = gpd.GeoDataFrame(
-    sensor_summary,
-    geometry=gpd.points_from_xy(sensor_summary["Longitude"], sensor_summary["Latitude"]),
-    crs="EPSG:4326"
-)
-
-# Project both to NZTM (metres)
-sensor_proj = sensor_gdf.to_crs("EPSG:2193")
-nodes_proj = nodes.to_crs("EPSG:2193")
-
-print(f"Sensors: {len(sensor_proj)}")
-print(f"Network nodes: {len(nodes_proj)}")
-```
-
-```{python}
-# Find the nearest network node for each sensor
-from shapely.ops import nearest_points
-
-def find_nearest_node(sensor_point, nodes_gdf):
-    """Return the index of the nearest node to a given point."""
-    distances = nodes_gdf.geometry.distance(sensor_point)
-    nearest_idx = distances.idxmin()
-    return nearest_idx, distances[nearest_idx]
-
-# Apply to each sensor
-results = sensor_proj.geometry.apply(lambda pt: find_nearest_node(pt, nodes_proj))
-sensor_proj["nearest_node"] = results.apply(lambda x: x[0])
-sensor_proj["distance_to_node"] = results.apply(lambda x: x[1])
-
-print("Distance from each sensor to its nearest node (metres):")
-print(sensor_proj[["Address", "distance_to_node"]].to_string(index=False))
-```
-
-```{python}
-# Join morphological measures from nodes to sensors
-sensor_morphology = sensor_proj.merge(
-    nodes[["degree", "closeness", "betweenness"]],
-    left_on="nearest_node",
-    right_index=True,
-    how="left"
-)
-
-sensor_morphology[["Address", "avg_count", "degree", "closeness", "betweenness"]].round(6)
-```
+Click **Create API Key**, give it a descriptive name (for example, `GISCI343`), and copy the key value. You will not be shown the full key again after navigating away from the page.
 
 ::: {.callout-warning}
-## Spatial Join Caveats
-We have only 19 sensor locations, which is a small sample for correlation analysis. The nearest node may not perfectly represent the morphological context of the sensor (a sensor on a long block might be far from the nearest intersection). Interpret results as exploratory rather than confirmatory.
+## Keep your API key private
+
+Your API key is a credential. Treat it like a password. Never paste it directly into a shared notebook or commit it to a public repository.
+
+Store it in a separate file (for example `config.py`) that is listed in your `.gitignore`:
+
+```python
+# config.py  ← add this filename to .gitignore
+API_KEY = "your_key_here"
+```
+
+Then import it in your analysis script:
+
+```python
+from config import API_KEY
+```
 :::
 
-**Your turn:** Check the `distance_to_node` values. Are any sensors suspiciously far from their nearest node? How might you set a maximum threshold (e.g. 100 m) to filter out poor matches?
+---
 
-## Task 9: Testing the Hypothesis
+## Step 2: Find the Layer You Need
 
-```{python}
-from scipy.stats import pearsonr, spearmanr
+For this lab we will use the **Regional Council 2025 Clipped** layer (Layer ID: `120945`), which contains the 17 regional boundaries of New Zealand.
 
-# Pearson correlation: degree vs average footfall
-corr_degree, p_degree = pearsonr(
-    sensor_morphology["degree"],
-    sensor_morphology["avg_count"]
-)
+Navigate to the layer page to review the metadata before downloading:
 
-# Spearman correlation (rank-based, less sensitive to outliers)
-rho_degree, p_rho_degree = spearmanr(
-    sensor_morphology["degree"],
-    sensor_morphology["avg_count"]
-)
+> **[https://datafinder.stats.govt.nz/layer/120945-regional-council-2025-clipped/](https://datafinder.stats.govt.nz/layer/120945-regional-council-2025-clipped/)**
 
-print("=== Degree vs Pedestrian Count ===")
-print(f"Pearson r  = {corr_degree:.3f}  (p = {p_degree:.3f})")
-print(f"Spearman ρ = {rho_degree:.3f}  (p = {p_rho_degree:.3f})")
+The homepage provides a search bar and a catalogue of all available datasets:
+
+![Stats NZ Geographic Data Service homepage --- search for a dataset by name, or browse the Most Popular section.](../figs/lab4/lab4-statsnz.jpg){fig-alt="Stats NZ Geographic Data Service homepage showing search bar, a data table, and a map of New Zealand" width="100%"}
+
+### Finding the Layer ID
+
+Every API request requires the **Layer ID**, the integer that uniquely identifies a dataset. There are two ways to find it.
+
+**Method 1: Read it from the URL**
+
+When you open any layer page, the Layer ID is embedded directly in the browser address bar:
+
+```
+https://datafinder.stats.govt.nz/layer/120945-regional-council-2025-clipped/
+                                       ^^^^^^
+                                       This is the Layer ID
 ```
 
+**Method 2: Read it from the Info tab**
+
+Open the layer page and make sure the **Info** tab is selected (it is the default). Scroll down below the thumbnail and you will see a metadata row showing Date Added, Last Updated, Views, Exports, and **Layer ID**. The number displayed there (e.g. `120945`) is what you use in your script.
+
+![Two places the Layer ID appears: highlighted in the URL bar (top) and in the metadata row of the Info tab (bottom left).](../figs/lab4/lab4-layer.png){fig-alt="Annotated layer page showing Layer ID 120945 circled in the URL and highlighted in the Info tab metadata row" width="100%"}
+
+::: {.callout-tip}
+## Quick tip: search first, then check the URL
+
+Search for the dataset you need using the search bar on the homepage. Once you have opened the correct layer page, copy the integer from the URL. It is always the first numeric segment after `/layer/`. You do not need to navigate anywhere else.
+:::
+
+---
+
+## Method A: Koordinates Export API {#sec-lab-statsNZ-export-api}
+
+The Export API creates a downloadable ZIP archive of a layer in a format and CRS of your choice. The workflow has three stages: **create**, **poll**, then **download**.
+
+The settings you choose when calling the API mirror exactly what the web interface shows in the Export dialog:
+
+![Export dialog --- the CRS dropdown, format selector, and layer checkbox correspond directly to the fields in the API request body.](../figs/lab4/lab04-export_dialog.jpg){fig-alt="Export dialog showing CRS set to NZGD2000 / NZTM 2000 EPSG:2193, format GeoPackage/SQLite, and the layer checkbox ticked" width="100%"}
+
+### Stage 1: Create the Export Job
+
+Send a POST request with a JSON body specifying the layer URL, CRS, and file format. The `Authorization` header carries your API key.
+
 ```{python}
-# Closeness centrality vs footfall
-corr_close, p_close = pearsonr(
-    sensor_morphology["closeness"],
-    sensor_morphology["avg_count"]
-)
+#| eval: false
+import requests
+import time
+import zipfile
+import io
+import geopandas as gpd
 
-rho_close, p_rho_close = spearmanr(
-    sensor_morphology["closeness"],
-    sensor_morphology["avg_count"]
-)
+from config import API_KEY  # store your key in config.py
 
-print("=== Closeness Centrality vs Pedestrian Count ===")
-print(f"Pearson r  = {corr_close:.3f}  (p = {p_close:.3f})")
-print(f"Spearman ρ = {rho_close:.3f}  (p = {p_rho_close:.3f})")
-```
+LAYER_ID = 120945
+BASE_URL = "https://datafinder.stats.govt.nz/services/api/v1.x"
 
-```{python}
-# Betweenness centrality vs footfall
-corr_btwn, p_btwn = pearsonr(
-    sensor_morphology["betweenness"],
-    sensor_morphology["avg_count"]
-)
+HEADERS = {
+    "Authorization": f"key {API_KEY}",
+    "Content-Type":  "application/json",
+}
 
-rho_btwn, p_rho_btwn = spearmanr(
-    sensor_morphology["betweenness"],
-    sensor_morphology["avg_count"]
-)
+payload = {
+    "crs":     "EPSG:2193",
+    "formats": {"vector": "application/x-ogc-gpkg"},
+    "items":   [{"item": f"{BASE_URL}/layers/{LAYER_ID}/"}],
+}
 
-print("=== Betweenness Centrality vs Pedestrian Count ===")
-print(f"Pearson r  = {corr_btwn:.3f}  (p = {p_btwn:.3f})")
-print(f"Spearman ρ = {rho_btwn:.3f}  (p = {p_rho_btwn:.3f})")
+response = requests.post(f"{BASE_URL}/exports/", json=payload, headers=HEADERS)
+response.raise_for_status()
+
+export_data = response.json()
+export_url  = export_data["url"]
+print(f"Export job created: {export_url}")
+print(f"Current state: {export_data['state']}")
 ```
 
 ::: {.callout-note}
-## Interpreting the Results
-A positive correlation means that sensors near more connected/central nodes tend to have higher pedestrian counts. A p-value below 0.05 is conventionally considered statistically significant, but with only 19 observations, treat significance cautiously. The Spearman rank correlation is more robust when the relationship is not strictly linear or when outliers are present.
+## Available format strings
+
+| Format string | Output |
+|---------------|--------|
+| `application/x-ogc-gpkg` | GeoPackage (recommended) |
+| `application/x-zipped-shp` | Shapefile (ZIP) |
+| `application/json` | GeoJSON |
+| `text/csv` | CSV (attributes only, no geometry) |
 :::
 
-**Your turn:** Does the correlation change if you use only weekday data (Monday to Friday)? Recalculate `avg_count` for weekdays only and re-run the correlation tests.
+### Stage 2: Poll Until Ready
 
-## Task 10: Scatter Plots of Form vs Function
+The export is prepared asynchronously. Check the `state` field every few seconds until it returns `"complete"`.
 
 ```{python}
-fig, axes = plt.subplots(1, 3, figsize=(16, 5))
+#| eval: false
+print("Waiting for export...", end="", flush=True)
 
-# Degree vs footfall
-axes[0].scatter(
-    sensor_morphology["degree"],
-    sensor_morphology["avg_count"],
-    c="#1C7293", s=80, edgecolor="white", linewidth=0.5, alpha=0.8
-)
-axes[0].set_xlabel("Node Degree")
-axes[0].set_ylabel("Average Hourly Pedestrian Count")
-axes[0].set_title(f"Connectivity\nr = {corr_degree:.3f}", fontweight="bold")
+while True:
+    poll = requests.get(export_url, headers=HEADERS)
+    poll.raise_for_status()
+    state = poll.json()["state"]
+    print(".", end="", flush=True)
 
-# Closeness vs footfall
-axes[1].scatter(
-    sensor_morphology["closeness"],
-    sensor_morphology["avg_count"],
-    c="#F96167", s=80, edgecolor="white", linewidth=0.5, alpha=0.8
-)
-axes[1].set_xlabel("Closeness Centrality")
-axes[1].set_ylabel("Average Hourly Pedestrian Count")
-axes[1].set_title(f"Closeness Centrality\nr = {corr_close:.3f}", fontweight="bold")
+    if state == "complete":
+        download_url = poll.json()["download_url"]
+        print(f"\nReady: {download_url}")
+        break
+    elif state in ("error", "cancelled"):
+        raise RuntimeError(f"Export failed with state: {state}")
 
-# Betweenness vs footfall
-axes[2].scatter(
-    sensor_morphology["betweenness"],
-    sensor_morphology["avg_count"],
-    c="#1B998B", s=80, edgecolor="white", linewidth=0.5, alpha=0.8
-)
-axes[2].set_xlabel("Betweenness Centrality")
-axes[2].set_ylabel("Average Hourly Pedestrian Count")
-axes[2].set_title(f"Betweenness Centrality\nr = {corr_btwn:.3f}", fontweight="bold")
-
-plt.suptitle("Urban Form vs Pedestrian Activity: Auckland CBD", fontsize=14, fontweight="bold", y=1.02)
-plt.tight_layout()
-plt.show()
+    time.sleep(5)
 ```
 
-**Your turn:** Add sensor labels to the scatter plots using `ax.annotate()` so you can identify which locations are outliers. Are there sensors that have high footfall despite low connectivity, or vice versa?
+### Stage 3: Download and Load
+
+You can either save the ZIP to disk first, or extract it entirely in memory.
+
+```{python}
+#| eval: false
+# --- Option 1: Save to disk ---
+dl = requests.get(download_url, headers=HEADERS, stream=True)
+dl.raise_for_status()
+
+with open("regional_council_2025.zip", "wb") as f:
+    for chunk in dl.iter_content(chunk_size=8192):
+        f.write(chunk)
+
+with zipfile.ZipFile("regional_council_2025.zip") as zf:
+    gpkg_name = [n for n in zf.namelist() if n.endswith(".gpkg")][0]
+    zf.extractall("regional_council_2025/")
+
+gdf = gpd.read_file(f"regional_council_2025/{gpkg_name}")
+print(gdf.shape, gdf.crs)
+```
+
+```{python}
+#| eval: false
+# --- Option 2: Extract entirely in memory (no file saved) ---
+dl2 = requests.get(download_url, headers=HEADERS)
+with zipfile.ZipFile(io.BytesIO(dl2.content)) as zf:
+    gpkg_name = [n for n in zf.namelist() if n.endswith(".gpkg")][0]
+    gdf = gpd.read_file(zf.open(gpkg_name))
+
+print(gdf.shape, gdf.crs)
+gdf.plot()
+```
 
 ---
 
-# Part 4: Visualising Walkability {.unnumbered}
+## Method B: WFS (Web Feature Service) {#sec-lab-statsNZ-wfs}
 
-## Task 11: Overlay Sensors on the Network Map
+WFS is an OGC standard that lets you stream vector features directly into Python without downloading a ZIP. The endpoint is found under the **Services and APIs** tab on the layer page. Select **WFS** from the left-hand list and choose your API key from the dropdown.
 
-Combining the network structure with the pedestrian sensor data on a single map gives a clear picture of where form and function intersect.
+![Services and APIs tab --- click WFS in the left panel to see the pre-filled endpoint URL and API key selector.](../figs/lab4/lab4-wfs.png){fig-alt="Services and APIs tab showing Kart, WFS, CS-W, and Spatial Query API options on the left, with WFS endpoint URL on the right" width="100%"}
+
+### Read Directly into a GeoDataFrame
+
+Construct the WFS URL and pass it directly to `gpd.read_file()`. GeoPandas fetches and parses the GeoJSON response automatically.
 
 ```{python}
-fig, ax = plt.subplots(figsize=(10, 10))
+#| eval: false
+import geopandas as gpd
+from config import API_KEY
 
-# Plot edges coloured by a light grey
-edges.plot(ax=ax, color="#cccccc", linewidth=0.4, zorder=1)
+LAYER_ID = 120945
+wfs_base = f"https://datafinder.stats.govt.nz/services;key={API_KEY}/wfs/"
 
-# Plot nodes coloured by closeness centrality
-nodes.plot(
-    ax=ax,
-    column="closeness",
-    cmap="Blues",
-    markersize=3,
-    edgecolor="none",
-    alpha=0.5,
-    zorder=2
+params = (
+    "service=WFS&version=2.0.0&request=GetFeature"
+    f"&typeNames=layer-{LAYER_ID}"
+    "&outputFormat=application/json"
+    "&srsName=EPSG:2193"
 )
 
-# Overlay pedestrian sensors as sized circles
-sensor_gdf_wgs = sensor_morphology.to_crs("EPSG:4326")
-sensor_gdf_wgs.plot(
-    ax=ax,
-    column="avg_count",
-    cmap="YlOrRd",
-    markersize=sensor_gdf_wgs["avg_count"] / 3,
-    edgecolor="black",
-    linewidth=0.5,
-    legend=True,
-    legend_kwds={"label": "Avg Pedestrian Count", "shrink": 0.5},
-    zorder=3
+gdf = gpd.read_file(f"{wfs_base}?{params}")
+print(gdf.shape)   # (17, n_columns)
+print(gdf.crs)     # EPSG:2193
+gdf.plot(figsize=(8, 10))
+```
+
+### Spatial Subsetting with a Bounding Box
+
+For large layers, add a `bbox` parameter to retrieve only the features intersecting a defined area:
+
+```{python}
+#| eval: false
+# Bounding box for Auckland region (EPSG:2193, metres)
+# Format: min_easting, min_northing, max_easting, max_northing
+bbox = "1730000,5900000,1820000,5990000"
+
+params_bbox = (
+    "service=WFS&version=2.0.0&request=GetFeature"
+    f"&typeNames=layer-{LAYER_ID}"
+    "&outputFormat=application/json&srsName=EPSG:2193"
+    f"&bbox={bbox},EPSG:2193"
 )
 
-ax.set_title("Auckland CBD: Street Centrality and Pedestrian Activity", fontweight="bold")
-ax.set_axis_off()
-plt.tight_layout()
-plt.show()
+gdf_akl = gpd.read_file(f"{wfs_base}?{params_bbox}")
+print(gdf_akl[["REGC2025_1", "LAND_AREA_SQ_KM"]])
+gdf_akl.plot(figsize=(6, 6))
 ```
-
-## Task 12: Interactive Web Map
-
-```{python}
-import folium
-
-# Create base map
-m = folium.Map(
-    location=[-36.849, 174.765],
-    zoom_start=15,
-    tiles="CartoDB positron"
-)
-
-# Add pedestrian sensors as proportional circles
-for _, row in sensor_gdf_wgs.iterrows():
-    folium.CircleMarker(
-        location=[row.geometry.y, row.geometry.x],
-        radius=row["avg_count"] / 60,
-        color="black",
-        weight=0.5,
-        fill=True,
-        fill_color="orangered",
-        fill_opacity=0.6,
-        tooltip=(
-            f"<b>{row['Address']}</b><br>"
-            f"Avg count: {row['avg_count']:.0f}/hr<br>"
-            f"Node degree: {row['degree']}<br>"
-            f"Closeness: {row['closeness']:.5f}<br>"
-            f"Betweenness: {row['betweenness']:.5f}"
-        )
-    ).add_to(m)
-
-m
-```
-
-**Your turn:** Add the network edges to the Folium map. You can iterate over the edges GeoDataFrame and add each line as a `folium.PolyLine`. Colour the edges by closeness centrality of their start node.
-
-## Task 13: Temporal Variation in Form-Function Relationship
-
-Does the relationship between urban form and pedestrian activity change throughout the day? During the morning rush, commuters may follow direct routes (favouring high-betweenness nodes), whilst at lunchtime, pedestrians may disperse to a wider variety of destinations.
-
-```{python}
-# Calculate average counts by hour for each sensor
-target_hours = [7, 9, 12, 15, 17, 20]
-
-hourly_correlations = []
-
-for h in target_hours:
-    hour_data = ped[ped["hour"] == h][sensor_cols].mean()
-
-    # Match to sensors with morphology data
-    temp = sensor_morphology.copy()
-    temp["hour_count"] = temp["Address"].map(hour_data)
-    temp = temp.dropna(subset=["hour_count"])
-
-    r_degree, _ = pearsonr(temp["degree"], temp["hour_count"])
-    r_close, _ = pearsonr(temp["closeness"], temp["hour_count"])
-    r_btwn, _ = pearsonr(temp["betweenness"], temp["hour_count"])
-
-    hourly_correlations.append({
-        "hour": h,
-        "r_degree": r_degree,
-        "r_closeness": r_close,
-        "r_betweenness": r_btwn
-    })
-
-corr_df = pd.DataFrame(hourly_correlations)
-print(corr_df.round(3))
-```
-
-```{python}
-# Plot how correlations change through the day
-fig, ax = plt.subplots(figsize=(9, 5))
-
-ax.plot(corr_df["hour"], corr_df["r_degree"], "o-", label="Node Degree", color="#1C7293", linewidth=2)
-ax.plot(corr_df["hour"], corr_df["r_closeness"], "s-", label="Closeness", color="#F96167", linewidth=2)
-ax.plot(corr_df["hour"], corr_df["r_betweenness"], "^-", label="Betweenness", color="#1B998B", linewidth=2)
-
-ax.axhline(y=0, color="grey", linestyle="--", alpha=0.5)
-ax.set_xlabel("Hour of Day")
-ax.set_ylabel("Pearson Correlation (r)")
-ax.set_title("How Does the Form-Function Relationship Change Through the Day?", fontweight="bold")
-ax.legend()
-ax.set_xticks(target_hours)
-ax.set_xticklabels([f"{h}:00" for h in target_hours])
-ax.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.show()
-```
-
-**Your turn:** Extend this analysis to compare weekdays and weekends. Do the correlations differ? You might expect betweenness to matter more on weekdays (commuters taking efficient routes) and closeness to matter more on weekends (leisure pedestrians exploring).
-
----
-
-# Comparing Walkability Measures {.unnumbered}
-
-| Measure | What It Captures | Walkability Relevance |
-|---------|-----------------|----------------------|
-| **Node degree** | Number of streets at an intersection | More route choices for pedestrians |
-| **Closeness centrality** | How close to all other nodes | Ease of reaching destinations |
-| **Betweenness centrality** | How many shortest paths pass through | Importance as a through-route |
-| **Meshedness** | Proportion of loops in network | Overall network permeability |
-| **Edge length** | Length of street segments | Shorter blocks = more walkable |
 
 ::: {.callout-tip}
-## Which Measure Is Best?
-There is no single "best" measure. Node degree is the simplest to interpret but ignores network structure beyond the immediate intersection. Closeness centrality captures global accessibility but is sensitive to the extent of the network analysed. Betweenness centrality identifies critical through-routes but may not reflect where people want to be, only where they must pass through. Use multiple measures together for a richer picture.
+## When should you use the bbox parameter?
+
+The Regional Council layer only has 17 features, so bbox filtering saves little time here. However, for large layers such as meshblocks (~50,000 features) or building outlines (~3 million features), restricting to your study area makes a significant difference in download time and memory usage.
 :::
 
 ---
 
-# Final Challenge {.unnumbered}
+## Comparison
 
-## Putting It All Together
-
-Using what you have learnt in Parts 1 to 4, produce a short visual analysis that addresses the following question:
-
-> **Does the morphological structure of Auckland CBD's street network help explain spatial variation in pedestrian activity?**
-
-Your analysis should include:
-
-1. **At least two morphological measures** calculated with momepy/NetworkX (e.g. degree and closeness centrality)
-2. **A spatial visualisation** showing both network measures and pedestrian counts on a single map
-3. **A statistical test** (correlation) linking form to function, with discussion of the result
-4. **Written interpretation**: below each figure, write 2-3 sentences explaining what the visualisation reveals
-
-::: {.callout-tip}
-## Ideas to Explore
-
-- Does the form-function relationship vary by time of day or day of week?
-- Are there sensors that defy the general trend (high footfall in low-connectivity areas, or vice versa)? What local factors might explain these outliers?
-- How does the walkable network compare to the drivable network in terms of connectivity?
-- Could a new pedestrian connection (e.g. a laneway or shared path) improve the connectivity of an under-performing area?
-:::
-
-**Time:** approximately 15 minutes
+| Consideration | Method A: Export API | Method B: WFS |
+|---|---|---|
+| Saves a local file? | Yes (ZIP + GeoPackage) | No (streams directly) |
+| Works offline? | Yes, after first download | No |
+| Code complexity | Moderate (3 stages) | Low (single line) |
+| Spatial filtering? | No (whole layer only) | Yes (`bbox` parameter) |
+| Output formats | GPKG, Shapefile, GeoJSON, CSV | GeoJSON, GML |
 
 ---
 
-## What You Have Learnt
+## Applying the Same Methods to LINZ Data Service {#sec-lab-linz}
 
-This lab introduced urban morphometrics as a lens for understanding pedestrian behaviour:
+The LINZ Data Service ([data.linz.govt.nz](https://data.linz.govt.nz/)) also runs on the Koordinates platform. This means the same two methods (Export API and WFS) work with only minor changes. You will need a separate API key from LINZ: sign up at [data.linz.govt.nz](https://data.linz.govt.nz/), then go to **My Account > API Keys** and generate one.
 
-1. **OSMnx** gave you access to street network data from OpenStreetMap, ready for analysis as NetworkX graphs and GeoDataFrames.
-2. **Momepy and NetworkX** provided morphological measures (node degree, closeness centrality, betweenness centrality, meshedness) that quantify the connectivity and accessibility of the street network.
-3. **Spatial joins** linked sensor locations to their nearest network nodes, enabling hypothesis testing about form and function.
-4. **Correlation analysis** tested whether more connected/central locations have higher pedestrian counts, with visualisations to support interpretation.
+In this section we will download **NZ Building Outlines (All Sources)** (Layer ID: `101292`) and plot the results for Auckland city centre.
 
-These skills provide the analytical foundation for exploring how urban design influences pedestrian behaviour, and they connect directly to the walkability concepts discussed in Shriv's guest lecture. In the assignment, you may choose to incorporate momepy analysis to tell a richer story about Auckland's pedestrian landscape.
+> **[https://data.linz.govt.nz/layer/101292-nz-building-outlines-all-sources/](https://data.linz.govt.nz/layer/101292-nz-building-outlines-all-sources/)**
+
+::: {.callout-important}
+## Large layers require spatial filtering
+
+The NZ Building Outlines layer contains approximately 3 million features nationally. Downloading the full layer via WFS is impractical. Always use a bounding box or the Export API when working with large datasets like this.
+:::
+
+### LINZ WFS with Bounding Box
+
+The LINZ WFS endpoint uses `cql_filter` with a `bbox()` function for spatial filtering, rather than the standard WFS `bbox` parameter. The geometry column for most LINZ layers is called `shape`.
+
+```{python}
+#| eval: false
+import json
+import requests
+import geopandas as gpd
+from config import LINZ_API_KEY  # store separately from Stats NZ key
+
+LAYER_ID = 101292
+WFS_URL = f"https://data.linz.govt.nz/services;key={LINZ_API_KEY}/wfs"
+
+# Auckland city centre bounding box (EPSG:4326)
+# min_lon, min_lat, max_lon, max_lat
+BBOX = (174.7339, -36.8679, 174.8013, -36.8284)
+
+params = {
+    "service": "WFS",
+    "version": "2.0.0",
+    "request": "GetFeature",
+    "typeNames": f"layer-{LAYER_ID}",
+    "outputFormat": "application/json",
+    "srsName": "EPSG:4326",
+    "count": 50000,
+    "cql_filter": (
+        f"bbox(shape,{BBOX[0]},{BBOX[1]},{BBOX[2]},{BBOX[3]},'EPSG:4326')"
+    ),
+}
+
+response = requests.get(WFS_URL, params=params, timeout=300)
+response.raise_for_status()
+
+geojson = response.json()
+n_features = len(geojson.get("features", []))
+print(f"Received {n_features} building outlines.")
+
+# Save to file
+with open("auckland_cbd_buildings.geojson", "w") as f:
+    json.dump(geojson, f, indent=2)
+```
+
+::: {.callout-note}
+## Key differences between Stats NZ and LINZ WFS
+
+| Feature | Stats NZ | LINZ |
+|---------|----------|------|
+| Base URL | `datafinder.stats.govt.nz` | `data.linz.govt.nz` |
+| API key | Stats NZ Koordinates account | LINZ Koordinates account |
+| Spatial filter | Standard WFS `bbox` parameter | `cql_filter=bbox(shape,...)` |
+| Default CRS | EPSG:2193 (NZTM) | EPSG:2193 (NZTM) |
+:::
+
+### Plotting the Auckland City Centre Buildings
+
+Once downloaded, load the GeoJSON into a GeoDataFrame and plot with a basemap for geographic context. The `contextily` library adds background map tiles automatically.
+
+```{python}
+#| eval: false
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+try:
+    import contextily as cx
+    HAS_BASEMAP = True
+except ImportError:
+    HAS_BASEMAP = False
+    print("contextily not installed -- plotting without basemap.")
+    print("Install with: pip install contextily")
+
+gdf = gpd.read_file("auckland_cbd_buildings.geojson")
+print(f"Loaded {len(gdf)} building outlines.")
+
+fig, ax = plt.subplots(1, 1, figsize=(12, 12))
+
+if HAS_BASEMAP:
+    # Reproject to Web Mercator for basemap tile alignment
+    gdf_wm = gdf.to_crs(epsg=3857)
+    gdf_wm.plot(
+        ax=ax,
+        facecolor="tomato",
+        edgecolor="darkred",
+        linewidth=0.15,
+        alpha=0.5,
+    )
+    cx.add_basemap(ax, source=cx.providers.CartoDB.Positron, zoom=15)
+    ax.set_axis_off()
+else:
+    gdf.plot(
+        ax=ax,
+        facecolor="steelblue",
+        edgecolor="navy",
+        linewidth=0.15,
+        alpha=0.6,
+    )
+    ax.set_xlabel("Longitude")
+    ax.set_ylabel("Latitude")
+    ax.set_aspect("equal")
+
+ax.set_title("Auckland City Centre Building Outlines (LINZ)", fontsize=14)
+plt.tight_layout()
+plt.savefig("auckland_cbd_buildings.png", dpi=200, bbox_inches="tight")
+plt.show()
+```
+
+### LINZ Export API
+
+For the full national dataset, the Export API is the better option. The code is nearly identical to the Stats NZ version, with only the base URL and API key changed:
+
+```{python}
+#| eval: false
+from config import LINZ_API_KEY
+
+LAYER_ID = 101292
+BASE_URL = "https://data.linz.govt.nz/services/api/v1"
+
+HEADERS = {
+    "Authorization": f"key {LINZ_API_KEY}",
+    "Content-Type": "application/json",
+}
+
+payload = {
+    "crs": "EPSG:2193",
+    "formats": {"vector": "application/x-ogc-gpkg"},
+    "items": [{"item": f"{BASE_URL}/layers/{LAYER_ID}/"}],
+}
+
+response = requests.post(f"{BASE_URL}/exports/", json=payload, headers=HEADERS)
+response.raise_for_status()
+
+export_data = response.json()
+export_url = export_data["url"]
+print(f"Export job created: {export_url}")
+
+# Poll and download using the same Stage 2 and Stage 3 code from Method A.
+# Note: the full building outlines export may take several minutes and
+# produce a file over 1 GB.
+```
+
+---
+
+## Your Turn
+
+::: {.callout-note}
+## Exercise 1
+
+Use **Method B (WFS)** to download the **Territorial Authority 2025 Clipped** layer (Layer ID: `120946`) from Stats NZ. Load it into a GeoDataFrame and produce a choropleth map showing land area (`LAND_AREA_SQ_KM`) by territorial authority. Label the Auckland region.
+:::
+
+::: {.callout-note}
+## Exercise 2
+
+Use **Method A (Export API)** to download the same Territorial Authority layer as a **Shapefile** (use format string `application/x-zipped-shp`). Compare the file size with the GeoPackage equivalent and comment on which format you would recommend and why.
+:::
+
+::: {.callout-note}
+## Exercise 3
+
+Using the LINZ WFS method from @sec-lab-linz, download the NZ Building Outlines for a different city centre of your choice (e.g. Wellington, Christchurch, or Dunedin). You will need to define an appropriate bounding box for your chosen area. Plot the building footprints and briefly comment on the urban form you observe compared with Auckland.
+
+Hint: use the LINZ map viewer to identify the bounding box coordinates for your study area.
+:::
+
+::: {.callout-note}
+## Exercise 4 (extension)
+
+Write a reusable Python function `download_koordinates_layer(base_url, layer_id, api_key, crs="EPSG:2193", fmt="application/x-ogc-gpkg")` that wraps the three-stage Export API workflow (create, poll, download) and returns a GeoDataFrame. The function should work with both Stats NZ and LINZ by accepting the base URL as a parameter. Test it on at least two different layers from each service.
+:::
+
+---
+
+## Summary
+
+In this lab you have learnt three approaches to programmatic GIS data acquisition:
+
+| Part | Source | Key concept |
+|------|--------|-------------|
+| Part 1 | USGS Earthquake Feed | Reading GeoJSON directly from a URL with `gpd.read_file()` |
+| Part 2 | CARTO SQL API | Sending query parameters with `requests.get()`, server-side SQL filtering |
+| Part 3 | Stats NZ / LINZ | Authenticated APIs, Export (create-poll-download) and WFS with spatial subsetting |
+
+The complexity increases from Part 1 to Part 3, but the underlying pattern is consistent: construct a URL or request, send it to a server, and parse the response into a GeoDataFrame. Once this pattern is internalised, you can apply it to virtually any geospatial web service.
+
+---
+
+## Further Reading
+
+- [Koordinates Export API documentation](https://help.koordinates.com/site-admin-apis/export-api/)
+- [Koordinates Python client library](https://koordinates-python.readthedocs.io/en/stable/)
+- [Stats NZ API Keys](https://datafinder.stats.govt.nz/my/api/)
+- [LINZ Data Service](https://data.linz.govt.nz/)
+- [OGC WFS standard](https://www.ogc.org/standards/wfs/)
+- [GeoPandas read_file documentation](https://geopandas.org/en/stable/docs/reference/api/geopandas.read_file.html)
+- [contextily documentation](https://contextily.readthedocs.io/en/latest/)

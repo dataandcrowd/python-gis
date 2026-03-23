@@ -5948,7 +5948,7 @@
     "href": "labs/lab-week04.html",
     "title": "Lab Week 04",
     "section": "",
-    "text": "Overview\nWelcome to the Tutorial! This lab introduces momepy (Morphological Measuring in Python) for analysing urban form and its relationship to pedestrian behaviour. You will download Auckland CBD’s walkable street network, calculate connectivity and centrality measures, and test whether urban form helps explain the pedestrian count patterns you explored in earlier labs.\nBy the end of this lab you will be able to retrieve a street network from OpenStreetMap, compute morphological indicators with momepy, and link those indicators to real footfall data.\nDuration: approximately 1.5 hours\nWhat you need:\nStructure:",
+    "text": "Overview\nThis lab introduces you to working with web APIs (Application Programming Interfaces) to download geospatial data programmatically. You will start with two short, self-contained examples that demonstrate how APIs work in practice, then move on to New Zealand’s national spatial data services.\nDuration: approximately 2 hours\nWhat you need:\nStructure:",
     "crumbs": [
       "labs.html",
       "Lab Week 04"
@@ -5959,7 +5959,7 @@
     "href": "labs/lab-week04.html#overview",
     "title": "Lab Week 04",
     "section": "",
-    "text": "Python 3.10+ with pandas, geopandas, matplotlib, osmnx, momepy, networkx, and scipy installed\nThe files akl_ped-2024.csv and akl_ped-Geodata.csv\nA Python script, Jupyter notebook, or Quarto document to write your code\n\n\n\n\n\nPart\nTopic\nApprox. Time\n\n\n\n\n1\nStreet networks with OSMnx\n25 min\n\n\n2\nMorphological measures with momepy\n35 min\n\n\n3\nLinking urban form to pedestrian footfall\n40 min\n\n\n4\nVisualising walkability\n20 min\n\n\n–\nFinal challenge\n15 min\n\n\n\n\n\n\n\n\n\nWhy Momepy?\n\n\n\nUrban form influences how people move. More connected, human-scale streets tend to have higher pedestrian activity, better walkability scores, and more vibrant urban life. Momepy lets us quantify these characteristics so that we can move beyond subjective judgements and test hypotheses with data.",
+    "text": "Python 3.10+ with requests, geopandas, matplotlib, pandas, contextily, and (optionally) holoviews / hvplot installed\nA Python script, Jupyter notebook, or Quarto document to write your code\n\n\n\n\n\nPart\nTopic\nApprox. Time\n\n\n\n\n1\nEarthquake data from USGS\n15 min\n\n\n2\nPhiladelphia shootings from CARTO\n30 min\n\n\n3\nDownloading GIS data from Stats NZ and LINZ\n75 min",
     "crumbs": [
       "labs.html",
       "Lab Week 04"
@@ -6136,6 +6136,226 @@
     "title": "Lab Week 04",
     "section": "What You Have Learnt",
     "text": "What You Have Learnt\nThis lab introduced urban morphometrics as a lens for understanding pedestrian behaviour:\n\nOSMnx gave you access to street network data from OpenStreetMap, ready for analysis as NetworkX graphs and GeoDataFrames.\nMomepy and NetworkX provided morphological measures (node degree, closeness centrality, betweenness centrality, meshedness) that quantify the connectivity and accessibility of the street network.\nSpatial joins linked sensor locations to their nearest network nodes, enabling hypothesis testing about form and function.\nCorrelation analysis tested whether more connected/central locations have higher pedestrian counts, with visualisations to support interpretation.\n\nThese skills provide the analytical foundation for exploring how urban design influences pedestrian behaviour, and they connect directly to the walkability concepts discussed in Shriv’s guest lecture. In the assignment, you may choose to incorporate momepy analysis to tell a richer story about Auckland’s pedestrian landscape.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#what-is-an-api",
+    "href": "labs/lab-week04.html#what-is-an-api",
+    "title": "Lab Week 04",
+    "section": "What is an API?",
+    "text": "What is an API?\nAn API (Application Programming Interface) is a set of rules that lets your code talk to a remote server and request data. Instead of downloading a file manually from a website, you send a structured request to a URL and receive structured data back. This is the foundation of reproducible data acquisition: your script is the download step.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#downloading-earthquake-data",
+    "href": "labs/lab-week04.html#downloading-earthquake-data",
+    "title": "Lab Week 04",
+    "section": "Downloading Earthquake Data",
+    "text": "Downloading Earthquake Data\nWe begin with the simplest possible API example. The United States Geological Survey (USGS) publishes a real-time feed of recent earthquakes as GeoJSON. Because geopandas can read GeoJSON directly from a URL, a single line of code is enough to turn this feed into a spatial dataframe.\nThe USGS earthquake feed at earthquake.usgs.gov returns all magnitude 2.5+ earthquakes from the past seven days.\n\nimport geopandas as gpd\n\n# Download data on magnitude 2.5+ quakes from the past week\nendpoint_url = (\n     \"http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson\"\n )\nearthquakes = gpd.read_file(endpoint_url)\nprint(earthquakes.head())\n\nThat is the entire script. The key insight is that the USGS server returns a GeoJSON FeatureCollection, which is a format that GeoPandas understands natively. No authentication is required for this feed.\n\n\n\n\n\n\nTry it yourself\n\n\n\nRun the code above and inspect the resulting dataframe. What columns are available? Try plotting the earthquakes on a world map with earthquakes.plot(). You can also colour the points by magnitude: earthquakes.plot(column=\"mag\", cmap=\"OrRd\", legend=True).",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#understanding-the-pattern",
+    "href": "labs/lab-week04.html#understanding-the-pattern",
+    "title": "Lab Week 04",
+    "section": "Understanding the Pattern",
+    "text": "Understanding the Pattern\nEven though this example is short, it demonstrates the core API pattern that we will use throughout this lab:\n\n\n\n\n\n\n\nStep\nWhat happens\n\n\n\n\n1. Construct a URL\nThe URL encodes what you want (earthquake data, magnitude 2.5+, past week)\n\n\n2. Send a request\ngpd.read_file() sends an HTTP GET request to the server\n\n\n3. Parse the response\nThe GeoJSON response is automatically converted to a GeoDataFrame\n\n\n\nIn Parts 2 and 3, we will see how to add query parameters, authentication, and more complex workflows, but the fundamental pattern remains the same.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#step-1-query-the-api",
+    "href": "labs/lab-week04.html#step-1-query-the-api",
+    "title": "Lab Week 04",
+    "section": "Step 1: Query the API",
+    "text": "Step 1: Query the API\nUnlike the USGS feed, the CARTO API takes query parameters. We pass a SQL query (q), the output format (format), and optionally which fields to skip.\n\nimport geopandas as gpd\nimport pandas as pd\nimport requests\nfrom matplotlib import pyplot as plt\n\npd.options.display.max_columns = 999\n\n# The API endpoint\ncarto_api_endpoint = \"https://phl.carto.com/api/v2/sql\"\n\n# The query parameters\nparams = {\n    \"q\": \"SELECT * FROM shootings\",\n    \"format\": \"geojson\",\n    \"skipfields\": \"cartodb_id\",\n}\n\nresponse = requests.get(carto_api_endpoint, params=params)\nresponse\n\n\n\n\n\n\n\nSQL via API\n\n\n\nThe CARTO SQL API is powerful because it lets you run arbitrary SQL queries on the server side. This means you can filter and aggregate data before downloading it, reducing both bandwidth and processing time on your local machine.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#step-2-parse-the-response",
+    "href": "labs/lab-week04.html#step-2-parse-the-response",
+    "title": "Lab Week 04",
+    "section": "Step 2: Parse the Response",
+    "text": "Step 2: Parse the Response\nThe response is a GeoJSON dictionary. We can inspect its structure and then convert it to a GeoDataFrame.\n\n# Get the returned data in JSON format\n# This is a dictionary\nfeatures = response.json()\ntype(features)\n\n# What are the keys?\nlist(features.keys())\n\n# Let's look at the first feature\nfeatures[\"features\"][0]\n\n# Create a GeoDataFrame\nshootings = gpd.GeoDataFrame.from_features(features, crs=\"EPSG:4326\")\nshootings.head()",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#step-3-clean-and-project",
+    "href": "labs/lab-week04.html#step-3-clean-and-project",
+    "title": "Lab Week 04",
+    "section": "Step 3: Clean and Project",
+    "text": "Step 3: Clean and Project\n\n# Make sure we remove missing geometries\nshootings = shootings.dropna(subset=[\"geometry\"])\n\n# Convert to a better CRS\nshootings = shootings.to_crs(epsg=3857)\n\n# Load city limits to clip the data\ncity_limits = gpd.read_file(\n    \"https://opendata.arcgis.com/datasets/405ec3da942d4e20869d4e1449a2be48_0.geojson\"\n).to_crs(epsg=3857)\n\n# Remove any shootings that are outside the city limits\nshootings = gpd.sjoin(\n    shootings, city_limits, predicate=\"within\", how=\"inner\"\n).drop(columns=[\"index_right\"])",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#step-4-visualisation",
+    "href": "labs/lab-week04.html#step-4-visualisation",
+    "title": "Lab Week 04",
+    "section": "Step 4: Visualisation",
+    "text": "Step 4: Visualisation\nWith the cleaned data in hand, we can produce two complementary visualisations: a point map and a hexbin map.\n\n# From Open Data Philly\nzip_codes = gpd.read_file(\n    \"https://opendata.arcgis.com/datasets/b54ec5210cee41c3a884c9086f7af1be_0.geojson\"\n).to_crs(epsg=3857)\n\nfig, ax = plt.subplots(figsize=(6, 6))\n\n# ZIP Codes\nzip_codes.plot(ax=ax, facecolor=\"none\", edgecolor=\"black\")\n\n# Shootings\nshootings.plot(ax=ax, color=\"crimson\", markersize=10, alpha=0.4)\nax.set_axis_off()\n\n\nHexbin Map\nA hexbin map aggregates point events into hexagonal bins, revealing density patterns that are hard to see in a simple point map.\n\n# Initialize the axes\nfig, ax = plt.subplots(figsize=(10, 10), facecolor=plt.get_cmap(\"viridis\")(0))\n\n# Convert to Web Mercator and plot the hexbins\nx = shootings.geometry.x\ny = shootings.geometry.y\nax.hexbin(x, y, gridsize=40, mincnt=1, cmap=\"viridis\")\n\n# Overlay the city limits\nzip_codes.plot(ax=ax, facecolor=\"none\", linewidth=0.5, edgecolor=\"white\")\nax.set_axis_off()",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#step-5-filtering-with-sql",
+    "href": "labs/lab-week04.html#step-5-filtering-with-sql",
+    "title": "Lab Week 04",
+    "section": "Step 5: Filtering with SQL",
+    "text": "Step 5: Filtering with SQL\nOne of the strengths of the CARTO API is that you can filter on the server side using SQL.\n\n# Example: Count the total number of rows in a table\nresponse = requests.get(\n    carto_api_endpoint, params={\"q\": \"SELECT COUNT(*) FROM shootings\"}\n)\nresponse.json()\n\n# Select nonfatal shootings only\nquery = \"SELECT * FROM shootings WHERE fatal = 0\"\nparams = {\"q\": query, \"format\": \"geojson\"}\nresponse = requests.get(carto_api_endpoint, params=params)\n\n# Make the GeoDataFrame\nnonfatal = gpd.GeoDataFrame.from_features(response.json(), crs=\"EPSG:4326\")\nprint(\"number of nonfatal shootings = \", len(nonfatal))\n\n# Select based on \"date_\"\nquery = \"SELECT * FROM shootings WHERE date_ &gt;= '1/1/23'\"\nparams = {\"q\": query, \"format\": \"geojson\"}\nresponse = requests.get(carto_api_endpoint, params=params)\n\n# Make the GeoDataFrame\nshootings_2023 = gpd.GeoDataFrame.from_features(response.json(), crs=\"EPSG:4326\")\nprint(\"number of shootings in 2023 = \", len(shootings_2023))",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#at-home-exercise-explore-trends-by-month-and-day-of-week",
+    "href": "labs/lab-week04.html#at-home-exercise-explore-trends-by-month-and-day-of-week",
+    "title": "Lab Week 04",
+    "section": "At-Home Exercise: Explore Trends by Month and Day of Week",
+    "text": "At-Home Exercise: Explore Trends by Month and Day of Week\n\n# Convert the date column to a datetime object\nshootings[\"date\"] = pd.to_datetime(shootings[\"date_\"])\n\n# Add new columns: Month and Day of Week\nshootings[\"Month\"] = shootings[\"date\"].dt.month\nshootings[\"Day of Week\"] = shootings[\"date\"].dt.dayofweek  # Monday is 0, Sunday is 6\n\ncount = shootings.groupby([\"Month\", \"Day of Week\"]).size()\ncount = count.reset_index(name=\"Count\")\ncount.head()\n\n\nimport hvplot.pandas\n\n# Remember 0 is Monday and 6 is Sunday\ncount.hvplot.heatmap(\n    x=\"Day of Week\",\n    y=\"Month\",\n    C=\"Count\",\n    cmap=\"viridis\",\n    width=400,\n    height=500,\n    flip_yaxis=True,\n)\n\n\n\n\n\n\n\nKey takeaway from Part 2\n\n\n\nThe CARTO example shows a more realistic API workflow: you construct query parameters, send a request with requests.get(), parse the JSON response, and convert it to a GeoDataFrame. This pattern appears in many geospatial web services.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#introduction",
+    "href": "labs/lab-week04.html#introduction",
+    "title": "Lab Week 04",
+    "section": "Introduction",
+    "text": "Introduction\nThis part introduces two programmatic methods for downloading GIS layers from New Zealand’s national spatial data services: the Stats NZ Geographic Data Service (datafinder.stats.govt.nz) and the LINZ Data Service (data.linz.govt.nz). Rather than clicking through the web interface every time, you will write Python scripts that fetch, poll, and load geospatial data automatically. This is an essential habit in reproducible research: when your data acquisition step is scripted, anyone can re-run your entire workflow from scratch.\nBoth services are built on the Koordinates platform, which exposes a REST API. Every dataset you can browse in the web interface is also accessible programmatically using either of the two methods below.\n\n\n\n\n\n\nWhy programmatic download?\n\n\n\nA manual download is fine for a one-off task, but it breaks reproducibility. If you are sharing your analysis through GitHub, a Quarto report, or a package, your collaborators cannot re-run the data acquisition step unless the exact same file is committed to the repository (which is impractical for large GIS files). A short script that downloads the data on demand is far more transparent and maintainable.\n\n\n\nMethods covered\n\n\n\n\n\n\n\n\nMethod\nApproach\nBest for\n\n\n\n\nMethod A\nKoordinates Export API\nSaving a local GeoPackage or Shapefile; offline workflows\n\n\nMethod B\nWFS (Web Feature Service)\nLoading directly into a GeoDataFrame; spatial subsetting with a bounding box",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#prerequisites",
+    "href": "labs/lab-week04.html#prerequisites",
+    "title": "Lab Week 04",
+    "section": "Prerequisites",
+    "text": "Prerequisites\nMake sure the following packages are installed before starting:\n\n# Install if needed\n# uv pip install requests geopandas matplotlib contextily\n\n\nimport requests\nimport time\nimport zipfile\nimport io\nimport geopandas as gpd\nimport matplotlib.pyplot as plt",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#step-1-create-an-account-and-obtain-an-api-key",
+    "href": "labs/lab-week04.html#step-1-create-an-account-and-obtain-an-api-key",
+    "title": "Lab Week 04",
+    "section": "Step 1: Create an Account and Obtain an API Key",
+    "text": "Step 1: Create an Account and Obtain an API Key\nBoth methods require a personal API key. Navigate to the Stats NZ Geographic Data Service and log in using your Koordinates ID. If you do not yet have one, click Sign Up on the login page.\n\n\n\nLog in to Stats NZ Geographic Data Service using your Koordinates ID. If you do not have an account, click Sign Up to register.\n\n\nOnce logged in, go to:\n\nhttps://datafinder.stats.govt.nz/my/api/\n\nClick Create API Key, give it a descriptive name (for example, GISCI343), and copy the key value. You will not be shown the full key again after navigating away from the page.\n\n\n\n\n\n\nKeep your API key private\n\n\n\nYour API key is a credential. Treat it like a password. Never paste it directly into a shared notebook or commit it to a public repository.\nStore it in a separate file (for example config.py) that is listed in your .gitignore:\n# config.py  ← add this filename to .gitignore\nAPI_KEY = \"your_key_here\"\nThen import it in your analysis script:\nfrom config import API_KEY",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#step-2-find-the-layer-you-need",
+    "href": "labs/lab-week04.html#step-2-find-the-layer-you-need",
+    "title": "Lab Week 04",
+    "section": "Step 2: Find the Layer You Need",
+    "text": "Step 2: Find the Layer You Need\nFor this lab we will use the Regional Council 2025 Clipped layer (Layer ID: 120945), which contains the 17 regional boundaries of New Zealand.\nNavigate to the layer page to review the metadata before downloading:\n\nhttps://datafinder.stats.govt.nz/layer/120945-regional-council-2025-clipped/\n\nThe homepage provides a search bar and a catalogue of all available datasets:\n\n\n\nStats NZ Geographic Data Service homepage — search for a dataset by name, or browse the Most Popular section.\n\n\n\nFinding the Layer ID\nEvery API request requires the Layer ID, the integer that uniquely identifies a dataset. There are two ways to find it.\nMethod 1: Read it from the URL\nWhen you open any layer page, the Layer ID is embedded directly in the browser address bar:\nhttps://datafinder.stats.govt.nz/layer/120945-regional-council-2025-clipped/\n                                       ^^^^^^\n                                       This is the Layer ID\nMethod 2: Read it from the Info tab\nOpen the layer page and make sure the Info tab is selected (it is the default). Scroll down below the thumbnail and you will see a metadata row showing Date Added, Last Updated, Views, Exports, and Layer ID. The number displayed there (e.g. 120945) is what you use in your script.\n\n\n\nTwo places the Layer ID appears: highlighted in the URL bar (top) and in the metadata row of the Info tab (bottom left).\n\n\n\n\n\n\n\n\nQuick tip: search first, then check the URL\n\n\n\nSearch for the dataset you need using the search bar on the homepage. Once you have opened the correct layer page, copy the integer from the URL. It is always the first numeric segment after /layer/. You do not need to navigate anywhere else.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#sec-lab-statsNZ-export-api",
+    "href": "labs/lab-week04.html#sec-lab-statsNZ-export-api",
+    "title": "Lab Week 04",
+    "section": "Method A: Koordinates Export API",
+    "text": "Method A: Koordinates Export API\nThe Export API creates a downloadable ZIP archive of a layer in a format and CRS of your choice. The workflow has three stages: create, poll, then download.\nThe settings you choose when calling the API mirror exactly what the web interface shows in the Export dialog:\n\n\n\nExport dialog — the CRS dropdown, format selector, and layer checkbox correspond directly to the fields in the API request body.\n\n\n\nStage 1: Create the Export Job\nSend a POST request with a JSON body specifying the layer URL, CRS, and file format. The Authorization header carries your API key.\n\nimport requests\nimport time\nimport zipfile\nimport io\nimport geopandas as gpd\n\nfrom config import API_KEY  # store your key in config.py\n\nLAYER_ID = 120945\nBASE_URL = \"https://datafinder.stats.govt.nz/services/api/v1.x\"\n\nHEADERS = {\n    \"Authorization\": f\"key {API_KEY}\",\n    \"Content-Type\":  \"application/json\",\n}\n\npayload = {\n    \"crs\":     \"EPSG:2193\",\n    \"formats\": {\"vector\": \"application/x-ogc-gpkg\"},\n    \"items\":   [{\"item\": f\"{BASE_URL}/layers/{LAYER_ID}/\"}],\n}\n\nresponse = requests.post(f\"{BASE_URL}/exports/\", json=payload, headers=HEADERS)\nresponse.raise_for_status()\n\nexport_data = response.json()\nexport_url  = export_data[\"url\"]\nprint(f\"Export job created: {export_url}\")\nprint(f\"Current state: {export_data['state']}\")\n\n\n\n\n\n\n\nAvailable format strings\n\n\n\n\n\n\nFormat string\nOutput\n\n\n\n\napplication/x-ogc-gpkg\nGeoPackage (recommended)\n\n\napplication/x-zipped-shp\nShapefile (ZIP)\n\n\napplication/json\nGeoJSON\n\n\ntext/csv\nCSV (attributes only, no geometry)\n\n\n\n\n\n\n\nStage 2: Poll Until Ready\nThe export is prepared asynchronously. Check the state field every few seconds until it returns \"complete\".\n\nprint(\"Waiting for export...\", end=\"\", flush=True)\n\nwhile True:\n    poll = requests.get(export_url, headers=HEADERS)\n    poll.raise_for_status()\n    state = poll.json()[\"state\"]\n    print(\".\", end=\"\", flush=True)\n\n    if state == \"complete\":\n        download_url = poll.json()[\"download_url\"]\n        print(f\"\\nReady: {download_url}\")\n        break\n    elif state in (\"error\", \"cancelled\"):\n        raise RuntimeError(f\"Export failed with state: {state}\")\n\n    time.sleep(5)\n\n\n\nStage 3: Download and Load\nYou can either save the ZIP to disk first, or extract it entirely in memory.\n\n# --- Option 1: Save to disk ---\ndl = requests.get(download_url, headers=HEADERS, stream=True)\ndl.raise_for_status()\n\nwith open(\"regional_council_2025.zip\", \"wb\") as f:\n    for chunk in dl.iter_content(chunk_size=8192):\n        f.write(chunk)\n\nwith zipfile.ZipFile(\"regional_council_2025.zip\") as zf:\n    gpkg_name = [n for n in zf.namelist() if n.endswith(\".gpkg\")][0]\n    zf.extractall(\"regional_council_2025/\")\n\ngdf = gpd.read_file(f\"regional_council_2025/{gpkg_name}\")\nprint(gdf.shape, gdf.crs)\n\n\n# --- Option 2: Extract entirely in memory (no file saved) ---\ndl2 = requests.get(download_url, headers=HEADERS)\nwith zipfile.ZipFile(io.BytesIO(dl2.content)) as zf:\n    gpkg_name = [n for n in zf.namelist() if n.endswith(\".gpkg\")][0]\n    gdf = gpd.read_file(zf.open(gpkg_name))\n\nprint(gdf.shape, gdf.crs)\ngdf.plot()",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#sec-lab-statsNZ-wfs",
+    "href": "labs/lab-week04.html#sec-lab-statsNZ-wfs",
+    "title": "Lab Week 04",
+    "section": "Method B: WFS (Web Feature Service)",
+    "text": "Method B: WFS (Web Feature Service)\nWFS is an OGC standard that lets you stream vector features directly into Python without downloading a ZIP. The endpoint is found under the Services and APIs tab on the layer page. Select WFS from the left-hand list and choose your API key from the dropdown.\n\n\n\nServices and APIs tab — click WFS in the left panel to see the pre-filled endpoint URL and API key selector.\n\n\n\nRead Directly into a GeoDataFrame\nConstruct the WFS URL and pass it directly to gpd.read_file(). GeoPandas fetches and parses the GeoJSON response automatically.\n\nimport geopandas as gpd\nfrom config import API_KEY\n\nLAYER_ID = 120945\nwfs_base = f\"https://datafinder.stats.govt.nz/services;key={API_KEY}/wfs/\"\n\nparams = (\n    \"service=WFS&version=2.0.0&request=GetFeature\"\n    f\"&typeNames=layer-{LAYER_ID}\"\n    \"&outputFormat=application/json\"\n    \"&srsName=EPSG:2193\"\n)\n\ngdf = gpd.read_file(f\"{wfs_base}?{params}\")\nprint(gdf.shape)   # (17, n_columns)\nprint(gdf.crs)     # EPSG:2193\ngdf.plot(figsize=(8, 10))\n\n\n\nSpatial Subsetting with a Bounding Box\nFor large layers, add a bbox parameter to retrieve only the features intersecting a defined area:\n\n# Bounding box for Auckland region (EPSG:2193, metres)\n# Format: min_easting, min_northing, max_easting, max_northing\nbbox = \"1730000,5900000,1820000,5990000\"\n\nparams_bbox = (\n    \"service=WFS&version=2.0.0&request=GetFeature\"\n    f\"&typeNames=layer-{LAYER_ID}\"\n    \"&outputFormat=application/json&srsName=EPSG:2193\"\n    f\"&bbox={bbox},EPSG:2193\"\n)\n\ngdf_akl = gpd.read_file(f\"{wfs_base}?{params_bbox}\")\nprint(gdf_akl[[\"REGC2025_1\", \"LAND_AREA_SQ_KM\"]])\ngdf_akl.plot(figsize=(6, 6))\n\n\n\n\n\n\n\nWhen should you use the bbox parameter?\n\n\n\nThe Regional Council layer only has 17 features, so bbox filtering saves little time here. However, for large layers such as meshblocks (~50,000 features) or building outlines (~3 million features), restricting to your study area makes a significant difference in download time and memory usage.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#comparison",
+    "href": "labs/lab-week04.html#comparison",
+    "title": "Lab Week 04",
+    "section": "Comparison",
+    "text": "Comparison\n\n\n\nConsideration\nMethod A: Export API\nMethod B: WFS\n\n\n\n\nSaves a local file?\nYes (ZIP + GeoPackage)\nNo (streams directly)\n\n\nWorks offline?\nYes, after first download\nNo\n\n\nCode complexity\nModerate (3 stages)\nLow (single line)\n\n\nSpatial filtering?\nNo (whole layer only)\nYes (bbox parameter)\n\n\nOutput formats\nGPKG, Shapefile, GeoJSON, CSV\nGeoJSON, GML",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#sec-lab-linz",
+    "href": "labs/lab-week04.html#sec-lab-linz",
+    "title": "Lab Week 04",
+    "section": "Applying the Same Methods to LINZ Data Service",
+    "text": "Applying the Same Methods to LINZ Data Service\nThe LINZ Data Service (data.linz.govt.nz) also runs on the Koordinates platform. This means the same two methods (Export API and WFS) work with only minor changes. You will need a separate API key from LINZ: sign up at data.linz.govt.nz, then go to My Account &gt; API Keys and generate one.\nIn this section we will download NZ Building Outlines (All Sources) (Layer ID: 101292) and plot the results for Auckland city centre.\n\nhttps://data.linz.govt.nz/layer/101292-nz-building-outlines-all-sources/\n\n\n\n\n\n\n\nLarge layers require spatial filtering\n\n\n\nThe NZ Building Outlines layer contains approximately 3 million features nationally. Downloading the full layer via WFS is impractical. Always use a bounding box or the Export API when working with large datasets like this.\n\n\n\nLINZ WFS with Bounding Box\nThe LINZ WFS endpoint uses cql_filter with a bbox() function for spatial filtering, rather than the standard WFS bbox parameter. The geometry column for most LINZ layers is called shape.\n\nimport json\nimport requests\nimport geopandas as gpd\nfrom config import LINZ_API_KEY  # store separately from Stats NZ key\n\nLAYER_ID = 101292\nWFS_URL = f\"https://data.linz.govt.nz/services;key={LINZ_API_KEY}/wfs\"\n\n# Auckland city centre bounding box (EPSG:4326)\n# min_lon, min_lat, max_lon, max_lat\nBBOX = (174.7339, -36.8679, 174.8013, -36.8284)\n\nparams = {\n    \"service\": \"WFS\",\n    \"version\": \"2.0.0\",\n    \"request\": \"GetFeature\",\n    \"typeNames\": f\"layer-{LAYER_ID}\",\n    \"outputFormat\": \"application/json\",\n    \"srsName\": \"EPSG:4326\",\n    \"count\": 50000,\n    \"cql_filter\": (\n        f\"bbox(shape,{BBOX[0]},{BBOX[1]},{BBOX[2]},{BBOX[3]},'EPSG:4326')\"\n    ),\n}\n\nresponse = requests.get(WFS_URL, params=params, timeout=300)\nresponse.raise_for_status()\n\ngeojson = response.json()\nn_features = len(geojson.get(\"features\", []))\nprint(f\"Received {n_features} building outlines.\")\n\n# Save to file\nwith open(\"auckland_cbd_buildings.geojson\", \"w\") as f:\n    json.dump(geojson, f, indent=2)\n\n\n\n\n\n\n\nKey differences between Stats NZ and LINZ WFS\n\n\n\n\n\n\n\n\n\n\n\nFeature\nStats NZ\nLINZ\n\n\n\n\nBase URL\ndatafinder.stats.govt.nz\ndata.linz.govt.nz\n\n\nAPI key\nStats NZ Koordinates account\nLINZ Koordinates account\n\n\nSpatial filter\nStandard WFS bbox parameter\ncql_filter=bbox(shape,...)\n\n\nDefault CRS\nEPSG:2193 (NZTM)\nEPSG:2193 (NZTM)\n\n\n\n\n\n\n\nPlotting the Auckland City Centre Buildings\nOnce downloaded, load the GeoJSON into a GeoDataFrame and plot with a basemap for geographic context. The contextily library adds background map tiles automatically.\n\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\ntry:\n    import contextily as cx\n    HAS_BASEMAP = True\nexcept ImportError:\n    HAS_BASEMAP = False\n    print(\"contextily not installed -- plotting without basemap.\")\n    print(\"Install with: pip install contextily\")\n\ngdf = gpd.read_file(\"auckland_cbd_buildings.geojson\")\nprint(f\"Loaded {len(gdf)} building outlines.\")\n\nfig, ax = plt.subplots(1, 1, figsize=(12, 12))\n\nif HAS_BASEMAP:\n    # Reproject to Web Mercator for basemap tile alignment\n    gdf_wm = gdf.to_crs(epsg=3857)\n    gdf_wm.plot(\n        ax=ax,\n        facecolor=\"tomato\",\n        edgecolor=\"darkred\",\n        linewidth=0.15,\n        alpha=0.5,\n    )\n    cx.add_basemap(ax, source=cx.providers.CartoDB.Positron, zoom=15)\n    ax.set_axis_off()\nelse:\n    gdf.plot(\n        ax=ax,\n        facecolor=\"steelblue\",\n        edgecolor=\"navy\",\n        linewidth=0.15,\n        alpha=0.6,\n    )\n    ax.set_xlabel(\"Longitude\")\n    ax.set_ylabel(\"Latitude\")\n    ax.set_aspect(\"equal\")\n\nax.set_title(\"Auckland City Centre Building Outlines (LINZ)\", fontsize=14)\nplt.tight_layout()\nplt.savefig(\"auckland_cbd_buildings.png\", dpi=200, bbox_inches=\"tight\")\nplt.show()\n\n\n\nLINZ Export API\nFor the full national dataset, the Export API is the better option. The code is nearly identical to the Stats NZ version, with only the base URL and API key changed:\n\nfrom config import LINZ_API_KEY\n\nLAYER_ID = 101292\nBASE_URL = \"https://data.linz.govt.nz/services/api/v1\"\n\nHEADERS = {\n    \"Authorization\": f\"key {LINZ_API_KEY}\",\n    \"Content-Type\": \"application/json\",\n}\n\npayload = {\n    \"crs\": \"EPSG:2193\",\n    \"formats\": {\"vector\": \"application/x-ogc-gpkg\"},\n    \"items\": [{\"item\": f\"{BASE_URL}/layers/{LAYER_ID}/\"}],\n}\n\nresponse = requests.post(f\"{BASE_URL}/exports/\", json=payload, headers=HEADERS)\nresponse.raise_for_status()\n\nexport_data = response.json()\nexport_url = export_data[\"url\"]\nprint(f\"Export job created: {export_url}\")\n\n# Poll and download using the same Stage 2 and Stage 3 code from Method A.\n# Note: the full building outlines export may take several minutes and\n# produce a file over 1 GB.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#your-turn",
+    "href": "labs/lab-week04.html#your-turn",
+    "title": "Lab Week 04",
+    "section": "Your Turn",
+    "text": "Your Turn\n\n\n\n\n\n\nExercise 1\n\n\n\nUse Method B (WFS) to download the Territorial Authority 2025 Clipped layer (Layer ID: 120946) from Stats NZ. Load it into a GeoDataFrame and produce a choropleth map showing land area (LAND_AREA_SQ_KM) by territorial authority. Label the Auckland region.\n\n\n\n\n\n\n\n\nExercise 2\n\n\n\nUse Method A (Export API) to download the same Territorial Authority layer as a Shapefile (use format string application/x-zipped-shp). Compare the file size with the GeoPackage equivalent and comment on which format you would recommend and why.\n\n\n\n\n\n\n\n\nExercise 3\n\n\n\nUsing the LINZ WFS method from Applying the Same Methods to LINZ Data Service, download the NZ Building Outlines for a different city centre of your choice (e.g. Wellington, Christchurch, or Dunedin). You will need to define an appropriate bounding box for your chosen area. Plot the building footprints and briefly comment on the urban form you observe compared with Auckland.\nHint: use the LINZ map viewer to identify the bounding box coordinates for your study area.\n\n\n\n\n\n\n\n\nExercise 4 (extension)\n\n\n\nWrite a reusable Python function download_koordinates_layer(base_url, layer_id, api_key, crs=\"EPSG:2193\", fmt=\"application/x-ogc-gpkg\") that wraps the three-stage Export API workflow (create, poll, download) and returns a GeoDataFrame. The function should work with both Stats NZ and LINZ by accepting the base URL as a parameter. Test it on at least two different layers from each service.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#summary",
+    "href": "labs/lab-week04.html#summary",
+    "title": "Lab Week 04",
+    "section": "Summary",
+    "text": "Summary\nIn this lab you have learnt three approaches to programmatic GIS data acquisition:\n\n\n\n\n\n\n\n\nPart\nSource\nKey concept\n\n\n\n\nPart 1\nUSGS Earthquake Feed\nReading GeoJSON directly from a URL with gpd.read_file()\n\n\nPart 2\nCARTO SQL API\nSending query parameters with requests.get(), server-side SQL filtering\n\n\nPart 3\nStats NZ / LINZ\nAuthenticated APIs, Export (create-poll-download) and WFS with spatial subsetting\n\n\n\nThe complexity increases from Part 1 to Part 3, but the underlying pattern is consistent: construct a URL or request, send it to a server, and parse the response into a GeoDataFrame. Once this pattern is internalised, you can apply it to virtually any geospatial web service.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#further-reading",
+    "href": "labs/lab-week04.html#further-reading",
+    "title": "Lab Week 04",
+    "section": "Further Reading",
+    "text": "Further Reading\n\nKoordinates Export API documentation\nKoordinates Python client library\nStats NZ API Keys\nLINZ Data Service\nOGC WFS standard\nGeoPandas read_file documentation\ncontextily documentation",
     "crumbs": [
       "labs.html",
       "Lab Week 04"
