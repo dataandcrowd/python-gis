@@ -5761,7 +5761,7 @@
     "href": "labs/lab-week03-GIS.html#step-4-reshape-to-long-format",
     "title": "Lab Week 03 GIS",
     "section": "Step 4: Reshape to Long Format",
-    "text": "Step 4: Reshape to Long Format\nRight now each sensor is its own column (wide format). To put the data on a map, we need one row per sensor per hour (long format). The melt() function does this.\n\nhourly_long = hourly_avg.reset_index().melt(\n    id_vars=\"hour\",\n    var_name=\"Address\",\n    value_name=\"avg_count\"\n)\n\nprint(f\"Long format: {hourly_long.shape[0]} rows\")\nhourly_long.head()\n\nLong format: 168 rows\n\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n\n\n1\n9\n107 Quay Street\n535.0\n\n\n2\n11\n107 Quay Street\n689.0\n\n\n3\n13\n107 Quay Street\n885.0\n\n\n4\n15\n107 Quay Street\n922.0\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat Just Happened?\n\n\n\nWe had 8 rows (one per hour) and 21 columns (one per sensor). After melting, we have 8 x 21 = 168 rows, with each row telling us the average count for one sensor at one hour.",
+    "text": "Step 4: Reshape to Long Format\nRight now each sensor is its own column (wide format). To put the data on a map, we need one row per sensor per hour (long format). The melt() function does this.\n\nhourly_long = hourly_avg.reset_index().melt(\n    id_vars=\"hour\",\n    var_name=\"Address\",\n    value_name=\"avg_count\"\n)\n\nprint(f\"Long format: {hourly_long.shape[0]} rows\")\nhourly_long.head()\n\nLong format: 168 rows\n\n\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n\n\n1\n9\n107 Quay Street\n535.0\n\n\n2\n11\n107 Quay Street\n689.0\n\n\n3\n13\n107 Quay Street\n885.0\n\n\n4\n15\n107 Quay Street\n922.0\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWhat Just Happened?\n\n\n\nWe had 8 rows (one per hour) and 21 columns (one per sensor). After melting, we have 8 x 21 = 168 rows, with each row telling us the average count for one sensor at one hour.",
     "crumbs": [
       "labs.html",
       "Lab Week 03 GIS"
@@ -5838,7 +5838,7 @@
     "href": "labs/lab-week03-GIS.html#step-1-load-and-clean-the-data",
     "title": "Lab Week 03 GIS",
     "section": "Step 1: Load and Clean the Data",
-    "text": "Step 1: Load and Clean the Data\nWe start by loading the pedestrian counts and doing some basic cleaning.\n\nimport pandas as pd\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Load the pedestrian data\nped = pd.read_csv(\"data/akl_ped-2024.csv\")\n\n# Remove rows that are not actual data\nped = ped.dropna(subset=[\"Date\", \"Time\"]).copy()\nped = ped[ped[\"Date\"] != \"Daylight Savings\"].copy()\n\n# Convert the Date column to a proper date format\nped[\"Date\"] = pd.to_datetime(ped[\"Date\"])\n\n# Extract the hour number from the Time column (e.g. \"7:00-7:59\" becomes 7)\nped[\"hour\"] = ped[\"Time\"].str.split(\":\").str[0].astype(int)\n\n# Extract the month number (e.g. March = 3)\nped[\"month\"] = ped[\"Date\"].dt.month\n\nprint(f\"We have {ped.shape[0]} rows and {ped.shape[1]} columns\")\nped.head(3)\n\nWe have 8783 rows and 25 columns\n\n\n\n\n\n\n\n\n\nDate\nTime\n107 Quay Street\nTe Ara Tahuhu Walkway\nCommerce Street West\n7 Custom Street East\n45 Queen Street\n30 Queen Street\n19 Shortland Street\n2 High Street\n...\n8 Darby Street EW\n8 Darby Street NS\n261 Queen Street\n297 Queen Street\n150 K Road\n183 K Road\n188 Quay Street Lower Albert (EW)\n188 Quay Street Lower Albert (NS)\nhour\nmonth\n\n\n\n\n0\n2024-01-01\n6:00-6:59\n78.0\n53.0\n24.0\n9.0\n87.0\n67.0\n10.0\n11.0\n...\n8.0\n22.0\n75.0\n77.0\n15.0\n68.0\n53.0\n115.0\n6\n1\n\n\n1\n2024-01-01\n7:00-7:59\n201.0\n39.0\n29.0\n38.0\n143.0\n123.0\n12.0\n21.0\n...\n6.0\n21.0\n93.0\n73.0\n21.0\n56.0\n74.0\n81.0\n7\n1\n\n\n2\n2024-01-01\n8:00-8:59\n644.0\n55.0\n50.0\n52.0\n243.0\n291.0\n62.0\n23.0\n...\n9.0\n34.0\n186.0\n157.0\n31.0\n75.0\n132.0\n150.0\n8\n1\n\n\n\n\n3 rows × 25 columns",
+    "text": "Step 1: Load and Clean the Data\nWe start by loading the pedestrian counts and doing some basic cleaning.\n\nimport pandas as pd\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\n# Load the pedestrian data\nped = pd.read_csv(\"data/akl_ped-2024.csv\")\n\n# Remove rows that are not actual data\nped = ped.dropna(subset=[\"Date\", \"Time\"]).copy()\nped = ped[ped[\"Date\"] != \"Daylight Savings\"].copy()\n\n# Convert the Date column to a proper date format\nped[\"Date\"] = pd.to_datetime(ped[\"Date\"])\n\n# Extract the hour number from the Time column (e.g. \"7:00-7:59\" becomes 7)\nped[\"hour\"] = ped[\"Time\"].str.split(\":\").str[0].astype(int)\n\n# Extract the month number (e.g. March = 3)\nped[\"month\"] = ped[\"Date\"].dt.month\n\nprint(f\"We have {ped.shape[0]} rows and {ped.shape[1]} columns\")\nped.head(3)\n\nWe have 8783 rows and 25 columns\n\n\n\n\n\n\n\n\n\n\nDate\nTime\n107 Quay Street\nTe Ara Tahuhu Walkway\nCommerce Street West\n7 Custom Street East\n45 Queen Street\n30 Queen Street\n19 Shortland Street\n2 High Street\n...\n8 Darby Street EW\n8 Darby Street NS\n261 Queen Street\n297 Queen Street\n150 K Road\n183 K Road\n188 Quay Street Lower Albert (EW)\n188 Quay Street Lower Albert (NS)\nhour\nmonth\n\n\n\n\n0\n2024-01-01\n6:00-6:59\n78.0\n53.0\n24.0\n9.0\n87.0\n67.0\n10.0\n11.0\n...\n8.0\n22.0\n75.0\n77.0\n15.0\n68.0\n53.0\n115.0\n6\n1\n\n\n1\n2024-01-01\n7:00-7:59\n201.0\n39.0\n29.0\n38.0\n143.0\n123.0\n12.0\n21.0\n...\n6.0\n21.0\n93.0\n73.0\n21.0\n56.0\n74.0\n81.0\n7\n1\n\n\n2\n2024-01-01\n8:00-8:59\n644.0\n55.0\n50.0\n52.0\n243.0\n291.0\n62.0\n23.0\n...\n9.0\n34.0\n186.0\n157.0\n31.0\n75.0\n132.0\n150.0\n8\n1\n\n\n\n\n3 rows × 25 columns",
     "crumbs": [
       "labs.html",
       "Lab Week 03 GIS"
@@ -5871,7 +5871,7 @@
     "href": "labs/lab-week03-GIS.html#step-5-add-coordinates-and-make-a-geodataframe",
     "title": "Lab Week 03 GIS",
     "section": "Step 5: Add Coordinates and Make a GeoDataFrame",
-    "text": "Step 5: Add Coordinates and Make a GeoDataFrame\nThe pedestrian CSV has counts but no coordinates. A separate file tells us where each sensor is located. We merge them together and convert to a GeoDataFrame.\n\n# Load the sensor locations\ngeo = pd.read_csv(\"data/akl_ped-Geodata.csv\")\n\n# The file has some notes at the bottom; drop those\ngeo = geo.dropna(subset=[\"Latitude\", \"Longitude\"]).copy()\n\nprint(f\"We have coordinates for {len(geo)} sensors\")\ngeo.head()\n\nWe have coordinates for 21 sensors\n\n\n\n\n\n\n\n\n\nAddress\nLatitude\nLongitude\n\n\n\n\n0\n107 Quay Street\n-36.843015\n174.766494\n\n\n1\n188 Quay Street Lower Albert (EW)\n-36.843060\n174.765730\n\n\n2\n188 Quay Street Lower Albert (NS)\n-36.843060\n174.765730\n\n\n3\nTe Ara Tahuhu Walkway\n-36.844650\n174.769645\n\n\n4\nCommerce Street West\n-36.844912\n174.768065\n\n\n\n\n\n\n\n\n# Merge: attach coordinates to each row of our aggregated data\nmerged = hourly_long.merge(geo, on=\"Address\", how=\"inner\")\n\nprint(f\"After merging: {merged.shape[0]} rows, {merged['Address'].nunique()} sensors\")\nmerged.head()\n\nAfter merging: 168 rows, 21 sensors\n\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\nLatitude\nLongitude\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n-36.843015\n174.766494\n\n\n1\n9\n107 Quay Street\n535.0\n-36.843015\n174.766494\n\n\n2\n11\n107 Quay Street\n689.0\n-36.843015\n174.766494\n\n\n3\n13\n107 Quay Street\n885.0\n-36.843015\n174.766494\n\n\n4\n15\n107 Quay Street\n922.0\n-36.843015\n174.766494\n\n\n\n\n\n\n\n\n# Convert to a GeoDataFrame so we can map it\ngdf = gpd.GeoDataFrame(\n    merged,\n    geometry=gpd.points_from_xy(merged[\"Longitude\"], merged[\"Latitude\"]),\n    crs=\"EPSG:4326\"\n)\n\ngdf.head()\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\nLatitude\nLongitude\ngeometry\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n1\n9\n107 Quay Street\n535.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n2\n11\n107 Quay Street\n689.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n3\n13\n107 Quay Street\n885.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n4\n15\n107 Quay Street\n922.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)",
+    "text": "Step 5: Add Coordinates and Make a GeoDataFrame\nThe pedestrian CSV has counts but no coordinates. A separate file tells us where each sensor is located. We merge them together and convert to a GeoDataFrame.\n\n# Load the sensor locations\ngeo = pd.read_csv(\"data/akl_ped-Geodata.csv\")\n\n# The file has some notes at the bottom; drop those\ngeo = geo.dropna(subset=[\"Latitude\", \"Longitude\"]).copy()\n\nprint(f\"We have coordinates for {len(geo)} sensors\")\ngeo.head()\n\nWe have coordinates for 21 sensors\n\n\n\n\n\n\n\n\n\n\nAddress\nLatitude\nLongitude\n\n\n\n\n0\n107 Quay Street\n-36.843015\n174.766494\n\n\n1\n188 Quay Street Lower Albert (EW)\n-36.843060\n174.765730\n\n\n2\n188 Quay Street Lower Albert (NS)\n-36.843060\n174.765730\n\n\n3\nTe Ara Tahuhu Walkway\n-36.844650\n174.769645\n\n\n4\nCommerce Street West\n-36.844912\n174.768065\n\n\n\n\n\n\n\n\n\n# Merge: attach coordinates to each row of our aggregated data\nmerged = hourly_long.merge(geo, on=\"Address\", how=\"inner\")\n\nprint(f\"After merging: {merged.shape[0]} rows, {merged['Address'].nunique()} sensors\")\nmerged.head()\n\nAfter merging: 168 rows, 21 sensors\n\n\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\nLatitude\nLongitude\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n-36.843015\n174.766494\n\n\n1\n9\n107 Quay Street\n535.0\n-36.843015\n174.766494\n\n\n2\n11\n107 Quay Street\n689.0\n-36.843015\n174.766494\n\n\n3\n13\n107 Quay Street\n885.0\n-36.843015\n174.766494\n\n\n4\n15\n107 Quay Street\n922.0\n-36.843015\n174.766494\n\n\n\n\n\n\n\n\n\n# Convert to a GeoDataFrame so we can map it\ngdf = gpd.GeoDataFrame(\n    merged,\n    geometry=gpd.points_from_xy(merged[\"Longitude\"], merged[\"Latitude\"]),\n    crs=\"EPSG:4326\"\n)\n\ngdf.head()\n\n\n\n\n\n\n\n\n\nhour\nAddress\navg_count\nLatitude\nLongitude\ngeometry\n\n\n\n\n0\n7\n107 Quay Street\n300.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n1\n9\n107 Quay Street\n535.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n2\n11\n107 Quay Street\n689.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n3\n13\n107 Quay Street\n885.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)\n\n\n4\n15\n107 Quay Street\n922.0\n-36.843015\n174.766494\nPOINT (174.76649 -36.84302)",
     "crumbs": [
       "labs.html",
       "Lab Week 03 GIS"
@@ -5941,6 +5941,204 @@
     "crumbs": [
       "labs.html",
       "Lab Week 03 GIS"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html",
+    "href": "labs/lab-week04.html",
+    "title": "Lab Week 04",
+    "section": "",
+    "text": "Overview\nWelcome to the Tutorial! This lab introduces momepy (Morphological Measuring in Python) for analysing urban form and its relationship to pedestrian behaviour. You will download Auckland CBD’s walkable street network, calculate connectivity and centrality measures, and test whether urban form helps explain the pedestrian count patterns you explored in earlier labs.\nBy the end of this lab you will be able to retrieve a street network from OpenStreetMap, compute morphological indicators with momepy, and link those indicators to real footfall data.\nDuration: approximately 1.5 hours\nWhat you need:\nStructure:",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#overview",
+    "href": "labs/lab-week04.html#overview",
+    "title": "Lab Week 04",
+    "section": "",
+    "text": "Python 3.10+ with pandas, geopandas, matplotlib, osmnx, momepy, networkx, and scipy installed\nThe files akl_ped-2024.csv and akl_ped-Geodata.csv\nA Python script, Jupyter notebook, or Quarto document to write your code\n\n\n\n\n\nPart\nTopic\nApprox. Time\n\n\n\n\n1\nStreet networks with OSMnx\n25 min\n\n\n2\nMorphological measures with momepy\n35 min\n\n\n3\nLinking urban form to pedestrian footfall\n40 min\n\n\n4\nVisualising walkability\n20 min\n\n\n–\nFinal challenge\n15 min\n\n\n\n\n\n\n\n\n\nWhy Momepy?\n\n\n\nUrban form influences how people move. More connected, human-scale streets tend to have higher pedestrian activity, better walkability scores, and more vibrant urban life. Momepy lets us quantify these characteristics so that we can move beyond subjective judgements and test hypotheses with data.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#about-osmnx",
+    "href": "labs/lab-week04.html#about-osmnx",
+    "title": "Lab Week 04",
+    "section": "About OSMnx",
+    "text": "About OSMnx\nOSMnx is a Python library that downloads street network data from OpenStreetMap and converts it into a NetworkX graph. We can then extract nodes (intersections and dead ends) and edges (street segments) as GeoDataFrames for spatial analysis.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-1-downloading-the-auckland-cbd-network",
+    "href": "labs/lab-week04.html#task-1-downloading-the-auckland-cbd-network",
+    "title": "Lab Week 04",
+    "section": "Task 1: Downloading the Auckland CBD Network",
+    "text": "Task 1: Downloading the Auckland CBD Network\n\nimport osmnx as ox\nimport geopandas as gpd\nimport pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Download the walkable street network for Auckland CBD\n# network_type='walk' includes footpaths, pedestrian streets, and shared paths\n# We use a bounding box centred on the CBD to capture the sensor area\nG = ox.graph_from_bbox(\n    bbox=(-36.839, -36.862, 174.755, 174.775),\n    network_type='walk'\n)\n\nprint(f\"Nodes (intersections): {G.number_of_nodes()}\")\nprint(f\"Edges (street segments): {G.number_of_edges()}\")\n\n\n# Convert the graph to GeoDataFrames\nnodes, edges = ox.graph_to_gdfs(G)\n\nprint(f\"Nodes shape: {nodes.shape}\")\nprint(f\"Edges shape: {edges.shape}\")\n\n\n# Inspect the nodes table\nnodes.head()\n\n\n# Inspect the edges table\nedges.head()\n\nEach node has a latitude, longitude, and geometry (point). Each edge has a length in metres, a geometry (linestring), and street attributes such as name and highway type.\nYour turn: How many unique street names appear in the edges table? Use edges[\"name\"].nunique() (you may need to handle lists first). Are there any unnamed segments?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-2-visualising-the-network",
+    "href": "labs/lab-week04.html#task-2-visualising-the-network",
+    "title": "Lab Week 04",
+    "section": "Task 2: Visualising the Network",
+    "text": "Task 2: Visualising the Network\n\nfig, ax = ox.plot_graph(\n    G,\n    figsize=(10, 10),\n    node_size=5,\n    node_color=\"#1C7293\",\n    edge_color=\"#999999\",\n    edge_linewidth=0.5,\n    bgcolor=\"white\",\n    show=False,\n    close=False\n)\nax.set_title(\"Auckland CBD: Walkable Street Network\", fontweight=\"bold\", fontsize=14)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nPlace Name Alternative\n\n\n\nIf you prefer, you can also download by place name. Note that the geocoding result depends on how OpenStreetMap defines the boundary. If the place name returns an empty graph, fall back to the bounding box approach above.\nG = ox.graph_from_place(\"Auckland, New Zealand\", network_type='walk')\nYou can also use ox.graph_from_point() with a distance radius:\nG = ox.graph_from_point((-36.849, 174.765), dist=1000, network_type='walk')\n\n\nYour turn: Try downloading the network with network_type='drive' instead. How does the number of edges change? Why might the walkable network have more edges than the drivable one?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-3-node-degree",
+    "href": "labs/lab-week04.html#task-3-node-degree",
+    "title": "Lab Week 04",
+    "section": "Task 3: Node Degree",
+    "text": "Task 3: Node Degree\nNode degree is the number of street segments meeting at an intersection. A 4-way intersection has degree 4; a dead end has degree 1. Higher average degree indicates a more connected, grid-like network with more route choices for pedestrians.\n\nimport momepy\n\n# Calculate node degree\n# momepy expects the graph as a NetworkX object\ndegree_dict = dict(G.degree())\n\n# Add degree to the nodes GeoDataFrame\nnodes[\"degree\"] = nodes.index.map(degree_dict)\n\nprint(f\"Average node degree: {nodes['degree'].mean():.2f}\")\nprint(f\"Maximum degree: {nodes['degree'].max()}\")\nprint(f\"Minimum degree: {nodes['degree'].min()}\")\n\n\n# Distribution of node degrees\nprint(nodes[\"degree\"].value_counts().sort_index())\n\n\n# Map node degree\nfig, ax = plt.subplots(figsize=(10, 10))\n\nnodes.plot(\n    ax=ax,\n    column=\"degree\",\n    cmap=\"YlOrRd\",\n    markersize=nodes[\"degree\"] * 8,\n    edgecolor=\"black\",\n    linewidth=0.3,\n    legend=True,\n    legend_kwds={\"label\": \"Node Degree\", \"shrink\": 0.6}\n)\n\nedges.plot(ax=ax, color=\"#cccccc\", linewidth=0.3, zorder=0)\n\nax.set_title(\"Auckland CBD: Node Degree (Street Connectivity)\", fontweight=\"bold\")\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nWhat Does Node Degree Tell Us?\n\n\n\nA node with degree 1 is a dead end. Degree 2 means the street simply continues (no intersection). Degree 3 is a T-junction, and degree 4 is a standard crossroads. Nodes with degree 5 or higher are complex intersections with many route choices. For walkability, higher average degree generally means a more permeable network.\n\n\nYour turn: What percentage of nodes are dead ends (degree 1)? What percentage are crossroads or higher (degree &gt;= 4)?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-4-closeness-centrality",
+    "href": "labs/lab-week04.html#task-4-closeness-centrality",
+    "title": "Lab Week 04",
+    "section": "Task 4: Closeness Centrality",
+    "text": "Task 4: Closeness Centrality\nCloseness centrality measures how close a node is to all other nodes in the network. A node with high closeness centrality can be reached from anywhere in the network with relatively short travel distances. This is a proxy for accessibility.\n\nimport networkx as nx\n\n# Calculate closeness centrality using network distance (edge length)\ncentrality = nx.closeness_centrality(G, distance=\"length\")\n\n# Add to nodes GeoDataFrame\nnodes[\"closeness\"] = nodes.index.map(centrality)\n\nprint(f\"Mean closeness centrality: {nodes['closeness'].mean():.6f}\")\nprint(f\"Max closeness centrality: {nodes['closeness'].max():.6f}\")\nprint(f\"Min closeness centrality: {nodes['closeness'].min():.6f}\")\n\n\n# Map closeness centrality\nfig, ax = plt.subplots(figsize=(10, 10))\n\nnodes.plot(\n    ax=ax,\n    column=\"closeness\",\n    cmap=\"plasma\",\n    markersize=15,\n    edgecolor=\"none\",\n    legend=True,\n    legend_kwds={\"label\": \"Closeness Centrality\", \"shrink\": 0.6}\n)\n\nedges.plot(ax=ax, color=\"#cccccc\", linewidth=0.3, zorder=0)\n\nax.set_title(\"Auckland CBD: Closeness Centrality\", fontweight=\"bold\")\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\nYour turn: Which area of the CBD has the highest closeness centrality? Does this align with where you would expect the most accessible location to be?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-5-betweenness-centrality",
+    "href": "labs/lab-week04.html#task-5-betweenness-centrality",
+    "title": "Lab Week 04",
+    "section": "Task 5: Betweenness Centrality",
+    "text": "Task 5: Betweenness Centrality\nBetweenness centrality measures how often a node lies on the shortest path between other pairs of nodes. A node with high betweenness is a critical route through the network. Removing it would force pedestrians to take longer detours.\n\n# Calculate betweenness centrality (may take a moment)\nbetweenness = nx.betweenness_centrality(G, weight=\"length\")\n\nnodes[\"betweenness\"] = nodes.index.map(betweenness)\n\nprint(f\"Mean betweenness: {nodes['betweenness'].mean():.6f}\")\nprint(f\"Max betweenness: {nodes['betweenness'].max():.6f}\")\n\n\n# Map betweenness centrality\nfig, ax = plt.subplots(figsize=(10, 10))\n\nnodes.plot(\n    ax=ax,\n    column=\"betweenness\",\n    cmap=\"inferno\",\n    markersize=15,\n    edgecolor=\"none\",\n    legend=True,\n    legend_kwds={\"label\": \"Betweenness Centrality\", \"shrink\": 0.6}\n)\n\nedges.plot(ax=ax, color=\"#cccccc\", linewidth=0.3, zorder=0)\n\nax.set_title(\"Auckland CBD: Betweenness Centrality\", fontweight=\"bold\")\nax.set_axis_off()\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nCloseness vs Betweenness\n\n\n\nCloseness centrality answers “how easy is it to reach everywhere from here?” whilst betweenness centrality answers “how many shortest paths pass through here?” A node can be highly central by closeness but low by betweenness if it is well-located but not on many through-routes. Both are useful for understanding pedestrian flow patterns.\n\n\nYour turn: Create a side-by-side comparison (1 x 2 subplot) of closeness and betweenness centrality maps. Do the spatial patterns differ?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-6-network-summary-statistics",
+    "href": "labs/lab-week04.html#task-6-network-summary-statistics",
+    "title": "Lab Week 04",
+    "section": "Task 6: Network Summary Statistics",
+    "text": "Task 6: Network Summary Statistics\nMomepy and NetworkX together provide several summary statistics that characterise the overall walkability of a street network.\n\n# Basic network statistics from OSMnx\nstats = ox.stats.basic_stats(G)\n\nprint(\"=== Network Summary ===\")\nprint(f\"Number of nodes:        {stats['n']}\")\nprint(f\"Number of edges:        {stats['m']}\")\nprint(f\"Average node degree:    {stats['k_avg']:.2f}\")\nprint(f\"Total edge length:      {stats['edge_length_total']:.0f} m\")\nprint(f\"Average edge length:    {stats['edge_length_avg']:.1f} m\")\n\n\n# Intersection count (nodes with degree &gt; 1)\nintersections = nodes[nodes[\"degree\"] &gt; 1]\ndead_ends = nodes[nodes[\"degree\"] == 1]\n\nprint(f\"\\nIntersections:          {len(intersections)}\")\nprint(f\"Dead ends:              {len(dead_ends)}\")\nprint(f\"Dead-end ratio:         {len(dead_ends) / len(nodes):.1%}\")\n\n\n# Meshedness ratio: proportion of actual loops relative to maximum possible\n# A higher meshedness means more route choices\nn_nodes = G.number_of_nodes()\nn_edges = G.number_of_edges()\nmeshedness = (n_edges - n_nodes + 1) / (2 * n_nodes - 5) if n_nodes &gt; 2 else 0\n\nprint(f\"\\nMeshedness ratio:       {meshedness:.3f}\")\nprint(\"(0 = tree/no loops, 1 = maximally connected)\")\n\n\n\n\n\n\n\nInterpreting Meshedness\n\n\n\nA meshedness ratio close to 0 means the network is tree-like with few alternative routes. A ratio closer to 1 means there are many loops and route choices. Most urban street networks fall between 0.1 and 0.5. Higher values generally indicate better walkability because pedestrians have more route options.\n\n\nYour turn: Compare the meshedness of the walk network with the drive network. Which is more “meshed” and why?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-7-loading-and-preparing-the-pedestrian-data",
+    "href": "labs/lab-week04.html#task-7-loading-and-preparing-the-pedestrian-data",
+    "title": "Lab Week 04",
+    "section": "Task 7: Loading and Preparing the Pedestrian Data",
+    "text": "Task 7: Loading and Preparing the Pedestrian Data\n\n# Load pedestrian counts and geodata\nped = pd.read_csv(\"data/akl_ped-2024.csv\")\ngeo = pd.read_csv(\"data/akl_ped-Geodata.csv\")\n\n# Clean the pedestrian data\nped = ped.dropna(subset=[\"Date\", \"Time\"]).copy()\nped = ped[ped[\"Date\"] != \"Daylight Savings\"].copy()\nped[\"Date\"] = pd.to_datetime(ped[\"Date\"])\n\n# Extract temporal features\nped[\"hour\"] = ped[\"Time\"].str.split(\":\").str[0].astype(int)\nped[\"month\"] = ped[\"Date\"].dt.month\n\n# Sensor columns\nsensor_cols = ped.columns[2:23]\n\nprint(f\"Pedestrian data: {ped.shape}\")\nprint(f\"Sensor locations: {len(geo)}\")\n\n\n# Calculate the annual average hourly count for each sensor\navg_counts = ped[sensor_cols].mean()\n\n# Create a summary table with coordinates\nsensor_summary = geo.copy()\nsensor_summary[\"avg_count\"] = sensor_summary[\"Address\"].map(avg_counts)\nsensor_summary = sensor_summary.dropna(subset=[\"avg_count\"])\n\nprint(\"Average hourly count by sensor:\")\nprint(sensor_summary[[\"Address\", \"avg_count\"]].sort_values(\"avg_count\", ascending=False).to_string(index=False))",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-8-creating-a-spatial-join",
+    "href": "labs/lab-week04.html#task-8-creating-a-spatial-join",
+    "title": "Lab Week 04",
+    "section": "Task 8: Creating a Spatial Join",
+    "text": "Task 8: Creating a Spatial Join\nTo link pedestrian sensors with network nodes, we need to find the nearest node to each sensor location. This requires projecting both datasets to a metric coordinate reference system (NZGD2000 / New Zealand Transverse Mercator, EPSG:2193).\n\n# Convert sensors to GeoDataFrame\nsensor_gdf = gpd.GeoDataFrame(\n    sensor_summary,\n    geometry=gpd.points_from_xy(sensor_summary[\"Longitude\"], sensor_summary[\"Latitude\"]),\n    crs=\"EPSG:4326\"\n)\n\n# Project both to NZTM (metres)\nsensor_proj = sensor_gdf.to_crs(\"EPSG:2193\")\nnodes_proj = nodes.to_crs(\"EPSG:2193\")\n\nprint(f\"Sensors: {len(sensor_proj)}\")\nprint(f\"Network nodes: {len(nodes_proj)}\")\n\n\n# Find the nearest network node for each sensor\nfrom shapely.ops import nearest_points\n\ndef find_nearest_node(sensor_point, nodes_gdf):\n    \"\"\"Return the index of the nearest node to a given point.\"\"\"\n    distances = nodes_gdf.geometry.distance(sensor_point)\n    nearest_idx = distances.idxmin()\n    return nearest_idx, distances[nearest_idx]\n\n# Apply to each sensor\nresults = sensor_proj.geometry.apply(lambda pt: find_nearest_node(pt, nodes_proj))\nsensor_proj[\"nearest_node\"] = results.apply(lambda x: x[0])\nsensor_proj[\"distance_to_node\"] = results.apply(lambda x: x[1])\n\nprint(\"Distance from each sensor to its nearest node (metres):\")\nprint(sensor_proj[[\"Address\", \"distance_to_node\"]].to_string(index=False))\n\n\n# Join morphological measures from nodes to sensors\nsensor_morphology = sensor_proj.merge(\n    nodes[[\"degree\", \"closeness\", \"betweenness\"]],\n    left_on=\"nearest_node\",\n    right_index=True,\n    how=\"left\"\n)\n\nsensor_morphology[[\"Address\", \"avg_count\", \"degree\", \"closeness\", \"betweenness\"]].round(6)\n\n\n\n\n\n\n\nSpatial Join Caveats\n\n\n\nWe have only 19 sensor locations, which is a small sample for correlation analysis. The nearest node may not perfectly represent the morphological context of the sensor (a sensor on a long block might be far from the nearest intersection). Interpret results as exploratory rather than confirmatory.\n\n\nYour turn: Check the distance_to_node values. Are any sensors suspiciously far from their nearest node? How might you set a maximum threshold (e.g. 100 m) to filter out poor matches?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-9-testing-the-hypothesis",
+    "href": "labs/lab-week04.html#task-9-testing-the-hypothesis",
+    "title": "Lab Week 04",
+    "section": "Task 9: Testing the Hypothesis",
+    "text": "Task 9: Testing the Hypothesis\n\nfrom scipy.stats import pearsonr, spearmanr\n\n# Pearson correlation: degree vs average footfall\ncorr_degree, p_degree = pearsonr(\n    sensor_morphology[\"degree\"],\n    sensor_morphology[\"avg_count\"]\n)\n\n# Spearman correlation (rank-based, less sensitive to outliers)\nrho_degree, p_rho_degree = spearmanr(\n    sensor_morphology[\"degree\"],\n    sensor_morphology[\"avg_count\"]\n)\n\nprint(\"=== Degree vs Pedestrian Count ===\")\nprint(f\"Pearson r  = {corr_degree:.3f}  (p = {p_degree:.3f})\")\nprint(f\"Spearman ρ = {rho_degree:.3f}  (p = {p_rho_degree:.3f})\")\n\n\n# Closeness centrality vs footfall\ncorr_close, p_close = pearsonr(\n    sensor_morphology[\"closeness\"],\n    sensor_morphology[\"avg_count\"]\n)\n\nrho_close, p_rho_close = spearmanr(\n    sensor_morphology[\"closeness\"],\n    sensor_morphology[\"avg_count\"]\n)\n\nprint(\"=== Closeness Centrality vs Pedestrian Count ===\")\nprint(f\"Pearson r  = {corr_close:.3f}  (p = {p_close:.3f})\")\nprint(f\"Spearman ρ = {rho_close:.3f}  (p = {p_rho_close:.3f})\")\n\n\n# Betweenness centrality vs footfall\ncorr_btwn, p_btwn = pearsonr(\n    sensor_morphology[\"betweenness\"],\n    sensor_morphology[\"avg_count\"]\n)\n\nrho_btwn, p_rho_btwn = spearmanr(\n    sensor_morphology[\"betweenness\"],\n    sensor_morphology[\"avg_count\"]\n)\n\nprint(\"=== Betweenness Centrality vs Pedestrian Count ===\")\nprint(f\"Pearson r  = {corr_btwn:.3f}  (p = {p_btwn:.3f})\")\nprint(f\"Spearman ρ = {rho_btwn:.3f}  (p = {p_rho_btwn:.3f})\")\n\n\n\n\n\n\n\nInterpreting the Results\n\n\n\nA positive correlation means that sensors near more connected/central nodes tend to have higher pedestrian counts. A p-value below 0.05 is conventionally considered statistically significant, but with only 19 observations, treat significance cautiously. The Spearman rank correlation is more robust when the relationship is not strictly linear or when outliers are present.\n\n\nYour turn: Does the correlation change if you use only weekday data (Monday to Friday)? Recalculate avg_count for weekdays only and re-run the correlation tests.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-10-scatter-plots-of-form-vs-function",
+    "href": "labs/lab-week04.html#task-10-scatter-plots-of-form-vs-function",
+    "title": "Lab Week 04",
+    "section": "Task 10: Scatter Plots of Form vs Function",
+    "text": "Task 10: Scatter Plots of Form vs Function\n\nfig, axes = plt.subplots(1, 3, figsize=(16, 5))\n\n# Degree vs footfall\naxes[0].scatter(\n    sensor_morphology[\"degree\"],\n    sensor_morphology[\"avg_count\"],\n    c=\"#1C7293\", s=80, edgecolor=\"white\", linewidth=0.5, alpha=0.8\n)\naxes[0].set_xlabel(\"Node Degree\")\naxes[0].set_ylabel(\"Average Hourly Pedestrian Count\")\naxes[0].set_title(f\"Connectivity\\nr = {corr_degree:.3f}\", fontweight=\"bold\")\n\n# Closeness vs footfall\naxes[1].scatter(\n    sensor_morphology[\"closeness\"],\n    sensor_morphology[\"avg_count\"],\n    c=\"#F96167\", s=80, edgecolor=\"white\", linewidth=0.5, alpha=0.8\n)\naxes[1].set_xlabel(\"Closeness Centrality\")\naxes[1].set_ylabel(\"Average Hourly Pedestrian Count\")\naxes[1].set_title(f\"Closeness Centrality\\nr = {corr_close:.3f}\", fontweight=\"bold\")\n\n# Betweenness vs footfall\naxes[2].scatter(\n    sensor_morphology[\"betweenness\"],\n    sensor_morphology[\"avg_count\"],\n    c=\"#1B998B\", s=80, edgecolor=\"white\", linewidth=0.5, alpha=0.8\n)\naxes[2].set_xlabel(\"Betweenness Centrality\")\naxes[2].set_ylabel(\"Average Hourly Pedestrian Count\")\naxes[2].set_title(f\"Betweenness Centrality\\nr = {corr_btwn:.3f}\", fontweight=\"bold\")\n\nplt.suptitle(\"Urban Form vs Pedestrian Activity: Auckland CBD\", fontsize=14, fontweight=\"bold\", y=1.02)\nplt.tight_layout()\nplt.show()\n\nYour turn: Add sensor labels to the scatter plots using ax.annotate() so you can identify which locations are outliers. Are there sensors that have high footfall despite low connectivity, or vice versa?",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-11-overlay-sensors-on-the-network-map",
+    "href": "labs/lab-week04.html#task-11-overlay-sensors-on-the-network-map",
+    "title": "Lab Week 04",
+    "section": "Task 11: Overlay Sensors on the Network Map",
+    "text": "Task 11: Overlay Sensors on the Network Map\nCombining the network structure with the pedestrian sensor data on a single map gives a clear picture of where form and function intersect.\n\nfig, ax = plt.subplots(figsize=(10, 10))\n\n# Plot edges coloured by a light grey\nedges.plot(ax=ax, color=\"#cccccc\", linewidth=0.4, zorder=1)\n\n# Plot nodes coloured by closeness centrality\nnodes.plot(\n    ax=ax,\n    column=\"closeness\",\n    cmap=\"Blues\",\n    markersize=3,\n    edgecolor=\"none\",\n    alpha=0.5,\n    zorder=2\n)\n\n# Overlay pedestrian sensors as sized circles\nsensor_gdf_wgs = sensor_morphology.to_crs(\"EPSG:4326\")\nsensor_gdf_wgs.plot(\n    ax=ax,\n    column=\"avg_count\",\n    cmap=\"YlOrRd\",\n    markersize=sensor_gdf_wgs[\"avg_count\"] / 3,\n    edgecolor=\"black\",\n    linewidth=0.5,\n    legend=True,\n    legend_kwds={\"label\": \"Avg Pedestrian Count\", \"shrink\": 0.5},\n    zorder=3\n)\n\nax.set_title(\"Auckland CBD: Street Centrality and Pedestrian Activity\", fontweight=\"bold\")\nax.set_axis_off()\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-12-interactive-web-map",
+    "href": "labs/lab-week04.html#task-12-interactive-web-map",
+    "title": "Lab Week 04",
+    "section": "Task 12: Interactive Web Map",
+    "text": "Task 12: Interactive Web Map\n\nimport folium\n\n# Create base map\nm = folium.Map(\n    location=[-36.849, 174.765],\n    zoom_start=15,\n    tiles=\"CartoDB positron\"\n)\n\n# Add pedestrian sensors as proportional circles\nfor _, row in sensor_gdf_wgs.iterrows():\n    folium.CircleMarker(\n        location=[row.geometry.y, row.geometry.x],\n        radius=row[\"avg_count\"] / 60,\n        color=\"black\",\n        weight=0.5,\n        fill=True,\n        fill_color=\"orangered\",\n        fill_opacity=0.6,\n        tooltip=(\n            f\"&lt;b&gt;{row['Address']}&lt;/b&gt;&lt;br&gt;\"\n            f\"Avg count: {row['avg_count']:.0f}/hr&lt;br&gt;\"\n            f\"Node degree: {row['degree']}&lt;br&gt;\"\n            f\"Closeness: {row['closeness']:.5f}&lt;br&gt;\"\n            f\"Betweenness: {row['betweenness']:.5f}\"\n        )\n    ).add_to(m)\n\nm\n\nYour turn: Add the network edges to the Folium map. You can iterate over the edges GeoDataFrame and add each line as a folium.PolyLine. Colour the edges by closeness centrality of their start node.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#task-13-temporal-variation-in-form-function-relationship",
+    "href": "labs/lab-week04.html#task-13-temporal-variation-in-form-function-relationship",
+    "title": "Lab Week 04",
+    "section": "Task 13: Temporal Variation in Form-Function Relationship",
+    "text": "Task 13: Temporal Variation in Form-Function Relationship\nDoes the relationship between urban form and pedestrian activity change throughout the day? During the morning rush, commuters may follow direct routes (favouring high-betweenness nodes), whilst at lunchtime, pedestrians may disperse to a wider variety of destinations.\n\n# Calculate average counts by hour for each sensor\ntarget_hours = [7, 9, 12, 15, 17, 20]\n\nhourly_correlations = []\n\nfor h in target_hours:\n    hour_data = ped[ped[\"hour\"] == h][sensor_cols].mean()\n\n    # Match to sensors with morphology data\n    temp = sensor_morphology.copy()\n    temp[\"hour_count\"] = temp[\"Address\"].map(hour_data)\n    temp = temp.dropna(subset=[\"hour_count\"])\n\n    r_degree, _ = pearsonr(temp[\"degree\"], temp[\"hour_count\"])\n    r_close, _ = pearsonr(temp[\"closeness\"], temp[\"hour_count\"])\n    r_btwn, _ = pearsonr(temp[\"betweenness\"], temp[\"hour_count\"])\n\n    hourly_correlations.append({\n        \"hour\": h,\n        \"r_degree\": r_degree,\n        \"r_closeness\": r_close,\n        \"r_betweenness\": r_btwn\n    })\n\ncorr_df = pd.DataFrame(hourly_correlations)\nprint(corr_df.round(3))\n\n\n# Plot how correlations change through the day\nfig, ax = plt.subplots(figsize=(9, 5))\n\nax.plot(corr_df[\"hour\"], corr_df[\"r_degree\"], \"o-\", label=\"Node Degree\", color=\"#1C7293\", linewidth=2)\nax.plot(corr_df[\"hour\"], corr_df[\"r_closeness\"], \"s-\", label=\"Closeness\", color=\"#F96167\", linewidth=2)\nax.plot(corr_df[\"hour\"], corr_df[\"r_betweenness\"], \"^-\", label=\"Betweenness\", color=\"#1B998B\", linewidth=2)\n\nax.axhline(y=0, color=\"grey\", linestyle=\"--\", alpha=0.5)\nax.set_xlabel(\"Hour of Day\")\nax.set_ylabel(\"Pearson Correlation (r)\")\nax.set_title(\"How Does the Form-Function Relationship Change Through the Day?\", fontweight=\"bold\")\nax.legend()\nax.set_xticks(target_hours)\nax.set_xticklabels([f\"{h}:00\" for h in target_hours])\nax.grid(True, alpha=0.3)\nplt.tight_layout()\nplt.show()\n\nYour turn: Extend this analysis to compare weekdays and weekends. Do the correlations differ? You might expect betweenness to matter more on weekdays (commuters taking efficient routes) and closeness to matter more on weekends (leisure pedestrians exploring).",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#putting-it-all-together",
+    "href": "labs/lab-week04.html#putting-it-all-together",
+    "title": "Lab Week 04",
+    "section": "Putting It All Together",
+    "text": "Putting It All Together\nUsing what you have learnt in Parts 1 to 4, produce a short visual analysis that addresses the following question:\n\nDoes the morphological structure of Auckland CBD’s street network help explain spatial variation in pedestrian activity?\n\nYour analysis should include:\n\nAt least two morphological measures calculated with momepy/NetworkX (e.g. degree and closeness centrality)\nA spatial visualisation showing both network measures and pedestrian counts on a single map\nA statistical test (correlation) linking form to function, with discussion of the result\nWritten interpretation: below each figure, write 2-3 sentences explaining what the visualisation reveals\n\n\n\n\n\n\n\nIdeas to Explore\n\n\n\n\nDoes the form-function relationship vary by time of day or day of week?\nAre there sensors that defy the general trend (high footfall in low-connectivity areas, or vice versa)? What local factors might explain these outliers?\nHow does the walkable network compare to the drivable network in terms of connectivity?\nCould a new pedestrian connection (e.g. a laneway or shared path) improve the connectivity of an under-performing area?\n\n\n\nTime: approximately 15 minutes",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week04.html#what-you-have-learnt",
+    "href": "labs/lab-week04.html#what-you-have-learnt",
+    "title": "Lab Week 04",
+    "section": "What You Have Learnt",
+    "text": "What You Have Learnt\nThis lab introduced urban morphometrics as a lens for understanding pedestrian behaviour:\n\nOSMnx gave you access to street network data from OpenStreetMap, ready for analysis as NetworkX graphs and GeoDataFrames.\nMomepy and NetworkX provided morphological measures (node degree, closeness centrality, betweenness centrality, meshedness) that quantify the connectivity and accessibility of the street network.\nSpatial joins linked sensor locations to their nearest network nodes, enabling hypothesis testing about form and function.\nCorrelation analysis tested whether more connected/central locations have higher pedestrian counts, with visualisations to support interpretation.\n\nThese skills provide the analytical foundation for exploring how urban design influences pedestrian behaviour, and they connect directly to the walkability concepts discussed in Shriv’s guest lecture. In the assignment, you may choose to incorporate momepy analysis to tell a richer story about Auckland’s pedestrian landscape.",
+    "crumbs": [
+      "labs.html",
+      "Lab Week 04"
     ]
   }
 ]

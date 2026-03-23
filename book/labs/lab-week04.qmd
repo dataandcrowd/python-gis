@@ -1,1 +1,705 @@
 # Lab Week 04 {.unnumbered}
+
+## Overview
+
+Welcome to the Tutorial! This lab introduces **momepy** (Morphological Measuring in Python) for analysing urban form and its relationship to pedestrian behaviour. You will download Auckland CBD's walkable street network, calculate connectivity and centrality measures, and test whether urban form helps explain the pedestrian count patterns you explored in earlier labs.
+
+By the end of this lab you will be able to retrieve a street network from OpenStreetMap, compute morphological indicators with momepy, and link those indicators to real footfall data.
+
+**Duration:** approximately 1.5 hours
+
+**What you need:**
+
+- Python 3.10+ with `pandas`, `geopandas`, `matplotlib`, `osmnx`, `momepy`, `networkx`, and `scipy` installed
+- The files `akl_ped-2024.csv` and `akl_ped-Geodata.csv`
+- A Python script, Jupyter notebook, or Quarto document to write your code
+
+**Structure:**
+
+| Part | Topic | Approx. Time |
+|------|-------|--------------|
+| 1 | Street networks with OSMnx | 25 min |
+| 2 | Morphological measures with momepy | 35 min |
+| 3 | Linking urban form to pedestrian footfall | 40 min |
+| 4 | Visualising walkability | 20 min |
+| -- | Final challenge | 15 min |
+
+::: {.callout-note}
+## Why Momepy?
+Urban form influences how people move. More connected, human-scale streets tend to have higher pedestrian activity, better walkability scores, and more vibrant urban life. Momepy lets us quantify these characteristics so that we can move beyond subjective judgements and test hypotheses with data.
+:::
+
+---
+
+# Part 1: Street Networks with OSMnx {.unnumbered}
+
+## About OSMnx
+
+[OSMnx](https://osmnx.readthedocs.io/) is a Python library that downloads street network data from OpenStreetMap and converts it into a NetworkX graph. We can then extract nodes (intersections and dead ends) and edges (street segments) as GeoDataFrames for spatial analysis.
+
+## Task 1: Downloading the Auckland CBD Network
+
+```{python}
+import osmnx as ox
+import geopandas as gpd
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Download the walkable street network for Auckland CBD
+# network_type='walk' includes footpaths, pedestrian streets, and shared paths
+# We use a bounding box centred on the CBD to capture the sensor area
+G = ox.graph_from_bbox(
+    bbox=(-36.839, -36.862, 174.755, 174.775),
+    network_type='walk'
+)
+
+print(f"Nodes (intersections): {G.number_of_nodes()}")
+print(f"Edges (street segments): {G.number_of_edges()}")
+```
+
+```{python}
+# Convert the graph to GeoDataFrames
+nodes, edges = ox.graph_to_gdfs(G)
+
+print(f"Nodes shape: {nodes.shape}")
+print(f"Edges shape: {edges.shape}")
+```
+
+```{python}
+# Inspect the nodes table
+nodes.head()
+```
+
+```{python}
+# Inspect the edges table
+edges.head()
+```
+
+Each node has a latitude, longitude, and geometry (point). Each edge has a length in metres, a geometry (linestring), and street attributes such as name and highway type.
+
+**Your turn:** How many unique street names appear in the edges table? Use `edges["name"].nunique()` (you may need to handle lists first). Are there any unnamed segments?
+
+## Task 2: Visualising the Network
+
+```{python}
+fig, ax = ox.plot_graph(
+    G,
+    figsize=(10, 10),
+    node_size=5,
+    node_color="#1C7293",
+    edge_color="#999999",
+    edge_linewidth=0.5,
+    bgcolor="white",
+    show=False,
+    close=False
+)
+ax.set_title("Auckland CBD: Walkable Street Network", fontweight="bold", fontsize=14)
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-tip}
+## Place Name Alternative
+If you prefer, you can also download by place name. Note that the geocoding result depends on how OpenStreetMap defines the boundary. If the place name returns an empty graph, fall back to the bounding box approach above.
+
+```python
+G = ox.graph_from_place("Auckland, New Zealand", network_type='walk')
+```
+
+You can also use `ox.graph_from_point()` with a distance radius:
+
+```python
+G = ox.graph_from_point((-36.849, 174.765), dist=1000, network_type='walk')
+```
+:::
+
+**Your turn:** Try downloading the network with `network_type='drive'` instead. How does the number of edges change? Why might the walkable network have more edges than the drivable one?
+
+---
+
+# Part 2: Morphological Measures with Momepy {.unnumbered}
+
+Momepy provides functions to quantify the morphological characteristics of urban form. We focus on three street network measures that are relevant to walkability: **node degree**, **meshedness**, and **closeness centrality**.
+
+## Task 3: Node Degree
+
+Node degree is the number of street segments meeting at an intersection. A 4-way intersection has degree 4; a dead end has degree 1. Higher average degree indicates a more connected, grid-like network with more route choices for pedestrians.
+
+```{python}
+import momepy
+
+# Calculate node degree
+# momepy expects the graph as a NetworkX object
+degree_dict = dict(G.degree())
+
+# Add degree to the nodes GeoDataFrame
+nodes["degree"] = nodes.index.map(degree_dict)
+
+print(f"Average node degree: {nodes['degree'].mean():.2f}")
+print(f"Maximum degree: {nodes['degree'].max()}")
+print(f"Minimum degree: {nodes['degree'].min()}")
+```
+
+```{python}
+# Distribution of node degrees
+print(nodes["degree"].value_counts().sort_index())
+```
+
+```{python}
+# Map node degree
+fig, ax = plt.subplots(figsize=(10, 10))
+
+nodes.plot(
+    ax=ax,
+    column="degree",
+    cmap="YlOrRd",
+    markersize=nodes["degree"] * 8,
+    edgecolor="black",
+    linewidth=0.3,
+    legend=True,
+    legend_kwds={"label": "Node Degree", "shrink": 0.6}
+)
+
+edges.plot(ax=ax, color="#cccccc", linewidth=0.3, zorder=0)
+
+ax.set_title("Auckland CBD: Node Degree (Street Connectivity)", fontweight="bold")
+ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-note}
+## What Does Node Degree Tell Us?
+A node with degree 1 is a dead end. Degree 2 means the street simply continues (no intersection). Degree 3 is a T-junction, and degree 4 is a standard crossroads. Nodes with degree 5 or higher are complex intersections with many route choices. For walkability, higher average degree generally means a more permeable network.
+:::
+
+**Your turn:** What percentage of nodes are dead ends (degree 1)? What percentage are crossroads or higher (degree >= 4)?
+
+## Task 4: Closeness Centrality
+
+Closeness centrality measures how close a node is to all other nodes in the network. A node with high closeness centrality can be reached from anywhere in the network with relatively short travel distances. This is a proxy for accessibility.
+
+```{python}
+import networkx as nx
+
+# Calculate closeness centrality using network distance (edge length)
+centrality = nx.closeness_centrality(G, distance="length")
+
+# Add to nodes GeoDataFrame
+nodes["closeness"] = nodes.index.map(centrality)
+
+print(f"Mean closeness centrality: {nodes['closeness'].mean():.6f}")
+print(f"Max closeness centrality: {nodes['closeness'].max():.6f}")
+print(f"Min closeness centrality: {nodes['closeness'].min():.6f}")
+```
+
+```{python}
+# Map closeness centrality
+fig, ax = plt.subplots(figsize=(10, 10))
+
+nodes.plot(
+    ax=ax,
+    column="closeness",
+    cmap="plasma",
+    markersize=15,
+    edgecolor="none",
+    legend=True,
+    legend_kwds={"label": "Closeness Centrality", "shrink": 0.6}
+)
+
+edges.plot(ax=ax, color="#cccccc", linewidth=0.3, zorder=0)
+
+ax.set_title("Auckland CBD: Closeness Centrality", fontweight="bold")
+ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+```
+
+**Your turn:** Which area of the CBD has the highest closeness centrality? Does this align with where you would expect the most accessible location to be?
+
+## Task 5: Betweenness Centrality
+
+Betweenness centrality measures how often a node lies on the shortest path between other pairs of nodes. A node with high betweenness is a critical route through the network. Removing it would force pedestrians to take longer detours.
+
+```{python}
+# Calculate betweenness centrality (may take a moment)
+betweenness = nx.betweenness_centrality(G, weight="length")
+
+nodes["betweenness"] = nodes.index.map(betweenness)
+
+print(f"Mean betweenness: {nodes['betweenness'].mean():.6f}")
+print(f"Max betweenness: {nodes['betweenness'].max():.6f}")
+```
+
+```{python}
+# Map betweenness centrality
+fig, ax = plt.subplots(figsize=(10, 10))
+
+nodes.plot(
+    ax=ax,
+    column="betweenness",
+    cmap="inferno",
+    markersize=15,
+    edgecolor="none",
+    legend=True,
+    legend_kwds={"label": "Betweenness Centrality", "shrink": 0.6}
+)
+
+edges.plot(ax=ax, color="#cccccc", linewidth=0.3, zorder=0)
+
+ax.set_title("Auckland CBD: Betweenness Centrality", fontweight="bold")
+ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-note}
+## Closeness vs Betweenness
+Closeness centrality answers "how easy is it to reach everywhere from here?" whilst betweenness centrality answers "how many shortest paths pass through here?" A node can be highly central by closeness but low by betweenness if it is well-located but not on many through-routes. Both are useful for understanding pedestrian flow patterns.
+:::
+
+**Your turn:** Create a side-by-side comparison (1 x 2 subplot) of closeness and betweenness centrality maps. Do the spatial patterns differ?
+
+## Task 6: Network Summary Statistics
+
+Momepy and NetworkX together provide several summary statistics that characterise the overall walkability of a street network.
+
+```{python}
+# Basic network statistics from OSMnx
+stats = ox.stats.basic_stats(G)
+
+print("=== Network Summary ===")
+print(f"Number of nodes:        {stats['n']}")
+print(f"Number of edges:        {stats['m']}")
+print(f"Average node degree:    {stats['k_avg']:.2f}")
+print(f"Total edge length:      {stats['edge_length_total']:.0f} m")
+print(f"Average edge length:    {stats['edge_length_avg']:.1f} m")
+```
+
+```{python}
+# Intersection count (nodes with degree > 1)
+intersections = nodes[nodes["degree"] > 1]
+dead_ends = nodes[nodes["degree"] == 1]
+
+print(f"\nIntersections:          {len(intersections)}")
+print(f"Dead ends:              {len(dead_ends)}")
+print(f"Dead-end ratio:         {len(dead_ends) / len(nodes):.1%}")
+```
+
+```{python}
+# Meshedness ratio: proportion of actual loops relative to maximum possible
+# A higher meshedness means more route choices
+n_nodes = G.number_of_nodes()
+n_edges = G.number_of_edges()
+meshedness = (n_edges - n_nodes + 1) / (2 * n_nodes - 5) if n_nodes > 2 else 0
+
+print(f"\nMeshedness ratio:       {meshedness:.3f}")
+print("(0 = tree/no loops, 1 = maximally connected)")
+```
+
+::: {.callout-tip}
+## Interpreting Meshedness
+A meshedness ratio close to 0 means the network is tree-like with few alternative routes. A ratio closer to 1 means there are many loops and route choices. Most urban street networks fall between 0.1 and 0.5. Higher values generally indicate better walkability because pedestrians have more route options.
+:::
+
+**Your turn:** Compare the meshedness of the walk network with the drive network. Which is more "meshed" and why?
+
+---
+
+# Part 3: Linking Urban Form to Pedestrian Footfall {.unnumbered}
+
+Now we connect the morphological measures from Part 2 with the pedestrian count data from the Auckland CBD sensors. The central hypothesis is: **more connected, more central streets should have higher pedestrian activity**.
+
+## Task 7: Loading and Preparing the Pedestrian Data
+
+```{python}
+# Load pedestrian counts and geodata
+ped = pd.read_csv("data/akl_ped-2024.csv")
+geo = pd.read_csv("data/akl_ped-Geodata.csv")
+
+# Clean the pedestrian data
+ped = ped.dropna(subset=["Date", "Time"]).copy()
+ped = ped[ped["Date"] != "Daylight Savings"].copy()
+ped["Date"] = pd.to_datetime(ped["Date"])
+
+# Extract temporal features
+ped["hour"] = ped["Time"].str.split(":").str[0].astype(int)
+ped["month"] = ped["Date"].dt.month
+
+# Sensor columns
+sensor_cols = ped.columns[2:23]
+
+print(f"Pedestrian data: {ped.shape}")
+print(f"Sensor locations: {len(geo)}")
+```
+
+```{python}
+# Calculate the annual average hourly count for each sensor
+avg_counts = ped[sensor_cols].mean()
+
+# Create a summary table with coordinates
+sensor_summary = geo.copy()
+sensor_summary["avg_count"] = sensor_summary["Address"].map(avg_counts)
+sensor_summary = sensor_summary.dropna(subset=["avg_count"])
+
+print("Average hourly count by sensor:")
+print(sensor_summary[["Address", "avg_count"]].sort_values("avg_count", ascending=False).to_string(index=False))
+```
+
+## Task 8: Creating a Spatial Join
+
+To link pedestrian sensors with network nodes, we need to find the nearest node to each sensor location. This requires projecting both datasets to a metric coordinate reference system (NZGD2000 / New Zealand Transverse Mercator, EPSG:2193).
+
+```{python}
+# Convert sensors to GeoDataFrame
+sensor_gdf = gpd.GeoDataFrame(
+    sensor_summary,
+    geometry=gpd.points_from_xy(sensor_summary["Longitude"], sensor_summary["Latitude"]),
+    crs="EPSG:4326"
+)
+
+# Project both to NZTM (metres)
+sensor_proj = sensor_gdf.to_crs("EPSG:2193")
+nodes_proj = nodes.to_crs("EPSG:2193")
+
+print(f"Sensors: {len(sensor_proj)}")
+print(f"Network nodes: {len(nodes_proj)}")
+```
+
+```{python}
+# Find the nearest network node for each sensor
+from shapely.ops import nearest_points
+
+def find_nearest_node(sensor_point, nodes_gdf):
+    """Return the index of the nearest node to a given point."""
+    distances = nodes_gdf.geometry.distance(sensor_point)
+    nearest_idx = distances.idxmin()
+    return nearest_idx, distances[nearest_idx]
+
+# Apply to each sensor
+results = sensor_proj.geometry.apply(lambda pt: find_nearest_node(pt, nodes_proj))
+sensor_proj["nearest_node"] = results.apply(lambda x: x[0])
+sensor_proj["distance_to_node"] = results.apply(lambda x: x[1])
+
+print("Distance from each sensor to its nearest node (metres):")
+print(sensor_proj[["Address", "distance_to_node"]].to_string(index=False))
+```
+
+```{python}
+# Join morphological measures from nodes to sensors
+sensor_morphology = sensor_proj.merge(
+    nodes[["degree", "closeness", "betweenness"]],
+    left_on="nearest_node",
+    right_index=True,
+    how="left"
+)
+
+sensor_morphology[["Address", "avg_count", "degree", "closeness", "betweenness"]].round(6)
+```
+
+::: {.callout-warning}
+## Spatial Join Caveats
+We have only 19 sensor locations, which is a small sample for correlation analysis. The nearest node may not perfectly represent the morphological context of the sensor (a sensor on a long block might be far from the nearest intersection). Interpret results as exploratory rather than confirmatory.
+:::
+
+**Your turn:** Check the `distance_to_node` values. Are any sensors suspiciously far from their nearest node? How might you set a maximum threshold (e.g. 100 m) to filter out poor matches?
+
+## Task 9: Testing the Hypothesis
+
+```{python}
+from scipy.stats import pearsonr, spearmanr
+
+# Pearson correlation: degree vs average footfall
+corr_degree, p_degree = pearsonr(
+    sensor_morphology["degree"],
+    sensor_morphology["avg_count"]
+)
+
+# Spearman correlation (rank-based, less sensitive to outliers)
+rho_degree, p_rho_degree = spearmanr(
+    sensor_morphology["degree"],
+    sensor_morphology["avg_count"]
+)
+
+print("=== Degree vs Pedestrian Count ===")
+print(f"Pearson r  = {corr_degree:.3f}  (p = {p_degree:.3f})")
+print(f"Spearman ρ = {rho_degree:.3f}  (p = {p_rho_degree:.3f})")
+```
+
+```{python}
+# Closeness centrality vs footfall
+corr_close, p_close = pearsonr(
+    sensor_morphology["closeness"],
+    sensor_morphology["avg_count"]
+)
+
+rho_close, p_rho_close = spearmanr(
+    sensor_morphology["closeness"],
+    sensor_morphology["avg_count"]
+)
+
+print("=== Closeness Centrality vs Pedestrian Count ===")
+print(f"Pearson r  = {corr_close:.3f}  (p = {p_close:.3f})")
+print(f"Spearman ρ = {rho_close:.3f}  (p = {p_rho_close:.3f})")
+```
+
+```{python}
+# Betweenness centrality vs footfall
+corr_btwn, p_btwn = pearsonr(
+    sensor_morphology["betweenness"],
+    sensor_morphology["avg_count"]
+)
+
+rho_btwn, p_rho_btwn = spearmanr(
+    sensor_morphology["betweenness"],
+    sensor_morphology["avg_count"]
+)
+
+print("=== Betweenness Centrality vs Pedestrian Count ===")
+print(f"Pearson r  = {corr_btwn:.3f}  (p = {p_btwn:.3f})")
+print(f"Spearman ρ = {rho_btwn:.3f}  (p = {p_rho_btwn:.3f})")
+```
+
+::: {.callout-note}
+## Interpreting the Results
+A positive correlation means that sensors near more connected/central nodes tend to have higher pedestrian counts. A p-value below 0.05 is conventionally considered statistically significant, but with only 19 observations, treat significance cautiously. The Spearman rank correlation is more robust when the relationship is not strictly linear or when outliers are present.
+:::
+
+**Your turn:** Does the correlation change if you use only weekday data (Monday to Friday)? Recalculate `avg_count` for weekdays only and re-run the correlation tests.
+
+## Task 10: Scatter Plots of Form vs Function
+
+```{python}
+fig, axes = plt.subplots(1, 3, figsize=(16, 5))
+
+# Degree vs footfall
+axes[0].scatter(
+    sensor_morphology["degree"],
+    sensor_morphology["avg_count"],
+    c="#1C7293", s=80, edgecolor="white", linewidth=0.5, alpha=0.8
+)
+axes[0].set_xlabel("Node Degree")
+axes[0].set_ylabel("Average Hourly Pedestrian Count")
+axes[0].set_title(f"Connectivity\nr = {corr_degree:.3f}", fontweight="bold")
+
+# Closeness vs footfall
+axes[1].scatter(
+    sensor_morphology["closeness"],
+    sensor_morphology["avg_count"],
+    c="#F96167", s=80, edgecolor="white", linewidth=0.5, alpha=0.8
+)
+axes[1].set_xlabel("Closeness Centrality")
+axes[1].set_ylabel("Average Hourly Pedestrian Count")
+axes[1].set_title(f"Closeness Centrality\nr = {corr_close:.3f}", fontweight="bold")
+
+# Betweenness vs footfall
+axes[2].scatter(
+    sensor_morphology["betweenness"],
+    sensor_morphology["avg_count"],
+    c="#1B998B", s=80, edgecolor="white", linewidth=0.5, alpha=0.8
+)
+axes[2].set_xlabel("Betweenness Centrality")
+axes[2].set_ylabel("Average Hourly Pedestrian Count")
+axes[2].set_title(f"Betweenness Centrality\nr = {corr_btwn:.3f}", fontweight="bold")
+
+plt.suptitle("Urban Form vs Pedestrian Activity: Auckland CBD", fontsize=14, fontweight="bold", y=1.02)
+plt.tight_layout()
+plt.show()
+```
+
+**Your turn:** Add sensor labels to the scatter plots using `ax.annotate()` so you can identify which locations are outliers. Are there sensors that have high footfall despite low connectivity, or vice versa?
+
+---
+
+# Part 4: Visualising Walkability {.unnumbered}
+
+## Task 11: Overlay Sensors on the Network Map
+
+Combining the network structure with the pedestrian sensor data on a single map gives a clear picture of where form and function intersect.
+
+```{python}
+fig, ax = plt.subplots(figsize=(10, 10))
+
+# Plot edges coloured by a light grey
+edges.plot(ax=ax, color="#cccccc", linewidth=0.4, zorder=1)
+
+# Plot nodes coloured by closeness centrality
+nodes.plot(
+    ax=ax,
+    column="closeness",
+    cmap="Blues",
+    markersize=3,
+    edgecolor="none",
+    alpha=0.5,
+    zorder=2
+)
+
+# Overlay pedestrian sensors as sized circles
+sensor_gdf_wgs = sensor_morphology.to_crs("EPSG:4326")
+sensor_gdf_wgs.plot(
+    ax=ax,
+    column="avg_count",
+    cmap="YlOrRd",
+    markersize=sensor_gdf_wgs["avg_count"] / 3,
+    edgecolor="black",
+    linewidth=0.5,
+    legend=True,
+    legend_kwds={"label": "Avg Pedestrian Count", "shrink": 0.5},
+    zorder=3
+)
+
+ax.set_title("Auckland CBD: Street Centrality and Pedestrian Activity", fontweight="bold")
+ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+```
+
+## Task 12: Interactive Web Map
+
+```{python}
+import folium
+
+# Create base map
+m = folium.Map(
+    location=[-36.849, 174.765],
+    zoom_start=15,
+    tiles="CartoDB positron"
+)
+
+# Add pedestrian sensors as proportional circles
+for _, row in sensor_gdf_wgs.iterrows():
+    folium.CircleMarker(
+        location=[row.geometry.y, row.geometry.x],
+        radius=row["avg_count"] / 60,
+        color="black",
+        weight=0.5,
+        fill=True,
+        fill_color="orangered",
+        fill_opacity=0.6,
+        tooltip=(
+            f"<b>{row['Address']}</b><br>"
+            f"Avg count: {row['avg_count']:.0f}/hr<br>"
+            f"Node degree: {row['degree']}<br>"
+            f"Closeness: {row['closeness']:.5f}<br>"
+            f"Betweenness: {row['betweenness']:.5f}"
+        )
+    ).add_to(m)
+
+m
+```
+
+**Your turn:** Add the network edges to the Folium map. You can iterate over the edges GeoDataFrame and add each line as a `folium.PolyLine`. Colour the edges by closeness centrality of their start node.
+
+## Task 13: Temporal Variation in Form-Function Relationship
+
+Does the relationship between urban form and pedestrian activity change throughout the day? During the morning rush, commuters may follow direct routes (favouring high-betweenness nodes), whilst at lunchtime, pedestrians may disperse to a wider variety of destinations.
+
+```{python}
+# Calculate average counts by hour for each sensor
+target_hours = [7, 9, 12, 15, 17, 20]
+
+hourly_correlations = []
+
+for h in target_hours:
+    hour_data = ped[ped["hour"] == h][sensor_cols].mean()
+
+    # Match to sensors with morphology data
+    temp = sensor_morphology.copy()
+    temp["hour_count"] = temp["Address"].map(hour_data)
+    temp = temp.dropna(subset=["hour_count"])
+
+    r_degree, _ = pearsonr(temp["degree"], temp["hour_count"])
+    r_close, _ = pearsonr(temp["closeness"], temp["hour_count"])
+    r_btwn, _ = pearsonr(temp["betweenness"], temp["hour_count"])
+
+    hourly_correlations.append({
+        "hour": h,
+        "r_degree": r_degree,
+        "r_closeness": r_close,
+        "r_betweenness": r_btwn
+    })
+
+corr_df = pd.DataFrame(hourly_correlations)
+print(corr_df.round(3))
+```
+
+```{python}
+# Plot how correlations change through the day
+fig, ax = plt.subplots(figsize=(9, 5))
+
+ax.plot(corr_df["hour"], corr_df["r_degree"], "o-", label="Node Degree", color="#1C7293", linewidth=2)
+ax.plot(corr_df["hour"], corr_df["r_closeness"], "s-", label="Closeness", color="#F96167", linewidth=2)
+ax.plot(corr_df["hour"], corr_df["r_betweenness"], "^-", label="Betweenness", color="#1B998B", linewidth=2)
+
+ax.axhline(y=0, color="grey", linestyle="--", alpha=0.5)
+ax.set_xlabel("Hour of Day")
+ax.set_ylabel("Pearson Correlation (r)")
+ax.set_title("How Does the Form-Function Relationship Change Through the Day?", fontweight="bold")
+ax.legend()
+ax.set_xticks(target_hours)
+ax.set_xticklabels([f"{h}:00" for h in target_hours])
+ax.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+**Your turn:** Extend this analysis to compare weekdays and weekends. Do the correlations differ? You might expect betweenness to matter more on weekdays (commuters taking efficient routes) and closeness to matter more on weekends (leisure pedestrians exploring).
+
+---
+
+# Comparing Walkability Measures {.unnumbered}
+
+| Measure | What It Captures | Walkability Relevance |
+|---------|-----------------|----------------------|
+| **Node degree** | Number of streets at an intersection | More route choices for pedestrians |
+| **Closeness centrality** | How close to all other nodes | Ease of reaching destinations |
+| **Betweenness centrality** | How many shortest paths pass through | Importance as a through-route |
+| **Meshedness** | Proportion of loops in network | Overall network permeability |
+| **Edge length** | Length of street segments | Shorter blocks = more walkable |
+
+::: {.callout-tip}
+## Which Measure Is Best?
+There is no single "best" measure. Node degree is the simplest to interpret but ignores network structure beyond the immediate intersection. Closeness centrality captures global accessibility but is sensitive to the extent of the network analysed. Betweenness centrality identifies critical through-routes but may not reflect where people want to be, only where they must pass through. Use multiple measures together for a richer picture.
+:::
+
+---
+
+# Final Challenge {.unnumbered}
+
+## Putting It All Together
+
+Using what you have learnt in Parts 1 to 4, produce a short visual analysis that addresses the following question:
+
+> **Does the morphological structure of Auckland CBD's street network help explain spatial variation in pedestrian activity?**
+
+Your analysis should include:
+
+1. **At least two morphological measures** calculated with momepy/NetworkX (e.g. degree and closeness centrality)
+2. **A spatial visualisation** showing both network measures and pedestrian counts on a single map
+3. **A statistical test** (correlation) linking form to function, with discussion of the result
+4. **Written interpretation**: below each figure, write 2-3 sentences explaining what the visualisation reveals
+
+::: {.callout-tip}
+## Ideas to Explore
+
+- Does the form-function relationship vary by time of day or day of week?
+- Are there sensors that defy the general trend (high footfall in low-connectivity areas, or vice versa)? What local factors might explain these outliers?
+- How does the walkable network compare to the drivable network in terms of connectivity?
+- Could a new pedestrian connection (e.g. a laneway or shared path) improve the connectivity of an under-performing area?
+:::
+
+**Time:** approximately 15 minutes
+
+---
+
+## What You Have Learnt
+
+This lab introduced urban morphometrics as a lens for understanding pedestrian behaviour:
+
+1. **OSMnx** gave you access to street network data from OpenStreetMap, ready for analysis as NetworkX graphs and GeoDataFrames.
+2. **Momepy and NetworkX** provided morphological measures (node degree, closeness centrality, betweenness centrality, meshedness) that quantify the connectivity and accessibility of the street network.
+3. **Spatial joins** linked sensor locations to their nearest network nodes, enabling hypothesis testing about form and function.
+4. **Correlation analysis** tested whether more connected/central locations have higher pedestrian counts, with visualisations to support interpretation.
+
+These skills provide the analytical foundation for exploring how urban design influences pedestrian behaviour, and they connect directly to the walkability concepts discussed in Shriv's guest lecture. In the assignment, you may choose to incorporate momepy analysis to tell a richer story about Auckland's pedestrian landscape.

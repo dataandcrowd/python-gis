@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lab Week 03 GIS – Python GIS at UoA</title>
+<title>Python GIS at UoA - Lab Week 03 GIS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,9 +21,8 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -65,18 +64,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../references.html" rel="next">
+<link href="../labs/lab-week04.html" rel="next">
 <link href="../labs/lab-week03.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -111,19 +109,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/labs.html">labs.html</a></li><li class="breadcrumb-item"><a href="../labs/lab-week03-GIS.html">Lab Week 03 GIS</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -161,7 +159,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../1.0.chapter1-setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 1: Setup</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -196,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 2. Geospatial Python Programming</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -251,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../labs/labs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">labs.html</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -278,6 +276,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../labs/lab-week03-GIS.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lab Week 03 GIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../labs/lab-week04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Week 04</span></a>
   </div>
 </li>
       </ul>
@@ -351,7 +355,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-1-load-and-clean-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-load-and-clean-the-data">Step 1: Load and Clean the Data</h2>
 <p>We start by loading the pedestrian counts and doing some basic cleaning.</p>
-<div id="1d169df0" class="cell" data-execution_count="1">
+<div id="e45a7daa" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -377,11 +381,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>We have 8783 rows and 25 columns</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -488,11 +493,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="step-2-filter-to-march-and-pick-eight-hours" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-filter-to-march-and-pick-eight-hours">Step 2: Filter to March and Pick Eight Hours</h2>
 <p>We want to focus on March 2024 and eight time slots that capture a full day: 7 am, 9 am, 11 am, 1 pm, 3 pm, 5 pm, 7 pm, and 9 pm.</p>
-<div id="294e2292" class="cell" data-execution_count="2">
+<div id="2536b49b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep only March</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>march <span class="op">=</span> ped[ped[<span class="st">"month"</span>] <span class="op">==</span> <span class="dv">3</span>].copy()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -513,7 +519,7 @@ After filtering to our 8 hours: 248 rows</code></pre>
 <section id="step-3-calculate-the-average-count-per-sensor-per-hour" class="level2">
 <h2 class="anchored" data-anchor-id="step-3-calculate-the-average-count-per-sensor-per-hour">Step 3: Calculate the Average Count per Sensor per Hour</h2>
 <p>March has 31 days, so each sensor has 31 readings for each hour. We take the <strong>mean</strong> to get a single “typical March day”.</p>
-<div id="a953f638" class="cell" data-execution_count="3">
+<div id="be33de59" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># These are the 21 sensor columns (everything after Date and Time)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sensor_cols <span class="op">=</span> ped.columns[<span class="dv">2</span>:<span class="dv">23</span>]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -527,7 +533,7 @@ After filtering to our 8 hours: 248 rows</code></pre>
 <section id="step-4-reshape-to-long-format" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-reshape-to-long-format">Step 4: Reshape to Long Format</h2>
 <p>Right now each sensor is its own column (wide format). To put the data on a map, we need one row per sensor per hour (long format). The <code>melt()</code> function does this.</p>
-<div id="7cc3bcf6" class="cell" data-execution_count="4">
+<div id="af35bd93" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hourly_long <span class="op">=</span> hourly_avg.reset_index().melt(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    id_vars<span class="op">=</span><span class="st">"hour"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    var_name<span class="op">=</span><span class="st">"Address"</span>,</span>
@@ -539,11 +545,12 @@ After filtering to our 8 hours: 248 rows</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Long format: 168 rows</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -589,6 +596,7 @@ After filtering to our 8 hours: 248 rows</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -606,7 +614,7 @@ What Just Happened?
 <section id="step-5-add-coordinates-and-make-a-geodataframe" class="level2">
 <h2 class="anchored" data-anchor-id="step-5-add-coordinates-and-make-a-geodataframe">Step 5: Add Coordinates and Make a GeoDataFrame</h2>
 <p>The pedestrian CSV has counts but no coordinates. A separate file tells us where each sensor is located. We merge them together and convert to a GeoDataFrame.</p>
-<div id="6d4ea3d3" class="cell" data-execution_count="5">
+<div id="887e1dbb" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the sensor locations</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>geo <span class="op">=</span> pd.read_csv(<span class="st">"data/akl_ped-Geodata.csv"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -618,11 +626,12 @@ What Just Happened?
 <div class="cell-output cell-output-stdout">
 <pre><code>We have coordinates for 21 sensors</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="27">
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -668,7 +677,8 @@ What Just Happened?
 </div>
 </div>
 </div>
-<div id="92c08161" class="cell" data-execution_count="6">
+</div>
+<div id="c39abac2" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge: attach coordinates to each row of our aggregated data</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>merged <span class="op">=</span> hourly_long.merge(geo, on<span class="op">=</span><span class="st">"Address"</span>, how<span class="op">=</span><span class="st">"inner"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -677,11 +687,12 @@ What Just Happened?
 <div class="cell-output cell-output-stdout">
 <pre><code>After merging: 168 rows, 21 sensors</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -739,7 +750,8 @@ What Just Happened?
 </div>
 </div>
 </div>
-<div id="17ea05b0" class="cell" data-execution_count="7">
+</div>
+<div id="72d7d14a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a GeoDataFrame so we can map it</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.GeoDataFrame(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    merged,</span>
@@ -748,11 +760,12 @@ What Just Happened?
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>gdf.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -816,11 +829,12 @@ What Just Happened?
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="step-6-your-first-web-map" class="level2">
 <h2 class="anchored" data-anchor-id="step-6-your-first-web-map">Step 6: Your First Web Map</h2>
 <p>Let us put the 5 pm data on an interactive web map. GeoPandas has a built-in function called <code>.explore()</code> that creates an interactive Leaflet map with one line of code.</p>
-<div id="14a59703" class="cell" data-execution_count="8">
+<div id="db796f50" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to just the 5 pm hour</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>hour_17 <span class="op">=</span> gdf[gdf[<span class="st">"hour"</span>] <span class="op">==</span> <span class="dv">17</span>]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -836,7 +850,7 @@ What Just Happened?
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    legend_kwds<span class="op">=</span>{<span class="st">"caption"</span>: <span class="st">"Avg Pedestrian Count (5 pm)"</span>},</span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    style_kwds<span class="op">=</span>{<span class="st">"weight"</span>: <span class="dv">1</span>, <span class="st">"color"</span>: <span class="st">"black"</span>},</span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
 <html>
 <head>
@@ -864,7 +878,7 @@ What Just Happened?
             <meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
             <style>
-                #map_aeb6c8598faa71381d925704cea88e1e {
+                #map_5022c52561944362ab276203c151f617 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -895,14 +909,14 @@ What Just Happened?
 <body>
     
     
-            <div class=&quot;folium-map&quot; id=&quot;map_aeb6c8598faa71381d925704cea88e1e&quot; ></div>
+            <div class=&quot;folium-map&quot; id=&quot;map_5022c52561944362ab276203c151f617&quot; ></div>
         
 </body>
 <script>
     
     
-            var map_aeb6c8598faa71381d925704cea88e1e = L.map(
-                &quot;map_aeb6c8598faa71381d925704cea88e1e&quot;,
+            var map_5022c52561944362ab276203c151f617 = L.map(
+                &quot;map_5022c52561944362ab276203c151f617&quot;,
                 {
                     center: [-36.850494, 174.764884],
                     crs: L.CRS.EPSG3857,
@@ -914,13 +928,13 @@ What Just Happened?
 
                 }
             );
-            L.control.scale().addTo(map_aeb6c8598faa71381d925704cea88e1e);
+            L.control.scale().addTo(map_5022c52561944362ab276203c151f617);
 
             
 
         
     
-            var tile_layer_8af5a327409c9abe295d8f2987737e50 = L.tileLayer(
+            var tile_layer_c74a6eb3874f139d86c64554374ff84e = L.tileLayer(
                 &quot;https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -937,16 +951,16 @@ What Just Happened?
             );
         
     
-            tile_layer_8af5a327409c9abe295d8f2987737e50.addTo(map_aeb6c8598faa71381d925704cea88e1e);
+            tile_layer_c74a6eb3874f139d86c64554374ff84e.addTo(map_5022c52561944362ab276203c151f617);
         
     
-            map_aeb6c8598faa71381d925704cea88e1e.fitBounds(
+            map_5022c52561944362ab276203c151f617.fitBounds(
                 [[-36.857973, 174.760123], [-36.843015, 174.769645]],
                 {}
             );
         
     
-        function geo_json_e2eabee317b8829052a51cf1db08ccd7_styler(feature) {
+        function geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_styler(feature) {
             switch(feature.id) {
                 case &quot;5&quot;: 
                     return {&quot;color&quot;: &quot;black&quot;, &quot;fillColor&quot;: &quot;#fc6430&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 1};
@@ -988,54 +1002,54 @@ What Just Happened?
                     return {&quot;color&quot;: &quot;black&quot;, &quot;fillColor&quot;: &quot;#b40026&quot;, &quot;fillOpacity&quot;: 0.5, &quot;weight&quot;: 1};
             }
         }
-        function geo_json_e2eabee317b8829052a51cf1db08ccd7_highlighter(feature) {
+        function geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_highlighter(feature) {
             switch(feature.id) {
                 default:
                     return {&quot;fillOpacity&quot;: 0.75};
             }
         }
-        function geo_json_e2eabee317b8829052a51cf1db08ccd7_pointToLayer(feature, latlng) {
+        function geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_pointToLayer(feature, latlng) {
             var opts = {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;#3388ff&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#3388ff&quot;, &quot;fillOpacity&quot;: 0.2, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 10, &quot;stroke&quot;: true, &quot;weight&quot;: 3};
             
-            let style = geo_json_e2eabee317b8829052a51cf1db08ccd7_styler(feature)
+            let style = geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_styler(feature)
             Object.assign(opts, style)
             
             return new L.CircleMarker(latlng, opts)
         }
 
-        function geo_json_e2eabee317b8829052a51cf1db08ccd7_onEachFeature(feature, layer) {
+        function geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_onEachFeature(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     if(typeof e.target.setStyle === &quot;function&quot;){
-                            geo_json_e2eabee317b8829052a51cf1db08ccd7.resetStyle(e.target);
+                            geo_json_c5b4bbf4fd77aef39bdcc98db5e38727.resetStyle(e.target);
                     }
                 },
                 mouseover: function(e) {
                     if(typeof e.target.setStyle === &quot;function&quot;){
-                        const highlightStyle = geo_json_e2eabee317b8829052a51cf1db08ccd7_highlighter(e.target.feature)
+                        const highlightStyle = geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_highlighter(e.target.feature)
                         e.target.setStyle(highlightStyle);
                     }
                 },
             });
         };
-        var geo_json_e2eabee317b8829052a51cf1db08ccd7 = L.geoJson(null, {
-                onEachFeature: geo_json_e2eabee317b8829052a51cf1db08ccd7_onEachFeature,
+        var geo_json_c5b4bbf4fd77aef39bdcc98db5e38727 = L.geoJson(null, {
+                onEachFeature: geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_onEachFeature,
             
-                style: geo_json_e2eabee317b8829052a51cf1db08ccd7_styler,
-                pointToLayer: geo_json_e2eabee317b8829052a51cf1db08ccd7_pointToLayer,
+                style: geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_styler,
+                pointToLayer: geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_pointToLayer,
             ...{
 }
         });
 
-        function geo_json_e2eabee317b8829052a51cf1db08ccd7_add (data) {
-            geo_json_e2eabee317b8829052a51cf1db08ccd7
+        function geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_add (data) {
+            geo_json_c5b4bbf4fd77aef39bdcc98db5e38727
                 .addData(data);
         }
-            geo_json_e2eabee317b8829052a51cf1db08ccd7_add({&quot;bbox&quot;: [174.760123, -36.857973, 174.769645, -36.843015], &quot;features&quot;: [{&quot;bbox&quot;: [174.766494, -36.843015, 174.766494, -36.843015], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766494, -36.843015], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;5&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;107 Quay Street&quot;, &quot;Latitude&quot;: -36.843015, &quot;Longitude&quot;: 174.766494, &quot;__folium_color&quot;: &quot;#fc6430&quot;, &quot;avg_count&quot;: 1060.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.769645, -36.84465, 174.769645, -36.84465], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.769645, -36.84465], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;13&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;Te Ara Tahuhu Walkway&quot;, &quot;Latitude&quot;: -36.84465, &quot;Longitude&quot;: 174.769645, &quot;__folium_color&quot;: &quot;#fed976&quot;, &quot;avg_count&quot;: 528.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.768065, -36.844912, 174.768065, -36.844912], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.768065, -36.844912], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;21&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;Commerce Street West&quot;, &quot;Latitude&quot;: -36.844912, &quot;Longitude&quot;: 174.768065, &quot;__folium_color&quot;: &quot;#fff0a7&quot;, &quot;avg_count&quot;: 295.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.767057, -36.844722, 174.767057, -36.844722], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.767057, -36.844722], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;29&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;7 Custom Street East&quot;, &quot;Latitude&quot;: -36.844722, &quot;Longitude&quot;: 174.767057, &quot;__folium_color&quot;: &quot;#feb34d&quot;, &quot;avg_count&quot;: 726.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766266, -36.845001, 174.766266, -36.845001], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766266, -36.845001], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;37&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;45 Queen Street&quot;, &quot;Latitude&quot;: -36.845001, &quot;Longitude&quot;: 174.766266, &quot;__folium_color&quot;: &quot;#f54026&quot;, &quot;avg_count&quot;: 1186.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766575, -36.84495, 174.766575, -36.84495], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766575, -36.84495], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;45&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;30 Queen Street&quot;, &quot;Latitude&quot;: -36.84495, &quot;Longitude&quot;: 174.766575, &quot;__folium_color&quot;: &quot;#800026&quot;, &quot;avg_count&quot;: 1738.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766946, -36.846576, 174.766946, -36.846576], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766946, -36.846576], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;53&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;19 Shortland Street&quot;, &quot;Latitude&quot;: -36.846576, &quot;Longitude&quot;: 174.766946, &quot;__folium_color&quot;: &quot;#ffe48d&quot;, &quot;avg_count&quot;: 416.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766855, -36.846846, 174.766855, -36.846846], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766855, -36.846846], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;61&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2 High Street&quot;, &quot;Latitude&quot;: -36.846846, &quot;Longitude&quot;: 174.766855, &quot;__folium_color&quot;: &quot;#fff7b7&quot;, &quot;avg_count&quot;: 214.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.76705, -36.84817, 174.76705, -36.84817], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.76705, -36.84817], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;69&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1 Courthouse Lane&quot;, &quot;Latitude&quot;: -36.84817, &quot;Longitude&quot;: 174.76705, &quot;__folium_color&quot;: &quot;#ffffcc&quot;, &quot;avg_count&quot;: 119.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.762729, -36.847964, 174.762729, -36.847964], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.762729, -36.847964], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;77&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;61 Federal Street&quot;, &quot;Latitude&quot;: -36.847964, &quot;Longitude&quot;: 174.762729, &quot;__folium_color&quot;: &quot;#ffec9f&quot;, &quot;avg_count&quot;: 332.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766186, -36.848924, 174.766186, -36.848924], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766186, -36.848924], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;85&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;59 High Stret&quot;, &quot;Latitude&quot;: -36.848924, &quot;Longitude&quot;: 174.766186, &quot;__folium_color&quot;: &quot;#fecb67&quot;, &quot;avg_count&quot;: 594.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.76541, -36.848899, 174.76541, -36.848899], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.76541, -36.848899], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;93&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;210 Queen Street&quot;, &quot;Latitude&quot;: -36.848899, &quot;Longitude&quot;: 174.76541, &quot;__folium_color&quot;: &quot;#b40026&quot;, &quot;avg_count&quot;: 1563.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.764784, -36.848986, 174.764784, -36.848986], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.764784, -36.848986], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;101&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;205 Queen Street&quot;, &quot;Latitude&quot;: -36.848986, &quot;Longitude&quot;: 174.764784, &quot;__folium_color&quot;: &quot;#fed977&quot;, &quot;avg_count&quot;: 522.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.764172, -36.849422, 174.764172, -36.849422], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.764172, -36.849422], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;109&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;8 Darby Street EW&quot;, &quot;Latitude&quot;: -36.849422, &quot;Longitude&quot;: 174.764172, &quot;__folium_color&quot;: &quot;#ffffcc&quot;, &quot;avg_count&quot;: 121.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.764172, -36.849422, 174.764172, -36.849422], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.764172, -36.849422], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;117&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;8 Darby Street NS&quot;, &quot;Latitude&quot;: -36.849422, &quot;Longitude&quot;: 174.764172, &quot;__folium_color&quot;: &quot;#ffe48d&quot;, &quot;avg_count&quot;: 415.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.764556, -36.850792, 174.764556, -36.850792], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.764556, -36.850792], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;125&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;261 Queen Street&quot;, &quot;Latitude&quot;: -36.850792, &quot;Longitude&quot;: 174.764556, &quot;__folium_color&quot;: &quot;#950026&quot;, &quot;avg_count&quot;: 1664.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.763915, -36.852232, 174.763915, -36.852232], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.763915, -36.852232], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;133&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;297 Queen Street&quot;, &quot;Latitude&quot;: -36.852232, &quot;Longitude&quot;: 174.763915, &quot;__folium_color&quot;: &quot;#fea647&quot;, &quot;avg_count&quot;: 790.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.760382, -36.857973, 174.760382, -36.857973], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.760382, -36.857973], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;141&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;150 K Road&quot;, &quot;Latitude&quot;: -36.857973, &quot;Longitude&quot;: 174.760382, &quot;__folium_color&quot;: &quot;#fff0a8&quot;, &quot;avg_count&quot;: 285.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.760123, -36.857774, 174.760123, -36.857774], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.760123, -36.857774], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;149&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;183 K Road&quot;, &quot;Latitude&quot;: -36.857774, &quot;Longitude&quot;: 174.760123, &quot;__folium_color&quot;: &quot;#fed36f&quot;, &quot;avg_count&quot;: 560.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.76573, -36.84306, 174.76573, -36.84306], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.76573, -36.84306], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;157&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;188 Quay Street Lower Albert (EW)&quot;, &quot;Latitude&quot;: -36.84306, &quot;Longitude&quot;: 174.76573, &quot;__folium_color&quot;: &quot;#febd57&quot;, &quot;avg_count&quot;: 674.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.76573, -36.84306, 174.76573, -36.84306], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.76573, -36.84306], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;165&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;188 Quay Street Lower Albert (NS)&quot;, &quot;Latitude&quot;: -36.84306, &quot;Longitude&quot;: 174.76573, &quot;__folium_color&quot;: &quot;#fecf6b&quot;, &quot;avg_count&quot;: 576.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
+            geo_json_c5b4bbf4fd77aef39bdcc98db5e38727_add({&quot;bbox&quot;: [174.760123, -36.857973, 174.769645, -36.843015], &quot;features&quot;: [{&quot;bbox&quot;: [174.766494, -36.843015, 174.766494, -36.843015], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766494, -36.843015], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;5&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;107 Quay Street&quot;, &quot;Latitude&quot;: -36.843015, &quot;Longitude&quot;: 174.766494, &quot;__folium_color&quot;: &quot;#fc6430&quot;, &quot;avg_count&quot;: 1060.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.769645, -36.84465, 174.769645, -36.84465], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.769645, -36.84465], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;13&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;Te Ara Tahuhu Walkway&quot;, &quot;Latitude&quot;: -36.84465, &quot;Longitude&quot;: 174.769645, &quot;__folium_color&quot;: &quot;#fed976&quot;, &quot;avg_count&quot;: 528.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.768065, -36.844912, 174.768065, -36.844912], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.768065, -36.844912], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;21&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;Commerce Street West&quot;, &quot;Latitude&quot;: -36.844912, &quot;Longitude&quot;: 174.768065, &quot;__folium_color&quot;: &quot;#fff0a7&quot;, &quot;avg_count&quot;: 295.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.767057, -36.844722, 174.767057, -36.844722], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.767057, -36.844722], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;29&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;7 Custom Street East&quot;, &quot;Latitude&quot;: -36.844722, &quot;Longitude&quot;: 174.767057, &quot;__folium_color&quot;: &quot;#feb34d&quot;, &quot;avg_count&quot;: 726.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766266, -36.845001, 174.766266, -36.845001], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766266, -36.845001], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;37&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;45 Queen Street&quot;, &quot;Latitude&quot;: -36.845001, &quot;Longitude&quot;: 174.766266, &quot;__folium_color&quot;: &quot;#f54026&quot;, &quot;avg_count&quot;: 1186.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766575, -36.84495, 174.766575, -36.84495], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766575, -36.84495], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;45&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;30 Queen Street&quot;, &quot;Latitude&quot;: -36.84495, &quot;Longitude&quot;: 174.766575, &quot;__folium_color&quot;: &quot;#800026&quot;, &quot;avg_count&quot;: 1738.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766946, -36.846576, 174.766946, -36.846576], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766946, -36.846576], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;53&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;19 Shortland Street&quot;, &quot;Latitude&quot;: -36.846576, &quot;Longitude&quot;: 174.766946, &quot;__folium_color&quot;: &quot;#ffe48d&quot;, &quot;avg_count&quot;: 416.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766855, -36.846846, 174.766855, -36.846846], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766855, -36.846846], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;61&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;2 High Street&quot;, &quot;Latitude&quot;: -36.846846, &quot;Longitude&quot;: 174.766855, &quot;__folium_color&quot;: &quot;#fff7b7&quot;, &quot;avg_count&quot;: 214.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.76705, -36.84817, 174.76705, -36.84817], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.76705, -36.84817], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;69&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;1 Courthouse Lane&quot;, &quot;Latitude&quot;: -36.84817, &quot;Longitude&quot;: 174.76705, &quot;__folium_color&quot;: &quot;#ffffcc&quot;, &quot;avg_count&quot;: 119.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.762729, -36.847964, 174.762729, -36.847964], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.762729, -36.847964], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;77&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;61 Federal Street&quot;, &quot;Latitude&quot;: -36.847964, &quot;Longitude&quot;: 174.762729, &quot;__folium_color&quot;: &quot;#ffec9f&quot;, &quot;avg_count&quot;: 332.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.766186, -36.848924, 174.766186, -36.848924], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.766186, -36.848924], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;85&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;59 High Stret&quot;, &quot;Latitude&quot;: -36.848924, &quot;Longitude&quot;: 174.766186, &quot;__folium_color&quot;: &quot;#fecb67&quot;, &quot;avg_count&quot;: 594.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.76541, -36.848899, 174.76541, -36.848899], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.76541, -36.848899], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;93&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;210 Queen Street&quot;, &quot;Latitude&quot;: -36.848899, &quot;Longitude&quot;: 174.76541, &quot;__folium_color&quot;: &quot;#b40026&quot;, &quot;avg_count&quot;: 1563.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.764784, -36.848986, 174.764784, -36.848986], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.764784, -36.848986], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;101&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;205 Queen Street&quot;, &quot;Latitude&quot;: -36.848986, &quot;Longitude&quot;: 174.764784, &quot;__folium_color&quot;: &quot;#fed977&quot;, &quot;avg_count&quot;: 522.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.764172, -36.849422, 174.764172, -36.849422], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.764172, -36.849422], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;109&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;8 Darby Street EW&quot;, &quot;Latitude&quot;: -36.849422, &quot;Longitude&quot;: 174.764172, &quot;__folium_color&quot;: &quot;#ffffcc&quot;, &quot;avg_count&quot;: 121.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.764172, -36.849422, 174.764172, -36.849422], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.764172, -36.849422], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;117&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;8 Darby Street NS&quot;, &quot;Latitude&quot;: -36.849422, &quot;Longitude&quot;: 174.764172, &quot;__folium_color&quot;: &quot;#ffe48d&quot;, &quot;avg_count&quot;: 415.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.764556, -36.850792, 174.764556, -36.850792], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.764556, -36.850792], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;125&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;261 Queen Street&quot;, &quot;Latitude&quot;: -36.850792, &quot;Longitude&quot;: 174.764556, &quot;__folium_color&quot;: &quot;#950026&quot;, &quot;avg_count&quot;: 1664.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.763915, -36.852232, 174.763915, -36.852232], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.763915, -36.852232], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;133&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;297 Queen Street&quot;, &quot;Latitude&quot;: -36.852232, &quot;Longitude&quot;: 174.763915, &quot;__folium_color&quot;: &quot;#fea647&quot;, &quot;avg_count&quot;: 790.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.760382, -36.857973, 174.760382, -36.857973], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.760382, -36.857973], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;141&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;150 K Road&quot;, &quot;Latitude&quot;: -36.857973, &quot;Longitude&quot;: 174.760382, &quot;__folium_color&quot;: &quot;#fff0a8&quot;, &quot;avg_count&quot;: 285.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.760123, -36.857774, 174.760123, -36.857774], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.760123, -36.857774], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;149&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;183 K Road&quot;, &quot;Latitude&quot;: -36.857774, &quot;Longitude&quot;: 174.760123, &quot;__folium_color&quot;: &quot;#fed36f&quot;, &quot;avg_count&quot;: 560.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.76573, -36.84306, 174.76573, -36.84306], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.76573, -36.84306], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;157&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;188 Quay Street Lower Albert (EW)&quot;, &quot;Latitude&quot;: -36.84306, &quot;Longitude&quot;: 174.76573, &quot;__folium_color&quot;: &quot;#febd57&quot;, &quot;avg_count&quot;: 674.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}, {&quot;bbox&quot;: [174.76573, -36.84306, 174.76573, -36.84306], &quot;geometry&quot;: {&quot;coordinates&quot;: [174.76573, -36.84306], &quot;type&quot;: &quot;Point&quot;}, &quot;id&quot;: &quot;165&quot;, &quot;properties&quot;: {&quot;Address&quot;: &quot;188 Quay Street Lower Albert (NS)&quot;, &quot;Latitude&quot;: -36.84306, &quot;Longitude&quot;: 174.76573, &quot;__folium_color&quot;: &quot;#fecf6b&quot;, &quot;avg_count&quot;: 576.0, &quot;hour&quot;: 17}, &quot;type&quot;: &quot;Feature&quot;}], &quot;type&quot;: &quot;FeatureCollection&quot;});
 
         
     
-    geo_json_e2eabee317b8829052a51cf1db08ccd7.bindTooltip(
+    geo_json_c5b4bbf4fd77aef39bdcc98db5e38727.bindTooltip(
     function(layer){
     let div = L.DomUtil.create('div');
     
@@ -1062,46 +1076,46 @@ What Just Happened?
 });
                      
     
-            geo_json_e2eabee317b8829052a51cf1db08ccd7.addTo(map_aeb6c8598faa71381d925704cea88e1e);
+            geo_json_c5b4bbf4fd77aef39bdcc98db5e38727.addTo(map_5022c52561944362ab276203c151f617);
         
     
-    var color_map_bb39163eb82aff7e253921a0e4c0117e = {};
+    var color_map_c8daf6693f5a56bffd027408fecbc115 = {};
 
     
-    color_map_bb39163eb82aff7e253921a0e4c0117e.color = d3.scale.threshold()
+    color_map_c8daf6693f5a56bffd027408fecbc115.color = d3.scale.threshold()
               .domain([119.0, 122.24448897795591, 125.48897795591182, 128.73346693386773, 131.97795591182364, 135.22244488977955, 138.46693386773546, 141.71142284569137, 144.95591182364728, 148.2004008016032, 151.4448897795591, 154.68937875751504, 157.93386773547093, 161.17835671342687, 164.42284569138278, 167.6673346693387, 170.9118236472946, 174.1563126252505, 177.40080160320642, 180.64529058116233, 183.88977955911824, 187.13426853707415, 190.37875751503006, 193.62324649298597, 196.86773547094188, 200.1122244488978, 203.3567134268537, 206.6012024048096, 209.84569138276555, 213.09018036072143, 216.33466933867737, 219.57915831663325, 222.8236472945892, 226.06813627254508, 229.31262525050101, 232.5571142284569, 235.80160320641284, 239.04609218436872, 242.29058116232466, 245.53507014028057, 248.77955911823648, 252.0240480961924, 255.2685370741483, 258.51302605210424, 261.7575150300601, 265.002004008016, 268.24649298597194, 271.4909819639279, 274.73547094188376, 277.97995991983964, 281.2244488977956, 284.4689378757515, 287.7134268537074, 290.9579158316633, 294.2024048096192, 297.44689378757516, 300.6913827655311, 303.935871743487, 307.18036072144287, 310.4248496993988, 313.66933867735474, 316.9138276553106, 320.1583166332665, 323.40280561122245, 326.6472945891784, 329.89178356713427, 333.13627254509015, 336.3807615230461, 339.62525050100203, 342.8697394789579, 346.1142284569138, 349.35871743486973, 352.60320641282567, 355.84769539078155, 359.09218436873743, 362.3366733466934, 365.5811623246493, 368.82565130260525, 372.07014028056113, 375.314629258517, 378.55911823647295, 381.80360721442884, 385.0480961923848, 388.29258517034066, 391.5370741482966, 394.7815631262525, 398.0260521042084, 401.27054108216436, 404.51503006012024, 407.7595190380762, 411.00400801603206, 414.248496993988, 417.4929859719439, 420.7374749498998, 423.9819639278557, 427.22645290581164, 430.4709418837675, 433.71543086172346, 436.95991983967934, 440.2044088176353, 443.44889779559117, 446.6933867735471, 449.937875751503, 453.1823647294589, 456.4268537074148, 459.67134268537075, 462.9158316633266, 466.16032064128257, 469.40480961923845, 472.6492985971944, 475.8937875751503, 479.1382765531062, 482.38276553106215, 485.62725450901803, 488.87174348697397, 492.11623246492985, 495.3607214428858, 498.6052104208417, 501.8496993987976, 505.0941883767535, 508.33867735470943, 511.5831663326653, 514.8276553106213, 518.0721442885772, 521.316633266533, 524.561122244489, 527.8056112224449, 531.0501002004007, 534.2945891783568, 537.5390781563126, 540.7835671342685, 544.0280561122245, 547.2725450901803, 550.5170340681364, 553.7615230460922, 557.0060120240481, 560.2505010020041, 563.4949899799599, 566.7394789579158, 569.9839679358718, 573.2284569138276, 576.4729458917836, 579.7174348697395, 582.9619238476954, 586.2064128256513, 589.4509018036072, 592.6953907815631, 595.939879759519, 599.1843687374749, 602.4288577154309, 605.6733466933867, 608.9178356713427, 612.1623246492986, 615.4068136272545, 618.6513026052105, 621.8957915831663, 625.1402805611223, 628.3847695390782, 631.629258517034, 634.87374749499, 638.1182364729459, 641.3627254509018, 644.6072144288577, 647.8517034068136, 651.0961923847696, 654.3406813627255, 657.5851703406813, 660.8296593186373, 664.0741482965932, 667.3186372745491, 670.563126252505, 673.8076152304609, 677.0521042084168, 680.2965931863728, 683.5410821643287, 686.7855711422845, 690.0300601202405, 693.2745490981964, 696.5190380761524, 699.7635270541082, 703.0080160320641, 706.2525050100201, 709.496993987976, 712.7414829659318, 715.9859719438878, 719.2304609218437, 722.4749498997996, 725.7194388777555, 728.9639278557114, 732.2084168336673, 735.4529058116233, 738.6973947895791, 741.941883767535, 745.186372745491, 748.4308617234469, 751.6753507014027, 754.9198396793587, 758.1643286573146, 761.4088176352706, 764.6533066132265, 767.8977955911823, 771.1422845691383, 774.3867735470942, 777.6312625250501, 780.875751503006, 784.1202404809619, 787.3647294589179, 790.6092184368738, 793.8537074148296, 797.0981963927856, 800.3426853707415, 803.5871743486974, 806.8316633266533, 810.0761523046092, 813.3206412825651, 816.5651302605211, 819.8096192384769, 823.0541082164328, 826.2985971943888, 829.5430861723447, 832.7875751503007, 836.0320641282565, 839.2765531062124, 842.5210420841684, 845.7655310621243, 849.0100200400801, 852.2545090180361, 855.498997995992, 858.7434869739479, 861.9879759519038, 865.2324649298597, 868.4769539078156, 871.7214428857716, 874.9659318637274, 878.2104208416833, 881.4549098196393, 884.6993987975952, 887.943887775551, 891.188376753507, 894.4328657314629, 897.6773547094189, 900.9218436873748, 904.1663326653306, 907.4108216432866, 910.6553106212425, 913.8997995991984, 917.1442885771543, 920.3887775551102, 923.6332665330661, 926.8777555110221, 930.1222444889779, 933.3667334669339, 936.6112224448898, 939.8557114228457, 943.1002004008016, 946.3446893787575, 949.5891783567134, 952.8336673346694, 956.0781563126252, 959.3226452905811, 962.5671342685371, 965.811623246493, 969.056112224449, 972.3006012024048, 975.5450901803607, 978.7895791583167, 982.0340681362726, 985.2785571142284, 988.5230460921844, 991.7675350701403, 995.0120240480962, 998.2565130260521, 1001.501002004008, 1004.7454909819639, 1007.9899799599199, 1011.2344689378757, 1014.4789579158316, 1017.7234468937876, 1020.9679358717435, 1024.2124248496993, 1027.4569138276552, 1030.7014028056112, 1033.9458917835673, 1037.190380761523, 1040.434869739479, 1043.6793587174348, 1046.9238476953908, 1050.1683366733469, 1053.4128256513027, 1056.6573146292585, 1059.9018036072143, 1063.1462925851704, 1066.3907815631262, 1069.6352705410823, 1072.879759519038, 1076.124248496994, 1079.3687374749497, 1082.6132264529058, 1085.8577154308618, 1089.1022044088177, 1092.3466933867735, 1095.5911823647293, 1098.8356713426854, 1102.0801603206414, 1105.3246492985973, 1108.569138276553, 1111.813627254509, 1115.058116232465, 1118.302605210421, 1121.5470941883768, 1124.7915831663327, 1128.0360721442885, 1131.2805611222445, 1134.5250501002004, 1137.7695390781564, 1141.0140280561122, 1144.258517034068, 1147.5030060120241, 1150.74749498998, 1153.9919839679358, 1157.2364729458918, 1160.4809619238476, 1163.7254509018037, 1166.9699398797595, 1170.2144288577153, 1173.4589178356714, 1176.7034068136272, 1179.9478957915833, 1183.192384769539, 1186.436873747495, 1189.681362725451, 1192.9258517034068, 1196.1703406813626, 1199.4148296593187, 1202.6593186372745, 1205.9038076152306, 1209.1482965931864, 1212.3927855711422, 1215.6372745490983, 1218.881763527054, 1222.12625250501, 1225.370741482966, 1228.6152304609218, 1231.8597194388778, 1235.1042084168337, 1238.3486973947895, 1241.5931863727455, 1244.8376753507014, 1248.0821643286574, 1251.3266533066133, 1254.571142284569, 1257.8156312625251, 1261.060120240481, 1264.3046092184368, 1267.5490981963928, 1270.7935871743487, 1274.0380761523047, 1277.2825651302605, 1280.5270541082164, 1283.7715430861724, 1287.0160320641282, 1290.260521042084, 1293.5050100200401, 1296.749498997996, 1299.993987975952, 1303.2384769539078, 1306.4829659318636, 1309.7274549098197, 1312.9719438877755, 1316.2164328657316, 1319.4609218436874, 1322.7054108216432, 1325.9498997995993, 1329.194388777555, 1332.438877755511, 1335.683366733467, 1338.9278557114228, 1342.1723446893789, 1345.4168336673347, 1348.6613226452905, 1351.9058116232466, 1355.1503006012024, 1358.3947895791582, 1361.6392785571143, 1364.88376753507, 1368.1282565130261, 1371.372745490982, 1374.6172344689378, 1377.8617234468938, 1381.1062124248497, 1384.3507014028055, 1387.5951903807616, 1390.8396793587174, 1394.0841683366734, 1397.3286573146293, 1400.573146292585, 1403.8176352705411, 1407.062124248497, 1410.306613226453, 1413.5511022044088, 1416.7955911823647, 1420.0400801603207, 1423.2845691382765, 1426.5290581162324, 1429.7735470941884, 1433.0180360721442, 1436.2625250501003, 1439.5070140280561, 1442.751503006012, 1445.995991983968, 1449.2404809619238, 1452.4849699398796, 1455.7294589178357, 1458.9739478957915, 1462.2184368737476, 1465.4629258517034, 1468.7074148296592, 1471.9519038076153, 1475.196392785571, 1478.4408817635272, 1481.685370741483, 1484.9298597194388, 1488.1743486973949, 1491.4188376753507, 1494.6633266533065, 1497.9078156312626, 1501.1523046092184, 1504.3967935871744, 1507.6412825651303, 1510.885771543086, 1514.1302605210421, 1517.374749498998, 1520.6192384769538, 1523.8637274549098, 1527.1082164328657, 1530.3527054108217, 1533.5971943887776, 1536.8416833667334, 1540.0861723446894, 1543.3306613226453, 1546.5751503006013, 1549.8196392785571, 1553.064128256513, 1556.308617234469, 1559.5531062124248, 1562.7975951903807, 1566.0420841683367, 1569.2865731462925, 1572.5310621242486, 1575.7755511022044, 1579.0200400801602, 1582.2645290581163, 1585.5090180360721, 1588.753507014028, 1591.997995991984, 1595.2424849699398, 1598.4869739478959, 1601.7314629258517, 1604.9759519038075, 1608.2204408817636, 1611.4649298597194, 1614.7094188376755, 1617.9539078156313, 1621.198396793587, 1624.4428857715432, 1627.687374749499, 1630.9318637274548, 1634.1763527054109, 1637.4208416833667, 1640.6653306613227, 1643.9098196392786, 1647.1543086172344, 1650.3987975951904, 1653.6432865731463, 1656.887775551102, 1660.1322645290581, 1663.376753507014, 1666.62124248497, 1669.8657314629259, 1673.1102204408817, 1676.3547094188377, 1679.5991983967936, 1682.8436873747496, 1686.0881763527054, 1689.3326653306613, 1692.5771543086173, 1695.8216432865731, 1699.066132264529, 1702.310621242485, 1705.5551102204408, 1708.799599198397, 1712.0440881763527, 1715.2885771543085, 1718.5330661322646, 1721.7775551102204, 1725.0220440881762, 1728.2665330661323, 1731.5110220440881, 1734.7555110220442, 1738.0])
               .range(['#ffffccff', '#ffffccff', '#fffecbff', '#fffecaff', '#fffec9ff', '#fffec9ff', '#fffdc8ff', '#fffdc7ff', '#fffdc6ff', '#fffdc6ff', '#fffcc5ff', '#fffcc5ff', '#fffcc4ff', '#fffcc3ff', '#fffbc2ff', '#fffbc2ff', '#fffac1ff', '#fffac1ff', '#fffac0ff', '#fffabfff', '#fff9beff', '#fff9beff', '#fff9bdff', '#fff9bcff', '#fff8bbff', '#fff8baff', '#fff8baff', '#fff8b9ff', '#fff7b9ff', '#fff7b8ff', '#fff7b7ff', '#fff7b6ff', '#fff6b6ff', '#fff6b5ff', '#fff5b4ff', '#fff5b3ff', '#fff5b3ff', '#fff5b2ff', '#fff4b1ff', '#fff4b0ff', '#fff4b0ff', '#fff4afff', '#fff3afff', '#fff3aeff', '#fff3adff', '#fff2acff', '#fff2acff', '#fff1abff', '#fff1aaff', '#fff1a9ff', '#fff1a9ff', '#fff0a8ff', '#fff0a8ff', '#fff0a7ff', '#fff0a6ff', '#ffefa5ff', '#ffefa5ff', '#ffefa4ff', '#ffefa4ff', '#ffeea3ff', '#ffeea2ff', '#ffeda1ff', '#ffeda0ff', '#ffeda0ff', '#ffed9fff', '#ffec9fff', '#ffec9eff', '#ffec9dff', '#ffec9cff', '#ffeb9cff', '#ffeb9bff', '#ffea9bff', '#ffea9aff', '#ffea99ff', '#ffea98ff', '#ffe998ff', '#ffe997ff', '#ffe996ff', '#ffe995ff', '#ffe895ff', '#ffe894ff', '#ffe794ff', '#ffe793ff', '#ffe792ff', '#ffe691ff', '#ffe691ff', '#ffe590ff', '#ffe590ff', '#ffe58fff', '#ffe58eff', '#ffe48dff', '#ffe48dff', '#ffe48cff', '#ffe48cff', '#fee38bff', '#fee38aff', '#fee289ff', '#fee288ff', '#fee288ff', '#fee287ff', '#fee187ff', '#fee186ff', '#fee085ff', '#fee084ff', '#fee084ff', '#fee083ff', '#fedf83ff', '#fedf82ff', '#fede82ff', '#fede81ff', '#fede80ff', '#fede7fff', '#fedd7fff', '#fedd7eff', '#fedd7dff', '#fedd7cff', '#fedc7cff', '#fedc7bff', '#fedb7bff', '#fedb7aff', '#fedb79ff', '#fedb78ff', '#feda78ff', '#fed977ff', '#fed977ff', '#fed976ff', '#fed975ff', '#fed874ff', '#fed774ff', '#fed673ff', '#fed673ff', '#fed572ff', '#fed571ff', '#fed470ff', '#fed46fff', '#fed36fff', '#fed26eff', '#fed16eff', '#fed16dff', '#fed06cff', '#fed06bff', '#fecf6bff', '#fecf6aff', '#fece6aff', '#fecd69ff', '#fecc68ff', '#fecc67ff', '#fecb67ff', '#fecb66ff', '#feca66ff', '#feca65ff', '#fec965ff', '#fec964ff', '#fec863ff', '#fec762ff', '#fec662ff', '#fec661ff', '#fec560ff', '#fec55fff', '#fec45fff', '#fec45eff', '#fec35eff', '#fec25dff', '#fec15cff', '#fec05bff', '#fec05bff', '#febf5aff', '#febf5aff', '#febe59ff', '#febe58ff', '#febd57ff', '#febc56ff', '#febb56ff', '#febb55ff', '#feba55ff', '#feba54ff', '#feb953ff', '#feb952ff', '#feb852ff', '#feb751ff', '#feb651ff', '#feb650ff', '#feb54fff', '#feb54eff', '#feb44eff', '#feb44dff', '#feb34dff', '#feb34cff', '#feb24cff', '#feb14bff', '#feb04bff', '#feb04bff', '#feaf4bff', '#feaf4aff', '#feae4aff', '#feae4aff', '#fead4aff', '#fead49ff', '#feac49ff', '#feab49ff', '#feab49ff', '#feaa48ff', '#fea948ff', '#fea848ff', '#fea848ff', '#fea747ff', '#fea747ff', '#fea647ff', '#fea646ff', '#fea546ff', '#fea546ff', '#fea446ff', '#fea345ff', '#fea245ff', '#fea245ff', '#fea145ff', '#fea144ff', '#fea044ff', '#fea044ff', '#fe9f44ff', '#fd9f43ff', '#fd9e43ff', '#fd9e43ff', '#fd9d43ff', '#fd9d42ff', '#fd9c42ff', '#fd9b42ff', '#fd9a42ff', '#fd9a41ff', '#fd9941ff', '#fd9941ff', '#fd9841ff', '#fd9840ff', '#fd9740ff', '#fd9740ff', '#fd9640ff', '#fd953fff', '#fd953fff', '#fd943fff', '#fd933fff', '#fd923eff', '#fd923eff', '#fd913eff', '#fd913eff', '#fd903dff', '#fd903dff', '#fd8f3dff', '#fd8f3dff', '#fd8e3cff', '#fd8e3cff', '#fd8d3cff', '#fd8c3bff', '#fd8a3bff', '#fd893bff', '#fd883bff', '#fd873aff', '#fd863aff', '#fd8539ff', '#fd8439ff', '#fd8339ff', '#fd8239ff', '#fd8138ff', '#fd8038ff', '#fd7f38ff', '#fd7e38ff', '#fd7d37ff', '#fd7c37ff', '#fd7b37ff', '#fd7a37ff', '#fd7936ff', '#fd7836ff', '#fd7736ff', '#fd7636ff', '#fd7535ff', '#fd7435ff', '#fd7334ff', '#fd7234ff', '#fd7134ff', '#fd7034ff', '#fd6f33ff', '#fd6e33ff', '#fd6d33ff', '#fc6c33ff', '#fc6b32ff', '#fc6a32ff', '#fc6932ff', '#fc6832ff', '#fc6731ff', '#fc6631ff', '#fc6530ff', '#fc6430ff', '#fc6330ff', '#fc622fff', '#fc612fff', '#fc602fff', '#fc5f2fff', '#fc5e2eff', '#fc5d2eff', '#fc5c2eff', '#fc5b2eff', '#fc5a2dff', '#fc592dff', '#fc582cff', '#fc572cff', '#fc562cff', '#fc552cff', '#fc542bff', '#fc532bff', '#fc522bff', '#fc512bff', '#fc502aff', '#fc4f2aff', '#fc4e2aff', '#fc4d2aff', '#fc4c29ff', '#fc4b29ff', '#fb4a29ff', '#fa4a29ff', '#fa4928ff', '#f94828ff', '#f94728ff', '#f84628ff', '#f84528ff', '#f84528ff', '#f84427ff', '#f74327ff', '#f74227ff', '#f64227ff', '#f64126ff', '#f53f26ff', '#f53e26ff', '#f43e26ff', '#f43d25ff', '#f43c25ff', '#f43b25ff', '#f33a24ff', '#f33924ff', '#f23924ff', '#f23824ff', '#f13724ff', '#f13624ff', '#f13523ff', '#f13523ff', '#f03423ff', '#f03323ff', '#ef3222ff', '#ef3122ff', '#ee3022ff', '#ee3022ff', '#ed2f21ff', '#ed2e21ff', '#ed2d21ff', '#ed2c21ff', '#ec2b21ff', '#ec2b21ff', '#eb2a20ff', '#ea2920ff', '#ea2820ff', '#e92720ff', '#e9261fff', '#e9261fff', '#e9251fff', '#e8241fff', '#e8231eff', '#e7231eff', '#e7221eff', '#e6211eff', '#e6201dff', '#e61f1dff', '#e61e1dff', '#e51d1dff', '#e51c1dff', '#e41b1dff', '#e41a1cff', '#e3191cff', '#e3191cff', '#e2191cff', '#e2191cff', '#e1181dff', '#e1181dff', '#e0171dff', '#e0171dff', '#df161dff', '#de161dff', '#dd151dff', '#dd151dff', '#dc141eff', '#dc141eff', '#db141eff', '#db141eff', '#da131eff', '#da131eff', '#d9121fff', '#d8121fff', '#d7111fff', '#d6111fff', '#d6101fff', '#d51020ff', '#d51020ff', '#d41020ff', '#d40f20ff', '#d30f20ff', '#d20e20ff', '#d10e21ff', '#d10d21ff', '#d00d21ff', '#d00c21ff', '#cf0c21ff', '#cf0c21ff', '#ce0c22ff', '#ce0b22ff', '#cd0b22ff', '#cc0a22ff', '#cb0922ff', '#cb0922ff', '#ca0823ff', '#ca0823ff', '#c90723ff', '#c90723ff', '#c80723ff', '#c80723ff', '#c70623ff', '#c60623ff', '#c50524ff', '#c50524ff', '#c40424ff', '#c40424ff', '#c30324ff', '#c30324ff', '#c20325ff', '#c20325ff', '#c10225ff', '#c00225ff', '#c00125ff', '#bf0125ff', '#be0026ff', '#bd0026ff', '#bd0026ff', '#bc0026ff', '#bb0026ff', '#ba0026ff', '#b90026ff', '#b70026ff', '#b70026ff', '#b60026ff', '#b50026ff', '#b40026ff', '#b30026ff', '#b20026ff', '#b10026ff', '#b00026ff', '#af0026ff', '#ae0026ff', '#ad0026ff', '#ac0026ff', '#ab0026ff', '#aa0026ff', '#a90026ff', '#a80026ff', '#a70026ff', '#a60026ff', '#a50026ff', '#a40026ff', '#a30026ff', '#a20026ff', '#a20026ff', '#a10026ff', '#a00026ff', '#9f0026ff', '#9e0026ff', '#9d0026ff', '#9c0026ff', '#9b0026ff', '#9a0026ff', '#990026ff', '#980026ff', '#970026ff', '#960026ff', '#950026ff', '#940026ff', '#920026ff', '#910026ff', '#900026ff', '#8f0026ff', '#8e0026ff', '#8d0026ff', '#8c0026ff', '#8b0026ff', '#8b0026ff', '#8a0026ff', '#890026ff', '#880026ff', '#870026ff', '#860026ff', '#850026ff', '#840026ff', '#830026ff', '#820026ff', '#810026ff', '#800026ff']);
     
 
-    color_map_bb39163eb82aff7e253921a0e4c0117e.x = d3.scale.linear()
+    color_map_c8daf6693f5a56bffd027408fecbc115.x = d3.scale.linear()
               .domain([119.0, 1738.0])
               .range([0, 450 - 50]);
 
-    color_map_bb39163eb82aff7e253921a0e4c0117e.legend = L.control({position: 'topright'});
-    color_map_bb39163eb82aff7e253921a0e4c0117e.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
-    color_map_bb39163eb82aff7e253921a0e4c0117e.legend.addTo(map_aeb6c8598faa71381d925704cea88e1e);
+    color_map_c8daf6693f5a56bffd027408fecbc115.legend = L.control({position: 'topright'});
+    color_map_c8daf6693f5a56bffd027408fecbc115.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_c8daf6693f5a56bffd027408fecbc115.legend.addTo(map_5022c52561944362ab276203c151f617);
 
-    color_map_bb39163eb82aff7e253921a0e4c0117e.xAxis = d3.svg.axis()
-        .scale(color_map_bb39163eb82aff7e253921a0e4c0117e.x)
+    color_map_c8daf6693f5a56bffd027408fecbc115.xAxis = d3.svg.axis()
+        .scale(color_map_c8daf6693f5a56bffd027408fecbc115.x)
         .orient(&quot;top&quot;)
         .tickSize(1)
         .tickValues([119.0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 284.07450980392156, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 449.1490196078431, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 614.2235294117647, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 779.2980392156862, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 944.3725490196078, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1109.4470588235295, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1274.521568627451, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1439.5960784313725, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 1604.6705882352942, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']);
 
-    color_map_bb39163eb82aff7e253921a0e4c0117e.svg = d3.select(&quot;.legend.leaflet-control&quot;).append(&quot;svg&quot;)
+    color_map_c8daf6693f5a56bffd027408fecbc115.svg = d3.select(&quot;.legend.leaflet-control&quot;).append(&quot;svg&quot;)
         .attr(&quot;id&quot;, 'legend')
         .attr(&quot;width&quot;, 450)
         .attr(&quot;height&quot;, 40);
 
-    color_map_bb39163eb82aff7e253921a0e4c0117e.g = color_map_bb39163eb82aff7e253921a0e4c0117e.svg.append(&quot;g&quot;)
+    color_map_c8daf6693f5a56bffd027408fecbc115.g = color_map_c8daf6693f5a56bffd027408fecbc115.svg.append(&quot;g&quot;)
         .attr(&quot;class&quot;, &quot;key&quot;)
         .attr(&quot;fill&quot;, &quot;black&quot;)
         .attr(&quot;transform&quot;, &quot;translate(25,16)&quot;);
 
-    color_map_bb39163eb82aff7e253921a0e4c0117e.g.selectAll(&quot;rect&quot;)
-        .data(color_map_bb39163eb82aff7e253921a0e4c0117e.color.range().map(function(d, i) {
+    color_map_c8daf6693f5a56bffd027408fecbc115.g.selectAll(&quot;rect&quot;)
+        .data(color_map_c8daf6693f5a56bffd027408fecbc115.color.range().map(function(d, i) {
           return {
-            x0: i ? color_map_bb39163eb82aff7e253921a0e4c0117e.x(color_map_bb39163eb82aff7e253921a0e4c0117e.color.domain()[i - 1]) : color_map_bb39163eb82aff7e253921a0e4c0117e.x.range()[0],
-            x1: i < color_map_bb39163eb82aff7e253921a0e4c0117e.color.domain().length ? color_map_bb39163eb82aff7e253921a0e4c0117e.x(color_map_bb39163eb82aff7e253921a0e4c0117e.color.domain()[i]) : color_map_bb39163eb82aff7e253921a0e4c0117e.x.range()[1],
+            x0: i ? color_map_c8daf6693f5a56bffd027408fecbc115.x(color_map_c8daf6693f5a56bffd027408fecbc115.color.domain()[i - 1]) : color_map_c8daf6693f5a56bffd027408fecbc115.x.range()[0],
+            x1: i < color_map_c8daf6693f5a56bffd027408fecbc115.color.domain().length ? color_map_c8daf6693f5a56bffd027408fecbc115.x(color_map_c8daf6693f5a56bffd027408fecbc115.color.domain()[i]) : color_map_c8daf6693f5a56bffd027408fecbc115.x.range()[1],
             z: d
           };
         }))
@@ -1111,7 +1125,7 @@ What Just Happened?
         .attr(&quot;width&quot;, function(d) { return d.x1 - d.x0; })
         .style(&quot;fill&quot;, function(d) { return d.z; });
 
-    color_map_bb39163eb82aff7e253921a0e4c0117e.g.call(color_map_bb39163eb82aff7e253921a0e4c0117e.xAxis).append(&quot;text&quot;)
+    color_map_c8daf6693f5a56bffd027408fecbc115.g.call(color_map_c8daf6693f5a56bffd027408fecbc115.xAxis).append(&quot;text&quot;)
         .attr(&quot;class&quot;, &quot;caption&quot;)
         .attr(&quot;y&quot;, 21)
         .attr(&quot;fill&quot;, &quot;black&quot;)
@@ -1144,7 +1158,7 @@ Try a Different Basemap
 <section id="step-7-web-map-with-sized-circles" class="level2">
 <h2 class="anchored" data-anchor-id="step-7-web-map-with-sized-circles">Step 7: Web Map with Sized Circles</h2>
 <p>The <code>.explore()</code> map uses the same dot size for every sensor. We can use the <code>folium</code> library to draw circles whose size reflects the pedestrian count, making busy sensors visually larger.</p>
-<div id="093df7dc" class="cell" data-execution_count="9">
+<div id="6e9ef4f2" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a base map centred on Auckland CBD</span></span>
@@ -1173,7 +1187,7 @@ Try a Different Basemap
 <span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    ).add_to(m)</span>
 <span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="31">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
 <html>
 <head>
@@ -1201,7 +1215,7 @@ Try a Different Basemap
             <meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
             <style>
-                #map_fbbbed678fc32c1ad8f40c130c4480ae {
+                #map_d36bc516fc28e99f1d4f3832bd72fdd5 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -1215,14 +1229,14 @@ Try a Different Basemap
 <body>
     
     
-            <div class=&quot;folium-map&quot; id=&quot;map_fbbbed678fc32c1ad8f40c130c4480ae&quot; ></div>
+            <div class=&quot;folium-map&quot; id=&quot;map_d36bc516fc28e99f1d4f3832bd72fdd5&quot; ></div>
         
 </body>
 <script>
     
     
-            var map_fbbbed678fc32c1ad8f40c130c4480ae = L.map(
-                &quot;map_fbbbed678fc32c1ad8f40c130c4480ae&quot;,
+            var map_d36bc516fc28e99f1d4f3832bd72fdd5 = L.map(
+                &quot;map_d36bc516fc28e99f1d4f3832bd72fdd5&quot;,
                 {
                     center: [-36.849, 174.765],
                     crs: L.CRS.EPSG3857,
@@ -1239,7 +1253,7 @@ Try a Different Basemap
 
         
     
-            var tile_layer_9cab80a7b67dd0d8b0ef8c7504b87987 = L.tileLayer(
+            var tile_layer_860d6f0b956efa8def41ee9fa6e38e9f = L.tileLayer(
                 &quot;https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png&quot;,
                 {
   &quot;minZoom&quot;: 0,
@@ -1256,16 +1270,16 @@ Try a Different Basemap
             );
         
     
-            tile_layer_9cab80a7b67dd0d8b0ef8c7504b87987.addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            tile_layer_860d6f0b956efa8def41ee9fa6e38e9f.addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            var circle_marker_1165b6b0b304daa7efdfcf4158f3851e = L.circleMarker(
+            var circle_marker_ef1d9e3ff4c5a5511d22fcb8840c95b5 = L.circleMarker(
                 [-36.843015, 174.766494],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 13.25, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_1165b6b0b304daa7efdfcf4158f3851e.bindTooltip(
+            circle_marker_ef1d9e3ff4c5a5511d22fcb8840c95b5.bindTooltip(
                 `<div>
                      107 Quay Street: 1060 avg/hr
                  </div>`,
@@ -1275,13 +1289,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_734f65875fd7799a69f2629385a8da0b = L.circleMarker(
+            var circle_marker_369e04b365363eb5966fa28547dce391 = L.circleMarker(
                 [-36.84465, 174.769645],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 6.6, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_734f65875fd7799a69f2629385a8da0b.bindTooltip(
+            circle_marker_369e04b365363eb5966fa28547dce391.bindTooltip(
                 `<div>
                      Te Ara Tahuhu Walkway: 528 avg/hr
                  </div>`,
@@ -1291,13 +1305,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_d9b9005fd284d7132bdf340c473b3c9c = L.circleMarker(
+            var circle_marker_bc1a68a8d0bc20707ce494f90aeb1a82 = L.circleMarker(
                 [-36.844912, 174.768065],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 3.6875, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_d9b9005fd284d7132bdf340c473b3c9c.bindTooltip(
+            circle_marker_bc1a68a8d0bc20707ce494f90aeb1a82.bindTooltip(
                 `<div>
                      Commerce Street West: 295 avg/hr
                  </div>`,
@@ -1307,13 +1321,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_e8174622273905e80501d41f615a82e7 = L.circleMarker(
+            var circle_marker_710e1957064931ed5dfbc9df856f6dad = L.circleMarker(
                 [-36.844722, 174.767057],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9.075, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_e8174622273905e80501d41f615a82e7.bindTooltip(
+            circle_marker_710e1957064931ed5dfbc9df856f6dad.bindTooltip(
                 `<div>
                      7 Custom Street East: 726 avg/hr
                  </div>`,
@@ -1323,13 +1337,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_a763f2b65a2c20a03bc725530f081f70 = L.circleMarker(
+            var circle_marker_e9dc216fdab936a062bdb2a1b74647a4 = L.circleMarker(
                 [-36.845001, 174.766266],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 14.825, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_a763f2b65a2c20a03bc725530f081f70.bindTooltip(
+            circle_marker_e9dc216fdab936a062bdb2a1b74647a4.bindTooltip(
                 `<div>
                      45 Queen Street: 1186 avg/hr
                  </div>`,
@@ -1339,13 +1353,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_85d7f29bb265538300222b02f319d578 = L.circleMarker(
+            var circle_marker_9cf4ffa5f425354280da9b142213eeb4 = L.circleMarker(
                 [-36.84495, 174.766575],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 21.725, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_85d7f29bb265538300222b02f319d578.bindTooltip(
+            circle_marker_9cf4ffa5f425354280da9b142213eeb4.bindTooltip(
                 `<div>
                      30 Queen Street: 1738 avg/hr
                  </div>`,
@@ -1355,13 +1369,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_def1a7bdc1022932a6d2a1674f43abdc = L.circleMarker(
+            var circle_marker_7512214aa5ba7d35a1e8cfa3a39cab7f = L.circleMarker(
                 [-36.846576, 174.766946],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 5.2, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_def1a7bdc1022932a6d2a1674f43abdc.bindTooltip(
+            circle_marker_7512214aa5ba7d35a1e8cfa3a39cab7f.bindTooltip(
                 `<div>
                      19 Shortland Street: 416 avg/hr
                  </div>`,
@@ -1371,13 +1385,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_4814301d48d1c80ee3d51bcf5634b75a = L.circleMarker(
+            var circle_marker_f32bf5d77c3d6e0071ffedbcc2d4fd49 = L.circleMarker(
                 [-36.846846, 174.766855],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 2.675, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_4814301d48d1c80ee3d51bcf5634b75a.bindTooltip(
+            circle_marker_f32bf5d77c3d6e0071ffedbcc2d4fd49.bindTooltip(
                 `<div>
                      2 High Street: 214 avg/hr
                  </div>`,
@@ -1387,13 +1401,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_4fcebc0926559a0ae173dfee570e0939 = L.circleMarker(
+            var circle_marker_7ec05c0c98708d899e8b4cccb27242c8 = L.circleMarker(
                 [-36.84817, 174.76705],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 1.4875, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_4fcebc0926559a0ae173dfee570e0939.bindTooltip(
+            circle_marker_7ec05c0c98708d899e8b4cccb27242c8.bindTooltip(
                 `<div>
                      1 Courthouse Lane: 119 avg/hr
                  </div>`,
@@ -1403,13 +1417,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_dd1416dbc97b496b0e13b8ae1499e828 = L.circleMarker(
+            var circle_marker_868c7cf8e1c811ef2eebb3079b28e7bb = L.circleMarker(
                 [-36.847964, 174.762729],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 4.15, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_dd1416dbc97b496b0e13b8ae1499e828.bindTooltip(
+            circle_marker_868c7cf8e1c811ef2eebb3079b28e7bb.bindTooltip(
                 `<div>
                      61 Federal Street: 332 avg/hr
                  </div>`,
@@ -1419,13 +1433,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_49522a0612d10d7985937bdd97fa3284 = L.circleMarker(
+            var circle_marker_dee91d9fac534033578601048adb2b55 = L.circleMarker(
                 [-36.848924, 174.766186],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7.425, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_49522a0612d10d7985937bdd97fa3284.bindTooltip(
+            circle_marker_dee91d9fac534033578601048adb2b55.bindTooltip(
                 `<div>
                      59 High Stret: 594 avg/hr
                  </div>`,
@@ -1435,13 +1449,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_8b4856cac50ad8665fbe0e6e091fb961 = L.circleMarker(
+            var circle_marker_4b69eda02fc182091f94fb031e63b745 = L.circleMarker(
                 [-36.848899, 174.76541],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 19.5375, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_8b4856cac50ad8665fbe0e6e091fb961.bindTooltip(
+            circle_marker_4b69eda02fc182091f94fb031e63b745.bindTooltip(
                 `<div>
                      210 Queen Street: 1563 avg/hr
                  </div>`,
@@ -1451,13 +1465,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_73290f1a3922bc98b0847c87d9e83ebf = L.circleMarker(
+            var circle_marker_4de19230d43397916dbddccd1a811782 = L.circleMarker(
                 [-36.848986, 174.764784],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 6.525, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_73290f1a3922bc98b0847c87d9e83ebf.bindTooltip(
+            circle_marker_4de19230d43397916dbddccd1a811782.bindTooltip(
                 `<div>
                      205 Queen Street: 522 avg/hr
                  </div>`,
@@ -1467,13 +1481,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_c8f8682a23ce33762f088a9a05511dfd = L.circleMarker(
+            var circle_marker_3b536bd8cd9701b1efc8903a79b4cbef = L.circleMarker(
                 [-36.849422, 174.764172],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 1.5125, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_c8f8682a23ce33762f088a9a05511dfd.bindTooltip(
+            circle_marker_3b536bd8cd9701b1efc8903a79b4cbef.bindTooltip(
                 `<div>
                      8 Darby Street EW: 121 avg/hr
                  </div>`,
@@ -1483,13 +1497,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_fa93135635b5bfbbb13a9dd4458cbe26 = L.circleMarker(
+            var circle_marker_dfad96b81b9c10c46a4e50def576ccbb = L.circleMarker(
                 [-36.849422, 174.764172],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 5.1875, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_fa93135635b5bfbbb13a9dd4458cbe26.bindTooltip(
+            circle_marker_dfad96b81b9c10c46a4e50def576ccbb.bindTooltip(
                 `<div>
                      8 Darby Street NS: 415 avg/hr
                  </div>`,
@@ -1499,13 +1513,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_75092a435a6b60149c9000b48047a4ff = L.circleMarker(
+            var circle_marker_a429c8c6a42760412c6c278b98cf3b5a = L.circleMarker(
                 [-36.850792, 174.764556],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 20.8, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_75092a435a6b60149c9000b48047a4ff.bindTooltip(
+            circle_marker_a429c8c6a42760412c6c278b98cf3b5a.bindTooltip(
                 `<div>
                      261 Queen Street: 1664 avg/hr
                  </div>`,
@@ -1515,13 +1529,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_8e26895efd85773b79e208a3767344f2 = L.circleMarker(
+            var circle_marker_80a0a0ef4425d825356facfc87fd6bc1 = L.circleMarker(
                 [-36.852232, 174.763915],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 9.875, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_8e26895efd85773b79e208a3767344f2.bindTooltip(
+            circle_marker_80a0a0ef4425d825356facfc87fd6bc1.bindTooltip(
                 `<div>
                      297 Queen Street: 790 avg/hr
                  </div>`,
@@ -1531,13 +1545,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_cc51601aeef4ec91a2b1a4682ecfd1ec = L.circleMarker(
+            var circle_marker_11741373da8056056995c773c2e10c1a = L.circleMarker(
                 [-36.857973, 174.760382],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 3.5625, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_cc51601aeef4ec91a2b1a4682ecfd1ec.bindTooltip(
+            circle_marker_11741373da8056056995c773c2e10c1a.bindTooltip(
                 `<div>
                      150 K Road: 285 avg/hr
                  </div>`,
@@ -1547,13 +1561,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_3f32ac42a1d6fa04feae875be7b487c1 = L.circleMarker(
+            var circle_marker_ee081eaca86bd933512e5b10ff8e61a6 = L.circleMarker(
                 [-36.857774, 174.760123],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7.0, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_3f32ac42a1d6fa04feae875be7b487c1.bindTooltip(
+            circle_marker_ee081eaca86bd933512e5b10ff8e61a6.bindTooltip(
                 `<div>
                      183 K Road: 560 avg/hr
                  </div>`,
@@ -1563,13 +1577,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_a38a41bcd8428fa4159c54b5cb019494 = L.circleMarker(
+            var circle_marker_6a061654a3414567d4c8c23f9722349a = L.circleMarker(
                 [-36.84306, 174.76573],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 8.425, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_a38a41bcd8428fa4159c54b5cb019494.bindTooltip(
+            circle_marker_6a061654a3414567d4c8c23f9722349a.bindTooltip(
                 `<div>
                      188 Quay Street Lower Albert (EW): 674 avg/hr
                  </div>`,
@@ -1579,13 +1593,13 @@ Try a Different Basemap
             );
         
     
-            var circle_marker_c6c561d2cf832bd7aefdf4e7dcfae602 = L.circleMarker(
+            var circle_marker_74837f157c8a4f18e63ca6a2ad26e487 = L.circleMarker(
                 [-36.84306, 174.76573],
                 {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;red&quot;, &quot;fillOpacity&quot;: 0.6, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;opacity&quot;: 1.0, &quot;radius&quot;: 7.2, &quot;stroke&quot;: true, &quot;weight&quot;: 0.5}
-            ).addTo(map_fbbbed678fc32c1ad8f40c130c4480ae);
+            ).addTo(map_d36bc516fc28e99f1d4f3832bd72fdd5);
         
     
-            circle_marker_c6c561d2cf832bd7aefdf4e7dcfae602.bindTooltip(
+            circle_marker_74837f157c8a4f18e63ca6a2ad26e487.bindTooltip(
                 `<div>
                      188 Quay Street Lower Albert (NS): 576 avg/hr
                  </div>`,
@@ -1603,7 +1617,7 @@ Try a Different Basemap
 <section id="step-8-static-map-of-a-single-hour" class="level2">
 <h2 class="anchored" data-anchor-id="step-8-static-map-of-a-single-hour">Step 8: Static Map of a Single Hour</h2>
 <p>Interactive maps are great for exploration, but static maps are better for reports and comparisons. Here is the 5 pm data as a static matplotlib plot.</p>
-<div id="5acd1e68" class="cell" data-execution_count="10">
+<div id="00af89aa" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hour_17 <span class="op">=</span> gdf[gdf[<span class="st">"hour"</span>] <span class="op">==</span> <span class="dv">17</span>]</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
@@ -1636,7 +1650,7 @@ Try a Different Basemap
 <section id="step-9-compare-two-hours-side-by-side" class="level2">
 <h2 class="anchored" data-anchor-id="step-9-compare-two-hours-side-by-side">Step 9: Compare Two Hours Side by Side</h2>
 <p>A useful way to see change through the day is to place two maps next to each other.</p>
-<div id="6c71bddd" class="cell" data-execution_count="11">
+<div id="66678cf6" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pick two hours to compare</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>morning <span class="op">=</span> gdf[gdf[<span class="st">"hour"</span>] <span class="op">==</span> <span class="dv">7</span>]</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>evening <span class="op">=</span> gdf[gdf[<span class="st">"hour"</span>] <span class="op">==</span> <span class="dv">17</span>]</span>
@@ -1695,7 +1709,7 @@ Try a Different Basemap
 <section id="step-10-which-sensors-are-busiest" class="level2">
 <h2 class="anchored" data-anchor-id="step-10-which-sensors-are-busiest">Step 10: Which Sensors Are Busiest?</h2>
 <p>Let us find out which sensors see the most foot traffic overall.</p>
-<div id="b70e3b4e" class="cell" data-execution_count="12">
+<div id="27a5b1e4" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum each sensor's average counts across all 8 time slots</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>total_by_sensor <span class="op">=</span> gdf.groupby(<span class="st">"Address"</span>)[<span class="st">"avg_count"</span>].<span class="bu">sum</span>().sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1724,7 +1738,7 @@ Commerce Street West    1587.0
 Name: avg_count, dtype: float64</code></pre>
 </div>
 </div>
-<div id="de91df1d" class="cell" data-execution_count="13">
+<div id="62d16e03" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A simple bar chart of total counts</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>total_by_sensor.sort_values().plot.barh(ax<span class="op">=</span>ax, color<span class="op">=</span><span class="st">"steelblue"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
@@ -1846,7 +1860,7 @@ Q7: Data Limitations
 <section id="extension-weekday-vs-weekend" class="level2">
 <h2 class="anchored" data-anchor-id="extension-weekday-vs-weekend">Extension: Weekday vs Weekend</h2>
 <p>If you finish early, try splitting March into weekdays and weekends and comparing the maps.</p>
-<div id="fd03c9d2" class="cell" data-execution_count="14">
+<div id="1502214c" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a day-of-week number: 0 = Monday, 6 = Sunday</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>march[<span class="st">"day_num"</span>] <span class="op">=</span> march[<span class="st">"Date"</span>].dt.dayofweek</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1882,242 +1896,228 @@ What to Look For
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
     };
-    anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
-        }
-      }
-      return false;
+    if (contentFn) {
+      config.content = contentFn;
     }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
     }
-    const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
-        }
-        return codeEl.innerText;
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
     }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
-    });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
-    }
-      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
-      var isInternal = (href) => {
-          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-      }
-      // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-      for (var i=0; i<links.length; i++) {
-        const link = links[i];
-        if (!isInternal(link.href)) {
-          // undo the damage that might have been done by quarto-nav.js in the case of
-          // links that we want to consider external
-          if (link.dataset.originalHref !== undefined) {
-            link.href = link.dataset.originalHref;
-          }
-        }
-      }
-    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-      const config = {
-        allowHTML: true,
-        maxWidth: 500,
-        delay: 100,
-        arrow: false,
-        appendTo: function(el) {
-            return el.parentElement;
-        },
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'quarto',
-        placement: 'bottom-start',
-      };
-      if (contentFn) {
-        config.content = contentFn;
-      }
-      if (onTriggerFn) {
-        config.onTrigger = onTriggerFn;
-      }
-      if (onUntriggerFn) {
-        config.onUntrigger = onUntriggerFn;
-      }
-      window.tippy(el, config); 
-    }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
-    }
-    const xrefs = window.document.querySelectorAll('a.quarto-xref');
-    const processXRef = (id, note) => {
-      // Strip column container classes
-      const stripColumnClz = (el) => {
-        el.classList.remove("page-full", "page-columns");
-        if (el.children) {
-          for (const child of el.children) {
-            stripColumnClz(child);
-          }
-        }
-      }
-      stripColumnClz(note)
-      if (id === null || id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children && note.children.length > 2) {
-          container.appendChild(note.children[0].cloneNode(true));
-          for (let i = 1; i < note.children.length; i++) {
-            const child = note.children[i];
-            if (child.tagName === "P" && child.innerText === "") {
-              continue;
-            } else {
-              container.appendChild(child.cloneNode(true));
-              break;
-            }
-          }
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(container);
-          }
-          return container.innerHTML
-        } else {
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(note);
-          }
-          return note.innerHTML;
-        }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
       } else {
-        // Remove any anchor links if they are present
-        const anchorLink = note.querySelector('a.anchorjs-link');
-        if (anchorLink) {
-          anchorLink.remove();
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
         }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        if (note.classList.contains("callout")) {
-          return note.outerHTML;
-        } else {
-          return note.innerHTML;
-        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
       }
     }
-    for (var i=0; i<xrefs.length; i++) {
-      const xref = xrefs[i];
-      tippyHover(xref, undefined, function(instance) {
-        instance.disable();
-        let url = xref.getAttribute('href');
-        let hash = undefined; 
-        if (url.startsWith('#')) {
-          hash = url;
-        } else {
-          try { hash = new URL(url).hash; } catch {}
-        }
-        if (hash) {
-          const id = hash.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note !== null) {
-            try {
-              const html = processXRef(id, note.cloneNode(true));
-              instance.setContent(html);
-            } finally {
-              instance.enable();
-              instance.show();
-            }
-          } else {
-            // See if we can fetch this
-            fetch(url.split('#')[0])
-            .then(res => res.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(html, "text/html");
-              const note = htmlDoc.getElementById(id);
-              if (note !== null) {
-                const html = processXRef(id, note);
-                instance.setContent(html);
-              } 
-            }).finally(() => {
-              instance.enable();
-              instance.show();
-            });
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
           }
         } else {
-          // See if we can fetch a full url (with no hash to target)
-          // This is a special case and we should probably do some content thinning / targeting
-          fetch(url)
+          // See if we can fetch this
+          fetch(url.split('#')[0])
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.querySelector('main.content');
+            const note = htmlDoc.getElementById(id);
             if (note !== null) {
-              // This should only happen for chapter cross references
-              // (since there is no id in the URL)
-              // remove the first header
-              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                note.children[0].remove();
-              }
-              const html = processXRef(null, note);
+              const html = processXRef(id, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -2125,161 +2125,185 @@ What to Look For
             instance.show();
           });
         }
-      }, function(instance) {
-      });
-    }
-        let selectedAnnoteEl;
-        const selectorForAnnotation = ( cell, annotation) => {
-          let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' +  annotation + '"';
-          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-          return selector;
-        }
-        const selectCodeLines = (annoteEl) => {
-          const doc = window.document;
-          const targetCell = annoteEl.getAttribute("data-target-cell");
-          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-          const lineIds = lines.map((line) => {
-            return targetCell + "-" + line;
-          })
-          let top = null;
-          let height = null;
-          let parent = null;
-          if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
-            }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
-            }
-            selectedAnnoteEl = annoteEl;
-          }
-        };
-        const unselectCodeLines = () => {
-          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-          elementsIds.forEach((elId) => {
-            const div = window.document.getElementById(elId);
-            if (div) {
-              div.remove();
-            }
-          });
-          selectedAnnoteEl = undefined;
-        };
-          // Handle positioning of the toggle
-      window.addEventListener(
-        "resize",
-        throttle(() => {
-          elRect = undefined;
-          if (selectedAnnoteEl) {
-            selectCodeLines(selectedAnnoteEl);
-          }
-        }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
-              fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
-            }
-          });
-        }
-    const findCites = (el) => {
-      const parentEl = el.parentElement;
-      if (parentEl) {
-        const cites = parentEl.dataset.cites;
-        if (cites) {
-          return {
-            el,
-            cites: cites.split(' ')
-          };
-        } else {
-          return findCites(el.parentElement)
-        }
       } else {
-        return undefined;
-      }
-    };
-    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-    for (var i=0; i<bibliorefs.length; i++) {
-      const ref = bibliorefs[i];
-      const citeInfo = findCites(ref);
-      if (citeInfo) {
-        tippyHover(citeInfo.el, function() {
-          var popup = window.document.createElement('div');
-          citeInfo.cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
             }
-            popup.appendChild(citeDiv);
-          });
-          return popup.innerHTML;
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
         });
       }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
     }
-  });
-  </script>
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../labs/lab-week03.html" class="pagination-link" aria-label="Lab Week 03">
@@ -2287,8 +2311,8 @@ What to Look For
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../labs/lab-week04.html" class="pagination-link" aria-label="Lab Week 04">
+        <span class="nav-page-text">Lab Week 04</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
