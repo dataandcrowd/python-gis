@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3.2. Shiny Functions and Reactivity – Python GIS at UoA</title>
+<title>3.2. Reactivity in Action – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3. Interactive Dashboards with Shiny for Python</a></li><li class="breadcrumb-item"><a href="./3.2.shiny-functions-reactivity.html">3.2. Shiny Functions and Reactivity</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3. Interactive Dashboards with Shiny for Python</a></li><li class="breadcrumb-item"><a href="./3.2.shiny-functions-reactivity.html">3.2. Reactivity in Action</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -154,6 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Syllabus (Semester 1, 2026)</span></a>
   </div>
 </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./1.0.chapter1-setup.html" class="sidebar-item-text sidebar-link">
@@ -181,8 +182,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">1.3 Version control with Git</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1.4.download-from-github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.4. Download data from github</span></a>
+  </div>
+</li>
       </ul>
   </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
@@ -213,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.4.geospatial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.3. Geospatial Data</span></a>
+ <span class="menu-text">2.4. Geospatial Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -225,11 +233,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2.6.urban-analytics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">2.4 Urban analytics indicators</span></a>
+ <span class="menu-text">2.6 Urban analytics indicators</span></a>
   </div>
 </li>
       </ul>
   </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./3.0.chapter3-shiny_python.html" class="sidebar-item-text sidebar-link">
@@ -242,68 +251,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3.1.webgis-wasm-shiny.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.1 Web GIS, WASM, and Shiny</span></a>
+ <span class="menu-text">3.1. Your First Shiny App</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3.2.shiny-functions-reactivity.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">3.2. Shiny Functions and Reactivity</span></a>
+ <span class="menu-text">3.2. Reactivity in Action</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3.3.routing-and-congestion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.3. Routing and Congestion Analysis</span></a>
+ <span class="menu-text">3.3. Decorators and UI Polish</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3.4.origin-destination.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.4. Origin-Destination Analysis</span></a>
+ <span class="menu-text">3.4. Web GIS in the Browser with shinylive</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3.5.networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.5. Routing and Congestion</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3.6.shiny-assignment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3.6. Bus Networks and Assignment 2</span></a>
   </div>
 </li>
       </ul>
   </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="./4.0.python-packaging.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Part 4. Python Package Development</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./4.1.package-fundamentals.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.1. Package Fundamentals: Structure, Configuration, and Building</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./4.2.testing-and-quality.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.2 Testing and Code Quality</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./4.3.geospatial-package-example.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.3 Geospatial Package Example: Auckland GIS Toolkit</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./4.4.publish-pypi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">4.4 Publishing to PyPI</span></a>
-  </div>
-</li>
-      </ul>
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Part 4. Python Package Development</span></span>
   </li>
+        <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./labs/labs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">labs.html</span></a>
+ <span class="menu-text">Labs</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -329,44 +321,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week03-GIS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Week 03 GIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./labs/lab-week04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 04</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab Week 05</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab Week 6: Shiny Practice Exercises with Solutions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Lab Week 7: Complete Dashboard and Package Examples</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab Week 08</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab Week 09</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Lab Week 10</span></a>
   </div>
 </li>
       </ul>
@@ -387,46 +349,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-learn-about-reactivity" id="toc-why-learn-about-reactivity" class="nav-link active" data-scroll-target="#why-learn-about-reactivity">Why Learn About Reactivity?</a></li>
-  <li><a href="#starting-simple-a-minimal-shiny-app" id="toc-starting-simple-a-minimal-shiny-app" class="nav-link" data-scroll-target="#starting-simple-a-minimal-shiny-app">Starting Simple: A Minimal Shiny App</a>
-  <ul class="collapse">
-  <li><a href="#the-three-parts-every-shiny-app-needs" id="toc-the-three-parts-every-shiny-app-needs" class="nav-link" data-scroll-target="#the-three-parts-every-shiny-app-needs">The Three Parts Every Shiny App Needs</a></li>
-  </ul></li>
-  <li><a href="#understanding-inputs-and-outputs" id="toc-understanding-inputs-and-outputs" class="nav-link" data-scroll-target="#understanding-inputs-and-outputs">Understanding Inputs and Outputs</a>
-  <ul class="collapse">
-  <li><a href="#common-input-types" id="toc-common-input-types" class="nav-link" data-scroll-target="#common-input-types">Common Input Types</a></li>
-  <li><a href="#common-output-types" id="toc-common-output-types" class="nav-link" data-scroll-target="#common-output-types">Common Output Types</a></li>
-  </ul></li>
-  <li><a href="#what-is-reactivity-a-simple-analogy" id="toc-what-is-reactivity-a-simple-analogy" class="nav-link" data-scroll-target="#what-is-reactivity-a-simple-analogy">What is Reactivity? A Simple Analogy</a></li>
-  <li><a href="#your-first-reactive-calculation" id="toc-your-first-reactive-calculation" class="nav-link" data-scroll-target="#your-first-reactive-calculation">Your First Reactive Calculation</a></li>
-  <li><a href="#building-up-a-simple-geospatial-example" id="toc-building-up-a-simple-geospatial-example" class="nav-link" data-scroll-target="#building-up-a-simple-geospatial-example">Building Up: A Simple Geospatial Example</a>
-  <ul class="collapse">
-  <li><a href="#step-1-load-data-outside-the-server" id="toc-step-1-load-data-outside-the-server" class="nav-link" data-scroll-target="#step-1-load-data-outside-the-server">Step 1: Load Data Outside the Server</a></li>
-  <li><a href="#step-2-create-a-simple-ui" id="toc-step-2-create-a-simple-ui" class="nav-link" data-scroll-target="#step-2-create-a-simple-ui">Step 2: Create a Simple UI</a></li>
-  <li><a href="#step-3-add-server-logic" id="toc-step-3-add-server-logic" class="nav-link" data-scroll-target="#step-3-add-server-logic">Step 3: Add Server Logic</a></li>
-  </ul></li>
-  <li><a href="#the-reactive-graph" id="toc-the-reactive-graph" class="nav-link" data-scroll-target="#the-reactive-graph">The Reactive Graph</a></li>
-  <li><a href="#common-patterns-for-beginners" id="toc-common-patterns-for-beginners" class="nav-link" data-scroll-target="#common-patterns-for-beginners">Common Patterns for Beginners</a>
-  <ul class="collapse">
-  <li><a href="#pattern-1-one-input-one-output" id="toc-pattern-1-one-input-one-output" class="nav-link" data-scroll-target="#pattern-1-one-input-one-output">Pattern 1: One Input, One Output</a></li>
-  <li><a href="#pattern-2-one-input-multiple-outputs" id="toc-pattern-2-one-input-multiple-outputs" class="nav-link" data-scroll-target="#pattern-2-one-input-multiple-outputs">Pattern 2: One Input, Multiple Outputs</a></li>
-  <li><a href="#pattern-3-multiple-inputs-one-output" id="toc-pattern-3-multiple-inputs-one-output" class="nav-link" data-scroll-target="#pattern-3-multiple-inputs-one-output">Pattern 3: Multiple Inputs, One Output</a></li>
-  <li><a href="#pattern-4-reactive-calculation-for-shared-logic" id="toc-pattern-4-reactive-calculation-for-shared-logic" class="nav-link" data-scroll-target="#pattern-4-reactive-calculation-for-shared-logic">Pattern 4: Reactive Calculation for Shared Logic</a></li>
-  </ul></li>
-  <li><a href="#a-complete-beginner-example-auckland-suburbs-explorer" id="toc-a-complete-beginner-example-auckland-suburbs-explorer" class="nav-link" data-scroll-target="#a-complete-beginner-example-auckland-suburbs-explorer">A Complete Beginner Example: Auckland Suburbs Explorer</a></li>
-  <li><a href="#what-youve-learned" id="toc-what-youve-learned" class="nav-link" data-scroll-target="#what-youve-learned">What You’ve Learned</a></li>
-  <li><a href="#practice-exercise" id="toc-practice-exercise" class="nav-link" data-scroll-target="#practice-exercise">Practice Exercise</a></li>
-  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
-  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further Reading</a></li>
+  <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link active" data-scroll-target="#what-you-will-learn">What you will learn</a></li>
+  <li><a href="#the-reactive-graph-again" id="toc-the-reactive-graph-again" class="nav-link" data-scroll-target="#the-reactive-graph-again">The reactive graph, again</a></li>
+  <li><a href="#reactive.calc-is-for-values-you-want-to-reuse" id="toc-reactive.calc-is-for-values-you-want-to-reuse" class="nav-link" data-scroll-target="#reactive.calc-is-for-values-you-want-to-reuse"><code>reactive.calc</code> is for values you want to reuse</a></li>
+  <li><a href="#reactive.effect-is-for-side-effects" id="toc-reactive.effect-is-for-side-effects" class="nav-link" data-scroll-target="#reactive.effect-is-for-side-effects"><code>reactive.effect</code> is for side effects</a></li>
+  <li><a href="#triggering-on-a-specific-event-with-reactive.event" id="toc-triggering-on-a-specific-event-with-reactive.event" class="nav-link" data-scroll-target="#triggering-on-a-specific-event-with-reactive.event">Triggering on a specific event with <code>@reactive.event</code></a></li>
+  <li><a href="#reading-without-depending-reactive.isolate" id="toc-reading-without-depending-reactive.isolate" class="nav-link" data-scroll-target="#reading-without-depending-reactive.isolate">Reading without depending: <code>reactive.isolate</code></a></li>
+  <li><a href="#a-worked-example-a-suburbs-explorer-that-feels-right" id="toc-a-worked-example-a-suburbs-explorer-that-feels-right" class="nav-link" data-scroll-target="#a-worked-example-a-suburbs-explorer-that-feels-right">A worked example: a suburbs explorer that feels right</a></li>
+  <li><a href="#what-you-have-learned" id="toc-what-you-have-learned" class="nav-link" data-scroll-target="#what-you-have-learned">What you have learned</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3. Interactive Dashboards with Shiny for Python</a></li><li class="breadcrumb-item"><a href="./3.2.shiny-functions-reactivity.html">3.2. Shiny Functions and Reactivity</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3. Interactive Dashboards with Shiny for Python</a></li><li class="breadcrumb-item"><a href="./3.2.shiny-functions-reactivity.html">3.2. Reactivity in Action</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">3.2. Shiny Functions and Reactivity</h1>
+<h1 class="title">3.2. Reactivity in Action</h1>
 </div>
 
 
@@ -443,654 +384,185 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="why-learn-about-reactivity" class="level2">
-<h2 class="anchored" data-anchor-id="why-learn-about-reactivity">Why Learn About Reactivity?</h2>
-<p>Imagine you’re creating a simple tool for Auckland Council planners. They select a neighbourhood from a dropdown menu, and instantly: - A map updates to show just that area - A table displays statistics for that neighbourhood - A chart shows population trends</p>
-<p><strong>The question is</strong>: How does the app “know” to update everything automatically when the user makes a selection?</p>
-<p>This is what <strong>reactivity</strong> means in Shiny - it’s the magic that makes your app responsive without you having to write code that manually tells each piece to update.</p>
+<blockquote class="blockquote">
+<p>Adapted from Wickham, <em>Mastering Shiny</em>, <a href="https://mastering-shiny.org/action-intro.html">Chapter 3</a>, with the R code rewritten in Python.</p>
+</blockquote>
+<p>So far you have used reactivity without naming most of the pieces. In this section we slow down and look at what is actually going on when an input changes.</p>
+<p>The payoff: you will know when to reach for <code>@reactive.calc</code>, when you want <code>@reactive.effect</code>, and when you want neither.</p>
+<section id="what-you-will-learn" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-will-learn">What you will learn</h2>
+<ul>
+<li>The three kinds of reactive object: sources, expressions, and observers.</li>
+<li>When to use <code>@reactive.calc</code> versus <code>@reactive.effect</code>.</li>
+<li>How to run code only when a specific input changes (<code>@reactive.event</code>).</li>
+<li>How to read a value without triggering re-runs (<code>reactive.isolate</code>).</li>
+</ul>
 </section>
-<section id="starting-simple-a-minimal-shiny-app" class="level2">
-<h2 class="anchored" data-anchor-id="starting-simple-a-minimal-shiny-app">Starting Simple: A Minimal Shiny App</h2>
-<p>Before we tackle reactivity, let’s understand the basic structure of a Shiny app. Think of it like building a house:</p>
-<section id="the-three-parts-every-shiny-app-needs" class="level3">
-<h3 class="anchored" data-anchor-id="the-three-parts-every-shiny-app-needs">The Three Parts Every Shiny App Needs</h3>
+<section id="the-reactive-graph-again" class="level2">
+<h2 class="anchored" data-anchor-id="the-reactive-graph-again">The reactive graph, again</h2>
+<p>From 3.1 you know that reading <code>input.x()</code> inside a server function sets up a dependency. What actually happens internally is this: Shiny builds a small directed graph whose nodes are reactive things and whose edges are “A reads B”. When an input at the top of the graph changes, everything downstream is marked “out of date” and re-evaluated on the next browser update.</p>
+<p>Three kinds of node live in this graph:</p>
 <ol type="1">
-<li><strong>The UI (User Interface)</strong> - What users see and interact with (like the facade and rooms of a house)</li>
-<li><strong>The Server</strong> - The behind-the-scenes logic (like the plumbing and electrical wiring)</li>
-<li><strong>The App Object</strong> - The thing that brings UI and server together (like the house itself)</li>
+<li><strong>Sources.</strong> These are the roots. <code>input.x()</code> values are sources, as is anything you create with <code>reactive.value()</code>. They change from the outside (user clicks something) and have no dependencies of their own.</li>
+<li><strong>Expressions.</strong> These are the in-between nodes. <code>@reactive.calc</code> creates one. They read sources (and other expressions), do some work, and return a value. They are <strong>lazy</strong>: they only run when something asks for their value.</li>
+<li><strong>Observers.</strong> These are the leaves. Render functions (<code>@render.text</code>, <code>@render.plot</code>, etc.) are observers, as is <code>@reactive.effect</code>. They run for their side effects (drawing on the screen, writing to a file, sending a notification). They are <strong>eager</strong>: they run whenever any of their dependencies change.</li>
 </ol>
-<p><strong>Visual representation:</strong></p>
-<pre><code>┌─────────────────────────────────────────┐
-│           USER'S BROWSER                │
-│  ┌───────────────────────────────────┐  │
-│  │  UI Layer (What user sees)        │  │
-│  │  • Slider (input)                 │  │
-│  │  • Text display (output)          │  │
-│  └──────────┬────────────────────────┘  │
-└─────────────┼────────────────────────────┘
-              │ User moves slider
-              ↓
-┌─────────────────────────────────────────┐
-│       PYTHON SERVER (Your code)         │
-│  ┌───────────────────────────────────┐  │
-│  │  Server Function                  │  │
-│  │  • Detects input change           │  │
-│  │  • Runs calculations              │  │
-│  │  • Updates output                 │  │
-│  └──────────┬────────────────────────┘  │
-└─────────────┼────────────────────────────┘
-              │ Sends new result
-              ↓
-        Back to browser</code></pre>
-<p>Here’s the simplest possible Shiny app:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render</span>
+<p>Keep this distinction in mind. It is the single most useful mental model for debugging a Shiny app.</p>
+</section>
+<section id="reactive.calc-is-for-values-you-want-to-reuse" class="level2">
+<h2 class="anchored" data-anchor-id="reactive.calc-is-for-values-you-want-to-reuse"><code>reactive.calc</code> is for values you want to reuse</h2>
+<p>The rule of thumb: if two or more outputs do the same computation, lift it into a <code>@reactive.calc</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.calc</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filtered():</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> data[data[<span class="st">"year"</span>] <span class="op">==</span> <span class="bu">input</span>.year()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A <code>reactive.calc</code> caches its result. Call it ten times with the same inputs; the work happens once. Two rules:</p>
+<ul>
+<li>Define it <strong>inside</strong> <code>server</code>, because it depends on the user’s inputs.</li>
+<li><strong>Call</strong> it with parentheses (<code>filtered()</code>), the same way you call inputs.</li>
+</ul>
+</section>
+<section id="reactive.effect-is-for-side-effects" class="level2">
+<h2 class="anchored" data-anchor-id="reactive.effect-is-for-side-effects"><code>reactive.effect</code> is for side effects</h2>
+<p>What if you want to do something that is <strong>not</strong> a value the user sees? Log a message, send an email, write a CSV to disk? That is what <code>@reactive.effect</code> is for. Same dependency tracking, but no return value and no caching.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> reactive</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Part 1: UI - What the user sees</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    ui.h2(<span class="st">"Hello Shiny!"</span>),                    <span class="co"># A heading</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"number"</span>, <span class="st">"Pick a number:"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">50</span>),  <span class="co"># A slider</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"result"</span>)                   <span class="co"># A place to show results</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Part 2: Server - What happens behind the scenes  </span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> result():</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"You picked: </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>number()<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Part 3: The App - Bring it all together</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>What happens when you run this?</strong> 1. User moves the slider 2. Shiny notices <code>input.number()</code> changed 3. Shiny automatically re-runs the <code>result()</code> function 4. The text updates on screen</p>
-<p>You didn’t write any code to detect the change or trigger the update - <strong>that’s reactivity!</strong></p>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.effect</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_year():</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[</span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>year()<span class="sc">}</span><span class="ss">] user changed the year filter"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Every time <code>input.year()</code> changes, the print fires. Use sparingly; side effects make apps harder to reason about.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Is it an output or an effect?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the user needs to see it, it is an output: use <code>@render.*</code>. If the user does not see it but something in the world should change, it is an effect: use <code>@reactive.effect</code>. Do not use <code>@reactive.effect</code> to update outputs; that is what render functions are for.</p>
+</div>
+</div>
 </section>
-</section>
-<section id="understanding-inputs-and-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="understanding-inputs-and-outputs">Understanding Inputs and Outputs</h2>
-<p>Think of inputs and outputs like a conversation:</p>
-<ul>
-<li><strong>Inputs</strong> = Questions you ask the user (“What number do you want?”)</li>
-<li><strong>Outputs</strong> = Answers you show the user (“Here’s what you picked!”)</li>
-</ul>
-<section id="common-input-types" class="level3">
-<h3 class="anchored" data-anchor-id="common-input-types">Common Input Types</h3>
-<p>Let’s see different ways to ask users for information:</p>
+<section id="triggering-on-a-specific-event-with-reactive.event" class="level2">
+<h2 class="anchored" data-anchor-id="triggering-on-a-specific-event-with-reactive.event">Triggering on a specific event with <code>@reactive.event</code></h2>
+<p>By default, a reactive reads <strong>all</strong> the inputs mentioned inside it. Sometimes that is wrong. For example, suppose you have a “Recompute” button and two sliders; you want the computation to wait until the button is pressed, even if the sliders are moved in the meantime.</p>
+<p><code>@reactive.event</code> solves this. Wrap your calc or effect with it, and pass the input(s) you want to <strong>trigger</strong> on:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ui.h2(<span class="st">"Different Ways to Get User Input"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Slider - choose a number by sliding</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"age"</span>, <span class="st">"How old are you?"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">25</span>),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Text box - type freely</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ui.input_text(<span class="st">"name"</span>, <span class="st">"What's your name?"</span>, <span class="st">""</span>),</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Dropdown menu - choose one option</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    ui.input_select(</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"city"</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Which city?"</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        choices<span class="op">=</span>[<span class="st">"Auckland"</span>, <span class="st">"Wellington"</span>, <span class="st">"Christchurch"</span>]</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Checkbox - yes or no</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    ui.input_checkbox(<span class="st">"agree"</span>, <span class="st">"I agree to terms"</span>, <span class="va">False</span>),</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show what the user selected</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"summary"</span>)</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">50</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"b"</span>, <span class="st">"b"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">50</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    ui.input_action_button(<span class="st">"go"</span>, <span class="st">"Recompute"</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"sum"</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.event</span>(<span class="bu">input</span>.go)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> total():</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">input</span>.a() <span class="op">+</span> <span class="bu">input</span>.b()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">sum</span>():</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Total: </span><span class="sc">{</span>total()<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Move either slider: nothing happens. Click “Recompute”: <code>total</code> updates. This pattern is ideal when the computation is expensive and you want the user to control when it runs.</p>
 </section>
-<section id="common-output-types" class="level3">
-<h3 class="anchored" data-anchor-id="common-output-types">Common Output Types</h3>
-<p>Different ways to show information:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output 1: Simple text</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> summary():</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Name: </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>name()<span class="sc">}</span><span class="ss">, Age: </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>age()<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output 2: A table</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.table</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> data_table():</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.DataFrame({</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Name'</span>: [<span class="bu">input</span>.name()],</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Age'</span>: [<span class="bu">input</span>.age()],</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">'City'</span>: [<span class="bu">input</span>.city()]</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        })</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output 3: A plot</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> age_chart():</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        ax.bar([<span class="st">'Your Age'</span>], [<span class="bu">input</span>.age()])</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="reading-without-depending-reactive.isolate" class="level2">
+<h2 class="anchored" data-anchor-id="reading-without-depending-reactive.isolate">Reading without depending: <code>reactive.isolate</code></h2>
+<p>There is one more trick. Sometimes you want to <strong>read</strong> an input inside a reactive, but you do not want a change to that input to trigger a re-run. Wrap the read in <code>reactive.isolate</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.effect</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> save_snapshot():</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Re-runs whenever the user clicks "Save"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">input</span>.save()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reads the current filter but does NOT re-run when filter changes</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> reactive.isolate():</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        snapshot <span class="op">=</span> filtered()</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    snapshot.to_csv(<span class="ss">f"snapshot_</span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>save()<span class="sc">}</span><span class="ss">.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In practice, <code>reactive.isolate</code> is rarely needed; most of the time <code>@reactive.event</code> does what you want more clearly. Mention it exists and move on.</p>
 </section>
-</section>
-<section id="what-is-reactivity-a-simple-analogy" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-reactivity-a-simple-analogy">What is Reactivity? A Simple Analogy</h2>
-<p>Imagine you’re a chef with a recipe board in your kitchen:</p>
-<p><strong>Without reactivity</strong> (traditional programming): 1. Customer orders → you manually check the order 2. You manually decide what to cook 3. You manually update each dish 4. You manually tell the waiter it’s ready</p>
-<p><strong>With reactivity</strong> (Shiny): 1. Customer orders → everything else happens automatically 2. Recipes automatically adjust to the order 3. Dishes automatically prepare 4. Waiter automatically knows when it’s ready</p>
-<p>In Shiny, when an input changes, everything that depends on it automatically updates. You don’t write the “checking” code - Shiny handles it.</p>
-</section>
-<section id="your-first-reactive-calculation" class="level2">
-<h2 class="anchored" data-anchor-id="your-first-reactive-calculation">Your First Reactive Calculation</h2>
-<p>Sometimes you need to do a calculation and use the result in multiple places. Instead of repeating the calculation, you create a <strong>reactive calculation</strong>:</p>
-<p><strong>Without <span class="citation" data-cites="reactive.calc">(<a href="2.6.urban-analytics.html#ref-reactive.calc" role="doc-biblioref"><strong>reactive.calc?</strong></a>)</span> (inefficient):</strong></p>
-<pre><code>User moves slider
-    ↓
-┌─────────────────────┐
-│ OUTPUT 1: count()   │
-│ • Filter suburbs    │ ← Filtering happens here
-│ • Count them        │
-└─────────────────────┘
-    ↓
-┌─────────────────────┐
-│ OUTPUT 2: table()   │
-│ • Filter suburbs    │ ← Filtering happens AGAIN (wasteful!)
-│ • Show table        │
-└─────────────────────┘
-
-Problem: Filtering happens TWICE</code></pre>
-<p><strong>With <span class="citation" data-cites="reactive.calc">(<a href="2.6.urban-analytics.html#ref-reactive.calc" role="doc-biblioref"><strong>reactive.calc?</strong></a>)</span> (efficient):</strong></p>
-<pre><code>User moves slider
-    ↓
-┌──────────────────────────┐
-│ REACTIVE CALC            │
-│ filtered_suburbs()       │
-│ • Filter suburbs ONCE    │ ← Filtering happens ONCE
-└────────┬─────────────────┘
-         │
-         │ Both outputs share this result
-         │
-    ┌────┴─────┐
-    ↓          ↓
-┌────────┐  ┌────────┐
-│count() │  │table() │
-└────────┘  └────────┘
-
-Benefit: Filtering happens ONCE, used TWICE</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Some data about Auckland suburbs</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>suburbs <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span>: [<span class="st">'Ponsonby'</span>, <span class="st">'Parnell'</span>, <span class="st">'Mt Eden'</span>, <span class="st">'Newmarket'</span>],</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'population'</span>: [<span class="dv">12500</span>, <span class="dv">8900</span>, <span class="dv">15300</span>, <span class="dv">11200</span>],</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'area_km2'</span>: [<span class="fl">2.1</span>, <span class="fl">1.8</span>, <span class="fl">3.4</span>, <span class="fl">2.7</span>]</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    ui.h2(<span class="st">"Auckland Suburbs"</span>),</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"min_pop"</span>, <span class="st">"Minimum Population:"</span>, <span class="dv">0</span>, <span class="dv">20000</span>, <span class="dv">0</span>, step<span class="op">=</span><span class="dv">1000</span>),</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"count"</span>),</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    ui.output_table(<span class="st">"suburb_table"</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reactive calculation: filter suburbs based on minimum population</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This calculates ONCE and can be used MULTIPLE times below</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered_suburbs():</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        min_population <span class="op">=</span> <span class="bu">input</span>.min_pop()</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> suburbs[suburbs[<span class="st">'population'</span>] <span class="op">&gt;=</span> min_population]</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output 1: Show how many suburbs match</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span>  </span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> count():</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> filtered_suburbs()  <span class="co"># Use the reactive calculation</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Found </span><span class="sc">{</span><span class="bu">len</span>(data)<span class="sc">}</span><span class="ss"> suburbs"</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output 2: Show the table</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.table</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> suburb_table():</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> filtered_suburbs()  <span class="co"># Use the SAME reactive calculation</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Why use <code>@reactive.calc</code>?</strong></p>
-<p>Without it, if you filtered suburbs in both <code>count()</code> and <code>suburb_table()</code>, the filtering would happen TWICE. With <code>@reactive.calc</code>, it happens ONCE and both outputs use the same result. More efficient!</p>
-</section>
-<section id="building-up-a-simple-geospatial-example" class="level2">
-<h2 class="anchored" data-anchor-id="building-up-a-simple-geospatial-example">Building Up: A Simple Geospatial Example</h2>
-<p>Now let’s work with actual spatial data. We’ll build this step by step:</p>
-<section id="step-1-load-data-outside-the-server" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-load-data-outside-the-server">Step 1: Load Data Outside the Server</h3>
-<p>Data that doesn’t change should be loaded once, before the server function:</p>
-<p><strong>Visual explanation:</strong></p>
-<pre><code>APP STARTUP (happens once):
-┌────────────────────────────────────┐
-│ Load data                          │
-│ regions = gpd.read_file(...)       │ ← Happens ONCE
-│ Calculate area                     │
-│ Calculate density                  │
-└────────────────┬───────────────────┘
-                 │
-                 │ Data loaded and ready
-                 │
-                 ↓
-┌────────────────────────────────────┐
-│ Server function starts             │
-│ (data is already available)        │
-└────────────────────────────────────┘
-                 │
-                 │
-        USER INTERACTIONS:
-                 │
-    ┌────────────┼────────────┐
-    ↓            ↓            ↓
- Input 1      Input 2      Input 3
-    │            │            │
-    └────────────┴────────────┘
-              │
-       Uses pre-loaded data
-     (no need to reload!)</code></pre>
-<p><strong>Why load data here?</strong></p>
-<p>❌ <strong>Wrong way</strong> (inside server):</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered_regions():</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        regions <span class="op">=</span> gpd.read_file(...)  <span class="co"># ← Reloads every time! Very slow!</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> regions[...]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Every time the user changes something, the file loads again. If 10 users are using your app, the file loads 10+ times!</p>
-<p>✓ <strong>Right way</strong> (outside server):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load once at startup</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>regions <span class="op">=</span> gpd.read_file(<span class="st">'data/auckland_sa2.gpkg'</span>)  <span class="co"># ← Loads ONCE</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered_regions():</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> regions[...]  <span class="co"># ← Uses already-loaded data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>File loads once when app starts. All users share the same loaded data. Much faster!</p>
-</section>
-<section id="step-2-create-a-simple-ui" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-create-a-simple-ui">Step 2: Create a Simple UI</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    ui.h2(<span class="st">"Auckland Population Density"</span>),</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simple filter: minimum population</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"min_pop"</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Minimum Population:"</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">min</span><span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">max</span><span class="op">=</span><span class="dv">50000</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        value<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        step<span class="op">=</span><span class="dv">5000</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show a map</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    ui.output_plot(<span class="st">"density_map"</span>),</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show statistics</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"stats"</span>)</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="step-3-add-server-logic" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-add-server-logic">Step 3: Add Server Logic</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reactive: filter regions based on user input</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered_regions():</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Keep only regions with population &gt;= minimum"""</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        min_pop <span class="op">=</span> <span class="bu">input</span>.min_pop()</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> regions[regions[<span class="st">'population'</span>] <span class="op">&gt;=</span> min_pop]</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output: create the map</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> density_map():</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> filtered_regions()</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a simple map</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        data.plot(</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>            column<span class="op">=</span><span class="st">'pop_density'</span>,</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>            ax<span class="op">=</span>ax,</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>            legend<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>            cmap<span class="op">=</span><span class="st">'YlOrRd'</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="ss">f'Population Density (</span><span class="sc">{</span><span class="bu">len</span>(data)<span class="sc">}</span><span class="ss"> regions)'</span>)</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        ax.axis(<span class="st">'off'</span>)</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output: show statistics</span></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> stats():</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> filtered_regions()</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        avg_density <span class="op">=</span> data[<span class="st">'pop_density'</span>].mean()</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        total_pop <span class="op">=</span> data[<span class="st">'population'</span>].<span class="bu">sum</span>()</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Average density: </span><span class="sc">{</span>avg_density<span class="sc">:.1f}</span><span class="ss"> people/km². Total population: </span><span class="sc">{</span>total_pop<span class="sc">:,.0f}</span><span class="ss">"</span></span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the app</span></span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>What’s happening here?</strong></p>
-<ol type="1">
-<li>User moves the slider → <code>input.min_pop()</code> changes</li>
-<li>Shiny notices <code>filtered_regions()</code> depends on <code>input.min_pop()</code></li>
-<li>Shiny recalculates <code>filtered_regions()</code></li>
-<li>Shiny notices both <code>density_map()</code> and <code>stats()</code> depend on <code>filtered_regions()</code></li>
-<li>Shiny updates both the map and statistics automatically</li>
-</ol>
-<p>You wrote no code to manage this chain of updates!</p>
-</section>
-</section>
-<section id="the-reactive-graph" class="level2">
-<h2 class="anchored" data-anchor-id="the-reactive-graph">The Reactive Graph</h2>
-<p>Shiny tracks what depends on what. Here’s a visual way to think about it:</p>
-<pre><code>┌─────────────────────────────────────────────────────────┐
-│  USER ACTION                                            │
-│  👤 User moves slider to 10,000                         │
-└────────────────┬────────────────────────────────────────┘
-                 │
-                 ↓
-┌─────────────────────────────────────────────────────────┐
-│  INPUT (Reactive Source)                                │
-│  📊 input.min_pop() = 10000                             │
-└────────────────┬────────────────────────────────────────┘
-                 │
-                 │ Shiny detects this changed
-                 │
-                 ↓
-┌─────────────────────────────────────────────────────────┐
-│  REACTIVE CALCULATION                                   │
-│  ⚙️  filtered_regions()                                 │
-│     • Reads input.min_pop()                             │
-│     • Filters data                                      │
-│     • Returns filtered DataFrame                        │
-└────────────────┬────────────────────────────────────────┘
-                 │
-                 │ Shiny knows these depend on filtered_regions()
-                 │
-         ┌───────┴────────┐
-         ↓                ↓
-┌────────────────┐  ┌─────────────────┐
-│  OUTPUT 1      │  │  OUTPUT 2       │
-│  🗺️  density_map() │  │  📝 stats()      │
-│  Uses filtered  │  │  Uses filtered  │
-│  data to plot  │  │  data for text  │
-└────────────────┘  └─────────────────┘
-         │                │
-         └───────┬────────┘
-                 ↓
-         Both re-render on screen</code></pre>
-<p><strong>What happens step-by-step:</strong></p>
-<ol type="1">
-<li><strong>User action</strong> → Slider moves from 5,000 to 10,000</li>
-<li><strong>Shiny detects</strong> → “input.min_pop() has changed!”</li>
-<li><strong>Shiny checks</strong> → “What depends on input.min_pop()?”</li>
-<li><strong>Finds</strong> → <code>filtered_regions()</code> uses it</li>
-<li><strong>Recalculates</strong> → <code>filtered_regions()</code> runs once</li>
-<li><strong>Shiny checks again</strong> → “What depends on filtered_regions()?”</li>
-<li><strong>Finds</strong> → Both <code>density_map()</code> and <code>stats()</code> use it</li>
-<li><strong>Updates outputs</strong> → Both re-render with new data</li>
-</ol>
-<p><strong>Why this is efficient:</strong> - <code>filtered_regions()</code> only calculates <strong>once</strong> (not twice) - Only things that depend on the changed input update - If you had an output that doesn’t use <code>filtered_regions()</code>, it wouldn’t update at all</p>
-</section>
-<section id="common-patterns-for-beginners" class="level2">
-<h2 class="anchored" data-anchor-id="common-patterns-for-beginners">Common Patterns for Beginners</h2>
-<section id="pattern-1-one-input-one-output" class="level3">
-<h3 class="anchored" data-anchor-id="pattern-1-one-input-one-output">Pattern 1: One Input, One Output</h3>
-<pre><code>┌──────────────┐
-│ USER         │
-│ Types "Bob"  │
-└──────┬───────┘
-       │
-       ↓
-┌──────────────────┐
-│ input.name()     │ ← Reactive source
-└──────┬───────────┘
-       │
-       ↓
-┌──────────────────┐
-│ greeting()       │ ← Output function
-│ "Hello, Bob!"    │
-└──────┬───────────┘
-       │
-       ↓
-  Shown on screen</code></pre>
-<p>The simplest pattern:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    ui.input_text(<span class="st">"your_name"</span>, <span class="st">"Name:"</span>),</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"greeting"</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> greeting():</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Hello, </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>your_name()<span class="sc">}</span><span class="ss">!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="pattern-2-one-input-multiple-outputs" class="level3">
-<h3 class="anchored" data-anchor-id="pattern-2-one-input-multiple-outputs">Pattern 2: One Input, Multiple Outputs</h3>
-<pre><code>┌──────────────────┐
-│ USER             │
-│ Selects 50       │
-└────────┬─────────┘
-         │
-         ↓
-┌────────────────────┐
-│ input.value()      │ ← One reactive source
-│ = 50               │
-└────────┬───────────┘
-         │
-         │ Both outputs depend on this
-         │
-    ┌────┴────┐
-    ↓         ↓
-┌─────────┐ ┌─────────┐
-│doubled()│ │squared()│ ← Two outputs
-│= 100    │ │= 2500   │
-└─────────┘ └─────────┘
-    │         │
-    └────┬────┘
-         ↓
-   Both shown on screen</code></pre>
-<p>One input updates multiple outputs:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"value"</span>, <span class="st">"Pick a number:"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">50</span>),</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"doubled"</span>),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"squared"</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> doubled():</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Double: </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>value() <span class="op">*</span> <span class="dv">2</span><span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> squared():</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Squared: </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>value() <span class="op">**</span> <span class="dv">2</span><span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="pattern-3-multiple-inputs-one-output" class="level3">
-<h3 class="anchored" data-anchor-id="pattern-3-multiple-inputs-one-output">Pattern 3: Multiple Inputs, One Output</h3>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    ui.input_text(<span class="st">"first_name"</span>, <span class="st">"First name:"</span>),</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    ui.input_text(<span class="st">"last_name"</span>, <span class="st">"Last name:"</span>),</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"full_name"</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> full_name():</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>first_name()<span class="sc">}</span><span class="ss"> </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>last_name()<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="pattern-4-reactive-calculation-for-shared-logic" class="level3">
-<h3 class="anchored" data-anchor-id="pattern-4-reactive-calculation-for-shared-logic">Pattern 4: Reactive Calculation for Shared Logic</h3>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"value"</span>, <span class="st">"Pick a number:"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">50</span>),</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"analysis"</span>),</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"category"</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Shared calculation</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> processed_value():</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">input</span>.value() <span class="op">*</span> <span class="fl">1.5</span>  <span class="co"># Some calculation</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> analysis():</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        val <span class="op">=</span> processed_value()</span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"Processed: </span><span class="sc">{</span>val<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span>  </span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> category():</span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        val <span class="op">=</span> processed_value()</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> val <span class="op">&lt;</span> <span class="dv">50</span>:</span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"Low"</span></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"High"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="a-complete-beginner-example-auckland-suburbs-explorer" class="level2">
-<h2 class="anchored" data-anchor-id="a-complete-beginner-example-auckland-suburbs-explorer">A Complete Beginner Example: Auckland Suburbs Explorer</h2>
-<p>Let’s put it all together with a realistic but simple example:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>suburbs <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'name'</span>: [<span class="st">'Ponsonby'</span>, <span class="st">'Parnell'</span>, <span class="st">'Mt Eden'</span>, <span class="st">'Newmarket'</span>, <span class="st">'Grey Lynn'</span>, <span class="st">'Remuera'</span>],</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'population'</span>: [<span class="dv">12500</span>, <span class="dv">8900</span>, <span class="dv">15300</span>, <span class="dv">11200</span>, <span class="dv">14800</span>, <span class="dv">9600</span>],</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'median_age'</span>: [<span class="dv">34</span>, <span class="dv">42</span>, <span class="dv">38</span>, <span class="dv">41</span>, <span class="dv">36</span>, <span class="dv">45</span>],</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'median_income'</span>: [<span class="dv">75000</span>, <span class="dv">95000</span>, <span class="dv">68000</span>, <span class="dv">82000</span>, <span class="dv">71000</span>, <span class="dv">105000</span>]</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># UI</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    ui.h2(<span class="st">"Auckland Suburbs Explorer"</span>),</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    ui.p(<span class="st">"Filter suburbs and explore their characteristics"</span>),</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filters</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(</span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"min_population"</span>,</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Minimum Population:"</span>,</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">min</span><span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">max</span><span class="op">=</span><span class="dv">20000</span>,</span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>        value<span class="op">=</span><span class="dv">0</span>,</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>        step<span class="op">=</span><span class="dv">2000</span></span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(</span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"min_income"</span>,</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Minimum Median Income:"</span>,</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        <span class="bu">min</span><span class="op">=</span><span class="dv">60000</span>,</span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        <span class="bu">max</span><span class="op">=</span><span class="dv">110000</span>,</span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>        value<span class="op">=</span><span class="dv">60000</span>,</span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>        step<span class="op">=</span><span class="dv">5000</span></span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>    ui.hr(),  <span class="co"># A horizontal line</span></span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Outputs</span></span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>    ui.h4(<span class="st">"Results"</span>),</span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"summary"</span>),</span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>    ui.output_table(<span class="st">"filtered_table"</span>),</span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>    ui.output_plot(<span class="st">"income_chart"</span>)</span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Server</span></span>
-<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reactive: filter suburbs</span></span>
-<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered_suburbs():</span>
-<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Apply both population and income filters"""</span></span>
-<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> suburbs.copy()</span>
-<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> data[data[<span class="st">'population'</span>] <span class="op">&gt;=</span> <span class="bu">input</span>.min_population()]</span>
-<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> data[data[<span class="st">'median_income'</span>] <span class="op">&gt;=</span> <span class="bu">input</span>.min_income()]</span>
-<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> data</span>
-<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output 1: Text summary</span></span>
-<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> summary():</span>
-<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> filtered_suburbs()</span>
-<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> <span class="bu">len</span>(data)</span>
-<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="st">"No suburbs match your filters. Try relaxing the criteria."</span></span>
-<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a>            avg_pop <span class="op">=</span> data[<span class="st">'population'</span>].mean()</span>
-<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="ss">f"Found </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> suburbs with average population of </span><span class="sc">{</span>avg_pop<span class="sc">:,.0f}</span><span class="ss">"</span></span>
-<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output 2: Table</span></span>
-<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.table</span></span>
-<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered_table():</span>
-<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> filtered_suburbs()</span>
-<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Format for display</span></span>
-<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>        display <span class="op">=</span> data[[<span class="st">'name'</span>, <span class="st">'population'</span>, <span class="st">'median_age'</span>, <span class="st">'median_income'</span>]].copy()</span>
-<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a>        display.columns <span class="op">=</span> [<span class="st">'Suburb'</span>, <span class="st">'Population'</span>, <span class="st">'Median Age'</span>, <span class="st">'Median Income ($)'</span>]</span>
-<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> display</span>
-<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output 3: Chart</span></span>
-<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
-<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> income_chart():</span>
-<span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> filtered_suburbs()</span>
-<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">len</span>(data) <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Show message if no data</span></span>
-<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a>            fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a>            ax.text(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="st">'No data to display'</span>, </span>
-<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a>                   ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
-<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a>            ax.axis(<span class="st">'off'</span>)</span>
-<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> fig</span>
-<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb20-91"><a href="#cb20-91" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create bar chart</span></span>
-<span id="cb20-92"><a href="#cb20-92" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb20-93"><a href="#cb20-93" aria-hidden="true" tabindex="-1"></a>        ax.barh(data[<span class="st">'name'</span>], data[<span class="st">'median_income'</span>], color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
-<span id="cb20-94"><a href="#cb20-94" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">'Median Income ($)'</span>)</span>
-<span id="cb20-95"><a href="#cb20-95" aria-hidden="true" tabindex="-1"></a>        ax.set_title(<span class="st">'Income by Suburb'</span>)</span>
-<span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a>        plt.tight_layout()</span>
-<span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb20-98"><a href="#cb20-98" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
-<span id="cb20-99"><a href="#cb20-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-100"><a href="#cb20-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Create app</span></span>
-<span id="cb20-101"><a href="#cb20-101" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>What makes this work?</strong></p>
-<ol type="1">
-<li>Two sliders provide input: minimum population and minimum income</li>
-<li>One reactive calculation (<code>filtered_suburbs()</code>) applies both filters</li>
-<li>Three outputs all use the same filtered data:
+<section id="a-worked-example-a-suburbs-explorer-that-feels-right" class="level2">
+<h2 class="anchored" data-anchor-id="a-worked-example-a-suburbs-explorer-that-feels-right">A worked example: a suburbs explorer that feels right</h2>
+<p>Let’s put the three ideas together in one app. Users pick a city and a minimum population. A reactive calc filters the data. One output shows a table, another shows a chart. A “Log” button writes the current selection to the console without rerunning the filter.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"city"</span>: [<span class="st">"Auckland"</span>] <span class="op">*</span> <span class="dv">5</span> <span class="op">+</span> [<span class="st">"Wellington"</span>] <span class="op">*</span> <span class="dv">4</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"suburb"</span>: [<span class="st">"Ponsonby"</span>, <span class="st">"Parnell"</span>, <span class="st">"Mt Eden"</span>, <span class="st">"Newmarket"</span>, <span class="st">"Grey Lynn"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Kelburn"</span>, <span class="st">"Newtown"</span>, <span class="st">"Karori"</span>, <span class="st">"Thorndon"</span>],</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"population"</span>: [<span class="dv">12500</span>, <span class="dv">8900</span>, <span class="dv">15300</span>, <span class="dv">11200</span>, <span class="dv">14800</span>, <span class="dv">4500</span>, <span class="dv">9800</span>, <span class="dv">15200</span>, <span class="dv">3100</span>],</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"median_income"</span>: [<span class="dv">75000</span>, <span class="dv">95000</span>, <span class="dv">68000</span>, <span class="dv">82000</span>, <span class="dv">71000</span>, <span class="dv">62000</span>, <span class="dv">58000</span>, <span class="dv">78000</span>, <span class="dv">88000</span>],</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    ui.h3(<span class="st">"Suburbs explorer"</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    ui.input_select(<span class="st">"city"</span>, <span class="st">"City"</span>, choices<span class="op">=</span><span class="bu">sorted</span>(data[<span class="st">"city"</span>].unique())),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"min_pop"</span>, <span class="st">"Minimum population"</span>, <span class="dv">0</span>, <span class="dv">20000</span>, <span class="dv">0</span>, step<span class="op">=</span><span class="dv">1000</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    ui.input_action_button(<span class="st">"log"</span>, <span class="st">"Log current selection"</span>),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    ui.output_table(<span class="st">"tbl"</span>),</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    ui.output_plot(<span class="st">"chart"</span>),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered():</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> data[data[<span class="st">"city"</span>] <span class="op">==</span> <span class="bu">input</span>.city()]</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df[df[<span class="st">"population"</span>] <span class="op">&gt;=</span> <span class="bu">input</span>.min_pop()]</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.table</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> tbl():</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> filtered()</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> chart():</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> filtered()</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        ax.barh(df[<span class="st">"suburb"</span>], df[<span class="st">"median_income"</span>], color<span class="op">=</span><span class="st">"steelblue"</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">"Median income"</span>)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.effect</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.event</span>(<span class="bu">input</span>.log)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _():</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> filtered()</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"[LOG] city=</span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>city()<span class="sc">}</span><span class="ss">, n=</span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss"> rows"</span>)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Walk through the reactive graph:</p>
 <ul>
-<li>Text summary shows how many suburbs match</li>
-<li>Table shows the matching suburbs</li>
-<li>Chart visualises their incomes</li>
-</ul></li>
-<li>When either slider moves, everything updates automatically</li>
-</ol>
+<li>Two sources: <code>input.city()</code> and <code>input.min_pop()</code>.</li>
+<li>One expression: <code>filtered()</code>, cached and shared between two render functions.</li>
+<li>Two observers (render): <code>tbl</code> and <code>chart</code>, both re-run when <code>filtered</code> changes.</li>
+<li>One observer (effect): <code>_</code>, gated by <code>@reactive.event(input.log)</code>. Only the button triggers it; the filter reads inside are “for free” because the observer is already running.</li>
+</ul>
+<p>Change the city or slider; only the table and chart redraw. Click “Log”; the message prints but nothing visible changes.</p>
 </section>
-<section id="what-youve-learned" class="level2">
-<h2 class="anchored" data-anchor-id="what-youve-learned">What You’ve Learned</h2>
+<section id="what-you-have-learned" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-have-learned">What you have learned</h2>
 <ul>
-<li><strong>Shiny apps have three parts</strong>: UI (what users see), server (logic), and app (combines them)</li>
-<li><strong>Inputs get information from users</strong>: sliders, text boxes, dropdowns, etc.</li>
-<li><strong>Outputs show information to users</strong>: text, tables, plots, etc.</li>
-<li><strong>Reactivity is automatic</strong>: when an input changes, outputs update automatically</li>
-<li><strong>Reactive calculations share logic</strong>: use <code>@reactive.calc</code> to avoid repeating calculations</li>
-<li><strong>The reactive graph</strong>: Shiny tracks what depends on what</li>
+<li>Reactives come in three shapes: <strong>sources</strong> (inputs), <strong>expressions</strong> (<code>reactive.calc</code>), and <strong>observers</strong> (render functions, <code>reactive.effect</code>).</li>
+<li><code>reactive.calc</code> is for values; <code>reactive.effect</code> is for side effects.</li>
+<li><code>@reactive.event(input.x)</code> restricts a reactive to re-run only when <code>input.x</code> changes.</li>
+<li><code>reactive.isolate</code> reads a value without creating a dependency. Rarely needed.</li>
 </ul>
 </section>
-<section id="practice-exercise" class="level2">
-<h2 class="anchored" data-anchor-id="practice-exercise">Practice Exercise</h2>
-<p>Try modifying the suburbs explorer example:</p>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
 <ol type="1">
-<li>Add another filter (e.g., maximum median age)</li>
-<li>Add a new output showing the suburb with highest income</li>
-<li>Change the chart to show population instead of income</li>
-<li>Add a checkbox to show/hide the chart</li>
+<li>In the worked example, move the filter logic directly into <code>tbl()</code> and <code>chart()</code> (so <code>filtered</code> is gone). Verify the app still works. Now add a <code>print("filtering...")</code> inside the filter code. Move the slider. Count how many times the message prints per slider move.</li>
+<li>Add a second action button “Reset” that sets the slider back to 0. You will need <code>ui.update_slider("min_pop", value=0)</code> inside a <code>@reactive.effect</code> gated by <code>@reactive.event(input.reset)</code>.</li>
+<li>Rewrite the Log observer so it writes the filtered DataFrame to <code>snapshot.csv</code> every time the button is pressed. Use <code>reactive.isolate</code> (or <code>@reactive.event</code>) so that typing in other inputs does not cause spurious writes.</li>
+<li>Explain in one sentence the difference between: <code>@render.text def x(): return input.n()</code>, <code>@reactive.calc def x(): return input.n()</code>, and <code>@reactive.effect def x(): print(input.n())</code>.</li>
 </ol>
-</section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<p>Now that you understand the basics of reactivity, you can: - Add more complex filters - Work with real spatial data from GeoPandas - Create multi-page applications - Learn about advanced reactive patterns</p>
-<p>The key insight: <strong>you focus on WHAT should happen, and Shiny handles WHEN it happens</strong>.</p>
 </section>
 <section id="further-reading" class="level2">
-<h2 class="anchored" data-anchor-id="further-reading">Further Reading</h2>
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
 <ul>
-<li><a href="https://shiny.posit.co/py/docs/get-started.html">Shiny for Python: Getting Started</a></li>
-<li><a href="https://shiny.posit.co/py/docs/reactive-programming.html">Shiny for Python: Basic Reactivity</a></li>
-<li><a href="https://shiny.posit.co/py/api/ui/">Input Widgets Gallery</a></li>
+<li>Wickham, <a href="https://mastering-shiny.org/action-intro.html">Mastering Shiny, Chapter 3: Basic reactivity</a>. The R version.</li>
+<li>Posit, <a href="https://shiny.posit.co/py/docs/reactive-patterns.html">Reactivity patterns in Shiny for Python</a>.</li>
+<li>Joe Cheng, <a href="https://www.youtube.com/watch?v=5KExAdr_9kY">Effective reactive programming</a> (talk, R-centric but all ideas transfer).</li>
 </ul>
 
 
@@ -1498,13 +970,13 @@ Benefit: Filtering happens ONCE, used TWICE</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3.1.webgis-wasm-shiny.html" class="pagination-link" aria-label="3.1 Web GIS, WASM, and Shiny">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.1 Web GIS, WASM, and Shiny</span>
+      <a href="./3.1.webgis-wasm-shiny.html" class="pagination-link" aria-label="3.1. Your First Shiny App">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.1. Your First Shiny App</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./3.3.routing-and-congestion.html" class="pagination-link" aria-label="3.3. Routing and Congestion Analysis">
-        <span class="nav-page-text">3.3. Routing and Congestion Analysis</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./3.3.routing-and-congestion.html" class="pagination-link" aria-label="3.3. Decorators and UI Polish">
+        <span class="nav-page-text">3.3. Decorators and UI Polish</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

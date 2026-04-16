@@ -595,7 +595,7 @@ Before Week 1, ensure you can:
 | 11 | 25 May | Walkability and Policy \ Poster showcase | - |
 | 12 | 1 June | **NO LECTURE (King's Birthday) - Labs only** | **Package submission due** |
 
-**Note on Assignment 2**: Due date moved to 8 May (Thursday of Week 8) to account for ANZAC Day week having no lecture. Students get Week 7 labs to work on dashboards.
+**Note on Assignment 2**: Due Sunday 10 May 2026, 23:59 NZST. The ANZAC Day week has no lecture, so students get the Week 7 lab to work on dashboards.
 
 **Note on Assignment 3 & Poster**: Both due 7 June. Poster showcase event at separate venue (details to be announced).
 

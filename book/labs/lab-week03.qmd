@@ -15,7 +15,7 @@ Today we focus on **data visualisation** using three Python libraries, each with
 
 **Structure:**
 
-| Part | Topic | Approx. Time |
+| Section | Topic | Approx. Time |
 |------|-------|--------------|
 | 1 | Palmer Penguins dataset | 10 min |
 | 2 | Matplotlib | 30 min |
@@ -30,7 +30,7 @@ I promised to prepare the Polars package material, but could not get it ready in
 
 ---
 
-# Part 1: The Palmer Penguins Dataset {.unnumbered}
+# Section 1: The Palmer Penguins Dataset {.unnumbered}
 
 ## About the Data
 
@@ -104,7 +104,7 @@ print(penguins["island"].value_counts())
 
 ---
 
-# Part 2: Matplotlib {.unnumbered}
+# Section 2: Matplotlib {.unnumbered}
 
 `matplotlib` is the foundational plotting library in Python. It is very well tested, robust, and can reproduce just about any plot (sometimes with a lot of effort). The trade-off is that the syntax can be verbose and imperative, and it has limited support for interactive or web graphics out of the box.
 
@@ -210,7 +210,7 @@ plt.show()
 
 ---
 
-# Part 3: Seaborn {.unnumbered}
+# Section 3: Seaborn {.unnumbered}
 
 `seaborn` is built on top of matplotlib and adds a high-level interface for drawing statistical graphics. It integrates closely with pandas DataFrames and handles grouping, faceting, and colour palettes automatically.
 
@@ -366,7 +366,7 @@ FacetGrid creates a grid of panels, one per category. This is ideal for comparin
 
 ---
 
-# Part 4: Altair {.unnumbered}
+# Section 4: Altair {.unnumbered}
 
 [Altair](https://altair-viz.github.io/) takes a fundamentally different approach from matplotlib and seaborn. Instead of writing imperative instructions ("draw a dot here, add a line there"), you write a **declarative specification**: you describe *what* the visualisation should show and let the library determine the details. Altair relies on the [Vega-Lite](https://vega.github.io/vega-lite/) JavaScript grammar of graphics.
 

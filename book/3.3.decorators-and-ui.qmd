@@ -1,0 +1,243 @@
+# 3.3. Decorators and UI Polish {.unnumbered}
+
+Your apps work. They are, however, a bit ugly. In this section we do two things: take a proper look at the decorators Shiny gives you (there are more than `@render.text` and `@reactive.calc`), and then make the UI look presentable using built-in layouts, cards, and themes.
+
+
+## What you will learn
+
+- Which `@render.*` decorator to use for which kind of output.
+- How to update an input from the server (`ui.update_*`).
+- How to lay an app out with a sidebar, tabs, and cards.
+- How to change the app theme with one line.
+
+
+## Decorators, the practical list
+
+Everything Shiny asks you to decorate falls into one of two buckets.
+
+**Reactive logic** (`@reactive.*`):
+
+| Decorator | What it does | Use it when |
+|-----------|--------------|-------------|
+| `@reactive.calc` | Cached value, lazy | Two or more outputs share a computation |
+| `@reactive.effect` | Side effect, eager | You need to log, write, or notify |
+| `@reactive.event(x)` | Gate a calc or effect on an input | Button-triggered actions |
+
+**Rendering outputs** (`@render.*`):
+
+| Decorator | Output placeholder | Return type |
+|-----------|--------------------|-------------|
+| `@render.text` | `ui.output_text("id")` | `str` |
+| `@render.text` with `ui.output_text_verbatim` | `ui.output_text_verbatim("id")` | `str` (preserves newlines) |
+| `@render.table` | `ui.output_table("id")` | `pandas.DataFrame` |
+| `@render.data_frame` | `ui.output_data_frame("id")` | `DataFrame` or `render.DataGrid` (interactive) |
+| `@render.plot` | `ui.output_plot("id")` | matplotlib `Figure` |
+| `@render.ui` | `ui.output_ui("id")` | any `ui.*` expression |
+| `@render_widget` (from `shinywidgets`) | `output_widget("id")` | an ipywidget (e.g. ipyleaflet Map) |
+
+A common beginner trap: `@render.table` gives a plain HTML table, which is fine but not sortable or scrollable. If you want a data grid, use `@render.data_frame` and return `render.DataGrid(df, filters=True)`. Small difference, big UX improvement.
+
+
+## Updating inputs from the server
+
+Sometimes you want to change an input programmatically, for example resetting a slider when a button is clicked or repopulating a dropdown after a filter changes. Every `ui.input_*` has a matching `ui.update_*`:
+
+```python
+@reactive.effect
+@reactive.event(input.reset)
+def _():
+    ui.update_slider("min_pop", value=0)
+    ui.update_select("city", selected="Auckland")
+```
+
+Call `ui.update_*` from inside a `reactive.effect`. Shiny takes care of pushing the change to the browser.
+
+
+## Giving your app a real layout
+
+Until now every app has been a flat `ui.page_fluid`: stack everything from top to bottom. That is fine for five lines, poor for fifty.
+
+### Sidebar layout
+
+The default "dashboard" look is controls on the left, output on the right. One line:
+
+```python
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+        ui.input_select("city", "City", choices=[...]),
+        ui.input_slider("min_pop", "Minimum population", 0, 20000, 0),
+    ),
+    ui.output_plot("chart"),
+    ui.output_table("tbl"),
+    title="Suburbs explorer",
+)
+```
+
+The sidebar collapses on narrow screens; you get responsive design for free.
+
+### Tabs with `ui.navset_tab`
+
+Multiple pages inside one app:
+
+```python
+app_ui = ui.page_fluid(
+    ui.navset_tab(
+        ui.nav_panel("Overview",
+            ui.output_text("summary"),
+        ),
+        ui.nav_panel("Map",
+            output_widget("map"),
+        ),
+        ui.nav_panel("Data",
+            ui.output_data_frame("tbl"),
+        ),
+    ),
+)
+```
+
+For a top-of-page navigation bar instead (better for dashboards with three or more pages), use `ui.page_navbar(...)` at the outer level.
+
+### Cards
+
+Cards are little boxed-off sections that group related content. They are the visual building block most modern dashboards use:
+
+```python
+ui.layout_columns(
+    ui.card(
+        ui.card_header("Summary"),
+        ui.output_text("summary"),
+    ),
+    ui.card(
+        ui.card_header("Chart"),
+        ui.output_plot("chart"),
+    ),
+    col_widths=[4, 8],
+)
+```
+
+`ui.layout_columns` uses a 12-column grid (the same one Bootstrap uses). The `col_widths` argument controls how each child spans. For three equal columns, use `[4, 4, 4]`.
+
+
+## Themes
+
+Shiny ships with Bootstrap under the hood, so you can swap the look by setting a theme. The easiest way uses `shinyswatch` (a small helper package):
+
+```bash
+uv add shinyswatch
+```
+
+```python
+import shinyswatch
+
+app_ui = ui.page_sidebar(
+    ...,
+    theme=shinyswatch.theme.flatly,  # try: cosmo, journal, minty, darkly
+)
+```
+
+Pick one that suits your dashboard and stick with it. Do not mix themes mid-app.
+
+
+## A small worked example
+
+Here is the suburbs explorer from 3.2, rewritten with a sidebar layout, a navset, cards, and a theme. The logic is identical; only the UI changed.
+
+```python
+from shiny import App, ui, render, reactive
+from shiny.render import DataGrid
+import shinyswatch
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.DataFrame({
+    "city": ["Auckland"] * 5 + ["Wellington"] * 4,
+    "suburb": ["Ponsonby", "Parnell", "Mt Eden", "Newmarket", "Grey Lynn",
+               "Kelburn", "Newtown", "Karori", "Thorndon"],
+    "population": [12500, 8900, 15300, 11200, 14800, 4500, 9800, 15200, 3100],
+    "median_income": [75000, 95000, 68000, 82000, 71000, 62000, 58000, 78000, 88000],
+})
+
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+        ui.input_select("city", "City", choices=sorted(data["city"].unique())),
+        ui.input_slider("min_pop", "Minimum population", 0, 20000, 0, step=1000),
+        ui.input_action_button("reset", "Reset filters"),
+    ),
+    ui.navset_tab(
+        ui.nav_panel("Summary",
+            ui.card(
+                ui.card_header("Results"),
+                ui.output_text("summary"),
+            ),
+        ),
+        ui.nav_panel("Chart",
+            ui.card(
+                ui.card_header("Median income by suburb"),
+                ui.output_plot("chart"),
+            ),
+        ),
+        ui.nav_panel("Data",
+            ui.output_data_frame("grid"),
+        ),
+    ),
+    title="Suburbs explorer",
+    theme=shinyswatch.theme.flatly,
+)
+
+def server(input, output, session):
+
+    @reactive.calc
+    def filtered():
+        df = data[data["city"] == input.city()]
+        return df[df["population"] >= input.min_pop()]
+
+    @render.text
+    def summary():
+        df = filtered()
+        return f"{len(df)} suburbs, mean income ${df['median_income'].mean():,.0f}"
+
+    @render.plot
+    def chart():
+        df = filtered()
+        fig, ax = plt.subplots(figsize=(7, 4))
+        ax.barh(df["suburb"], df["median_income"], color="steelblue")
+        ax.set_xlabel("Median income")
+        return fig
+
+    @render.data_frame
+    def grid():
+        return DataGrid(filtered(), filters=True)
+
+    @reactive.effect
+    @reactive.event(input.reset)
+    def _():
+        ui.update_slider("min_pop", value=0)
+
+app = App(app_ui, server)
+```
+
+Same five inputs and outputs as before, but it now looks like a dashboard rather than a form.
+
+
+## What you have learned
+
+- Each output type has its own `@render.*` decorator and matching `ui.output_*` placeholder.
+- `@render.data_frame` with `render.DataGrid` gives you a sortable, filterable table for free.
+- `ui.update_*` changes an input from the server side; call it from a `reactive.effect`.
+- `ui.page_sidebar`, `ui.navset_tab`, and `ui.card` cover most real layouts.
+- `shinyswatch` lets you swap themes with one argument.
+
+
+## Exercises
+
+1. Take your app from 3.2 and restructure it into `page_sidebar` with a sidebar holding the inputs.
+2. Add a third tab that shows a map (ipyleaflet) centred on Auckland with one marker. You will need `from shinywidgets import output_widget, render_widget`.
+3. Replace the `@render.table` in your 3.2 app with `@render.data_frame` returning `DataGrid(df, filters=True)`. Try filtering inside the table; does the chart above respond to your filter or not? (Answer: no; the chart reads `filtered()`, not the grid's own filter state.)
+4. Try three different shinyswatch themes. Which one looks least busy for an analytics dashboard?
+
+
+## Further reading
+
+- Posit, [Shiny for Python UI layouts](https://shiny.posit.co/py/layouts/).
+- Posit, [Shiny for Python components gallery](https://shiny.posit.co/py/components/).
+- [shinyswatch themes](https://posit-dev.github.io/py-shinyswatch/).

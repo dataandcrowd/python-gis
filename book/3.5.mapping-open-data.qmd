@@ -1,0 +1,242 @@
+# 3.5. Mapping Auckland Open Data {.unnumbered}
+
+Section 3.4 showed how to get a map into a Shiny app that runs in the browser. This section is about the **data** that goes on the map. Most Auckland datasets you will want for Assignment 2 are just a download away, served by two open-data portals:
+
+- **Auckland Transport GIS**, for buses, ferries, bike counts, road assets.
+- **Auckland Council Open Data**, for parks, zoning, demographics.
+
+Stats NZ's Data Finder adds a third source, which is useful if you want to work with commuter flows instead of infrastructure.
+
+By the end of this section you will know how to load the three shapes of data you meet in practice (points, lines, polygons), render any of them in an ipyleaflet map, and wire them into a small Shiny app.
+
+
+## What you will learn
+
+- Where Auckland's open data lives, and what formats to expect.
+- How to load polygons, lines, and points into GeoPandas.
+- How to render each on an ipyleaflet map with a meaningful colour scheme.
+- How to wrap that map in a Shiny app with one filter.
+
+
+## The three shapes of data
+
+Almost every geospatial dataset you will touch in this course is one of three things:
+
+| Shape    | Example in Auckland              | Typical file format |
+|----------|----------------------------------|---------------------|
+| Polygon  | Parks, suburbs, mesh blocks      | GeoJSON, GeoPackage |
+| Line     | Bus routes, ferry routes, roads  | GeoJSON, GeoPackage |
+| Point    | Bus stops, ferry terminals, bike counters | GeoJSON, CSV with lat/lon |
+
+Each portal exposes an "Export" button that gives you GeoJSON or shapefile. For shinylive, GeoJSON is the friendliest because geopandas reads it with no extra drivers.
+
+
+## Where to get the data
+
+Three data tracks for Assignment 2, with a ready-to-use URL for each. You will be **randomly assigned** to one of these on 21 April at 13:10, so read all three in advance.
+
+### Track A: Public Transport (Auckland Transport)
+
+- **Patronage time series (required for this track):** [AT Data Sources](https://at.govt.nz/about-us/at-data-sources). Monthly patronage by mode (bus, train, ferry).
+- Bus stops (points): [Bus service, layer 3](https://data-atgis.opendata.arcgis.com/datasets/ATgis::busservice?layer=3)
+- Bus routes (lines): [Bus service, layer 2](https://data-atgis.opendata.arcgis.com/datasets/ATgis::busservice/explore?layer=2)
+- Ferry routes (lines and points): [Ferry service, layer 1](https://data-atgis.opendata.arcgis.com/datasets/ATgis::ferryservice/explore?layer=1)
+
+Click **Download → GeoJSON** on the ArcGIS pages for spatial layers, and download the patronage CSV from the AT data-sources page.
+
+### Track B: Commuter and Student flows (Stats NZ)
+
+- [2023 Census commuter dataset](https://datafinder.stats.govt.nz/data/category/census/2023/commuter-dataset/) (travel to work).
+- The matching student dataset on the same Stats NZ portal (travel to study).
+
+Both are tabular (CSV), keyed by area codes. Join to SA2 boundaries (also on Stats NZ Data Finder) to map them. The Assignment 2 brief asks for a **side-by-side comparison** of commuter and student flows.
+
+### Track C: Auckland crashes (Auckland Transport)
+
+- [Where crashes are happening in Auckland](https://at.govt.nz/about-us/reports-publications/where-crashes-are-happening-in-auckland): crash records as points, typically attributed with severity, year, and mode involved.
+
+Download the dataset behind the page and load it as a GeoDataFrame (GeoJSON or a CSV with lat/lon that you convert with `gpd.points_from_xy`).
+
+
+## Loading each shape
+
+The code is almost identical regardless of geometry type. `geopandas.read_file` handles all three.
+
+```python
+import geopandas as gpd
+
+# Polygons: Auckland parks
+parks = gpd.read_file("data/auckland_parks.geojson")
+
+# Lines: AT bus routes
+routes = gpd.read_file("data/at_bus_routes.geojson")
+
+# Points: AT bus stops
+stops = gpd.read_file("data/at_bus_stops.geojson")
+
+# Peek at the attributes
+print(parks.columns)
+print(parks.head())
+```
+
+For the commuter dataset, load as a plain pandas DataFrame, then merge with the matching SA2 boundary:
+
+```python
+import pandas as pd
+
+flows = pd.read_csv("data/commuter_flows_2023.csv")
+sa2   = gpd.read_file("data/sa2_boundaries.geojson")
+
+# Aggregate flows per origin SA2
+origins = flows.groupby("SA2_code_usual_residence")["count"].sum().reset_index()
+origins_gdf = sa2.merge(origins, left_on="SA2_code", right_on="SA2_code_usual_residence")
+```
+
+
+## Keeping files shinylive-friendly
+
+A full Auckland dataset can be tens of megabytes. That is fine locally, but shinylive bundles every file your app reads into the browser. Trim before you bundle.
+
+A few practical tricks:
+
+- Simplify polygons with `gdf.geometry = gdf.geometry.simplify(tolerance=5)` (tolerance in metres if your CRS is NZTM 2193).
+- Drop columns you do not use. `gdf[["name", "area_ha", "geometry"]].to_file("parks_slim.geojson", driver="GeoJSON")`.
+- Re-save as GeoPackage (`.gpkg`) for roughly 2-3x smaller files than GeoJSON.
+- Aim for under 5 MB total in your `data/` folder.
+
+
+## Rendering each shape in ipyleaflet
+
+The pattern is the same for all three: create the Map, add a layer.
+
+### Polygons
+
+```python
+from ipyleaflet import Map, GeoData
+import geopandas as gpd
+
+parks = gpd.read_file("data/auckland_parks.geojson").to_crs(4326)
+
+m = Map(center=(-36.85, 174.77), zoom=11)
+m.add_layer(GeoData(
+    geo_dataframe=parks,
+    style={"color": "#2b8a3e", "fillColor": "#a9dfbf",
+           "opacity": 0.8, "fillOpacity": 0.5, "weight": 1},
+    name="Parks",
+))
+m
+```
+
+### Lines
+
+```python
+routes = gpd.read_file("data/at_bus_routes.geojson").to_crs(4326)
+
+m = Map(center=(-36.85, 174.77), zoom=11)
+m.add_layer(GeoData(
+    geo_dataframe=routes,
+    style={"color": "#d73027", "weight": 2, "opacity": 0.8},
+    name="Bus routes",
+))
+m
+```
+
+### Points
+
+```python
+from ipyleaflet import CircleMarker, LayerGroup
+
+stops = gpd.read_file("data/at_bus_stops.geojson").to_crs(4326)
+
+markers = [CircleMarker(location=(row.geometry.y, row.geometry.x),
+                        radius=3, color="#1f78b4", fill_color="#1f78b4")
+           for _, row in stops.head(500).iterrows()]
+
+m = Map(center=(-36.85, 174.77), zoom=12)
+m.add_layer(LayerGroup(layers=tuple(markers), name="Bus stops"))
+m
+```
+
+The first 500 is deliberate: ipyleaflet handles a few thousand CircleMarkers comfortably, but tens of thousands will crawl. Aggregate to a cluster layer if you need more.
+
+
+## A small Shiny app: parks by minimum size
+
+Here is a complete, runnable app using the parks dataset. A slider filters parks by area, and the map updates in response.
+
+```python
+from shiny import App, ui, render, reactive
+from shinywidgets import output_widget, render_widget
+from ipyleaflet import Map, GeoData
+import geopandas as gpd
+
+# Load once at module level (outside the server)
+parks = gpd.read_file("data/auckland_parks.geojson").to_crs(4326)
+parks["area_ha"] = parks.geometry.to_crs(2193).area / 10_000  # hectares
+
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+        ui.input_slider("min_area", "Minimum park area (ha)",
+                        0, int(parks["area_ha"].max()), 0, step=1),
+        ui.output_text("summary"),
+    ),
+    ui.card(
+        ui.card_header("Auckland parks"),
+        output_widget("parks_map"),
+    ),
+    title="Auckland parks explorer",
+)
+
+def server(input, output, session):
+
+    @reactive.calc
+    def filtered():
+        return parks[parks["area_ha"] >= input.min_area()]
+
+    @render.text
+    def summary():
+        df = filtered()
+        return f"{len(df)} parks, total {df['area_ha'].sum():,.0f} ha."
+
+    @render_widget
+    def parks_map():
+        m = Map(center=(-36.85, 174.77), zoom=11)
+        m.add_layer(GeoData(
+            geo_dataframe=filtered(),
+            style={"color": "#2b8a3e", "fillColor": "#a9dfbf",
+                   "opacity": 0.8, "fillOpacity": 0.5, "weight": 1},
+            name="Parks",
+        ))
+        return m
+
+app = App(app_ui, server)
+```
+
+Move the slider: the number of parks and the map update together. Both outputs read the same `filtered()` calc, which means the filter runs once, not twice, for every slider change. That is the reactive pattern from 3.2 applied to real data.
+
+You can adapt this shape directly for bus routes (swap parks for routes, area for trips per day) or for commuter flows (swap parks for SA2 polygons, area for flow count).
+
+
+## Small exercises
+
+1. Swap the parks layer for the bus-routes layer. Change the slider to "minimum route length (km)".
+2. Add a `CircleMarker` layer on top of the parks showing playgrounds (another Auckland Council dataset). Make the radius proportional to the playground's catchment.
+3. Use the commuter dataset to render a choropleth of people commuting **out** of each SA2. Colour by number of outbound commuters.
+4. Write a one-line `@reactive.calc` that caches the loaded GeoDataFrame so it is not recomputed on every filter change. (Hint: you do not need one. Why?)
+
+
+## What you have learned
+
+- Auckland's open data lives at three portals: AT GIS, Auckland Council, and Stats NZ.
+- GeoJSON is the most portable format; aim for under 5 MB in shinylive.
+- Polygons, lines, and points all render through ipyleaflet's `GeoData` (or `CircleMarker` for point collections).
+- A Shiny app that maps real data is just the 3.4 skeleton with a `geopandas.read_file` at the top and a meaningful filter on the slider.
+
+
+## Further reading
+
+- [Auckland Transport GIS portal](https://data-atgis.opendata.arcgis.com/)
+- [Auckland Council Open Data](https://data-aucklandcouncil.opendata.arcgis.com/)
+- [Stats NZ Data Finder](https://datafinder.stats.govt.nz/)
+- [ipyleaflet GeoData reference](https://ipyleaflet.readthedocs.io/en/latest/layers/geo_data.html)
+- GeoPandas, [Managing projections](https://geopandas.org/en/stable/docs/user_guide/projections.html): the quick way to stop "my data is in the wrong place" bugs.

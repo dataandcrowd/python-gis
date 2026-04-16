@@ -1,0 +1,226 @@
+# 3.1. Your First Shiny App {.unnumbered}
+
+> Adapted from Posit's [Create and run](https://shiny.posit.co/py/get-started/create-run.html) and [Debug, troubleshoot, and help](https://shiny.posit.co/py/get-started/debug.html) tutorials.
+
+In this section you will create a Shiny project, run it locally, and learn how to find out what is wrong when something breaks. We will not yet do anything clever; the goal is to get you fluent with the workflow so that the rest of Part 3 is about ideas, not setup.
+
+
+## What you will learn
+
+- The anatomy of a Shiny project: `app.py` and what lives next to it.
+- How to scaffold a new app with `shiny create`.
+- How to run an app, and how the auto-reload loop speeds you up.
+- How to read a Shiny error message and debug a stuck app.
+
+
+## Before you start
+
+Install Shiny into your project environment. If you are using `uv` (from 1.2), run:
+
+```bash
+# Create and move into your shiny application directory
+mkdir myapp
+cd myapp
+
+# Create a virtual environment, defaults to .venv
+uv venv
+
+# Activate the virtual environment
+source .venv/bin/activate
+# .venv\Scripts\Activate.ps1 # on Windows (PowerShell)
+
+# Your prompt will prepend with the current directory name
+
+# Install into venv
+uv pip install shiny
+```
+
+You will also want the Shiny extension for Positron (or VS Code), which gives you a "Run Shiny App" button. Without it, you can still run an app from the terminal:
+
+```bash
+shiny run --reload app.py
+```
+
+The `--reload` flag restarts the app whenever you save the file. Very useful while learning.
+
+
+## The shape of a Shiny project
+
+A Shiny project is a folder. The minimum is one file:
+
+```
+myapp/
+└── app.py
+```
+
+For anything beyond a demo, you will quickly grow extras:
+
+```
+myapp/
+├── app.py              # the app itself
+├── pyproject.toml      # or requirements.txt, for dependencies
+├── data/               # any CSV, GeoJSON, GeoPackage you load
+├── www/                # static assets served at /www (images, CSS, downloads)
+└── README.md
+```
+
+Two conventions to remember:
+
+- Anything in `www/` is served at the URL `/your-file.png`. This is how you embed logos or downloadable PDFs.
+- The variable Shiny looks for at the bottom of `app.py` is called `app`. Rename it and Shiny will not find it.
+
+
+## Scaffolding with `shiny create`
+
+You do not have to start from a blank file. Shiny ships a generator:
+
+```bash
+shiny create
+```
+
+Check out the video here:
+
+![](figs/part3/shiny-create-positron.mp4)
+
+Running the shiny create command from a terminal, accepting default options, opening in Positron, and running the Shiny Application with the Run button.
+
+Run it interactively and pick a template. The useful ones for this course are:
+
+- **basic-app**: one input, one output. The smallest meaningful app.
+- **basic-navigation**: a multi-page navbar layout.
+- **dashboard**: a sidebar layout with cards. The starting point for Assignment 2.
+
+Each template drops a fresh folder with a working `app.py` you can run immediately.
+
+::: {.callout-tip}
+## Express vs Core syntax
+Shiny for Python supports two styles. **Core** (what this book uses) keeps the UI and server in two clearly-separated blocks. **Express** lets you write inline decorators with no explicit UI. Express is shorter for tiny apps; Core scales better and matches the R version. Stick to Core; everything in Part 3 assumes it.
+:::
+
+
+## Running the app
+
+Three ways, in order of how often you will use them:
+
+1. **In Positron/VS Code with the Shiny extension**: open `app.py` and click the green "Run Shiny App" button at the top right. The app opens in a side pane.
+2. **From the terminal**: `shiny run --reload app.py`. Open the URL it prints (usually `http://127.0.0.1:8000`). Saving the file in your editor restarts the app automatically.
+3. **On a non-default port**: `shiny run --port 8080 --reload app.py`. Useful if 8000 is already taken.
+
+Stop the app with `Ctrl+C` in the terminal.
+
+::: {.callout-note collapse="true"}
+## Why `--reload`
+Without `--reload`, Shiny only loads `app.py` once at startup. With it, Shiny watches the file (and the folder) and restarts the server on every save. This shortens the edit loop from "stop, start, refresh" to just "save". Always use `--reload` while developing; turn it off only when deploying.
+:::
+
+
+## A working example (Similar to the basic-app)
+
+Here is the smallest interesting Shiny app. Save it as `app.py` and run it.
+
+```python
+from shiny import App, ui, render
+
+app_ui = ui.page_fluid(
+    ui.h2("Hello Shiny"),
+    ui.input_slider("n", "Pick a number", 0, 100, 50),
+    ui.output_text("echo"),
+)
+
+def server(input, output, session):
+
+    @render.text
+    def echo():
+        return f"You picked {input.n()}"
+
+app = App(app_ui, server)
+```
+
+Three pieces, one of each kind:
+
+- `app_ui` is the **UI**: an expression describing what the user sees.
+- `server` is a **function** that takes `input`, `output`, `session` and defines how outputs are computed.
+- `app = App(app_ui, server)` is the **App object** Shiny looks for.
+
+Inside the server, `input.n()` reads the slider value (notice the parentheses). Wrapping `echo` with `@render.text` tells Shiny "this function fills the slot named `echo`". Shiny ties them together, runs `echo()` whenever `input.n()` changes, and pushes the result to the browser.
+
+That is the entire model. Everything in Part 3 builds on these three pieces.
+
+
+## Debugging: when things go wrong
+
+You will spend more time [debugging Shiny](https://shiny.posit.co/py/get-started/debug.html) than writing it. 
+Here are the four techniques that solve about 90% of problems.
+
+
+### 1. Read the traceback
+
+When the server raises an exception, Shiny prints a traceback in the terminal (where `shiny run` is running) **and** shows a banner in the browser. Read the **last** line first; it names the actual error. Then walk up the stack to see which of your functions called the offending code.
+
+Common ones:
+
+- `AttributeError: 'Inputs' object has no attribute 'n'`. You wrote `input.n` somewhere instead of `input.n()`, or the input id in the UI does not match.
+- `KeyError: 'population'`. A column you assumed in your DataFrame is not there. Check the actual columns.
+- `TypeError: cannot convert ...`. Often a render function returning the wrong type (e.g. a `Series` instead of a `Figure`).
+
+### 2. `print()` is your friend
+
+Shiny does not hide `print()` output. Anything you print from inside the server lands in the terminal where `shiny run` is running.
+
+```python
+@render.text
+def echo():
+    print(f"echo running with n={input.n()}")
+    return f"You picked {input.n()}"
+```
+
+Move the slider, watch the terminal. If `echo` does not print, it is not running, which is itself a useful clue (probably a name mismatch).
+
+### 3. The browser console
+
+Open the browser's developer tools. On Windows and Linux, press **F12**. On macOS, press **Cmd + Option + I** (or **Cmd + Option + J** to jump straight to the Console). In Safari, enable the Develop menu first via *Safari → Settings → Advanced → Show Develop menu*, then use **Cmd + Option + C**. The **Console** tab shows JavaScript errors; the **Network** tab shows messages between the browser and the Shiny server. Most of the time you will not need either, but when an output renders blank with no traceback, the browser console often has the answer.
+
+### 4. Silent failures: name mismatches
+
+If an output renders blank and there is no error, check that the id in `ui.output_*("foo")` matches the function name `def foo()` in the server. Shiny matches them by string. A typo is silent.
+
+```python
+ui.output_text("echo")          # placeholder is "echo"
+@render.text
+def eccho():                     # function is "eccho" (typo)
+    ...                          # placeholder stays empty, no error
+```
+
+::: {.callout-tip}
+## When you are properly stuck
+Two more techniques worth knowing about. **`reactlog`** (a separate package) records every reactive event in your app and visualises the dependency graph; it is invaluable when you cannot work out why something is or is not running. **The minimal repro** trick: cut your app down to the smallest version that still shows the bug, then post that to Stack Overflow or to the [Shiny Discord](https://discord.com/invite/yMGCamUMnS). You will often solve it yourself in the cutting.
+:::
+
+
+## What you have learned
+
+- A Shiny project is a folder; `app.py` is the entry point and the variable `app` is what Shiny looks for.
+- `shiny create` scaffolds a project from a template.
+- `shiny run --reload app.py` runs the app and restarts on save.
+- The three pieces of every app are the UI, the server function, and the App object.
+- Debugging usually means reading the traceback, sprinkling `print()`, checking the browser console, and verifying that input/output ids match.
+
+
+## Exercises
+
+1. Run `shiny create` and pick the **basic-app** template. Open the generated `app.py` and run it. Identify the UI, the server, and the App.
+2. Break the example app on purpose: rename `def echo()` to `def eccho()` but leave `ui.output_text("echo")` alone. Save and reload. What happens? Does anything appear in the terminal?
+3. Add a `print(input.n())` inside `echo`. Move the slider. How many lines print per slider tick? Why?
+4. Add a second input (`ui.input_text("name", "Your name")`) and change `echo` to greet the user with their name and chosen number. Stop and start the app **without** `--reload` to feel the difference.
+
+
+## Where next
+
+You can now create, run, and debug a Shiny app. Section 3.2 picks up the thread of reactivity: how to share computations across outputs, how to trigger work only when a button is clicked, and how to avoid the most common reactivity mistakes.
+
+
+## Further reading
+
+- Posit, [Shiny for Python: Create and run](https://shiny.posit.co/py/get-started/create-run.html).
+- Posit, [Shiny for Python: Debug, troubleshoot, and help](https://shiny.posit.co/py/get-started/debug.html).
+- Wickham, [Mastering Shiny, Chapter 1](https://mastering-shiny.org/basic-app.html). The R version of this section.

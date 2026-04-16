@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3.1. Your First Shiny App – Python GIS at UoA</title>
+<title>3.5. Routing and Congestion – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./3.2.shiny-functions-reactivity.html" rel="next">
-<link href="./3.0.chapter3-shiny_python.html" rel="prev">
+<link href="./3.4.webgis-shinylive.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -117,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3. Interactive Dashboards with Shiny for Python</a></li><li class="breadcrumb-item"><a href="./3.1.webgis-wasm-shiny.html">3.1. Your First Shiny App</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3. Interactive Dashboards with Shiny for Python</a></li><li class="breadcrumb-item"><a href="./3.5.routing-and-congestion.html">3.5. Routing and Congestion</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -250,38 +249,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.1.webgis-wasm-shiny.html" class="sidebar-item-text sidebar-link active">
+  <a href="./3.1.first-shiny-app.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.1. Your First Shiny App</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.2.shiny-functions-reactivity.html" class="sidebar-item-text sidebar-link">
+  <a href="./3.2.reactivity-in-action.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.2. Reactivity in Action</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.3.routing-and-congestion.html" class="sidebar-item-text sidebar-link">
+  <a href="./3.3.decorators-and-ui.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.3. Decorators and UI Polish</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.4.origin-destination.html" class="sidebar-item-text sidebar-link">
+  <a href="./3.4.webgis-shinylive.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.4. Web GIS in the Browser with shinylive</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.5.networks.html" class="sidebar-item-text sidebar-link">
+  <a href="./3.5.routing-and-congestion.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">3.5. Routing and Congestion</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3.6.shiny-assignment.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">3.6. Bus Networks and Assignment 2</span></a>
   </div>
 </li>
       </ul>
@@ -331,6 +324,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Lab Week 04</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Week 06</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -350,21 +349,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link active" data-scroll-target="#what-you-will-learn">What you will learn</a></li>
-  <li><a href="#before-you-start" id="toc-before-you-start" class="nav-link" data-scroll-target="#before-you-start">Before you start</a></li>
-  <li><a href="#the-shape-of-a-shiny-project" id="toc-the-shape-of-a-shiny-project" class="nav-link" data-scroll-target="#the-shape-of-a-shiny-project">The shape of a Shiny project</a></li>
-  <li><a href="#scaffolding-with-shiny-create" id="toc-scaffolding-with-shiny-create" class="nav-link" data-scroll-target="#scaffolding-with-shiny-create">Scaffolding with <code>shiny create</code></a></li>
-  <li><a href="#running-the-app" id="toc-running-the-app" class="nav-link" data-scroll-target="#running-the-app">Running the app</a></li>
-  <li><a href="#a-working-example-similar-to-the-basic-app" id="toc-a-working-example-similar-to-the-basic-app" class="nav-link" data-scroll-target="#a-working-example-similar-to-the-basic-app">A working example (Similar to the basic-app)</a></li>
-  <li><a href="#debugging-when-things-go-wrong" id="toc-debugging-when-things-go-wrong" class="nav-link" data-scroll-target="#debugging-when-things-go-wrong">Debugging: when things go wrong</a>
-  <ul class="collapse">
-  <li><a href="#read-the-traceback" id="toc-read-the-traceback" class="nav-link" data-scroll-target="#read-the-traceback">1. Read the traceback</a></li>
-  <li><a href="#print-is-your-friend" id="toc-print-is-your-friend" class="nav-link" data-scroll-target="#print-is-your-friend">2. <code>print()</code> is your friend</a></li>
-  <li><a href="#the-browser-console" id="toc-the-browser-console" class="nav-link" data-scroll-target="#the-browser-console">3. The browser console</a></li>
-  <li><a href="#silent-failures-name-mismatches" id="toc-silent-failures-name-mismatches" class="nav-link" data-scroll-target="#silent-failures-name-mismatches">4. Silent failures: name mismatches</a></li>
-  </ul></li>
+  <li><a href="#the-od-framing-in-one-paragraph" id="toc-the-od-framing-in-one-paragraph" class="nav-link" data-scroll-target="#the-od-framing-in-one-paragraph">The OD framing in one paragraph</a></li>
+  <li><a href="#travel-time" id="toc-travel-time" class="nav-link" data-scroll-target="#travel-time">Travel time</a></li>
+  <li><a href="#the-travel-time-index-tti" id="toc-the-travel-time-index-tti" class="nav-link" data-scroll-target="#the-travel-time-index-tti">The Travel Time Index (TTI)</a></li>
+  <li><a href="#the-volume-to-capacity-ratio-vc" id="toc-the-volume-to-capacity-ratio-vc" class="nav-link" data-scroll-target="#the-volume-to-capacity-ratio-vc">The Volume-to-Capacity ratio (V/C)</a></li>
+  <li><a href="#a-small-shiny-app-showing-link-level-congestion" id="toc-a-small-shiny-app-showing-link-level-congestion" class="nav-link" data-scroll-target="#a-small-shiny-app-showing-link-level-congestion">A small Shiny app showing link-level congestion</a></li>
+  <li><a href="#where-real-data-comes-from" id="toc-where-real-data-comes-from" class="nav-link" data-scroll-target="#where-real-data-comes-from">Where real data comes from</a></li>
+  <li><a href="#mapping-the-result" id="toc-mapping-the-result" class="nav-link" data-scroll-target="#mapping-the-result">Mapping the result</a></li>
   <li><a href="#what-you-have-learned" id="toc-what-you-have-learned" class="nav-link" data-scroll-target="#what-you-have-learned">What you have learned</a></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
-  <li><a href="#where-next" id="toc-where-next" class="nav-link" data-scroll-target="#where-next">Where next</a></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
 </nav>
@@ -372,9 +365,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3. Interactive Dashboards with Shiny for Python</a></li><li class="breadcrumb-item"><a href="./3.1.webgis-wasm-shiny.html">3.1. Your First Shiny App</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3.0.chapter3-shiny_python.html">Part 3. Interactive Dashboards with Shiny for Python</a></li><li class="breadcrumb-item"><a href="./3.5.routing-and-congestion.html">3.5. Routing and Congestion</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">3.1. Your First Shiny App</h1>
+<h1 class="title">3.5. Routing and Congestion</h1>
 </div>
 
 
@@ -391,217 +384,190 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<blockquote class="blockquote">
-<p>Adapted from Posit’s <a href="https://shiny.posit.co/py/get-started/create-run.html">Create and run</a> and <a href="https://shiny.posit.co/py/get-started/debug.html">Debug, troubleshoot, and help</a> tutorials.</p>
-</blockquote>
-<p>In this section you will create a Shiny project, run it locally, and learn how to find out what is wrong when something breaks. We will not yet do anything clever; the goal is to get you fluent with the workflow so that the rest of Part 3 is about ideas, not setup.</p>
+<p>Part 3 so far has been about Shiny itself. From here to the end of the chapter we shift to the <strong>content</strong> that goes into your Assignment 2 dashboard. Routing and congestion first (this section), bus networks next (3.6).</p>
+<p>The Shiny pieces you already know are enough. The new material is four ideas from transport analytics: travel time, the Travel Time Index, the Volume/Capacity ratio, and Level of Service. We will implement each as a small function, then wrap the lot in a Shiny app.</p>
 <section id="what-you-will-learn" class="level2">
 <h2 class="anchored" data-anchor-id="what-you-will-learn">What you will learn</h2>
 <ul>
-<li>The anatomy of a Shiny project: <code>app.py</code> and what lives next to it.</li>
-<li>How to scaffold a new app with <code>shiny create</code>.</li>
-<li>How to run an app, and how the auto-reload loop speeds you up.</li>
-<li>How to read a Shiny error message and debug a stuck app.</li>
+<li>The origin-destination (OD) framing transport analysts use.</li>
+<li>Three common congestion indicators (TTI, V/C ratio, LOS) and how to compute them.</li>
+<li>How to surface those indicators in a small Shiny dashboard.</li>
 </ul>
 </section>
-<section id="before-you-start" class="level2">
-<h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
-<p>Install Shiny into your project environment. If you are using <code>uv</code> (from 1.2), run:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and move into your shiny application directory</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> myapp</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> myapp</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a virtual environment, defaults to .venv</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate the virtual environment</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># .venv\Scripts\Activate.ps1 # on Windows (PowerShell)</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Your prompt will prepend with the current directory name</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Install into venv</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install shiny</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You will also want the Shiny extension for Positron (or VS Code), which gives you a “Run Shiny App” button. Without it, you can still run an app from the terminal:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shiny</span> run <span class="at">--reload</span> app.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>--reload</code> flag restarts the app whenever you save the file. Very useful while learning.</p>
+<section id="the-od-framing-in-one-paragraph" class="level2">
+<h2 class="anchored" data-anchor-id="the-od-framing-in-one-paragraph">The OD framing in one paragraph</h2>
+<p>Transport analysis starts from pairs: an <strong>origin</strong> (where a trip starts) and a <strong>destination</strong> (where it ends). Between them there is at least one <strong>route</strong>, chosen by the traveller based on time, cost, and habit, and constrained by the <strong>network</strong> (one-way streets, turn bans, closures). Almost every congestion indicator is a function of either a route or a network edge. Keep this shape in mind.</p>
 </section>
-<section id="the-shape-of-a-shiny-project" class="level2">
-<h2 class="anchored" data-anchor-id="the-shape-of-a-shiny-project">The shape of a Shiny project</h2>
-<p>A Shiny project is a folder. The minimum is one file:</p>
-<pre><code>myapp/
-└── app.py</code></pre>
-<p>For anything beyond a demo, you will quickly grow extras:</p>
-<pre><code>myapp/
-├── app.py              # the app itself
-├── pyproject.toml      # or requirements.txt, for dependencies
-├── data/               # any CSV, GeoJSON, GeoPackage you load
-├── www/                # static assets served at /www (images, CSS, downloads)
-└── README.md</code></pre>
-<p>Two conventions to remember:</p>
+<section id="travel-time" class="level2">
+<h2 class="anchored" data-anchor-id="travel-time">Travel time</h2>
+<p>The simplest indicator. Two versions of it.</p>
+<p><strong>Free-flow travel time</strong> is how long a trip takes with no delays, at the speed limit:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> free_flow_minutes(distance_m: <span class="bu">float</span>, speed_kmh: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (distance_m <span class="op">/</span> <span class="dv">1000</span>) <span class="op">/</span> speed_kmh <span class="op">*</span> <span class="dv">60</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Actual travel time</strong> comes from observation (GPS traces, INRIX, Google Maps API, TomTom) or simulation (r5py, OSRM). For the worked example we will fake it.</p>
+</section>
+<section id="the-travel-time-index-tti" class="level2">
+<h2 class="anchored" data-anchor-id="the-travel-time-index-tti">The Travel Time Index (TTI)</h2>
+<p>TTI is the ratio of actual to free-flow travel time. It tells you how much longer a trip is than it “should” be.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tti(actual_min: <span class="bu">float</span>, free_flow_min: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> free_flow_min <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> actual_min <span class="op">/</span> free_flow_min</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Reading the value:</p>
 <ul>
-<li>Anything in <code>www/</code> is served at the URL <code>/your-file.png</code>. This is how you embed logos or downloadable PDFs.</li>
-<li>The variable Shiny looks for at the bottom of <code>app.py</code> is called <code>app</code>. Rename it and Shiny will not find it.</li>
+<li>TTI = 1.0: no delay.</li>
+<li>TTI = 1.2: 20% longer than free flow.</li>
+<li>TTI = 1.5: severely congested.</li>
+<li>TTI = 2.0: gridlock.</li>
 </ul>
 </section>
-<section id="scaffolding-with-shiny-create" class="level2">
-<h2 class="anchored" data-anchor-id="scaffolding-with-shiny-create">Scaffolding with <code>shiny create</code></h2>
-<p>You do not have to start from a blank file. Shiny ships a generator:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">shiny</span> create</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Check out the video here:</p>
-<p><video src="figs/part3/shiny-create-positron.mp4" class="img-fluid" controls=""><a href="figs/part3/shiny-create-positron.mp4">Video</a></video></p>
-<p>Running the shiny create command from a terminal, accepting default options, opening in Positron, and running the Shiny Application with the Run button.</p>
-<p>Run it interactively and pick a template. The useful ones for this course are:</p>
+<section id="the-volume-to-capacity-ratio-vc" class="level2">
+<h2 class="anchored" data-anchor-id="the-volume-to-capacity-ratio-vc">The Volume-to-Capacity ratio (V/C)</h2>
+<p>V/C compares traffic volume on a road to the road’s capacity. Unlike TTI, which is measured per trip, V/C is measured per link (road segment) per time period.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> vc_ratio(volume_vph: <span class="bu">float</span>, capacity_vph: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> capacity_vph <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> volume_vph <span class="op">/</span> capacity_vph</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>And the conventional Level of Service (LOS) classification:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> level_of_service(vc: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vc <span class="op">&lt;</span> <span class="fl">0.60</span>: <span class="cf">return</span> <span class="st">"A"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vc <span class="op">&lt;</span> <span class="fl">0.70</span>: <span class="cf">return</span> <span class="st">"B"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vc <span class="op">&lt;</span> <span class="fl">0.80</span>: <span class="cf">return</span> <span class="st">"C"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vc <span class="op">&lt;</span> <span class="fl">0.90</span>: <span class="cf">return</span> <span class="st">"D"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> vc <span class="op">&lt;</span> <span class="fl">1.00</span>: <span class="cf">return</span> <span class="st">"E"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"F"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A is free flow; F is forced flow (stop-and-go). Anything at C or worse is worth flagging in a dashboard.</p>
+</section>
+<section id="a-small-shiny-app-showing-link-level-congestion" class="level2">
+<h2 class="anchored" data-anchor-id="a-small-shiny-app-showing-link-level-congestion">A small Shiny app showing link-level congestion</h2>
+<p>Here is a minimal dashboard using the functions above. The data is a tiny fake “network” of five corridors. Swap it for your own OSMnx-derived data when you are ready.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny.render <span class="im">import</span> DataGrid</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Five pretend corridors</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>links <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"corridor"</span>: [<span class="st">"Queen St"</span>, <span class="st">"Ponsonby Rd"</span>, <span class="st">"Great North Rd"</span>, <span class="st">"Broadway"</span>, <span class="st">"Symonds St"</span>],</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"length_m"</span>:   [<span class="dv">1200</span>, <span class="dv">2100</span>, <span class="dv">3400</span>, <span class="dv">1800</span>, <span class="dv">900</span>],</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"speed_kmh"</span>:  [<span class="dv">30</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">50</span>, <span class="dv">40</span>],</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"capacity"</span>:   [<span class="dv">1800</span>, <span class="dv">2000</span>, <span class="dv">2200</span>, <span class="dv">1800</span>, <span class="dv">1600</span>],</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> free_flow_minutes(distance_m, speed_kmh):</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (distance_m <span class="op">/</span> <span class="dv">1000</span>) <span class="op">/</span> speed_kmh <span class="op">*</span> <span class="dv">60</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tti(actual, free_flow):</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> actual <span class="op">/</span> free_flow <span class="cf">if</span> free_flow <span class="cf">else</span> <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> level_of_service(vc):</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> thr, letter <span class="kw">in</span> [(<span class="fl">0.6</span>, <span class="st">"A"</span>), (<span class="fl">0.7</span>, <span class="st">"B"</span>), (<span class="fl">0.8</span>, <span class="st">"C"</span>), (<span class="fl">0.9</span>, <span class="st">"D"</span>), (<span class="fl">1.0</span>, <span class="st">"E"</span>)]:</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> vc <span class="op">&lt;</span> thr:</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> letter</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"F"</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        ui.input_slider(<span class="st">"volume_pct"</span>, <span class="st">"Traffic volume (</span><span class="sc">% o</span><span class="st">f capacity)"</span>, <span class="dv">30</span>, <span class="dv">130</span>, <span class="dv">80</span>, step<span class="op">=</span><span class="dv">5</span>),</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        ui.input_slider(<span class="st">"delay_pct"</span>, <span class="st">"Travel time inflation vs free flow (%)"</span>, <span class="dv">0</span>, <span class="dv">150</span>, <span class="dv">30</span>, step<span class="op">=</span><span class="dv">5</span>),</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    ui.card(</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        ui.card_header(<span class="st">"Corridor indicators"</span>),</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        ui.output_data_frame(<span class="st">"tbl"</span>),</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Auckland corridor congestion (demo)"</span>,</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> indicators():</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> links.copy()</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"free_flow_min"</span>] <span class="op">=</span> free_flow_minutes(df[<span class="st">"length_m"</span>], df[<span class="st">"speed_kmh"</span>])</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"actual_min"</span>]    <span class="op">=</span> df[<span class="st">"free_flow_min"</span>] <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> <span class="bu">input</span>.delay_pct() <span class="op">/</span> <span class="dv">100</span>)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"tti"</span>]           <span class="op">=</span> df[<span class="st">"actual_min"</span>] <span class="op">/</span> df[<span class="st">"free_flow_min"</span>]</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"volume"</span>]        <span class="op">=</span> df[<span class="st">"capacity"</span>] <span class="op">*</span> <span class="bu">input</span>.volume_pct() <span class="op">/</span> <span class="dv">100</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"vc"</span>]            <span class="op">=</span> df[<span class="st">"volume"</span>] <span class="op">/</span> df[<span class="st">"capacity"</span>]</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        df[<span class="st">"los"</span>]           <span class="op">=</span> df[<span class="st">"vc"</span>].<span class="bu">apply</span>(level_of_service)</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df.<span class="bu">round</span>({<span class="st">"free_flow_min"</span>: <span class="dv">1</span>, <span class="st">"actual_min"</span>: <span class="dv">1</span>, <span class="st">"tti"</span>: <span class="dv">2</span>, <span class="st">"vc"</span>: <span class="dv">2</span>})</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.data_frame</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> tbl():</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> DataGrid(indicators(), filters<span class="op">=</span><span class="va">True</span>, width<span class="op">=</span><span class="st">"100%"</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Try it: move the two sliders and watch the indicators change. Both inputs feed a single <code>@reactive.calc</code>; the table is the only observer. That is the pattern from 3.3, applied to a transport problem.</p>
+</section>
+<section id="where-real-data-comes-from" class="level2">
+<h2 class="anchored" data-anchor-id="where-real-data-comes-from">Where real data comes from</h2>
+<p>The fake numbers above will not convince anyone. For Assignment 2 you will want one of:</p>
 <ul>
-<li><strong>basic-app</strong>: one input, one output. The smallest meaningful app.</li>
-<li><strong>basic-navigation</strong>: a multi-page navbar layout.</li>
-<li><strong>dashboard</strong>: a sidebar layout with cards. The starting point for Assignment 2.</li>
+<li><strong>Auckland Transport counts</strong>: vehicle and pedestrian counts at specific intersections, available via the <a href="https://at-govt-nz.opendata.arcgis.com/">AT Open Data portal</a>.</li>
+<li><strong>Waka Kotahi (NZTA)</strong>: state highway counts and travel-time monitoring.</li>
+<li><strong>OpenStreetMap, via OSMnx</strong>: network geometry, speed limits, highway classes. Good for building the baseline; poor for real volumes.</li>
+<li><strong>r5py</strong>: routing and travel-time matrices computed from OSM + GTFS. Powerful but it needs Java and it does not run in Pyodide, so you will have to precompute results and ship the outputs with your app.</li>
 </ul>
-<p>Each template drops a fresh folder with a working <code>app.py</code> you can run immediately.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Express vs Core syntax
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Shiny for Python supports two styles. <strong>Core</strong> (what this book uses) keeps the UI and server in two clearly-separated blocks. <strong>Express</strong> lets you write inline decorators with no explicit UI. Express is shorter for tiny apps; Core scales better and matches the R version. Stick to Core; everything in Part 3 assumes it.</p>
-</div>
-</div>
-</section>
-<section id="running-the-app" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-app">Running the app</h2>
-<p>Three ways, in order of how often you will use them:</p>
-<ol type="1">
-<li><strong>In Positron/VS Code with the Shiny extension</strong>: open <code>app.py</code> and click the green “Run Shiny App” button at the top right. The app opens in a side pane.</li>
-<li><strong>From the terminal</strong>: <code>shiny run --reload app.py</code>. Open the URL it prints (usually <code>http://127.0.0.1:8000</code>). Saving the file in your editor restarts the app automatically.</li>
-<li><strong>On a non-default port</strong>: <code>shiny run --port 8080 --reload app.py</code>. Useful if 8000 is already taken.</li>
-</ol>
-<p>Stop the app with <code>Ctrl+C</code> in the terminal.</p>
+<p>For the dashboard, precompute indicators in a notebook, save the result as a GeoPackage or GeoJSON, and load that file from the app. Keep the Shiny app small and the heavy lifting upstream.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Why <code>--reload</code>
+The r5py sketch, for reference
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Without <code>--reload</code>, Shiny only loads <code>app.py</code> once at startup. With it, Shiny watches the file (and the folder) and restarts the server on every save. This shortens the edit loop from “stop, start, refresh” to just “save”. Always use <code>--reload</code> while developing; turn it off only when deploying.</p>
+<p>If you want to try a proper travel-time calculation offline, r5py’s flow is: build a <code>TransportNetwork</code> from an OSM extract and (optionally) a GTFS zip, define origins and destinations as GeoDataFrames, hand both to <code>TravelTimeMatrixComputer</code>, pick a departure time and set of modes, and call <code>compute_travel_times()</code>. Save the resulting matrix as Parquet or CSV and load it from the Shiny app later.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="a-working-example-similar-to-the-basic-app" class="level2">
-<h2 class="anchored" data-anchor-id="a-working-example-similar-to-the-basic-app">A working example (Similar to the basic-app)</h2>
-<p>Here is the smallest interesting Shiny app. Save it as <code>app.py</code> and run it.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_fluid(</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    ui.h2(<span class="st">"Hello Shiny"</span>),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"n"</span>, <span class="st">"Pick a number"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">50</span>),</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"echo"</span>),</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> echo():</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"You picked </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>n()<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Three pieces, one of each kind:</p>
-<ul>
-<li><code>app_ui</code> is the <strong>UI</strong>: an expression describing what the user sees.</li>
-<li><code>server</code> is a <strong>function</strong> that takes <code>input</code>, <code>output</code>, <code>session</code> and defines how outputs are computed.</li>
-<li><code>app = App(app_ui, server)</code> is the <strong>App object</strong> Shiny looks for.</li>
-</ul>
-<p>Inside the server, <code>input.n()</code> reads the slider value (notice the parentheses). Wrapping <code>echo</code> with <code>@render.text</code> tells Shiny “this function fills the slot named <code>echo</code>”. Shiny ties them together, runs <code>echo()</code> whenever <code>input.n()</code> changes, and pushes the result to the browser.</p>
-<p>That is the entire model. Everything in Part 3 builds on these three pieces.</p>
-</section>
-<section id="debugging-when-things-go-wrong" class="level2">
-<h2 class="anchored" data-anchor-id="debugging-when-things-go-wrong">Debugging: when things go wrong</h2>
-<p>You will spend more time <a href="https://shiny.posit.co/py/get-started/debug.html">debugging Shiny</a> than writing it. Here are the four techniques that solve about 90% of problems.</p>
-<section id="read-the-traceback" class="level3">
-<h3 class="anchored" data-anchor-id="read-the-traceback">1. Read the traceback</h3>
-<p>When the server raises an exception, Shiny prints a traceback in the terminal (where <code>shiny run</code> is running) <strong>and</strong> shows a banner in the browser. Read the <strong>last</strong> line first; it names the actual error. Then walk up the stack to see which of your functions called the offending code.</p>
-<p>Common ones:</p>
-<ul>
-<li><code>AttributeError: 'Inputs' object has no attribute 'n'</code>. You wrote <code>input.n</code> somewhere instead of <code>input.n()</code>, or the input id in the UI does not match.</li>
-<li><code>KeyError: 'population'</code>. A column you assumed in your DataFrame is not there. Check the actual columns.</li>
-<li><code>TypeError: cannot convert ...</code>. Often a render function returning the wrong type (e.g.&nbsp;a <code>Series</code> instead of a <code>Figure</code>).</li>
-</ul>
-</section>
-<section id="print-is-your-friend" class="level3">
-<h3 class="anchored" data-anchor-id="print-is-your-friend">2. <code>print()</code> is your friend</h3>
-<p>Shiny does not hide <code>print()</code> output. Anything you print from inside the server lands in the terminal where <code>shiny run</code> is running.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">@render.text</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> echo():</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"echo running with n=</span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>n()<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"You picked </span><span class="sc">{</span><span class="bu">input</span><span class="sc">.</span>n()<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Move the slider, watch the terminal. If <code>echo</code> does not print, it is not running, which is itself a useful clue (probably a name mismatch).</p>
-</section>
-<section id="the-browser-console" class="level3">
-<h3 class="anchored" data-anchor-id="the-browser-console">3. The browser console</h3>
-<p>Open the browser’s developer tools. On Windows and Linux, press <strong>F12</strong>. On macOS, press <strong>Cmd + Option + I</strong> (or <strong>Cmd + Option + J</strong> to jump straight to the Console). In Safari, enable the Develop menu first via <em>Safari → Settings → Advanced → Show Develop menu</em>, then use <strong>Cmd + Option + C</strong>. The <strong>Console</strong> tab shows JavaScript errors; the <strong>Network</strong> tab shows messages between the browser and the Shiny server. Most of the time you will not need either, but when an output renders blank with no traceback, the browser console often has the answer.</p>
-</section>
-<section id="silent-failures-name-mismatches" class="level3">
-<h3 class="anchored" data-anchor-id="silent-failures-name-mismatches">4. Silent failures: name mismatches</h3>
-<p>If an output renders blank and there is no error, check that the id in <code>ui.output_*("foo")</code> matches the function name <code>def foo()</code> in the server. Shiny matches them by string. A typo is silent.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ui.output_text(<span class="st">"echo"</span>)          <span class="co"># placeholder is "echo"</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">@render.text</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> eccho():                     <span class="co"># function is "eccho" (typo)</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ...                          <span class="co"># placeholder stays empty, no error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-When you are properly stuck
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Two more techniques worth knowing about. <strong><code>reactlog</code></strong> (a separate package) records every reactive event in your app and visualises the dependency graph; it is invaluable when you cannot work out why something is or is not running. <strong>The minimal repro</strong> trick: cut your app down to the smallest version that still shows the bug, then post that to Stack Overflow or to the <a href="https://discord.com/invite/yMGCamUMnS">Shiny Discord</a>. You will often solve it yourself in the cutting.</p>
-</div>
-</div>
-</section>
+<section id="mapping-the-result" class="level2">
+<h2 class="anchored" data-anchor-id="mapping-the-result">Mapping the result</h2>
+<p>The table is useful but a map is better. Join the <code>indicators()</code> result to a GeoDataFrame of the corridor geometries and render with ipyleaflet. Colour edges by V/C or LOS. Pseudocode:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outside the app, one-off</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>corridors_gdf <span class="op">=</span> gpd.read_file(<span class="st">"auckland_corridors.gpkg"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inside the server</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="at">@render_widget</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> corridor_map():</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> indicators()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> corridors_gdf.merge(df, on<span class="op">=</span><span class="st">"corridor"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> gdf.iterrows():</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        colour <span class="op">=</span> {<span class="st">"A"</span>: <span class="st">"#1a9850"</span>, <span class="st">"B"</span>: <span class="st">"#91cf60"</span>, <span class="st">"C"</span>: <span class="st">"#d9ef8b"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"D"</span>: <span class="st">"#fee08b"</span>, <span class="st">"E"</span>: <span class="st">"#fc8d59"</span>, <span class="st">"F"</span>: <span class="st">"#d73027"</span>}[row[<span class="st">"los"</span>]]</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        m.add_layer(GeoData(geo_dataframe<span class="op">=</span>gpd.GeoDataFrame([row]),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                            style<span class="op">=</span>{<span class="st">"color"</span>: colour, <span class="st">"weight"</span>: <span class="dv">4</span>}))</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You will refine the colour mapping and the legend, but the shape of the solution is: precomputed geometries, reactive indicators, joined at render time.</p>
 </section>
 <section id="what-you-have-learned" class="level2">
 <h2 class="anchored" data-anchor-id="what-you-have-learned">What you have learned</h2>
 <ul>
-<li>A Shiny project is a folder; <code>app.py</code> is the entry point and the variable <code>app</code> is what Shiny looks for.</li>
-<li><code>shiny create</code> scaffolds a project from a template.</li>
-<li><code>shiny run --reload app.py</code> runs the app and restarts on save.</li>
-<li>The three pieces of every app are the UI, the server function, and the App object.</li>
-<li>Debugging usually means reading the traceback, sprinkling <code>print()</code>, checking the browser console, and verifying that input/output ids match.</li>
+<li>Transport analysis uses an origin-destination framing; indicators are computed per trip or per link.</li>
+<li>Three workhorse indicators: travel time (free-flow vs actual), TTI, and V/C with a LOS grade.</li>
+<li>You can wrap any of these in a Shiny app with one reactive calc and one output.</li>
+<li>Precompute heavy routing offline and ship the result; keep the Shiny app light.</li>
 </ul>
 </section>
 <section id="exercises" class="level2">
 <h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
 <ol type="1">
-<li>Run <code>shiny create</code> and pick the <strong>basic-app</strong> template. Open the generated <code>app.py</code> and run it. Identify the UI, the server, and the App.</li>
-<li>Break the example app on purpose: rename <code>def echo()</code> to <code>def eccho()</code> but leave <code>ui.output_text("echo")</code> alone. Save and reload. What happens? Does anything appear in the terminal?</li>
-<li>Add a <code>print(input.n())</code> inside <code>echo</code>. Move the slider. How many lines print per slider tick? Why?</li>
-<li>Add a second input (<code>ui.input_text("name", "Your name")</code>) and change <code>echo</code> to greet the user with their name and chosen number. Stop and start the app <strong>without</strong> <code>--reload</code> to feel the difference.</li>
+<li>Add a third slider to the demo app: “Capacity reduction (%)” that lowers each corridor’s capacity. Does V/C change the way you expect?</li>
+<li>Replace the <code>@render.data_frame</code> with a <code>@render.plot</code> showing a bar chart of TTI per corridor, sorted.</li>
+<li>Pick a real OSMnx network of 2 km radius around the University of Auckland. Compute <code>length_m</code> and <code>speed_kmh</code> per edge, and use it in place of the five fake corridors. Keep everything under 5 MB so shinylive stays happy.</li>
+<li>What would you change about the LOS thresholds for a pedestrian network? Write a one-paragraph justification and a new <code>level_of_service_pedestrian()</code> function.</li>
 </ol>
-</section>
-<section id="where-next" class="level2">
-<h2 class="anchored" data-anchor-id="where-next">Where next</h2>
-<p>You can now create, run, and debug a Shiny app. Section 3.2 picks up the thread of reactivity: how to share computations across outputs, how to trigger work only when a button is clicked, and how to avoid the most common reactivity mistakes.</p>
 </section>
 <section id="further-reading" class="level2">
 <h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
 <ul>
-<li>Posit, <a href="https://shiny.posit.co/py/get-started/create-run.html">Shiny for Python: Create and run</a>.</li>
-<li>Posit, <a href="https://shiny.posit.co/py/get-started/debug.html">Shiny for Python: Debug, troubleshoot, and help</a>.</li>
-<li>Wickham, <a href="https://mastering-shiny.org/basic-app.html">Mastering Shiny, Chapter 1</a>. The R version of this section.</li>
+<li>Transportation Research Board, <a href="https://www.trb.org/Main/Blurbs/175169.aspx">Highway Capacity Manual</a>, for the original LOS definitions.</li>
+<li>r5py documentation: <a href="https://r5py.readthedocs.io">r5py.readthedocs.io</a>.</li>
+<li>Auckland Transport <a href="https://at-govt-nz.opendata.arcgis.com/">Open Data</a>.</li>
 </ul>
 
 
@@ -1009,14 +975,11 @@ When you are properly stuck
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3.0.chapter3-shiny_python.html" class="pagination-link" aria-label="Part 3. Interactive Dashboards with Shiny for Python">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Part 3. Interactive Dashboards with Shiny for Python</span>
+      <a href="./3.4.webgis-shinylive.html" class="pagination-link" aria-label="3.4. Web GIS in the Browser with shinylive">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">3.4. Web GIS in the Browser with shinylive</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./3.2.shiny-functions-reactivity.html" class="pagination-link" aria-label="3.2. Reactivity in Action">
-        <span class="nav-page-text">3.2. Reactivity in Action</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

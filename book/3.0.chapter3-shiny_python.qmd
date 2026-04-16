@@ -1,419 +1,101 @@
 # Part 3. Interactive Dashboards with Shiny for Python {.unnumbered}
 
-## What is Shiny?
+## From static maps to something people can click
 
-Shiny is a Python package that lets you create interactive web applications without knowing HTML, CSS, or JavaScript. You write Python code, and Shiny creates a website that people can use in their browser.
+In Part 2 you made choropleth maps of Auckland. They told a clear story, but the reader was stuck with whatever you chose: one time period, one classification, one colour scheme. If a colleague asked "what does it look like for just the central suburbs?", your only option was to open the notebook and rerun the code.
 
-**Think of it this way:**
-- You're used to writing Python scripts that run once and finish
-- Shiny apps keep running and respond to user actions
-- When a user clicks a button or moves a slider, your code reacts
+Part 3 is about fixing that. You will learn how to build small web applications in pure Python that let other people filter, zoom, and compare the data themselves, in a browser, without installing anything.
 
+The tool we will use is **Shiny for Python**.
 
-## Story Problem: An Auckland Dashboard
 
-**From Static to Interactive**
+## What Shiny is, in one paragraph
 
-In Part 2, you created choropleth maps showing urban indicators across Auckland. These maps told a clear story, but were limited:
+Shiny is a Python package from Posit (the company behind RStudio) that turns a Python script into a web app. You write the interface (a slider, a dropdown, a map) and the logic (what to do when the slider moves) in Python, and Shiny handles the HTML, the CSS, the JavaScript, and the browser communication for you. It started as an R package in 2012, and the Python version follows the same ideas.
 
-- Users couldn't filter by time period or neighbourhood
-- Comparisons required creating multiple separate maps
-- Stakeholders couldn't explore patterns themselves
 
-**The Solution: Interactive Dashboards**
+## Why "reactive"? A small thought experiment
 
-Transform your analysis into a web dashboard where users can:
+Imagine a council planner opens your dashboard. They pick "Waitematā" from a dropdown. Three things should update at once: a map zooms to that local board, a table refills with its suburbs, and a chart redraws showing the age distribution.
 
-- **Filter** data by date, location, or other variables
-- **Compare** different time periods or scenarios
-- **Explore** patterns through interactive maps and charts
-- **Download** data or export visualisations
-- **Access** everything through a web browser—no software installation required
+In a normal Python script you would have to write, in order: "when the dropdown changes, rerun the map function, then the table function, then the chart function, and do not forget the one you added last month". Every new output means another line of wiring. Miss one, and the dashboard lies to the user.
 
-## What You Will Learn
+Shiny flips this around. You describe **what each output depends on**, and Shiny works out **when** to run it. If the map reads `input.local_board()`, Shiny quietly remembers that link. When the dropdown changes, anything that reads it reruns, and nothing else does. This style is called **reactive programming**, and it is the single idea that makes dashboards tractable.
 
-This chapter covers:
+You will feel this working in Section 3.1. The jargon can wait until 3.3.
 
-1. **WebGIS Fundamentals**: Understanding web mapping, file formats, and WebAssembly (WASM) for browser-based applications
 
-2. **Shiny Architecture**: The UI/server model, reactive programming, and building responsive interfaces
+## The three parts of every Shiny app
 
-3. **Routing and Congestion**: Analysing transport networks, travel times, and congestion indicators
+Every Shiny app, no matter how large, is built from three pieces:
 
-4. **Origin-Destination Analysis**: Understanding and visualising movement patterns between locations
-
-5. **Network Analysis**: Working with street networks using OSMnx and city2graph for accessibility analysis
-
-6. **Dashboard Development**: Building and deploying complete multi-page applications
-
-## Learning Objectives
-
-By the end of this chapter, you will:
-
-- Understand the Shiny mental model: UI, server, and reactivity
-- Build interactive dashboards with maps, charts, and controls
-- Deploy applications using shinylive (no server required!)
-- Perform network analysis for routing and accessibility
-- Analyse origin-destination flows and visualise movement
-- Create professional, user-friendly interfaces for urban analytics
-
-## Why Shiny for Python?
-
-### Advantages
-
-**No Web Development Required**
-- Write pure Python—no HTML, CSS, or JavaScript needed
-- Focus on analysis and visualisation, not web technologies
-- Automatic responsive design
-
-**Reactive Programming**
-- Outputs update automatically when inputs change
-- Efficient—only recalculates what's needed
-- Intuitive mental model for data analysis
-
-**Easy Deployment**
-- Traditional: Deploy to servers (shinyapps.io, Posit Connect)
-
-![](https://shiny.posit.co/py/get-started/assets/shinylive-shiny-deployment-model.png)
-
-- Modern: Deploy with shinylive using WebAssembly
-
-![](https://shiny.posit.co/py/get-started/assets/shinylive-shinylive-deployment-model.png)
-
-- Host for free on GitHub Pages as static files
-
-
-**Python Ecosystem Integration**
-- Use familiar libraries: pandas, geopandas, matplotlib, seaborn
-- Combine with spatial tools: ipyleaflet
-- Access the full Python scientific stack
-
-:::{.callout-tip}
-Check which packages you can load on `shinylive`: https://shiny.posit.co/py/get-started/shinylive.html#installed-packages
-:::
-
-### Use Cases in Urban Analytics
-
-Shiny dashboards are perfect for:
-
-- **15-Minute City Analysis**: Interactive accessibility maps showing amenities within walking/cycling distance
-- **Pedestrian Flow Monitoring**: Real-time or historical footfall patterns with temporal controls
-- **Transport Network Performance**: Visualising congestion, travel times, and route options
-- **Green Space Access**: Calculating and mapping park proximity for different neighbourhoods
-- **E-Scooter Demand Analysis**: Trip patterns by time of day and location
-- and many more! → https://shiny.posit.co/py/gallery/
-
-
-## Chapter Structure
-
-### Chapter 1: Foundations (Week 6)
-
-Build your first Shiny application and understand core concepts:
-
-- WebGIS principles and file format choices
-- WebAssembly and browser-based computation
-- Shiny UI and server architecture
-- Reactive programming patterns
-- Interactive maps with ipyleaflet
-
-**Deliverable**: Working local Shiny app with interactive map and basic controls
-
-### Part 2: Development (Week 7)
-
-Intensive development week during ANZAC break:
-
-- Multi-page application structure
-- Network analysis with OSMnx
-- Origin-destination flow visualisation
-- Temporal controls and animation
-- Performance optimisation
-
-**Focus**: Building your Assignment 2 dashboard
-
-### Part 3: Advanced Features (Week 8)
-
-Polish and deploy your professional dashboard:
-
-- Advanced Shiny patterns and best practices
-- Deployment with shinylive (WebAssembly)
-- Temporal-spatial analysis and animation
-- User experience and interface design
-- Performance testing and optimisation
-
-**Deliverable**: Complete multi-page dashboard deployed publicly via shinylive
-
-## The Shiny Mental Model
-
-Understanding three core concepts is essential:
-
-### 1. User Interface (UI)
-
-The **frontend** that users see and interact with:
-
-```python
-from shiny import ui
-
-app_ui = ui.page_fluid(
-    ui.h2("Auckland Pedestrian Dashboard"),
-    ui.input_slider("hour", "Hour of Day", 0, 23, 12),
-    ui.output_plot("hourly_plot")
-)
-```
-
-The UI defines:
-- Layout and structure
-- Input controls (sliders, dropdowns, date pickers)
-- Output placeholders (maps, plots, tables)
-
-### 2. Server Function
-
-The **backend** that processes data and generates outputs:
-
-```python
-def server(input, output, session):
-    @output
-    @render.plot
-    def hourly_plot():
-        # This code runs reactively when input.hour() changes
-        filtered_data = data[data['hour'] == input.hour()]
-        return create_plot(filtered_data)
-```
-
-The server:
-- Reads input values
-- Performs calculations and analysis
-- Generates outputs (plots, tables, maps)
-
-### 3. Reactivity
-
-The **magic** that connects inputs to outputs:
-
-```python
-@reactive.Calc
-def filtered_data():
-    # Recalculates automatically when inputs change
-    return data[data['hour'] == input.hour()]
-
-@output
-@render.table
-def summary_table():
-    # Uses the reactive calculation
-    df = filtered_data()
-    return df.describe()
-```
-
-Reactivity ensures:
-- Outputs update automatically when inputs change
-- Only necessary calculations are performed
-- Multiple outputs can depend on the same reactive calculation
-
-## Technology Stack
-
-### Required Libraries
-
-```python
-# Shiny framework
-from shiny import App, ui, render, reactive
-
-# Spatial data
-import geopandas as gpd
-from shapely.geometry import Point, LineString
-
-# Mapping
-import folium # only works on Dash not through shiny 
-from ipyleaflet import Map, Marker, basemaps
-
-# Data manipulation
-import pandas as pd
-import numpy as np
-
-# Visualisation
-import matplotlib.pyplot as plt
-import seaborn as sns
-import plotly
-```
-
-### Deployment Options
-
-**Option 1: Traditional Server (shinyapps.io)**
-```bash
-# Deploy to Posit's hosting service
-rsconnect deploy shiny .
-```
-
-**Option 2: Shinylive (WebAssembly)**
-```bash
-# Export for static hosting
-shinylive export myapp site
-# myapp: the folder that you want to Deploy
-# site the name you wish to have
-# to host on Github: change site to docs
-```
-
-## Quick Preview: A Minimal Shiny App
-
-Here's a complete working example:
+1. **The UI**, a Python expression that describes what the user sees (inputs and outputs).
+2. **The server**, a Python function that says how the outputs are computed from the inputs.
+3. **The App object**, which glues the two together so Shiny can run it.
 
 ```python
 from shiny import App, ui, render
-import matplotlib.pyplot as plt
-import numpy as np
 
-# 1. UI Definition
 app_ui = ui.page_fluid(
-    ui.h2("Simple Shiny Dashboard"),
-    ui.input_slider("n_points", "Number of Points", 10, 100, 50),
-    ui.output_plot("scatter_plot")
+    ui.h2("Hello Shiny"),
+    ui.input_slider("n", "Pick a number", 0, 100, 50),
+    ui.output_text("echo"),
 )
 
-# 2. Server Function
 def server(input, output, session):
-    
-    @output
-    @render.plot
-    def scatter_plot():
-        # Generate random data based on slider value
-        n = input.n_points()
-        x = np.random.randn(n)
-        y = np.random.randn(n)
-        
-        # Create plot
-        fig, ax = plt.subplots(figsize=(8, 6))
-        ax.scatter(x, y, alpha=0.6)
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_title(f'Scatter Plot with {n} Points')
-        ax.grid(True, alpha=0.3)
-        return fig
+    @render.text
+    def echo():
+        return f"You picked {input.n()}"
 
-# 3. Create App
 app = App(app_ui, server)
 ```
 
-**What happens when you run this:**
+That is a complete, runnable app. Move the slider in your browser and the text below it updates. You did not write any code to detect the slider change, or to refresh the text. Shiny noticed that `echo` reads `input.n()`, and that is enough.
 
-1. Shiny displays a webpage with a slider and empty plot area
-2. User moves the slider to, say, 75
-3. The `scatter_plot()` function automatically executes with `n=75`
-4. A new plot with 75 points appears
-5. No page reload required—everything updates smoothly
+We will unpack every line of this in 3.1.
 
-## Guest Lecture: Real-World Transport Analytics
 
-**Alex Raichev (MRCagney Corp)**
+## What you will build in Part 3
 
-During Week 6, we'll hear from industry practitioner Alex Raichev about:
+Part 3 runs across three weeks and follows a gentle ramp.
 
-- Real-world applications of transport analytics dashboards
-- Industry perspectives on geospatial visualisation
-- Best practices for stakeholder communication
-- Career opportunities in urban analytics
+Week 6 covers the foundations: what a Shiny app looks like (3.1), how reactivity works once inputs and outputs start to multiply (3.2), and the decorators and UI pieces you will use most often (3.3).
 
-This provides valuable context for how the skills you're learning are applied in professional settings.
+Week 7, during the ANZAC break, is the main build week. You will deploy an app to the browser with shinylive (3.4) and bring real Auckland open data into it (3.5).
 
-## Assignment 2 Preview
+Week 8 is for polish, deployment, and submission. The full Assignment 2 brief lives in 3.6. Your dashboard is due Sunday 10 May, 23:59, live on GitHub Pages and publicly accessible.
 
-Throughout this chapter, you'll work toward Assignment 2: a comprehensive Shiny dashboard addressing an urban analytics question.
 
-**Requirements:**
-- Multi-page application (3+ analysis modules)
-- Interactive map with user-controlled filters
-- Temporal or comparative analysis component
-- Network analysis (if applicable to your topic)
-- Deployed using shinylive
-- Professional interface design
-- User documentation
+## Guest lecture
 
-**Suggested Topics:**
-- Pedestrian flow patterns and urban vitality
-- Green space accessibility analysis
-- Transport network performance over time
-- E-scooter trip analysis
-- Air quality monitoring
-- 15-minute city accessibility
+During Week 6, Alex Raichev (MRCagney) will talk about how transport-analytics dashboards are used in practice. A good chance to see where the skills you are picking up actually go in industry.
 
-**Timeline:**
-- Week 6: Learn fundamentals, start planning
-- Week 7: Intensive development with instructor support
-- Week 8: Polish, deploy, and submit (due 8 May)
 
-## Key Concepts to Master
+## Assignment 2, at a glance
 
-::: {.callout-important}
-## Essential Skills
+Throughout Part 3 you will work towards **Assignment 2** (15% of the course mark, due Sunday 10 May 2026, 23:59, submitted via Canvas). It is a small Shiny dashboard that addresses one urban or transport question about Auckland.
 
-1. **UI/Server Separation**: Understanding the frontend/backend split
-2. **Reactive Programming**: How outputs automatically update
-3. **Input Controls**: Sliders, dropdowns, date pickers, text boxes
-4. **Output Types**: Plots, tables, maps, text, UI elements
-5. **Reactive Calculations**: Efficient data processing with `@reactive.Calc`
-6. **Multi-page Apps**: Organising complex dashboards with `ui.nav_panel()`
-7. **Deployment**: Both traditional and shinylive approaches
-:::
+You will be **randomly assigned** one of three data tracks on **Tuesday 21 April 2026, 13:10 NZST**:
 
-## Development Workflow
+- **Track A: Public Transport**, using Auckland Transport's patronage data and bus/ferry layers.
+- **Track B: Commuter and Student flows**, using Stats NZ's 2023 Census data, with a required comparison between workers and students.
+- **Track C: Auckland crashes**, using Auckland Transport's crash records.
 
-A typical dashboard development process:
+The dashboard must include at least three user inputs, one interactive `ipyleaflet` map, one quantitative chart (Plotly or matplotlib), and a shinylive deployment on GitHub Pages. A short design report (under 4 pages, PDF rendered from Quarto) accompanies the code. Full brief, rubric, and deliverables in 3.6.
 
-1. **Plan**: Define your question, data, and target audience
-2. **Prototype**: Build a simple single-page version
-3. **Analyse**: Add data processing and visualisations
-4. **Iterate**: Test with users, refine interface
-5. **Expand**: Add pages, features, and polish
-6. **Deploy**: Test deployment, optimise performance
-7. **Document**: Write user guide and code comments
-
-## Performance Considerations
-
-Dashboards must be responsive. Key strategies:
-
-**Data Optimisation**
-- Pre-process large datasets before deployment
-- Use appropriate file formats (GeoJSON for web)
-- Simplify geometries where appropriate
-- Cache expensive calculations
-
-**Reactivity Design**
-- Use `@reactive.Calc` for shared calculations
-- Avoid redundant data processing
-- Debounce rapid input changes
-- Show loading indicators for long operations
-
-**Deployment Optimisation**
-- Minimise package dependencies
-- Compress data files
-- Test on different devices and connections
-- Use efficient spatial data structures
-
-## Looking Ahead
-
-Over the next three weeks, you'll progress from basic concepts to a fully-deployed professional dashboard. The skills you develop—reactive programming, interactive visualisation, and web deployment—are highly valuable in industry and research.
-
-By the end of this chapter, you'll have:
-
-- A deep understanding of reactive programming
-- Experience building multi-page web applications
-- Skills in network analysis and spatial visualisation
-- A portfolio-worthy dashboard deployed publicly
-- Confidence to build interactive tools for any spatial analysis project
-
-Let's begin by understanding web GIS fundamentals and the technology that makes browser-based applications possible in @sec-webgis-wasm-shiny.
-
-## Further Reading
-
-- [Shiny for Python Documentation](https://shiny.posit.co/py/)
-- [Shinylive Documentation](https://shiny.posit.co/py/docs/shinylive.html)
-- [ipyleaflet Documentation](https://ipyleaflet.readthedocs.io/)
-- [OSMnx Documentation](https://osmnx.readthedocs.io/)
-- [WebAssembly Overview](https://webassembly.org/)
 
 ## Prerequisites
 
-Before starting this chapter, ensure you're comfortable with:
+Before starting 3.1, you should be comfortable with:
 
-- Python basics (variables, functions, loops)
-- Pandas DataFrames (filtering, grouping, merging)
-- GeoPandas (reading spatial data, basic operations)
-- Creating static maps (matplotlib, folium)
+- Python basics: variables, functions, loops, conditionals.
+- pandas: filtering, grouping, merging DataFrames.
+- GeoPandas: reading spatial files, basic geometric operations.
+- Making a static map with matplotlib or ~~folium~~ipyleaflet.
 
-If you need to review these topics, revisit Chapter 2 (@sec-geospatial-python).
+If any of these feel shaky, revisit Part 2 before moving on. Shiny adds a new layer on top of what you already know; it does not replace it.
+
+::: {.callout-tip}
+## How to read Part 3
+Type the code. Do not copy-paste. Shiny's error messages are cryptic at first, and the quickest way to build intuition is to break a working example and watch what goes wrong.
+:::

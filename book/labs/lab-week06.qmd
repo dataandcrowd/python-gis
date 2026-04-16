@@ -1,0 +1,405 @@
+# Lab Week 06 {.unnumbered}
+
+## Overview
+
+Welcome to Part 3. This lab has two purposes: walk you through what **Assignment 2** expects, and get you to build, run, and publicly deploy your first Shiny for Python app before you leave the room.
+
+By the end of the session, you will have:
+
+- A working one-page Shiny dashboard running on your laptop.
+- That same dashboard deployed to a public GitHub Pages URL via `shinylive`.
+- A clear picture of what Assignment 2 requires and what "done" looks like.
+
+**Duration:** approximately 2 hours.
+
+**What you need:**
+
+- A laptop with Positron (or VS Code) and `uv` installed (from Lab 1).
+- A GitHub account, with `git` configured and authenticated.
+- Completed the reading for 3.0 and 3.1.
+
+**Structure:**
+
+| Section | Topic | Approx. time |
+|------|-------|--------------|
+| 1 | Assignment 2 briefing | 15 min |
+| 2 | Set up your project | 15 min |
+| 3 | Build a one-page Shiny app | 45 min |
+| 4 | Deploy to GitHub Pages | 30 min |
+| 5 | Homework and stretch goals | 15 min |
+
+---
+
+## Section 1: Assignment 2 briefing
+
+### The one-sentence version
+
+By Sunday 10 May 2026, 23:59 NZST, you will publish a public shinylive dashboard, backed by a public GitHub repo, that addresses one urban or transport question about Auckland. A short design report (PDF rendered from Quarto) accompanies the code.
+
+Assignment 2 is worth 15% of the course mark and is submitted via Canvas. Full brief in 3.6.
+
+::: {.callout-important}
+## Random track assignment: 21 April, 13:10
+You will be randomly assigned one of the three data tracks (Public Transport, Commuter + Student OD, or Auckland Crashes) on Tuesday 21 April 2026 at 13:10 NZST. Read all three in 3.6 before that date so you know what is coming.
+:::
+
+### What markers will look for
+
+Look at the rubric in 3.6 before you start. The short version:
+
+- **Question and framing** is specific and defensible, scoped to your assigned track.
+- **Data and methods** are clean, documented, and reproducible.
+- **Reactivity** uses `@reactive.calc` correctly. No redundant computation. At least three user inputs actually change the outputs.
+- **Map and visual design** is readable and accessible. You have an `ipyleaflet` map (required) **and** a quantitative chart (Plotly or matplotlib).
+- **Deployment** to GitHub Pages works on a cold load, all controls respond.
+- **Design report** (under 4 pages, PDF rendered from Quarto) covers motivation, data, architecture, UI walkthrough, and limitations.
+
+### Preparing for the random track assignment
+
+Your goal for today is to **read all three tracks in 3.6** and note down one question you would ask within each. You will not know which one you get until 21 April, but if you have one sketch per track, the assignment day will not catch you off guard.
+
+The three tracks and their datasets:
+
+- **Track A: Public Transport.** [AT Data Sources (patronage)](https://at.govt.nz/about-us/at-data-sources) and [AT GIS (buses, ferries)](https://data-atgis.opendata.arcgis.com/).
+- **Track B: Commuter + Student OD.** [Stats NZ Data Finder](https://datafinder.stats.govt.nz/) (2023 Census commuter and student datasets).
+- **Track C: Auckland crashes.** [Where crashes are happening in Auckland](https://at.govt.nz/about-us/reports-publications/where-crashes-are-happening-in-auckland).
+
+
+---
+
+## Section 2: Set up your project
+
+### Step 1: Create the project folder
+
+Pick a sensible name. Your GitHub repo and your deployed URL will inherit it.
+
+```bash
+mkdir gisci343-a2-<your-topic>
+cd gisci343-a2-<your-topic>
+
+# Virtual environment
+uv venv
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+
+# Install Shiny
+uv pip install shiny shinylive
+```
+
+### Step 2: Scaffold with `shiny create`
+
+Instead of a blank file, use Shiny's generator:
+
+```bash
+shiny create
+```
+
+When prompted, pick **basic-app** (single file, one input, one output). Let it write into the current folder.
+
+Run it:
+
+```bash
+shiny run --reload app.py
+```
+
+Open the URL Shiny prints in your browser. You should see a slider and a plot. Move the slider. The plot updates. Good: that confirms your install works.
+
+::: {.callout-tip}
+## Keep this habit
+`--reload` watches your file. Save `app.py` in your editor and the app restarts automatically. You will save yourself dozens of restarts over the next three weeks.
+:::
+
+### Step 3: Initialise git and push to GitHub
+
+You need to put your project under version control and push it to a public GitHub repository. There are two ways to do this: via the **terminal** (Option A) or via **GitHub Desktop** (Option B). Pick whichever you are more comfortable with; the end result is the same.
+
+**Before either option**, go to github.com and create a new **empty public repository** with the same name as your folder. Do **not** tick "Add a README" or "Add a .gitignore", because `shiny create` has already produced those for you and the initial push will conflict otherwise.
+
+```{mermaid}
+flowchart LR
+    A[Your laptop folder<br/>app.py, .venv, etc.] -->|git init<br/>or GitHub Desktop| B[Local git repo<br/>branch: main]
+    B -->|stage + commit| C[First commit<br/>snapshot saved locally]
+    C -->|connect remote| D[Linked to GitHub<br/>empty remote repo]
+    D -->|push| E[Code on GitHub<br/>public URL]
+```
+
+::: {.panel-tabset}
+
+#### Option A: Terminal (command line)
+
+From your project folder, run:
+
+```bash
+# 1. Turn this folder into a git repo
+git init
+
+# 2. Stage everything that is not in .gitignore
+git add .
+
+# 3. Record the first snapshot
+git commit -m "Initial scaffold from shiny create"
+
+# 4. Rename the default branch to main (new repos sometimes default to master)
+git branch -M main
+
+# 5. Tell your local repo where the GitHub remote lives
+#    Replace <your-username> and <your-repo> with your actual values
+git remote add origin git@github.com:<your-username>/<your-repo>.git
+
+# 6. Push your local main branch up, and set it to track the remote
+git push -u origin main
+```
+
+After step 6, refresh your GitHub repo page. Your files should be there.
+
+#### Option B: GitHub Desktop (visual)
+
+If you prefer a GUI, [GitHub Desktop](https://desktop.github.com/) does all of the above with clicks instead of commands.
+
+Visit here for any further information: [https://docs.github.com/en/desktop](https://docs.github.com/en/desktop)
+
+
+**1. Add your existing folder to GitHub Desktop.**
+
+Open GitHub Desktop and go to **File → Add Local Repository**. Browse to your project folder (the one containing `app.py`). GitHub Desktop will detect that it is not yet a git repository and offer to initialise it for you. Click **create a repository** and accept the defaults.
+
+**2. Make your first commit.**
+
+GitHub Desktop will show all the files from `shiny create` in the **Changes** tab on the left. Each file is ticked (staged) by default. In the **Summary** box at the bottom left, type a message:
+
+```
+Initial scaffold from shiny create
+```
+
+Click **Commit to main**.
+
+**3. Publish to GitHub.**
+
+After the commit, a blue **Publish repository** button appears at the top. Click it. In the dialog:
+
+- **Name**: should already match your folder name.
+- **Keep this code private**: untick this (Assignment 2 needs a public repo).
+- **Organisation**: leave as your personal account.
+
+Click **Publish Repository**. GitHub Desktop pushes everything to a new public repo on github.com.
+
+**4. Verify.**
+
+Click **View on GitHub** (or open `https://github.com/<your-username>/<your-repo>` in a browser). You should see `app.py` and the other files listed.
+
+:::
+
+::: {.callout-tip}
+## If the push is rejected (terminal) or the publish fails (GitHub Desktop)
+The most common cause is that the remote repo is not empty (there is already a README on GitHub). Either delete the remote and recreate it empty, or (terminal only) pull first with `git pull origin main --allow-unrelated-histories` and resolve any conflicts before pushing again. In GitHub Desktop, start over with a fresh empty repo.
+:::
+
+---
+
+## Section 3: Build a one-page Shiny app
+
+Replace the contents of `app.py` with the code below and save. The app shows a small table of Auckland suburbs, filtered by a minimum-population slider, and plots the median income of the surviving suburbs.
+
+```python
+from shiny import App, ui, render, reactive
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Inline sample data (replace with real data next week)
+suburbs = pd.DataFrame({
+    "suburb":        ["Ponsonby", "Parnell", "Mt Eden", "Newmarket",
+                      "Grey Lynn", "Remuera", "Onehunga", "Henderson"],
+    "population":    [12500, 8900, 15300, 11200, 14800, 9600, 13500, 21000],
+    "median_income": [75000, 95000, 68000, 82000, 71000, 105000, 58000, 52000],
+})
+
+app_ui = ui.page_fluid(
+    ui.h2("Auckland suburbs explorer"),
+    ui.p("Filter suburbs by minimum population and see how incomes compare."),
+    ui.input_slider("min_pop", "Minimum population", 0, 25000, 0, step=1000),
+    ui.output_text("summary"),
+    ui.output_table("tbl"),
+    ui.output_plot("chart"),
+)
+
+def server(input, output, session):
+
+    @reactive.calc
+    def filtered():
+        return suburbs[suburbs["population"] >= input.min_pop()]
+
+    @render.text
+    def summary():
+        df = filtered()
+        if len(df) == 0:
+            return "No suburbs match the current filter."
+        return f"{len(df)} suburbs, mean income ${df['median_income'].mean():,.0f}."
+
+    @render.table
+    def tbl():
+        return filtered()
+
+    @render.plot
+    def chart():
+        df = filtered()
+        fig, ax = plt.subplots(figsize=(7, 4))
+        ax.barh(df["suburb"], df["median_income"], color="steelblue")
+        ax.set_xlabel("Median income (NZ$)")
+        ax.set_title("Median income by suburb")
+        plt.tight_layout()
+        return fig
+
+app = App(app_ui, server)
+```
+
+Save. Move the slider. The summary, table, and plot should all update together.
+
+### Checkpoint
+
+Before moving on, convince yourself that you understand three things. If you cannot answer these out loud, re-read 3.1 before deploying.
+
+1. Which lines are the **UI**, which lines are the **server**, and which line creates the **App**?
+2. What happens if you remove the `@reactive.calc` and inline `suburbs[suburbs["population"] >= input.min_pop()]` in both `tbl` and `chart`? Does the app still work? Is it still efficient?
+3. The `summary` and `chart` both read `filtered()`. If the slider moves, how many times does the filter actually run?
+
+::: {.callout-tip}
+## Try breaking it
+Rename `def tbl():` to `def tabel():` and save. The table will disappear, but the app will not raise an error. Why? Fix it by matching the id in `ui.output_table("tbl")`.
+:::
+
+---
+
+## Section 4: Deploy to GitHub Pages
+
+This is the part most students underestimate. Leave yourself at least 30 minutes.
+
+We will deploy straight from the `main` branch, using a `docs/` folder. This is the simplest pattern: one branch, one push, and GitHub Pages serves the static build. (If you prefer the older `gh-pages` branch style, see the alternative at the bottom of this section.)
+
+```{mermaid}
+flowchart LR
+    A[app.py<br/>on main] -->|shinylive export| B[docs/ folder<br/>static site]
+    B -->|commit + push| C[main branch<br/>on GitHub]
+    C -->|Pages: main /docs| D[Live URL<br/>username.github.io/repo]
+```
+
+### Step 1: Export the app to static files
+
+From your project folder, run:
+
+```bash
+shinylive export . docs
+```
+
+This reads `app.py` (and anything in the folder) and writes a static website to `docs/`. Open `docs/index.html` in your browser. Your app should run, with no Python server anywhere. If it does, your local export works.
+
+::: {.callout-note}
+## Why `docs/` and not `site/`?
+GitHub Pages has built-in support for serving from a `/docs` folder on the `main` branch. Using that name means you only need to tick one box in Settings, no extra branch required.
+:::
+
+### Step 2: Commit the `docs/` folder to `main`
+
+You now need to add the new `docs/` folder, commit it, and push it to GitHub. Pick the workflow you prefer.
+
+::: {.panel-tabset}
+
+#### Option A: Terminal (command line)
+
+```bash
+# Stage the new docs/ folder
+git add docs
+
+# Commit
+git commit -m "Deploy app to docs/"
+
+# Push to main
+git push origin main
+```
+
+Refresh your GitHub repo page. You should now see a `docs/` folder at the top level.
+
+#### Option B: GitHub Desktop (visual)
+
+**1. See the changes.**
+
+GitHub Desktop will show every file inside your new `docs/` folder in the **Changes** tab on the left. There will be a lot of them (HTML, JS, WebAssembly bundles). That is normal.
+
+**2. Commit.**
+
+In the **Summary** box at the bottom left, type:
+
+```
+Deploy app to docs/
+```
+
+Click **Commit to main**.
+
+**3. Push.**
+
+At the top of the window, click **Push origin**. GitHub Desktop sends your commit up to the `main` branch on GitHub.
+
+**4. Verify.**
+
+Click **View on GitHub** (or open your repo in a browser). You should now see a `docs/` folder at the top level.
+
+:::
+
+### Step 3: Enable GitHub Pages
+
+In your repo on github.com:
+
+1. Go to **Settings → Pages**.
+2. Under **Build and deployment → Source**, pick **Deploy from a branch**.
+3. **Branch**: `main`. **Folder**: `/docs`. Click **Save**.
+
+Wait up to a minute. Your app will be live at:
+
+```
+https://<your-username>.github.io/<your-repo>/
+```
+
+First load is slow (10 to 30 seconds) because Pyodide and your packages have to download. Subsequent loads are fast, thanks to browser caching.
+
+::: {.callout-tip}
+## Redeploying after changes
+Every time you change `app.py`, rerun `shinylive export . docs`, then commit and push. GitHub Pages will pick up the new build automatically, usually within a minute.
+:::
+
+---
+
+## Section 5: Homework and stretch goals
+
+### Minimum (everyone)
+
+Before the Week 7 lab:
+
+1. Replace the inline `suburbs` DataFrame with real data you actually want to use. A CSV, a GeoPackage, whatever fits your topic. Commit and redeploy.
+2. Add a second input to your app: a dropdown, a date range, a checkbox group. Make an output depend on both.
+3. Write two paragraphs in a `README.md`:
+   - What question does this dashboard try to answer?
+   - Where does the data come from?
+
+### Stretch (if you finish early)
+
+4. Swap the `@render.plot` for an ipyleaflet map (see 3.4). Show your data on a real map tile layer.
+5. Restructure the UI into a sidebar layout with `ui.page_sidebar` (see 3.3).
+6. Add a `@reactive.event` button that recomputes only when clicked, rather than on every slider tick.
+
+### Common problems
+
+- **`shinylive export` succeeds but the deployed app shows a blank page.** Check the browser Console (Cmd + Option + I on macOS, F12 on Windows and Linux). Usually a missing package or a path-case mismatch.
+- **GitHub Pages says "404" for a minute after enabling.** This is normal. Refresh after 60 seconds.
+- **The first load takes forever.** This is Pyodide downloading. Subsequent loads are fast. If you want to tell users to wait, add a note in your UI.
+- **`folium` does not work after deploy.** Correct: folium is not in Pyodide. Use `ipyleaflet` instead (see 3.4).
+
+### Submission
+
+No formal submission this week. Check-in is your public URL, posted in Slack. We will use it as the starting point for the Week 7 lab.
+
+---
+
+## Further reading {.unnumbered}
+
+- Textbook 3.1 (Your First Shiny App) for the Shiny fundamentals we used today.
+- Posit, [Shiny for Python: Get started](https://shiny.posit.co/py/get-started/).
+- GitHub Docs, [Configuring a publishing source for your GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).

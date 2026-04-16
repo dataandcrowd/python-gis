@@ -1,0 +1,570 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Lab Week 03 GIS {.unnumbered}\n",
+        "\n",
+        "## Overview\n",
+        "\n",
+        "In this short tutorial you will put pedestrian count data on a map. The goal is simple: see *where* people walk in Auckland CBD and *how* that changes throughout the day.\n",
+        "\n",
+        "You do not need to memorise the code. Focus on understanding the logic of each step and interpreting the maps you produce.\n",
+        "\n",
+        "**Duration:** approximately 30 minutes\n",
+        "\n",
+        "**What you need:**\n",
+        "\n",
+        "- Python 3.10+ with `pandas`, `geopandas`, `matplotlib`, `folium`, and `mapclassify` installed\n",
+        "- The files `akl_ped-2024.csv` and `akl_ped-Geodata.csv`\n",
+        "\n",
+        "---\n",
+        "\n",
+        "## Step 1: Load and Clean the Data\n",
+        "\n",
+        "We start by loading the pedestrian counts and doing some basic cleaning."
+      ],
+      "id": "7377f3d6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import pandas as pd\n",
+        "import geopandas as gpd\n",
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "# Load the pedestrian data\n",
+        "ped = pd.read_csv(\"data/akl_ped-2024.csv\")\n",
+        "\n",
+        "# Remove rows that are not actual data\n",
+        "ped = ped.dropna(subset=[\"Date\", \"Time\"]).copy()\n",
+        "ped = ped[ped[\"Date\"] != \"Daylight Savings\"].copy()\n",
+        "\n",
+        "# Convert the Date column to a proper date format\n",
+        "ped[\"Date\"] = pd.to_datetime(ped[\"Date\"])\n",
+        "\n",
+        "# Extract the hour number from the Time column (e.g. \"7:00-7:59\" becomes 7)\n",
+        "ped[\"hour\"] = ped[\"Time\"].str.split(\":\").str[0].astype(int)\n",
+        "\n",
+        "# Extract the month number (e.g. March = 3)\n",
+        "ped[\"month\"] = ped[\"Date\"].dt.month\n",
+        "\n",
+        "print(f\"We have {ped.shape[0]} rows and {ped.shape[1]} columns\")\n",
+        "ped.head(3)"
+      ],
+      "id": "8930c0dc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Step 2: Filter to March and Pick Eight Hours\n",
+        "\n",
+        "We want to focus on March 2024 and eight time slots that capture a full day: 7 am, 9 am, 11 am, 1 pm, 3 pm, 5 pm, 7 pm, and 9 pm."
+      ],
+      "id": "a346f4bb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Keep only March\n",
+        "march = ped[ped[\"month\"] == 3].copy()\n",
+        "\n",
+        "# The eight hours we want\n",
+        "target_hours = [7, 9, 11, 13, 15, 17, 19, 21]\n",
+        "\n",
+        "# Filter to just those hours\n",
+        "march_filtered = march[march[\"hour\"].isin(target_hours)]\n",
+        "\n",
+        "print(f\"March has {march.shape[0]} rows in total\")\n",
+        "print(f\"After filtering to our 8 hours: {march_filtered.shape[0]} rows\")"
+      ],
+      "id": "24a88c73",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Step 3: Calculate the Average Count per Sensor per Hour\n",
+        "\n",
+        "March has 31 days, so each sensor has 31 readings for each hour. We take the **mean** to get a single \"typical March day\"."
+      ],
+      "id": "c085fb48"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# These are the 21 sensor columns (everything after Date and Time)\n",
+        "sensor_cols = ped.columns[2:23]\n",
+        "\n",
+        "# Group by hour, then take the mean of each sensor column\n",
+        "hourly_avg = march_filtered.groupby(\"hour\")[sensor_cols].mean()\n",
+        "hourly_avg = hourly_avg.round(0)\n",
+        "\n",
+        "# print(hourly_avg)  # un-comment this and have a go!"
+      ],
+      "id": "408c648b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Step 4: Reshape to Long Format\n",
+        "\n",
+        "Right now each sensor is its own column (wide format). To put the data on a map, we need one row per sensor per hour (long format). The `melt()` function does this."
+      ],
+      "id": "d296194e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "hourly_long = hourly_avg.reset_index().melt(\n",
+        "    id_vars=\"hour\",\n",
+        "    var_name=\"Address\",\n",
+        "    value_name=\"avg_count\"\n",
+        ")\n",
+        "\n",
+        "print(f\"Long format: {hourly_long.shape[0]} rows\")\n",
+        "hourly_long.head()"
+      ],
+      "id": "4469b072",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-tip}\n",
+        "## What Just Happened?\n",
+        "We had 8 rows (one per hour) and 21 columns (one per sensor). After melting, we have 8 x 21 = 168 rows, with each row telling us the average count for one sensor at one hour.\n",
+        ":::\n",
+        "\n",
+        "\n",
+        "## Step 5: Add Coordinates and Make a GeoDataFrame\n",
+        "\n",
+        "The pedestrian CSV has counts but no coordinates. A separate file tells us where each sensor is located. We merge them together and convert to a GeoDataFrame."
+      ],
+      "id": "b2410875"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Load the sensor locations\n",
+        "geo = pd.read_csv(\"data/akl_ped-Geodata.csv\")\n",
+        "\n",
+        "# The file has some notes at the bottom; drop those\n",
+        "geo = geo.dropna(subset=[\"Latitude\", \"Longitude\"]).copy()\n",
+        "\n",
+        "print(f\"We have coordinates for {len(geo)} sensors\")\n",
+        "geo.head()"
+      ],
+      "id": "60f3b144",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Merge: attach coordinates to each row of our aggregated data\n",
+        "merged = hourly_long.merge(geo, on=\"Address\", how=\"inner\")\n",
+        "\n",
+        "print(f\"After merging: {merged.shape[0]} rows, {merged['Address'].nunique()} sensors\")\n",
+        "merged.head()"
+      ],
+      "id": "429dd486",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Convert to a GeoDataFrame so we can map it\n",
+        "gdf = gpd.GeoDataFrame(\n",
+        "    merged,\n",
+        "    geometry=gpd.points_from_xy(merged[\"Longitude\"], merged[\"Latitude\"]),\n",
+        "    crs=\"EPSG:4326\"\n",
+        ")\n",
+        "\n",
+        "gdf.head()"
+      ],
+      "id": "ec16e466",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Step 6: Your First Web Map\n",
+        "\n",
+        "Let us put the 5 pm data on an interactive web map. GeoPandas has a built-in function called `.explore()` that creates an interactive Leaflet map with one line of code."
+      ],
+      "id": "ab56a2ea"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Filter to just the 5 pm hour\n",
+        "hour_17 = gdf[gdf[\"hour\"] == 17]\n",
+        "\n",
+        "# Create an interactive map!\n",
+        "hour_17.explore(\n",
+        "    column=\"avg_count\",\n",
+        "    cmap=\"YlOrRd\",\n",
+        "    tooltip=[\"Address\", \"avg_count\"],\n",
+        "    tooltip_kwds={\"aliases\": [\"Sensor\", \"Avg Count\"]},\n",
+        "    tiles=\"CartoDB positron\",\n",
+        "    marker_kwds={\"radius\": 10},\n",
+        "    legend=True,\n",
+        "    legend_kwds={\"caption\": \"Avg Pedestrian Count (5 pm)\"},\n",
+        "    style_kwds={\"weight\": 1, \"color\": \"black\"},\n",
+        ")"
+      ],
+      "id": "8581d566",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Hover over the dots to see which sensor they represent and how many pedestrians pass by. Zoom in and out to explore the CBD area.\n",
+        "\n",
+        "::: {.callout-tip}\n",
+        "## Try a Different Basemap\n",
+        "Change `tiles=\"CartoDB positron\"` to one of these and re-run:\n",
+        "\n",
+        "- `\"OpenStreetMap\"` (shows street detail)\n",
+        "- `\"CartoDB dark_matter\"` (dark theme)\n",
+        "\n",
+        "Which basemap makes the pedestrian data easiest to read?\n",
+        ":::\n",
+        "\n",
+        "**Your turn:** Change `hour == 17` to `hour == 7` to see the 7 am pattern. How does it differ from 5 pm?\n",
+        "\n",
+        "\n",
+        "## Step 7: Web Map with Sized Circles\n",
+        "\n",
+        "The `.explore()` map uses the same dot size for every sensor. We can use the `folium` library to draw circles whose size reflects the pedestrian count, making busy sensors visually larger."
+      ],
+      "id": "57880536"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import folium\n",
+        "\n",
+        "# Create a base map centred on Auckland CBD\n",
+        "m = folium.Map(\n",
+        "    location=[-36.849, 174.765],\n",
+        "    zoom_start=15,\n",
+        "    tiles=\"CartoDB positron\"\n",
+        ")\n",
+        "\n",
+        "# Filter to 5 pm\n",
+        "hour_17 = gdf[gdf[\"hour\"] == 17]\n",
+        "\n",
+        "# Add a circle for each sensor.\n",
+        "# Don't worry about this loop syntax for now -- just run it!\n",
+        "# It goes through each sensor one at a time and places a circle on the map.\n",
+        "for _, row in hour_17.iterrows():\n",
+        "    folium.CircleMarker(\n",
+        "        location=[row[\"Latitude\"], row[\"Longitude\"]],\n",
+        "        radius=row[\"avg_count\"] / 80,       # bigger count = bigger circle\n",
+        "        color=\"black\",\n",
+        "        weight=0.5,\n",
+        "        fill=True,\n",
+        "        fill_color=\"red\",\n",
+        "        fill_opacity=0.6,\n",
+        "        tooltip=f\"{row['Address']}: {int(row['avg_count'])} avg/hr\"\n",
+        "    ).add_to(m)\n",
+        "\n",
+        "m"
+      ],
+      "id": "becd3648",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Your turn:** Try mapping `hour == 13` (1 pm lunchtime). Which sensors have the biggest circles? Are they the same ones as at 5 pm?\n",
+        "\n",
+        "\n",
+        "## Step 8: Static Map of a Single Hour\n",
+        "\n",
+        "Interactive maps are great for exploration, but static maps are better for reports and comparisons. Here is the 5 pm data as a static matplotlib plot."
+      ],
+      "id": "b1ef3dd4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "hour_17 = gdf[gdf[\"hour\"] == 17]\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(8, 8))\n",
+        "\n",
+        "hour_17.plot(\n",
+        "    ax=ax,\n",
+        "    column=\"avg_count\",\n",
+        "    cmap=\"YlOrRd\",\n",
+        "    markersize=hour_17[\"avg_count\"] / 3,\n",
+        "    edgecolor=\"black\",\n",
+        "    linewidth=0.5,\n",
+        "    legend=True,\n",
+        "    legend_kwds={\"label\": \"Avg Pedestrian Count\", \"shrink\": 0.6}\n",
+        ")\n",
+        "\n",
+        "ax.set_title(\"Average Pedestrian Count at 5 pm (March 2024)\", fontweight=\"bold\")\n",
+        "ax.set_axis_off()\n",
+        "ax.set_aspect(\"equal\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "abc3c078",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Step 9: Compare Two Hours Side by Side\n",
+        "\n",
+        "A useful way to see change through the day is to place two maps next to each other."
+      ],
+      "id": "c5696494"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Pick two hours to compare\n",
+        "morning = gdf[gdf[\"hour\"] == 7]\n",
+        "evening = gdf[gdf[\"hour\"] == 17]\n",
+        "\n",
+        "# Use a consistent colour scale so the maps are comparable\n",
+        "vmin = gdf[\"avg_count\"].min()\n",
+        "vmax = gdf[\"avg_count\"].max()\n",
+        "\n",
+        "fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))\n",
+        "\n",
+        "# Morning map\n",
+        "morning.plot(\n",
+        "    ax=ax1,\n",
+        "    column=\"avg_count\",\n",
+        "    cmap=\"YlOrRd\",\n",
+        "    markersize=morning[\"avg_count\"] / 3,\n",
+        "    edgecolor=\"black\",\n",
+        "    linewidth=0.3,\n",
+        "    vmin=vmin,\n",
+        "    vmax=vmax,\n",
+        "    legend=False\n",
+        ")\n",
+        "ax1.set_title(\"7 am\", fontsize=14, fontweight=\"bold\")\n",
+        "ax1.set_axis_off()\n",
+        "ax1.set_aspect(\"equal\")\n",
+        "\n",
+        "# Evening map\n",
+        "evening.plot(\n",
+        "    ax=ax2,\n",
+        "    column=\"avg_count\",\n",
+        "    cmap=\"YlOrRd\",\n",
+        "    markersize=evening[\"avg_count\"] / 3,\n",
+        "    edgecolor=\"black\",\n",
+        "    linewidth=0.3,\n",
+        "    vmin=vmin,\n",
+        "    vmax=vmax,\n",
+        "    legend=False\n",
+        ")\n",
+        "ax2.set_title(\"5 pm\", fontsize=14, fontweight=\"bold\")\n",
+        "ax2.set_axis_off()\n",
+        "ax2.set_aspect(\"equal\")\n",
+        "\n",
+        "plt.suptitle(\"Auckland CBD: Morning vs Evening (March 2024)\", fontsize=15, fontweight=\"bold\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "111720c3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Your turn:** Change the two hours to compare lunchtime (13) vs late evening (21). What do you notice?\n",
+        "\n",
+        "\n",
+        "## Step 10: Which Sensors Are Busiest?\n",
+        "\n",
+        "Let us find out which sensors see the most foot traffic overall."
+      ],
+      "id": "883b9786"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Sum each sensor's average counts across all 8 time slots\n",
+        "total_by_sensor = gdf.groupby(\"Address\")[\"avg_count\"].sum().sort_values(ascending=False)\n",
+        "\n",
+        "print(\"Top 5 busiest sensors:\")\n",
+        "print(total_by_sensor.head())\n",
+        "print()\n",
+        "print(\"Bottom 5 quietest sensors:\")\n",
+        "print(total_by_sensor.tail())"
+      ],
+      "id": "e1375333",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# A simple bar chart of total counts\n",
+        "fig, ax = plt.subplots(figsize=(8, 6))\n",
+        "total_by_sensor.sort_values().plot.barh(ax=ax, color=\"steelblue\", edgecolor=\"white\")\n",
+        "ax.set_xlabel(\"Total Avg Count (8 time slots)\")\n",
+        "ax.set_title(\"Sensor Ranking: Total Pedestrian Activity (March 2024)\", fontweight=\"bold\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "6a7b9db5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "\n",
+        "## Questions to Think About\n",
+        "\n",
+        "Now that you have produced the maps, take some time to reflect on the patterns. Discuss these with your lab partner or write short answers in your notebook.\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "## Q1: Spatial Shift Through the Day\n",
+        "\n",
+        "Compare the 7 am and 5 pm maps. Does the \"centre of gravity\" of pedestrian activity shift location between morning and evening? In which direction, and why?\n",
+        ":::\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "## Q2: Morning vs Evening Symmetry\n",
+        "\n",
+        "Are the 7 am and 7 pm maps roughly symmetrical (similar numbers but reversed in time), or do they look different? What might explain any asymmetry?\n",
+        ":::\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "## Q3: Lunchtime Hotspots\n",
+        "\n",
+        "At 1 pm, which sensors show the highest counts? Are these the same sensors that dominate at 5 pm? What does this tell you about the difference between lunchtime foot traffic and commuter foot traffic?\n",
+        ":::\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "## Q4: Waterfront vs Queen Street\n",
+        "\n",
+        "Compare the Quay Street sensors (waterfront) with the Queen Street sensors (retail corridor). Do they follow the same daily pattern, or do they peak at different times? What urban functions might explain the difference?\n",
+        ":::\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "## Q5: K Road vs CBD Core\n",
+        "\n",
+        "The K Road sensors (150 and 183 K Road) are roughly 1.5 km south of the CBD core. How do their counts compare in absolute terms? Do they peak at the same hour as the CBD sensors?\n",
+        ":::\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "## Q6: Aggregation Choices\n",
+        "\n",
+        "We averaged across all 31 days in March. How might the maps change if you:\n",
+        "\n",
+        "- Used **median** instead of **mean**?\n",
+        "- Separated **weekdays** from **weekends**?\n",
+        "- Chose different hours (e.g. 8 am instead of 7 am)?\n",
+        ":::\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "## Q7: Data Limitations\n",
+        "\n",
+        "The sensors only capture 21 locations. How representative are these of pedestrian activity across the entire CBD? What additional data sources might help fill the gaps?\n",
+        ":::\n",
+        "\n",
+        "\n",
+        "---\n",
+        "\n",
+        "## Extension: Weekday vs Weekend\n",
+        "\n",
+        "If you finish early, try splitting March into weekdays and weekends and comparing the maps."
+      ],
+      "id": "6aa9ec56"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| eval: false\n",
+        "\n",
+        "# Add a day-of-week number: 0 = Monday, 6 = Sunday\n",
+        "march[\"day_num\"] = march[\"Date\"].dt.dayofweek\n",
+        "\n",
+        "# Create a weekend flag\n",
+        "march[\"is_weekend\"] = march[\"day_num\"] >= 5\n",
+        "\n",
+        "# Weekday average\n",
+        "weekday_data = march[(march[\"is_weekend\"] == False) & (march[\"hour\"].isin(target_hours))]\n",
+        "weekday_avg = weekday_data.groupby(\"hour\")[sensor_cols].mean().round(0)\n",
+        "\n",
+        "# Weekend average\n",
+        "weekend_data = march[(march[\"is_weekend\"] == True) & (march[\"hour\"].isin(target_hours))]\n",
+        "weekend_avg = weekend_data.groupby(\"hour\")[sensor_cols].mean().round(0)\n",
+        "\n",
+        "# Then reshape, merge with geo, and map as before..."
+      ],
+      "id": "574c87ef",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-tip}\n",
+        "## What to Look For\n",
+        "Weekend maps will likely show later morning peaks, reduced lunchtime activity, and a different spatial pattern: waterfront and leisure areas gaining share while office corridors lose it.\n",
+        ":::"
+      ],
+      "id": "116e3be1"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/Library/Frameworks/Python.framework/Versions/3.12/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

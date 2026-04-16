@@ -1,0 +1,825 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Lab Week 03 {.unnumbered}\n",
+        "\n",
+        "## Overview\n",
+        "\n",
+        "Welcome to the Tutorial! This lab builds on the concepts covered in yesterday's lecture. You have up to 2 hours in the lab to review what you have learned and apply it through a series of exercises. Some code snippets are provided for you to execute, but do not just run them blindly -- take the time to understand what each line does.\n",
+        "\n",
+        "Today we focus on **data visualisation** using three Python libraries, each with different strengths. By the end of the lab you will know which package is best suited for a given task and be able to produce common chart types with each.\n",
+        "\n",
+        "**Duration:** approximately 2 hours\n",
+        "\n",
+        "**What you need:**\n",
+        "\n",
+        "- Python 3.10+ with `pandas`, `matplotlib`, `seaborn`, `altair`, and `palmerpenguins` installed\n",
+        "- A Python script, Jupyter notebook, or Quarto document to write your code\n",
+        "\n",
+        "**Structure:**\n",
+        "\n",
+        "| Section | Topic | Approx. Time |\n",
+        "|------|-------|--------------|\n",
+        "| 1 | Palmer Penguins dataset | 10 min |\n",
+        "| 2 | Matplotlib | 30 min |\n",
+        "| 3 | Seaborn | 40 min |\n",
+        "| 4 | Altair | 30 min |\n",
+        "| -- | Final challenge | 10 min |\n",
+        "\n",
+        "::: {.callout-note}\n",
+        "## A Note on Polars\n",
+        "I promised to prepare the Polars package material, but could not get it ready in time. We will cover Polars later in a future lecture.\n",
+        ":::\n",
+        "\n",
+        "---\n",
+        "\n",
+        "# Section 1: The Palmer Penguins Dataset {.unnumbered}\n",
+        "\n",
+        "## About the Data\n",
+        "\n",
+        "The `palmerpenguins` data package (originally an R package, also available in Python) contains measurements that serve as an alternative to Anderson's classic Iris dataset. It records body weight, bill length, flipper length, and body mass for three species of penguins: Adelie, Gentoo, and Chinstrap.\n",
+        "\n",
+        "The dataset was collected by Dr Kristen Gorman and the Palmer Station Long Term Ecological Research (LTER) programme, part of the US National Science Foundation. Data were gathered during the breeding season from 2007 to 2009 at Palmer Station, Antarctica.\n",
+        "\n",
+        "The Palmer Penguins dataset contains 344 observations and 8 variables:\n",
+        "\n",
+        "- `species` (categorical): the species of penguin (Adelie, Gentoo, or Chinstrap)\n",
+        "- `island` (categorical): the island where the penguin was observed (Biscoe, Dream, or Torgersen)\n",
+        "- `bill_length_mm` (numerical): the length of the penguin's bill in millimetres\n",
+        "- `bill_depth_mm` (numerical): the depth of the penguin's bill in millimetres\n",
+        "- `flipper_length_mm` (numerical): the length of the penguin's flipper in millimetres\n",
+        "- `body_mass_g` (numerical): the body mass of the penguin in grams\n",
+        "- `sex` (categorical): the sex of the penguin (male or female)\n",
+        "- `year` (numerical): the year the data was collected (2007, 2008, or 2009)\n",
+        "\n",
+        "::: {.callout-tip}\n",
+        "## What are Culmen Length and Depth?\n",
+        "The culmen is the upper ridge of a bird's beak. In the simplified `penguins` subset, culmen length and depth have been renamed to `bill_length_mm` and `bill_depth_mm`.\n",
+        ":::\n",
+        "\n",
+        "**Data citation:** Gorman KB, Williams TD, Fraser WR (2014). Ecological sexual dimorphism and environmental variability within a community of Antarctic penguins (genus *Pygoscelis*). PLoS ONE 9(3):e90081. <https://doi.org/10.1371/journal.pone.0090081>\n",
+        "\n",
+        "**Licence:** Data are available by CC-0 licence in accordance with the Palmer Station LTER Data Policy and the LTER Data Access Policy for Type I data.\n",
+        "\n",
+        "## Task 1: Loading the Data"
+      ],
+      "id": "f0f51818"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Install if needed (run once):\n",
+        "# pip install palmerpenguins\n",
+        "\n",
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "from palmerpenguins import load_penguins\n",
+        "\n",
+        "penguins = load_penguins()\n",
+        "print(f\"Shape: {penguins.shape}\")\n",
+        "penguins.head()"
+      ],
+      "id": "8b663437",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "penguins.info()"
+      ],
+      "id": "1236e0ae",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "penguins.describe()"
+      ],
+      "id": "62e128da",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Your turn:** How many missing values are there in each column? Use `penguins.isna().sum()` to find out. Which columns have missing data?\n",
+        "\n",
+        "## Task 2: Quick Cleaning\n",
+        "\n",
+        "For this lab we will drop rows with missing values so that every plot works cleanly. In a real analysis you might choose to handle these differently."
+      ],
+      "id": "f7655169"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "penguins = penguins.dropna().copy()\n",
+        "print(f\"Clean shape: {penguins.shape}\")"
+      ],
+      "id": "2ab306eb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# How many penguins per species?\n",
+        "print(penguins[\"species\"].value_counts())"
+      ],
+      "id": "6a6d4afe",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# How many per island?\n",
+        "print(penguins[\"island\"].value_counts())"
+      ],
+      "id": "33c70249",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "\n",
+        "# Section 2: Matplotlib {.unnumbered}\n",
+        "\n",
+        "`matplotlib` is the foundational plotting library in Python. It is very well tested, robust, and can reproduce just about any plot (sometimes with a lot of effort). The trade-off is that the syntax can be verbose and imperative, and it has limited support for interactive or web graphics out of the box.\n",
+        "\n",
+        "You do not need to memorise the syntax for every plotting function. The [matplotlib gallery](https://matplotlib.org/stable/gallery/index.html) is an excellent reference.\n",
+        "\n",
+        "## Task 3: Scatter Plot"
+      ],
+      "id": "9000a773"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(8, 6))\n",
+        "\n",
+        "# Colour each species differently\n",
+        "colours = {\"Adelie\": \"#FF6B35\", \"Chinstrap\": \"#7B2D8E\", \"Gentoo\": \"#1B998B\"}\n",
+        "\n",
+        "for species, group in penguins.groupby(\"species\"):\n",
+        "    ax.scatter(\n",
+        "        group[\"bill_length_mm\"],\n",
+        "        group[\"bill_depth_mm\"],\n",
+        "        label=species,\n",
+        "        color=colours[species],\n",
+        "        alpha=0.7,\n",
+        "        edgecolors=\"white\",\n",
+        "        linewidth=0.5\n",
+        "    )\n",
+        "\n",
+        "ax.set_xlabel(\"Bill Length (mm)\")\n",
+        "ax.set_ylabel(\"Bill Depth (mm)\")\n",
+        "ax.set_title(\"Penguin Bill Dimensions by Species\", fontweight=\"bold\")\n",
+        "ax.legend(title=\"Species\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "c556fd8d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Notice how we loop through each species group and plot them separately to assign colours. This is the imperative style that is characteristic of matplotlib.\n",
+        "\n",
+        "**Your turn:** Create a scatter plot of `flipper_length_mm` (x-axis) vs `body_mass_g` (y-axis), coloured by species. Add axis labels and a legend.\n",
+        "\n",
+        "## Task 4: Histogram"
+      ],
+      "id": "3eb0d21a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "fig, ax = plt.subplots(figsize=(8, 5))\n",
+        "\n",
+        "for species, group in penguins.groupby(\"species\"):\n",
+        "    ax.hist(\n",
+        "        group[\"body_mass_g\"],\n",
+        "        bins=20,\n",
+        "        alpha=0.5,\n",
+        "        label=species,\n",
+        "        color=colours[species],\n",
+        "        edgecolor=\"white\"\n",
+        "    )\n",
+        "\n",
+        "ax.set_xlabel(\"Body Mass (g)\")\n",
+        "ax.set_ylabel(\"Frequency\")\n",
+        "ax.set_title(\"Distribution of Body Mass by Species\", fontweight=\"bold\")\n",
+        "ax.legend(title=\"Species\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "1447bbde",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Your turn:** Create a histogram of `flipper_length_mm` for each island (not species). Use 15 bins. What can you see about the distributions?\n",
+        "\n",
+        "## Task 5: Bar Chart"
+      ],
+      "id": "4360231e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Mean body mass by species\n",
+        "species_mass = penguins.groupby(\"species\")[\"body_mass_g\"].mean().sort_values()\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(7, 4))\n",
+        "species_mass.plot.barh(\n",
+        "    ax=ax,\n",
+        "    color=[colours[s] for s in species_mass.index],\n",
+        "    edgecolor=\"white\"\n",
+        ")\n",
+        "ax.set_xlabel(\"Mean Body Mass (g)\")\n",
+        "ax.set_title(\"Average Body Mass by Species\", fontweight=\"bold\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "f2a2b658",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Your turn:** Create a grouped bar chart showing the mean bill length for each species, split by sex. Hint: use `penguins.groupby([\"species\", \"sex\"])[\"bill_length_mm\"].mean().unstack()` and then `.plot.bar()`.\n",
+        "\n",
+        "## Task 6: Multi-Panel Figure"
+      ],
+      "id": "1b799bdb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "fig, axes = plt.subplots(1, 3, figsize=(15, 4))\n",
+        "\n",
+        "measurements = [\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\"]\n",
+        "titles = [\"Bill Length (mm)\", \"Bill Depth (mm)\", \"Flipper Length (mm)\"]\n",
+        "\n",
+        "for ax, col, title in zip(axes, measurements, titles):\n",
+        "    for species, group in penguins.groupby(\"species\"):\n",
+        "        ax.hist(group[col], bins=15, alpha=0.5, label=species, color=colours[species])\n",
+        "    ax.set_title(title, fontweight=\"bold\")\n",
+        "    ax.set_ylabel(\"Frequency\")\n",
+        "    ax.legend(fontsize=8)\n",
+        "\n",
+        "plt.suptitle(\"Distributions of Penguin Measurements\", fontsize=14, fontweight=\"bold\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "60891c62",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "\n",
+        "# Section 3: Seaborn {.unnumbered}\n",
+        "\n",
+        "`seaborn` is built on top of matplotlib and adds a high-level interface for drawing statistical graphics. It integrates closely with pandas DataFrames and handles grouping, faceting, and colour palettes automatically.\n",
+        "\n",
+        "Key tutorial pages to bookmark:\n",
+        "\n",
+        "- [Visualising statistical relationships](https://seaborn.pydata.org/tutorial/relational.html)\n",
+        "- [Categorical data](https://seaborn.pydata.org/tutorial/categorical.html)\n",
+        "- [Visualising distributions](https://seaborn.pydata.org/tutorial/distributions.html)\n",
+        "- [Visualising linear relationships](https://seaborn.pydata.org/tutorial/regression.html)\n",
+        "\n",
+        "## Task 7: Scatter Plot with Regression Line"
+      ],
+      "id": "d52090c9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import seaborn as sns\n",
+        "\n",
+        "sns.set_style(\"whitegrid\")\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(8, 6))\n",
+        "sns.scatterplot(\n",
+        "    data=penguins,\n",
+        "    x=\"bill_length_mm\",\n",
+        "    y=\"bill_depth_mm\",\n",
+        "    hue=\"species\",\n",
+        "    palette=colours,\n",
+        "    alpha=0.7,\n",
+        "    ax=ax\n",
+        ")\n",
+        "ax.set_title(\"Penguin Bill Dimensions by Species\", fontweight=\"bold\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "56ead587",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Notice how much less code this takes compared to the matplotlib version. Seaborn handles the grouping and legend automatically."
+      ],
+      "id": "9495c68d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Add regression lines per species using lmplot\n",
+        "g = sns.lmplot(\n",
+        "    data=penguins,\n",
+        "    x=\"bill_length_mm\",\n",
+        "    y=\"bill_depth_mm\",\n",
+        "    hue=\"species\",\n",
+        "    palette=colours,\n",
+        "    height=6,\n",
+        "    aspect=1.2\n",
+        ")\n",
+        "g.set_axis_labels(\"Bill Length (mm)\", \"Bill Depth (mm)\")\n",
+        "g.figure.suptitle(\"Bill Dimensions with Regression Lines\", fontweight=\"bold\", y=1.02)\n",
+        "plt.show()"
+      ],
+      "id": "9831892d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "::: {.callout-note}\n",
+        "## Simpson's Paradox\n",
+        "If you were to fit a single regression line across all species, it would slope downwards, suggesting that longer bills have shallower depth. But within each species the relationship is positive. This is an example of Simpson's Paradox, where a trend that appears in several groups reverses when the groups are combined.\n",
+        ":::\n",
+        "\n",
+        "**Your turn:** Create an `lmplot` of `flipper_length_mm` vs `body_mass_g`, coloured by species. Is there a positive relationship within each species?\n",
+        "\n",
+        "## Task 8: Box Plot and Violin Plot"
+      ],
+      "id": "2e55c914"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "fig, axes = plt.subplots(1, 2, figsize=(14, 5))\n",
+        "\n",
+        "# Box plot\n",
+        "sns.boxplot(\n",
+        "    data=penguins,\n",
+        "    x=\"species\",\n",
+        "    y=\"body_mass_g\",\n",
+        "    palette=colours,\n",
+        "    ax=axes[0]\n",
+        ")\n",
+        "axes[0].set_title(\"Body Mass: Box Plot\", fontweight=\"bold\")\n",
+        "axes[0].set_ylabel(\"Body Mass (g)\")\n",
+        "\n",
+        "# Violin plot\n",
+        "sns.violinplot(\n",
+        "    data=penguins,\n",
+        "    x=\"species\",\n",
+        "    y=\"body_mass_g\",\n",
+        "    palette=colours,\n",
+        "    ax=axes[1]\n",
+        ")\n",
+        "axes[1].set_title(\"Body Mass: Violin Plot\", fontweight=\"bold\")\n",
+        "axes[1].set_ylabel(\"Body Mass (g)\")\n",
+        "\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "3c4c68be",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Box plots show medians, quartiles, and outliers. Violin plots show the full shape of the distribution. The violin plot reveals, for example, that Gentoo penguins have a bimodal mass distribution (likely reflecting sexual dimorphism).\n",
+        "\n",
+        "**Your turn:** Create a box plot of `bill_length_mm` by species, split by `sex` using the `hue` parameter. Which species shows the largest difference between males and females?\n",
+        "\n",
+        "## Task 9: Pair Plot"
+      ],
+      "id": "02e89fc4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sns.pairplot(\n",
+        "    penguins,\n",
+        "    hue=\"species\",\n",
+        "    palette=colours,\n",
+        "    diag_kind=\"kde\",\n",
+        "    plot_kws={\"alpha\": 0.6}\n",
+        ")\n",
+        "plt.suptitle(\"Pair Plot of Penguin Measurements\", fontweight=\"bold\", y=1.02)\n",
+        "plt.show()"
+      ],
+      "id": "a7b0d370",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "A pair plot produces scatter plots for every combination of numerical variables and distributions along the diagonal. This is a powerful way to spot clusters, correlations, and outliers across multiple dimensions at once.\n",
+        "\n",
+        "**Your turn:** Create a pair plot using only the columns `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, and `body_mass_g`, coloured by `island` instead of species. Do the islands show distinct clusters?\n",
+        "\n",
+        "## Task 10: Heatmap of Correlations"
+      ],
+      "id": "4e7c2d2e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Compute correlation matrix for numeric columns\n",
+        "numeric_cols = [\"bill_length_mm\", \"bill_depth_mm\", \"flipper_length_mm\", \"body_mass_g\"]\n",
+        "corr = penguins[numeric_cols].corr()\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(7, 6))\n",
+        "sns.heatmap(\n",
+        "    corr,\n",
+        "    annot=True,\n",
+        "    fmt=\".2f\",\n",
+        "    cmap=\"coolwarm\",\n",
+        "    center=0,\n",
+        "    linewidths=0.5,\n",
+        "    ax=ax\n",
+        ")\n",
+        "ax.set_title(\"Correlation Matrix: Penguin Measurements\", fontweight=\"bold\")\n",
+        "plt.tight_layout()\n",
+        "plt.show()"
+      ],
+      "id": "f99eeb30",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Your turn:** Create a separate correlation heatmap for each species. Use a 1x3 subplot layout. Do the correlation patterns differ between species?\n",
+        "\n",
+        "## Task 11: FacetGrid"
+      ],
+      "id": "73fe5da7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g = sns.FacetGrid(\n",
+        "    penguins,\n",
+        "    col=\"species\",\n",
+        "    hue=\"sex\",\n",
+        "    height=4,\n",
+        "    aspect=1\n",
+        ")\n",
+        "g.map_dataframe(sns.scatterplot, x=\"bill_length_mm\", y=\"bill_depth_mm\", alpha=0.7)\n",
+        "g.add_legend()\n",
+        "g.set_axis_labels(\"Bill Length (mm)\", \"Bill Depth (mm)\")\n",
+        "g.figure.suptitle(\"Bill Dimensions by Species and Sex\", fontweight=\"bold\", y=1.02)\n",
+        "plt.show()"
+      ],
+      "id": "ede49b36",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "FacetGrid creates a grid of panels, one per category. This is ideal for comparing patterns across groups without overloading a single plot.\n",
+        "\n",
+        "---\n",
+        "\n",
+        "# Section 4: Altair {.unnumbered}\n",
+        "\n",
+        "[Altair](https://altair-viz.github.io/) takes a fundamentally different approach from matplotlib and seaborn. Instead of writing imperative instructions (\"draw a dot here, add a line there\"), you write a **declarative specification**: you describe *what* the visualisation should show and let the library determine the details. Altair relies on the [Vega-Lite](https://vega.github.io/vega-lite/) JavaScript grammar of graphics."
+      ],
+      "id": "aae4f365"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Install if needed (run once):\n",
+        "# pip install altair\n",
+        "\n",
+        "import altair as alt"
+      ],
+      "id": "bd3456bf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Task 12: Basic Scatter Plot"
+      ],
+      "id": "3c4dc188"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = alt.Chart(penguins).mark_point().encode(\n",
+        "    x=\"bill_length_mm:Q\",\n",
+        "    y=\"bill_depth_mm:Q\",\n",
+        "    color=\"species:N\"\n",
+        ").properties(\n",
+        "    title=\"Penguin Bill Dimensions by Species\",\n",
+        "    width=500,\n",
+        "    height=400\n",
+        ")\n",
+        "\n",
+        "chart"
+      ],
+      "id": "329cf94a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The key concepts in Altair are:\n",
+        "\n",
+        "- `mark_point()`, `mark_bar()`, `mark_line()`, etc. define the geometry\n",
+        "- `.encode()` maps data columns to visual channels (x, y, colour, size, shape)\n",
+        "- Type suffixes: `:Q` (quantitative), `:N` (nominal/categorical), `:O` (ordinal), `:T` (temporal)\n",
+        "\n",
+        "**Your turn:** Modify the chart to use `flipper_length_mm` on the x-axis and `body_mass_g` on the y-axis. Add `size=\"body_mass_g:Q\"` to the encoding. What happens?\n",
+        "\n",
+        "## Task 13: Interactive Scatter Plot"
+      ],
+      "id": "51f6783e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "selection = alt.selection_point(fields=[\"species\"])\n",
+        "\n",
+        "chart = alt.Chart(penguins).mark_circle(size=80).encode(\n",
+        "    x=\"bill_length_mm:Q\",\n",
+        "    y=\"bill_depth_mm:Q\",\n",
+        "    color=alt.condition(\n",
+        "        selection,\n",
+        "        \"species:N\",\n",
+        "        alt.value(\"lightgrey\")\n",
+        "    ),\n",
+        "    tooltip=[\"species\", \"island\", \"bill_length_mm\", \"bill_depth_mm\", \"body_mass_g\"]\n",
+        ").add_params(\n",
+        "    selection\n",
+        ").properties(\n",
+        "    title=\"Click a Species to Highlight\",\n",
+        "    width=500,\n",
+        "    height=400\n",
+        ")\n",
+        "\n",
+        "chart"
+      ],
+      "id": "637e6156",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Click on a point or legend entry to highlight that species. Hover over points to see tooltips. This interactivity comes \"for free\" with Altair -- no additional code is needed beyond the selection definition.\n",
+        "\n",
+        "**Your turn:** Add `shape=\"island:N\"` to the encoding so that each island uses a different marker shape. Can you tell which island has which species?\n",
+        "\n",
+        "## Task 14: Bar Chart"
+      ],
+      "id": "037806ca"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = alt.Chart(penguins).mark_bar().encode(\n",
+        "    x=alt.X(\"species:N\", title=\"Species\"),\n",
+        "    y=alt.Y(\"count():Q\", title=\"Count\"),\n",
+        "    color=\"species:N\"\n",
+        ").properties(\n",
+        "    title=\"Number of Penguins by Species\",\n",
+        "    width=400,\n",
+        "    height=300\n",
+        ")\n",
+        "\n",
+        "chart"
+      ],
+      "id": "331e5dea",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Grouped bar chart: species by sex\n",
+        "chart = alt.Chart(penguins).mark_bar().encode(\n",
+        "    x=alt.X(\"species:N\", title=\"Species\"),\n",
+        "    y=alt.Y(\"mean(body_mass_g):Q\", title=\"Mean Body Mass (g)\"),\n",
+        "    color=\"sex:N\",\n",
+        "    xOffset=\"sex:N\"\n",
+        ").properties(\n",
+        "    title=\"Mean Body Mass by Species and Sex\",\n",
+        "    width=400,\n",
+        "    height=300\n",
+        ")\n",
+        "\n",
+        "chart"
+      ],
+      "id": "42e24b15",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Your turn:** Create a stacked bar chart showing the count of penguins per island, with each bar segmented by species. Hint: encode `x=\"island:N\"`, `y=\"count():Q\"`, and `color=\"species:N\"`.\n",
+        "\n",
+        "## Task 15: Faceted Charts"
+      ],
+      "id": "94fd96b8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = alt.Chart(penguins).mark_point(filled=True, size=60).encode(\n",
+        "    x=alt.X(\"flipper_length_mm:Q\", title=\"Flipper Length (mm)\"),\n",
+        "    y=alt.Y(\"body_mass_g:Q\", title=\"Body Mass (g)\"),\n",
+        "    color=\"sex:N\"\n",
+        ").facet(\n",
+        "    column=\"species:N\"\n",
+        ").properties(\n",
+        "    title=\"Flipper Length vs Body Mass by Species\"\n",
+        ")\n",
+        "\n",
+        "chart"
+      ],
+      "id": "080b253c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Altair's `.facet()` works like seaborn's FacetGrid but with a declarative syntax.\n",
+        "\n",
+        "## Task 16: Histogram and Density"
+      ],
+      "id": "d3d0cc8a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "chart = alt.Chart(penguins).mark_bar(opacity=0.6).encode(\n",
+        "    x=alt.X(\"body_mass_g:Q\", bin=alt.Bin(maxbins=30), title=\"Body Mass (g)\"),\n",
+        "    y=alt.Y(\"count():Q\", title=\"Frequency\"),\n",
+        "    color=\"species:N\"\n",
+        ").properties(\n",
+        "    title=\"Distribution of Body Mass by Species\",\n",
+        "    width=500,\n",
+        "    height=300\n",
+        ")\n",
+        "\n",
+        "chart"
+      ],
+      "id": "398a9b11",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Your turn:** Create a layered density plot of `bill_length_mm` using `mark_area(opacity=0.5)` with `transform_density()`. Refer to the [Altair density transform docs](https://altair-viz.github.io/user_guide/transform/density.html).\n",
+        "\n",
+        "---\n",
+        "\n",
+        "# Comparing the Three Libraries {.unnumbered}\n",
+        "\n",
+        "| Feature | matplotlib | seaborn | Altair |\n",
+        "|---------|-----------|---------|--------|\n",
+        "| **Style** | Imperative (step-by-step) | High-level statistical | Declarative (specify *what*) |\n",
+        "| **Interactivity** | Limited (requires extra work) | Limited (inherits matplotlib) | Built-in (hover, click, zoom) |\n",
+        "| **Statistical plots** | Manual | Built-in (regression, distributions) | Via transforms |\n",
+        "| **Learning curve** | Steeper syntax | Easier for stats plots | Different paradigm |\n",
+        "| **Best for** | Full control, publication figures | Statistical exploration | Interactive dashboards, web |\n",
+        "\n",
+        "::: {.callout-tip}\n",
+        "## Which Library Should I Use?\n",
+        "There is no single \"best\" library. Use **matplotlib** when you need pixel-level control or are building complex custom layouts. Use **seaborn** for statistical exploration and when you want to produce common statistical plots quickly. Use **Altair** when you want interactivity, web-ready outputs, or a concise declarative syntax.\n",
+        ":::\n",
+        "\n",
+        "---\n",
+        "\n",
+        "# Final Challenge {.unnumbered}\n",
+        "\n",
+        "## Putting It All Together\n",
+        "\n",
+        "Using any combination of matplotlib, seaborn, and Altair, produce a short visual analysis of the Palmer Penguins data that addresses the following question:\n",
+        "\n",
+        "> **How do the physical characteristics of the three penguin species relate to each other, and do these relationships differ by sex or island?**\n",
+        "\n",
+        "Your analysis should include:\n",
+        "\n",
+        "1. **At least three different chart types** (e.g. scatter, box, bar, heatmap, pair plot)\n",
+        "2. **At least two different libraries** from today's lab\n",
+        "3. **At least one interactive chart** using Altair\n",
+        "4. **Written interpretation**: below each figure, write 2--3 sentences explaining what the visualisation reveals\n",
+        "\n",
+        "::: {.callout-tip}\n",
+        "## Ideas to Explore\n",
+        "\n",
+        "- Does Simpson's Paradox appear in any other variable combinations beyond bill length vs depth?\n",
+        "- Which measurement best separates the three species?\n",
+        "- Is sexual dimorphism (size difference between males and females) consistent across species?\n",
+        "- Do penguins from different islands within the same species differ in size?\n",
+        ":::\n",
+        "\n",
+        "**Time:** approximately 10 minutes\n",
+        "\n",
+        "---\n",
+        "\n",
+        "## What You Have Learnt\n",
+        "\n",
+        "This lab introduced three Python visualisation libraries through the Palmer Penguins dataset:\n",
+        "\n",
+        "1. **matplotlib** gave you full control over every element of a plot, at the cost of more verbose code. You created scatter plots, histograms, bar charts, and multi-panel figures.\n",
+        "2. **seaborn** streamlined statistical plotting with automatic grouping, faceting, and distribution visualisations. You used scatter plots, regression plots, box and violin plots, pair plots, heatmaps, and FacetGrids.\n",
+        "3. **Altair** introduced a declarative approach with built-in interactivity, tooltips, and concise specifications. You created interactive scatter plots, bar charts, faceted charts, and histograms.\n",
+        "\n",
+        "These visualisation skills complement the data wrangling from Lab Week 02 and will be essential when you begin spatial data visualisation with GeoPandas in the coming weeks."
+      ],
+      "id": "f0bcce93"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/Library/Frameworks/Python.framework/Versions/3.12/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

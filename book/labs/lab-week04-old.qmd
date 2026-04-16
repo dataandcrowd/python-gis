@@ -16,7 +16,7 @@ By the end of this lab you will be able to retrieve a street network from OpenSt
 
 **Structure:**
 
-| Part | Topic | Approx. Time |
+| Section | Topic | Approx. Time |
 |------|-------|--------------|
 | 1 | Street networks with OSMnx | 25 min |
 | 2 | Morphological measures with momepy | 35 min |
@@ -31,7 +31,7 @@ Urban form influences how people move. More connected, human-scale streets tend 
 
 ---
 
-# Part 1: Street Networks with OSMnx {.unnumbered}
+# Section 1: Street Networks with OSMnx {.unnumbered}
 
 ## About OSMnx
 
@@ -118,7 +118,7 @@ G = ox.graph_from_point((-36.849, 174.765), dist=1000, network_type='walk')
 
 ---
 
-# Part 2: Morphological Measures with Momepy {.unnumbered}
+# Section 2: Morphological Measures with Momepy {.unnumbered}
 
 Momepy provides functions to quantify the morphological characteristics of urban form. We focus on three street network measures that are relevant to walkability: **node degree**, **meshedness**, and **closeness centrality**.
 
@@ -307,9 +307,9 @@ A meshedness ratio close to 0 means the network is tree-like with few alternativ
 
 ---
 
-# Part 3: Linking Urban Form to Pedestrian Footfall {.unnumbered}
+# Section 3: Linking Urban Form to Pedestrian Footfall {.unnumbered}
 
-Now we connect the morphological measures from Part 2 with the pedestrian count data from the Auckland CBD sensors. The central hypothesis is: **more connected, more central streets should have higher pedestrian activity**.
+Now we connect the morphological measures from Section 2 with the pedestrian count data from the Auckland CBD sensors. The central hypothesis is: **more connected, more central streets should have higher pedestrian activity**.
 
 ## Task 7: Loading and Preparing the Pedestrian Data
 
@@ -512,7 +512,7 @@ plt.show()
 
 ---
 
-# Part 4: Visualising Walkability {.unnumbered}
+# Section 4: Visualising Walkability {.unnumbered}
 
 ## Task 11: Overlay Sensors on the Network Map
 

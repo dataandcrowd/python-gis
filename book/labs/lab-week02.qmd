@@ -16,7 +16,7 @@ By the end of this lab, you will have practised the core skills from Sections 2.
 
 **Structure:**
 
-| Part | Topic | Approx. Time |
+| Section | Topic | Approx. Time |
 |------|-------|--------------|
 | 2.1 | Python foundations review | 30 min |
 | 2.2 | DataFrames and pandas | 60 min |
@@ -25,7 +25,7 @@ By the end of this lab, you will have practised the core skills from Sections 2.
 
 ---
 
-# Part 2.1: Python Foundations Review {.unnumbered}
+# Section 2.1: Python Foundations Review {.unnumbered}
 
 Before loading the pedestrian dataset, let us ensure you are comfortable with the Python building blocks that underpin everything in Parts 2.2 and 2.3.
 
@@ -183,9 +183,9 @@ print(f"Average count: {sum(counts) / len(counts):,.0f}")
 
 ---
 
-# Part 2.2: DataFrames and Pandas {.unnumbered}
+# Section 2.2: DataFrames and Pandas {.unnumbered}
 
-Now we move from basic Python to structured data analysis with pandas. Everything you practised in Part 2.1 (variables, lists, loops, conditionals) will reappear here, but pandas gives you far more powerful tools for working with tabular data.
+Now we move from basic Python to structured data analysis with pandas. Everything you practised in Section 2.1 (variables, lists, loops, conditionals) will reappear here, but pandas gives you far more powerful tools for working with tabular data.
 
 ## Task 6: Importing Libraries and Reading Data
 
@@ -276,7 +276,7 @@ ped.loc[:, ["Date", "Time", "150 K Road"]].head()
 
 ## Task 9: Filtering Rows with Boolean Indexing
 
-Boolean indexing is the pandas equivalent of the `if` statements you wrote in Part 2.1, but applied to entire columns at once.
+Boolean indexing is the pandas equivalent of the `if` statements you wrote in Section 2.1, but applied to entire columns at once.
 
 ```{python}
 # Where was 45 Queen Street count above 1000?
@@ -548,7 +548,7 @@ print(zone_avg.round(0))
 
 ---
 
-# Part 2.3: Data Visualisation {.unnumbered}
+# Section 2.3: Data Visualisation {.unnumbered}
 
 With your data loaded, cleaned, and transformed, it is time to make it visual. Visualisation reveals patterns that summary statistics alone cannot convey.
 
@@ -707,9 +707,9 @@ Using everything from Parts 2.1, 2.2, and 2.3, produce a short analysis (in the 
 
 Your analysis should include:
 
-1. **Data preparation** (Part 2.1 & 2.2): Load the CSV, create temporal features, handle any missing values, and create a long-format version with zone metadata.
+1. **Data preparation** (Section 2.1 & 2.2): Load the CSV, create temporal features, handle any missing values, and create a long-format version with zone metadata.
 
-2. **At least three different visualisations** (Part 2.3):
+2. **At least three different visualisations** (Section 2.3):
    - One comparing weekday vs weekend patterns over time (e.g., line plot or area chart)
    - One comparing locations or zones (e.g., grouped bar chart or heatmap)
    - One of your own design that adds insight
@@ -739,8 +739,8 @@ You can use or modify this categorisation for the merge:
 
 This lab covered the complete data analysis workflow from raw CSV to publication-quality figures:
 
-1. **Part 2.1** refreshed your Python fundamentals (variables, lists, loops, conditionals) using Auckland pedestrian sensor data as context.
-2. **Part 2.2** introduced pandas DataFrames for reading, exploring, filtering, grouping, reshaping, handling missing data, and merging.
-3. **Part 2.3** demonstrated how to create line plots, bar charts, heatmaps, box plots, and multi-panel figures using matplotlib and seaborn.
+1. **Section 2.1** refreshed your Python fundamentals (variables, lists, loops, conditionals) using Auckland pedestrian sensor data as context.
+2. **Section 2.2** introduced pandas DataFrames for reading, exploring, filtering, grouping, reshaping, handling missing data, and merging.
+3. **Section 2.3** demonstrated how to create line plots, bar charts, heatmaps, box plots, and multi-panel figures using matplotlib and seaborn.
 
 These skills form the foundation for Section 2.4, where you will add the spatial dimension through GeoPandas, and for the Auckland Footfall Analytics assignment.

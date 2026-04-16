@@ -13,7 +13,7 @@ This lab introduces you to working with **web APIs** (Application Programming In
 
 **Structure:**
 
-| Part | Topic | Approx. Time |
+| Section | Topic | Approx. Time |
 |------|-------|--------------|
 | 1 | Earthquake data from USGS | 15 min |
 | 2 | Philadelphia shootings from CARTO | 30 min |
@@ -21,7 +21,7 @@ This lab introduces you to working with **web APIs** (Application Programming In
 
 ---
 
-# Part 1: Earthquake Data from USGS {.unnumbered}
+# Section 1: Earthquake Data from USGS {.unnumbered}
 
 ## What is an API?
 
@@ -67,7 +67,7 @@ In Parts 2 and 3, we will see how to add query parameters, authentication, and m
 
 ---
 
-# Part 2: Philadelphia Shootings from CARTO {.unnumbered}
+# Section 2: Philadelphia Shootings from CARTO {.unnumbered}
 
 This example uses the **CARTO SQL API**, which lets you query a hosted PostGIS database using SQL. The City of Philadelphia publishes its shootings data through CARTO, and we can construct queries to filter, aggregate, and download exactly the subset we need.
 
@@ -251,14 +251,14 @@ count.hvplot.heatmap(
 ```
 
 ::: {.callout-tip}
-## Key takeaway from Part 2
+## Key takeaway from Section 2
 
 The CARTO example shows a more realistic API workflow: you construct query parameters, send a request with `requests.get()`, parse the JSON response, and convert it to a GeoDataFrame. This pattern appears in many geospatial web services.
 :::
 
 ---
 
-# Part 3: Downloading GIS Data from Stats NZ and LINZ {#sec-lab-statsNZ .unnumbered}
+# Section 3: Downloading GIS Data from Stats NZ and LINZ {#sec-lab-statsNZ .unnumbered}
 
 ## Introduction
 
@@ -755,13 +755,13 @@ Write a reusable Python function `download_koordinates_layer(base_url, layer_id,
 
 In this lab you have learnt three approaches to programmatic GIS data acquisition:
 
-| Part | Source | Key concept |
+| Section | Source | Key concept |
 |------|--------|-------------|
-| Part 1 | USGS Earthquake Feed | Reading GeoJSON directly from a URL with `gpd.read_file()` |
-| Part 2 | CARTO SQL API | Sending query parameters with `requests.get()`, server-side SQL filtering |
-| Part 3 | Stats NZ / LINZ | Authenticated APIs, Export (create-poll-download) and WFS with spatial subsetting |
+| Section 1 | USGS Earthquake Feed | Reading GeoJSON directly from a URL with `gpd.read_file()` |
+| Section 2 | CARTO SQL API | Sending query parameters with `requests.get()`, server-side SQL filtering |
+| Section 3 | Stats NZ / LINZ | Authenticated APIs, Export (create-poll-download) and WFS with spatial subsetting |
 
-The complexity increases from Part 1 to Part 3, but the underlying pattern is consistent: construct a URL or request, send it to a server, and parse the response into a GeoDataFrame. Once this pattern is internalised, you can apply it to virtually any geospatial web service.
+The complexity increases from Section 1 to Section 3, but the underlying pattern is consistent: construct a URL or request, send it to a server, and parse the response into a GeoDataFrame. Once this pattern is internalised, you can apply it to virtually any geospatial web service.
 
 ---
 

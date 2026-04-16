@@ -1,0 +1,198 @@
+# 3.2. Reactivity in Action {.unnumbered}
+
+> Adapted from Wickham, *Mastering Shiny*, [Chapter 3](https://mastering-shiny.org/action-intro.html), with the R code rewritten in Python.
+
+So far you have used reactivity without naming most of the pieces. In this section we slow down and look at what is actually going on when an input changes. 
+
+The payoff: you will know when to reach for `@reactive.calc`, when you want `@reactive.effect`, and when you want neither.
+
+
+## What you will learn
+
+- The three kinds of reactive object: sources, expressions, and observers.
+- When to use `@reactive.calc` versus `@reactive.effect`.
+- How to run code only when a specific input changes (`@reactive.event`).
+- How to read a value without triggering re-runs (`reactive.isolate`).
+
+
+## The reactive graph, again
+
+From 3.1 you know that reading `input.x()` inside a server function sets up a dependency. What actually happens internally is this: Shiny builds a small directed graph whose nodes are reactive things and whose edges are "A reads B". When an input at the top of the graph changes, everything downstream is marked "out of date" and re-evaluated on the next browser update.
+
+Three kinds of node live in this graph:
+
+1. **Sources.** These are the roots. `input.x()` values are sources, as is anything you create with `reactive.value()`. They change from the outside (user clicks something) and have no dependencies of their own.
+2. **Expressions.** These are the in-between nodes. `@reactive.calc` creates one. They read sources (and other expressions), do some work, and return a value. They are **lazy**: they only run when something asks for their value.
+3. **Observers.** These are the leaves. Render functions (`@render.text`, `@render.plot`, etc.) are observers, as is `@reactive.effect`. They run for their side effects (drawing on the screen, writing to a file, sending a notification). They are **eager**: they run whenever any of their dependencies change.
+
+Keep this distinction in mind. It is the single most useful mental model for debugging a Shiny app.
+
+
+## `reactive.calc` is for values you want to reuse
+
+The rule of thumb: if two or more outputs do the same computation, lift it into a `@reactive.calc`.
+
+```python
+@reactive.calc
+def filtered():
+    return data[data["year"] == input.year()]
+```
+
+A `reactive.calc` caches its result. Call it ten times with the same inputs; the work happens once. Two rules:
+
+- Define it **inside** `server`, because it depends on the user's inputs.
+- **Call** it with parentheses (`filtered()`), the same way you call inputs.
+
+
+## `reactive.effect` is for side effects
+
+What if you want to do something that is **not** a value the user sees? Log a message, send an email, write a CSV to disk? That is what `@reactive.effect` is for. Same dependency tracking, but no return value and no caching.
+
+```python
+from shiny import reactive
+
+@reactive.effect
+def log_year():
+    print(f"[{input.year()}] user changed the year filter")
+```
+
+Every time `input.year()` changes, the print fires. Use sparingly; side effects make apps harder to reason about.
+
+::: {.callout-important}
+## Is it an output or an effect?
+If the user needs to see it, it is an output: use `@render.*`. If the user does not see it but something in the world should change, it is an effect: use `@reactive.effect`. Do not use `@reactive.effect` to update outputs; that is what render functions are for.
+:::
+
+
+## Triggering on a specific event with `@reactive.event`
+
+By default, a reactive reads **all** the inputs mentioned inside it. Sometimes that is wrong. For example, suppose you have a "Recompute" button and two sliders; you want the computation to wait until the button is pressed, even if the sliders are moved in the meantime.
+
+`@reactive.event` solves this. Wrap your calc or effect with it, and pass the input(s) you want to **trigger** on:
+
+```python
+app_ui = ui.page_fluid(
+    ui.input_slider("a", "a", 0, 100, 50),
+    ui.input_slider("b", "b", 0, 100, 50),
+    ui.input_action_button("go", "Recompute"),
+    ui.output_text("sum"),
+)
+
+def server(input, output, session):
+
+    @reactive.calc
+    @reactive.event(input.go)
+    def total():
+        return input.a() + input.b()
+
+    @render.text
+    def sum():
+        return f"Total: {total()}"
+```
+
+Move either slider: nothing happens. Click "Recompute": `total` updates. This pattern is ideal when the computation is expensive and you want the user to control when it runs.
+
+
+## Reading without depending: `reactive.isolate`
+
+There is one more trick. Sometimes you want to **read** an input inside a reactive, but you do not want a change to that input to trigger a re-run. Wrap the read in `reactive.isolate`:
+
+```python
+@reactive.effect
+def save_snapshot():
+    # Re-runs whenever the user clicks "Save"
+    input.save()
+    # Reads the current filter but does NOT re-run when filter changes
+    with reactive.isolate():
+        snapshot = filtered()
+    snapshot.to_csv(f"snapshot_{input.save()}.csv")
+```
+
+In practice, `reactive.isolate` is rarely needed; most of the time `@reactive.event` does what you want more clearly. Mention it exists and move on.
+
+
+## A worked example: a suburbs explorer that feels right
+
+Let's put the three ideas together in one app. Users pick a city and a minimum population. A reactive calc filters the data. One output shows a table, another shows a chart. A "Log" button writes the current selection to the console without rerunning the filter.
+
+```python
+from shiny import App, ui, render, reactive
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.DataFrame({
+    "city": ["Auckland"] * 5 + ["Wellington"] * 4,
+    "suburb": ["Ponsonby", "Parnell", "Mt Eden", "Newmarket", "Grey Lynn",
+               "Kelburn", "Newtown", "Karori", "Thorndon"],
+    "population": [12500, 8900, 15300, 11200, 14800, 4500, 9800, 15200, 3100],
+    "median_income": [75000, 95000, 68000, 82000, 71000, 62000, 58000, 78000, 88000],
+})
+
+app_ui = ui.page_fluid(
+    ui.h3("Suburbs explorer"),
+    ui.input_select("city", "City", choices=sorted(data["city"].unique())),
+    ui.input_slider("min_pop", "Minimum population", 0, 20000, 0, step=1000),
+    ui.input_action_button("log", "Log current selection"),
+    ui.output_table("tbl"),
+    ui.output_plot("chart"),
+)
+
+def server(input, output, session):
+
+    @reactive.calc
+    def filtered():
+        df = data[data["city"] == input.city()]
+        return df[df["population"] >= input.min_pop()]
+
+    @render.table
+    def tbl():
+        return filtered()
+
+    @render.plot
+    def chart():
+        df = filtered()
+        fig, ax = plt.subplots(figsize=(7, 4))
+        ax.barh(df["suburb"], df["median_income"], color="steelblue")
+        ax.set_xlabel("Median income")
+        return fig
+
+    @reactive.effect
+    @reactive.event(input.log)
+    def _():
+        df = filtered()
+        print(f"[LOG] city={input.city()}, n={len(df)} rows")
+
+app = App(app_ui, server)
+```
+
+Walk through the reactive graph:
+
+- Two sources: `input.city()` and `input.min_pop()`.
+- One expression: `filtered()`, cached and shared between two render functions.
+- Two observers (render): `tbl` and `chart`, both re-run when `filtered` changes.
+- One observer (effect): `_`, gated by `@reactive.event(input.log)`. Only the button triggers it; the filter reads inside are "for free" because the observer is already running.
+
+Change the city or slider; only the table and chart redraw. Click "Log"; the message prints but nothing visible changes.
+
+
+## What you have learned
+
+- Reactives come in three shapes: **sources** (inputs), **expressions** (`reactive.calc`), and **observers** (render functions, `reactive.effect`).
+- `reactive.calc` is for values; `reactive.effect` is for side effects.
+- `@reactive.event(input.x)` restricts a reactive to re-run only when `input.x` changes.
+- `reactive.isolate` reads a value without creating a dependency. Rarely needed.
+
+
+## Exercises
+
+1. In the worked example, move the filter logic directly into `tbl()` and `chart()` (so `filtered` is gone). Verify the app still works. Now add a `print("filtering...")` inside the filter code. Move the slider. Count how many times the message prints per slider move.
+2. Add a second action button "Reset" that sets the slider back to 0. You will need `ui.update_slider("min_pop", value=0)` inside a `@reactive.effect` gated by `@reactive.event(input.reset)`.
+3. Rewrite the Log observer so it writes the filtered DataFrame to `snapshot.csv` every time the button is pressed. Use `reactive.isolate` (or `@reactive.event`) so that typing in other inputs does not cause spurious writes.
+4. Explain in one sentence the difference between: `@render.text def x(): return input.n()`, `@reactive.calc def x(): return input.n()`, and `@reactive.effect def x(): print(input.n())`.
+
+
+## Further reading
+
+- Wickham, [Mastering Shiny, Chapter 3: Basic reactivity](https://mastering-shiny.org/action-intro.html). The R version.
+- Posit, [Reactivity patterns in Shiny for Python](https://shiny.posit.co/py/docs/reactive-patterns.html).
+- Joe Cheng, [Effective reactive programming](https://www.youtube.com/watch?v=5KExAdr_9kY) (talk, R-centric but all ideas transfer).

@@ -10,13 +10,18 @@ book:
   chapters:
     - index.qmd
     - syllabus.qmd
+
+    - text: "---"
+
     - part: 1.0.chapter1-setup.qmd
       chapters:
         - 1.1.installation.qmd
         - 1.2.uv.qmd
         - 1.3.version-control.qmd
         - 1.4.download-from-github.qmd
-        
+
+    - text: "---"
+
     - part: 2.0.chapter2-geospatial_python.qmd
       chapters:
         - 2.1.basic-python.qmd
@@ -26,16 +31,20 @@ book:
         - 2.5.creating-functions.qmd
         - 2.6.urban-analytics.qmd
         #- 2.7.geospatial-assignment.qmd
-    
+
+    - text: "---"
+
     - part: 3.0.chapter3-shiny_python.qmd
-      #chapters:
-        #- 3.1.webgis-wasm-shiny.qmd
-        #- 3.2.shiny-functions-reactivity.qmd
-        #- 3.3.routing-and-congestion.qmd
-        #- 3.4.origin-destination.qmd
-        #- 3.5.networks.qmd
-        #- 3.6.shiny-assignment.qmd
-    
+      chapters:
+        - 3.1.first-shiny-app.qmd
+        - 3.2.reactivity-in-action.qmd
+        - 3.3.decorators-and-ui.qmd
+        - 3.4.webgis-shinylive.qmd
+        - 3.5.mapping-open-data.qmd
+        - 3.6.assignment-2.qmd
+
+    - text: "---"
+
     - part: 4.0.python-packaging.qmd
       #chapters:
         #- 4.1.package-fundamentals.qmd
@@ -43,20 +52,18 @@ book:
         #- 4.3.geospatial-package-example.qmd
         #- 4.4.publish-pypi.qmd
         #- 4.8.packaging-assignment.qmd
-  
+
+    - text: "---"
+
     - part: labs/labs.qmd
-      chapters: 
+      chapters:
         - labs/lab-week01.qmd
         - labs/lab-week02.qmd
         - labs/lab-week03.qmd
         - labs/lab-week03-GIS.qmd
         - labs/lab-week04.qmd
         #- labs/lab-week05.qmd
-        #- labs/lab-week02.qmd
-        #- labs/lab-week03.qmd
-        #- labs/lab-week04.qmd
-        #- labs/lab-week05.qmd
-        #- labs/lab-week06.qmd
+        - labs/lab-week06.qmd
         #- labs/lab-week07.qmd
         #- labs/lab-week08.qmd
         #- labs/lab-week09.qmd
