@@ -41,7 +41,7 @@ book:
         - 3.3.decorators-and-ui.qmd
         - 3.4.webgis-shinylive.qmd
         - 3.5.mapping-open-data.qmd
-        - 3.6.assignment-2.qmd
+        #- 3.6.assignment-2.qmd
 
     - text: "---"
 
