@@ -111,7 +111,13 @@ Open the URL Shiny prints in your browser. You should see a slider and a plot. M
 
 ### Step 3: Initialise git and push to GitHub
 
-You need to put your project under version control and push it to a public GitHub repository. There are two ways to do this: via the **terminal** (Option A) or via **GitHub Desktop** (Option B). Pick whichever you are more comfortable with; the end result is the same.
+You need to put your project under version control and push it to a public GitHub repository. There are two ways to do this: via **GitHub Desktop** (Option A, visual) or via the **terminal** (Option B, command line). Pick whichever you are more comfortable with; the end result is the same.
+
+::: {.callout-important title="Set up GitHub authentication first"}
+The push step below fails for most students if they have never authenticated `git` with GitHub on this laptop. Signing in to the GitHub website or GitHub Desktop is **not** enough: the `git` program itself needs its own credentials, either an **SSH key** or a **personal access token** over HTTPS.
+
+If you have not done this yet, pause here and follow [Section 1.5 Authenticating with GitHub](../1.5.github-authentication.qmd) first. It takes about five minutes and will save you from `Permission denied (publickey)` or `Authentication failed` errors in the next step.
+:::
 
 **Before either option**, go to github.com and create a new **empty public repository** with the same name as your folder. Do **not** tick "Add a README" or "Add a .gitignore", because `shiny create` has already produced those for you and the initial push will conflict otherwise.
 
@@ -125,36 +131,9 @@ flowchart LR
 
 ::: {.panel-tabset}
 
-#### Option A: Terminal (command line)
+#### Option A: GitHub Desktop (visual)
 
-From your project folder, run:
-
-```bash
-# 1. Turn this folder into a git repo
-git init
-
-# 2. Stage everything that is not in .gitignore
-git add .
-
-# 3. Record the first snapshot
-git commit -m "Initial scaffold from shiny create"
-
-# 4. Rename the default branch to main (new repos sometimes default to master)
-git branch -M main
-
-# 5. Tell your local repo where the GitHub remote lives
-#    Replace <your-username> and <your-repo> with your actual values
-git remote add origin git@github.com:<your-username>/<your-repo>.git
-
-# 6. Push your local main branch up, and set it to track the remote
-git push -u origin main
-```
-
-After step 6, refresh your GitHub repo page. Your files should be there.
-
-#### Option B: GitHub Desktop (visual)
-
-If you prefer a GUI, [GitHub Desktop](https://desktop.github.com/) does all of the above with clicks instead of commands.
+If you prefer a GUI, [GitHub Desktop](https://desktop.github.com/) does all of the steps below with clicks instead of commands.
 
 Visit here for any further information: [https://docs.github.com/en/desktop](https://docs.github.com/en/desktop)
 
@@ -187,11 +166,41 @@ Click **Publish Repository**. GitHub Desktop pushes everything to a new public r
 
 Click **View on GitHub** (or open `https://github.com/<your-username>/<your-repo>` in a browser). You should see `app.py` and the other files listed.
 
+#### Option B: Terminal (command line)
+
+From your project folder, run:
+
+```bash
+# 1. Turn this folder into a git repo
+git init
+
+# 2. Stage everything that is not in .gitignore
+git add .
+
+# 3. Record the first snapshot
+git commit -m "Initial scaffold from shiny create"
+
+# 4. Rename the default branch to main (new repos sometimes default to master)
+git branch -M main
+
+# 5. Tell your local repo where the GitHub remote lives
+#    Replace <your-username> and <your-repo> with your actual values
+git remote add origin git@github.com:<your-username>/<your-repo>.git
+
+# 6. Push your local main branch up, and set it to track the remote
+git push -u origin main
+```
+
+After step 6, refresh your GitHub repo page. Your files should be there.
+
 :::
 
 ::: {.callout-tip}
-## If the push is rejected (terminal) or the publish fails (GitHub Desktop)
-The most common cause is that the remote repo is not empty (there is already a README on GitHub). Either delete the remote and recreate it empty, or (terminal only) pull first with `git pull origin main --allow-unrelated-histories` and resolve any conflicts before pushing again. In GitHub Desktop, start over with a fresh empty repo.
+## If the publish fails (GitHub Desktop) or the push is rejected (terminal)
+Two common causes:
+
+1. **Authentication failure** (`Authentication failed` in GitHub Desktop, `Permission denied (publickey)` in the terminal). Your `git` has no valid credentials for GitHub on this laptop. See [Section 1.5 Authenticating with GitHub](../1.5.github-authentication.qmd) and set up a personal access token, then retry.
+2. **Non-empty remote repo**. There is already a README on GitHub and your local `main` has unrelated history. In GitHub Desktop, start over with a fresh empty repo. From the terminal, pull first with `git pull origin main --allow-unrelated-histories`, resolve any conflicts, then push again.
 :::
 
 ---
@@ -303,22 +312,7 @@ You now need to add the new `docs/` folder, commit it, and push it to GitHub. Pi
 
 ::: {.panel-tabset}
 
-#### Option A: Terminal (command line)
-
-```bash
-# Stage the new docs/ folder
-git add docs
-
-# Commit
-git commit -m "Deploy app to docs/"
-
-# Push to main
-git push origin main
-```
-
-Refresh your GitHub repo page. You should now see a `docs/` folder at the top level.
-
-#### Option B: GitHub Desktop (visual)
+#### Option A: GitHub Desktop (visual)
 
 **1. See the changes.**
 
@@ -341,6 +335,21 @@ At the top of the window, click **Push origin**. GitHub Desktop sends your commi
 **4. Verify.**
 
 Click **View on GitHub** (or open your repo in a browser). You should now see a `docs/` folder at the top level.
+
+#### Option B: Terminal (command line)
+
+```bash
+# Stage the new docs/ folder
+git add docs
+
+# Commit
+git commit -m "Deploy app to docs/"
+
+# Push to main
+git push origin main
+```
+
+Refresh your GitHub repo page. You should now see a `docs/` folder at the top level.
 
 :::
 

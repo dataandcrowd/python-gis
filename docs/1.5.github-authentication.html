@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Hyesop Shin">
-<meta name="dcterms.date" content="2026-04-21">
 
-<title>Python GIS at UoA</title>
+<title>Python GIS at UoA - 1.5 Authenticating with GitHub</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./syllabus.html" rel="next">
+<link href="./1.4.download-from-github.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -82,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">GISCI 343 at UoA</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1.0.chapter1-setup.html">Part 1: Setup</a></li><li class="breadcrumb-item"><a href="./1.5.github-authentication.html">1.5 Authenticating with GitHub</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -109,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GISCI 343 at UoA</span></a>
   </div>
 </li>
@@ -155,7 +153,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1.5.github-authentication.html" class="sidebar-item-text sidebar-link">
+  <a href="./1.5.github-authentication.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">1.5 Authenticating with GitHub</span></a>
   </div>
 </li>
@@ -326,50 +324,43 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#gisci-343-at-uoa" id="toc-gisci-343-at-uoa" class="nav-link active" data-scroll-target="#gisci-343-at-uoa">GISCI 343 at UoA</a>
+  <li><a href="#story-problem" id="toc-story-problem" class="nav-link active" data-scroll-target="#story-problem">Story problem</a></li>
+  <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn">What you will learn</a></li>
+  <li><a href="#step-0-make-sure-you-are-logged-in-to-github" id="toc-step-0-make-sure-you-are-logged-in-to-github" class="nav-link" data-scroll-target="#step-0-make-sure-you-are-logged-in-to-github">Step 0: Make sure you are logged in to GitHub</a></li>
+  <li><a href="#step-1-understand-what-a-personal-access-token-is" id="toc-step-1-understand-what-a-personal-access-token-is" class="nav-link" data-scroll-target="#step-1-understand-what-a-personal-access-token-is">Step 1: Understand what a personal access token is</a></li>
+  <li><a href="#step-2-generate-a-personal-access-token-classic" id="toc-step-2-generate-a-personal-access-token-classic" class="nav-link" data-scroll-target="#step-2-generate-a-personal-access-token-classic">Step 2: Generate a personal access token (classic)</a></li>
+  <li><a href="#step-3-sign-in-to-github-desktop" id="toc-step-3-sign-in-to-github-desktop" class="nav-link" data-scroll-target="#step-3-sign-in-to-github-desktop">Step 3: Sign in to GitHub Desktop</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a>
   <ul class="collapse">
-  <li><a href="#who-is-this-for" id="toc-who-is-this-for" class="nav-link" data-scroll-target="#who-is-this-for">Who is this for?</a></li>
-  <li><a href="#why-this-approach" id="toc-why-this-approach" class="nav-link" data-scroll-target="#why-this-approach">Why this approach?</a>
+  <li><a href="#authentication-failed-when-i-click-publish-repository" id="toc-authentication-failed-when-i-click-publish-repository" class="nav-link" data-scroll-target="#authentication-failed-when-i-click-publish-repository">“Authentication failed” when I click Publish repository</a></li>
+  <li><a href="#the-browser-sign-in-never-completes" id="toc-the-browser-sign-in-never-completes" class="nav-link" data-scroll-target="#the-browser-sign-in-never-completes">The browser sign-in never completes</a></li>
+  <li><a href="#github-desktop-keeps-pushing-as-the-wrong-user" id="toc-github-desktop-keeps-pushing-as-the-wrong-user" class="nav-link" data-scroll-target="#github-desktop-keeps-pushing-as-the-wrong-user">GitHub Desktop keeps pushing as the wrong user</a></li>
+  <li><a href="#could-not-resolve-host-github.com" id="toc-could-not-resolve-host-github.com" class="nav-link" data-scroll-target="#could-not-resolve-host-github.com">“Could not resolve host: github.com”</a></li>
+  <li><a href="#publish-repository-says-already-exists" id="toc-publish-repository-says-already-exists" class="nav-link" data-scroll-target="#publish-repository-says-already-exists">Publish repository says “already exists”</a></li>
+  <li><a href="#i-really-need-to-use-the-terminal" id="toc-i-really-need-to-use-the-terminal" class="nav-link" data-scroll-target="#i-really-need-to-use-the-terminal">I really need to use the terminal</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick reference</a>
   <ul class="collapse">
-  <li><a href="#why-do-we-use-git-and-how-does-it-support-reproducible-research" id="toc-why-do-we-use-git-and-how-does-it-support-reproducible-research" class="nav-link" data-scroll-target="#why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</a></li>
-  <li><a href="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" id="toc-why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="nav-link" data-scroll-target="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</a></li>
-  <li><a href="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" id="toc-why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="nav-link" data-scroll-target="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</a></li>
+  <li><a href="#one-time-pat-github-desktop-setup" id="toc-one-time-pat-github-desktop-setup" class="nav-link" data-scroll-target="#one-time-pat-github-desktop-setup">One-time PAT + GitHub Desktop setup</a></li>
   </ul></li>
-  <li><a href="#running-the-code-yourself" id="toc-running-the-code-yourself" class="nav-link" data-scroll-target="#running-the-code-yourself">Running the code yourself</a>
-  <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  </ul></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  </ul></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources">Additional resources</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./1.0.chapter1-setup.html">Part 1: Setup</a></li><li class="breadcrumb-item"><a href="./1.5.github-authentication.html">1.5 Authenticating with GitHub</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Python GIS at UoA</h1>
+<h1 class="title">1.5 Authenticating with GitHub</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Hyesop Shin </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 21, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -379,128 +370,229 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="gisci-343-at-uoa" class="level1 unnumbered">
-<h1 class="unnumbered">GISCI 343 at UoA</h1>
-<p><strong>Welcome to the course!</strong></p>
-<p>This is an online workbook for the <span style="color:blue;"><strong>GISCI 343</strong></span> course called Geospatial Data Science, launched in 2026.</p>
-<p>This is course designed and delivered by <strong>Dr.&nbsp;Hyesop Shin</strong> from the School of Environment at the University of Auckland, New Zealand.</p>
-<p>Unlike conventional GIS coursework that focuses on tools or isolated techniques, this book goes beyond the standard GIS and Python combination. The emphasis is on building applied, production-oriented skills that reflect how geospatial data science is practised outside the classroom, particularly through dashboards and Python packaging.</p>
-<p>The book is organised into three main parts:</p>
-<p><strong>Part 1.</strong> Doing geospatial analysis using Python (Weeks 1-5)</p>
-<p><strong>Part 2.</strong> Creating geospatial dashboards (Weeks 6-8)</p>
-<p><strong>Part 3.</strong> Publishing Python packages with a geospatial focus (Weeks 9-12)</p>
-<p>Throughout the course, <strong>Positron</strong> is used as the primary development environment.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="positron.png" class="img-fluid figure-img" style="width:60.0%"></p>
-<figcaption>Visit https://positron.posit.co/download.html for download</figcaption>
-</figure>
-</div>
-<section id="who-is-this-for" class="level2">
-<h2 class="anchored" data-anchor-id="who-is-this-for">Who is this for?</h2>
-<p>This book is designed for students and learners who already have foundational GIS knowledge, such as introductory GIS or remote sensing courses, but who have limited exposure to programming.</p>
-<p>If you are familiar with any dataframe-based workflow, most examples should be approachable. Familiarity with Pandas will be particularly helpful, as all Polars examples are accompanied by equivalent Pandas implementations for comparison and learning.</p>
-<p>Reading <em>Modern Pandas</em> is not required, although it is a recommended resource for those who wish to deepen their understanding.</p>
+<section id="story-problem" class="level2">
+<h2 class="anchored" data-anchor-id="story-problem">Story problem</h2>
+<p><strong>Why does GitHub keep refusing me?</strong></p>
+<p>You have followed Section 1.3, you have a GitHub account, you have installed GitHub Desktop, and your <code>class343</code> project is sitting happily under version control. Then Lab 6 asks you to <strong>Publish repository</strong> in GitHub Desktop, and either nothing happens, the publish button spins forever, or you see a message like:</p>
+<pre><code>Authentication failed. Some common reasons include:
+- You are not signed in to GitHub.com
+- Your credentials have expired</code></pre>
+<p>This is not a bug. GitHub refuses anonymous pushes, and since 2021 it no longer accepts your account password as a credential. Signing in to github.com in a browser is only half of it: GitHub Desktop also needs a valid credential for <strong>your</strong> account. The simplest way to provide one is a <strong>personal access token</strong> (PAT) that lasts the whole semester.</p>
 </section>
-<section id="why-this-approach" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-approach">Why this approach?</h2>
-<p>Although artificial intelligence has transformed how we learn, analyse data, and write code, reproducibility and sound practice in data science remain essential.</p>
-<p>Simply combining GIS and Python is no longer sufficient. This course therefore addresses broader and often overlooked questions:</p>
-<section id="why-do-we-use-git-and-how-does-it-support-reproducible-research" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Git provides a transparent and traceable record of how a project evolves over time. Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.</p>
-<p>Using <strong>Git encourages good research habits</strong>: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.</p>
-</div>
-</div>
-</section>
-<section id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Dashboards transform analytical outputs into interactive and interpretable artefacts. Rather than presenting static maps or tables, dashboards allow users to explore spatial patterns, filter scenarios, and ask their own questions. This is particularly important in applied geospatial work, where stakeholders may not be familiar with code but need to engage with evidence.</p>
-<p>By building dashboards, students learn how to bridge the gap between analysis and communication. Dashboards force careful thinking about what results matter, how uncertainty is presented, and how spatial information can be explored intuitively. These skills are essential when working with planners, policymakers, and industry partners who rely on clear, actionable insights rather than raw analytical outputs.</p>
-</div>
-</div>
-</section>
-<section id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Developing a Python package shifts the focus from writing one-off scripts to building reusable, maintainable software. Packaging requires students to structure code logically, define clear interfaces, and think about how others will use their work. This naturally introduces object-oriented programming concepts, such as abstraction, encapsulation, and modular design, in a context where they serve a practical purpose.</p>
-<p>In geospatial data science, packaging allows analytical workflows, spatial utilities, or modelling components to be shared, tested, and extended. The final package becomes a tangible output that can be included in a portfolio, reused in future projects, or published openly. This mirrors professional practice and helps students understand how geospatial tools are developed, maintained, and deployed in real-world environments.</p>
-</div>
-</div>
-<p>Each of these components is intentionally included to help students understand professional workflows and to produce outputs that can be shared beyond the university setting.</p>
-<p>The three modules in this book are designed to be complete, reusable, and ready to engage with society, forming a practical portfolio that reflects contemporary geospatial data science practice.</p>
-</section>
-</section>
-<section id="running-the-code-yourself" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-code-yourself">Running the code yourself</h2>
-<p>You can install the following package versions and it should work:</p>
-<pre><code>polars
-pyarrow
-pandas
-geopandas
-numpy
-matplotlib
-seaborn
-statsmodels</code></pre>
-<p>Once saved, install the dependencies using one of the following methods.</p>
-<p><strong>Using pip</strong>:</p>
-<pre><code>pip install -r requirements.txt</code></pre>
-<p><strong>Using uv (recommended if you are working inside a uv-managed virtual environment)</strong>:</p>
-<pre><code>uv pip install -r requirements.txt
-"""
-This keeps the environment flexible and avoids version pinning unless it becomes necessary later for reproducibility or debugging.
-"""</code></pre>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
-<p>All the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in <a href="https://github.com/dataandcrowd/python-gis/tree/main/data">here</a> for posterity.</p>
-</section>
-</section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>This course builds upon the excellent work of several open educational resources in geographic and geospatial data science.</p>
-<p>I am particularly grateful to stand on the shoulders of:</p>
+<section id="what-you-will-learn" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-will-learn">What you will learn</h2>
 <ul>
-<li>The Geographic Data Science course developed by the Geographic Data Science Lab at the University of Liverpool https://gdsl-ul.github.io/gds/</li>
-<li>The Geospatial Data Science course from the Master of Urban Spatial Analytics (MUSA) programme at the University of Pennsylvania https://musa-550-fall-2023.github.io/</li>
-<li>The Geo-Python course from the University of Helsinki https://geo-python-site.readthedocs.io/en/latest/</li>
+<li>Why GitHub needs a second form of authentication, even after you sign in to github.com in a browser</li>
+<li>How to confirm you are logged in to the right GitHub account</li>
+<li>How to create a fine-grained personal access token that lasts the full semester</li>
+<li>How to sign in to GitHub Desktop with that token</li>
+<li>What to do when things still go wrong</li>
 </ul>
-<p>These resources have been instrumental in shaping the structure, content, and pedagogical approach of this material. Their commitment to open education and sharing knowledge has made it possible to develop and deliver quality geographic data science education to students worldwide.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="What about SSH keys?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What about SSH keys?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>SSH keys are the other supported method and are what most developers use day to day on the terminal. They are a bit more involved to set up (key generation, agents, <code>~/.ssh/config</code>) and some university or corporate networks block outbound port 22, which breaks SSH entirely.</p>
+<p>For this course we recommend a personal access token because it works everywhere, plays nicely with GitHub Desktop, and takes about five minutes. If you want to learn SSH later, GitHub has a good walkthrough: <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh">Connecting to GitHub with SSH</a>.</p>
+</div>
+</div>
+<hr>
 </section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>This book is free and open source, so please do <a href="https://github.com/dataandcrowd/python-gis/issues/new">open an issue</a> if you notice a problem!</p>
+<section id="step-0-make-sure-you-are-logged-in-to-github" class="level2">
+<h2 class="anchored" data-anchor-id="step-0-make-sure-you-are-logged-in-to-github">Step 0: Make sure you are logged in to GitHub</h2>
+<p>Before you generate anything, confirm that your browser is signed in as <strong>the GitHub account you intend to push from</strong>. This sounds obvious, but many auth failures come from the laptop pushing as one user while the browser is logged in as another (often a personal vs.&nbsp;university account).</p>
+<ol type="1">
+<li>Open <a href="https://github.com">github.com</a> in the browser you will use for the rest of this workflow.</li>
+<li>Click your avatar in the top-right corner. Confirm the username shown is the one you signed up with in Section 1.3, using your University of Auckland email.</li>
+<li>If it is the wrong account, sign out and sign back in as the correct one.</li>
+<li>While you are there, click <strong>Your repositories</strong> and make sure you can see the repos you expect. If you cannot, you are signed in to the wrong account.</li>
+</ol>
+<p>Keep this tab open. You will come back to it in Step 2.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Two-factor authentication">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Two-factor authentication
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>GitHub requires 2FA for most accounts now. If you have not set it up, do so before generating a token: <a href="https://github.com/settings/security">Settings -&gt; Password and authentication</a>. You can use an authenticator app (recommended) or SMS. The token flow below assumes 2FA is enabled.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-1-understand-what-a-personal-access-token-is" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-understand-what-a-personal-access-token-is">Step 1: Understand what a personal access token is</h2>
+<p>A <strong>personal access token</strong> (PAT) is a long random string that acts as a scoped replacement for your password. A few properties worth knowing:</p>
+<ul>
+<li>It belongs to <strong>you</strong>, not to a particular machine. The same token can be used on your laptop and your office desktop, or revoked from either.</li>
+<li>You can limit <strong>which repositories</strong> it can touch and <strong>what it can do</strong> (read only, read + write, etc.).</li>
+<li>It has an <strong>expiry date</strong>. When it expires, GitHub Desktop starts failing to push until you generate a new one.</li>
+<li>If it leaks, you revoke it from a web page, not by changing your password.</li>
+</ul>
+<p>GitHub offers two kinds of tokens:</p>
+<ul>
+<li><strong>Classic tokens</strong> (what we will use below). Scoped with a small set of permissions such as <code>repo</code>, which covers everything you need for this course.</li>
+<li><strong>Fine-grained tokens</strong> (newer). Let you restrict a token to specific repositories and individual permissions. Worth learning once you are comfortable, but overkill for a classroom workflow.</li>
+</ul>
+<p>For the full reference on how tokens work, when to use which, and how to manage expiry, see the official GitHub docs: <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic">Managing your personal access tokens – Creating a personal access token (classic)</a>.</p>
+<hr>
+</section>
+<section id="step-2-generate-a-personal-access-token-classic" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-generate-a-personal-access-token-classic">Step 2: Generate a personal access token (classic)</h2>
+<ol type="1">
+<li>Still signed in to GitHub, open <a href="https://github.com/settings/tokens">github.com/settings/tokens</a>.</li>
+<li>Click <strong>Generate new token</strong>, then <strong>Generate new token (classic)</strong>. If GitHub asks you to confirm your password or a 2FA code, do so.</li>
+<li><strong>Note</strong>: something you will recognise in six months, e.g.&nbsp;<code>UoA laptop (2026), GISCI 343</code>.</li>
+<li><strong>Expiration</strong>: pick <strong>90 days</strong>. This covers the remainder of the semester (including the Assignment 2 deadline on 10 May 2026 and any follow-up marking), so you will not need to regenerate before the course ends. If you prefer a fixed end date, use <em>Custom</em> and pick one just past the end of semester.</li>
+<li><strong>Select scopes</strong>: tick <strong><code>repo</code></strong> (the whole block: <em>repo:status</em>, <em>repo_deployment</em>, <em>public_repo</em>, <em>repo:invite</em>, <em>security_events</em> will all highlight). That is all you need for cloning, pushing and publishing repositories from GitHub Desktop. Leave every other scope unticked.</li>
+<li>Click <strong>Generate token</strong> at the bottom of the page.</li>
+<li>GitHub shows the token exactly <strong>once</strong>, as a string starting <code>ghp_...</code>. <strong>Copy it now</strong> into a secure place (a password manager if you have one). If you lose it, you will have to regenerate.</li>
+</ol>
+<p><strong>For reference, please visit <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic">https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic (screenshot below)</a></strong></p>
+<p><img src="figs/part1/access-token.png" class="img-fluid" style="width:80.0%"></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Treat the token like a password">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Treat the token like a password
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Anyone with your PAT can push and pull from your repos as you. Do <strong>not</strong> paste it into chat, commit it to git, email it to yourself, or store it in a plain text file in your project folder. If you suspect it has leaked, revoke it immediately from <a href="https://github.com/settings/tokens">github.com/settings/tokens</a> and generate a new one.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Calendar reminder">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Calendar reminder
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Put a reminder in your calendar <strong>two weeks before</strong> the token expiry date. When it pops up, come back to this section and generate a new one. Future-you will thank present-you.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="step-3-sign-in-to-github-desktop" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-sign-in-to-github-desktop">Step 3: Sign in to GitHub Desktop</h2>
+<p>GitHub Desktop stores your credentials once and reuses them for every push afterwards. Do this once and Lab 6, Lab 7, and Assignment 2 will all just work.</p>
+<ol type="1">
+<li>Open <strong>GitHub Desktop</strong>. On macOS, go to <strong>GitHub Desktop -&gt; Settings -&gt; Accounts</strong>. On Windows, go to <strong>File -&gt; Options -&gt; Accounts</strong>. If a wrong account is already listed (e.g.&nbsp;a personal account instead of your UoA one), click <strong>Sign out</strong> first, then <strong>Sign In</strong> next to <em>GitHub.com</em>.</li>
+<li>In the sign-in dialog, click <strong>Sign in using your browser</strong>.</li>
+<li>Your browser opens a GitHub page that says something like <em>“GitHub Desktop would like permission to access your account”</em>. Make sure the account shown is the correct one (the username from Step 0). If it is not, click <strong>Not <other-user>?</other-user></strong> and switch.</li>
+<li>Click <strong>Authorize desktop</strong>.</li>
+<li>The browser hands control back to GitHub Desktop, which now shows your username and avatar under <strong>Accounts</strong> with a green tick. Close the settings window.</li>
+</ol>
+<p>To verify, open (or reopen) any repository in GitHub Desktop and hit <strong>Fetch origin</strong> in the top bar. If the button spins for a second and then settles quietly, authentication is working.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="If the browser round-trip fails">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+If the browser round-trip fails
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the browser opens and you click <strong>Authorize desktop</strong> but GitHub Desktop stays stuck on the sign-in screen (rare, usually a locked-down network or an ad-blocker), you can sign in manually instead. In the sign-in dialog, choose the <strong>username and password</strong> option, put your GitHub username in the username field, and paste the <strong>token</strong> from Step 2 into the password field.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<section id="authentication-failed-when-i-click-publish-repository" class="level3">
+<h3 class="anchored" data-anchor-id="authentication-failed-when-i-click-publish-repository">“Authentication failed” when I click Publish repository</h3>
+<p>Your stored credential has expired, been revoked, or never worked in the first place.</p>
+<ol type="1">
+<li>Check the token is still active at <a href="https://github.com/settings/tokens">github.com/settings/tokens</a>. If it has expired, generate a new one (Step 2) and sign back in (Step 3).</li>
+<li>In GitHub Desktop, sign out of the account (<em>Settings / Options -&gt; Accounts -&gt; Sign out</em>), then sign in again.</li>
+</ol>
+</section>
+<section id="the-browser-sign-in-never-completes" class="level3">
+<h3 class="anchored" data-anchor-id="the-browser-sign-in-never-completes">The browser sign-in never completes</h3>
+<p>The browser opens, you click <strong>Authorize desktop</strong>, but GitHub Desktop does not register the login. This is usually a network or browser extension issue.</p>
+<ul>
+<li>Try a different browser as the default (Chrome, Edge, Firefox, Safari).</li>
+<li>Disable any ad-blocker or privacy extension temporarily and retry.</li>
+<li>Fall back to the token path in Step 3c.</li>
+</ul>
+</section>
+<section id="github-desktop-keeps-pushing-as-the-wrong-user" class="level3">
+<h3 class="anchored" data-anchor-id="github-desktop-keeps-pushing-as-the-wrong-user">GitHub Desktop keeps pushing as the wrong user</h3>
+<p>You have two accounts signed in, or the cached credential belongs to someone else. Sign out fully, clear any <code>github.com</code> entries from your OS credential store (Keychain on macOS, Credential Manager on Windows), and sign in again with the correct account.</p>
+</section>
+<section id="could-not-resolve-host-github.com" class="level3">
+<h3 class="anchored" data-anchor-id="could-not-resolve-host-github.com">“Could not resolve host: github.com”</h3>
+<p>Not an auth problem, a network one. Check your wifi, try a different network, or check whether your university VPN is filtering DNS.</p>
+</section>
+<section id="publish-repository-says-already-exists" class="level3">
+<h3 class="anchored" data-anchor-id="publish-repository-says-already-exists">Publish repository says “already exists”</h3>
+<p>Not an auth problem either. The repository on GitHub already has content (often a README) that your local repo does not know about. See the Lab 6 callout on non-empty remotes.</p>
+</section>
+<section id="i-really-need-to-use-the-terminal" class="level3">
+<h3 class="anchored" data-anchor-id="i-really-need-to-use-the-terminal">I really need to use the terminal</h3>
+<p>Section 1.5 assumes GitHub Desktop. If you prefer the command line, GitHub’s guide walks through the credential helper setup in full: <a href="https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git">Caching your GitHub credentials in Git</a>. The same token you generated in Step 2 works there.</p>
+<hr>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>You now know:</p>
+<ul>
+<li>Why <code>Publish repository</code> needs its own authentication, even after you have signed in to GitHub.com in a browser</li>
+<li>How to check you are on the correct GitHub account before you generate anything</li>
+<li>How to create a fine-grained personal access token that lasts the whole semester</li>
+<li>How to sign GitHub Desktop in with that token (browser path or token path)</li>
+<li>How to diagnose the common failure modes</li>
+</ul>
+<p><strong>Key insight</strong>: do this <strong>once</strong>, and every lab afterwards (Lab 6, Lab 7, your Assignment 2 deployment) just works. Skip it, and you will spend lab time fighting <code>Authentication failed</code> instead of doing GIS.</p>
+<hr>
+</section>
+<section id="quick-reference" class="level2">
+<h2 class="anchored" data-anchor-id="quick-reference">Quick reference</h2>
+<section id="one-time-pat-github-desktop-setup" class="level3">
+<h3 class="anchored" data-anchor-id="one-time-pat-github-desktop-setup">One-time PAT + GitHub Desktop setup</h3>
+<pre class="text"><code>0. Confirm you are signed in to the correct GitHub account in the browser.
+1. Generate a classic token:
+   https://github.com/settings/tokens
+   Generate new token -&gt; Generate new token (classic)
+   Expiration: 90 days (covers the semester)
+   Scope: tick `repo`
+   Copy the token now (shown only once, starts with ghp_).
+2. Open GitHub Desktop.
+   macOS:   GitHub Desktop -&gt; Settings -&gt; Accounts -&gt; Sign In
+   Windows: File -&gt; Options -&gt; Accounts -&gt; Sign In
+3. Sign in using your browser -&gt; Authorize desktop.
+   (If that stalls, paste the token in the password field of the manual sign-in.)
+4. Fetch origin on any repo. If it works silently, you are done.</code></pre>
+<hr>
+</section>
+</section>
+<section id="additional-resources" class="level2">
+<h2 class="anchored" data-anchor-id="additional-resources">Additional resources</h2>
+<ul>
+<li><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic">GitHub Docs: Managing your personal access tokens – Creating a personal access token (classic)</a> (the authoritative reference for this section)</li>
+<li><a href="https://docs.github.com/en/desktop/installing-and-authenticating-to-github-desktop/authenticating-to-github-in-github-desktop">GitHub Docs: Authenticating to GitHub in GitHub Desktop</a></li>
+<li><a href="https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git">GitHub Docs: Caching your GitHub credentials in Git</a> (if you end up using the terminal later)</li>
+<li><a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh">GitHub Docs: Connecting to GitHub with SSH</a> (if you would rather use an SSH key)</li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -915,11 +1007,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./1.4.download-from-github.html" class="pagination-link" aria-label="1.4. Download data from github">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1.4. Download data from github</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./syllabus.html" class="pagination-link" aria-label="Syllabus (Semester 1, 2026)">
-        <span class="nav-page-text">Syllabus (Semester 1, 2026)</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
