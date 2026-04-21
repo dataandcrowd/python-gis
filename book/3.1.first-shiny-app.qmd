@@ -87,8 +87,7 @@ Running the shiny create command from a terminal, accepting default options, ope
 Run it interactively and pick a template. The useful ones for this course are:
 
 - **basic-app**: one input, one output. The smallest meaningful app.
-- **basic-navigation**: a multi-page navbar layout.
-- **dashboard**: a sidebar layout with cards. The starting point for Assignment 2.
+- **dashboard-tip**: a sidebar layout with cards. The starting point for Assignment 2.
 
 Each template drops a fresh folder with a working `app.py` you can run immediately.
 
