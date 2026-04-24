@@ -2,616 +2,542 @@
 
 ## Overview
 
-You now know your assigned Assignment 2 track (announced on 21 April at 13:10). This lab is the main build session: by the end of it, your Shiny app should load real data, draw a map, draw a chart, and respond to at least one meaningful user input.
+There is no lecture this week. This is a **two-hour lab** run by your two GTAs. Put a post on Ed Discussion if you have a question.
 
-We will not start from a blank file. The [Shinylive examples gallery](https://shinylive.io/py/examples/) is a collection of small, runnable Shiny apps that cover every pattern you need. You will pick a handful, copy the bits that match your track, and stitch them into your own app. This mirrors how working developers build dashboards: find a working example, adapt, then refine.
-
-::: {.callout-important}
-## Find your own dataset, use the code as a guide
-
-The code in this lab is **indicative only**. Column names, file paths, CRS codes, and category values are placeholders based on plausible schemas, not a live copy of any specific file you will download. You are expected to:
-
-1. **Source your own dataset** from the links in 3.6 (or equivalent official sources) for your assigned track.
-2. **Inspect it** (`.head()`, `.dtypes`, `.columns`) before you copy any snippet here.
-3. **Rename, reshape, or drop** columns so the code works with your file, not the placeholder one.
-
-Treat every snippet below as a **pattern** to adapt, not a recipe to paste. If the code runs first time without any changes, you have probably copied placeholder column names by accident.
-:::
-
-**Duration:** approximately 2 hours (during the ANZAC break, so pace yourself over the week).
+The goal is simple: **plan before you code, then start building.** By the end of the lab you will have a written planning document (three short sections), an ipyleaflet map rendering inside your Shiny app, and at least one action button wired up. The planning document feeds directly into your design report, so nothing you write today is throwaway work.
 
 **What you need:**
 
-- The Week 6 app still running locally, connected to your GitHub repo.
 - Your track assignment confirmed (Track A, B, or C).
-- **Your own dataset downloaded** from the sources in 3.6 and saved under `data_raw/`. Do not rely on the file names used in this lab, they are illustrative.
+- Your own dataset downloaded from the sources listed in 3.6 and saved under `data/`.
+- The Week 6 repo with a working hello-world Shiny app.
+- A text editor or Quarto document open for writing the plan.
 
-**Structure:**
+::: {.callout-tip}
+## Where to write the plan
 
-| Section | Topic | Approx. time |
-|---------|-------|--------------|
-| 1 | Recap and today's goal | 10 min |
-| 2 | How to use the Shinylive examples gallery | 20 min |
-| 3 | Shared building blocks (all tracks) | 30 min |
-| 4 | Track-specific exercise (A, B, or C) | 45 min |
-| 5 | Commit, redeploy, check-in | 15 min |
-
----
-
-## Section 1: Recap and today's goal
-
-### Where you are
-
-By now you have:
-
-- A public GitHub repo with a working "hello world" Shiny app.
-- A deployed shinylive URL from the Week 6 lab.
-- A randomly-assigned track (A, B, or C).
-
-### Today's goal
-
-Replace the hello-world inputs and outputs with:
-
-- One `ipyleaflet` map, driven by the data that matches your track.
-- One quantitative chart (Plotly or matplotlib).
-- At least two of the three required inputs wired up and actually changing what is on screen.
-
-Polish, extra pages, and the design report all wait until Week 8.
-
----
-
-## Section 2: How to use the Shinylive examples gallery
-
-[shinylive.io/py/examples](https://shinylive.io/py/examples/) is the single most useful bookmark for this assignment. Every example is:
-
-- A **complete, runnable** Shiny app in your browser.
-- Paired with the **full source code**, which you can copy or edit in-place.
-- Packaged so shinylive will load it without you installing anything.
-
-### How to read an example
-
-For each example you open, ask three questions:
-
-1. **What input does it take?** (slider, dropdown, file upload, nothing)
-2. **What output does it produce?** (text, plot, map, table)
-3. **How does the server function connect them?** (a `@render.*`, a `@reactive.calc`, a `@reactive.event`)
-
-Once you can answer those three, copying the example into your own app is just substitution: your data replaces theirs, your colours replace theirs, your filter replaces theirs.
-
-### A small adaptation workflow
-
-1. Open the example on shinylive.
-2. Click **Edit on Shinylive** (top-right).
-3. Change one thing. Watch the app rebuild automatically in the preview pane.
-4. Change one more thing. Repeat.
-5. When you understand the pattern, copy the code into your local `app.py` and swap in your data.
-
-This "change one thing at a time" habit is the fastest way to learn Shiny. Do not copy the whole file into your project and then try to make it work; you will end up debugging five things at once.
-
----
-
-## Section 3: Shared building blocks (all tracks)
-
-Three patterns every track needs. Each one has a matching gallery example you should skim before the track exercise.
-
-### Block 1: Inputs that share one reactive calc
-
-Gallery example to open: the basic **Reactive inputs** app at [shinylive.io/py/examples](https://shinylive.io/py/examples/). Look at how a slider and a dropdown feed a single `@reactive.calc`, and how two outputs read that calc.
-
-Skeleton you will use in every track:
-
-```python
-from shiny import App, ui, render, reactive
-import pandas as pd
-
-data = pd.read_csv("data/your_track_data.csv")
-
-app_ui = ui.page_sidebar(
-    ui.sidebar(
-        ui.input_select("category", "Category",
-                        choices=["All"] + sorted(data["category"].unique().tolist())),
-        ui.input_slider("min_value", "Minimum value", 0, 100, 0),
-        ui.input_checkbox("only_recent", "Only recent", value=False),
-    ),
-    ui.output_text("summary"),
-    ui.output_plot("chart"),
-    title="My track dashboard",
-)
-
-def server(input, output, session):
-
-    @reactive.calc
-    def filtered():
-        df = data.copy()
-        if input.category() != "All":
-            df = df[df["category"] == input.category()]
-        df = df[df["value"] >= input.min_value()]
-        if input.only_recent():
-            df = df[df["year"] >= 2020]
-        return df
-
-    @render.text
-    def summary():
-        return f"{len(filtered())} rows after filters."
-
-    @render.plot
-    def chart():
-        df = filtered()
-        return df.plot.bar(x="category", y="value")  # placeholder
-
-app = App(app_ui, server)
-```
-
-Three inputs, one `@reactive.calc`, two outputs that both read it. That is the minimum you need for Part B of the rubric.
-
-### Block 2: An `ipyleaflet` map inside Shiny
-
-Gallery example to open: search the gallery for **ipyleaflet** or **map**. The example uses `output_widget` in the UI and `@render_widget` in the server, via `shinywidgets`.
-
-Skeleton:
-
-```python
-from shiny import App, ui, reactive
-from shinywidgets import output_widget, render_widget
-from ipyleaflet import Map, Marker, GeoData
-import geopandas as gpd
-
-layer = gpd.read_file("data/your_geodata.geojson").to_crs(4326)
-
-app_ui = ui.page_sidebar(
-    ui.sidebar(
-        ui.input_slider("min_value", "Minimum value", 0, 100, 0),
-    ),
-    output_widget("map"),
-    title="My track map",
-)
-
-def server(input, output, session):
-
-    @reactive.calc
-    def filtered_layer():
-        return layer[layer["value"] >= input.min_value()]
-
-    @render_widget
-    def map():
-        m = Map(center=(-36.85, 174.77), zoom=11)
-        m.add_layer(GeoData(
-            geo_dataframe=filtered_layer(),
-            style={"color": "#d73027", "weight": 2, "fillOpacity": 0.4},
-        ))
-        return m
-
-app = App(app_ui, server)
-```
-
-Two things to remember:
-
-- **CRS**: ipyleaflet needs WGS84 (`EPSG:4326`). Call `.to_crs(4326)` when you load.
-- **Layer refresh**: return a new `Map` each time inside `@render_widget`. Trying to mutate a stored Map object often fails to trigger a re-render.
-
-### Block 3: A Plotly or matplotlib chart
-
-Gallery examples to open: **Plotly**, or **Matplotlib**. Pick whichever syntax you are happier with. Plotly gives you interactive hover; matplotlib is simpler.
-
-Matplotlib version (works everywhere):
-
-```python
-import matplotlib.pyplot as plt
-
-@render.plot
-def chart():
-    df = filtered()
-    fig, ax = plt.subplots(figsize=(7, 4))
-    ax.bar(df["category"], df["value"], color="steelblue")
-    ax.set_xlabel("Category")
-    ax.set_ylabel("Value")
-    plt.tight_layout()
-    return fig
-```
-
-Plotly version (interactive hover, zoom):
-
-```python
-from shinywidgets import output_widget, render_widget
-import plotly.express as px
-
-# In the UI:
-# output_widget("chart")
-
-@render_widget
-def chart():
-    return px.bar(filtered(), x="category", y="value")
-```
-
-Either counts as the quantitative chart for Part C.
-
----
-
-## Section 4: Track-specific exercise
-
-Do the section for your assigned track only. Each takes roughly 45 minutes.
-
-::: {.callout-warning}
-## These starters are templates, not solutions
-
-Each track below shows a **plausible** dashboard for the dataset family. The exact column names, category values, and file paths in these snippets will **not** match the file you download. Open your CSV or GeoJSON in a notebook first, list the columns, and then edit the starter to use your actual field names. Part of the assessment is showing that you can read a dataset's schema and adapt code to it.
+Create a file called `plan.md` (or `plan.qmd`) in the root of your project repo. You will copy the best parts of this into your design report later. Writing it now, while the decisions are fresh, saves you time in Week 8.
 :::
+
+---
+
+## Section 1: Motivation and audience
+
+Answer the following questions in two to four paragraphs. Be specific; "Auckland residents" is too broad.
+
+### 1.1 What problem does your dashboard address?
+
+State the question your dashboard will help someone answer. Good questions are narrow enough that a single dashboard can answer them convincingly:
+
+- Track A example: "How has public transport patronage in Auckland recovered since 2020, and which modes are recovering fastest?"
+- Track B example: "Do workers and university students from the same origin SA2 commute to the same destinations, or do their travel patterns diverge?"
+- Track C example: "Where in Auckland are serious and fatal crashes concentrated, and has the spatial pattern shifted over the past five years?"
+
+Write **your own** question. Do not copy the examples above.
+
+### 1.2 Who is it for?
+
+Describe one or two realistic users. What role do they hold? What decision would this dashboard inform? For example, a transport planner at Auckland Transport evaluating whether to increase frequency on a bus route, or a public health researcher comparing active-transport crash risk across suburbs.
+
+### 1.3 What insight does it enable?
+
+In one sentence, state the single most important thing a user should take away after spending two minutes with your dashboard. This sentence will likely become the title or subtitle of your app.
+
+::: {.callout-note}
+## Why this matters for the rubric
+
+The "Question" criterion (10%) rewards dashboards that address a clear, well-scoped question. Writing it down now, before you touch the code, prevents the common mistake of building a dashboard that shows data but does not answer anything.
+:::
+
+---
+
+## Section 2: Data and preparation
+
+### 2.1 Datasets used
+
+Fill in a table like this for every dataset you plan to use (you need at least two):
+
+| Dataset | Source URL | Format | Rows (approx.) | Key variables you will use |
+|---------|-----------|--------|-----------------|---------------------------|
+| e.g. AT patronage | `https://at.govt.nz/...` | CSV | ~2,400 | month, mode, boardings |
+| e.g. Bus routes | AT GIS open data | GeoJSON | ~300 | route_short_name, geometry |
+
+### 2.2 Cleaning and preparation steps
+
+For each dataset, list the steps you need to take before it is ready for the app. Be concrete:
+
+- Which columns will you keep? Which will you drop?
+- Do you need to melt, pivot, merge, or aggregate?
+- What is the original CRS? Do you need to reproject to EPSG:4326 for ipyleaflet?
+- Do you need to simplify geometries to keep the file size small for shinylive?
+
+Write this as a numbered list. Each step should be one line.
+
+### 2.3 Limitations
+
+Every dataset has gaps. Note at least two limitations, for example: "Patronage data is monthly, so I cannot show weekly patterns" or "The crash dataset does not distinguish between crashes involving cyclists and those involving e-scooter riders".
+
+Acknowledging limitations early shows the marker that you understand your data, and it will become a paragraph in your design report.
+
+::: {.callout-important}
+## Do the preparation now, not later
+
+Open your dataset in a notebook. Run `.head()`, `.dtypes`, `.columns`, `.shape`. Fill in the table above with **actual** column names and row counts, not guesses. If the data is not what you expected, now is the time to find a better source or adjust your question.
+:::
+
+---
+
+## Section 3: Technical architecture
+
+This section asks you to describe **what a user sees and does** when they open your finished dashboard. Write this in your `plan.md` as a short narrative (three to five paragraphs). Reading your narrative, a classmate who has never seen your data should be able to picture the dashboard in their head.
+
+Below are three example narratives, one per track. **Read the one for your track carefully**, then write your own version that matches your specific question, your actual column names, and your design choices.
 
 ::: {.panel-tabset}
 
 ### Track A: Public Transport
 
-**Goal**: a dashboard that shows AT's monthly patronage time series paired with a map of bus or ferry routes. The user can filter by mode.
+When the user opens the dashboard, they see a sidebar on the left and two cards on the right. The title reads something like "Auckland PT Patronage Explorer".
 
-**Data preparation** (do once, outside the Shiny app):
+In the sidebar, a **checkbox group** lists the transport modes available in the patronage dataset (for example, Bus, Train, Ferry). All modes are selected by default. Below that, a **slider** sets the start year: the user can drag it from, say, 2014 to 2024 to zoom in on recent trends. At the bottom of the sidebar, an **"Apply filters" button** lets the user adjust both controls before anything recalculates.
 
-```python
-# scripts/prep_patronage.py
-import pandas as pd
+The top card holds a **line chart** (matplotlib or Plotly). Each selected mode appears as a separate line, with months on the x-axis and total boardings on the y-axis. When the user deselects "Ferry", the ferry line disappears and the y-axis rescales to make bus and train trends easier to compare.
 
-# Downloaded CSV from https://at.govt.nz/about-us/at-data-sources
-raw = pd.read_csv("data_raw/at_patronage.csv")
+The bottom card holds an **ipyleaflet map** of Auckland, centred around the CBD. Bus or ferry route geometries are drawn as coloured lines on the map. If the user has deselected a mode, those routes disappear from the map as well. Optionally, a **dropdown** in the sidebar could let the user pick a single route to highlight in red while the rest are dimmed to grey, so they can trace one route across the city.
 
-# Tidy: one row per (month, mode)
-tidy = (raw
-    .melt(id_vars="Month", var_name="mode", value_name="boardings")
-    .dropna()
-)
-tidy["Month"] = pd.to_datetime(tidy["Month"])
-tidy.to_csv("data/patronage.csv", index=False)
+A one-line **text summary** sits between the two cards: "Showing 1,240 monthly records across 2 modes from 2018 onward." This updates whenever the user clicks "Apply filters".
+
+### Track B: Commuter and Student OD
+
+When the user opens the dashboard, they see a sidebar on the left and two cards on the right. The title reads something like "Where do Auckland workers and students go?"
+
+In the sidebar, a **dropdown** lists the SA2 areas in Auckland. The user picks one as the origin (for example, "Ponsonby"). Below that, a **checkbox group** with two options, "Worker" and "Student", controls which population is included. Both are selected by default so the user sees a side-by-side comparison. A **slider** sets how many top destinations to show (for example, 5 to 30, defaulting to 10). An **"Apply filters" button** sits at the bottom.
+
+The top card holds a **horizontal bar chart**. Each bar is a destination SA2, sorted by flow count. If both populations are selected, worker and student bars appear side by side in different colours so the user can immediately see where the two groups diverge. Selecting only "Student" removes the worker bars and re-sorts.
+
+The bottom card holds an **ipyleaflet map**. The origin SA2 is highlighted in green. The top-N destination SA2s are shaded in blue, with darker fills for higher flow counts. When the user switches the origin dropdown to a different suburb, both the chart and the map redraw to show the new origin's commuting pattern.
+
+A one-line **text summary** reads: "From Ponsonby: 3,450 workers and 820 students travel to 10 destinations." This updates on each "Apply filters" click.
+
+### Track C: Auckland Crashes
+
+When the user opens the dashboard, they see a sidebar on the left and two cards on the right. The title reads something like "Auckland Crash Explorer".
+
+In the sidebar, a **range slider** sets the year window (for example, 2019 to 2024). Below that, a **checkbox group** lists severity levels (Fatal, Serious, Minor, Non-injury), all selected by default. A second **checkbox group** lists the travel modes involved (for example, Pedestrian, Cyclist, Motorcyclist, Driver). An **"Apply filters" button** sits at the bottom.
+
+The top card holds an **ipyleaflet map** of Auckland. Each crash is a small coloured dot: dark red for fatal, bright red for serious, orange for minor, pale for non-injury. The dots update when the user clicks "Apply filters". Because there may be thousands of points, only the first 2,000 are rendered (the text summary warns the user if records were capped). Zooming in on a neighbourhood lets the user see individual crash locations.
+
+The bottom card holds a **stacked bar chart** with one bar per year. Each bar is segmented by severity, so the user can see whether serious crashes are increasing, decreasing, or steady. Deselecting "Non-injury" from the checkbox removes that segment and makes the serious/fatal proportions easier to read.
+
+A one-line **text summary** reads: "4,312 crashes match the current filters (capped at 2,000 on the map). 87 fatal, 410 serious." This updates on each "Apply filters" click.
+
+:::
+
+### What to write in your plan
+
+After reading the narrative above for your track, write your own version in `plan.md`. Your narrative should mention:
+
+1. The **layout** you will use (sidebar, navbar, or something else).
+2. Every **input** by name and type (dropdown, slider, checkbox group, button).
+3. Every **output** by type (map, chart, text summary) and what it shows.
+4. What **changes** when the user interacts: which outputs redraw, and why.
+
+You do not need to write code yet. That comes in Section 4.
+
+### 3.2 Reactive dependency diagram
+
+Now translate your narrative into a Mermaid diagram. Every input you mentioned becomes a blue node on the left. The shared filter logic becomes an orange node in the middle. Every output becomes a green node on the right. Here is the Track B example:
+
+```{mermaid}
+graph LR
+    A[input.origin] --> D[filtered]
+    B[input.pops] --> D
+    C[input.top_n] --> D
+    D --> E[chart]
+    D --> F[map]
+    D --> G[summary]
+
+    style A fill:#e3f2fd,stroke:#1565c0
+    style B fill:#e3f2fd,stroke:#1565c0
+    style C fill:#e3f2fd,stroke:#1565c0
+    style D fill:#fff3e0,stroke:#e65100
+    style E fill:#e8f5e9,stroke:#2e7d32
+    style F fill:#e8f5e9,stroke:#2e7d32
+    style G fill:#e8f5e9,stroke:#2e7d32
 ```
 
-For the routes layer, download **Bus service, layer 2** from AT GIS, save as `data/bus_routes.geojson`, and simplify:
+Blue = inputs, orange = shared `@reactive.calc`, green = outputs.
 
-```python
-import geopandas as gpd
-routes = gpd.read_file("data_raw/bus_routes.geojson").to_crs(2193)
-routes.geometry = routes.geometry.simplify(tolerance=10)
-routes = routes[["route_short_name", "route_type", "geometry"]]
-routes.to_file("data/bus_routes.geojson", driver="GeoJSON")
-```
+Copy this into your `plan.qmd`, then replace the labels with the actual names from your narrative. Your diagram must have at least three input nodes, one shared calc node, and at least two output nodes (map + chart).
 
-**Starter app**:
+---
+
+## Section 4: ipyleaflet maps inside Shiny
+
+Now that the plan is written, start building. This section shows you how to get an ipyleaflet map into your Shiny app for each track. All examples use **indicative** column names; adapt them to your actual data.
+
+### The basic pattern
+
+Every track uses the same wiring. In the UI, use `output_widget` from shinywidgets. In the server, use `@render_widget` and return a new `Map` object each time the reactive inputs change.
 
 ```python
 from shiny import App, ui, render, reactive
 from shinywidgets import output_widget, render_widget
 from ipyleaflet import Map, GeoData
-import pandas as pd, geopandas as gpd
-import matplotlib.pyplot as plt
-
-patronage = pd.read_csv("data/patronage.csv", parse_dates=["Month"])
-routes    = gpd.read_file("data/bus_routes.geojson").to_crs(4326)
-
-modes = sorted(patronage["mode"].unique().tolist())
-
-app_ui = ui.page_sidebar(
-    ui.sidebar(
-        ui.input_checkbox_group("modes", "Modes", choices=modes, selected=modes),
-        ui.input_slider("year_from", "From year", 2014, 2025, 2018),
-        ui.input_radio_buttons("map_type", "Map layer",
-                               choices=["Bus routes", "(none)"], selected="Bus routes"),
-    ),
-    ui.card(ui.card_header("Patronage over time"), ui.output_plot("chart")),
-    ui.card(ui.card_header("Network map"), output_widget("map")),
-    title="AT patronage explorer",
-)
-
-def server(input, output, session):
-
-    @reactive.calc
-    def filtered_patronage():
-        df = patronage[patronage["mode"].isin(input.modes())]
-        df = df[df["Month"].dt.year >= input.year_from()]
-        return df
-
-    @render.plot
-    def chart():
-        df = filtered_patronage()
-        fig, ax = plt.subplots(figsize=(8, 4))
-        for mode, sub in df.groupby("mode"):
-            ax.plot(sub["Month"], sub["boardings"], label=mode)
-        ax.set_ylabel("Boardings")
-        ax.legend()
-        plt.tight_layout()
-        return fig
-
-    @render_widget
-    def map():
-        m = Map(center=(-36.85, 174.77), zoom=11)
-        if input.map_type() == "Bus routes":
-            m.add_layer(GeoData(
-                geo_dataframe=routes,
-                style={"color": "#d73027", "weight": 2, "opacity": 0.7},
-            ))
-        return m
-
-app = App(app_ui, server)
-```
-
-**Exercises**:
-
-1. Add a dropdown that lets the user select one `route_short_name`. Highlight that route in red, dim the rest in grey.
-2. Switch the chart to Plotly so users can hover for exact boardings per month.
-3. Add a `@reactive.event` button "Reset filters" that restores `modes` and `year_from` to defaults (use `ui.update_checkbox_group` and `ui.update_slider`).
-
-### Track B: Commuter + Student OD comparison
-
-**Goal**: a dashboard that lets the user pick an SA2 and see, side-by-side, where workers vs students travel to.
-
-**Data preparation** (do once):
-
-```python
-# scripts/prep_od.py
-import pandas as pd, geopandas as gpd
-
-commuters = pd.read_csv("data_raw/commuters_2023.csv")
-students  = pd.read_csv("data_raw/students_2023.csv")
-sa2       = gpd.read_file("data_raw/sa2_2023.geojson").to_crs(2193)
-
-# Clip to Auckland region only (keeps file size small)
-auckland = sa2[sa2["region_name"] == "Auckland"]
-auckland.geometry = auckland.geometry.simplify(tolerance=20)
-auckland = auckland[["SA2_code", "SA2_name", "geometry"]]
-auckland.to_file("data/sa2_auckland.geojson", driver="GeoJSON")
-
-# Long format for both populations
-def tidy(df, label):
-    df = df.rename(columns={"origin_SA2": "origin",
-                            "destination_SA2": "dest",
-                            "count": "n"})
-    df["population"] = label
-    return df[["origin", "dest", "n", "population"]]
-
-pd.concat([tidy(commuters, "worker"), tidy(students, "student")]).to_csv(
-    "data/od.csv", index=False)
-```
-
-**Starter app**:
-
-```python
-from shiny import App, ui, render, reactive
-from shinywidgets import output_widget, render_widget
-from ipyleaflet import Map, GeoData
-import pandas as pd, geopandas as gpd
-import matplotlib.pyplot as plt
-
-od  = pd.read_csv("data/od.csv")
-sa2 = gpd.read_file("data/sa2_auckland.geojson").to_crs(4326)
-
-origins = sorted(od["origin"].unique().tolist())
-
-app_ui = ui.page_sidebar(
-    ui.sidebar(
-        ui.input_select("origin", "Origin SA2", choices=origins, selected=origins[0]),
-        ui.input_checkbox_group("pops", "Populations",
-                                choices=["worker", "student"],
-                                selected=["worker", "student"]),
-        ui.input_slider("top_n", "Top N destinations", 5, 30, 10),
-    ),
-    ui.card(ui.card_header("Top destinations"), ui.output_plot("chart")),
-    ui.card(ui.card_header("Destinations on the map"), output_widget("map")),
-    title="Commuter vs Student OD (Auckland)",
-)
-
-def server(input, output, session):
-
-    @reactive.calc
-    def subset():
-        df = od[(od["origin"] == input.origin()) &
-                (od["population"].isin(input.pops()))]
-        top = (df.groupby(["dest", "population"])["n"].sum()
-                 .reset_index()
-                 .sort_values("n", ascending=False)
-                 .head(input.top_n()))
-        return top
-
-    @render.plot
-    def chart():
-        df = subset()
-        fig, ax = plt.subplots(figsize=(8, 4))
-        for pop, sub in df.groupby("population"):
-            ax.barh(sub["dest"], sub["n"], label=pop, alpha=0.6)
-        ax.invert_yaxis()
-        ax.legend()
-        plt.tight_layout()
-        return fig
-
-    @render_widget
-    def map():
-        df = subset()
-        dests = sa2[sa2["SA2_code"].isin(df["dest"].unique())]
-        m = Map(center=(-36.85, 174.77), zoom=10)
-        m.add_layer(GeoData(
-            geo_dataframe=dests,
-            style={"color": "#1f78b4", "fillColor": "#a6cee3",
-                   "opacity": 0.7, "fillOpacity": 0.5, "weight": 1},
-        ))
-        return m
-
-app = App(app_ui, server)
-```
-
-**Exercises**:
-
-1. Add a second dropdown that lets the user flip origin and destination ("Who comes into Ponsonby?" vs "Where do Ponsonby residents go?").
-2. Add a summary text line: "X workers and Y students travel from this origin today."
-3. Highlight the selected **origin** SA2 on the map in green, in addition to the destinations.
-4. Add a side-by-side bar chart where worker and student counts for each destination sit next to each other, not layered (hint: seaborn or custom matplotlib positions).
-
-### Track C: Auckland crashes
-
-**Goal**: a dashboard that shows crash points on the map with filters for year, severity, and mode involved, paired with a chart of counts.
-
-**Data preparation** (do once):
-
-```python
-# scripts/prep_crashes.py
-import pandas as pd, geopandas as gpd
-
-# Download crash dataset from the AT link in 3.6
-raw = pd.read_csv("data_raw/crashes_auckland.csv")
-
-# Keep the columns you will actually use
-keep = ["crash_year", "severity", "mode", "latitude", "longitude", "day_of_week"]
-raw = raw[keep].dropna(subset=["latitude", "longitude"])
-
-gdf = gpd.GeoDataFrame(
-    raw,
-    geometry=gpd.points_from_xy(raw["longitude"], raw["latitude"]),
-    crs="EPSG:4326",
-)
-
-# Trim for shinylive: last 5 years only
-gdf = gdf[gdf["crash_year"] >= 2019]
-gdf.to_file("data/crashes.geojson", driver="GeoJSON")
-```
-
-**Starter app**:
-
-```python
-from shiny import App, ui, render, reactive
-from shinywidgets import output_widget, render_widget
-from ipyleaflet import Map, CircleMarker, LayerGroup
 import geopandas as gpd
-import matplotlib.pyplot as plt
 
-crashes = gpd.read_file("data/crashes.geojson").to_crs(4326)
-
-severities = sorted(crashes["severity"].unique().tolist())
-modes      = sorted(crashes["mode"].unique().tolist())
+gdf = gpd.read_file("data/your_file.geojson").to_crs(4326)
 
 app_ui = ui.page_sidebar(
     ui.sidebar(
-        ui.input_slider("year_range", "Year range",
-                        2019, 2024, (2019, 2024), sep=""),
-        ui.input_checkbox_group("severity", "Severity",
-                                choices=severities, selected=severities),
-        ui.input_checkbox_group("mode", "Modes involved",
-                                choices=modes, selected=modes),
+        ui.input_select("category", "Category",
+                        choices=["All"] + sorted(gdf["category"].unique().tolist())),
     ),
-    ui.card(ui.card_header("Crashes on the map"), output_widget("map")),
-    ui.card(ui.card_header("Crash counts"), ui.output_plot("chart")),
-    title="Auckland crashes",
+    output_widget("map"),
+    title="My dashboard",
 )
 
 def server(input, output, session):
 
     @reactive.calc
     def filtered():
-        lo, hi = input.year_range()
-        df = crashes[
-            crashes["crash_year"].between(lo, hi)
-            & crashes["severity"].isin(input.severity())
-            & crashes["mode"].isin(input.mode())
-        ]
-        return df
-
-    @render.plot
-    def chart():
-        df = filtered()
-        counts = df.groupby(["crash_year", "severity"]).size().unstack(fill_value=0)
-        fig, ax = plt.subplots(figsize=(8, 4))
-        counts.plot(kind="bar", stacked=True, ax=ax)
-        ax.set_ylabel("Crashes")
-        plt.tight_layout()
-        return fig
+        if input.category() == "All":
+            return gdf
+        return gdf[gdf["category"] == input.category()]
 
     @render_widget
     def map():
-        df = filtered().head(2000)  # cap rendering cost
-        colour_of = {"Fatal": "#b10026", "Serious": "#e31a1c",
-                     "Minor": "#fd8d3c", "Non-injury": "#fdbb84"}
-        markers = [
-            CircleMarker(
-                location=(row.geometry.y, row.geometry.x),
-                radius=3,
-                color=colour_of.get(row["severity"], "#636363"),
-                fill_color=colour_of.get(row["severity"], "#636363"),
-                fill_opacity=0.7,
-            )
-            for _, row in df.iterrows()
-        ]
         m = Map(center=(-36.85, 174.77), zoom=11)
-        m.add_layer(LayerGroup(layers=tuple(markers)))
+        m.add_layer(GeoData(
+            geo_dataframe=filtered(),
+            style={"color": "#1f78b4", "weight": 2, "fillOpacity": 0.4},
+        ))
         return m
 
 app = App(app_ui, server)
 ```
 
-**Exercises**:
+Two rules that prevent silent failures:
 
-1. Replace the `head(2000)` cap with a smarter approach: aggregate crashes to a grid or cluster (open the gallery example **Cluster markers** as a starting point).
-2. Add a dropdown for `day_of_week` and see how weekend patterns differ from weekday.
-3. Add a summary text line: "N crashes in the current filter, of which X were serious or fatal."
-4. Swap the stacked bar chart for a Plotly version with hover tooltips.
-
-:::
-
----
-
-## Section 5: Commit, redeploy, and check-in
-
-Once your track app runs locally, ship it.
+- **Always `.to_crs(4326)`** when you load the GeoDataFrame. ipyleaflet expects WGS84; NZTM data will render as an empty map with no error.
+- **Return a new `Map()` inside `@render_widget`** every time. Do not create the Map at module level and try to mutate it; the widget will not update.
 
 ::: {.panel-tabset}
 
-### Option A: Terminal
+### Track A: Public Transport
 
-```bash
-# Rebuild the static bundle
-shinylive export . docs
+Your map should show bus or ferry **routes** (lines). Use `GeoData` with a LineString GeoDataFrame. Wire a `checkbox_group` for transport modes so the user can toggle bus, train, and ferry layers.
 
-# Commit and push
-git add app.py data/ scripts/ docs/
-git commit -m "Week 7: working map and chart"
-git push origin main
+```python
+from ipyleaflet import Map, GeoData
+import geopandas as gpd
+
+routes = gpd.read_file("data/routes.geojson").to_crs(4326)
+
+@reactive.calc
+def filtered_routes():
+    return routes[routes["mode"].isin(input.modes())]
+
+@render_widget
+def map():
+    m = Map(center=(-36.85, 174.77), zoom=11)
+    sub = filtered_routes()
+    if not sub.empty:
+        m.add_layer(GeoData(
+            geo_dataframe=sub,
+            style={"color": "#d73027", "weight": 2, "opacity": 0.7},
+            name="Routes",
+        ))
+    return m
 ```
 
-### Option B: GitHub Desktop
+To highlight a **single route** selected from a dropdown, add a second `GeoData` layer in a different colour:
 
-1. Rerun `shinylive export . docs` in your terminal first (GitHub Desktop does not do this for you).
-2. Back in GitHub Desktop, you will see the updated `docs/` folder plus `app.py` and your data files in the **Changes** tab.
-3. In the **Summary** box: `Week 7: working map and chart`.
-4. Click **Commit to main**, then **Push origin**.
+```python
+@render_widget
+def map():
+    m = Map(center=(-36.85, 174.77), zoom=11)
+    # all routes, dimmed
+    m.add_layer(GeoData(
+        geo_dataframe=filtered_routes(),
+        style={"color": "#bdbdbd", "weight": 1, "opacity": 0.4},
+    ))
+    # selected route, bright
+    sel = filtered_routes()
+    sel = sel[sel["route_short_name"] == input.route()]
+    if not sel.empty:
+        m.add_layer(GeoData(
+            geo_dataframe=sel,
+            style={"color": "#e31a1c", "weight": 4, "opacity": 1.0},
+        ))
+    return m
+```
+
+### Track B: Commuter and Student OD
+
+Your map should show destination **polygons** (SA2 areas). Use `GeoData` with a Polygon GeoDataFrame. Highlight the origin SA2 in one colour and the top-N destinations in another.
+
+```python
+from ipyleaflet import Map, GeoData
+import geopandas as gpd
+
+sa2 = gpd.read_file("data/sa2_auckland.geojson").to_crs(4326)
+
+@reactive.calc
+def dest_areas():
+    # top_codes is a list of SA2 codes from the OD filter
+    top_codes = filtered_od()["dest"].unique()
+    return sa2[sa2["SA2_code"].isin(top_codes)]
+
+@render_widget
+def map():
+    m = Map(center=(-36.85, 174.77), zoom=10)
+    # highlight origin
+    origin = sa2[sa2["SA2_code"] == input.origin()]
+    if not origin.empty:
+        m.add_layer(GeoData(
+            geo_dataframe=origin,
+            style={"color": "#2ca25f", "fillColor": "#99d8c9",
+                   "fillOpacity": 0.6, "weight": 3},
+            name="Origin",
+        ))
+    # highlight destinations
+    dests = dest_areas()
+    if not dests.empty:
+        m.add_layer(GeoData(
+            geo_dataframe=dests,
+            style={"color": "#1f78b4", "fillColor": "#a6cee3",
+                   "fillOpacity": 0.5, "weight": 1},
+            name="Destinations",
+        ))
+    return m
+```
+
+### Track C: Auckland Crashes
+
+Your map should show crash **points**. Use `CircleMarker` for each row. Colour by severity. Cap the number of markers to keep the browser responsive.
+
+```python
+from ipyleaflet import Map, CircleMarker, LayerGroup
+
+@render_widget
+def map():
+    df = filtered_crashes().head(2000)  # cap for performance
+    severity_colours = {
+        "Fatal": "#b10026",
+        "Serious": "#e31a1c",
+        "Minor": "#fd8d3c",
+        "Non-injury": "#fee8c8",
+    }
+    markers = []
+    for _, row in df.iterrows():
+        markers.append(CircleMarker(
+            location=(row.geometry.y, row.geometry.x),
+            radius=4,
+            color=severity_colours.get(row["severity"], "#636363"),
+            fill_color=severity_colours.get(row["severity"], "#636363"),
+            fill_opacity=0.7,
+            weight=1,
+        ))
+    m = Map(center=(-36.85, 174.77), zoom=11)
+    m.add_layer(LayerGroup(layers=tuple(markers)))
+    return m
+```
+
+::: {.callout-tip}
+## Why `.head(2000)`?
+
+Each `CircleMarker` is a separate JavaScript object in the browser. Rendering 20,000 of them will freeze the page. Start with 2,000 and increase only if performance is acceptable. For the final submission, consider aggregating to a grid or using a heatmap layer instead.
+:::
 
 :::
 
-Wait about a minute, then reopen your GitHub Pages URL. Your Week 6 hello-world should now be replaced by your track-specific dashboard. Post the URL in the Week 7 lab Slack channel as your check-in.
+---
+
+## Section 5: Adding an action button
+
+An action button lets the user control **when** an expensive operation runs, instead of the app recalculating on every slider tick. This is the `@reactive.event` pattern from the lecture.
+
+### Step 1: Add the button to the UI
+
+Place it at the bottom of your sidebar, after all the filter inputs:
+
+```python
+ui.sidebar(
+    ui.input_select("category", "Category", choices=[...]),
+    ui.input_slider("min_value", "Minimum", 0, 100, 0),
+    ui.input_checkbox_group("modes", "Modes", choices=[...]),
+    ui.input_action_button("apply", "Apply filters"),
+)
+```
+
+### Step 2: Gate the reactive calc
+
+Wrap your shared `@reactive.calc` with `@reactive.event` so it only recalculates when the button is clicked:
+
+```python
+@reactive.calc
+@reactive.event(input.apply)
+def filtered():
+    df = data.copy()
+    if input.category() != "All":
+        df = df[df["category"] == input.category()]
+    df = df[df["value"] >= input.min_value()]
+    return df
+```
+
+Now the user can adjust multiple inputs, then click "Apply filters" once. The map and chart update together, and only once.
+
+### Step 3: Add a reset button (optional but useful)
+
+```python
+# In the UI, next to the apply button:
+ui.input_action_button("reset", "Reset"),
+
+# In the server:
+@reactive.effect
+@reactive.event(input.reset)
+def _():
+    ui.update_select("category", selected="All")
+    ui.update_slider("min_value", value=0)
+    ui.update_checkbox_group("modes", selected=modes)
+```
+
+`ui.update_*` functions push new values into the inputs from the server side. Combined with `@reactive.event`, the reset click restores defaults and the apply click picks them up.
+
+### Step 4: Show a summary line
+
+Add a text output that tells the user what the current filter produced:
+
+```python
+# UI
+ui.output_text("summary"),
+
+# Server
+@render.text
+def summary():
+    df = filtered()
+    return f"{len(df):,} records match the current filters."
+```
+
+Because `summary` reads `filtered()`, it updates whenever the "Apply filters" button fires, not on every slider move. No extra wiring needed.
 
 ---
 
-## Section 6: Homework and stretch goals
+## Section 6: Commit and push
 
-### Minimum (everyone)
+::: {.panel-tabset}
 
-Before the Week 8 lab:
+### Terminal
 
-1. Your own dataset is downloaded, tidied, and saved under `data/`, with a small `scripts/` file that reproduces the tidying step.
-2. All three required inputs are wired up and each one meaningfully changes at least one output.
-3. Both the map and the chart read from a shared `@reactive.calc`.
-4. The README lists the question, the exact dataset URL you used, the date you downloaded it, and one known limitation.
+```bash
+git add plan.md app.py data/
+git commit -m "Week 7: plan and skeleton app"
+git push origin main
+```
 
-### Stretch (if you finish early)
+### GitHub Desktop
 
-4. Add a second page with `ui.navset_tab` or `ui.page_navbar`: put the map on one tab and the chart + table on another.
-5. Add a `shinyswatch` theme of your choosing: `ui.page_sidebar(..., theme=shinyswatch.theme.flatly())`.
-6. Add a `@reactive.event` button ("Apply filters") that gates an expensive recomputation, so the app only recalculates when the user clicks.
-7. Begin a `report.qmd` in your repo: add the YAML header from 3.6 and the five section headings, even if each section is only a placeholder for now.
+1. In the **Changes** tab you will see `plan.md`, `app.py`, and your data files.
+2. Summary: `Week 7: plan and skeleton app`.
+3. Click **Commit to main**, then **Push origin**.
 
-### Common problems
+:::
 
-- **The map does not show after deploy.** Check that you called `.to_crs(4326)` on your GeoDataFrame. ipyleaflet will silently show an empty map for data in NZTM.
-- **`@render_widget` never updates.** Make sure you are creating a new `Map()` inside the function, not reusing a Map defined at module level.
-- **The app works locally but shinylive shows "Package not found".** Pyodide does not ship every package. For this assignment you should only need: `shiny`, `shinywidgets`, `ipyleaflet`, `pandas`, `geopandas`, `matplotlib`, optionally `plotly` and `shinyswatch`. If you pulled in something else, remove it.
-- **The deploy is huge and slow to load.** Check your `data/` folder. Simplify polygons, drop unused columns, and trim to the Auckland region only.
+---
+
+## Homework before Week 8
+
+Before the next lab:
+
+1. **Finish the plan** if you did not complete all three sections in class.
+2. **Load your real data** into `app.py` and get at least one output (chart or map) rendering from the filtered dataset.
+3. **Wire all three inputs** so that each one meaningfully changes at least one output.
+4. **Rebuild and push**: `shinylive export . docs`, commit, push. Check your GitHub Pages URL.
+
+::: {.callout-warning}
+## The plan is not assessed separately, but the design report is
+
+Your plan feeds directly into the design report (10% of A2). Sections 1, 2, and 3 of this lab map onto the required report sections. Students who do a thorough job this week typically finish the report in under an hour during Week 8.
+:::
+
+---
+
+## Further options
+
+These are not required for this lab, but if you finish early or want to explore during the week:
+
+### Sidebar layout tweaks
+
+You can split the sidebar into collapsible sections using `ui.accordion`:
+
+```python
+ui.sidebar(
+    ui.accordion(
+        ui.accordion_panel("Filters",
+            ui.input_select("category", "Category", choices=[...]),
+            ui.input_slider("min_value", "Minimum", 0, 100, 0),
+        ),
+        ui.accordion_panel("Map options",
+            ui.input_radio_buttons("basemap", "Basemap",
+                                   choices=["OpenStreetMap", "CartoDB positron"]),
+        ),
+    ),
+    ui.input_action_button("apply", "Apply filters"),
+)
+```
+
+### Multi-page layout with `ui.page_navbar`
+
+```python
+app_ui = ui.page_navbar(
+    ui.nav_panel("Map",
+        ui.layout_sidebar(
+            ui.sidebar(...),
+            output_widget("map"),
+        ),
+    ),
+    ui.nav_panel("Chart",
+        ui.output_plot("chart"),
+    ),
+    ui.nav_panel("About",
+        ui.markdown("## About this dashboard\n\nBuilt for GISCI 343 ..."),
+    ),
+    title="My A2 dashboard",
+)
+```
+
+### Theming with shinyswatch
+
+```python
+import shinyswatch
+
+app_ui = ui.page_sidebar(
+    ...,
+    theme=shinyswatch.theme.flatly(),
+)
+```
+
+Browse themes at [bootswatch.com](https://bootswatch.com/).
+
+### Value boxes for key numbers
+
+```python
+from shiny import ui
+
+ui.layout_columns(
+    ui.value_box("Total records", ui.output_text("n_records"), theme="primary"),
+    ui.value_box("Fatal crashes", ui.output_text("n_fatal"), theme="danger"),
+    col_widths=[6, 6],
+)
+```
 
 ---
 
 ## Further reading
 
-- [Shinylive examples gallery](https://shinylive.io/py/examples/) (bookmark it).
-- Textbook 3.5 (Mapping Auckland Open Data) for the data-loading patterns.
-- Textbook 3.3 (Decorators and UI Polish) for `ui.navset_tab`, cards, and themes.
+- Textbook 3.5 (Mapping Auckland Open Data) for data-loading patterns.
+- Textbook 3.3 (Decorators and UI Polish) for layout options, cards, and themes.
+- [Shinylive examples gallery](https://shinylive.io/py/examples/) for working code patterns to adapt.
 - [ipyleaflet documentation](https://ipyleaflet.readthedocs.io/) for layer types beyond `GeoData` and `CircleMarker`.
-- [shinywidgets documentation](https://posit-dev.github.io/py-shinywidgets/) for `output_widget` and `@render_widget`.
+- [Mermaid live editor](https://mermaid.live/) for testing your reactive diagram before pasting it into your plan.

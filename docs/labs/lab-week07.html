@@ -104,6 +104,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -186,6 +189,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../1.4.download-from-github.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1.4. Download data from github</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../1.5.github-authentication.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1.5 Authenticating with GitHub</span></a>
   </div>
 </li>
       </ul>
@@ -362,29 +371,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#section-1-recap-and-todays-goal" id="toc-section-1-recap-and-todays-goal" class="nav-link" data-scroll-target="#section-1-recap-and-todays-goal">Section 1: Recap and today’s goal</a>
+  <li><a href="#section-1-motivation-and-audience" id="toc-section-1-motivation-and-audience" class="nav-link" data-scroll-target="#section-1-motivation-and-audience">Section 1: Motivation and audience</a>
   <ul class="collapse">
-  <li><a href="#where-you-are" id="toc-where-you-are" class="nav-link" data-scroll-target="#where-you-are">Where you are</a></li>
-  <li><a href="#todays-goal" id="toc-todays-goal" class="nav-link" data-scroll-target="#todays-goal">Today’s goal</a></li>
+  <li><a href="#what-problem-does-your-dashboard-address" id="toc-what-problem-does-your-dashboard-address" class="nav-link" data-scroll-target="#what-problem-does-your-dashboard-address">1.1 What problem does your dashboard address?</a></li>
+  <li><a href="#who-is-it-for" id="toc-who-is-it-for" class="nav-link" data-scroll-target="#who-is-it-for">1.2 Who is it for?</a></li>
+  <li><a href="#what-insight-does-it-enable" id="toc-what-insight-does-it-enable" class="nav-link" data-scroll-target="#what-insight-does-it-enable">1.3 What insight does it enable?</a></li>
   </ul></li>
-  <li><a href="#section-2-how-to-use-the-shinylive-examples-gallery" id="toc-section-2-how-to-use-the-shinylive-examples-gallery" class="nav-link" data-scroll-target="#section-2-how-to-use-the-shinylive-examples-gallery">Section 2: How to use the Shinylive examples gallery</a>
+  <li><a href="#section-2-data-and-preparation" id="toc-section-2-data-and-preparation" class="nav-link" data-scroll-target="#section-2-data-and-preparation">Section 2: Data and preparation</a>
   <ul class="collapse">
-  <li><a href="#how-to-read-an-example" id="toc-how-to-read-an-example" class="nav-link" data-scroll-target="#how-to-read-an-example">How to read an example</a></li>
-  <li><a href="#a-small-adaptation-workflow" id="toc-a-small-adaptation-workflow" class="nav-link" data-scroll-target="#a-small-adaptation-workflow">A small adaptation workflow</a></li>
+  <li><a href="#datasets-used" id="toc-datasets-used" class="nav-link" data-scroll-target="#datasets-used">2.1 Datasets used</a></li>
+  <li><a href="#cleaning-and-preparation-steps" id="toc-cleaning-and-preparation-steps" class="nav-link" data-scroll-target="#cleaning-and-preparation-steps">2.2 Cleaning and preparation steps</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">2.3 Limitations</a></li>
   </ul></li>
-  <li><a href="#section-3-shared-building-blocks-all-tracks" id="toc-section-3-shared-building-blocks-all-tracks" class="nav-link" data-scroll-target="#section-3-shared-building-blocks-all-tracks">Section 3: Shared building blocks (all tracks)</a>
+  <li><a href="#section-3-technical-architecture" id="toc-section-3-technical-architecture" class="nav-link" data-scroll-target="#section-3-technical-architecture">Section 3: Technical architecture</a>
   <ul class="collapse">
-  <li><a href="#block-1-inputs-that-share-one-reactive-calc" id="toc-block-1-inputs-that-share-one-reactive-calc" class="nav-link" data-scroll-target="#block-1-inputs-that-share-one-reactive-calc">Block 1: Inputs that share one reactive calc</a></li>
-  <li><a href="#block-2-an-ipyleaflet-map-inside-shiny" id="toc-block-2-an-ipyleaflet-map-inside-shiny" class="nav-link" data-scroll-target="#block-2-an-ipyleaflet-map-inside-shiny">Block 2: An <code>ipyleaflet</code> map inside Shiny</a></li>
-  <li><a href="#block-3-a-plotly-or-matplotlib-chart" id="toc-block-3-a-plotly-or-matplotlib-chart" class="nav-link" data-scroll-target="#block-3-a-plotly-or-matplotlib-chart">Block 3: A Plotly or matplotlib chart</a></li>
+  <li><a href="#app-structure" id="toc-app-structure" class="nav-link" data-scroll-target="#app-structure">3.1 App structure</a></li>
+  <li><a href="#reactive-dependency-diagram" id="toc-reactive-dependency-diagram" class="nav-link" data-scroll-target="#reactive-dependency-diagram">3.2 Reactive dependency diagram</a></li>
+  <li><a href="#key-functions" id="toc-key-functions" class="nav-link" data-scroll-target="#key-functions">3.3 Key functions</a></li>
+  <li><a href="#performance-considerations" id="toc-performance-considerations" class="nav-link" data-scroll-target="#performance-considerations">3.4 Performance considerations</a></li>
   </ul></li>
-  <li><a href="#section-4-track-specific-exercise" id="toc-section-4-track-specific-exercise" class="nav-link" data-scroll-target="#section-4-track-specific-exercise">Section 4: Track-specific exercise</a></li>
-  <li><a href="#section-5-commit-redeploy-and-check-in" id="toc-section-5-commit-redeploy-and-check-in" class="nav-link" data-scroll-target="#section-5-commit-redeploy-and-check-in">Section 5: Commit, redeploy, and check-in</a></li>
-  <li><a href="#section-6-homework-and-stretch-goals" id="toc-section-6-homework-and-stretch-goals" class="nav-link" data-scroll-target="#section-6-homework-and-stretch-goals">Section 6: Homework and stretch goals</a>
+  <li><a href="#section-4-ipyleaflet-maps-inside-shiny" id="toc-section-4-ipyleaflet-maps-inside-shiny" class="nav-link" data-scroll-target="#section-4-ipyleaflet-maps-inside-shiny">Section 4: ipyleaflet maps inside Shiny</a>
   <ul class="collapse">
-  <li><a href="#minimum-everyone" id="toc-minimum-everyone" class="nav-link" data-scroll-target="#minimum-everyone">Minimum (everyone)</a></li>
-  <li><a href="#stretch-if-you-finish-early" id="toc-stretch-if-you-finish-early" class="nav-link" data-scroll-target="#stretch-if-you-finish-early">Stretch (if you finish early)</a></li>
-  <li><a href="#common-problems" id="toc-common-problems" class="nav-link" data-scroll-target="#common-problems">Common problems</a></li>
+  <li><a href="#the-basic-pattern" id="toc-the-basic-pattern" class="nav-link" data-scroll-target="#the-basic-pattern">The basic pattern</a></li>
+  </ul></li>
+  <li><a href="#section-5-adding-an-action-button" id="toc-section-5-adding-an-action-button" class="nav-link" data-scroll-target="#section-5-adding-an-action-button">Section 5: Adding an action button</a>
+  <ul class="collapse">
+  <li><a href="#step-1-add-the-button-to-the-ui" id="toc-step-1-add-the-button-to-the-ui" class="nav-link" data-scroll-target="#step-1-add-the-button-to-the-ui">Step 1: Add the button to the UI</a></li>
+  <li><a href="#step-2-gate-the-reactive-calc" id="toc-step-2-gate-the-reactive-calc" class="nav-link" data-scroll-target="#step-2-gate-the-reactive-calc">Step 2: Gate the reactive calc</a></li>
+  <li><a href="#step-3-add-a-reset-button-optional-but-useful" id="toc-step-3-add-a-reset-button-optional-but-useful" class="nav-link" data-scroll-target="#step-3-add-a-reset-button-optional-but-useful">Step 3: Add a reset button (optional but useful)</a></li>
+  <li><a href="#step-4-show-a-summary-line" id="toc-step-4-show-a-summary-line" class="nav-link" data-scroll-target="#step-4-show-a-summary-line">Step 4: Show a summary line</a></li>
+  </ul></li>
+  <li><a href="#section-6-commit-and-push" id="toc-section-6-commit-and-push" class="nav-link" data-scroll-target="#section-6-commit-and-push">Section 6: Commit and push</a></li>
+  <li><a href="#homework-before-week-8" id="toc-homework-before-week-8" class="nav-link" data-scroll-target="#homework-before-week-8">Homework before Week 8</a></li>
+  <li><a href="#further-options" id="toc-further-options" class="nav-link" data-scroll-target="#further-options">Further options</a>
+  <ul class="collapse">
+  <li><a href="#sidebar-layout-tweaks" id="toc-sidebar-layout-tweaks" class="nav-link" data-scroll-target="#sidebar-layout-tweaks">Sidebar layout tweaks</a></li>
+  <li><a href="#multi-page-layout-with-ui.page_navbar" id="toc-multi-page-layout-with-ui.page_navbar" class="nav-link" data-scroll-target="#multi-page-layout-with-ui.page_navbar">Multi-page layout with <code>ui.page_navbar</code></a></li>
+  <li><a href="#theming-with-shinyswatch" id="toc-theming-with-shinyswatch" class="nav-link" data-scroll-target="#theming-with-shinyswatch">Theming with shinyswatch</a></li>
+  <li><a href="#value-boxes-for-key-numbers" id="toc-value-boxes-for-key-numbers" class="nav-link" data-scroll-target="#value-boxes-for-key-numbers">Value boxes for key numbers</a></li>
   </ul></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
@@ -414,579 +438,554 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>You now know your assigned Assignment 2 track (announced on 21 April at 13:10). This lab is the main build session: by the end of it, your Shiny app should load real data, draw a map, draw a chart, and respond to at least one meaningful user input.</p>
-<p>We will not start from a blank file. The <a href="https://shinylive.io/py/examples/">Shinylive examples gallery</a> is a collection of small, runnable Shiny apps that cover every pattern you need. You will pick a handful, copy the bits that match your track, and stitch them into your own app. This mirrors how working developers build dashboards: find a working example, adapt, then refine.</p>
-<p><strong>Duration:</strong> approximately 2 hours (during the ANZAC break, so pace yourself over the week).</p>
+<p>There is no lecture this week. This is a <strong>two-hour lab</strong> run by your two GTAs. Put a post on Ed Discussion if you have a question.</p>
+<p>The goal is simple: <strong>plan before you code, then start building.</strong> By the end of the lab you will have a written planning document (three short sections), an ipyleaflet map rendering inside your Shiny app, and at least one action button wired up. The planning document feeds directly into your design report, so nothing you write today is throwaway work.</p>
 <p><strong>What you need:</strong></p>
 <ul>
-<li>The Week 6 app still running locally, connected to your GitHub repo.</li>
 <li>Your track assignment confirmed (Track A, B, or C).</li>
-<li>Rough data already downloaded into <code>data/</code>.</li>
+<li>Your own dataset downloaded from the sources listed in 3.6 and saved under <code>data/</code>.</li>
+<li>The Week 6 repo with a working hello-world Shiny app.</li>
+<li>A text editor or Quarto document open for writing the plan.</li>
 </ul>
-<p><strong>Structure:</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Where to write the plan
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create a file called <code>plan.md</code> (or <code>plan.qmd</code>) in the root of your project repo. You will copy the best parts of this into your design report later. Writing it now, while the decisions are fresh, saves you time in Week 8.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="section-1-motivation-and-audience" class="level2">
+<h2 class="anchored" data-anchor-id="section-1-motivation-and-audience">Section 1: Motivation and audience</h2>
+<p>Answer the following questions in two to four paragraphs. Be specific; “Auckland residents” is too broad.</p>
+<section id="what-problem-does-your-dashboard-address" class="level3">
+<h3 class="anchored" data-anchor-id="what-problem-does-your-dashboard-address">1.1 What problem does your dashboard address?</h3>
+<p>State the question your dashboard will help someone answer. Good questions are narrow enough that a single dashboard can answer them convincingly:</p>
+<ul>
+<li>Track A example: “How has public transport patronage in Auckland recovered since 2020, and which modes are recovering fastest?”</li>
+<li>Track B example: “Do workers and university students from the same origin SA2 commute to the same destinations, or do their travel patterns diverge?”</li>
+<li>Track C example: “Where in Auckland are serious and fatal crashes concentrated, and has the spatial pattern shifted over the past five years?”</li>
+</ul>
+<p>Write <strong>your own</strong> question. Do not copy the examples above.</p>
+</section>
+<section id="who-is-it-for" class="level3">
+<h3 class="anchored" data-anchor-id="who-is-it-for">1.2 Who is it for?</h3>
+<p>Describe one or two realistic users. What role do they hold? What decision would this dashboard inform? For example, a transport planner at Auckland Transport evaluating whether to increase frequency on a bus route, or a public health researcher comparing active-transport crash risk across suburbs.</p>
+</section>
+<section id="what-insight-does-it-enable" class="level3">
+<h3 class="anchored" data-anchor-id="what-insight-does-it-enable">1.3 What insight does it enable?</h3>
+<p>In one sentence, state the single most important thing a user should take away after spending two minutes with your dashboard. This sentence will likely become the title or subtitle of your app.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why this matters for the rubric
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The “Question” criterion (10%) rewards dashboards that address a clear, well-scoped question. Writing it down now, before you touch the code, prevents the common mistake of building a dashboard that shows data but does not answer anything.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="section-2-data-and-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="section-2-data-and-preparation">Section 2: Data and preparation</h2>
+<section id="datasets-used" class="level3">
+<h3 class="anchored" data-anchor-id="datasets-used">2.1 Datasets used</h3>
+<p>Fill in a table like this for every dataset you plan to use (you need at least two):</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 37%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Section</th>
-<th>Topic</th>
-<th>Approx. time</th>
+<th>Dataset</th>
+<th>Source URL</th>
+<th>Format</th>
+<th>Rows (approx.)</th>
+<th>Key variables you will use</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>Recap and today’s goal</td>
-<td>10 min</td>
+<td>e.g.&nbsp;AT patronage</td>
+<td><code>https://at.govt.nz/...</code></td>
+<td>CSV</td>
+<td>~2,400</td>
+<td>month, mode, boardings</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>How to use the Shinylive examples gallery</td>
-<td>20 min</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>Shared building blocks (all tracks)</td>
-<td>30 min</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>Track-specific exercise (A, B, or C)</td>
-<td>45 min</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Commit, redeploy, check-in</td>
-<td>15 min</td>
+<td>e.g.&nbsp;Bus routes</td>
+<td>AT GIS open data</td>
+<td>GeoJSON</td>
+<td>~300</td>
+<td>route_short_name, geometry</td>
 </tr>
 </tbody>
 </table>
-<hr>
 </section>
-<section id="section-1-recap-and-todays-goal" class="level2">
-<h2 class="anchored" data-anchor-id="section-1-recap-and-todays-goal">Section 1: Recap and today’s goal</h2>
-<section id="where-you-are" class="level3">
-<h3 class="anchored" data-anchor-id="where-you-are">Where you are</h3>
-<p>By now you have:</p>
+<section id="cleaning-and-preparation-steps" class="level3">
+<h3 class="anchored" data-anchor-id="cleaning-and-preparation-steps">2.2 Cleaning and preparation steps</h3>
+<p>For each dataset, list the steps you need to take before it is ready for the app. Be concrete:</p>
 <ul>
-<li>A public GitHub repo with a working “hello world” Shiny app.</li>
-<li>A deployed shinylive URL from the Week 6 lab.</li>
-<li>A randomly-assigned track (A, B, or C).</li>
+<li>Which columns will you keep? Which will you drop?</li>
+<li>Do you need to melt, pivot, merge, or aggregate?</li>
+<li>What is the original CRS? Do you need to reproject to EPSG:4326 for ipyleaflet?</li>
+<li>Do you need to simplify geometries to keep the file size small for shinylive?</li>
 </ul>
+<p>Write this as a numbered list. Each step should be one line.</p>
 </section>
-<section id="todays-goal" class="level3">
-<h3 class="anchored" data-anchor-id="todays-goal">Today’s goal</h3>
-<p>Replace the hello-world inputs and outputs with:</p>
-<ul>
-<li>One <code>ipyleaflet</code> map, driven by the data that matches your track.</li>
-<li>One quantitative chart (Plotly or matplotlib).</li>
-<li>At least two of the three required inputs wired up and actually changing what is on screen.</li>
-</ul>
-<p>Polish, extra pages, and the design report all wait until Week 8.</p>
-<hr>
-</section>
-</section>
-<section id="section-2-how-to-use-the-shinylive-examples-gallery" class="level2">
-<h2 class="anchored" data-anchor-id="section-2-how-to-use-the-shinylive-examples-gallery">Section 2: How to use the Shinylive examples gallery</h2>
-<p><a href="https://shinylive.io/py/examples/">shinylive.io/py/examples</a> is the single most useful bookmark for this assignment. Every example is:</p>
-<ul>
-<li>A <strong>complete, runnable</strong> Shiny app in your browser.</li>
-<li>Paired with the <strong>full source code</strong>, which you can copy or edit in-place.</li>
-<li>Packaged so shinylive will load it without you installing anything.</li>
-</ul>
-<section id="how-to-read-an-example" class="level3">
-<h3 class="anchored" data-anchor-id="how-to-read-an-example">How to read an example</h3>
-<p>For each example you open, ask three questions:</p>
-<ol type="1">
-<li><strong>What input does it take?</strong> (slider, dropdown, file upload, nothing)</li>
-<li><strong>What output does it produce?</strong> (text, plot, map, table)</li>
-<li><strong>How does the server function connect them?</strong> (a <code>@render.*</code>, a <code>@reactive.calc</code>, a <code>@reactive.event</code>)</li>
-</ol>
-<p>Once you can answer those three, copying the example into your own app is just substitution: your data replaces theirs, your colours replace theirs, your filter replaces theirs.</p>
-</section>
-<section id="a-small-adaptation-workflow" class="level3">
-<h3 class="anchored" data-anchor-id="a-small-adaptation-workflow">A small adaptation workflow</h3>
-<ol type="1">
-<li>Open the example on shinylive.</li>
-<li>Click <strong>Edit on Shinylive</strong> (top-right).</li>
-<li>Change one thing. Watch the app rebuild automatically in the preview pane.</li>
-<li>Change one more thing. Repeat.</li>
-<li>When you understand the pattern, copy the code into your local <code>app.py</code> and swap in your data.</li>
-</ol>
-<p>This “change one thing at a time” habit is the fastest way to learn Shiny. Do not copy the whole file into your project and then try to make it work; you will end up debugging five things at once.</p>
+<section id="limitations" class="level3">
+<h3 class="anchored" data-anchor-id="limitations">2.3 Limitations</h3>
+<p>Every dataset has gaps. Note at least two limitations, for example: “Patronage data is monthly, so I cannot show weekly patterns” or “The crash dataset does not distinguish between crashes involving cyclists and those involving e-scooter riders”.</p>
+<p>Acknowledging limitations early shows the marker that you understand your data, and it will become a paragraph in your design report.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Do the preparation now, not later
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Open your dataset in a notebook. Run <code>.head()</code>, <code>.dtypes</code>, <code>.columns</code>, <code>.shape</code>. Fill in the table above with <strong>actual</strong> column names and row counts, not guesses. If the data is not what you expected, now is the time to find a better source or adjust your question.</p>
+</div>
+</div>
 <hr>
 </section>
 </section>
-<section id="section-3-shared-building-blocks-all-tracks" class="level2">
-<h2 class="anchored" data-anchor-id="section-3-shared-building-blocks-all-tracks">Section 3: Shared building blocks (all tracks)</h2>
-<p>Three patterns every track needs. Each one has a matching gallery example you should skim before the track exercise.</p>
-<section id="block-1-inputs-that-share-one-reactive-calc" class="level3">
-<h3 class="anchored" data-anchor-id="block-1-inputs-that-share-one-reactive-calc">Block 1: Inputs that share one reactive calc</h3>
-<p>Gallery example to open: the basic <strong>Reactive inputs</strong> app at <a href="https://shinylive.io/py/examples/">shinylive.io/py/examples</a>. Look at how a slider and a dropdown feed a single <code>@reactive.calc</code>, and how two outputs read that calc.</p>
-<p>Skeleton you will use in every track:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/your_track_data.csv"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        ui.input_select(<span class="st">"category"</span>, <span class="st">"Category"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                        choices<span class="op">=</span>[<span class="st">"All"</span>] <span class="op">+</span> <span class="bu">sorted</span>(data[<span class="st">"category"</span>].unique().tolist())),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        ui.input_slider(<span class="st">"min_value"</span>, <span class="st">"Minimum value"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">0</span>),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        ui.input_checkbox(<span class="st">"only_recent"</span>, <span class="st">"Only recent"</span>, value<span class="op">=</span><span class="va">False</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    ui.output_text(<span class="st">"summary"</span>),</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    ui.output_plot(<span class="st">"chart"</span>),</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"My track dashboard"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered():</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> data.copy()</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">input</span>.category() <span class="op">!=</span> <span class="st">"All"</span>:</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            df <span class="op">=</span> df[df[<span class="st">"category"</span>] <span class="op">==</span> <span class="bu">input</span>.category()]</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df[df[<span class="st">"value"</span>] <span class="op">&gt;=</span> <span class="bu">input</span>.min_value()]</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">input</span>.only_recent():</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            df <span class="op">=</span> df[df[<span class="st">"year"</span>] <span class="op">&gt;=</span> <span class="dv">2020</span>]</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.text</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> summary():</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(filtered())<span class="sc">}</span><span class="ss"> rows after filters."</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> chart():</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> filtered()</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df.plot.bar(x<span class="op">=</span><span class="st">"category"</span>, y<span class="op">=</span><span class="st">"value"</span>)  <span class="co"># placeholder</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Three inputs, one <code>@reactive.calc</code>, two outputs that both read it. That is the minimum you need for Part B of the rubric.</p>
+<section id="section-3-technical-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="section-3-technical-architecture">Section 3: Technical architecture</h2>
+<section id="app-structure" class="level3">
+<h3 class="anchored" data-anchor-id="app-structure">3.1 App structure</h3>
+<p>Write the following in your <code>plan.md</code> (or <code>plan.qmd</code>). Start by deciding which top-level layout you will use (<code>ui.page_sidebar</code> or <code>ui.page_navbar</code>), then list every input and every output by name. This becomes the skeleton you will paste into <code>app.py</code> in Section 4.</p>
+<p>Here is an example for Track B (do not copy it, write your own for your track):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plan.md -- app structure sketch (Track B example)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Layout: ui.page_sidebar</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Sidebar inputs:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   ui.input_select("origin", ...)       -- pick an SA2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   ui.input_checkbox_group("pops", ...) -- worker / student</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   ui.input_slider("top_n", ...)        -- how many destinations</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   ui.input_action_button("apply", ...) -- apply filters</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Main area outputs:</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   card 1: @render.plot  "chart"   -- grouped bar chart of top destinations</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   card 2: @render_widget "map"    -- ipyleaflet map highlighting SA2 polygons</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   card 3: @render.text  "summary" -- "X workers, Y students from this origin"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once you have this list, translating it into real <code>app.py</code> code is mechanical: each line becomes one <code>ui.input_*</code> or one <code>ui.output_*</code> / <code>output_widget</code> call.</p>
 </section>
-<section id="block-2-an-ipyleaflet-map-inside-shiny" class="level3">
-<h3 class="anchored" data-anchor-id="block-2-an-ipyleaflet-map-inside-shiny">Block 2: An <code>ipyleaflet</code> map inside Shiny</h3>
-<p>Gallery example to open: search the gallery for <strong>ipyleaflet</strong> or <strong>map</strong>. The example uses <code>output_widget</code> in the UI and <code>@render_widget</code> in the server, via <code>shinywidgets</code>.</p>
-<p>Skeleton:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, reactive</span>
+<section id="reactive-dependency-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="reactive-dependency-diagram">3.2 Reactive dependency diagram</h3>
+<p>Now draw a Mermaid diagram in your <code>plan.qmd</code> that shows how the inputs above flow through a shared <code>@reactive.calc</code> to the outputs. Here is the Track B example matching the sketch above (replace the labels with your own):</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    A[input.origin] --&gt; D[filtered]
+    B[input.pops] --&gt; D
+    C[input.top_n] --&gt; D
+    D --&gt; E[chart]
+    D --&gt; F[map]
+    D --&gt; G[summary]
+
+    style A fill:#e3f2fd,stroke:#1565c0
+    style B fill:#e3f2fd,stroke:#1565c0
+    style C fill:#e3f2fd,stroke:#1565c0
+    style D fill:#fff3e0,stroke:#e65100
+    style E fill:#e8f5e9,stroke:#2e7d32
+    style F fill:#e8f5e9,stroke:#2e7d32
+    style G fill:#e8f5e9,stroke:#2e7d32
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Blue = inputs (<code>ui.input_*</code>), orange = shared <code>@reactive.calc</code>, green = outputs (<code>@render.*</code> / <code>@render_widget</code>).</p>
+<p>Your diagram must include:</p>
+<ul>
+<li><strong>All three required inputs</strong> (with their <code>ui.input_*</code> type).</li>
+<li><strong>At least one <code>@reactive.calc</code></strong> that is shared by two or more outputs.</li>
+<li><strong>The map output</strong> (<code>@render_widget</code>) and <strong>the chart output</strong> (<code>@render.plot</code> or <code>@render_widget</code>).</li>
+</ul>
+</section>
+<section id="key-functions" class="level3">
+<h3 class="anchored" data-anchor-id="key-functions">3.3 Key functions</h3>
+<p>List the two or three most important functions you will write (besides the ones Shiny gives you). For each one, write a one-line docstring. For example:</p>
+<ul>
+<li><code>prep_patronage(raw_df, modes, year_from)</code>: filter patronage data by selected modes and start year, return a tidy DataFrame.</li>
+<li><code>colour_by_severity(severity)</code>: return a hex colour string for a crash severity level.</li>
+</ul>
+</section>
+<section id="performance-considerations" class="level3">
+<h3 class="anchored" data-anchor-id="performance-considerations">3.4 Performance considerations</h3>
+<p>shinylive runs in the browser via Pyodide. Large files and heavy computation will make the app slow to load. Note any steps you will take to keep things fast:</p>
+<ul>
+<li>Target file size for <code>data/</code> folder (aim for under 2 MB total).</li>
+<li>Geometry simplification tolerance.</li>
+<li>Whether you will cap the number of rendered map markers.</li>
+<li>Whether you will use <code>@reactive.event</code> to gate an expensive calculation behind a button.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="section-4-ipyleaflet-maps-inside-shiny" class="level2">
+<h2 class="anchored" data-anchor-id="section-4-ipyleaflet-maps-inside-shiny">Section 4: ipyleaflet maps inside Shiny</h2>
+<p>Now that the plan is written, start building. This section shows you how to get an ipyleaflet map into your Shiny app for each track. All examples use <strong>indicative</strong> column names; adapt them to your actual data.</p>
+<section id="the-basic-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="the-basic-pattern">The basic pattern</h3>
+<p>Every track uses the same wiring. In the UI, use <code>output_widget</code> from shinywidgets. In the server, use <code>@render_widget</code> and return a new <code>Map</code> object each time the reactive inputs change.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinywidgets <span class="im">import</span> output_widget, render_widget</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, Marker, GeoData</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, GeoData</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>layer <span class="op">=</span> gpd.read_file(<span class="st">"data/your_geodata.geojson"</span>).to_crs(<span class="dv">4326</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(<span class="st">"data/your_file.geojson"</span>).to_crs(<span class="dv">4326</span>)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        ui.input_slider(<span class="st">"min_value"</span>, <span class="st">"Minimum value"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">0</span>),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    output_widget(<span class="st">"map"</span>),</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"My track map"</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered_layer():</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> layer[layer[<span class="st">"value"</span>] <span class="op">&gt;=</span> <span class="bu">input</span>.min_value()]</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render_widget</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">map</span>():</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        m.add_layer(GeoData(</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            geo_dataframe<span class="op">=</span>filtered_layer(),</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#d73027"</span>, <span class="st">"weight"</span>: <span class="dv">2</span>, <span class="st">"fillOpacity"</span>: <span class="fl">0.4</span>},</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        ))</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> m</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Two things to remember:</p>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        ui.input_select(<span class="st">"category"</span>, <span class="st">"Category"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                        choices<span class="op">=</span>[<span class="st">"All"</span>] <span class="op">+</span> <span class="bu">sorted</span>(gdf[<span class="st">"category"</span>].unique().tolist())),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    output_widget(<span class="st">"map"</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"My dashboard"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered():</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">input</span>.category() <span class="op">==</span> <span class="st">"All"</span>:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> gdf</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gdf[gdf[<span class="st">"category"</span>] <span class="op">==</span> <span class="bu">input</span>.category()]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render_widget</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">map</span>():</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        m.add_layer(GeoData(</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            geo_dataframe<span class="op">=</span>filtered(),</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#1f78b4"</span>, <span class="st">"weight"</span>: <span class="dv">2</span>, <span class="st">"fillOpacity"</span>: <span class="fl">0.4</span>},</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> m</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Two rules that prevent silent failures:</p>
 <ul>
-<li><strong>CRS</strong>: ipyleaflet needs WGS84 (<code>EPSG:4326</code>). Call <code>.to_crs(4326)</code> when you load.</li>
-<li><strong>Layer refresh</strong>: return a new <code>Map</code> each time inside <code>@render_widget</code>. Trying to mutate a stored Map object often fails to trigger a re-render.</li>
+<li><strong>Always <code>.to_crs(4326)</code></strong> when you load the GeoDataFrame. ipyleaflet expects WGS84; NZTM data will render as an empty map with no error.</li>
+<li><strong>Return a new <code>Map()</code> inside <code>@render_widget</code></strong> every time. Do not create the Map at module level and try to mutate it; the widget will not update.</li>
 </ul>
-</section>
-<section id="block-3-a-plotly-or-matplotlib-chart" class="level3">
-<h3 class="anchored" data-anchor-id="block-3-a-plotly-or-matplotlib-chart">Block 3: A Plotly or matplotlib chart</h3>
-<p>Gallery examples to open: <strong>Plotly</strong>, or <strong>Matplotlib</strong>. Pick whichever syntax you are happier with. Plotly gives you interactive hover; matplotlib is simpler.</p>
-<p>Matplotlib version (works everywhere):</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">@render.plot</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chart():</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> filtered()</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    ax.bar(df[<span class="st">"category"</span>], df[<span class="st">"value"</span>], color<span class="op">=</span><span class="st">"steelblue"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Category"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Value"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Plotly version (interactive hover, zoom):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinywidgets <span class="im">import</span> output_widget, render_widget</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># In the UI:</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># output_widget("chart")</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">@render_widget</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> chart():</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> px.bar(filtered(), x<span class="op">=</span><span class="st">"category"</span>, y<span class="op">=</span><span class="st">"value"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Either counts as the quantitative chart for Part C.</p>
-<hr>
-</section>
-</section>
-<section id="section-4-track-specific-exercise" class="level2">
-<h2 class="anchored" data-anchor-id="section-4-track-specific-exercise">Section 4: Track-specific exercise</h2>
-<p>Do the section for your assigned track only. Each takes roughly 45 minutes.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Track A: Public Transport</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Track B: Commuter + Student OD comparison</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Track C: Auckland crashes</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">Track A: Public Transport</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Track B: Commuter and Student OD</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Track C: Auckland Crashes</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<p><strong>Goal</strong>: a dashboard that shows AT’s monthly patronage time series paired with a map of bus or ferry routes. The user can filter by mode.</p>
-<p><strong>Data preparation</strong> (do once, outside the Shiny app):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scripts/prep_patronage.py</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Downloaded CSV from https://at.govt.nz/about-us/at-data-sources</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> pd.read_csv(<span class="st">"data_raw/at_patronage.csv"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidy: one row per (month, mode)</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>tidy <span class="op">=</span> (raw</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    .melt(id_vars<span class="op">=</span><span class="st">"Month"</span>, var_name<span class="op">=</span><span class="st">"mode"</span>, value_name<span class="op">=</span><span class="st">"boardings"</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    .dropna()</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>tidy[<span class="st">"Month"</span>] <span class="op">=</span> pd.to_datetime(tidy[<span class="st">"Month"</span>])</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>tidy.to_csv(<span class="st">"data/patronage.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For the routes layer, download <strong>Bus service, layer 2</strong> from AT GIS, save as <code>data/bus_routes.geojson</code>, and simplify:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>routes <span class="op">=</span> gpd.read_file(<span class="st">"data_raw/bus_routes.geojson"</span>).to_crs(<span class="dv">2193</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>routes.geometry <span class="op">=</span> routes.geometry.simplify(tolerance<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>routes <span class="op">=</span> routes[[<span class="st">"route_short_name"</span>, <span class="st">"route_type"</span>, <span class="st">"geometry"</span>]]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>routes.to_file(<span class="st">"data/bus_routes.geojson"</span>, driver<span class="op">=</span><span class="st">"GeoJSON"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Starter app</strong>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinywidgets <span class="im">import</span> output_widget, render_widget</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, GeoData</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd, geopandas <span class="im">as</span> gpd</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>patronage <span class="op">=</span> pd.read_csv(<span class="st">"data/patronage.csv"</span>, parse_dates<span class="op">=</span>[<span class="st">"Month"</span>])</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>routes    <span class="op">=</span> gpd.read_file(<span class="st">"data/bus_routes.geojson"</span>).to_crs(<span class="dv">4326</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>modes <span class="op">=</span> <span class="bu">sorted</span>(patronage[<span class="st">"mode"</span>].unique().tolist())</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        ui.input_checkbox_group(<span class="st">"modes"</span>, <span class="st">"Modes"</span>, choices<span class="op">=</span>modes, selected<span class="op">=</span>modes),</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        ui.input_slider(<span class="st">"year_from"</span>, <span class="st">"From year"</span>, <span class="dv">2014</span>, <span class="dv">2025</span>, <span class="dv">2018</span>),</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        ui.input_radio_buttons(<span class="st">"map_type"</span>, <span class="st">"Map layer"</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                               choices<span class="op">=</span>[<span class="st">"Bus routes"</span>, <span class="st">"(none)"</span>], selected<span class="op">=</span><span class="st">"Bus routes"</span>),</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    ui.card(ui.card_header(<span class="st">"Patronage over time"</span>), ui.output_plot(<span class="st">"chart"</span>)),</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    ui.card(ui.card_header(<span class="st">"Network map"</span>), output_widget(<span class="st">"map"</span>)),</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"AT patronage explorer"</span>,</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered_patronage():</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> patronage[patronage[<span class="st">"mode"</span>].isin(<span class="bu">input</span>.modes())]</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df[df[<span class="st">"Month"</span>].dt.year <span class="op">&gt;=</span> <span class="bu">input</span>.year_from()]</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> chart():</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> filtered_patronage()</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> mode, sub <span class="kw">in</span> df.groupby(<span class="st">"mode"</span>):</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>            ax.plot(sub[<span class="st">"Month"</span>], sub[<span class="st">"boardings"</span>], label<span class="op">=</span>mode)</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">"Boardings"</span>)</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>        ax.legend()</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>        plt.tight_layout()</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render_widget</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">map</span>():</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">input</span>.map_type() <span class="op">==</span> <span class="st">"Bus routes"</span>:</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>            m.add_layer(GeoData(</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>                geo_dataframe<span class="op">=</span>routes,</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>                style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#d73027"</span>, <span class="st">"weight"</span>: <span class="dv">2</span>, <span class="st">"opacity"</span>: <span class="fl">0.7</span>},</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>            ))</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> m</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Exercises</strong>:</p>
-<ol type="1">
-<li>Add a dropdown that lets the user select one <code>route_short_name</code>. Highlight that route in red, dim the rest in grey.</li>
-<li>Switch the chart to Plotly so users can hover for exact boardings per month.</li>
-<li>Add a <code>@reactive.event</code> button “Reset filters” that restores <code>modes</code> and <code>year_from</code> to defaults (use <code>ui.update_checkbox_group</code> and <code>ui.update_slider</code>).</li>
-</ol>
+<p>Your map should show bus or ferry <strong>routes</strong> (lines). Use <code>GeoData</code> with a LineString GeoDataFrame. Wire a <code>checkbox_group</code> for transport modes so the user can toggle bus, train, and ferry layers.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, GeoData</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>routes <span class="op">=</span> gpd.read_file(<span class="st">"data/routes.geojson"</span>).to_crs(<span class="dv">4326</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.calc</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filtered_routes():</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> routes[routes[<span class="st">"mode"</span>].isin(<span class="bu">input</span>.modes())]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="at">@render_widget</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">map</span>():</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    sub <span class="op">=</span> filtered_routes()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> sub.empty:</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        m.add_layer(GeoData(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            geo_dataframe<span class="op">=</span>sub,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#d73027"</span>, <span class="st">"weight"</span>: <span class="dv">2</span>, <span class="st">"opacity"</span>: <span class="fl">0.7</span>},</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>            name<span class="op">=</span><span class="st">"Routes"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To highlight a <strong>single route</strong> selected from a dropdown, add a second <code>GeoData</code> layer in a different colour:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@render_widget</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">map</span>():</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># all routes, dimmed</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    m.add_layer(GeoData(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        geo_dataframe<span class="op">=</span>filtered_routes(),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#bdbdbd"</span>, <span class="st">"weight"</span>: <span class="dv">1</span>, <span class="st">"opacity"</span>: <span class="fl">0.4</span>},</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># selected route, bright</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    sel <span class="op">=</span> filtered_routes()</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    sel <span class="op">=</span> sel[sel[<span class="st">"route_short_name"</span>] <span class="op">==</span> <span class="bu">input</span>.route()]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> sel.empty:</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        m.add_layer(GeoData(</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            geo_dataframe<span class="op">=</span>sel,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#e31a1c"</span>, <span class="st">"weight"</span>: <span class="dv">4</span>, <span class="st">"opacity"</span>: <span class="fl">1.0</span>},</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<p><strong>Goal</strong>: a dashboard that lets the user pick an SA2 and see, side-by-side, where workers vs students travel to.</p>
-<p><strong>Data preparation</strong> (do once):</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scripts/prep_od.py</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd, geopandas <span class="im">as</span> gpd</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>commuters <span class="op">=</span> pd.read_csv(<span class="st">"data_raw/commuters_2023.csv"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>students  <span class="op">=</span> pd.read_csv(<span class="st">"data_raw/students_2023.csv"</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>sa2       <span class="op">=</span> gpd.read_file(<span class="st">"data_raw/sa2_2023.geojson"</span>).to_crs(<span class="dv">2193</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Clip to Auckland region only (keeps file size small)</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>auckland <span class="op">=</span> sa2[sa2[<span class="st">"region_name"</span>] <span class="op">==</span> <span class="st">"Auckland"</span>]</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>auckland.geometry <span class="op">=</span> auckland.geometry.simplify(tolerance<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>auckland <span class="op">=</span> auckland[[<span class="st">"SA2_code"</span>, <span class="st">"SA2_name"</span>, <span class="st">"geometry"</span>]]</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>auckland.to_file(<span class="st">"data/sa2_auckland.geojson"</span>, driver<span class="op">=</span><span class="st">"GeoJSON"</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Long format for both populations</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tidy(df, label):</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">"origin_SA2"</span>: <span class="st">"origin"</span>,</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"destination_SA2"</span>: <span class="st">"dest"</span>,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"count"</span>: <span class="st">"n"</span>})</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"population"</span>] <span class="op">=</span> label</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df[[<span class="st">"origin"</span>, <span class="st">"dest"</span>, <span class="st">"n"</span>, <span class="st">"population"</span>]]</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>pd.concat([tidy(commuters, <span class="st">"worker"</span>), tidy(students, <span class="st">"student"</span>)]).to_csv(</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data/od.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Starter app</strong>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinywidgets <span class="im">import</span> output_widget, render_widget</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, GeoData</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd, geopandas <span class="im">as</span> gpd</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>od  <span class="op">=</span> pd.read_csv(<span class="st">"data/od.csv"</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>sa2 <span class="op">=</span> gpd.read_file(<span class="st">"data/sa2_auckland.geojson"</span>).to_crs(<span class="dv">4326</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>origins <span class="op">=</span> <span class="bu">sorted</span>(od[<span class="st">"origin"</span>].unique().tolist())</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        ui.input_select(<span class="st">"origin"</span>, <span class="st">"Origin SA2"</span>, choices<span class="op">=</span>origins, selected<span class="op">=</span>origins[<span class="dv">0</span>]),</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        ui.input_checkbox_group(<span class="st">"pops"</span>, <span class="st">"Populations"</span>,</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                                choices<span class="op">=</span>[<span class="st">"worker"</span>, <span class="st">"student"</span>],</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                                selected<span class="op">=</span>[<span class="st">"worker"</span>, <span class="st">"student"</span>]),</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        ui.input_slider(<span class="st">"top_n"</span>, <span class="st">"Top N destinations"</span>, <span class="dv">5</span>, <span class="dv">30</span>, <span class="dv">10</span>),</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    ui.card(ui.card_header(<span class="st">"Top destinations"</span>), ui.output_plot(<span class="st">"chart"</span>)),</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    ui.card(ui.card_header(<span class="st">"Destinations on the map"</span>), output_widget(<span class="st">"map"</span>)),</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Commuter vs Student OD (Auckland)"</span>,</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> subset():</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> od[(od[<span class="st">"origin"</span>] <span class="op">==</span> <span class="bu">input</span>.origin()) <span class="op">&amp;</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>                (od[<span class="st">"population"</span>].isin(<span class="bu">input</span>.pops()))]</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>        top <span class="op">=</span> (df.groupby([<span class="st">"dest"</span>, <span class="st">"population"</span>])[<span class="st">"n"</span>].<span class="bu">sum</span>()</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>                 .reset_index()</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>                 .sort_values(<span class="st">"n"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>                 .head(<span class="bu">input</span>.top_n()))</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> top</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> chart():</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> subset()</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pop, sub <span class="kw">in</span> df.groupby(<span class="st">"population"</span>):</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>            ax.barh(sub[<span class="st">"dest"</span>], sub[<span class="st">"n"</span>], label<span class="op">=</span>pop, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        ax.invert_yaxis()</span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>        ax.legend()</span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>        plt.tight_layout()</span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render_widget</span></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">map</span>():</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> subset()</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>        dests <span class="op">=</span> sa2[sa2[<span class="st">"SA2_code"</span>].isin(df[<span class="st">"dest"</span>].unique())]</span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>        m.add_layer(GeoData(</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>            geo_dataframe<span class="op">=</span>dests,</span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#1f78b4"</span>, <span class="st">"fillColor"</span>: <span class="st">"#a6cee3"</span>,</span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"opacity"</span>: <span class="fl">0.7</span>, <span class="st">"fillOpacity"</span>: <span class="fl">0.5</span>, <span class="st">"weight"</span>: <span class="dv">1</span>},</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>        ))</span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> m</span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Exercises</strong>:</p>
-<ol type="1">
-<li>Add a second dropdown that lets the user flip origin and destination (“Who comes into Ponsonby?” vs “Where do Ponsonby residents go?”).</li>
-<li>Add a summary text line: “X workers and Y students travel from this origin today.”</li>
-<li>Highlight the selected <strong>origin</strong> SA2 on the map in green, in addition to the destinations.</li>
-<li>Add a side-by-side bar chart where worker and student counts for each destination sit next to each other, not layered (hint: seaborn or custom matplotlib positions).</li>
-</ol>
+<p>Your map should show destination <strong>polygons</strong> (SA2 areas). Use <code>GeoData</code> with a Polygon GeoDataFrame. Highlight the origin SA2 in one colour and the top-N destinations in another.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, GeoData</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sa2 <span class="op">=</span> gpd.read_file(<span class="st">"data/sa2_auckland.geojson"</span>).to_crs(<span class="dv">4326</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.calc</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dest_areas():</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># top_codes is a list of SA2 codes from the OD filter</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    top_codes <span class="op">=</span> filtered_od()[<span class="st">"dest"</span>].unique()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sa2[sa2[<span class="st">"SA2_code"</span>].isin(top_codes)]</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="at">@render_widget</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">map</span>():</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># highlight origin</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    origin <span class="op">=</span> sa2[sa2[<span class="st">"SA2_code"</span>] <span class="op">==</span> <span class="bu">input</span>.origin()]</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> origin.empty:</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        m.add_layer(GeoData(</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>            geo_dataframe<span class="op">=</span>origin,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#2ca25f"</span>, <span class="st">"fillColor"</span>: <span class="st">"#99d8c9"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"fillOpacity"</span>: <span class="fl">0.6</span>, <span class="st">"weight"</span>: <span class="dv">3</span>},</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>            name<span class="op">=</span><span class="st">"Origin"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># highlight destinations</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    dests <span class="op">=</span> dest_areas()</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> dests.empty:</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        m.add_layer(GeoData(</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>            geo_dataframe<span class="op">=</span>dests,</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>            style<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"#1f78b4"</span>, <span class="st">"fillColor"</span>: <span class="st">"#a6cee3"</span>,</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"fillOpacity"</span>: <span class="fl">0.5</span>, <span class="st">"weight"</span>: <span class="dv">1</span>},</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>            name<span class="op">=</span><span class="st">"Destinations"</span>,</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<p><strong>Goal</strong>: a dashboard that shows crash points on the map with filters for year, severity, and mode involved, paired with a chart of counts.</p>
-<p><strong>Data preparation</strong> (do once):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scripts/prep_crashes.py</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd, geopandas <span class="im">as</span> gpd</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Download crash dataset from the AT link in 3.6</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> pd.read_csv(<span class="st">"data_raw/crashes_auckland.csv"</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep the columns you will actually use</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>keep <span class="op">=</span> [<span class="st">"crash_year"</span>, <span class="st">"severity"</span>, <span class="st">"mode"</span>, <span class="st">"latitude"</span>, <span class="st">"longitude"</span>, <span class="st">"day_of_week"</span>]</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> raw[keep].dropna(subset<span class="op">=</span>[<span class="st">"latitude"</span>, <span class="st">"longitude"</span>])</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.GeoDataFrame(</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    raw,</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    geometry<span class="op">=</span>gpd.points_from_xy(raw[<span class="st">"longitude"</span>], raw[<span class="st">"latitude"</span>]),</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Trim for shinylive: last 5 years only</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf[gdf[<span class="st">"crash_year"</span>] <span class="op">&gt;=</span> <span class="dv">2019</span>]</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>gdf.to_file(<span class="st">"data/crashes.geojson"</span>, driver<span class="op">=</span><span class="st">"GeoJSON"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Starter app</strong>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui, render, reactive</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinywidgets <span class="im">import</span> output_widget, render_widget</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, CircleMarker, LayerGroup</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>crashes <span class="op">=</span> gpd.read_file(<span class="st">"data/crashes.geojson"</span>).to_crs(<span class="dv">4326</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>severities <span class="op">=</span> <span class="bu">sorted</span>(crashes[<span class="st">"severity"</span>].unique().tolist())</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>modes      <span class="op">=</span> <span class="bu">sorted</span>(crashes[<span class="st">"mode"</span>].unique().tolist())</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        ui.input_slider(<span class="st">"year_range"</span>, <span class="st">"Year range"</span>,</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                        <span class="dv">2019</span>, <span class="dv">2024</span>, (<span class="dv">2019</span>, <span class="dv">2024</span>), sep<span class="op">=</span><span class="st">""</span>),</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        ui.input_checkbox_group(<span class="st">"severity"</span>, <span class="st">"Severity"</span>,</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>                                choices<span class="op">=</span>severities, selected<span class="op">=</span>severities),</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        ui.input_checkbox_group(<span class="st">"mode"</span>, <span class="st">"Modes involved"</span>,</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>                                choices<span class="op">=</span>modes, selected<span class="op">=</span>modes),</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    ui.card(ui.card_header(<span class="st">"Crashes on the map"</span>), output_widget(<span class="st">"map"</span>)),</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    ui.card(ui.card_header(<span class="st">"Crash counts"</span>), ui.output_plot(<span class="st">"chart"</span>)),</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Auckland crashes"</span>,</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">@reactive.calc</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> filtered():</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>        lo, hi <span class="op">=</span> <span class="bu">input</span>.year_range()</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> crashes[</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>            crashes[<span class="st">"crash_year"</span>].between(lo, hi)</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>            <span class="op">&amp;</span> crashes[<span class="st">"severity"</span>].isin(<span class="bu">input</span>.severity())</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>            <span class="op">&amp;</span> crashes[<span class="st">"mode"</span>].isin(<span class="bu">input</span>.mode())</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>        ]</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> df</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render.plot</span></span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> chart():</span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> filtered()</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        counts <span class="op">=</span> df.groupby([<span class="st">"crash_year"</span>, <span class="st">"severity"</span>]).size().unstack(fill_value<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>        counts.plot(kind<span class="op">=</span><span class="st">"bar"</span>, stacked<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">"Crashes"</span>)</span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>        plt.tight_layout()</span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">@render_widget</span></span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">map</span>():</span>
-<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> filtered().head(<span class="dv">2000</span>)  <span class="co"># cap rendering cost</span></span>
-<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>        colour_of <span class="op">=</span> {<span class="st">"Fatal"</span>: <span class="st">"#b10026"</span>, <span class="st">"Serious"</span>: <span class="st">"#e31a1c"</span>,</span>
-<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Minor"</span>: <span class="st">"#fd8d3c"</span>, <span class="st">"Non-injury"</span>: <span class="st">"#fdbb84"</span>}</span>
-<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>        markers <span class="op">=</span> [</span>
-<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>            CircleMarker(</span>
-<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>                location<span class="op">=</span>(row.geometry.y, row.geometry.x),</span>
-<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>                radius<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span>colour_of.get(row[<span class="st">"severity"</span>], <span class="st">"#636363"</span>),</span>
-<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>                fill_color<span class="op">=</span>colour_of.get(row[<span class="st">"severity"</span>], <span class="st">"#636363"</span>),</span>
-<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>                fill_opacity<span class="op">=</span><span class="fl">0.7</span>,</span>
-<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> _, row <span class="kw">in</span> df.iterrows()</span>
-<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>        ]</span>
-<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">11</span>)</span>
-<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>        m.add_layer(LayerGroup(layers<span class="op">=</span><span class="bu">tuple</span>(markers)))</span>
-<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> m</span>
-<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Exercises</strong>:</p>
-<ol type="1">
-<li>Replace the <code>head(2000)</code> cap with a smarter approach: aggregate crashes to a grid or cluster (open the gallery example <strong>Cluster markers</strong> as a starting point).</li>
-<li>Add a dropdown for <code>day_of_week</code> and see how weekend patterns differ from weekday.</li>
-<li>Add a summary text line: “N crashes in the current filter, of which X were serious or fatal.”</li>
-<li>Swap the stacked bar chart for a Plotly version with hover tooltips.</li>
-</ol>
+<p>Your map should show crash <strong>points</strong>. Use <code>CircleMarker</code> for each row. Colour by severity. Cap the number of markers to keep the browser responsive.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> ipyleaflet <span class="im">import</span> Map, CircleMarker, LayerGroup</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="at">@render_widget</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="bu">map</span>():</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> filtered_crashes().head(<span class="dv">2000</span>)  <span class="co"># cap for performance</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    severity_colours <span class="op">=</span> {</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Fatal"</span>: <span class="st">"#b10026"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Serious"</span>: <span class="st">"#e31a1c"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Minor"</span>: <span class="st">"#fd8d3c"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Non-injury"</span>: <span class="st">"#fee8c8"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    markers <span class="op">=</span> []</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _, row <span class="kw">in</span> df.iterrows():</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        markers.append(CircleMarker(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>            location<span class="op">=</span>(row.geometry.y, row.geometry.x),</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>            radius<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span>severity_colours.get(row[<span class="st">"severity"</span>], <span class="st">"#636363"</span>),</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>            fill_color<span class="op">=</span>severity_colours.get(row[<span class="st">"severity"</span>], <span class="st">"#636363"</span>),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>            fill_opacity<span class="op">=</span><span class="fl">0.7</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>            weight<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> Map(center<span class="op">=</span>(<span class="op">-</span><span class="fl">36.85</span>, <span class="fl">174.77</span>), zoom<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    m.add_layer(LayerGroup(layers<span class="op">=</span><span class="bu">tuple</span>(markers)))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why <code>.head(2000)</code>?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each <code>CircleMarker</code> is a separate JavaScript object in the browser. Rendering 20,000 of them will freeze the page. Start with 2,000 and increase only if performance is acceptable. For the final submission, consider aggregating to a grid or using a heatmap layer instead.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <hr>
 </section>
-<section id="section-5-commit-redeploy-and-check-in" class="level2">
-<h2 class="anchored" data-anchor-id="section-5-commit-redeploy-and-check-in">Section 5: Commit, redeploy, and check-in</h2>
-<p>Once your track app runs locally, ship it.</p>
+</section>
+<section id="section-5-adding-an-action-button" class="level2">
+<h2 class="anchored" data-anchor-id="section-5-adding-an-action-button">Section 5: Adding an action button</h2>
+<p>An action button lets the user control <strong>when</strong> an expensive operation runs, instead of the app recalculating on every slider tick. This is the <code>@reactive.event</code> pattern from the lecture.</p>
+<section id="step-1-add-the-button-to-the-ui" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-add-the-button-to-the-ui">Step 1: Add the button to the UI</h3>
+<p>Place it at the bottom of your sidebar, after all the filter inputs:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ui.sidebar(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    ui.input_select(<span class="st">"category"</span>, <span class="st">"Category"</span>, choices<span class="op">=</span>[...]),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ui.input_slider(<span class="st">"min_value"</span>, <span class="st">"Minimum"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">0</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    ui.input_checkbox_group(<span class="st">"modes"</span>, <span class="st">"Modes"</span>, choices<span class="op">=</span>[...]),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    ui.input_action_button(<span class="st">"apply"</span>, <span class="st">"Apply filters"</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-2-gate-the-reactive-calc" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-gate-the-reactive-calc">Step 2: Gate the reactive calc</h3>
+<p>Wrap your shared <code>@reactive.calc</code> with <code>@reactive.event</code> so it only recalculates when the button is clicked:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.calc</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.event</span>(<span class="bu">input</span>.<span class="bu">apply</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filtered():</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> data.copy()</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">input</span>.category() <span class="op">!=</span> <span class="st">"All"</span>:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df[df[<span class="st">"category"</span>] <span class="op">==</span> <span class="bu">input</span>.category()]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df[df[<span class="st">"value"</span>] <span class="op">&gt;=</span> <span class="bu">input</span>.min_value()]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now the user can adjust multiple inputs, then click “Apply filters” once. The map and chart update together, and only once.</p>
+</section>
+<section id="step-3-add-a-reset-button-optional-but-useful" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-add-a-reset-button-optional-but-useful">Step 3: Add a reset button (optional but useful)</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In the UI, next to the apply button:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ui.input_action_button(<span class="st">"reset"</span>, <span class="st">"Reset"</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># In the server:</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.effect</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">@reactive.event</span>(<span class="bu">input</span>.reset)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _():</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    ui.update_select(<span class="st">"category"</span>, selected<span class="op">=</span><span class="st">"All"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    ui.update_slider(<span class="st">"min_value"</span>, value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    ui.update_checkbox_group(<span class="st">"modes"</span>, selected<span class="op">=</span>modes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>ui.update_*</code> functions push new values into the inputs from the server side. Combined with <code>@reactive.event</code>, the reset click restores defaults and the apply click picks them up.</p>
+</section>
+<section id="step-4-show-a-summary-line" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-show-a-summary-line">Step 4: Show a summary line</h3>
+<p>Add a text output that tells the user what the current filter produced:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># UI</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ui.output_text(<span class="st">"summary"</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Server</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="at">@render.text</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summary():</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> filtered()</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">:,}</span><span class="ss"> records match the current filters."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Because <code>summary</code> reads <code>filtered()</code>, it updates whenever the “Apply filters” button fires, not on every slider move. No extra wiring needed.</p>
+<hr>
+</section>
+</section>
+<section id="section-6-commit-and-push" class="level2">
+<h2 class="anchored" data-anchor-id="section-6-commit-and-push">Section 6: Commit and push</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Option A: Terminal</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Option B: GitHub Desktop</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Terminal</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">GitHub Desktop</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rebuild the static bundle</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">shinylive</span> export . docs</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Commit and push</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add app.py data/ scripts/ docs/</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Week 7: working map and chart"</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add plan.md app.py data/</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Week 7: plan and skeleton app"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <ol type="1">
-<li>Rerun <code>shinylive export . docs</code> in your terminal first (GitHub Desktop does not do this for you).</li>
-<li>Back in GitHub Desktop, you will see the updated <code>docs/</code> folder plus <code>app.py</code> and your data files in the <strong>Changes</strong> tab.</li>
-<li>In the <strong>Summary</strong> box: <code>Week 7: working map and chart</code>.</li>
+<li>In the <strong>Changes</strong> tab you will see <code>plan.md</code>, <code>app.py</code>, and your data files.</li>
+<li>Summary: <code>Week 7: plan and skeleton app</code>.</li>
 <li>Click <strong>Commit to main</strong>, then <strong>Push origin</strong>.</li>
 </ol>
 </div>
 </div>
 </div>
-<p>Wait about a minute, then reopen your GitHub Pages URL. Your Week 6 hello-world should now be replaced by your track-specific dashboard. Post the URL in the Week 7 lab Slack channel as your check-in.</p>
 <hr>
 </section>
-<section id="section-6-homework-and-stretch-goals" class="level2">
-<h2 class="anchored" data-anchor-id="section-6-homework-and-stretch-goals">Section 6: Homework and stretch goals</h2>
-<section id="minimum-everyone" class="level3">
-<h3 class="anchored" data-anchor-id="minimum-everyone">Minimum (everyone)</h3>
-<p>Before the Week 8 lab:</p>
+<section id="homework-before-week-8" class="level2">
+<h2 class="anchored" data-anchor-id="homework-before-week-8">Homework before Week 8</h2>
+<p>Before the next lab:</p>
 <ol type="1">
-<li>All three required inputs are wired up and each one meaningfully changes at least one output.</li>
-<li>Both the map and the chart read from a shared <code>@reactive.calc</code>.</li>
-<li>The README lists the question, the dataset link, and one known limitation.</li>
+<li><strong>Finish the plan</strong> if you did not complete all three sections in class.</li>
+<li><strong>Load your real data</strong> into <code>app.py</code> and get at least one output (chart or map) rendering from the filtered dataset.</li>
+<li><strong>Wire all three inputs</strong> so that each one meaningfully changes at least one output.</li>
+<li><strong>Rebuild and push</strong>: <code>shinylive export . docs</code>, commit, push. Check your GitHub Pages URL.</li>
 </ol>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The plan is not assessed separately, but the design report is
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your plan feeds directly into the design report (10% of A2). Sections 1, 2, and 3 of this lab map onto the required report sections. Students who do a thorough job this week typically finish the report in under an hour during Week 8.</p>
+</div>
+</div>
+<hr>
 </section>
-<section id="stretch-if-you-finish-early" class="level3">
-<h3 class="anchored" data-anchor-id="stretch-if-you-finish-early">Stretch (if you finish early)</h3>
-<ol start="4" type="1">
-<li>Add a second page with <code>ui.navset_tab</code> or <code>ui.page_navbar</code>: put the map on one tab and the chart + table on another.</li>
-<li>Add a <code>shinyswatch</code> theme of your choosing: <code>ui.page_sidebar(..., theme=shinyswatch.theme.flatly())</code>.</li>
-<li>Add a <code>@reactive.event</code> button (“Apply filters”) that gates an expensive recomputation, so the app only recalculates when the user clicks.</li>
-<li>Begin a <code>report.qmd</code> in your repo: add the YAML header from 3.6 and the five section headings, even if each section is only a placeholder for now.</li>
-</ol>
+<section id="further-options" class="level2">
+<h2 class="anchored" data-anchor-id="further-options">Further options</h2>
+<p>These are not required for this lab, but if you finish early or want to explore during the week:</p>
+<section id="sidebar-layout-tweaks" class="level3">
+<h3 class="anchored" data-anchor-id="sidebar-layout-tweaks">Sidebar layout tweaks</h3>
+<p>You can split the sidebar into collapsible sections using <code>ui.accordion</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ui.sidebar(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    ui.accordion(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        ui.accordion_panel(<span class="st">"Filters"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            ui.input_select(<span class="st">"category"</span>, <span class="st">"Category"</span>, choices<span class="op">=</span>[...]),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>            ui.input_slider(<span class="st">"min_value"</span>, <span class="st">"Minimum"</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">0</span>),</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        ui.accordion_panel(<span class="st">"Map options"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            ui.input_radio_buttons(<span class="st">"basemap"</span>, <span class="st">"Basemap"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                                   choices<span class="op">=</span>[<span class="st">"OpenStreetMap"</span>, <span class="st">"CartoDB positron"</span>]),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    ui.input_action_button(<span class="st">"apply"</span>, <span class="st">"Apply filters"</span>),</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="common-problems" class="level3">
-<h3 class="anchored" data-anchor-id="common-problems">Common problems</h3>
-<ul>
-<li><strong>The map does not show after deploy.</strong> Check that you called <code>.to_crs(4326)</code> on your GeoDataFrame. ipyleaflet will silently show an empty map for data in NZTM.</li>
-<li><strong><code>@render_widget</code> never updates.</strong> Make sure you are creating a new <code>Map()</code> inside the function, not reusing a Map defined at module level.</li>
-<li><strong>The app works locally but shinylive shows “Package not found”.</strong> Pyodide does not ship every package. For this assignment you should only need: <code>shiny</code>, <code>shinywidgets</code>, <code>ipyleaflet</code>, <code>pandas</code>, <code>geopandas</code>, <code>matplotlib</code>, optionally <code>plotly</code> and <code>shinyswatch</code>. If you pulled in something else, remove it.</li>
-<li><strong>The deploy is huge and slow to load.</strong> Check your <code>data/</code> folder. Simplify polygons, drop unused columns, and trim to the Auckland region only.</li>
-</ul>
+<section id="multi-page-layout-with-ui.page_navbar" class="level3">
+<h3 class="anchored" data-anchor-id="multi-page-layout-with-ui.page_navbar">Multi-page layout with <code>ui.page_navbar</code></h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_navbar(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    ui.nav_panel(<span class="st">"Map"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        ui.layout_sidebar(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>            ui.sidebar(...),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            output_widget(<span class="st">"map"</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    ui.nav_panel(<span class="st">"Chart"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        ui.output_plot(<span class="st">"chart"</span>),</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    ui.nav_panel(<span class="st">"About"</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        ui.markdown(<span class="st">"## About this dashboard</span><span class="ch">\n\n</span><span class="st">Built for GISCI 343 ..."</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"My A2 dashboard"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="theming-with-shinyswatch" class="level3">
+<h3 class="anchored" data-anchor-id="theming-with-shinyswatch">Theming with shinyswatch</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shinyswatch</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    ...,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    theme<span class="op">=</span>shinyswatch.theme.flatly(),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Browse themes at <a href="https://bootswatch.com/">bootswatch.com</a>.</p>
+</section>
+<section id="value-boxes-for-key-numbers" class="level3">
+<h3 class="anchored" data-anchor-id="value-boxes-for-key-numbers">Value boxes for key numbers</h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> ui</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>ui.layout_columns(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    ui.value_box(<span class="st">"Total records"</span>, ui.output_text(<span class="st">"n_records"</span>), theme<span class="op">=</span><span class="st">"primary"</span>),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    ui.value_box(<span class="st">"Fatal crashes"</span>, ui.output_text(<span class="st">"n_fatal"</span>), theme<span class="op">=</span><span class="st">"danger"</span>),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    col_widths<span class="op">=</span>[<span class="dv">6</span>, <span class="dv">6</span>],</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
 </section>
 </section>
 <section id="further-reading" class="level2">
 <h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
 <ul>
-<li><a href="https://shinylive.io/py/examples/">Shinylive examples gallery</a> (bookmark it).</li>
-<li>Textbook 3.5 (Mapping Auckland Open Data) for the data-loading patterns.</li>
-<li>Textbook 3.3 (Decorators and UI Polish) for <code>ui.navset_tab</code>, cards, and themes.</li>
+<li>Textbook 3.5 (Mapping Auckland Open Data) for data-loading patterns.</li>
+<li>Textbook 3.3 (Decorators and UI Polish) for layout options, cards, and themes.</li>
+<li><a href="https://shinylive.io/py/examples/">Shinylive examples gallery</a> for working code patterns to adapt.</li>
 <li><a href="https://ipyleaflet.readthedocs.io/">ipyleaflet documentation</a> for layer types beyond <code>GeoData</code> and <code>CircleMarker</code>.</li>
-<li><a href="https://posit-dev.github.io/py-shinywidgets/">shinywidgets documentation</a> for <code>output_widget</code> and <code>@render_widget</code>.</li>
+<li><a href="https://mermaid.live/">Mermaid live editor</a> for testing your reactive diagram before pasting it into your plan.</li>
 </ul>
 
 
