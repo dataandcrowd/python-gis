@@ -63,7 +63,7 @@ Week 6 covers the foundations: what a Shiny app looks like (3.1), how reactivity
 
 Week 7, during the ANZAC break, is the main build week. You will deploy an app to the browser with shinylive (3.4) and bring real Auckland open data into it (3.5).
 
-Week 8 is for polish, deployment, and submission. The full Assignment 2 brief lives in 3.6. Your dashboard is due Sunday 10 May, 23:59, live on GitHub Pages and publicly accessible.
+Week 8 is for polish, deployment, and submission. The capstone polish-and-ship techniques live in 3.6, and the full Assignment 2 brief in 3.7. Your dashboard is due Sunday 10 May, 23:59, live on GitHub Pages and publicly accessible.
 
 
 ## Guest lecture
@@ -81,7 +81,7 @@ You will be **randomly assigned** one of three data tracks on **Tuesday 21 April
 - **Track B: Commuter and Student flows**, using Stats NZ's 2023 Census data, with a required comparison between workers and students.
 - **Track C: Auckland crashes**, using Auckland Transport's crash records.
 
-The dashboard must include at least three user inputs, one interactive `ipyleaflet` map, one quantitative chart (Plotly or matplotlib), and a shinylive deployment on GitHub Pages. A short design report (under 4 pages, PDF rendered from Quarto) accompanies the code. Full brief, rubric, and deliverables in 3.6.
+The dashboard must include at least three user inputs, one interactive `ipyleaflet` map, one quantitative chart (Plotly or matplotlib), and a shinylive deployment on GitHub Pages. A short design report (under 4 pages, PDF rendered from Quarto) accompanies the code. Full brief, rubric, and deliverables in 3.7.
 
 
 ## Prerequisites
