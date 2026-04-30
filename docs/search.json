@@ -2054,7 +2054,7 @@
     "href": "3.0.chapter3-shiny_python.html#what-you-will-build-in-part-3",
     "title": "Part 3. Interactive Dashboards with Shiny for Python",
     "section": "What you will build in Part 3",
-    "text": "What you will build in Part 3\nPart 3 runs across three weeks and follows a gentle ramp.\nWeek 6 covers the foundations: what a Shiny app looks like (3.1), how reactivity works once inputs and outputs start to multiply (3.2), and the decorators and UI pieces you will use most often (3.3).\nWeek 7, during the ANZAC break, is the main build week. You will deploy an app to the browser with shinylive (3.4) and bring real Auckland open data into it (3.5).\nWeek 8 is for polish, deployment, and submission. The full Assignment 2 brief lives in 3.6. Your dashboard is due Sunday 10 May, 23:59, live on GitHub Pages and publicly accessible.",
+    "text": "What you will build in Part 3\nPart 3 runs across three weeks and follows a gentle ramp.\nWeek 6 covers the foundations: what a Shiny app looks like (3.1), how reactivity works once inputs and outputs start to multiply (3.2), and the decorators and UI pieces you will use most often (3.3).\nWeek 7, during the ANZAC break, is the main build week. You will deploy an app to the browser with shinylive (3.4) and bring real Auckland open data into it (3.5).\nWeek 8 is for polish, deployment, and submission. The capstone polish-and-ship techniques live in 3.6, and the full Assignment 2 brief in 3.7. Your dashboard is due Sunday 10 May, 23:59, live on GitHub Pages and publicly accessible.",
     "crumbs": [
       "Part 3. Interactive Dashboards with Shiny for Python"
     ]
@@ -2074,7 +2074,7 @@
     "href": "3.0.chapter3-shiny_python.html#assignment-2-at-a-glance",
     "title": "Part 3. Interactive Dashboards with Shiny for Python",
     "section": "Assignment 2, at a glance",
-    "text": "Assignment 2, at a glance\nThroughout Part 3 you will work towards Assignment 2 (15% of the course mark, due Sunday 10 May 2026, 23:59, submitted via Canvas). It is a small Shiny dashboard that addresses one urban or transport question about Auckland.\nYou will be randomly assigned one of three data tracks on Tuesday 21 April 2026, 13:10 NZST:\n\nTrack A: Public Transport, using Auckland Transport’s patronage data and bus/ferry layers.\nTrack B: Commuter and Student flows, using Stats NZ’s 2023 Census data, with a required comparison between workers and students.\nTrack C: Auckland crashes, using Auckland Transport’s crash records.\n\nThe dashboard must include at least three user inputs, one interactive ipyleaflet map, one quantitative chart (Plotly or matplotlib), and a shinylive deployment on GitHub Pages. A short design report (under 4 pages, PDF rendered from Quarto) accompanies the code. Full brief, rubric, and deliverables in 3.6.",
+    "text": "Assignment 2, at a glance\nThroughout Part 3 you will work towards Assignment 2 (15% of the course mark, due Sunday 10 May 2026, 23:59, submitted via Canvas). It is a small Shiny dashboard that addresses one urban or transport question about Auckland.\nYou will be randomly assigned one of three data tracks on Tuesday 21 April 2026, 13:10 NZST:\n\nTrack A: Public Transport, using Auckland Transport’s patronage data and bus/ferry layers.\nTrack B: Commuter and Student flows, using Stats NZ’s 2023 Census data, with a required comparison between workers and students.\nTrack C: Auckland crashes, using Auckland Transport’s crash records.\n\nThe dashboard must include at least three user inputs, one interactive ipyleaflet map, one quantitative chart (Plotly or matplotlib), and a shinylive deployment on GitHub Pages. A short design report (under 4 pages, PDF rendered from Quarto) accompanies the code. Full brief, rubric, and deliverables in 3.7.",
     "crumbs": [
       "Part 3. Interactive Dashboards with Shiny for Python"
     ]
@@ -4235,6 +4235,182 @@
     "crumbs": [
       "Labs",
       "Lab Week 07"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html",
+    "href": "3.6.polish-and-ship.html",
+    "title": "3.6. Polish and Ship",
+    "section": "",
+    "text": "What you will learn\nYour dashboard works. The slider moves, the map updates, the filter is correct. That gets you about 60% of the assignment marks. The remaining 40% — UI polish, deployment, and not falling over when someone touches the wrong button — is what this section is for.\nThis is the last lecture of Part 3. Two hours: one on polish (making the app look like a tool a stranger would trust), one on ship (making it survive contact with users and shinylive). Everything here applies directly to the rubric in 3.7.\nWe will keep extending the suburbs explorer from 3.3 — same data, same logic, only the UI and the robustness change.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#what-you-will-learn",
+    "href": "3.6.polish-and-ship.html#what-you-will-learn",
+    "title": "3.6. Polish and Ship",
+    "section": "",
+    "text": "Theme an app with bslib (a step beyond shinyswatch).\nAdd value boxes, tooltips, and richer cards.\nDrop ten lines of custom CSS and stop there.\nShow loading states and busy indicators while reactives are pending.\nHandle empty filters, missing inputs, and broken data without crashing.\nConvert your data to a format shinylive can actually carry.\nDebug the five most common shinylive deployment failures.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#why-polish-matters-for-the-design-report",
+    "href": "3.6.polish-and-ship.html#why-polish-matters-for-the-design-report",
+    "title": "3.6. Polish and Ship",
+    "section": "Why polish matters for the design report",
+    "text": "Why polish matters for the design report\nThe Assignment 2 rubric (3.7) gives 20% to “Map and visual design” and another 5% to “UI polish and documentation”. The “User interface design” section asks for clean, logically organised, clearly labelled, readable without clutter. None of that is vanity. A dashboard that looks unfinished signals to a marker that the analysis behind it might also be unfinished. Polish is part of the argument.\nThe good news: the difference between a default Shiny app and a presentable one is roughly thirty minutes of work, and most of those minutes are spent picking colours.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#bslib-themes-you-can-actually-customise",
+    "href": "3.6.polish-and-ship.html#bslib-themes-you-can-actually-customise",
+    "title": "3.6. Polish and Ship",
+    "section": "bslib: themes you can actually customise",
+    "text": "bslib: themes you can actually customise\nshinyswatch (3.3) gives you a fixed list of pre-baked themes. Useful, but they all look like everyone else’s. bslib is the layer underneath: it lets you set the primary colour, the background, the font, and the spacing without writing CSS.\nbslib ships with Shiny for Python — no extra install.\nfrom shiny import ui\nfrom shiny.ui import bslib\n\ntheme = bslib.bs_theme(\n    bg=\"#fdfdfd\",          # page background\n    fg=\"#1f2937\",          # body text\n    primary=\"#0d6efd\",     # buttons, links, sliders\n    base_font=[\"Inter\", \"sans-serif\"],\n)\n\napp_ui = ui.page_sidebar(\n    ui.sidebar(...),\n    ...,\n    title=\"Suburbs explorer\",\n    theme=theme,\n)\nFour arguments cover 90% of what you will want:\n\n\n\nArgument\nControls\n\n\n\n\nbg\nPage background colour\n\n\nfg\nDefault text colour\n\n\nprimary\nButtons, links, slider tracks, active tab indicators\n\n\nbase_font\nFont stack (first available wins)\n\n\n\nPick a primary that matches your dataset’s domain — green for parks, red for crashes, blue for transit. Stick with one. Mixing accent colours mid-app reads as noise.\n\n\n\n\n\n\nUse a real font\n\n\n\nbase_font=[\"Inter\", \"sans-serif\"] looks markedly better than the browser default. Inter is widely available; if it is not on the user’s system, the browser falls back to sans-serif.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#value-boxes-for-the-headline-numbers",
+    "href": "3.6.polish-and-ship.html#value-boxes-for-the-headline-numbers",
+    "title": "3.6. Polish and Ship",
+    "section": "Value boxes for the headline numbers",
+    "text": "Value boxes for the headline numbers\nA value box is a card with one big number and a label. Three of them across the top of a dashboard is the cheapest “executive summary” you can build.\nfrom shiny import ui\n\nui.layout_columns(\n    ui.value_box(\n        \"Suburbs\",\n        ui.output_text(\"vb_count\"),\n        showcase=ui.tags.i(class_=\"bi bi-map\"),\n        theme=\"primary\",\n    ),\n    ui.value_box(\n        \"Mean income\",\n        ui.output_text(\"vb_mean\"),\n        showcase=ui.tags.i(class_=\"bi bi-cash-stack\"),\n        theme=\"success\",\n    ),\n    ui.value_box(\n        \"Highest income\",\n        ui.output_text(\"vb_max\"),\n        showcase=ui.tags.i(class_=\"bi bi-graph-up\"),\n        theme=\"warning\",\n    ),\n    col_widths=[4, 4, 4],\n)\nIn the server, each vb_* output is just a @render.text reading the same filtered() calc you already have:\n@render.text\ndef vb_count():\n    return f\"{len(filtered()):,}\"\n\n@render.text\ndef vb_mean():\n    return f\"${filtered()['median_income'].mean():,.0f}\"\nThe icons are Bootstrap Icons, bundled with Shiny. Browse the gallery, paste the class name, done.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#richer-cards-headers-footers-full-screen",
+    "href": "3.6.polish-and-ship.html#richer-cards-headers-footers-full-screen",
+    "title": "3.6. Polish and Ship",
+    "section": "Richer cards: headers, footers, full screen",
+    "text": "Richer cards: headers, footers, full screen\nui.card already has a card_header. It also has a card_footer (good for source attributions) and a full_screen=True flag that gives the user an expand button. For dense charts and maps, that one flag massively improves usability:\nui.card(\n    ui.card_header(\"Auckland parks\"),\n    output_widget(\"parks_map\"),\n    ui.card_footer(\n        ui.tags.small(\"Source: Auckland Council Open Data, 2024\"),\n    ),\n    full_screen=True,\n)",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#tooltips-popovers-and-help-text",
+    "href": "3.6.polish-and-ship.html#tooltips-popovers-and-help-text",
+    "title": "3.6. Polish and Ship",
+    "section": "Tooltips, popovers, and help text",
+    "text": "Tooltips, popovers, and help text\nThe rubric explicitly mentions “help text”. You do not need a paragraph; you need a hint next to each non-obvious control.\nui.tooltip(\n    ui.input_slider(\"min_pop\", \"Minimum population\", 0, 25000, 0),\n    \"Suburbs below this population are hidden from the chart and table.\",\n)\nFor longer help (one or two sentences), use a popover triggered by a small info icon:\nui.popover(\n    ui.tags.i(class_=\"bi bi-info-circle\"),\n    \"We exclude suburbs with fewer than 50 dwellings to avoid noise.\",\n    title=\"About this filter\",\n)\nPlace these next to the inputs they explain, not in a separate “Help” tab. Discoverability beats completeness.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#custom-css-in-ten-lines",
+    "href": "3.6.polish-and-ship.html#custom-css-in-ten-lines",
+    "title": "3.6. Polish and Ship",
+    "section": "Custom CSS in ten lines",
+    "text": "Custom CSS in ten lines\nOnce you have bslib and value boxes, you almost never need custom CSS. Almost. Two cases come up often enough to be worth it: a branded header colour, and forcing tabular numbers in value boxes so digits line up.\nCreate www/styles.css:\n.value-box-value { font-variant-numeric: tabular-nums; }\n.bslib-card-header { background: #0d6efd; color: white; }\n.card-footer { font-size: 0.85rem; color: #6b7280; }\nLink it once in your UI:\napp_ui = ui.page_sidebar(\n    ui.head_content(\n        ui.tags.link(rel=\"stylesheet\", href=\"styles.css\"),\n    ),\n    ...,\n)\nThat is the entire CSS section. The www/ folder is auto-served by Shiny and is included in the shinylive bundle, so this works in the deployed app as well.\n\n\n\n\n\n\nDo not write a CSS framework\n\n\n\nThe fastest way to break a Shiny app’s responsive design is to start overriding Bootstrap’s grid utilities. If you find yourself writing .col-md-* selectors, stop and reach for ui.layout_columns instead.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#loading-states-and-busy-indicators",
+    "href": "3.6.polish-and-ship.html#loading-states-and-busy-indicators",
+    "title": "3.6. Polish and Ship",
+    "section": "Loading states and busy indicators",
+    "text": "Loading states and busy indicators\nWhen a @reactive.calc takes more than half a second, the app feels broken. Show that something is happening.\nThe simplest pattern, available in recent Shiny versions, is one line at the top of your UI:\napp_ui = ui.page_sidebar(\n    ui.busy_indicators.use(),\n    ...,\n)\nThis adds a small pulsing indicator on every output that is currently recomputing. No code changes elsewhere.\nFor genuinely long operations (loading a 50 MB GeoPackage, running a clustering routine), use ui.Progress for an explicit bar:\n@reactive.calc\ndef heavy_compute():\n    with ui.Progress(min=0, max=3) as p:\n        p.set(1, message=\"Loading data\")\n        df = pd.read_parquet(\"data/big.parquet\")\n        p.set(2, message=\"Aggregating\")\n        result = df.groupby(\"suburb\").size()\n        p.set(3, message=\"Done\")\n        return result\nProgress messages are visible to the user. Use them for steps that are actually slow, not for atmosphere.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#defensive-reactives-req-empty-states-and-try",
+    "href": "3.6.polish-and-ship.html#defensive-reactives-req-empty-states-and-try",
+    "title": "3.6. Polish and Ship",
+    "section": "Defensive reactives: req, empty states, and try",
+    "text": "Defensive reactives: req, empty states, and try\nA reactive that crashes silently is worse than one that reports an error. Three patterns cover most failures:\n1. req(input.x()) — short-circuit when nothing is chosen.\nreq is shorthand for “stop here unless this is truthy”. If the user has not picked anything, the calc returns nothing and downstream outputs show their last value (or nothing).\nfrom shiny import req\n\n@reactive.calc\ndef filtered():\n    req(input.suburb())\n    return parks[parks[\"suburb\"] == input.suburb()]\n2. Empty-state UI.\nWhen the filter returns zero rows, your chart should not render an empty axis. Check explicitly:\n@render.plot\ndef chart():\n    df = filtered()\n    if df.empty:\n        fig, ax = plt.subplots()\n        ax.text(0.5, 0.5, \"No suburbs match these filters\",\n                ha=\"center\", va=\"center\", fontsize=14)\n        ax.set_axis_off()\n        return fig\n    # normal chart code\nThis is one of the highest-impact bits of polish in the whole assignment. Markers will move sliders to extremes and judge what they see.\n3. try / except around fragile work, surfaced with ui.notification_show.\n@reactive.calc\ndef filtered():\n    try:\n        return parks[parks[\"area_ha\"] &gt;= input.min_area()]\n    except Exception as e:\n        ui.notification_show(\n            f\"Filter failed: {e}\", type=\"error\", duration=5,\n        )\n        return parks.iloc[:0]   # empty frame, downstream stays calm\nReserve this for code that touches the file system or does heavy computation. Wrapping every reactive in try is noise; wrapping the one that reads a CSV is sensible.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#performance-load-once-filter-many-times",
+    "href": "3.6.polish-and-ship.html#performance-load-once-filter-many-times",
+    "title": "3.6. Polish and Ship",
+    "section": "Performance: load once, filter many times",
+    "text": "Performance: load once, filter many times\nThe single biggest performance win in a shinylive app is loading the data once at module level, then filtering inside @reactive.calc.\nWrong:\ndef server(input, output, session):\n    @render_widget\n    def map():\n        gdf = gpd.read_file(\"data/parks.geojson\")  # re-read every render\n        return Map(...)\nRight:\nparks = gpd.read_file(\"data/parks.geojson\").to_crs(4326)  # module-level\n\ndef server(input, output, session):\n    @reactive.calc\n    def filtered():\n        return parks[parks[\"area_ha\"] &gt;= input.min_area()]\n\n    @render_widget\n    def map():\n        m = Map(...)\n        m.add_layer(GeoData(geo_dataframe=filtered(), style={...}))\n        return m\n@reactive.calc is already cached. It only reruns when one of its dependencies changes. Module-level loading happens exactly once when the app starts, regardless of how many users connect. In shinylive, “the app starts” means “the visitor opened the tab” — but it still happens once per tab, not once per slider drag.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#file-size-geojson-is-the-wrong-format",
+    "href": "3.6.polish-and-ship.html#file-size-geojson-is-the-wrong-format",
+    "title": "3.6. Polish and Ship",
+    "section": "File size: GeoJSON is the wrong format",
+    "text": "File size: GeoJSON is the wrong format\nThe 5 MB rule from 3.5 cuts harder than it sounds. GeoJSON is plain text — every coordinate is stored as a 15-character decimal. GeoParquet stores the same geometry as binary floats, typically 5-10x smaller, and GeoPandas reads it just as easily.\nPre-process once, ship the small file:\n# Run this once, locally, NOT inside your app\nimport geopandas as gpd\n\nparks = gpd.read_file(\"auckland_parks_full.geojson\")\nparks = parks[[\"name\", \"area_ha\", \"geometry\"]]                # drop unused columns\nparks[\"geometry\"] = parks.geometry.simplify(0.0001)           # simplify to ~10m\nparks.to_parquet(\"data/parks.parquet\")                        # binary, small\nTolerances for simplify (in EPSG:4326 degrees, since you are reprojecting for ipyleaflet anyway):\n\n0.00001 — preserves shape almost perfectly, modest savings.\n0.0001 — Auckland-scale, suburb-level shapes still readable.\n0.001 — region-level only; suburbs become unrecognisable.\n\nStart at 0.0001, eyeball the result on a map, increase if you can stomach the loss.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#shinylive-build-and-github-pages-debugging",
+    "href": "3.6.polish-and-ship.html#shinylive-build-and-github-pages-debugging",
+    "title": "3.6. Polish and Ship",
+    "section": "Shinylive build and GitHub Pages debugging",
+    "text": "Shinylive build and GitHub Pages debugging\nThe assignment requires shinylive on GitHub Pages. We are not covering shinyapps.io or Posit Connect — they are out of scope for this course. What follows is the troubleshooting checklist for the deployment path you have to use.\n\nThe five failures that get reported in office hours\n1. “ImportError: No module named X” in the browser console.\nPyodide does not have every package. Check the table in 3.4. The frequent offenders: folium, r5py, anything with C extensions outside the Pyodide list. Switch to a Pyodide-supported equivalent or precompute the result and ship the answer rather than the calculation.\n2. “FileNotFoundError” for a file that exists locally.\nYour read_file(\"/Users/me/project/data/x.geojson\") worked locally. It fails in the browser because there is no /Users/me/. Use paths relative to app.py:\ngpd.read_file(\"data/x.geojson\")     # good\ngpd.read_file(\"./data/x.geojson\")   # also good\n3. The deployed app loads, but the data is missing.\nshinylive export only bundles files inside the app folder. If your data lives in a sibling folder, move it or symlink it. Check the contents of docs/ after export — every data file should be there.\n4. GitHub Pages serves the repo root, not your docs/ folder.\nSettings → Pages → Source: Deploy from a branch → Branch: main, Folder: /docs. Save. Wait one minute. The URL is https://&lt;user&gt;.github.io/&lt;repo&gt;/, not https://&lt;user&gt;.github.io/&lt;repo&gt;/docs/.\n5. The app works locally but breaks in the browser.\nOpen the browser console (3.1: F12 on Windows, ⌥⌘I on macOS). Pyodide errors show up there in red, with a stack trace. Read the trace from the bottom up — the topmost frame is usually the line in your app.py that triggered the failure.\n\n\nPre-submission checklist\nBefore your final git push, walk through this list:\n\nApp loads at the public URL on a cold browser (incognito mode).\nAll inputs cause a visible change in at least one output.\nEmpty-state behaviour: every extreme slider position, every “no selection” dropdown still renders something sensible.\nTotal size of data/ is under 5 MB.\nREADME explains: what the dashboard answers, where the data came from, how to run it locally.\nrequirements.txt or pyproject.toml lists every package you import.\nThe deployed URL is in your repo description.\nYou have opened the deployed URL on a phone — at least the layout does not break.\nThe design report (3.7 deliverable) has been rendered to PDF and renamed to the required filename.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#what-you-have-learned",
+    "href": "3.6.polish-and-ship.html#what-you-have-learned",
+    "title": "3.6. Polish and Ship",
+    "section": "What you have learned",
+    "text": "What you have learned\n\nbslib.bs_theme() gives you four knobs that cover most theming work.\nui.value_box, ui.tooltip, ui.popover, and ten lines of CSS lift the visual standard significantly.\nui.busy_indicators.use() adds loading states everywhere with one line.\nreq, explicit empty-state UI, and try / except with ui.notification_show make your reactives safe.\nModule-level loading + @reactive.calc is the right performance pattern; re-reading data inside renderers is the wrong one.\nGeoParquet is much smaller than GeoJSON for the same data.\nThe five common shinylive failures are all visible in the browser console.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#exercises",
+    "href": "3.6.polish-and-ship.html#exercises",
+    "title": "3.6. Polish and Ship",
+    "section": "Exercises",
+    "text": "Exercises\n\nTake your suburbs explorer from 3.3 and add three value boxes across the top. Wire them all to your existing filtered() calc.\nAdd ui.busy_indicators.use() and an artificial 1-second sleep inside filtered() (import time; time.sleep(1)) to confirm the indicator works. Remove the sleep afterwards.\nConvert your assignment dataset from GeoJSON to GeoParquet. Compare the file sizes.\nBreak your deployed app deliberately by changing a read_file path to an absolute one. Push, reload the URL, open the browser console, find the error, fix it. (This is the single most useful muscle to have on submission day.)",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
+    ]
+  },
+  {
+    "objectID": "3.6.polish-and-ship.html#further-reading",
+    "href": "3.6.polish-and-ship.html#further-reading",
+    "title": "3.6. Polish and Ship",
+    "section": "Further reading",
+    "text": "Further reading\n\nPosit, bslib for Shiny for Python.\nPosit, Components gallery — value boxes, cards, busy indicators.\nBootstrap Icons for the showcase argument.\nGeoParquet specification — the format spec, if you are curious.\nshinylive limitations — Pyodide’s package list, kept current by Posit.",
+    "crumbs": [
+      "Part 3. Interactive Dashboards with Shiny for Python",
+      "3.6. Polish and Ship"
     ]
   }
 ]
