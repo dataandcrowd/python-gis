@@ -1,1 +1,0 @@
-[Section 3.6 — Polish and Ship](3.6.polish-and-ship.qmd) covers the techniques that map directly to the "Map and visual design", "Deployment", and "UI polish" rows of the rubric below.
