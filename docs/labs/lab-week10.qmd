@@ -1,0 +1,238 @@
+# Lab Week 10 {.unnumbered}
+
+## Overview
+
+Week 10 deepens the work you started in Week 9. You will write a more substantial set of tests for your A3 package, publish a release to TestPyPI, draft your A1 poster, and rehearse the fit interview that takes place in Week 12.
+
+By the end of today you should have the following.
+
+1. At least four meaningful tests, including one that uses a fixture or `pytest.parametrize`.
+2. A successful TestPyPI release of your package.
+3. A clean install of that release in a fresh virtual environment.
+4. A first-pass A1 poster outline (paper sketch is fine).
+5. A short rehearsal of the fit interview with your partner.
+
+**Duration**, approximately 110 minutes.
+
+**What you need.**
+
+* The package you started in Week 9 (your A3 package).
+* Both partners present.
+* A TestPyPI account (you will create this in Part 3 if you have not already).
+
+::: {.callout-note}
+## Pair work, in plain language
+Both partners commit code today. Both partners will sit the individual fit interview in Week 12, so neither of you can outsource a function entirely to the other. Aim for genuine pair work, not divided silos.
+:::
+
+## Part 1. Plan today's tests (10 minutes)
+
+1. Open the [Chapter 4.2 testing summary](../4.2.testing-and-quality.qmd). Skim the three small geospatial test patterns.
+
+2. With your partner, list **four tests** you will add today.
+
+   * One **happy-path** test that calls a function with realistic input and checks the output type or shape.
+   * One **CRS or coordinate** test (relevant for every brief except `pavescore`).
+   * One **edge-case** test (empty input, missing column, file not found).
+   * One **fixture** or **parametrize** test (you choose).
+
+   Write these four down on paper before you start coding. This is the design step that almost everyone skips.
+
+## Part 2. Add the four tests (35 minutes)
+
+3. Add or extend your test file from Week 9.
+
+```python
+import pytest
+import geopandas as gpd
+from shapely.geometry import Point
+
+from your_package_name import function_one, function_two
+```
+
+4. **Happy-path test.** Real-shaped input, realistic call, check the output.
+
+```python
+def test_function_one_happy_path():
+    result = function_one(...)
+    assert isinstance(result, gpd.GeoDataFrame)
+    assert len(result) > 0
+    assert "geometry" in result.columns
+```
+
+5. **CRS test.** Confirm the function preserves or sets the expected CRS. For most A3 briefs this should be `EPSG:2193` (NZTM) for spatial maths or `EPSG:4326` (WGS 84) for input from raw lat/lon.
+
+```python
+def test_output_has_correct_crs():
+    result = function_one(...)
+    assert result.crs.to_string() == "EPSG:2193"
+```
+
+6. **Edge case test.** Use `pytest.raises` to confirm that bad input fails loudly.
+
+```python
+def test_function_one_raises_on_missing_file():
+    with pytest.raises(FileNotFoundError):
+        function_one("nonexistent.gpkg")
+```
+
+7. **Fixture test** (option A). A reusable test sample shared across tests.
+
+```python
+@pytest.fixture
+def small_sample():
+    return gpd.GeoDataFrame(
+        {"id": [1, 2]},
+        geometry=[Point(174.76, -36.85), Point(174.78, -36.86)],
+        crs="EPSG:4326",
+    )
+
+
+def test_function_with_fixture(small_sample):
+    result = function_two(small_sample)
+    assert len(result) == len(small_sample)
+```
+
+   Or, **parametrize test** (option B). The same test run on several inputs.
+
+```python
+@pytest.mark.parametrize("crs", ["EPSG:2193", "EPSG:4326"])
+def test_function_handles_either_crs(crs, small_sample):
+    sample = small_sample.to_crs(crs)
+    result = function_two(sample)
+    assert result is not None
+```
+
+8. Run the tests.
+
+```bash
+uv run pytest -v
+```
+
+9. (Optional) Look at coverage to see what is still untested.
+
+```bash
+uv add --dev pytest-cov
+uv run pytest --cov=your_package_name
+```
+
+Commit and push when all four tests pass.
+
+## Part 3. Publish to TestPyPI (30 minutes)
+
+This step rehearses what you will do for production PyPI in Week 12. Practise it now while there is no time pressure.
+
+10. **Create a TestPyPI account** at https://test.pypi.org/account/register/. Verify your email and (recommended) enable two-factor authentication.
+
+11. **Generate an API token.** Go to Account Settings, then API Tokens. Set the scope to "Entire account" for now. Copy the token (it starts with `pypi-`). Save it somewhere safe because you cannot view it again.
+
+12. **Bump the version** in `pyproject.toml`. TestPyPI does not allow re-uploading the same version.
+
+```toml
+[project]
+version = "0.1.1"   # was 0.1.0
+```
+
+13. **Build and publish.**
+
+```bash
+uv build
+uv publish --publish-url https://test.pypi.org/legacy/
+```
+
+`uv` will prompt for credentials. Use `__token__` as the username and paste the token as the password. Or set the token via environment variable.
+
+```bash
+export UV_PUBLISH_TOKEN=pypi-AgEI...
+uv publish --publish-url https://test.pypi.org/legacy/
+```
+
+14. **Verify the install in a clean environment.** Do not skip this step. It catches missing files and broken metadata that pass locally.
+
+```bash
+uv venv /tmp/test-install
+source /tmp/test-install/bin/activate
+
+uv pip install \
+    --index-url https://test.pypi.org/simple/ \
+    --extra-index-url https://pypi.org/simple/ \
+    your-package-name
+
+python -c "from your_package_name import function_one; print(function_one(...))"
+
+deactivate
+```
+
+The `--extra-index-url` is needed because some dependencies (like `pandas` and `geopandas`) only live on real PyPI, not TestPyPI.
+
+15. Take a screenshot of the successful install and a working call. You will use it on the poster.
+
+## Part 4. Poster outline (20 minutes)
+
+The poster showcase is on **Tuesday 25 May (B301-G10)**. Today you sketch the layout. The aim is to have something on paper, not a polished file.
+
+16. Take an A4 sheet and divide it into seven boxes (a poster has roughly this many regions).
+
+17. Label each box and write one or two lines of content for each.
+
+   1. **Title and authors.** The package name and both your names.
+   2. **The problem.** Two sentences, no jargon. Why does this package exist?
+   3. **The solution.** One sentence stating what the package does.
+   4. **Code example.** A six-line snippet showing the simplest use of one function.
+   5. **A figure.** A draft of the map, chart, or table from your demo notebook.
+   6. **Design choices.** Three bullets explaining one CRS choice, one data choice, and one scope decision.
+   7. **Links.** TestPyPI URL, GitHub URL, contact email. (Replace with PyPI URLs after Week 12.)
+
+18. Show your sketch to the demonstrator before leaving.
+
+::: {.callout-tip}
+A1 posters are read from two metres away. Aim for titles at 72 pt or larger, body text at 24 pt or larger, and a single dominant figure. White space matters. Most weak posters have too much text.
+:::
+
+## Part 5. Fit interview rehearsal (10 minutes)
+
+The Week 12 lab includes a short individual fit interview (5 to 10 minutes per person). Today is the rehearsal.
+
+19. Pair up with **another pair** (so four people in a group). One person from your pair sits while the other observes.
+
+20. The interviewer (a member of the other pair) asks three questions in sequence.
+
+   * "Pick one function in your package and walk us through it line by line."
+   * "Why did you choose this CRS / this default / this optional dependency?"
+   * "What would happen if I passed an empty GeoDataFrame to this function?"
+
+21. The observer notes one thing the answer did well and one thing that was unclear.
+
+22. Swap roles so all four people get a turn.
+
+::: {.callout-note}
+## What we are looking for in the real interview
+Not memorisation. We want to see that you understand the code your name is on. Hesitating, looking at your screen, or saying "let me check the docstring" are all fine. Saying "my partner wrote that bit" is not.
+:::
+
+## Part 6. Wrap up (5 minutes)
+
+Before leaving, confirm the following with your partner.
+
+* Tests pass and have been pushed to GitHub.
+* The TestPyPI page exists and the package installs in a clean environment.
+* The poster outline is on paper and the demonstrator has seen it.
+* Both partners have done one round of the fit interview rehearsal.
+
+## Reflection (after the lab)
+
+Each partner writes a short reflection (150 to 200 words).
+
+* Which test did you find hardest to write, and why?
+* Which TestPyPI error message taught you the most?
+* What is the single weakest part of your package right now, and what will you do about it next week?
+
+Bring the reflection to the Week 11 poster session.
+
+## Further reading
+
+* Chapter 4.2, Testing and code quality
+* Chapter 4.3, A real geospatial package: `akl-ped-counts`
+* `akl-ped-counts` `CONTRIBUTING.md` for the build and publish steps, https://github.com/dataandcrowd/akl-ped-counts/blob/main/CONTRIBUTING.md
+* `uv publish` guide, https://docs.astral.sh/uv/guides/publish/
+* TestPyPI, https://test.pypi.org/

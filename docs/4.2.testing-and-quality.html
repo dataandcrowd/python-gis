@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Hyesop Shin">
-<meta name="dcterms.date" content="2026-04-21">
 
-<title>Python GIS at UoA</title>
+<title>4.2 Testing and code quality – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./syllabus.html" rel="next">
+<link href="./4.3.geospatial-package-example.html" rel="next">
+<link href="./4.1.package-fundamentals.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -83,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">GISCI 343 at UoA</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li><li class="breadcrumb-item"><a href="./4.2.testing-and-quality.html">4.2 Testing and code quality</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GISCI 343 at UoA</span></a>
   </div>
 </li>
@@ -276,7 +310,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.2.testing-and-quality.html" class="sidebar-item-text sidebar-link">
+  <a href="./4.2.testing-and-quality.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">4.2 Testing and code quality</span></a>
   </div>
 </li>
@@ -376,50 +410,41 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#gisci-343-at-uoa" id="toc-gisci-343-at-uoa" class="nav-link active" data-scroll-target="#gisci-343-at-uoa">GISCI 343 at UoA</a>
+  <li><a href="#what-this-chapter-is-for" id="toc-what-this-chapter-is-for" class="nav-link active" data-scroll-target="#what-this-chapter-is-for">What this chapter is for</a></li>
+  <li><a href="#what-is-pytest" id="toc-what-is-pytest" class="nav-link" data-scroll-target="#what-is-pytest">What is pytest?</a></li>
+  <li><a href="#try-it-now-a-three-line-test" id="toc-try-it-now-a-three-line-test" class="nav-link" data-scroll-target="#try-it-now-a-three-line-test">Try it now: a three-line test</a>
   <ul class="collapse">
-  <li><a href="#who-is-this-for" id="toc-who-is-this-for" class="nav-link" data-scroll-target="#who-is-this-for">Who is this for?</a></li>
-  <li><a href="#why-this-approach" id="toc-why-this-approach" class="nav-link" data-scroll-target="#why-this-approach">Why this approach?</a>
-  <ul class="collapse">
-  <li><a href="#why-do-we-use-git-and-how-does-it-support-reproducible-research" id="toc-why-do-we-use-git-and-how-does-it-support-reproducible-research" class="nav-link" data-scroll-target="#why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</a></li>
-  <li><a href="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" id="toc-why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="nav-link" data-scroll-target="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</a></li>
-  <li><a href="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" id="toc-why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="nav-link" data-scroll-target="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</a></li>
+  <li><a href="#step-1.-install-pytest" id="toc-step-1.-install-pytest" class="nav-link" data-scroll-target="#step-1.-install-pytest">Step 1. Install pytest</a></li>
+  <li><a href="#step-2.-write-one-test" id="toc-step-2.-write-one-test" class="nav-link" data-scroll-target="#step-2.-write-one-test">Step 2. Write one test</a></li>
+  <li><a href="#step-3.-run-it" id="toc-step-3.-run-it" class="nav-link" data-scroll-target="#step-3.-run-it">Step 3. Run it</a></li>
   </ul></li>
-  <li><a href="#running-the-code-yourself" id="toc-running-the-code-yourself" class="nav-link" data-scroll-target="#running-the-code-yourself">Running the code yourself</a>
-  <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  </ul></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  </ul></li>
+  <li><a href="#two-more-tests-slightly-more-interesting" id="toc-two-more-tests-slightly-more-interesting" class="nav-link" data-scroll-target="#two-more-tests-slightly-more-interesting">Two more tests, slightly more interesting</a></li>
+  <li><a href="#why-this-matters-more-for-geospatial-code" id="toc-why-this-matters-more-for-geospatial-code" class="nav-link" data-scroll-target="#why-this-matters-more-for-geospatial-code">Why this matters more for geospatial code</a></li>
+  <li><a href="#three-small-geospatial-tests-you-might-write" id="toc-three-small-geospatial-tests-you-might-write" class="nav-link" data-scroll-target="#three-small-geospatial-tests-you-might-write">Three small geospatial tests you might write</a></li>
+  <li><a href="#two-pytest-features-you-will-quickly-appreciate" id="toc-two-pytest-features-you-will-quickly-appreciate" class="nav-link" data-scroll-target="#two-pytest-features-you-will-quickly-appreciate">Two pytest features you will quickly appreciate</a></li>
+  <li><a href="#where-the-lab-work-lives" id="toc-where-the-lab-work-lives" class="nav-link" data-scroll-target="#where-the-lab-work-lives">Where the lab work lives</a></li>
+  <li><a href="#real-world-example-how-akl-ped-counts-is-tested" id="toc-real-world-example-how-akl-ped-counts-is-tested" class="nav-link" data-scroll-target="#real-world-example-how-akl-ped-counts-is-tested">Real-world example: how <code>akl-ped-counts</code> is tested</a></li>
+  <li><a href="#documenting-with-docstrings" id="toc-documenting-with-docstrings" class="nav-link" data-scroll-target="#documenting-with-docstrings">Documenting with docstrings</a></li>
+  <li><a href="#a-short-readme" id="toc-a-short-readme" class="nav-link" data-scroll-target="#a-short-readme">A short README</a></li>
+  <li><a href="#common-publication-errors-and-how-to-fix-them" id="toc-common-publication-errors-and-how-to-fix-them" class="nav-link" data-scroll-target="#common-publication-errors-and-how-to-fix-them">Common publication errors and how to fix them</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li><li class="breadcrumb-item"><a href="./4.2.testing-and-quality.html">4.2 Testing and code quality</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Python GIS at UoA</h1>
+<h1 class="title"><span id="sec-testing-quality" class="quarto-section-identifier">4.2 Testing and code quality</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Hyesop Shin </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 21, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -429,128 +454,215 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="gisci-343-at-uoa" class="level1 unnumbered">
-<h1 class="unnumbered">GISCI 343 at UoA</h1>
-<p><strong>Welcome to the course!</strong></p>
-<p>This is an online workbook for the <span style="color:blue;"><strong>GISCI 343</strong></span> course called Geospatial Data Science, launched in 2026.</p>
-<p>This is course designed and delivered by <strong>Dr.&nbsp;Hyesop Shin</strong> from the School of Environment at the University of Auckland, New Zealand.</p>
-<p>Unlike conventional GIS coursework that focuses on tools or isolated techniques, this book goes beyond the standard GIS and Python combination. The emphasis is on building applied, production-oriented skills that reflect how geospatial data science is practised outside the classroom, particularly through dashboards and Python packaging.</p>
-<p>The book is organised into three main parts:</p>
-<p><strong>Part 1.</strong> Doing geospatial analysis using Python (Weeks 1-5)</p>
-<p><strong>Part 2.</strong> Creating geospatial dashboards (Weeks 6-8)</p>
-<p><strong>Part 3.</strong> Publishing Python packages with a geospatial focus (Weeks 9-12)</p>
-<p>Throughout the course, <strong>Positron</strong> is used as the primary development environment.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="positron.png" class="img-fluid figure-img" style="width:60.0%"></p>
-<figcaption>Visit https://positron.posit.co/download.html for download</figcaption>
-</figure>
-</div>
-<section id="who-is-this-for" class="level2">
-<h2 class="anchored" data-anchor-id="who-is-this-for">Who is this for?</h2>
-<p>This book is designed for students and learners who already have foundational GIS knowledge, such as introductory GIS or remote sensing courses, but who have limited exposure to programming.</p>
-<p>If you are familiar with any dataframe-based workflow, most examples should be approachable. Familiarity with Pandas will be particularly helpful, as all Polars examples are accompanied by equivalent Pandas implementations for comparison and learning.</p>
-<p>Reading <em>Modern Pandas</em> is not required, although it is a recommended resource for those who wish to deepen their understanding.</p>
+<section id="what-this-chapter-is-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-chapter-is-for">What this chapter is for</h2>
+<p>In Week 9 you built a small package and ran it once. That is not enough. As soon as you change the code, or someone else uses it, you want a quick way to confirm the package still does what you said it did.</p>
+<p>The simplest way to do that in Python is <strong>pytest</strong>. This chapter walks through the very basics. We do not try to cover every feature, just enough to write your first three tests and run them.</p>
+<p>By the end you will be able to do the following.</p>
+<ol type="1">
+<li>Add <code>pytest</code> to your package.</li>
+<li>Write three small tests.</li>
+<li>Run them with one command.</li>
+<li>Recognise the most common kinds of geospatial test.</li>
+</ol>
+<p>The full step-by-step task list, including publishing to TestPyPI, is in <strong>Lab Week 10</strong>. Refer to that file when you sit down to work through the exercise.</p>
 </section>
-<section id="why-this-approach" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-approach">Why this approach?</h2>
-<p>Although artificial intelligence has transformed how we learn, analyse data, and write code, reproducibility and sound practice in data science remain essential.</p>
-<p>Simply combining GIS and Python is no longer sufficient. This course therefore addresses broader and often overlooked questions:</p>
-<section id="why-do-we-use-git-and-how-does-it-support-reproducible-research" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Git provides a transparent and traceable record of how a project evolves over time. Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.</p>
-<p>Using <strong>Git encourages good research habits</strong>: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.</p>
-</div>
-</div>
+<section id="what-is-pytest" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-pytest">What is pytest?</h2>
+<p><code>pytest</code> is a small library that finds files starting with <code>test_</code>, runs every function inside them whose name starts with <code>test_</code>, and tells you which ones pass or fail. That is the whole idea.</p>
+<p>You write a function. You add an <code>assert</code> line that says what should be true. If the assertion fails, the test fails.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_two_plus_two():</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you save that as <code>tests/test_basics.py</code> and run <code>uv run pytest</code>, you will see one passing test.</p>
 </section>
-<section id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Dashboards transform analytical outputs into interactive and interpretable artefacts. Rather than presenting static maps or tables, dashboards allow users to explore spatial patterns, filter scenarios, and ask their own questions. This is particularly important in applied geospatial work, where stakeholders may not be familiar with code but need to engage with evidence.</p>
-<p>By building dashboards, students learn how to bridge the gap between analysis and communication. Dashboards force careful thinking about what results matter, how uncertainty is presented, and how spatial information can be explored intuitively. These skills are essential when working with planners, policymakers, and industry partners who rely on clear, actionable insights rather than raw analytical outputs.</p>
-</div>
-</div>
+<section id="try-it-now-a-three-line-test" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-now-a-three-line-test">Try it now: a three-line test</h2>
+<p>Let’s add this to your <code>geohello-yourname</code> package from Week 9.</p>
+<section id="step-1.-install-pytest" class="level3">
+<h3 class="anchored" data-anchor-id="step-1.-install-pytest">Step 1. Install pytest</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add <span class="at">--dev</span> pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This adds <code>pytest</code> to your development dependencies in <code>pyproject.toml</code>.</p>
 </section>
-<section id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Developing a Python package shifts the focus from writing one-off scripts to building reusable, maintainable software. Packaging requires students to structure code logically, define clear interfaces, and think about how others will use their work. This naturally introduces object-oriented programming concepts, such as abstraction, encapsulation, and modular design, in a context where they serve a practical purpose.</p>
-<p>In geospatial data science, packaging allows analytical workflows, spatial utilities, or modelling components to be shared, tested, and extended. The final package becomes a tangible output that can be included in a portfolio, reused in future projects, or published openly. This mirrors professional practice and helps students understand how geospatial tools are developed, maintained, and deployed in real-world environments.</p>
-</div>
-</div>
-<p>Each of these components is intentionally included to help students understand professional workflows and to produce outputs that can be shared beyond the university setting.</p>
-<p>The three modules in this book are designed to be complete, reusable, and ready to engage with society, forming a practical portfolio that reflects contemporary geospatial data science practice.</p>
+<section id="step-2.-write-one-test" class="level3">
+<h3 class="anchored" data-anchor-id="step-2.-write-one-test">Step 2. Write one test</h3>
+<p>Create the file <code>tests/test_geohello.py</code> with this content.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Tests for geohello-yourname."""</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geohello_yourname <span class="im">import</span> hello</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_default():</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> hello()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="st">"Auckland"</span> <span class="kw">in</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>from geohello_yourname import hello</code> line imports your function. The <code>assert</code> line checks that the result contains the word “Auckland”. That is the entire test.</p>
+</section>
+<section id="step-3.-run-it" class="level3">
+<h3 class="anchored" data-anchor-id="step-3.-run-it">Step 3. Run it</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should see something like the following.</p>
+<pre><code>============================= test session starts ==============================
+collected 1 item
+
+tests/test_geohello.py .                                                 [100%]
+
+============================== 1 passed in 0.05s ===============================</code></pre>
+<p>A single dot <code>.</code> next to the file name means one passing test. If your test had failed, you would see an <code>F</code> instead, with a clear explanation of what was expected and what was returned.</p>
+<p>That is your first test. Everything else in this chapter is variations on this idea.</p>
 </section>
 </section>
-<section id="running-the-code-yourself" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-code-yourself">Running the code yourself</h2>
-<p>You can install the following package versions and it should work:</p>
-<pre><code>polars
-pyarrow
-pandas
-geopandas
-numpy
-matplotlib
-seaborn
-statsmodels</code></pre>
-<p>Once saved, install the dependencies using one of the following methods.</p>
-<p><strong>Using pip</strong>:</p>
-<pre><code>pip install -r requirements.txt</code></pre>
-<p><strong>Using uv (recommended if you are working inside a uv-managed virtual environment)</strong>:</p>
-<pre><code>uv pip install -r requirements.txt
-"""
-This keeps the environment flexible and avoids version pinning unless it becomes necessary later for reproducibility or debugging.
-"""</code></pre>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
-<p>All the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in <a href="https://github.com/dataandcrowd/python-gis/tree/main/data">here</a> for posterity.</p>
-</section>
-</section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>This course builds upon the excellent work of several open educational resources in geographic and geospatial data science.</p>
-<p>I am particularly grateful to stand on the shoulders of:</p>
+<section id="two-more-tests-slightly-more-interesting" class="level2">
+<h2 class="anchored" data-anchor-id="two-more-tests-slightly-more-interesting">Two more tests, slightly more interesting</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_custom_place():</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> hello(<span class="st">"Tokyo"</span>) <span class="op">==</span> <span class="st">"Hello from Tokyo!"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_returns_string():</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">isinstance</span>(hello(), <span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Add these to the same file and rerun <code>uv run pytest</code>. You should now see three dots and <code>3 passed</code>.</p>
+<p>Some informal guidance.</p>
 <ul>
-<li>The Geographic Data Science course developed by the Geographic Data Science Lab at the University of Liverpool https://gdsl-ul.github.io/gds/</li>
-<li>The Geospatial Data Science course from the Master of Urban Spatial Analytics (MUSA) programme at the University of Pennsylvania https://musa-550-fall-2023.github.io/</li>
-<li>The Geo-Python course from the University of Helsinki https://geo-python-site.readthedocs.io/en/latest/</li>
+<li>One assertion per test is a good default. If a test fails, the failure should tell you exactly what is wrong.</li>
+<li>Test names should describe the behaviour, not the function. <code>test_hello_default</code> is better than <code>test_function_1</code>.</li>
+<li>Run the tests often. They are cheap.</li>
 </ul>
-<p>These resources have been instrumental in shaping the structure, content, and pedagogical approach of this material. Their commitment to open education and sharing knowledge has made it possible to develop and deliver quality geographic data science education to students worldwide.</p>
 </section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>This book is free and open source, so please do <a href="https://github.com/dataandcrowd/python-gis/issues/new">open an issue</a> if you notice a problem!</p>
+<section id="why-this-matters-more-for-geospatial-code" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-matters-more-for-geospatial-code">Why this matters more for geospatial code</h2>
+<p>Geospatial functions can fail in quiet, hard-to-spot ways. Three short examples.</p>
+<p><strong>A spatial join silently drops zones.</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> gpd.sjoin(boundaries, census, predicate<span class="op">=</span><span class="st">'intersects'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># len(boundaries) was 100, len(result) is 95.</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># No error is raised. You only notice when the map looks odd.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Distance is computed in the wrong CRS.</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gdf_4326 <span class="op">=</span> boundaries.to_crs(<span class="st">'EPSG:4326'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>distance <span class="op">=</span> gdf_4326.geometry[<span class="dv">0</span>].distance(gdf_4326.geometry[<span class="dv">1</span>])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns 0.05 (degrees), not 5000 (metres).</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>A negative buffer produces an empty geometry.</strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>buffered <span class="op">=</span> point.<span class="bu">buffer</span>(<span class="op">-</span><span class="dv">100</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># buffered is empty. Downstream code computes zeros instead of failing.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Tests that you write once and run forever will catch these.</p>
+</section>
+<section id="three-small-geospatial-tests-you-might-write" class="level2">
+<h2 class="anchored" data-anchor-id="three-small-geospatial-tests-you-might-write">Three small geospatial tests you might write</h2>
+<p>You do not need to memorise these. They are templates you can copy when your package starts doing real spatial work.</p>
+<p><strong>A test that confirms the CRS.</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_load_sa2_has_correct_crs():</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> load_sa2(<span class="st">'tests/fixtures/sample_sa2.gpkg'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> gdf.crs <span class="op">==</span> <span class="st">'EPSG:2193'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>A test that confirms a join did not lose rows.</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_join_keeps_all_zones():</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> validate_join(boundaries, census, key<span class="op">=</span><span class="st">'SA2_code'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(result) <span class="op">==</span> <span class="bu">len</span>(boundaries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>A test that uses <code>pytest.approx</code> for floating-point area.</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_area_in_km2():</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    poly <span class="op">=</span> Polygon([(<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">1000</span>, <span class="dv">0</span>), (<span class="dv">1000</span>, <span class="dv">1000</span>), (<span class="dv">0</span>, <span class="dv">1000</span>)])</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> gpd.GeoDataFrame({<span class="st">'geometry'</span>: [poly]}, crs<span class="op">=</span><span class="st">'EPSG:2193'</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    area_km2 <span class="op">=</span> gdf.geometry.area[<span class="dv">0</span>] <span class="op">/</span> <span class="dv">1_000_000</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> area_km2 <span class="op">==</span> pytest.approx(<span class="fl">1.0</span>, rel<span class="op">=</span><span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Floating-point comparisons need <code>pytest.approx</code> because computers cannot represent decimals exactly.</p>
+</section>
+<section id="two-pytest-features-you-will-quickly-appreciate" class="level2">
+<h2 class="anchored" data-anchor-id="two-pytest-features-you-will-quickly-appreciate">Two pytest features you will quickly appreciate</h2>
+<p>You do not need these for your first test, but they are useful as your package grows.</p>
+<p><strong>Fixtures.</strong> Reusable test data, set up once and shared across tests.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.fixture</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> small_sa2():</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.GeoDataFrame(</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'SA2_code'</span>: [<span class="st">'001'</span>, <span class="st">'002'</span>]},</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        geometry<span class="op">=</span>[Point(<span class="dv">0</span>, <span class="dv">0</span>), Point(<span class="dv">1</span>, <span class="dv">1</span>)],</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        crs<span class="op">=</span><span class="st">'EPSG:2193'</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_count_zones(small_sa2):</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(small_sa2) <span class="op">==</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Parametrize.</strong> Run the same test with several inputs.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(<span class="st">"place,expected"</span>, [</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Auckland"</span>, <span class="st">"Hello from Auckland!"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tokyo"</span>, <span class="st">"Hello from Tokyo!"</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Wellington"</span>, <span class="st">"Hello from Wellington!"</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_for_many_places(place, expected):</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> hello(place) <span class="op">==</span> expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These are optional. Use them when they help, ignore them otherwise.</p>
+</section>
+<section id="where-the-lab-work-lives" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-lab-work-lives">Where the lab work lives</h2>
+<p>The full hands-on exercise for this week, including TestPyPI publication, is in <a href="labs/lab-week10.qmd">Lab Week 10</a>. The lab walks through testing, documentation, and the publish step in order. Bring your <code>geohello-yourname</code> package from Week 9 to the lab.</p>
+</section>
+<section id="real-world-example-how-akl-ped-counts-is-tested" class="level2">
+<h2 class="anchored" data-anchor-id="real-world-example-how-akl-ped-counts-is-tested">Real-world example: how <code>akl-ped-counts</code> is tested</h2>
+<p>The <code>akl-ped-counts</code> package on GitHub uses pytest in the same way you have just seen. Its tests check things like the following.</p>
+<ul>
+<li>The CSV files load successfully and return the expected number of rows.</li>
+<li><code>list_sensors()</code> returns 21 sensor names.</li>
+<li>Filtering by year returns rows only from that year.</li>
+</ul>
+<p>Open the repo at https://github.com/dataandcrowd/akl-ped-counts and look at the <code>tests/</code> folder. The tests are short, focused, and easy to read. That is what we are aiming for in your package too.</p>
+</section>
+<section id="documenting-with-docstrings" class="level2">
+<h2 class="anchored" data-anchor-id="documenting-with-docstrings">Documenting with docstrings</h2>
+<p>Tests confirm that code works. Docstrings explain what it does. NumPy style is the most common in scientific Python.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_density(gdf, pop_column<span class="op">=</span><span class="st">'population'</span>):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate population density per square kilometre.</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">    gdf : GeoDataFrame</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">        Must contain geometry in a projected CRS and a population column.</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">    pop_column : str, default 'population'</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">        Name of the column with population counts.</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">    GeoDataFrame</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">        The input with a new 'density' column (people per km²).</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Three short sections, parameters, returns, and a one-line summary. You can add <code>Examples</code>, <code>Raises</code>, and <code>Notes</code> later if useful.</p>
+</section>
+<section id="a-short-readme" class="level2">
+<h2 class="anchored" data-anchor-id="a-short-readme">A short README</h2>
+<p>Your package needs a short README that someone arriving from PyPI can read in 30 seconds. The minimum is the install command, a quick start, and one short paragraph describing the package. Look at <code>akl-ped-counts</code> for a longer example you can model yours on.</p>
+</section>
+<section id="common-publication-errors-and-how-to-fix-them" class="level2">
+<h2 class="anchored" data-anchor-id="common-publication-errors-and-how-to-fix-them">Common publication errors and how to fix them</h2>
+<p>You will hit these in the lab. They are listed here so the chapter is a useful reference.</p>
+<ul>
+<li><strong>The name is already taken.</strong> Choose a unique name (add your initials to the <code>name</code> field in <code>pyproject.toml</code>).</li>
+<li><strong>File already exists.</strong> Increment <code>version</code> in <code>pyproject.toml</code>.</li>
+<li><strong>Invalid or expired token.</strong> Generate a new TestPyPI token and try again.</li>
+<li><strong>Could not find a version that satisfies the requirement.</strong> Some dependencies live only on real PyPI, not TestPyPI. Use <code>--extra-index-url https://pypi.org/simple/</code> when installing.</li>
+</ul>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>You have learnt how to do the following.</p>
+<ol type="1">
+<li>Install pytest with <code>uv add --dev pytest</code>.</li>
+<li>Write a test by creating a function whose name starts with <code>test_</code> and adding an <code>assert</code>.</li>
+<li>Run all tests with <code>uv run pytest</code>.</li>
+<li>Recognise common geospatial test patterns (CRS checks, join validation, area approximations).</li>
+<li>Document functions with NumPy-style docstrings.</li>
+</ol>
+<p>The full hands-on workflow, including TestPyPI publication, is in <a href="labs/lab-week10.qmd">Lab Week 10</a>.</p>
+<p><strong>Next.</strong> In the next chapter on the Geospatial Package Example, we walk through <code>akl-ped-counts</code> as a complete real-world package.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li>pytest documentation, https://docs.pytest.org/</li>
+<li>pytest-cov, https://pytest-cov.readthedocs.io/</li>
+<li>NumPy docstring guide, https://numpydoc.readthedocs.io/</li>
+<li><code>akl-ped-counts</code> source, https://github.com/dataandcrowd/akl-ped-counts</li>
+<li><code>uv publish</code> guide, https://docs.astral.sh/uv/guides/publish/</li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -955,10 +1067,13 @@ This keeps the environment flexible and avoids version pinning unless it becomes
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./4.1.package-fundamentals.html" class="pagination-link" aria-label="4.1 Package fundamentals: structure, configuration, and building">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">4.1 Package fundamentals: structure, configuration, and building</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./syllabus.html" class="pagination-link" aria-label="Syllabus (Semester 1, 2026)">
-        <span class="nav-page-text">Syllabus (Semester 1, 2026)</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./4.3.geospatial-package-example.html" class="pagination-link" aria-label="4.3 A real geospatial package: `akl-ped-counts`">
+        <span class="nav-page-text">4.3 A real geospatial package: <code>akl-ped-counts</code></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

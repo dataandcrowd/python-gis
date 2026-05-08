@@ -1,906 +1,271 @@
-# 4.2 Testing and Code Quality {.unnumbered #sec-testing-quality}
+# 4.2 Testing and code quality {.unnumbered #sec-testing-quality}
 
-## Story problem
+## What this chapter is for
 
-**Preventing silent GIS errors**
+In Week 9 you built a small package and ran it once. That is not enough. As soon as you change the code, or someone else uses it, you want a quick way to confirm the package still does what you said it did.
 
-- A join drops 5 zones and nobody notices.
-- A CRS mismatch shifts geometry and distorts distances.
-- Tests catch these before the map reaches the report.
+The simplest way to do that in Python is **pytest**. This chapter walks through the very basics. We do not try to cover every feature, just enough to write your first three tests and run them.
 
-## What you will learn
+By the end you will be able to do the following.
 
-- Test join key validation for Auckland zones.
-- Test CRS conversion behaviour.
-- Test one indicator function end-to-end.
-- Write comprehensive documentation with docstrings.
-- Publish to TestPyPI safely.
-- Troubleshoot common publication issues.
+1. Add `pytest` to your package.
+2. Write three small tests.
+3. Run them with one command.
+4. Recognise the most common kinds of geospatial test.
 
-## Why Testing Matters for Geospatial Code
+The full step-by-step task list, including publishing to TestPyPI, is in **Lab Week 10**. Refer to that file when you sit down to work through the exercise.
 
-### The Silent Failures
+## What is pytest?
 
-Geospatial code fails in insidious ways:
+`pytest` is a small library that finds files starting with `test_`, runs every function inside them whose name starts with `test_`, and tells you which ones pass or fail. That is the whole idea.
 
-**Example 1: The Missing Zones**
+You write a function. You add an `assert` line that says what should be true. If the assertion fails, the test fails.
+
 ```python
-# Spatial join silently drops 5 SA2 zones
-result = gpd.sjoin(boundaries, census, predicate='intersects')
-# len(boundaries) = 100, len(result) = 95
-# No error raised! 🚨
+def test_two_plus_two():
+    assert 2 + 2 == 4
 ```
 
-**Example 2: The CRS Disaster**
-```python
-# Calculate distance in wrong CRS
-gdf_4326 = boundaries.to_crs('EPSG:4326')  # Geographic CRS
-distance = gdf_4326.geometry[0].distance(gdf_4326.geometry[1])
-# Returns 0.05 (degrees), not 5000 (metres)!
-# Map looks right, but all distances are wrong 🚨
-```
+If you save that as `tests/test_basics.py` and run `uv run pytest`, you will see one passing test.
 
-**Example 3: The Geometry Confusion**
-```python
-# Empty geometry after buffer
-point = Point(0, 0)
-buffered = point.buffer(-100)  # Negative buffer!
-# Returns empty geometry, not an error
-# Downstream analysis produces zeros 🚨
-```
+## Try it now: a three-line test
 
-### What Tests Catch
+Let's add this to your `geohello-yourname` package from Week 9.
 
-**Tests save you from:**
-- Silent data loss (dropped rows, missing columns)
-- Wrong coordinate systems
-- Invalid geometries
-- Incorrect calculations
-- Breaking changes when you update code
-
-**Tests give you:**
-- Confidence your code works
-- Documentation of expected behaviour
-- Safety net for refactoring
-- Reproducible analysis
-
-## Introduction to pytest
-
-### Why pytest?
-
-**pytest** is Python's most popular testing framework:
-
-- Simple to write tests
-- Powerful assertion introspection
-- Excellent plugin ecosystem
-- Great for geospatial code
-
-### Installation
+### Step 1. Install pytest
 
 ```bash
-# Add to your package dev dependencies
-uv add --dev pytest pytest-cov
+uv add --dev pytest
 ```
 
-In `pyproject.toml`:
-```toml
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-]
-```
+This adds `pytest` to your development dependencies in `pyproject.toml`.
 
-### Your First Test
+### Step 2. Write one test
 
-Create `tests/test_geohello.py`:
+Create the file `tests/test_geohello.py` with this content.
 
 ```python
-"""Tests for geohello package."""
+"""Tests for geohello-yourname."""
 
-from geohello import hello
+from geohello_yourname import hello
+
 
 def test_hello_default():
-    """Test default greeting returns Auckland."""
     result = hello()
     assert "Auckland" in result
-    assert "Hello from" in result
-
-def test_hello_custom_place():
-    """Test custom place name works."""
-    result = hello("Tokyo")
-    assert "Tokyo" in result
-    assert result == "Hello from Tokyo!"
-
-def test_hello_empty_string():
-    """Test empty string defaults to Auckland."""
-    result = hello("")
-    assert "Auckland" in result
 ```
 
-### Running Tests
+The `from geohello_yourname import hello` line imports your function. The `assert` line checks that the result contains the word "Auckland". That is the entire test.
+
+### Step 3. Run it
 
 ```bash
-# Run all tests
 uv run pytest
-
-# Run with verbose output
-uv run pytest -v
-
-# Run specific test file
-uv run pytest tests/test_geohello.py
-
-# Run specific test function
-uv run pytest tests/test_geohello.py::test_hello_default
-
-# Run with coverage report
-uv run pytest --cov=geohello --cov-report=term-missing
 ```
 
-Output:
+You should see something like the following.
+
 ```
 ============================= test session starts ==============================
-collected 3 items
+collected 1 item
 
-tests/test_geohello.py ...                                               [100%]
+tests/test_geohello.py .                                                 [100%]
 
-============================== 3 passed in 0.12s ===============================
+============================== 1 passed in 0.05s ===============================
 ```
 
-## Testing Geospatial Operations
+A single dot `.` next to the file name means one passing test. If your test had failed, you would see an `F` instead, with a clear explanation of what was expected and what was returned.
 
-### Test Structure
+That is your first test. Everything else in this chapter is variations on this idea.
 
-Organise tests by module:
-
-```
-tests/
-├── __init__.py
-├── test_data.py          # Test data loading
-├── test_metrics.py       # Test calculations
-├── test_viz.py           # Test visualisations
-└── fixtures/             # Test data files
-    ├── sample_sa2.gpkg
-    └── sample_census.csv
-```
-
-### Testing Data Loading
+## Two more tests, slightly more interesting
 
 ```python
-# tests/test_data.py
-import pytest
-import geopandas as gpd
-from pathlib import Path
-from auckland_gis.data import load_sa2, validate_geometry
+def test_hello_custom_place():
+    assert hello("Tokyo") == "Hello from Tokyo!"
 
-def test_load_sa2_returns_geodataframe():
-    """Test load_sa2 returns GeoDataFrame."""
-    gdf = load_sa2('tests/fixtures/sample_sa2.gpkg')
-    assert isinstance(gdf, gpd.GeoDataFrame)
 
+def test_hello_returns_string():
+    assert isinstance(hello(), str)
+```
+
+Add these to the same file and rerun `uv run pytest`. You should now see three dots and `3 passed`.
+
+Some informal guidance.
+
+* One assertion per test is a good default. If a test fails, the failure should tell you exactly what is wrong.
+* Test names should describe the behaviour, not the function. `test_hello_default` is better than `test_function_1`.
+* Run the tests often. They are cheap.
+
+## Why this matters more for geospatial code
+
+Geospatial functions can fail in quiet, hard-to-spot ways. Three short examples.
+
+**A spatial join silently drops zones.**
+
+```python
+result = gpd.sjoin(boundaries, census, predicate='intersects')
+# len(boundaries) was 100, len(result) is 95.
+# No error is raised. You only notice when the map looks odd.
+```
+
+**Distance is computed in the wrong CRS.**
+
+```python
+gdf_4326 = boundaries.to_crs('EPSG:4326')
+distance = gdf_4326.geometry[0].distance(gdf_4326.geometry[1])
+# Returns 0.05 (degrees), not 5000 (metres).
+```
+
+**A negative buffer produces an empty geometry.**
+
+```python
+buffered = point.buffer(-100)
+# buffered is empty. Downstream code computes zeros instead of failing.
+```
+
+Tests that you write once and run forever will catch these.
+
+## Three small geospatial tests you might write
+
+You do not need to memorise these. They are templates you can copy when your package starts doing real spatial work.
+
+**A test that confirms the CRS.**
+
+```python
 def test_load_sa2_has_correct_crs():
-    """Test loaded data has NZTM projection."""
     gdf = load_sa2('tests/fixtures/sample_sa2.gpkg')
     assert gdf.crs == 'EPSG:2193'
-
-def test_load_sa2_has_required_columns():
-    """Test required columns present."""
-    gdf = load_sa2('tests/fixtures/sample_sa2.gpkg')
-    required = ['SA2_code', 'SA2_name', 'geometry']
-    for col in required:
-        assert col in gdf.columns
-
-def test_load_sa2_raises_on_missing_file():
-    """Test appropriate error for missing file."""
-    with pytest.raises(FileNotFoundError):
-        load_sa2('nonexistent.gpkg')
-
-def test_validate_geometry_catches_invalid():
-    """Test geometry validation catches invalid geometries."""
-    # Create invalid geometry
-    from shapely.geometry import Polygon
-    invalid = Polygon([(0, 0), (1, 1), (1, 0), (0, 1), (0, 0)])  # Self-intersecting
-    
-    gdf = gpd.GeoDataFrame({'geometry': [invalid]}, crs='EPSG:2193')
-    
-    is_valid, report = validate_geometry(gdf)
-    assert not is_valid
-    assert report['invalid_count'] == 1
 ```
 
-### Testing CRS Operations
+**A test that confirms a join did not lose rows.**
 
 ```python
-# tests/test_crs.py
-import geopandas as gpd
-from shapely.geometry import Point
-from auckland_gis.data import ensure_nztm, reproject_safe
-
-def test_ensure_nztm_converts_wgs84():
-    """Test conversion from WGS84 to NZTM."""
-    # Auckland Sky Tower in WGS84
-    gdf = gpd.GeoDataFrame(
-        {'name': ['Sky Tower']},
-        geometry=[Point(174.7633, -36.8485)],
-        crs='EPSG:4326'
-    )
-    
-    result = ensure_nztm(gdf)
-    
-    assert result.crs == 'EPSG:2193'
-    # Check coordinates are in expected range (NZTM)
-    x, y = result.geometry[0].x, result.geometry[0].y
-    assert 1_700_000 < x < 1_800_000  # NZTM easting
-    assert 5_900_000 < y < 6_000_000  # NZTM northing
-
-def test_ensure_nztm_preserves_nztm():
-    """Test NZTM data unchanged."""
-    gdf = gpd.GeoDataFrame(
-        {'name': ['Test']},
-        geometry=[Point(1750000, 5920000)],
-        crs='EPSG:2193'
-    )
-    
-    result = ensure_nztm(gdf)
-    
-    assert result.crs == 'EPSG:2193'
-    assert result.geometry[0].x == 1750000
-    assert result.geometry[0].y == 5920000
-
-def test_reproject_safe_raises_on_missing_crs():
-    """Test error when CRS is None."""
-    gdf = gpd.GeoDataFrame(
-        {'name': ['Test']},
-        geometry=[Point(0, 0)],
-        crs=None  # No CRS!
-    )
-    
-    with pytest.raises(ValueError, match="CRS is not defined"):
-        reproject_safe(gdf, 'EPSG:2193')
+def test_join_keeps_all_zones():
+    result = validate_join(boundaries, census, key='SA2_code')
+    assert len(result) == len(boundaries)
 ```
 
-### Testing Spatial Operations
+**A test that uses `pytest.approx` for floating-point area.**
 
 ```python
-# tests/test_spatial.py
-import geopandas as gpd
-from shapely.geometry import Point, Polygon
-from auckland_gis.metrics import calculate_density, points_in_polygon
+import pytest
 
-def test_calculate_density():
-    """Test density calculation."""
-    # Create test polygon (1000m x 1000m = 1 km²)
-    poly = Polygon([
-        (0, 0), (1000, 0), (1000, 1000), (0, 1000), (0, 0)
-    ])
-    
-    gdf = gpd.GeoDataFrame(
-        {'population': [2000]},
-        geometry=[poly],
-        crs='EPSG:2193'  # NZTM (metres)
-    )
-    
-    result = calculate_density(gdf)
-    
-    assert 'density' in result.columns
-    # 2000 people / 1 km² = 2000
-    assert result['density'].iloc[0] == pytest.approx(2000, rel=0.01)
-
-def test_calculate_density_zero_area():
-    """Test handling of zero-area geometries."""
-    # Degenerate polygon (line)
-    line = Polygon([(0, 0), (1000, 0), (1000, 0), (0, 0)])
-    
-    gdf = gpd.GeoDataFrame(
-        {'population': [100]},
-        geometry=[line],
-        crs='EPSG:2193'
-    )
-    
-    result = calculate_density(gdf)
-    
-    # Should handle gracefully (NaN or 0)
-    assert result['density'].iloc[0] in [0, float('nan')]
-
-def test_points_in_polygon():
-    """Test point-in-polygon counting."""
-    polygon = Polygon([(0, 0), (100, 0), (100, 100), (0, 100), (0, 0)])
-    poly_gdf = gpd.GeoDataFrame(
-        {'id': [1]},
-        geometry=[polygon],
-        crs='EPSG:2193'
-    )
-    
-    # 3 points inside, 1 outside
-    points = [
-        Point(50, 50),    # Inside
-        Point(25, 75),    # Inside
-        Point(75, 25),    # Inside
-        Point(200, 200),  # Outside
-    ]
-    points_gdf = gpd.GeoDataFrame(
-        {'id': range(4)},
-        geometry=points,
-        crs='EPSG:2193'
-    )
-    
-    result = points_in_polygon(poly_gdf, points_gdf)
-    
-    assert result['point_count'].iloc[0] == 3
-```
-
-### Testing Spatial Joins
-
-```python
-# tests/test_joins.py
-import geopandas as gpd
-import pandas as pd
-from auckland_gis.data import validate_join
-
-def test_validate_join_all_match():
-    """Test successful join with all records matching."""
-    boundaries = gpd.GeoDataFrame({
-        'SA2_code': ['001', '002', '003'],
-        'SA2_name': ['CBD', 'Newmarket', 'Ponsonby'],
-        'geometry': [Point(0, 0), Point(1, 1), Point(2, 2)]
-    }, crs='EPSG:2193')
-    
-    census = pd.DataFrame({
-        'SA2_code': ['001', '002', '003'],
-        'population': [1000, 2000, 1500]
-    })
-    
-    result, report = validate_join(boundaries, census, key='SA2_code')
-    
-    assert report['all_matched'] == True
-    assert report['unmatched_count'] == 0
-    assert len(result) == 3
-    assert 'population' in result.columns
-
-def test_validate_join_missing_zones():
-    """Test detection of missing SA2 zones."""
-    boundaries = gpd.GeoDataFrame({
-        'SA2_code': ['001', '002', '003'],
-        'SA2_name': ['CBD', 'Newmarket', 'Ponsonby'],
-        'geometry': [Point(0, 0), Point(1, 1), Point(2, 2)]
-    }, crs='EPSG:2193')
-    
-    # Census missing SA2_code 003
-    census = pd.DataFrame({
-        'SA2_code': ['001', '002'],
-        'population': [1000, 2000]
-    })
-    
-    result, report = validate_join(boundaries, census, key='SA2_code')
-    
-    assert report['all_matched'] == False
-    assert report['unmatched_count'] == 1
-    assert '003' in report['unmatched_keys']
-
-def test_validate_join_duplicate_keys():
-    """Test detection of duplicate keys."""
-    boundaries = gpd.GeoDataFrame({
-        'SA2_code': ['001', '002'],
-        'geometry': [Point(0, 0), Point(1, 1)]
-    }, crs='EPSG:2193')
-    
-    # Census has duplicate SA2_code
-    census = pd.DataFrame({
-        'SA2_code': ['001', '001', '002'],  # Duplicate!
-        'population': [1000, 1100, 2000]
-    })
-    
-    with pytest.raises(ValueError, match="Duplicate keys"):
-        validate_join(boundaries, census, key='SA2_code')
-```
-
-### pytest Features for Geospatial Testing
-
-**1. Parametrize: Test Multiple Cases**
-
-```python
-@pytest.mark.parametrize("crs_from,crs_to", [
-    ('EPSG:4326', 'EPSG:2193'),
-    ('EPSG:4326', 'EPSG:3857'),
-    ('EPSG:2193', 'EPSG:4326'),
-])
-def test_reproject_multiple_crs(crs_from, crs_to):
-    """Test reprojection between different CRS pairs."""
-    gdf = gpd.GeoDataFrame(
-        {'id': [1]},
-        geometry=[Point(174.76, -36.85)],
-        crs=crs_from
-    )
-    
-    result = gdf.to_crs(crs_to)
-    assert result.crs == crs_to
-```
-
-**2. Fixtures: Reusable Test Data**
-
-```python
-@pytest.fixture
-def sample_sa2():
-    """Fixture providing sample SA2 data."""
-    return gpd.GeoDataFrame({
-        'SA2_code': ['001', '002', '003'],
-        'SA2_name': ['CBD', 'Newmarket', 'Ponsonby'],
-        'geometry': [
-            Polygon([(0, 0), (10, 0), (10, 10), (0, 10)]),
-            Polygon([(10, 0), (20, 0), (20, 10), (10, 10)]),
-            Polygon([(0, 10), (10, 10), (10, 20), (0, 20)]),
-        ]
-    }, crs='EPSG:2193')
-
-def test_with_fixture(sample_sa2):
-    """Test using fixture data."""
-    assert len(sample_sa2) == 3
-    assert sample_sa2.crs == 'EPSG:2193'
-```
-
-**3. Approx: Floating Point Comparisons**
-
-```python
-def test_area_calculation():
-    """Test area calculation with floating point tolerance."""
-    poly = Polygon([(0, 0), (100, 0), (100, 100), (0, 100)])
+def test_area_in_km2():
+    poly = Polygon([(0, 0), (1000, 0), (1000, 1000), (0, 1000)])
     gdf = gpd.GeoDataFrame({'geometry': [poly]}, crs='EPSG:2193')
-    
     area_km2 = gdf.geometry.area[0] / 1_000_000
-    
-    # Use approx for floating point comparison
-    assert area_km2 == pytest.approx(0.01, rel=0.001)  # 0.01 km² ± 0.1%
+    assert area_km2 == pytest.approx(1.0, rel=1e-3)
 ```
 
-**4. Markers: Skip or Mark Tests**
+Floating-point comparisons need `pytest.approx` because computers cannot represent decimals exactly.
+
+## Two pytest features you will quickly appreciate
+
+You do not need these for your first test, but they are useful as your package grows.
+
+**Fixtures.** Reusable test data, set up once and shared across tests.
 
 ```python
-@pytest.mark.slow
-def test_large_dataset():
-    """Test with large dataset (marked as slow)."""
-    # This test takes minutes
-    pass
+import pytest
 
-# Run: pytest -m "not slow"  # Skip slow tests
 
-@pytest.mark.skipif(not HAS_INTERNET, reason="No internet connection")
-def test_download_boundaries():
-    """Test downloading data (requires internet)."""
-    pass
+@pytest.fixture
+def small_sa2():
+    return gpd.GeoDataFrame(
+        {'SA2_code': ['001', '002']},
+        geometry=[Point(0, 0), Point(1, 1)],
+        crs='EPSG:2193',
+    )
+
+
+def test_count_zones(small_sa2):
+    assert len(small_sa2) == 2
 ```
 
-## Test Coverage
-
-### Measuring Coverage
-
-```bash
-# Run tests with coverage
-uv run pytest --cov=geohello --cov-report=term-missing
-
-# Generate HTML coverage report
-uv run pytest --cov=geohello --cov-report=html
-# Open htmlcov/index.html
-```
-
-Output:
-```
------------ coverage: platform darwin, python 3.12.0 -----------
-Name                        Stmts   Miss  Cover   Missing
----------------------------------------------------------
-src/geohello/__init__.py        5      0   100%
-src/geohello/core.py           23      2    91%   45-46
----------------------------------------------------------
-TOTAL                          28      2    93%
-```
-
-### Target: >80% Coverage
-
-For Week 10 assessment, aim for **>80% test coverage**:
+**Parametrize.** Run the same test with several inputs.
 
 ```python
-# Ensure all main functions tested
-def test_all_public_functions():
-    """Test all functions in public API."""
-    from geohello import __all__
-    
-    # Every function in __all__ should have tests
-    for func_name in __all__:
-        test_name = f"test_{func_name}"
-        assert test_name in dir(pytest)  # Simplified check
+@pytest.mark.parametrize("place,expected", [
+    ("Auckland", "Hello from Auckland!"),
+    ("Tokyo", "Hello from Tokyo!"),
+    ("Wellington", "Hello from Wellington!"),
+])
+def test_hello_for_many_places(place, expected):
+    assert hello(place) == expected
 ```
 
-### What to Test
+These are optional. Use them when they help, ignore them otherwise.
 
-**✅ Do test:**
-- All public functions
-- Edge cases (empty input, None values)
-- Error conditions
-- CRS handling
-- Data validation
-- Spatial operations
+## Where the lab work lives
 
-**❌ Don't test:**
-- Third-party libraries (e.g., geopandas)
-- Simple getters/setters
-- Trivial functions with no logic
+The full hands-on exercise for this week, including TestPyPI publication, is in [Lab Week 10](labs/lab-week10.qmd). The lab walks through testing, documentation, and the publish step in order. Bring your `geohello-yourname` package from Week 9 to the lab.
 
-## Documentation with Docstrings
+## Real-world example: how `akl-ped-counts` is tested
 
-### NumPy Style Docstrings
+The `akl-ped-counts` package on GitHub uses pytest in the same way you have just seen. Its tests check things like the following.
 
-Use NumPy style for consistency with scientific Python:
+* The CSV files load successfully and return the expected number of rows.
+* `list_sensors()` returns 21 sensor names.
+* Filtering by year returns rows only from that year.
+
+Open the repo at https://github.com/dataandcrowd/akl-ped-counts and look at the `tests/` folder. The tests are short, focused, and easy to read. That is what we are aiming for in your package too.
+
+## Documenting with docstrings
+
+Tests confirm that code works. Docstrings explain what it does. NumPy style is the most common in scientific Python.
 
 ```python
-def calculate_accessibility(
-    origins_gdf,
-    destinations_gdf,
-    max_distance_m=800,
-    crs='EPSG:2193'
-):
-    """
-    Calculate accessibility scores based on nearby destinations.
-    
-    Counts the number of destinations within walking distance of each origin.
-    Assumes planar coordinates in metres.
-    
+def calculate_density(gdf, pop_column='population'):
+    """Calculate population density per square kilometre.
+
     Parameters
     ----------
-    origins_gdf : GeoDataFrame
-        Points representing origin locations (e.g., homes)
-    destinations_gdf : GeoDataFrame
-        Points representing destinations (e.g., shops, parks)
-    max_distance_m : float, default 800
-        Maximum walking distance in metres
-    crs : str, default 'EPSG:2193'
-        Coordinate reference system to use for distance calculations.
-        Must be a projected CRS in metres.
-    
+    gdf : GeoDataFrame
+        Must contain geometry in a projected CRS and a population column.
+    pop_column : str, default 'population'
+        Name of the column with population counts.
+
     Returns
     -------
     GeoDataFrame
-        Origins with added 'accessibility_score' column containing
-        count of nearby destinations
-    
-    Raises
-    ------
-    ValueError
-        If CRS is not projected (geographic coordinates not supported)
-    
-    Examples
-    --------
-    >>> homes = gpd.read_file('homes.gpkg')
-    >>> shops = gpd.read_file('shops.gpkg')
-    >>> result = calculate_accessibility(homes, shops, max_distance_m=400)
-    >>> result['accessibility_score'].mean()
-    3.2
-    
-    See Also
-    --------
-    calculate_density : Calculate population density
-    buffer_analysis : General buffer-based analysis
-    
-    Notes
-    -----
-    Uses Euclidean distance. For network-based accessibility, use
-    r5py routing instead.
-    
-    This function assumes both GeoDataFrames are in the same CRS.
-    Reprojection is not performed automatically.
+        The input with a new 'density' column (people per km²).
     """
-    # Implementation here
-    pass
 ```
 
-### README Documentation
+Three short sections, parameters, returns, and a one-line summary. You can add `Examples`, `Raises`, and `Notes` later if useful.
 
-Update `README.md`:
+## A short README
 
-```markdown
-# geohello
+Your package needs a short README that someone arriving from PyPI can read in 30 seconds. The minimum is the install command, a quick start, and one short paragraph describing the package. Look at `akl-ped-counts` for a longer example you can model yours on.
 
-A simple geospatial greeting package for learning Python packaging.
+## Common publication errors and how to fix them
 
-## Installation
+You will hit these in the lab. They are listed here so the chapter is a useful reference.
 
-```bash
-pip install geohello-yourname
-```
-
-## Quick Start
-
-```python
-from geohello import hello
-
-# Default greeting
-print(hello())
-# Output: Hello from Auckland!
-
-# Custom location
-print(hello("Tokyo"))
-# Output: Hello from Tokyo!
-```
-
-## Features
-
-- Simple greeting function
-- Customizable location
-- Well-tested and documented
-
-## Development
-
-```bash
-# Clone repository
-git clone https://github.com/yourusername/geohello.git
-cd geohello
-
-# Install with dev dependencies
-uv pip install -e ".[dev]"
-
-# Run tests
-uv run pytest
-
-# Run tests with coverage
-uv run pytest --cov=geohello
-```
-
-## Testing
-
-```bash
-pytest                           # Run all tests
-pytest -v                        # Verbose output
-pytest --cov=geohello           # With coverage
-```
-
-## License
-
-MIT License - see LICENSE file
-
-## Author
-
-Your Name (your.email@example.com)
-```
-
-## Publishing to TestPyPI
-
-### Why TestPyPI First?
-
-**TestPyPI** (test.pypi.org) is a separate PyPI instance for testing:
-
-**Benefits:**
-- Practice publication workflow safely
-- Test package installation
-- Find errors before real PyPI
-- Experiment without consequences
-
-**Limitations:**
-- Packages deleted after 6 months
-- Dependencies must be on real PyPI
-- Not for production use
-
-### Step 1: Create TestPyPI Account
-
-1. Visit https://test.pypi.org/account/register/
-2. Verify email
-3. Enable two-factor authentication (recommended)
-4. Generate API token:
-   - Account Settings → API Tokens
-   - Scope: "Entire account" or specific project
-   - Copy token (starts with `pypi-`)
-   - **Save token securely** (can't view again!)
-
-### Step 2: Configure uv for TestPyPI
-
-Add to `pyproject.toml`:
-
-```toml
-[[tool.uv.index]]
-name = "testpypi"
-url = "https://test.pypi.org/simple/"
-```
-
-### Step 3: Build Package
-
-```bash
-# Ensure pyproject.toml is correct
-# Check version number (must be unique)
-uv build
-
-# Verify dist/ contains both files
-ls dist/
-# geohello_yourname-0.1.0-py3-none-any.whl
-# geohello_yourname-0.1.0.tar.gz
-```
-
-### Step 4: Publish
-
-```bash
-uv publish --index testpypi --token pypi-YOUR_TOKEN_HERE
-```
-
-Or use environment variable:
-```bash
-export UV_PUBLISH_TOKEN=pypi-YOUR_TOKEN_HERE
-uv publish --index testpypi
-```
-
-Success output:
-```
-Uploading distributions to https://test.pypi.org/legacy/
-Uploading geohello_yourname-0.1.0-py3-none-any.whl
-Uploading geohello_yourname-0.1.0.tar.gz
-✓ Successfully published
-View at: https://test.pypi.org/project/geohello-yourname/
-```
-
-### Step 5: Verify Installation
-
-```bash
-# Create fresh environment
-uv venv test-install
-source test-install/bin/activate
-
-# Install from TestPyPI
-pip install --index-url https://test.pypi.org/simple/ geohello-yourname
-
-# Test import
-python -c "from geohello import hello; print(hello())"
-
-# Should print: Hello from Auckland!
-```
-
-## Common Publication Errors
-
-### Error 1: Package Name Already Exists
-
-```
-HTTPError: 403 Forbidden
-The name 'geohello' is already taken
-```
-
-**Solution**: Choose unique name
-```toml
-[project]
-name = "geohello-yourname"  # Add your name/initials
-```
-
-### Error 2: Version Already Published
-
-```
-HTTPError: 400 Bad Request
-File already exists
-```
-
-**Solution**: Increment version
-```toml
-[project]
-version = "0.1.1"  # Was 0.1.0
-```
-
-### Error 3: Invalid Token
-
-```
-HTTPError: 403 Forbidden
-Invalid or expired token
-```
-
-**Solution**: Generate new token, check scope
-
-### Error 4: Missing Dependencies
-
-```
-ERROR: Could not find a version that satisfies the requirement geopandas
-```
-
-**Solution**: TestPyPI doesn't have all packages. Your package dependencies must be on real PyPI. For testing, remove heavy dependencies or use `--extra-index-url`:
-
-```bash
-pip install --index-url https://test.pypi.org/simple/ \
-    --extra-index-url https://pypi.org/simple/ \
-    geohello-yourname
-```
-
-## Week 10 Lab: Test, Document, and Publish
-
-### Lab Exercise (110 minutes)
-
-**Part 1: Add Tests (30 mins)**
-
-1. Create `tests/test_geohello.py`
-2. Write 3-5 tests covering main functions
-3. Run tests: `uv run pytest`
-4. Check coverage: `uv run pytest --cov=geohello`
-5. Aim for >80% coverage
-
-**Part 2: Add Documentation (20 mins)**
-
-6. Add NumPy-style docstrings to all functions
-7. Update README with installation and usage examples
-8. Add code examples to docstrings
-
-**Part 3: Publish to TestPyPI (40 mins)**
-
-9. Create TestPyPI account
-10. Generate API token
-11. Build package: `uv build`
-12. Publish: `uv publish --index testpypi --token TOKEN`
-13. Troubleshoot any errors
-
-**Part 4: Verify Installation (20 mins)**
-
-14. Create fresh environment
-15. Install from TestPyPI
-16. Test import and functionality
-17. Screenshot for submission
-
-### Week 10 Deliverable (5% of Grade)
-
-**Due**: Friday 22 May, 5pm
-
-**Submit to Canvas:**
-
-1. **TestPyPI URL**: Link to your package
-   - Example: `https://test.pypi.org/project/geohello-yourname/`
-
-2. **GitHub Repository**: Link with:
-   - Complete package code in `src/` layout
-   - Tests in `tests/` directory (>80% coverage)
-   - Comprehensive README
-   - Clear commit history showing development
-
-3. **Installation Screenshot**: Shows:
-   - Successful install from TestPyPI
-   - Working import
-   - Function execution
-
-4. **Reflection** (150-200 words):
-   - What challenges did you encounter?
-   - How did you resolve them?
-   - What will you apply to Assignment 3?
-
-**Evaluation Criteria:**
-
-- **Published to TestPyPI** (2%): Visible and downloadable
-- **Tests passing** (1%): ≥3 meaningful tests, >80% coverage
-- **Documentation complete** (1%): Docstrings + README
-- **Installation verified** (1%): Works in fresh environment
-
-## Assignment 3 Preview
-
-Week 10's work is practice for Assignment 3:
-
-**Assignment 3 (Week 12, 30% of grade):**
-- Publish to **real PyPI** (not TestPyPI)
-- More comprehensive functionality
-- Higher test coverage
-- Professional documentation
-- Optional: CI/CD pipeline
-
-**Suggested packages:**
-- Urban accessibility toolkit
-- Pedestrian flow analysis
-- Micromobility analytics
-- Street network utilities
-- 15-minute city tools
-
-Start planning now—use Weeks 10-11 to build incrementally!
+* **The name is already taken.** Choose a unique name (add your initials to the `name` field in `pyproject.toml`).
+* **File already exists.** Increment `version` in `pyproject.toml`.
+* **Invalid or expired token.** Generate a new TestPyPI token and try again.
+* **Could not find a version that satisfies the requirement.** Some dependencies live only on real PyPI, not TestPyPI. Use `--extra-index-url https://pypi.org/simple/` when installing.
 
 ## Summary
 
-You've learned:
+You have learnt how to do the following.
 
-- **Why testing matters**: Prevents silent GIS failures
-- **pytest basics**: Writing and running tests
-- **Geospatial testing**: CRS, joins, spatial operations
-- **Documentation**: NumPy docstrings and README
-- **TestPyPI**: Safe practice publication
-- **Troubleshooting**: Common errors and solutions
+1. Install pytest with `uv add --dev pytest`.
+2. Write a test by creating a function whose name starts with `test_` and adding an `assert`.
+3. Run all tests with `uv run pytest`.
+4. Recognise common geospatial test patterns (CRS checks, join validation, area approximations).
+5. Document functions with NumPy-style docstrings.
 
-**Next**: In @sec-geospatial-package-example, see complete real-world package examples including CI/CD.
+The full hands-on workflow, including TestPyPI publication, is in [Lab Week 10](labs/lab-week10.qmd).
 
-## Further Reading
+**Next.** In the next chapter on the Geospatial Package Example, we walk through `akl-ped-counts` as a complete real-world package.
 
-- pytest documentation: https://docs.pytest.org/
-- pytest-cov: https://pytest-cov.readthedocs.io/
-- NumPy docstring guide: https://numpydoc.readthedocs.io/
-- TestPyPI: https://test.pypi.org/
-- uv publish guide: https://docs.astral.sh/uv/guides/publish/
+## Further reading
+
+* pytest documentation, https://docs.pytest.org/
+* pytest-cov, https://pytest-cov.readthedocs.io/
+* NumPy docstring guide, https://numpydoc.readthedocs.io/
+* `akl-ped-counts` source, https://github.com/dataandcrowd/akl-ped-counts
+* `uv publish` guide, https://docs.astral.sh/uv/guides/publish/

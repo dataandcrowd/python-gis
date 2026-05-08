@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Hyesop Shin">
-<meta name="dcterms.date" content="2026-04-21">
 
-<title>Python GIS at UoA</title>
+<title>4.3 A real geospatial package: akl-ped-counts – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./syllabus.html" rel="next">
+<link href="./4.4.publish-pypi.html" rel="next">
+<link href="./4.2.testing-and-quality.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -83,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">GISCI 343 at UoA</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li><li class="breadcrumb-item"><a href="./4.3.geospatial-package-example.html">4.3 A real geospatial package: <code>akl-ped-counts</code></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GISCI 343 at UoA</span></a>
   </div>
 </li>
@@ -282,7 +316,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.3.geospatial-package-example.html" class="sidebar-item-text sidebar-link">
+  <a href="./4.3.geospatial-package-example.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">4.3 A real geospatial package: <code>akl-ped-counts</code></span></a>
   </div>
 </li>
@@ -376,50 +410,34 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#gisci-343-at-uoa" id="toc-gisci-343-at-uoa" class="nav-link active" data-scroll-target="#gisci-343-at-uoa">GISCI 343 at UoA</a>
-  <ul class="collapse">
-  <li><a href="#who-is-this-for" id="toc-who-is-this-for" class="nav-link" data-scroll-target="#who-is-this-for">Who is this for?</a></li>
-  <li><a href="#why-this-approach" id="toc-why-this-approach" class="nav-link" data-scroll-target="#why-this-approach">Why this approach?</a>
-  <ul class="collapse">
-  <li><a href="#why-do-we-use-git-and-how-does-it-support-reproducible-research" id="toc-why-do-we-use-git-and-how-does-it-support-reproducible-research" class="nav-link" data-scroll-target="#why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</a></li>
-  <li><a href="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" id="toc-why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="nav-link" data-scroll-target="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</a></li>
-  <li><a href="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" id="toc-why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="nav-link" data-scroll-target="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</a></li>
-  </ul></li>
-  <li><a href="#running-the-code-yourself" id="toc-running-the-code-yourself" class="nav-link" data-scroll-target="#running-the-code-yourself">Running the code yourself</a>
-  <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  </ul></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  </ul></li>
+  <li><a href="#what-this-chapter-is-for" id="toc-what-this-chapter-is-for" class="nav-link active" data-scroll-target="#what-this-chapter-is-for">What this chapter is for</a></li>
+  <li><a href="#how-to-read-along" id="toc-how-to-read-along" class="nav-link" data-scroll-target="#how-to-read-along">How to read along</a></li>
+  <li><a href="#a-tour-of-the-repository" id="toc-a-tour-of-the-repository" class="nav-link" data-scroll-target="#a-tour-of-the-repository">A tour of the repository</a></li>
+  <li><a href="#a-look-at-pyproject.toml" id="toc-a-look-at-pyproject.toml" class="nav-link" data-scroll-target="#a-look-at-pyproject.toml">A look at <code>pyproject.toml</code></a></li>
+  <li><a href="#a-look-at-the-public-api-in-__init__.py" id="toc-a-look-at-the-public-api-in-__init__.py" class="nav-link" data-scroll-target="#a-look-at-the-public-api-in-__init__.py">A look at the public API in <code>__init__.py</code></a></li>
+  <li><a href="#a-look-at-one-function-in-loader.py" id="toc-a-look-at-one-function-in-loader.py" class="nav-link" data-scroll-target="#a-look-at-one-function-in-loader.py">A look at one function in <code>loader.py</code></a></li>
+  <li><a href="#a-look-at-the-data-loading-function" id="toc-a-look-at-the-data-loading-function" class="nav-link" data-scroll-target="#a-look-at-the-data-loading-function">A look at the data loading function</a></li>
+  <li><a href="#how-the-package-is-built-and-published" id="toc-how-the-package-is-built-and-published" class="nav-link" data-scroll-target="#how-the-package-is-built-and-published">How the package is built and published</a></li>
+  <li><a href="#what-to-copy-and-what-to-adapt" id="toc-what-to-copy-and-what-to-adapt" class="nav-link" data-scroll-target="#what-to-copy-and-what-to-adapt">What to copy and what to adapt</a></li>
+  <li><a href="#a-reading-exercise" id="toc-a-reading-exercise" class="nav-link" data-scroll-target="#a-reading-exercise">A reading exercise</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li><li class="breadcrumb-item"><a href="./4.3.geospatial-package-example.html">4.3 A real geospatial package: <code>akl-ped-counts</code></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Python GIS at UoA</h1>
+<h1 class="title"><span id="sec-geospatial-package-example" class="quarto-section-identifier">4.3 A real geospatial package: <code>akl-ped-counts</code></span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Hyesop Shin </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 21, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -429,128 +447,227 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="gisci-343-at-uoa" class="level1 unnumbered">
-<h1 class="unnumbered">GISCI 343 at UoA</h1>
-<p><strong>Welcome to the course!</strong></p>
-<p>This is an online workbook for the <span style="color:blue;"><strong>GISCI 343</strong></span> course called Geospatial Data Science, launched in 2026.</p>
-<p>This is course designed and delivered by <strong>Dr.&nbsp;Hyesop Shin</strong> from the School of Environment at the University of Auckland, New Zealand.</p>
-<p>Unlike conventional GIS coursework that focuses on tools or isolated techniques, this book goes beyond the standard GIS and Python combination. The emphasis is on building applied, production-oriented skills that reflect how geospatial data science is practised outside the classroom, particularly through dashboards and Python packaging.</p>
-<p>The book is organised into three main parts:</p>
-<p><strong>Part 1.</strong> Doing geospatial analysis using Python (Weeks 1-5)</p>
-<p><strong>Part 2.</strong> Creating geospatial dashboards (Weeks 6-8)</p>
-<p><strong>Part 3.</strong> Publishing Python packages with a geospatial focus (Weeks 9-12)</p>
-<p>Throughout the course, <strong>Positron</strong> is used as the primary development environment.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="positron.png" class="img-fluid figure-img" style="width:60.0%"></p>
-<figcaption>Visit https://positron.posit.co/download.html for download</figcaption>
-</figure>
-</div>
-<section id="who-is-this-for" class="level2">
-<h2 class="anchored" data-anchor-id="who-is-this-for">Who is this for?</h2>
-<p>This book is designed for students and learners who already have foundational GIS knowledge, such as introductory GIS or remote sensing courses, but who have limited exposure to programming.</p>
-<p>If you are familiar with any dataframe-based workflow, most examples should be approachable. Familiarity with Pandas will be particularly helpful, as all Polars examples are accompanied by equivalent Pandas implementations for comparison and learning.</p>
-<p>Reading <em>Modern Pandas</em> is not required, although it is a recommended resource for those who wish to deepen their understanding.</p>
+<section id="what-this-chapter-is-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-chapter-is-for">What this chapter is for</h2>
+<p>So far we have built a tiny package (<code>geohello-yourname</code>) and added a handful of pytest tests. This chapter takes you through a real, working package so you can see what a finished one looks like before you start your own.</p>
+<p>The package is <strong><code>akl-ped-counts</code></strong>, which ships hourly Heart of the City pedestrian counts for 21 Auckland CBD sensors from 2019 to 2025. It is published on PyPI and lives at https://github.com/dataandcrowd/akl-ped-counts.</p>
+<p>Rather than reinvent it here, we will read the repository together. By the end of this chapter you should be able to do the following.</p>
+<ol type="1">
+<li>Open the repo and find your way around.</li>
+<li>Recognise the same parts you met in Chapter 4.1 (the <code>src/</code> layout, <code>pyproject.toml</code>, the public API in <code>__init__.py</code>).</li>
+<li>Use the package in a notebook to load real Auckland footfall data.</li>
+<li>Use it as a model for your own Assignment 3 package.</li>
+</ol>
 </section>
-<section id="why-this-approach" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-approach">Why this approach?</h2>
-<p>Although artificial intelligence has transformed how we learn, analyse data, and write code, reproducibility and sound practice in data science remain essential.</p>
-<p>Simply combining GIS and Python is no longer sufficient. This course therefore addresses broader and often overlooked questions:</p>
-<section id="why-do-we-use-git-and-how-does-it-support-reproducible-research" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Git provides a transparent and traceable record of how a project evolves over time. Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.</p>
-<p>Using <strong>Git encourages good research habits</strong>: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.</p>
-</div>
-</div>
+<section id="how-to-read-along" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-read-along">How to read along</h2>
+<p>Open the repo in your browser at https://github.com/dataandcrowd/akl-ped-counts and keep it visible while you read this chapter. The discussion below points at specific files. The aim is to demystify a real package, not to memorise it.</p>
+<p>You can also install it now and try it.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install akl-ped-counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> akl_ped_counts <span class="im">import</span> load_hourly, load_locations, list_sensors</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(list_sensors()))      <span class="co"># 21</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>counts <span class="op">=</span> load_hourly()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(counts.shape)              <span class="co"># (61367, 24)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>locations <span class="op">=</span> load_locations()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(locations.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That is the whole user-facing API. Three functions, one short line each.</p>
 </section>
-<section id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Dashboards transform analytical outputs into interactive and interpretable artefacts. Rather than presenting static maps or tables, dashboards allow users to explore spatial patterns, filter scenarios, and ask their own questions. This is particularly important in applied geospatial work, where stakeholders may not be familiar with code but need to engage with evidence.</p>
-<p>By building dashboards, students learn how to bridge the gap between analysis and communication. Dashboards force careful thinking about what results matter, how uncertainty is presented, and how spatial information can be explored intuitively. These skills are essential when working with planners, policymakers, and industry partners who rely on clear, actionable insights rather than raw analytical outputs.</p>
-</div>
-</div>
-</section>
-<section id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Developing a Python package shifts the focus from writing one-off scripts to building reusable, maintainable software. Packaging requires students to structure code logically, define clear interfaces, and think about how others will use their work. This naturally introduces object-oriented programming concepts, such as abstraction, encapsulation, and modular design, in a context where they serve a practical purpose.</p>
-<p>In geospatial data science, packaging allows analytical workflows, spatial utilities, or modelling components to be shared, tested, and extended. The final package becomes a tangible output that can be included in a portfolio, reused in future projects, or published openly. This mirrors professional practice and helps students understand how geospatial tools are developed, maintained, and deployed in real-world environments.</p>
-</div>
-</div>
-<p>Each of these components is intentionally included to help students understand professional workflows and to produce outputs that can be shared beyond the university setting.</p>
-<p>The three modules in this book are designed to be complete, reusable, and ready to engage with society, forming a practical portfolio that reflects contemporary geospatial data science practice.</p>
-</section>
-</section>
-<section id="running-the-code-yourself" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-code-yourself">Running the code yourself</h2>
-<p>You can install the following package versions and it should work:</p>
-<pre><code>polars
-pyarrow
-pandas
-geopandas
-numpy
-matplotlib
-seaborn
-statsmodels</code></pre>
-<p>Once saved, install the dependencies using one of the following methods.</p>
-<p><strong>Using pip</strong>:</p>
-<pre><code>pip install -r requirements.txt</code></pre>
-<p><strong>Using uv (recommended if you are working inside a uv-managed virtual environment)</strong>:</p>
-<pre><code>uv pip install -r requirements.txt
-"""
-This keeps the environment flexible and avoids version pinning unless it becomes necessary later for reproducibility or debugging.
-"""</code></pre>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
-<p>All the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in <a href="https://github.com/dataandcrowd/python-gis/tree/main/data">here</a> for posterity.</p>
-</section>
-</section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>This course builds upon the excellent work of several open educational resources in geographic and geospatial data science.</p>
-<p>I am particularly grateful to stand on the shoulders of:</p>
+<section id="a-tour-of-the-repository" class="level2">
+<h2 class="anchored" data-anchor-id="a-tour-of-the-repository">A tour of the repository</h2>
+<p>The folder layout follows the patterns from Chapter 4.1.</p>
+<pre><code>akl-ped-counts/
+├── pyproject.toml
+├── README.md
+├── LICENSE
+├── CONTRIBUTING.md
+├── examples/
+│   ├── march_trajectories.py
+│   ├── march_trajectories.png
+│   ├── heatmap_hour_dow.png
+│   ├── above_below_average.png
+│   └── sensor_map.html
+└── src/
+    └── akl_ped_counts/
+        ├── __init__.py
+        ├── loader.py
+        ├── polars_loader.py
+        ├── py.typed
+        └── data/
+            ├── hourly_counts.csv
+            ├── locations.csv
+            └── missing_data_report.json</code></pre>
+<p>Three things to notice.</p>
 <ul>
-<li>The Geographic Data Science course developed by the Geographic Data Science Lab at the University of Liverpool https://gdsl-ul.github.io/gds/</li>
-<li>The Geospatial Data Science course from the Master of Urban Spatial Analytics (MUSA) programme at the University of Pennsylvania https://musa-550-fall-2023.github.io/</li>
-<li>The Geo-Python course from the University of Helsinki https://geo-python-site.readthedocs.io/en/latest/</li>
+<li><strong><code>src/akl_ped_counts/</code></strong> is the Python package. The folder name uses underscores (Python identifier), while the package name on PyPI uses a hyphen (<code>akl-ped-counts</code>).</li>
+<li><strong><code>src/akl_ped_counts/data/</code></strong> ships the CSV files inside the package because they are small (around 8 MB). For larger datasets you would download on first use instead.</li>
+<li><strong><code>examples/</code></strong> holds standalone scripts and image outputs that show what the package can do.</li>
 </ul>
-<p>These resources have been instrumental in shaping the structure, content, and pedagogical approach of this material. Their commitment to open education and sharing knowledge has made it possible to develop and deliver quality geographic data science education to students worldwide.</p>
 </section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>This book is free and open source, so please do <a href="https://github.com/dataandcrowd/python-gis/issues/new">open an issue</a> if you notice a problem!</p>
+<section id="a-look-at-pyproject.toml" class="level2">
+<h2 class="anchored" data-anchor-id="a-look-at-pyproject.toml">A look at <code>pyproject.toml</code></h2>
+<p>The configuration file is short. Open it in the repo. The important fields, with light commentary, look like this.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[build-system]</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">"hatchling"</span><span class="op">]</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">build-backend</span> <span class="op">=</span> <span class="st">"hatchling.build"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">"akl-ped-counts"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">"0.1.1"</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">"Hourly pedestrian count data from Heart of the City Auckland..."</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="dt">readme</span> <span class="op">=</span> <span class="st">"README.md"</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="dt">license</span> <span class="op">=</span> <span class="st">"CC-BY-4.0"</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="dt">requires-python</span> <span class="op">=</span> <span class="st">"&gt;=3.9"</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="dt">authors</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">{ </span><span class="dt">name</span><span class="op"> =</span> <span class="st">"Hyesop Shin"</span><span class="op">, </span><span class="dt">email</span><span class="op"> =</span> <span class="st">"shinhyesop@gmail.com"</span><span class="op"> },</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pandas&gt;=1.5.0"</span><span class="op">,</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The runtime requirement is small, only <code>pandas</code>. Everything else is optional.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.optional-dependencies]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">polars</span> <span class="op">=</span> <span class="op">[</span><span class="st">"polars&gt;=0.20.0"</span><span class="op">]</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">plot</span> <span class="op">=</span> <span class="op">[</span><span class="st">"matplotlib&gt;=3.5.0"</span><span class="op">,</span> <span class="st">"seaborn&gt;=0.12.0"</span><span class="op">]</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="dt">geo</span> <span class="op">=</span> <span class="op">[</span><span class="st">"folium&gt;=0.14.0"</span><span class="op">]</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">all</span> <span class="op">=</span> <span class="op">[</span><span class="st">"polars&gt;=0.20.0"</span><span class="op">,</span> <span class="st">"matplotlib&gt;=3.5.0"</span><span class="op">,</span> <span class="st">"seaborn&gt;=0.12.0"</span><span class="op">,</span> <span class="st">"folium&gt;=0.14.0"</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A user who just wants the data installs <code>pip install akl-ped-counts</code>. Someone who also wants the plotting scripts installs <code>pip install "akl-ped-counts[plot]"</code>. Someone who wants everything installs <code>pip install "akl-ped-counts[all]"</code>. This pattern keeps the core install lightweight.</p>
+<p>The hatch build target tells the build tool to bundle the CSV files in <code>data/</code> along with the Python code.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.hatch.build.targets.wheel]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">packages</span> <span class="op">=</span> <span class="op">[</span><span class="st">"src/akl_ped_counts"</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="a-look-at-the-public-api-in-__init__.py" class="level2">
+<h2 class="anchored" data-anchor-id="a-look-at-the-public-api-in-__init__.py">A look at the public API in <code>__init__.py</code></h2>
+<p>The package re-exports its main functions so users can write <code>from akl_ped_counts import load_hourly</code> rather than <code>from akl_ped_counts.loader import load_hourly</code>. This is exactly the pattern shown in Chapter 4.1.</p>
+</section>
+<section id="a-look-at-one-function-in-loader.py" class="level2">
+<h2 class="anchored" data-anchor-id="a-look-at-one-function-in-loader.py">A look at one function in <code>loader.py</code></h2>
+<p>The simplest function is <code>list_sensors</code>. Open <code>src/akl_ped_counts/loader.py</code> in the repo and find it. It is roughly this.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SENSORS: <span class="bu">list</span>[<span class="bu">str</span>] <span class="op">=</span> [</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"107 Quay Street"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"188 Quay Street Lower Albert (EW)"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... 19 more entries ...</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"183 K Road"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> list_sensors() <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">str</span>]:</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return the canonical list of all 21 sensor location names.</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">    list of str</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">        Sensor location names in geographic order (north to south).</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Examples</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">    --------</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">    &gt;&gt;&gt; from akl_ped_counts import list_sensors</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">    &gt;&gt;&gt; sensors = list_sensors()</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">    &gt;&gt;&gt; len(sensors)</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">    21</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> SENSORS.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The function does almost nothing. It returns a copy of a constant list. What makes it a good function to ship is the surrounding work.</p>
+<ul>
+<li>The list itself is curated and corrected (for example, “59 High Stret” was fixed to “59 High Street”).</li>
+<li>The order is meaningful (north to south).</li>
+<li>The docstring tells the user what to expect, including the count.</li>
+<li>The return type is annotated.</li>
+</ul>
+<p>This is the level of polish to aim for in your own package.</p>
+</section>
+<section id="a-look-at-the-data-loading-function" class="level2">
+<h2 class="anchored" data-anchor-id="a-look-at-the-data-loading-function">A look at the data loading function</h2>
+<p><code>load_hourly</code> is the workhorse. It accepts optional filters for years and sensors, returns a clean pandas DataFrame, and uses <code>importlib.resources</code> to find the CSV file inside the installed package.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_hourly(years<span class="op">=</span><span class="va">None</span>, sensors<span class="op">=</span><span class="va">None</span>, dropna<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Load hourly pedestrian counts.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns a DataFrame with columns date, hour, year, plus one</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">    column per sensor location.</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    path <span class="op">=</span> _data_path(<span class="st">"hourly_counts.csv"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(path, parse_dates<span class="op">=</span>[<span class="st">"date"</span>])</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> years <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df[df[<span class="st">"year"</span>].isin(years)]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> sensors <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df[[<span class="st">"date"</span>, <span class="st">"hour"</span>, <span class="st">"year"</span>] <span class="op">+</span> <span class="bu">list</span>(sensors)]</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dropna:</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.dropna()</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>(See the actual code in the repo for the full version with type hints and validation.)</p>
+<p>Two patterns to copy.</p>
+<ul>
+<li><strong>The defaults work without arguments.</strong> A new user can run <code>load_hourly()</code> and get something useful.</li>
+<li><strong>The same function handles common filters.</strong> Years and sensors are common slices, so they live in the function rather than forcing every user to write the same boilerplate.</li>
+</ul>
+</section>
+<section id="how-the-package-is-built-and-published" class="level2">
+<h2 class="anchored" data-anchor-id="how-the-package-is-built-and-published">How the package is built and published</h2>
+<p>The full instructions are in <code>CONTRIBUTING.md</code> in the repo. The short version, which mirrors what you will do in Lab Week 10 and Week 12.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Build</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Produces dist/akl_ped_counts-X.Y.Z-py3-none-any.whl and a .tar.gz</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Publish to TestPyPI first</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish <span class="at">--publish-url</span> https://test.pypi.org/legacy/</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Verify the install in a clean environment</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv /tmp/test-install</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /tmp/test-install/bin/activate</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install <span class="dt">\</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">--index-url</span> https://test.pypi.org/simple/ <span class="dt">\</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--extra-index-url</span> https://pypi.org/simple/ <span class="dt">\</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    akl-ped-counts</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Once that works, publish to real PyPI</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The two-step rehearsal (TestPyPI first, then PyPI) is the same pattern you should follow for Assignment 3.</p>
+</section>
+<section id="what-to-copy-and-what-to-adapt" class="level2">
+<h2 class="anchored" data-anchor-id="what-to-copy-and-what-to-adapt">What to copy and what to adapt</h2>
+<p>When you start your own package, the following parts of <code>akl-ped-counts</code> are worth copying directly.</p>
+<ul>
+<li><strong>The <code>src/</code> layout.</strong> No surprises.</li>
+<li><strong>The thin <code>__init__.py</code></strong> that re-exports the public functions.</li>
+<li><strong>The optional dependencies pattern.</strong> Keep the core install small.</li>
+<li><strong>The README structure.</strong> Install command, quick start, API reference, examples, data sources, and licence.</li>
+</ul>
+<p>Things you will adapt for your own work include the following.</p>
+<ul>
+<li><strong>The function set.</strong> Your package will solve a different problem, so the functions will be different.</li>
+<li><strong>The data.</strong> If your data is large, download it on first use rather than shipping it inside the package.</li>
+<li><strong>The licence.</strong> <code>akl-ped-counts</code> uses CC BY 4.0 because it ships data. A package that ships only code typically uses MIT or BSD-3-Clause.</li>
+</ul>
+</section>
+<section id="a-reading-exercise" class="level2">
+<h2 class="anchored" data-anchor-id="a-reading-exercise">A reading exercise</h2>
+<p>Spend 20 minutes with the repo and answer these questions in your own notes.</p>
+<ol type="1">
+<li>What does the <code>[project.urls]</code> section in <code>pyproject.toml</code> do?</li>
+<li>Why does the data loading function use <code>importlib.resources</code> rather than a hard-coded file path?</li>
+<li>The <code>polars_loader.py</code> mirrors <code>loader.py</code> but returns Polars DataFrames. Why might you ship both?</li>
+<li>The README links a heatmap image (<code>examples/heatmap_hour_dow.png</code>). Where in the repo is the script that produced it, and what would you change to apply the same heatmap to a different sensor?</li>
+</ol>
+<p>These are the same questions you will face when designing your own package. Working through them on a real repo is faster than working through them in the abstract.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>You have walked through a real, published Python package. The patterns from Chapter 4.1 (the <code>src/</code> layout, <code>pyproject.toml</code>, a thin <code>__init__.py</code>) and from Chapter 4.2 (small, focused functions with docstrings) are all there.</p>
+<p>For your own Assignment 3, model your scope and structure on <code>akl-ped-counts</code>. Aim for one clear purpose, a small core, and a short README that someone can read in 30 seconds.</p>
+<p><strong>Next.</strong> In the next chapter on Publishing to PyPI, we walk through the production publication step in more detail.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li><code>akl-ped-counts</code> source, https://github.com/dataandcrowd/akl-ped-counts</li>
+<li><code>akl-ped-counts</code> on PyPI, https://pypi.org/project/akl-ped-counts/</li>
+<li><code>CONTRIBUTING.md</code> (build and publish steps), https://github.com/dataandcrowd/akl-ped-counts/blob/main/CONTRIBUTING.md</li>
+<li>Hatchling build backend, https://hatch.pypa.io/latest/</li>
+<li><code>importlib.resources</code>, https://docs.python.org/3/library/importlib.resources.html</li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -955,10 +1072,13 @@ This keeps the environment flexible and avoids version pinning unless it becomes
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./4.2.testing-and-quality.html" class="pagination-link" aria-label="4.2 Testing and code quality">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">4.2 Testing and code quality</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./syllabus.html" class="pagination-link" aria-label="Syllabus (Semester 1, 2026)">
-        <span class="nav-page-text">Syllabus (Semester 1, 2026)</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./4.4.publish-pypi.html" class="pagination-link" aria-label="4.4 Publishing to PyPI">
+        <span class="nav-page-text">4.4 Publishing to PyPI</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

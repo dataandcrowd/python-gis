@@ -1,0 +1,205 @@
+# Lab Week 09 {.unnumbered}
+
+## Overview
+
+This lab is your first hands-on session for **Assignment 3**. You will be working in **pairs** for the rest of the course. By the end of today you should have the following.
+
+1. A package skeleton on disk and on GitHub.
+2. A `pyproject.toml` that builds without errors.
+3. A first working function with a docstring.
+4. A first test that passes.
+5. A short written design statement (one paragraph) that you and your partner agree on.
+
+**Duration**, approximately 110 minutes.
+
+**What you need.**
+
+* The Assignment 3 brief assigned to your pair (see [4.5 Package project briefs](../4.5.packaging-assignment.qmd)).
+* `uv` installed and working.
+* A shared GitHub repository for your pair (you will create it during the lab).
+
+::: {.callout-note}
+## Pair work, in plain language
+Both partners commit code to the shared repo. Both partners must be able to explain every part of the package by Week 12 (this matters for the fit interview). Split the work, but review each other's commits.
+:::
+
+## Part 1. Read the brief together (10 minutes)
+
+1. Open your assigned brief in [4.5](../4.5.packaging-assignment.qmd).
+2. Underline the three required functions. Write the signatures on a sheet of paper or in a shared document.
+3. Underline the demonstration dataset. Note the source URL.
+4. Identify one part of the brief you are unsure about and ask the demonstrator before moving on.
+
+## Part 2. Create the package skeleton together (15 minutes)
+
+5. One partner creates a new GitHub repository for your pair (private or public, your choice). Add the other partner as a collaborator.
+
+6. Clone it locally and run the following.
+
+```bash
+cd your-package-name
+uv init --lib your-package-name
+```
+
+Replace `your-package-name` with a hyphenated name based on your brief (for example, `pedestrian-exposure-uoa`, `equitransport-akl`, `gtfs-lite-yourinitials`). Names on PyPI must be unique, so add initials or a suffix.
+
+7. Open `pyproject.toml`. Update the `name`, `description`, and `authors` fields. Both partners go in `authors`.
+
+```toml
+[project]
+name = "your-package-name"
+description = "A short description matching your brief."
+authors = [
+    { name = "Partner A", email = "a@example.com" },
+    { name = "Partner B", email = "b@example.com" },
+]
+```
+
+8. Build to confirm everything is wired correctly.
+
+```bash
+uv build
+```
+
+If the build fails, read the first error message carefully and fix it before continuing. Common causes include a missing `[project]` section or a name that does not match the folder under `src/`.
+
+## Part 3. Sketch the public API (15 minutes)
+
+9. Open `src/your_package_name/__init__.py` (folder name uses underscores). Replace the contents with stubs for the three required functions.
+
+```python
+"""Your one-line package description."""
+
+from __future__ import annotations
+
+__version__ = "0.1.0"
+
+
+def function_one(arg1, arg2):
+    """One-line summary."""
+    raise NotImplementedError
+
+
+def function_two(arg1):
+    """One-line summary."""
+    raise NotImplementedError
+
+
+def function_three(arg1, arg2):
+    """One-line summary."""
+    raise NotImplementedError
+```
+
+10. Replace `function_one`, `function_two`, `function_three` with the actual function names from your brief, and use the parameter names from the brief (for example, `load_route(origin, destination, place)` for `pedestrian-exposure`).
+
+11. Commit and push.
+
+```bash
+git add .
+git commit -m "scaffold package and stub public API"
+git push
+```
+
+## Part 4. Implement one function for real (35 minutes)
+
+You now pick **one** of the three functions and make it work end to end. Choose the simplest one in your brief. Examples by brief.
+
+* `pedestrian-exposure`, start with `load_route`. It just calls OSMnx and returns a GeoDataFrame.
+* `equitransport`, start with `load_nzdep`. It joins one CSV.
+* `gtfs-lite`, start with `feed.stops()`. It reads one CSV and constructs Point geometries.
+* `treecrown-nz`, start with `load_canopy`. It calls the LINZ API for a small bbox.
+* `pavescore`, start with `score_image`. Use a single sample image and a placeholder texture-based score.
+
+12. Open the file where the function should live (often `__init__.py` for a small package, or a dedicated module like `loader.py`). Write the function. Add a NumPy-style docstring.
+
+13. Try the function in an interactive session.
+
+```bash
+uv run python
+>>> from your_package_name import function_one
+>>> result = function_one(...)
+>>> result.head()
+```
+
+14. Commit and push as soon as it works.
+
+```bash
+git commit -am "implement function_one with a working example"
+git push
+```
+
+## Part 5. Add the first test (15 minutes)
+
+15. Add `pytest` to your dev dependencies.
+
+```bash
+uv add --dev pytest
+```
+
+16. Create `tests/test_basic.py` and add one test that exercises the function you implemented.
+
+```python
+"""First tests for your-package-name."""
+
+from your_package_name import function_one
+
+
+def test_function_one_returns_expected_shape():
+    result = function_one(...)
+    assert result is not None
+    assert len(result) > 0
+```
+
+17. Run the test.
+
+```bash
+uv run pytest -v
+```
+
+18. If it passes, commit and push. If it fails, fix the function or the test until both partners agree the test is correct, then commit.
+
+## Part 6. Write a one-paragraph design statement (15 minutes)
+
+Before you leave the lab, both partners write **one paragraph together** that answers the following.
+
+1. What problem does the package solve, in one sentence?
+2. What are the three functions and what does each return?
+3. What is one design decision you have already made (for example, which CRS, which file format, which optional dependency)?
+4. What is the next function you will implement?
+
+Save it as `DESIGN.md` in the repo root. Commit and push.
+
+```bash
+git add DESIGN.md
+git commit -m "add initial design statement"
+git push
+```
+
+This file will grow as your package grows, and you will refer back to it during the Week 12 fit interview.
+
+## Part 7. Wrap up (5 minutes)
+
+Before the lab ends, confirm the following with the demonstrator.
+
+* Your repo is on GitHub and both partners have push access.
+* `uv build` runs without errors.
+* `uv run pytest` shows at least one passing test.
+* `DESIGN.md` exists.
+
+Take a screenshot of the passing test for your own records. You will need it in next week's lab.
+
+## Reflection (after the lab)
+
+Each partner writes a short reflection (100 to 150 words).
+
+* What part of the brief is still unclear to you?
+* What did your partner do that you would not have thought of?
+* Which function are you personally going to own (with the other partner doing review)?
+
+Bring the reflection to next week.
+
+## Further reading
+
+* Chapter 4.1, Package fundamentals
+* `akl-ped-counts` source as a worked example, https://github.com/dataandcrowd/akl-ped-counts
+* uv quick start, https://docs.astral.sh/uv/getting-started/

@@ -1087,7 +1087,7 @@ This section has equipped you with the core data visualisation toolkit for Pytho
 
 The practical skills of handling datetime data, creating multi-panel subplot figures, customising colours, legends, and annotations, and saving figures at publication-appropriate resolution complete your visualisation toolkit. The design principles and accessibility guidelines discussed at the end are not afterthoughts but essential professional practices, particularly in academic and policy contexts where your visualisations must be honest, readable, and inclusive.
 
-Six key principles should guide your practice. Always use the object-oriented interface for reproducible, explicit control. Choose plot types based on your data and analytical question, not habit. Label everything clearly, including units. Use colour thoughtfully and accessibly. Test your visualisations with others before finalising. Save figures at the appropriate resolution for their intended use. These skills form the foundation for the geospatial visualisation you will learn in the next section (@sec-geospatial), where maps add a spatial dimension to the analytical graphics covered here.
+Six key principles should guide your practice. Always use the object-oriented interface for reproducible, explicit control. Choose plot types based on your data and analytical question, not habit. Label everything clearly, including units. Use colour thoughtfully and accessibly. Test your visualisations with others before finalising. Save figures at the appropriate resolution for their intended use. These skills form the foundation for the geospatial visualisation you will learn in the next section, where maps add a spatial dimension to the analytical graphics covered here.
 
 ## Practice Exercises
 
@@ -1139,4 +1139,4 @@ Create a comprehensive analysis figure with:
 
 ## Next Steps
 
-Now that you understand general data visualisation in depth, you're ready to tackle geospatial visualisation in @sec-geospatial, where you'll learn to create maps, choropleth plots, and spatial graphics using GeoPandas and other specialised tools.
+Now that you understand general data visualisation in depth, you're ready to tackle geospatial visualisation in the next chapter, where you'll learn to create maps, choropleth plots, and spatial graphics using GeoPandas and other specialised tools.

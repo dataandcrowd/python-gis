@@ -1,939 +1,293 @@
-# 4.1. Package Fundamentals: Structure, Configuration, and Building {.unnumbered #sec-package-fundamentals}
+# 4.1 Package fundamentals: structure, configuration, and building {.unnumbered #sec-package-fundamentals}
 
+## What this chapter is for
 
-## Story Problem: The Auckland Utilities You Keep Rewriting
+A Python package is a folder of code that you (and others) can install with `pip install`. This chapter walks you through the smallest possible example, end to end, in about 30 minutes. Once that works, the rest of the chapter is a short reference you can come back to.
 
-**The Problem: Copy-Paste Hell**
+By the end you will be able to do the following.
 
-You've written code to load Auckland SA2 boundaries three times now:
+1. Create a small package called `geohello-yourname`.
+2. Add one function to it.
+3. Build it on your own machine.
+4. Install it locally and import it from another folder.
 
-```python
-# project1/load_data.py
-def load_sa2():
-    gdf = gpd.read_file('data/auckland_sa2.gpkg')
-    if gdf.crs != 'EPSG:2193':
-        gdf = gdf.to_crs('EPSG:2193')
-    return gdf
+Everything else, optional dependencies, advanced configuration, CI/CD, comes later. Today is about the minimum that works.
 
-# Months later in project2/analysis.py
-# ... copy-pasted the same function ...
-# But wait, you improved the validation in project1!
-# Now you need to update everywhere...
-```
+## Quick start in five steps
 
-**The Solution: One Package, Infinite Projects**
+We will use **uv** for this. If you have already used uv earlier in the course, this should feel familiar.
+
+### Step 1. Initialise
+
+Pick a working folder and run the following.
 
 ```bash
-# Once: Create and publish
-pip install auckland-gis
-
-# Forever: Use everywhere
-from auckland_gis import load_sa2
-sa2 = load_sa2()  # Always validated, always correct
+uv init --lib geohello-yourname
+cd geohello-yourname
 ```
 
-## What You Will Learn
+You will see a folder that looks like this.
 
-This section covers the complete package creation workflow:
+```
+geohello-yourname/
+├── src/
+│   └── geohello_yourname/
+│       ├── __init__.py
+│       └── py.typed
+├── tests/
+├── pyproject.toml
+└── README.md
+```
 
-1. **Why packaging matters** for GIS workflows
-2. **Project structure** that scales
-3. **Configuration with `pyproject.toml`**
-4. **Building distributions** with `uv`
-5. **Local testing** before publication
+### Step 2. Write one function
 
-By the end, you'll build your first package: `geohello-yourname`
+Open `src/geohello_yourname/__init__.py` in your editor and replace it with the following.
 
-## Part 1: Why Packaging Matters for GIScience
-
-### The Research Reality
-
-**Without packages:**
-- 📂 5 projects, 5 copies of the same CRS validation function
-- 🐛 Find a bug? Fix it in 5 places (and remember where they all are)
-- 🤝 Collaborator wants your code? Send a zip file and hope it works
-- 📊 Reproduce analysis? "Which version did I use again?"
-
-**With packages:**
-- ✅ One function, maintained in one place
-- ✅ Fix once, improves everywhere
-- ✅ Share with `pip install your-package`
-- ✅ Pin version: `your-package==1.2.0` ensures reproducibility
-
-### Real-World GIScience Use Cases
-
-**1. Research Lab Toolkit**
-
-Instead of:
 ```python
-# Everyone has their own version
-from utils import calculate_accessibility  # Which utils?
+"""A simple geospatial greeting package."""
+
+__version__ = "0.1.0"
+
+
+def hello(place="Auckland"):
+    """Return a greeting for a place."""
+    return f"Hello from {place}!"
 ```
 
-Use:
-```python
-pip install lab-spatial-toolkit==2.1.0
-from lab_spatial_toolkit import calculate_accessibility
+That is the entire package. One function, one docstring, one version string.
+
+### Step 3. Look at `pyproject.toml`
+
+`uv init --lib` already wrote a working `pyproject.toml` for you. Open it. It looks roughly like this.
+
+```toml
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "geohello-yourname"
+version = "0.1.0"
+description = "A simple geospatial greeting"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
 ```
 
-**2. Course Infrastructure**
+You only need to know two things about this file right now. The `[project]` section describes what your package is. The `[build-system]` section tells uv how to build it. We will revisit the other fields in later chapters.
 
-Instead of:
-```python
-# Students struggle with data loading
-gdf = gpd.read_file('../../data/maybe/here/boundaries.gpkg')
+### Step 4. Build the package
+
+Run this in the project root.
+
+```bash
+uv build
 ```
 
-Use:
-```python
-pip install gisci343-toolkit
-from gisci343_toolkit import load_assignment_data
-pedestrians, boundaries = load_assignment_data(assignment=2)
+You should see two new files inside a `dist/` folder.
+
+```
+dist/
+├── geohello_yourname-0.1.0-py3-none-any.whl
+└── geohello_yourname-0.1.0.tar.gz
 ```
 
-**3. Consulting Deliverable**
+The `.whl` file is the **wheel**, a pre-built file that installs quickly. The `.tar.gz` file is the **source distribution**, which contains the source code as a fallback. For a pure Python package like this, the wheel is what most people will install.
 
-Instead of:
-- Send zip file
-- Hope they have the right Python version
-- Hope they install dependencies correctly
-- Cross fingers
+### Step 5. Try it locally
 
-Use:
-```python
-# In your project report:
-# "To reproduce: pip install auckland-transport-analysis==1.0.0"
+Two quick checks. Both should print `Hello from Auckland!`.
 
-from auckland_transport_analysis import generate_all_figures
-figures = generate_all_figures('client_data/')
+```bash
+# Run the function directly with uv
+uv run python -c "from geohello_yourname import hello; print(hello())"
 ```
 
-### GIS-Specific Benefits
-
-**Standardise CRS Handling**
-```python
-# Every function handles CRS consistently
-from auckland_gis import ensure_nztm
-
-def calculate_area(gdf):
-    gdf = ensure_nztm(gdf)  # Always EPSG:2193
-    return gdf.geometry.area
+```bash
+# Or open an interactive Python session
+uv run python
+>>> from geohello_yourname import hello
+>>> print(hello())
+Hello from Auckland!
+>>> print(hello("Tokyo"))
+Hello from Tokyo!
 ```
 
-**Validate Spatial Joins**
-```python
-from auckland_gis import validate_join
+That is a complete package. You wrote one function, you built it, and you ran it.
 
-# Catches when 5 SA2 zones silently disappear
-result, report = validate_join(boundaries, census, key='SA2_code')
-if not report['all_matched']:
-    print(f"WARNING: {report['unmatched_count']} zones missing!")
-```
+## What just happened
 
-**Reusable Visualisations**
-```python
-from auckland_gis.viz import create_choropleth
+The `uv build` step did three things.
 
-# Same colour scale, same layout, every time
-fig = create_choropleth(gdf, column='density', title='Population Density')
-```
+1. It read `pyproject.toml` and worked out the package name and version.
+2. It bundled the contents of `src/geohello_yourname/` into a wheel file.
+3. It produced a source distribution as a backup.
 
-### Python Package Terminology
+Anyone with the wheel file can now install it with `pip install path/to/geohello_yourname-0.1.0-py3-none-any.whl`. In Week 10 we will upload this to TestPyPI so the install step becomes `pip install geohello-yourname` from anywhere.
 
-Before we build, let's clarify terms:
+## Quick reference: the parts of a package
 
-**Module**: A single Python file
+You do not need to memorise this. Use it later as a checklist.
+
+### Module vs package
+
+A **module** is a single Python file.
+
 ```python
 # metrics.py is a module
 def calculate_density(gdf):
     pass
 ```
 
-**Package**: A directory of modules with `__init__.py`
-```
-auckland_gis/           # This is a package
-├── __init__.py         # Makes it importable
-├── data.py            # Module
-├── metrics.py         # Module
-└── viz.py             # Module
-```
-
-**Distribution**: The bundled, installable version
-```bash
-# These files on PyPI are distributions:
-auckland_gis-1.0.0-py3-none-any.whl  # Wheel (fast install)
-auckland_gis-1.0.0.tar.gz            # Source distribution
-```
-
-**Library vs Application**:
-- **Library**: Imported by other code (`geopandas`, `osmnx`)
-- **Application**: Run directly (`qgis`, `jupyter`)
-
-We're building **libraries** in this course.
-
-## Part 2: Project Structure That Scales
-
-### The `src/` Layout (Best Practice)
-
-Modern Python packaging uses the **`src/` layout**:
+A **package** is a folder of modules with an `__init__.py` file.
 
 ```
-geohello/                      # Project root
-├── src/                       # Source code here
-│   └── geohello/             # Actual package
-│       ├── __init__.py       # Makes it a package
-│       └── core.py           # Your code
-├── tests/                    # Tests separate from source
-│   └── test_core.py
-├── docs/                     # Documentation
-├── pyproject.toml           # Package configuration
-├── README.md                # Project description
-└── LICENSE                  # Open source license
-```
-
-**Why `src/` instead of flat layout?**
-
-❌ **Flat layout** (old way):
-```
-geohello/
-├── geohello/         # Package
-│   ├── __init__.py
-│   └── core.py
-├── tests/
-└── pyproject.toml
-```
-
-Problems:
-- Tests might import from local directory instead of installed package
-- Hard to tell if tests pass because code works or because of accidental local imports
-
-✅ **`src/` layout** (modern way):
-```
-geohello/
-├── src/
-│   └── geohello/     # Package
-├── tests/
-└── pyproject.toml
-```
-
-Benefits:
-- Forces tests to use installed package
-- Catches import errors earlier
-- Clearer separation of concerns
-- Industry standard
-
-### Directory Structure Explained
-
-Let's build a real GIS package structure:
-
-```
-auckland-gis/                       # GitHub repo name (with hyphen)
-├── src/
-│   └── auckland_gis/              # Python package name (with underscore)
-│       ├── __init__.py            # Package initialisation
-│       ├── data.py                # Data loading functions
-│       ├── metrics.py             # Calculation functions
-│       └── viz.py                 # Visualisation functions
-├── tests/
-│   ├── __init__.py
-│   ├── test_data.py              # Test data loading
-│   ├── test_metrics.py           # Test calculations
-│   └── fixtures/                 # Test data files
-│       └── sample_sa2.gpkg
-├── docs/
-│   ├── index.md                  # Documentation homepage
-│   ├── quickstart.md
-│   └── api-reference.md
-├── examples/
-│   └── basic_usage.ipynb         # Example notebook
-├── pyproject.toml                # Package configuration
-├── README.md                     # Project description
-├── LICENSE                       # e.g., MIT License
-└── .gitignore                    # Git ignore file
-```
-
-### What Goes in `__init__.py`?
-
-The `__init__.py` file makes a directory a Python package and controls what's importable:
-
-**Minimal `__init__.py`** (for starters):
-```python
-"""Auckland GIS utilities for urban analytics."""
-
-__version__ = "0.1.0"
-```
-
-**Better `__init__.py`** (export key functions):
-```python
-"""Auckland GIS utilities for urban analytics."""
-
-__version__ = "0.1.0"
-
-from .data import load_sa2, load_pedestrian_counts
-from .metrics import calculate_density, calculate_accessibility
-from .viz import create_choropleth
-
-__all__ = [
-    "load_sa2",
-    "load_pedestrian_counts",
-    "calculate_density",
-    "calculate_accessibility",
-    "create_choropleth",
-]
-```
-
-Now users can:
-```python
-from auckland_gis import load_sa2  # Clean!
-# Instead of:
-from auckland_gis.data import load_sa2  # More verbose
-```
-
-### Module Organisation Principles
-
-**1. Group by functionality, not type**
-
-❌ Don't do this:
-```
-src/auckland_gis/
-├── functions.py       # Too vague!
-├── classes.py         # Too vague!
-└── utilities.py       # Too vague!
-```
-
-✅ Do this:
-```
-src/auckland_gis/
-├── data.py           # Data loading/validation
-├── metrics.py        # Calculations
-├── network.py        # Network analysis
-└── viz.py            # Visualisation
-```
-
-**2. Keep modules focused**
-
-Each module should have one clear purpose:
-
-```python
-# data.py - Data loading and validation
-def load_sa2(path=None): ...
-def load_census(year=2023): ...
-def validate_geometry(gdf): ...
-
-# metrics.py - Calculations only
-def calculate_density(gdf, pop_col='population'): ...
-def calculate_accessibility(gdf, poi_gdf, max_distance_m=800): ...
-
-# viz.py - Visualisation only
-def create_choropleth(gdf, column, cmap='YlOrRd'): ...
-def plot_network(G, node_color='red'): ...
-```
-
-**3. Use subpackages for complex projects**
-
-For larger packages:
-```
-src/auckland_gis/
+geohello_yourname/
 ├── __init__.py
-├── data/
-│   ├── __init__.py
-│   ├── boundaries.py
-│   └── census.py
-├── analysis/
-│   ├── __init__.py
-│   ├── spatial.py
-│   └── temporal.py
-└── viz/
-    ├── __init__.py
-    ├── maps.py
-    └── charts.py
+├── data.py
+└── metrics.py
 ```
 
-### Data in Packages: Best Practices
+### The `src/` layout
 
-**❌ Don't ship large data files**
-
-```
-# Bad: 50MB shapefile in the package
-src/auckland_gis/
-└── data/
-    └── boundaries_large.shp  # Makes pip install slow!
-```
-
-**✅ Do ship small reference data**
+Modern Python packaging puts the package inside an `src/` folder.
 
 ```
-# Good: Small lookup tables, schemas
-src/auckland_gis/
-└── data/
-    └── sa2_schema.json    # 2KB - fine!
-```
-
-**✅ Do provide download functions**
-
-```python
-# auckland_gis/data.py
-def load_sa2(path=None):
-    """
-    Load Auckland SA2 boundaries.
-    
-    Parameters
-    ----------
-    path : str, optional
-        Path to local .gpkg file. If None, downloads from
-        data repository.
-    """
-    if path is None:
-        path = download_boundaries()  # Downloads on first use
-    
-    return gpd.read_file(path)
-```
-
-**✅ Do use data repositories**
-
-- Host large files on Zenodo, Figshare, or GitHub releases
-- Download on first use
-- Cache locally
-
-## Part 3: `pyproject.toml` Configuration
-
-### What is `pyproject.toml`?
-
-The `pyproject.toml` file is your package's **configuration hub** (PEP 621 standard):
-
-- Package metadata (name, version, description)
-- Dependencies
-- Build system
-- Tool configurations (pytest, mypy, etc.)
-
-**One file to rule them all** (replaces old `setup.py`, `requirements.txt`, etc.)
-
-### Minimal `pyproject.toml`
-
-This is what `uv init --lib geohello` creates:
-
-```toml
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[project]
-name = "geohello"
-version = "0.1.0"
-description = "A simple geospatial greeting package"
-readme = "README.md"
-requires-python = ">=3.10"
-dependencies = []
-```
-
-Let's break it down:
-
-**`[build-system]`**: How to build your package
-```toml
-[build-system]
-requires = ["hatchling"]        # Build tool to use
-build-backend = "hatchling.build"  # Backend API
-```
-
-Modern options:
-- `hatchling` (modern, simple) ← Recommended
-- `setuptools` (traditional, complex)
-- `flit` (minimalist)
-- `poetry` (opinionated)
-
-**`[project]`**: Package metadata
-```toml
-[project]
-name = "geohello"                   # PyPI package name (unique!)
-version = "0.1.0"                   # Semantic versioning
-description = "A simple greeting"   # One-line summary
-readme = "README.md"                # Long description from file
-requires-python = ">=3.10"         # Python version requirement
-```
-
-### Complete `pyproject.toml` for GIS Package
-
-Here's a full example for an Auckland GIS package:
-
-```toml
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[project]
-name = "auckland-gis"
-version = "0.2.0"
-description = "Geospatial utilities for Auckland urban analytics"
-readme = "README.md"
-requires-python = ">=3.10"
-license = {text = "MIT"}
-authors = [
-    {name = "Your Name", email = "your.email@auckland.ac.nz"}
-]
-keywords = ["gis", "urban analytics", "auckland", "geospatial"]
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering :: GIS",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-]
-
-# Runtime dependencies
-dependencies = [
-    "geopandas>=0.14.0",
-    "shapely>=2.0.0",
-    "pandas>=2.0.0",
-    "matplotlib>=3.7.0",
-]
-
-# Optional features
-[project.optional-dependencies]
-viz = ["folium>=0.15.0", "plotly>=5.0.0"]
-network = ["osmnx>=1.9.0", "networkx>=3.0"]
-all = ["auckland-gis[viz,network]"]
-
-# Development dependencies
-dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-    "black>=23.0",
-    "ruff>=0.1.0",
-]
-
-[project.urls]
-Homepage = "https://github.com/yourusername/auckland-gis"
-Documentation = "https://auckland-gis.readthedocs.io"
-Repository = "https://github.com/yourusername/auckland-gis"
-Issues = "https://github.com/yourusername/auckland-gis/issues"
-
-# Tool configurations
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_functions = ["test_*"]
-addopts = "--cov=auckland_gis --cov-report=term-missing"
-
-[tool.black]
-line-length = 100
-target-version = ["py310", "py311", "py312"]
-
-[tool.ruff]
-line-length = 100
-select = ["E", "F", "I"]  # Error, Formatting, Import
-```
-
-### Understanding Dependencies
-
-**Runtime dependencies** (required to use your package):
-```toml
-dependencies = [
-    "geopandas>=0.14.0",     # Minimum version
-    "pandas>=2.0.0,<3.0.0",  # Version range
-]
-```
-
-**Optional dependencies** (for extra features):
-```toml
-[project.optional-dependencies]
-viz = ["folium>=0.15.0"]
-
-# Users can install with:
-# pip install auckland-gis[viz]
-```
-
-**Development dependencies** (for package development):
-```toml
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "black>=23.0",
-]
-
-# Install with: uv pip install -e ".[dev]"
-```
-
-### Package Naming Conventions
-
-**PyPI name** (project name in `pyproject.toml`):
-- Use hyphens: `auckland-gis`
-- Must be unique on PyPI
-- Case-insensitive
-- Can include numbers: `r5py`
-
-**Python package name** (directory under `src/`):
-- Use underscores: `auckland_gis`
-- Must be valid Python identifier
-- Lowercase only
-- Matches import: `import auckland_gis`
-
-**Example mapping**:
-```
-PyPI: auckland-gis          → pip install auckland-gis
-Python: auckland_gis        → import auckland_gis
-GitHub: auckland-gis        → github.com/user/auckland-gis
-```
-
-## Part 4: Building with `uv`
-
-### Why `uv`?
-
-**uv** is a modern, fast Python package manager and project manager:
-
-**Traditional workflow**:
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -e .
-pip install pytest
-python -m build
-twine upload dist/*
-```
-
-**With uv**:
-```bash
-uv init --lib mypackage  # Create project
-uv build                 # Build distributions
-uv publish               # Publish to PyPI
-```
-
-**Benefits**:
-- 10-100x faster than pip
-- Unified tool (no need for pip, venv, build, twine separately)
-- Better dependency resolution
-- Built in Rust for speed
-
-### Installing `uv`
-
-```bash
-# macOS/Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Windows
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-# With pip (any platform)
-pip install uv
-
-# Verify installation
-uv --version
-```
-
-### Creating Your First Package
-
-Let's build `geohello`:
-
-**Step 1: Initialize**
-```bash
-uv init --lib geohello
-cd geohello
-```
-
-This creates:
-```
-geohello/
+geohello-yourname/
 ├── src/
-│   └── geohello/
+│   └── geohello_yourname/
 │       ├── __init__.py
-│       └── py.typed
+│       └── core.py
 ├── tests/
 ├── pyproject.toml
-├── README.md
-└── .gitignore
+└── README.md
 ```
 
-**Step 2: Write code**
+Why bother with `src/`? It forces tests to use the installed package rather than accidentally importing from the local folder, which catches bugs earlier. You do not need to remember why right now. Just trust that `uv init --lib` does the right thing.
 
-Edit `src/geohello/__init__.py`:
+### Naming conventions
+
+There are two names to be aware of.
+
+* The **PyPI name** in `pyproject.toml`, written with hyphens (`geohello-yourname`).
+* The **Python package name**, the folder under `src/`, written with underscores (`geohello_yourname`).
+
+```text
+PyPI name      ->  pip install geohello-yourname
+Python name    ->  from geohello_yourname import hello
+```
+
+`uv init --lib geohello-yourname` sets both of these correctly.
+
+### What goes in `__init__.py`
+
+The smallest version is a docstring and a version string.
+
 ```python
 """A simple geospatial greeting package."""
 
 __version__ = "0.1.0"
-
-def hello(place="Auckland"):
-    """
-    Generate a greeting for a place.
-    
-    Parameters
-    ----------
-    place : str, default "Auckland"
-        Place name to greet
-        
-    Returns
-    -------
-    str
-        Greeting message
-        
-    Examples
-    --------
-    >>> hello()
-    'Hello from Auckland!'
-    >>> hello("Tokyo")
-    'Hello from Tokyo!'
-    """
-    return f"Hello from {place}!"
 ```
 
-**Step 3: Update metadata**
+Once your package has multiple modules, you can re-export the most common ones so users do not have to type long imports.
 
-Edit `pyproject.toml`:
-```toml
-[project]
-name = "geohello-yourname"  # Make it unique!
-version = "0.1.0"
-description = "A simple geospatial greeting"
-readme = "README.md"
-requires-python = ">=3.10"
-authors = [
-    {name = "Your Name", email = "you@example.com"}
-]
-dependencies = []  # No dependencies for this simple example
+```python
+"""A small Auckland GIS toolkit."""
+
+__version__ = "0.1.0"
+
+from .data import load_sa2
+from .metrics import calculate_density
+
+__all__ = ["load_sa2", "calculate_density"]
 ```
 
-**Step 4: Test locally**
+Then a user can write `from your_package import load_sa2` rather than `from your_package.data import load_sa2`.
 
-```bash
-# Run your function directly
-uv run python -c "from geohello import hello; print(hello())"
-# Output: Hello from Auckland!
+## Going a little further: organising modules
 
-# Or open interactive Python
-uv run python
->>> from geohello import hello
->>> print(hello("Tokyo"))
-Hello from Tokyo!
-```
+When your package grows beyond one function, split it into modules by purpose.
 
-### Building Distributions
-
-**Build both wheel and source distribution**:
-
-```bash
-uv build
-```
-
-This creates `dist/` with two files:
-```
-dist/
-├── geohello_yourname-0.1.0-py3-none-any.whl    # Wheel (fast install)
-└── geohello_yourname-0.1.0.tar.gz              # Source (backup)
-```
-
-**What's the difference?**
-
-**Wheel (`.whl`)**:
-- Binary distribution
-- Fast to install (pre-built)
-- Platform-specific or universal
-- Example: `package-1.0.0-py3-none-any.whl`
-  - `py3`: Python 3
-  - `none`: No ABI (pure Python)
-  - `any`: Any platform
-
-**Source Distribution (`.tar.gz`)**:
-- Contains source code
-- Built during installation
-- Always works but slower
-- Backup when wheel unavailable
-
-**For pure Python GIS packages**: Use universal wheels (`py3-none-any`)
-
-### Testing the Built Package
-
-**Option 1: Install from wheel**
-```bash
-uv pip install dist/geohello_yourname-0.1.0-py3-none-any.whl
-
-# Test import
-python -c "from geohello import hello; print(hello())"
-```
-
-**Option 2: Install in development mode**
-```bash
-uv pip install -e .
-
-# Changes to source code immediately reflected
-```
-
-**Option 3: Install in fresh environment**
-```bash
-# Create clean test environment
-uv venv test-env
-source test-env/bin/activate  # On Windows: test-env\Scripts\activate
-
-# Install and test
-pip install dist/geohello_yourname-0.1.0-py3-none-any.whl
-python -c "from geohello import hello; print(hello())"
-```
-
-### Common Build Issues
-
-**Issue 1: Module not found**
-```
-ImportError: No module named 'geohello'
-```
-**Solution**: Check `src/` structure is correct:
 ```
 src/
-└── geohello/
-    └── __init__.py  # Must exist!
+└── your_package/
+    ├── __init__.py
+    ├── data.py        # loading and validation
+    ├── metrics.py     # calculations
+    └── viz.py         # plotting
 ```
 
-**Issue 2: Wrong package name**
-```toml
-# pyproject.toml
-name = "geohello"  # PyPI name (with hyphen OK)
+Each file should have one clear purpose. A common mistake is to call modules things like `utilities.py` or `helpers.py`, which tend to attract every leftover function and become impossible to navigate. Prefer names that describe the topic.
 
-# But directory must be:
-src/geohello/  # Must use underscore!
-```
+### Data inside packages
 
-**Issue 3: Missing dependencies**
+A small lookup table or schema (a few kilobytes) can live inside the package. Anything larger should live elsewhere (Zenodo, Figshare, GitHub releases) and be downloaded on first use. The real example we will look at in Week 10, `akl-ped-counts`, ships its CSV files inside the package because they are small and the package is the data product.
+
+## Adding dependencies
+
+If your function uses `geopandas`, you must list it in `pyproject.toml` so that `pip install` brings it in too.
+
 ```toml
 [project]
 dependencies = [
-    "geopandas>=0.14.0",  # Specify all runtime dependencies!
+    "geopandas>=0.14.0",
+    "pandas>=2.0.0",
 ]
 ```
 
-## Week 9 Lab: Build Your First Package
+You can also separate optional dependencies, which users only install if they want a particular feature. The `akl-ped-counts` package does this for plotting and mapping.
 
-### Lab Exercise: `geohello-yourname`
-
-**Goal**: Create, build, and test a simple geospatial package locally
-
-**Time**: 90 minutes
-
-**Steps**:
-
-1. **Initialize** (10 mins)
-   ```bash
-   uv init --lib geohello-yourname
-   cd geohello-yourname
-   ```
-
-2. **Write function** (20 mins)
-   - Implement `hello(place)` function
-   - Add docstring
-   - Test it works
-
-3. **Configure** (15 mins)
-   - Update `pyproject.toml` metadata
-   - Set your name, unique package name
-   - Improve README
-
-4. **Build** (10 mins)
-   ```bash
-   uv build
-   # Check dist/ folder created
-   ls dist/
-   ```
-
-5. **Test locally** (20 mins)
-   ```bash
-   # Test import works
-   uv run python -c "from geohello import hello; print(hello())"
-   
-   # Test with different input
-   uv run python -c "from geohello import hello; print(hello('Paris'))"
-   ```
-
-6. **Submit** (5 mins)
-   - Screenshot of successful build
-   - Screenshot of successful import
-   - Reflection (100-150 words)
-
-### Deliverable (Completion Credit)
-
-**Due**: End of Week 9 lab (or Friday 15 May, 5pm)
-
-**Submit to Canvas**:
-1. Screenshot showing successful `uv build` with both files in `dist/`
-2. Screenshot showing successful import and execution
-3. Brief reflection:
-   - What did you learn about package structure?
-   - What was surprising or challenging?
-   - How might you use this for Assignment 3?
-
-**Grading**: Completion credit (pass/fail, not percentage)
-
-**Purpose**: Ensure everyone can build packages before Week 10
-
-## Assignment 3 Planning
-
-Use remaining lab time (30 mins) to plan your final package:
-
-**Brainstorm**:
-- What reusable functions have you written?
-- What urban analytics topic interests you?
-- Micromobility? Accessibility? Walkability? Air quality?
-
-**Sketch structure**:
-```
-your-package/
-├── src/
-│   └── your_package/
-│       ├── __init__.py
-│       ├── data.py       # What data loading functions?
-│       ├── analysis.py   # What calculations?
-│       └── viz.py        # What visualisations?
+```toml
+[project.optional-dependencies]
+plot = ["matplotlib>=3.7.0", "seaborn>=0.13.0"]
+geo = ["folium>=0.15.0"]
+all = ["akl-ped-counts[plot,geo]"]
 ```
 
-**Consider scope**:
-- What's achievable in 3-4 weeks?
-- What builds on your existing work?
-- What would be useful to others?
+A user can then choose `pip install your-package[plot]` rather than installing every dependency.
+
+You do not need any of this for `geohello-yourname`. We are listing it here so you know it exists when you start your real Assignment 3 package.
+
+## Common build issues and fixes
+
+**ImportError: No module named your_package.** Check that the folder under `src/` exists and contains an `__init__.py`. The folder name must match the import name (with underscores).
+
+**Wrong package name.** The `name` field in `pyproject.toml` uses hyphens. The folder under `src/` uses underscores. They look different on purpose.
+
+**Missing dependencies at install time.** Add the missing package to the `dependencies` list in `pyproject.toml` and rebuild.
+
+If something else goes wrong, run `uv build` again and read the first error message carefully. The most common fix is a small typo in `pyproject.toml`.
+
+## Week 9 lab
+
+The Week 9 lab is essentially what you just did, but with screenshots, time limits, and a short reflection. Bring the `geohello-yourname` folder you created above and we will polish it together.
+
+In Week 10 you will add tests, write a README, and publish to TestPyPI. In Week 11 you will use the poster showcase to explain the design of your real Assignment 3 package. In Week 12 you will publish that real package to PyPI.
 
 ## Summary
 
-You've learned the foundations of Python packaging:
+You have learnt how to do the following.
 
-**Why package?**
-- Reusability across projects
-- Standardisation of workflows
-- Reproducibility of research
-- Sharing with community
+1. Create a small package with `uv init --lib`.
+2. Add one function inside `src/your_package/__init__.py`.
+3. Build it with `uv build`.
+4. Install it locally and use it.
 
-**Project structure:**
-- `src/` layout best practice
-- Clear module organisation
-- Separation of concerns
-- Proper data handling
+You have also met the parts of `pyproject.toml` and the difference between PyPI and Python package names. That is enough to move on.
 
-**Configuration:**
-- `pyproject.toml` metadata
-- Dependency management
-- Tool configurations
-- Package naming
+**Next steps.** In the next chapter on Testing and Code Quality, you will learn to test, document, and publish to TestPyPI.
 
-**Building:**
-- `uv` workflow
-- Wheel vs source distributions
-- Local testing
-- Troubleshooting
+## Further reading
 
-**Next steps**: In @sec-testing-quality, you'll learn to test, document, and publish to TestPyPI.
+* Python Packaging Guide, https://packaging.python.org/
+* PEP 621 (`pyproject.toml`), https://peps.python.org/pep-0621/
+* uv documentation, https://docs.astral.sh/uv/
+* `src/` layout explanation, https://hynek.me/articles/testing-packaging/
+* Semantic Versioning, https://semver.org/
 
-## Further Reading
+## Practise exercises
 
-- Python Packaging Guide: https://packaging.python.org/
-- PEP 621 - pyproject.toml: https://peps.python.org/pep-0621/
-- uv documentation: https://docs.astral.sh/uv/
-- `src/` layout explanation: https://hynek.me/articles/testing-packaging/
-- Semantic Versioning: https://semver.org/
-
-## Practice Exercises
-
-1. **Create `auckland-utils`**: Package with functions to load SA2 boundaries and validate CRS
-
-2. **Add submodules**: Split your code into `data.py`, `metrics.py`, `viz.py`
-
-3. **Configure dependencies**: Add `geopandas`, `matplotlib` to `pyproject.toml`
-
-4. **Build and test**: Create distributions and verify local installation
-
-5. **Document**: Write clear docstrings for all functions
-
-Ready to add tests and publish? Continue to @sec-testing-quality!
+1. **Rename your package.** Change `geohello-yourname` to a name of your choice. Update `pyproject.toml` and the folder under `src/`. Rebuild and check it still works.
+2. **Add a second function.** Write `bye(place="Auckland")` that returns `"Goodbye from Auckland!"`. Re-export it from `__init__.py` and try it.
+3. **Add a dependency.** Add `pandas` to `dependencies` in `pyproject.toml`. Rebuild. Confirm `pandas` installs alongside your package.
+4. **Read a real one.** Open the `akl-ped-counts` repo at https://github.com/dataandcrowd/akl-ped-counts and find its `pyproject.toml`. Compare it to yours. What is the same? What is different?

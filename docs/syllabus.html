@@ -258,8 +258,39 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Part 4. Python Package Development</span></span>
+      <div class="sidebar-item-container"> 
+            <a href="./4.0.python-packaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part 4. Python Package Development</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4.1.package-fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.1. Package Fundamentals: Structure, Configuration, and Building</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4.2.testing-and-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.2 Testing and Code Quality</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4.3.geospatial-package-example.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.3 Geospatial Package Example: Auckland GIS Toolkit</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4.4.publish-pypi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.4 Publishing to PyPI</span></a>
+  </div>
+</li>
+      </ul>
   </li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
@@ -307,6 +338,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Lab Week 06</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Week 07</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -339,7 +376,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#part-1-introduction-to-geospatial-analysis-in-python" id="toc-part-1-introduction-to-geospatial-analysis-in-python" class="nav-link" data-scroll-target="#part-1-introduction-to-geospatial-analysis-in-python">Part 1: Introduction to geospatial analysis in Python</a></li>
   <li><a href="#easter-and-mid-semester-break-3-april---17-april-2026" id="toc-easter-and-mid-semester-break-3-april---17-april-2026" class="nav-link" data-scroll-target="#easter-and-mid-semester-break-3-april---17-april-2026">Easter and mid-semester break (3 April - 17 April 2026)</a></li>
-  <li><a href="#part-2-deploying-geospatial-work-online" id="toc-part-2-deploying-geospatial-work-online" class="nav-link" data-scroll-target="#part-2-deploying-geospatial-work-online">Part 2: Deploying geospatial work online</a></li>
+  <li><a href="#part-2-interactive-dashboards-with-shiny-for-python" id="toc-part-2-interactive-dashboards-with-shiny-for-python" class="nav-link" data-scroll-target="#part-2-interactive-dashboards-with-shiny-for-python">Part 2: Interactive dashboards with Shiny for Python</a></li>
   <li><a href="#part-3-publishing-your-first-python-package" id="toc-part-3-publishing-your-first-python-package" class="nav-link" data-scroll-target="#part-3-publishing-your-first-python-package">Part 3: Publishing your first Python package</a></li>
   </ul></li>
   <li><a href="#course-policies" id="toc-course-policies" class="nav-link" data-scroll-target="#course-policies">Course Policies</a>
@@ -449,10 +486,11 @@ ul.task-list li input[type="checkbox"] {
 <section id="python-libraries-managed-via-uv" class="level3">
 <h3 class="anchored" data-anchor-id="python-libraries-managed-via-uv">Python libraries (managed via uv)</h3>
 <ul>
-<li>Core geospatial: geopandas, shapely, pyproj, rasterio, contextily</li>
-<li>Network analysis: osmnx, networkx, momepy</li>
-<li>Dashboard: shiny, shinylive, ipyleaflet, plotly, shinyswatch <!-- - Development: pytest, pytest-cov, ruff, mypy, black
-- Documentation: mkdocs, mkdocs-material, mkdocstrings --></li>
+<li>Core data: pandas, numpy, matplotlib, seaborn</li>
+<li>Core geospatial: geopandas, shapely, pyproj, contextily</li>
+<li>Network and morphology: osmnx, networkx, momepy</li>
+<li>Dashboard: shiny, shinylive, ipyleaflet, plotly, shinyswatch</li>
+<li>Development (Part 4): pytest, pytest-cov, ruff, hatchling <!-- - Documentation: mkdocs, mkdocs-material, mkdocstrings --></li>
 </ul>
 </section>
 <section id="platforms" class="level3">
@@ -517,129 +555,138 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="course-schedule">Course schedule</h2>
 <section id="part-1-introduction-to-geospatial-analysis-in-python" class="level3">
 <h3 class="anchored" data-anchor-id="part-1-introduction-to-geospatial-analysis-in-python">Part 1: Introduction to geospatial analysis in Python</h3>
-<section id="week-1-course-introduction-and-python-setup-2-3rd-march" class="level4">
-<h4 class="anchored" data-anchor-id="week-1-course-introduction-and-python-setup-2-3rd-march">Week 1: Course introduction and Python setup (2-3rd March)</h4>
+<section id="week-1-course-introduction-and-python-setup-2-3-march" class="level4">
+<h4 class="anchored" data-anchor-id="week-1-course-introduction-and-python-setup-2-3-march">Week 1: Course introduction and Python setup (2-3 March)</h4>
 <p><strong>Lecture topics</strong></p>
 <ul>
 <li>Course overview and expectations</li>
-<li>Python for geospatial analysis: why and how?</li>
+<li>Why Python for geospatial analysis</li>
+<li>Reproducibility, open science, and the “works on my machine” problem</li>
 <li>Python fundamentals review: modules, packages, environments</li>
 <li>Introduction to Quarto for literate programming</li>
-<li>Modern package management with uv (in lab session)</li>
-<li>Basic Python that you need to know</li>
+<li>Modern package management with uv</li>
 </ul>
-<p><strong>Lab activities</strong></p>
+<p><strong>Lab activities (Sections 1.1 to 1.5)</strong></p>
 <ul>
-<li>Install Python, Positron, and Quarto</li>
-<li>Set up development environment with uv</li>
-<li>Install essential geospatial packages</li>
-<li>Create your first Quarto document</li>
-<li>Test installations with simple examples</li>
+<li>Install Python, Positron, Quarto, and uv</li>
+<li>Create reproducible project environments with uv</li>
+<li>Configure Git locally for version control</li>
+<li>Download project data from GitHub</li>
+<li>Authenticate with GitHub via SSH or PAT</li>
+<li>Render your first Quarto document</li>
 </ul>
-<p><strong>Learning resources</strong> - uv documentation: https://docs.astral.sh/uv/ - Quarto documentation: https://quarto.org/docs/get-started/ - Python refresher materials (provided)</p>
-<p><strong>Key skills</strong>: Environment setup, package management, Quarto basics</p>
+<p><strong>Learning resources</strong></p>
+<ul>
+<li>uv documentation: https://docs.astral.sh/uv/</li>
+<li>Quarto documentation: https://quarto.org/docs/get-started/</li>
+<li>Course chapter: Part 1 Setup (Sections 1.1 to 1.5)</li>
+</ul>
+<p><strong>Key skills</strong>: Environment setup, package management with uv, Git basics, Quarto basics</p>
 <hr>
 </section>
-<section id="week-2-fundamentals-of-python-9-march" class="level4">
-<h4 class="anchored" data-anchor-id="week-2-fundamentals-of-python-9-march">Week 2: Fundamentals of Python (9 March)</h4>
+<section id="week-2-fundamentals-of-python-and-dataframes-9-march" class="level4">
+<h4 class="anchored" data-anchor-id="week-2-fundamentals-of-python-and-dataframes-9-march">Week 2: Fundamentals of Python and DataFrames (9 March)</h4>
 <p><strong>Lecture topics</strong></p>
-<p><em>Python skills</em></p>
+<p><em>Python skills (Section 2.1)</em></p>
 <ul>
+<li>Variables, data types, and operators</li>
+<li>Control flow: conditionals and loops</li>
+<li>Functions and methods</li>
 <li>Module imports: <code>import</code>, <code>from...import</code>, <code>import...as</code></li>
-<li>Data structures: long vs wide formatting</li>
-<li>Data manipulation fundamentals: filtering, selecting, sorting</li>
-<li>Pandas operations: groupby, merge, join</li>
-<li>Data visualisation</li>
-<li>Dealing with possible errors</li>
-<li>Importing geospatial datasets (GeoJSON, Shapefiles, GeoPackage)</li>
-<li>Vector and raster data visualisation with GeoPandas and matplotlib</li>
-<li>Calculating basic distance measures (Euclidean, haversine)</li>
 </ul>
-<p><em>Urban analytics</em></p>
+<p><em>DataFrames with pandas (Section 2.2)</em></p>
 <ul>
-<li>Data quality issues in real-world urban data</li>
-<li>Identifying outliers and missing data in urban datasets</li>
-<li>Statistical imputation methods</li>
-<li>Working with census geographies (SA2 level in NZ)</li>
+<li>Reading and inspecting tabular data</li>
+<li>Long vs wide formatting</li>
+<li>Filtering, selecting, sorting, groupby, merge, and join</li>
+<li>Handling missing data and basic imputation</li>
+<li>Reshape and export workflows</li>
 </ul>
 <p><strong>Lab activities</strong></p>
 <ul>
-<li>Disclosing Assignment 1</li>
-<li>Install and configure <strong>Git</strong> for version control</li>
-<li>Long/wide formatting with pedestrian footfall datasets (Heart of City)</li>
-<li>Data manipulation exercises: filtering, groupby, merge operations</li>
-<li>Work with messy pedestrian count data (intro to Assignment 1 dataset)</li>
-<li>Imputation practice: mean/median/forward fill</li>
-<li>Descriptive statistics and exploratory visualisations</li>
-<li>Intro to folium for interactive web maps</li>
-<li>Write your first Python module</li>
+<li>Announce Assignment 1 (Data Blog Post)</li>
+<li>Practise pandas operations on Heart of the City pedestrian footfall data</li>
+<li>Work with messy pedestrian counts: filtering, groupby, merging</li>
+<li>Imputation practice: mean, median, forward fill</li>
+<li>Descriptive statistics and an exploratory time series</li>
 </ul>
-<p><strong>Key skills</strong>: Data wrangling, distance calculations, spatial aggregation, imputation, exploratory analysis</p>
+<p><strong>Key skills</strong>: Python fundamentals, pandas data wrangling, exploratory analysis</p>
 <hr>
 </section>
-<section id="week-3-advanced-geospatial-operations-16-march" class="level4">
-<h4 class="anchored" data-anchor-id="week-3-advanced-geospatial-operations-16-march">Week 3: Advanced geospatial operations (16 March)</h4>
+<section id="week-3-data-visualisation-and-geospatial-data-16-march" class="level4">
+<h4 class="anchored" data-anchor-id="week-3-data-visualisation-and-geospatial-data-16-march">Week 3: Data visualisation and geospatial data (16 March)</h4>
 <p><strong>Lecture topics</strong></p>
-<p><em>Python skills</em></p>
+<p><em>Data visualisation (Section 2.3)</em></p>
 <ul>
-<li>Vector and raster data visualisation with GeoPandas and matplotlib</li>
+<li>The Python visualisation ecosystem (matplotlib, pandas plotting, seaborn)</li>
+<li>Time series, distributions, relationships, and small multiples</li>
+<li>Communicating uncertainty and avoiding misleading charts</li>
+</ul>
+<p><em>Geospatial data (Section 2.4)</em></p>
+<ul>
+<li>Vector data with GeoPandas: reading GeoJSON, Shapefile, GeoPackage</li>
+<li>Coordinate reference systems and transformations</li>
+<li>Spatial joins, buffers, and proximity</li>
 <li>Choropleths and classification (Jenks, quantiles, equal interval)</li>
-<li>Interactive web mapping with folium</li>
-<li>Spatial aggregation: counting points within polygons (SA2)</li>
-<li>Spatial joins across geographic levels</li>
-<li>Distance-based analysis: buffers, proximity calculations</li>
-<li>CRS and transformations</li>
-<li>Spatial indexing and performance</li>
-</ul>
-<p><em>Urban analytics context</em></p>
-<ul>
-<li>Introduction to pedestrian mobility</li>
-<li>Introduction to urban morphology with <code>momepy</code></li>
-<li>Walkability indices and street connectivity</li>
-<li>Census geography in NZ (SA1, SA2, SA3) and aggregation choices</li>
 </ul>
 <p><strong>Lab activities</strong></p>
 <ul>
-<li>Download SA2 boundaries for Auckland (Stats NZ)</li>
-<li>Count sensors by SA2 and compute average footfall per SA2</li>
-<li>Distance matrix between sensors and key destinations</li>
-<li>Intro to momepy: basic morphometrics</li>
-<li>Street connectivity metrics and relate to footfall</li>
-<li>Choropleths with Jenks</li>
-<li>Interactive folium maps with popups/tooltips</li>
+<li>Download GIS data from Stats NZ and LINZ via web APIs (Lab Week 4 preview)</li>
+<li>Plot SA2 boundaries for Auckland and join with footfall summaries</li>
+<li>Compute distance and buffer-based proximity to key destinations</li>
+<li>Build a labelled choropleth with a clear legend, units, and caption</li>
 </ul>
-<p><strong>Key skills</strong>: Spatial joins, buffers, network analysis, momepy, choropleths</p>
+<p><strong>Key skills</strong>: Python visualisation, CRS handling, spatial joins, choropleths, web APIs</p>
 <hr>
 </section>
-<section id="week-4-urban-morphology-and-mid-term-assessment-23-march" class="level4">
-<h4 class="anchored" data-anchor-id="week-4-urban-morphology-and-mid-term-assessment-23-march">Week 4: Urban morphology and mid-term assessment (23 March)</h4>
-<p><strong>Guest lecture: Shriv (Monday 23 March, 13:00-14:00)</strong> - Urban morphology using momepy: concepts and applications - Case studies of morphology and walkability analysis - Connecting morphology to pedestrian behaviour - Walkability frameworks with OSMnx</p>
-<p><strong>Test guide</strong></p>
+<section id="week-4-functions-urban-analytics-and-mid-semester-test-23-march" class="level4">
+<h4 class="anchored" data-anchor-id="week-4-functions-urban-analytics-and-mid-semester-test-23-march">Week 4: Functions, urban analytics, and mid-semester test (23 March)</h4>
+<p><strong>Lecture topics</strong></p>
+<p><em>Functions (Section 2.5)</em></p>
 <ul>
-<li>Test preparation guidance</li>
+<li>Writing effective functions: arguments, defaults, return values, docstrings</li>
+<li>Refactoring repeated analysis into reusable code</li>
+<li>Functions for grouped summaries and extremes</li>
 </ul>
-<p><strong>Lab</strong> - Assignment 1 work session and test preparation</p>
-<p><strong>Canvas test (27-29 March)</strong> - Practical Python coding assessment covering Weeks 1-4</p>
-<p><strong>Key skills</strong>: Morphology concepts, revision, coding under assessment conditions</p>
+<p><em>Urban analytics indicators (Section 2.6)</em></p>
+<ul>
+<li>Population density and access proxies</li>
+<li>Nearest park distance and accessibility metrics</li>
+<li>Optional: street network centrality</li>
+<li>Caveats, units, and responsible interpretation</li>
+</ul>
+<p><strong>Guest lecture: Shriv (Monday 23 March, 13:00-14:00)</strong></p>
+<ul>
+<li>Urban morphology using <code>momepy</code>: concepts and applications</li>
+<li>Case studies linking morphology, walkability, and pedestrian behaviour</li>
+</ul>
+<p><strong>Lab activities</strong></p>
+<ul>
+<li>Mid-semester test preparation</li>
+<li>Assignment 1 work session</li>
+</ul>
+<p><strong>Canvas test (27-29 March)</strong></p>
+<ul>
+<li>Practical Python coding assessment covering Weeks 1 to 4</li>
+</ul>
+<p><strong>Key skills</strong>: Function design, urban indicators, morphology, coding under assessment conditions</p>
 <hr>
 </section>
-<section id="week-5-functions-and-workflows-30-march" class="level4">
-<h4 class="anchored" data-anchor-id="week-5-functions-and-workflows-30-march">Week 5: Functions and workflows (30 March)</h4>
+<section id="week-5-workflows-and-assignment-1-finalisation-30-march" class="level4">
+<h4 class="anchored" data-anchor-id="week-5-workflows-and-assignment-1-finalisation-30-march">Week 5: Workflows and Assignment 1 finalisation (30 March)</h4>
 <p><strong>Lecture topics</strong></p>
 <ul>
-<li>Writing effective functions and code organisation - important for Assignment 1 and 3</li>
-<li>Functions for extremes (max/min) and grouped summaries</li>
-<li>GitHub workflows and reproducibility</li>
+<li>Quarto for blog-style reporting: structure, code chunks, and figures</li>
+<li>GitHub workflows and reproducibility for the data blog</li>
+<li>Pre and post COVID comparisons in pedestrian footfall</li>
 </ul>
 <p><strong>Lab activities</strong></p>
 <ul>
-<li>Reusable functions for blog analysis</li>
-<li>Comparing years (pre/post COVID)</li>
-<li>Refactoring and code review</li>
-<li>Quarto structure and formatting</li>
-<li>Final Assignment 1 work session</li>
+<li>Refactor blog analysis into reusable functions</li>
+<li>Final Quarto formatting, captions, and figure polish</li>
+<li>Peer code review and Assignment 1 work session</li>
 </ul>
-<p><strong>Assignment 1 due</strong>: 5 April Sunday 23:59</p>
+<p><strong>Assignment 1 due</strong>: 5 April Sunday 23:59 NZST</p>
 <hr>
 </section>
 </section>
@@ -648,124 +695,174 @@ ul.task-list li input[type="checkbox"] {
 <p>No classes. Classes resume Monday 20 April (Week 6).</p>
 <hr>
 </section>
-<section id="part-2-deploying-geospatial-work-online" class="level3">
-<h3 class="anchored" data-anchor-id="part-2-deploying-geospatial-work-online">Part 2: Deploying geospatial work online</h3>
-<section id="week-6-introduction-to-webgis-and-shiny-20-april" class="level4">
-<h4 class="anchored" data-anchor-id="week-6-introduction-to-webgis-and-shiny-20-april">Week 6: Introduction to WebGIS and Shiny (20 April)</h4>
+<section id="part-2-interactive-dashboards-with-shiny-for-python" class="level3">
+<h3 class="anchored" data-anchor-id="part-2-interactive-dashboards-with-shiny-for-python">Part 2: Interactive dashboards with Shiny for Python</h3>
+<section id="week-6-introduction-to-shiny-and-reactive-programming-20-april" class="level4">
+<h4 class="anchored" data-anchor-id="week-6-introduction-to-shiny-and-reactive-programming-20-april">Week 6: Introduction to Shiny and reactive programming (20 April)</h4>
 <p><strong>Lecture topics</strong></p>
+<p><em>Your first Shiny app (Section 3.1)</em></p>
 <ul>
-<li>WebGIS fundamentals, Wasm overview</li>
-<li>Shiny for Python</li>
-<li>Interactive maps with ipyleaflet</li>
-<li>Building your architecture: Ideation is key!</li>
+<li>The three parts of every Shiny app: UI, server, App object</li>
+<li>Inputs, outputs, and the reactive graph</li>
 </ul>
-<p><strong>Guest lecture: Alex Raichev (14:15-15:00)</strong></p>
+<p><em>Reactivity in action (Section 3.2)</em></p>
+<ul>
+<li>How Shiny works out what to recompute and when</li>
+<li>Reactive expressions and isolation patterns</li>
+</ul>
+<p><em>Decorators and UI (Section 3.3)</em></p>
+<ul>
+<li>Layouts, panels, and common input controls</li>
+<li>Using <code>@render</code> decorators for plots, maps, and tables</li>
+</ul>
+<p><strong>Guest lecture: Alex Raichev, MRCagney (Monday 20 April, 14:15-15:00)</strong></p>
+<ul>
+<li>How transport-analytics dashboards are used in practice</li>
+</ul>
 <p><strong>Lab activities</strong></p>
 <ul>
-<li>Announcement of Assignment 2</li>
+<li>Assignment 2 brief released: data tracks randomly assigned on Tuesday 21 April, 13:10 NZST</li>
 <li>Build a first Shiny app locally</li>
-<li>Reactive outputs (maps, plots, tables)</li>
-<li>Controls (sliders, dropdowns)</li>
+<li>Wire reactive outputs (maps, plots, tables) to inputs (sliders, dropdowns)</li>
 </ul>
-<p><strong>Key skills</strong>: Reactive programming, Shiny fundamentals</p>
+<p><strong>Key skills</strong>: Reactive programming, Shiny fundamentals, UI layout</p>
 <hr>
 </section>
-<section id="week-7-dashboard-work-session-anzac-week-27-april" class="level4">
-<h4 class="anchored" data-anchor-id="week-7-dashboard-work-session-anzac-week-27-april">Week 7: Dashboard work session (ANZAC week) (27 April)</h4>
-<p><strong>ANZAC Day</strong>: Monday 27 April 2026</p>
+<section id="week-7-webgis-in-the-browser-and-auckland-open-data-anzac-week-27-april" class="level4">
+<h4 class="anchored" data-anchor-id="week-7-webgis-in-the-browser-and-auckland-open-data-anzac-week-27-april">Week 7: WebGIS in the browser and Auckland open data (ANZAC week, 27 April)</h4>
+<p><strong>ANZAC Day</strong>: Monday 27 April 2026, no lecture. Labs run as normal.</p>
+<p><strong>Self-study material</strong></p>
+<p><em>WebGIS with shinylive (Section 3.4)</em></p>
 <ul>
-<li>Watch Video of urban mobility OD flows.</li>
+<li>Wasm and the shinylive runtime</li>
+<li>Deploying a Shiny app to GitHub Pages</li>
 </ul>
-<p><strong>No lecture</strong>. Labs run as normal.</p>
+<p><em>Mapping Auckland open data (Section 3.5)</em></p>
+<ul>
+<li>Working with points, lines, and polygons (bus stops, routes, parks)</li>
+<li>Joining open data layers to SA2 geographies for OD flows</li>
+<li>Interactive maps with <code>ipyleaflet</code></li>
+</ul>
 <p><strong>Lab activities</strong></p>
 <ul>
-<li>Intensive dashboard development</li>
-<li>One-on-one consultations, peer code review</li>
-<li>OSM data workshop and network analysis support</li>
-<li>Deployment preparation for shinylive</li>
+<li>Intensive Assignment 2 build session</li>
+<li>One-on-one consultations and peer code review</li>
+<li>Deployment preparation for shinylive on GitHub Pages</li>
 </ul>
 <hr>
 </section>
-<section id="week-8-advanced-dashboards-networks-and-temporal-analysis-4-may" class="level4">
-<h4 class="anchored" data-anchor-id="week-8-advanced-dashboards-networks-and-temporal-analysis-4-may">Week 8: Advanced dashboards, networks, and temporal analysis (4 May)</h4>
+<section id="week-8-polish-deployment-and-submission-4-may" class="level4">
+<h4 class="anchored" data-anchor-id="week-8-polish-deployment-and-submission-4-may">Week 8: Polish, deployment, and submission (4 May)</h4>
 <p><strong>Lecture topics</strong></p>
 <ul>
-<li>Multi-page apps (<code>ui.nav_panel()</code>)</li>
-<li>shinylive deployment workflow</li>
-<li>Temporal controls and animation patterns</li>
-<li>Dashboard UX principles and performance</li>
+<li>Multi-page apps with <code>ui.nav_panel()</code></li>
+<li>Performance and UX patterns for dashboards</li>
+<li>Final shinylive deployment workflow</li>
 </ul>
 <p><strong>Lab activities</strong></p>
 <ul>
 <li>Final refinement, performance testing</li>
 <li>Deployment troubleshooting</li>
-<li>Submission preparation</li>
+<li>Submission preparation following the Assignment 2 brief (Section 3.6)</li>
 </ul>
-<p><strong>Assignment 2 due</strong>: 10th May Sunday 23:59</p>
+<p><strong>Assignment 2 due</strong>: 10 May Sunday 23:59 NZST, deployed live on GitHub Pages</p>
 <hr>
 </section>
 </section>
 <section id="part-3-publishing-your-first-python-package" class="level3">
 <h3 class="anchored" data-anchor-id="part-3-publishing-your-first-python-package">Part 3: Publishing your first Python package</h3>
-<section id="week-9-built-environment-and-pedestrian-policy-11-may" class="level4">
-<h4 class="anchored" data-anchor-id="week-9-built-environment-and-pedestrian-policy-11-may">Week 9: Built environment and pedestrian policy (11 May)</h4>
+<section id="week-9-package-fundamentals-and-the-built-environment-11-may" class="level4">
+<h4 class="anchored" data-anchor-id="week-9-package-fundamentals-and-the-built-environment-11-may">Week 9: Package fundamentals and the built environment (11 May)</h4>
 <p><strong>Lecture topics</strong></p>
+<p><em>Package structure and configuration (Section 4.1)</em></p>
+<ul>
+<li>Why packaging matters for GIScience research</li>
+<li>The <code>src/</code> layout and Python package terminology</li>
+<li>Configuring <code>pyproject.toml</code>: metadata, dependencies, and tool settings</li>
+<li>Building distributions with <code>uv</code></li>
+</ul>
+<p><em>Built environment and pedestrian policy</em></p>
 <ul>
 <li>The built environment and walking: land-use mix, density, street design, and pedestrian infrastructure</li>
 <li>Policy levers for pedestrian mobility: low-traffic neighbourhoods, shared spaces, speed management, pedestrianisation</li>
 <li>International case studies: Superblocks (Barcelona), School Streets, 15-minute city (Paris)</li>
-<li>Package structure and <code>pyproject.toml</code>, modular design, <code>src</code> layout</li>
 </ul>
 <p><strong>Lab activities</strong></p>
 <ul>
-<li>Scoping your package: what policy-relevant pedestrian analysis could your tool support?</li>
-<li><code>uv init</code>, package scaffolding, module organisation</li>
-<li>Pair work on design architecture</li>
+<li>Scope your package: what policy-relevant pedestrian analysis could your tool support?</li>
+<li><code>uv init --lib</code>, package scaffolding, module organisation</li>
+<li>Build <code>geohello-yourname</code> end to end and test the wheel locally</li>
+<li>Pair work on package design architecture</li>
 </ul>
+<p><strong>Key skills</strong>: Package scaffolding, <code>pyproject.toml</code>, <code>uv build</code>, local installation</p>
 <hr>
 </section>
-<section id="week-10-pedestrian-equity-safety-and-testing-geospatial-code-18-may" class="level4">
-<h4 class="anchored" data-anchor-id="week-10-pedestrian-equity-safety-and-testing-geospatial-code-18-may">Week 10: Pedestrian equity, safety, and testing geospatial code (18 May)</h4>
+<section id="week-10-testing-documentation-and-pedestrian-equity-18-may" class="level4">
+<h4 class="anchored" data-anchor-id="week-10-testing-documentation-and-pedestrian-equity-18-may">Week 10: Testing, documentation, and pedestrian equity (18 May)</h4>
 <p><strong>Lecture topics</strong></p>
+<p><em>Testing and code quality (Section 4.2)</em></p>
+<ul>
+<li>Why testing matters: catching silent geospatial failures</li>
+<li>pytest basics for spatial functions (CRS, joins, geometry)</li>
+<li>NumPy-style docstrings and README writing</li>
+<li>Publishing to TestPyPI as a safe rehearsal</li>
+</ul>
+<p><em>Pedestrian equity and safety</em></p>
 <ul>
 <li>Equity in pedestrian infrastructure provision: who benefits, who is underserved?</li>
-<li>Pedestrian safety: collisions, exposure to air/noise pollution</li>
-<li>Accessibility for diverse populations: older adults, children, disabled walkers</li>
-<li>Writing and structuring tests for spatial functions</li>
+<li>Pedestrian safety: collisions, exposure to air and noise pollution</li>
+<li>Accessibility for diverse populations (older adults, children, disabled walkers)</li>
 </ul>
 <p><strong>Lab activities</strong></p>
 <ul>
-<li>Write tests for geofencing, distances, OD aggregation</li>
-<li>Build docs and tutorials</li>
-<li>Final docs, demo notebook, poster finalisation</li>
-<li>Poster finalisation</li>
+<li>Write tests for geofencing, distances, and OD aggregation</li>
+<li>Add docstrings and a tutorial notebook to your package</li>
+<li>Publish a release candidate to TestPyPI</li>
+<li>Begin poster drafting</li>
 </ul>
 <hr>
 </section>
-<section id="week-11-cicd-and-pre-publication-25-may" class="level4">
-<h4 class="anchored" data-anchor-id="week-11-cicd-and-pre-publication-25-may">Week 11: CI/CD and pre-publication (25 May)</h4>
+<section id="week-11-cicd-real-world-packages-and-poster-showcase-25-may" class="level4">
+<h4 class="anchored" data-anchor-id="week-11-cicd-real-world-packages-and-poster-showcase-25-may">Week 11: CI/CD, real-world packages, and poster showcase (25 May)</h4>
 <p><strong>Lecture topics</strong></p>
+<p><em>Geospatial package example (Section 4.3)</em></p>
 <ul>
-<li>Walkability policy and practice</li>
-<li>GitHub Actions, pre-commit, semantic versioning</li>
-<li>Build and publish to TestPyPI with uv</li>
-<li>Licensing and release workflow</li>
+<li>Walkthrough of a full Auckland GIS toolkit</li>
+<li>CI/CD with GitHub Actions and pre-commit hooks</li>
+<li>Semantic versioning, type hints, and error messages</li>
+</ul>
+<p><em>Walkability policy and practice</em></p>
+<ul>
+<li>Connecting package functionality to walkability policy questions</li>
 <li>Poster design basics</li>
 </ul>
-<p><strong>Poster showcase</strong>: 26th May (B301-G10)</p>
+<p><strong>Poster showcase</strong>: Tuesday 26 May (B301-G10)</p>
+<p><strong>Lab activities</strong></p>
+<ul>
+<li>Set up GitHub Actions for tests and lint checks</li>
+<li>Pre-commit configuration and badge integration</li>
+<li>Poster finalisation and dry-run presentations</li>
+</ul>
 <hr>
 </section>
-<section id="week-12-final-publication-and-poster-showcase-prep-1-june" class="level4">
-<h4 class="anchored" data-anchor-id="week-12-final-publication-and-poster-showcase-prep-1-june">Week 12: Final publication and poster showcase prep (1 June)</h4>
-<p><strong>King’s Birthday</strong>: Monday 1 June 2026</p>
-<p><strong>No lecture</strong>.</p>
-<p><strong>Lab activities</strong>.</p>
+<section id="week-12-publishing-to-pypi-1-june" class="level4">
+<h4 class="anchored" data-anchor-id="week-12-publishing-to-pypi-1-june">Week 12: Publishing to PyPI (1 June)</h4>
+<p><strong>King’s Birthday</strong>: Monday 1 June 2026, no lecture. Labs run as normal.</p>
+<p><strong>Self-study material</strong></p>
+<p><em>Publishing to PyPI (Section 4.4)</em></p>
 <ul>
-<li>Q&amp;A</li>
-<li>CI setup, <code>uv build</code>, TestPyPI publish and install testing</li>
-<li>Publish to PyPI (if not already)</li>
+<li>TestPyPI vs production PyPI: what is permanent</li>
+<li>Pre-publication checklist (tests, coverage, lint, README)</li>
+<li><code>uv build</code> and <code>uv publish</code> to production PyPI</li>
+<li>Versioning, release notes, and ongoing maintenance</li>
 </ul>
-<p><strong>Assignment 3 due</strong>: 7 June Sunday 23:59</p>
+<p><strong>Lab activities</strong></p>
+<ul>
+<li>Q&amp;A and final troubleshooting</li>
+<li><code>uv build</code>, TestPyPI install test, then publish to production PyPI</li>
+<li>Confirm your package installs cleanly in a fresh environment</li>
+</ul>
+<p><strong>Assignment 3 due</strong>: 7 June Sunday 23:59 NZST</p>
 <hr>
 </section>
 </section>
@@ -1003,85 +1100,85 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>1</td>
 <td>2 Mar</td>
-<td>Course intro, Python setup</td>
+<td>Course intro, Python setup, uv, Git, Quarto</td>
 <td>-</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>9 Mar</td>
-<td>Geospatial Python fundamentals</td>
+<td>Python fundamentals and pandas DataFrames</td>
 <td>-</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>16 Mar</td>
-<td>Advanced geospatial operations</td>
+<td>Data visualisation and geospatial data</td>
 <td>-</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>23 Mar</td>
-<td>Guest (1-2pm) + Walkability</td>
-<td>Canvas Test (27-28 Mar)</td>
+<td>Functions, urban indicators, guest lecture</td>
+<td>Canvas test (27-29 Mar)</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>30 Mar</td>
-<td>Functions and workflows</td>
-<td><strong>A1 Due (3 Apr)</strong></td>
+<td>Workflows and Quarto blogging</td>
+<td><strong>A1 due (5 Apr)</strong></td>
 </tr>
 <tr class="even">
 <td>-</td>
 <td><strong>3-17 Apr</strong></td>
-<td><strong>EASTER/MID-SEMESTER BREAK</strong></td>
+<td><strong>EASTER / MID-SEMESTER BREAK</strong></td>
 <td>-</td>
 </tr>
 <tr class="odd">
 <td>6</td>
 <td>20 Apr</td>
-<td>WebGIS and Shiny intro (+ Guest)</td>
+<td>Shiny basics, reactivity, UI (+ guest)</td>
 <td>-</td>
 </tr>
 <tr class="even">
 <td>7</td>
 <td>27 Apr</td>
-<td><strong>NO LECTURE (ANZAC Day) - Labs only</strong></td>
+<td><strong>No lecture (ANZAC Day)</strong>: shinylive and Auckland open data (lab)</td>
 <td>-</td>
 </tr>
 <tr class="odd">
 <td>8</td>
 <td>4 May</td>
-<td>Advanced dashboards and networks</td>
-<td><strong>A2 Due (10 May)</strong></td>
+<td>Polish, multi-page apps, deployment</td>
+<td><strong>A2 due (10 May)</strong></td>
 </tr>
 <tr class="even">
 <td>9</td>
 <td>11 May</td>
-<td>Package structure &nbsp;built environment</td>
-<td><strong>Pair work on design architecture</strong></td>
+<td>Package fundamentals and built environment</td>
+<td>-</td>
 </tr>
 <tr class="odd">
 <td>10</td>
 <td>18 May</td>
-<td>Adding functions, data, and documentation &nbsp;Pedestrian safety</td>
-<td></td>
+<td>Testing, documentation, and pedestrian equity</td>
+<td>-</td>
 </tr>
 <tr class="even">
 <td>11</td>
 <td>25 May</td>
-<td>Walkability and Policy &nbsp;Poster showcase</td>
-<td>-</td>
+<td>CI/CD, real-world package example, poster showcase</td>
+<td>Poster showcase (26 May)</td>
 </tr>
 <tr class="odd">
 <td>12</td>
 <td>1 June</td>
-<td><strong>NO LECTURE (King’s Birthday) - Labs only</strong></td>
-<td><strong>Package submission due</strong></td>
+<td><strong>No lecture (King’s Birthday)</strong>: publish to PyPI (lab)</td>
+<td><strong>A3 due (7 June)</strong></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Note on Assignment 2</strong>: Due Sunday 10 May 2026, 23:59 NZST. The ANZAC Day week has no lecture, so students get the Week 7 lab to work on dashboards.</p>
-<p><strong>Note on Assignment 3 &amp; Poster</strong>: Both due 7 June. Poster showcase event at separate venue (details to be announced).</p>
+<p><strong>Note on Assignment 3 and Poster</strong>: Poster showcase is held on Tuesday 26 May (B301-G10). Final package submission for Assignment 3 is due Sunday 7 June 2026, 23:59 NZST.</p>
 <hr>
 </section>
 <section id="statement-on-course-evolution" class="level2">
@@ -1089,8 +1186,7 @@ ul.task-list li input[type="checkbox"] {
 <p>This syllabus reflects the current course plan. Minor adjustments may be made based on class progress, student needs, or external factors. Significant changes will be communicated via Canvas with adequate notice. Students will always be notified of any modifications to assessment requirements or due dates.</p>
 <p>The integration of modern tools (uv, Positron, shinylive) represents the evolving landscape of geospatial Python. We embrace these changes to ensure students learn current best practices.</p>
 <hr>
-<p><strong>Last Updated</strong>: March 2026<br>
-<strong>Version</strong>: 3.0</p>
+<p><strong>Last Updated</strong>: May 2026 <strong>Version</strong>: 3.1</p>
 <p><em>This course emphasises practical skills for urban analytics research, planning, and policy support. The combination of spatial analysis, interactive visualisation, and software development prepares students for careers in academia, government, consulting, and technology sectors.</em></p>
 
 

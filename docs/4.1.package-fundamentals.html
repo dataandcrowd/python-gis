@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Hyesop Shin">
-<meta name="dcterms.date" content="2026-04-21">
 
-<title>Python GIS at UoA</title>
+<title>4.1 Package fundamentals: structure, configuration, and building – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./syllabus.html" rel="next">
+<link href="./4.2.testing-and-quality.html" rel="next">
+<link href="./4.0.python-packaging.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -83,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">GISCI 343 at UoA</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li><li class="breadcrumb-item"><a href="./4.1.package-fundamentals.html">4.1 Package fundamentals: structure, configuration, and building</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,7 +144,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GISCI 343 at UoA</span></a>
   </div>
 </li>
@@ -270,7 +304,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.1.package-fundamentals.html" class="sidebar-item-text sidebar-link">
+  <a href="./4.1.package-fundamentals.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">4.1 Package fundamentals: structure, configuration, and building</span></a>
   </div>
 </li>
@@ -376,50 +410,49 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#gisci-343-at-uoa" id="toc-gisci-343-at-uoa" class="nav-link active" data-scroll-target="#gisci-343-at-uoa">GISCI 343 at UoA</a>
+  <li><a href="#what-this-chapter-is-for" id="toc-what-this-chapter-is-for" class="nav-link active" data-scroll-target="#what-this-chapter-is-for">What this chapter is for</a></li>
+  <li><a href="#quick-start-in-five-steps" id="toc-quick-start-in-five-steps" class="nav-link" data-scroll-target="#quick-start-in-five-steps">Quick start in five steps</a>
   <ul class="collapse">
-  <li><a href="#who-is-this-for" id="toc-who-is-this-for" class="nav-link" data-scroll-target="#who-is-this-for">Who is this for?</a></li>
-  <li><a href="#why-this-approach" id="toc-why-this-approach" class="nav-link" data-scroll-target="#why-this-approach">Why this approach?</a>
+  <li><a href="#step-1.-initialise" id="toc-step-1.-initialise" class="nav-link" data-scroll-target="#step-1.-initialise">Step 1. Initialise</a></li>
+  <li><a href="#step-2.-write-one-function" id="toc-step-2.-write-one-function" class="nav-link" data-scroll-target="#step-2.-write-one-function">Step 2. Write one function</a></li>
+  <li><a href="#step-3.-look-at-pyproject.toml" id="toc-step-3.-look-at-pyproject.toml" class="nav-link" data-scroll-target="#step-3.-look-at-pyproject.toml">Step 3. Look at <code>pyproject.toml</code></a></li>
+  <li><a href="#step-4.-build-the-package" id="toc-step-4.-build-the-package" class="nav-link" data-scroll-target="#step-4.-build-the-package">Step 4. Build the package</a></li>
+  <li><a href="#step-5.-try-it-locally" id="toc-step-5.-try-it-locally" class="nav-link" data-scroll-target="#step-5.-try-it-locally">Step 5. Try it locally</a></li>
+  </ul></li>
+  <li><a href="#what-just-happened" id="toc-what-just-happened" class="nav-link" data-scroll-target="#what-just-happened">What just happened</a></li>
+  <li><a href="#quick-reference-the-parts-of-a-package" id="toc-quick-reference-the-parts-of-a-package" class="nav-link" data-scroll-target="#quick-reference-the-parts-of-a-package">Quick reference: the parts of a package</a>
   <ul class="collapse">
-  <li><a href="#why-do-we-use-git-and-how-does-it-support-reproducible-research" id="toc-why-do-we-use-git-and-how-does-it-support-reproducible-research" class="nav-link" data-scroll-target="#why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</a></li>
-  <li><a href="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" id="toc-why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="nav-link" data-scroll-target="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</a></li>
-  <li><a href="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" id="toc-why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="nav-link" data-scroll-target="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</a></li>
+  <li><a href="#module-vs-package" id="toc-module-vs-package" class="nav-link" data-scroll-target="#module-vs-package">Module vs package</a></li>
+  <li><a href="#the-src-layout" id="toc-the-src-layout" class="nav-link" data-scroll-target="#the-src-layout">The <code>src/</code> layout</a></li>
+  <li><a href="#naming-conventions" id="toc-naming-conventions" class="nav-link" data-scroll-target="#naming-conventions">Naming conventions</a></li>
+  <li><a href="#what-goes-in-__init__.py" id="toc-what-goes-in-__init__.py" class="nav-link" data-scroll-target="#what-goes-in-__init__.py">What goes in <code>__init__.py</code></a></li>
   </ul></li>
-  <li><a href="#running-the-code-yourself" id="toc-running-the-code-yourself" class="nav-link" data-scroll-target="#running-the-code-yourself">Running the code yourself</a>
+  <li><a href="#going-a-little-further-organising-modules" id="toc-going-a-little-further-organising-modules" class="nav-link" data-scroll-target="#going-a-little-further-organising-modules">Going a little further: organising modules</a>
   <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#data-inside-packages" id="toc-data-inside-packages" class="nav-link" data-scroll-target="#data-inside-packages">Data inside packages</a></li>
   </ul></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  </ul></li>
+  <li><a href="#adding-dependencies" id="toc-adding-dependencies" class="nav-link" data-scroll-target="#adding-dependencies">Adding dependencies</a></li>
+  <li><a href="#common-build-issues-and-fixes" id="toc-common-build-issues-and-fixes" class="nav-link" data-scroll-target="#common-build-issues-and-fixes">Common build issues and fixes</a></li>
+  <li><a href="#week-9-lab" id="toc-week-9-lab" class="nav-link" data-scroll-target="#week-9-lab">Week 9 lab</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  <li><a href="#practise-exercises" id="toc-practise-exercises" class="nav-link" data-scroll-target="#practise-exercises">Practise exercises</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li><li class="breadcrumb-item"><a href="./4.1.package-fundamentals.html">4.1 Package fundamentals: structure, configuration, and building</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Python GIS at UoA</h1>
+<h1 class="title"><span id="sec-package-fundamentals" class="quarto-section-identifier">4.1 Package fundamentals: structure, configuration, and building</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Hyesop Shin </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 21, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -429,128 +462,232 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="gisci-343-at-uoa" class="level1 unnumbered">
-<h1 class="unnumbered">GISCI 343 at UoA</h1>
-<p><strong>Welcome to the course!</strong></p>
-<p>This is an online workbook for the <span style="color:blue;"><strong>GISCI 343</strong></span> course called Geospatial Data Science, launched in 2026.</p>
-<p>This is course designed and delivered by <strong>Dr.&nbsp;Hyesop Shin</strong> from the School of Environment at the University of Auckland, New Zealand.</p>
-<p>Unlike conventional GIS coursework that focuses on tools or isolated techniques, this book goes beyond the standard GIS and Python combination. The emphasis is on building applied, production-oriented skills that reflect how geospatial data science is practised outside the classroom, particularly through dashboards and Python packaging.</p>
-<p>The book is organised into three main parts:</p>
-<p><strong>Part 1.</strong> Doing geospatial analysis using Python (Weeks 1-5)</p>
-<p><strong>Part 2.</strong> Creating geospatial dashboards (Weeks 6-8)</p>
-<p><strong>Part 3.</strong> Publishing Python packages with a geospatial focus (Weeks 9-12)</p>
-<p>Throughout the course, <strong>Positron</strong> is used as the primary development environment.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="positron.png" class="img-fluid figure-img" style="width:60.0%"></p>
-<figcaption>Visit https://positron.posit.co/download.html for download</figcaption>
-</figure>
-</div>
-<section id="who-is-this-for" class="level2">
-<h2 class="anchored" data-anchor-id="who-is-this-for">Who is this for?</h2>
-<p>This book is designed for students and learners who already have foundational GIS knowledge, such as introductory GIS or remote sensing courses, but who have limited exposure to programming.</p>
-<p>If you are familiar with any dataframe-based workflow, most examples should be approachable. Familiarity with Pandas will be particularly helpful, as all Polars examples are accompanied by equivalent Pandas implementations for comparison and learning.</p>
-<p>Reading <em>Modern Pandas</em> is not required, although it is a recommended resource for those who wish to deepen their understanding.</p>
+<section id="what-this-chapter-is-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-chapter-is-for">What this chapter is for</h2>
+<p>A Python package is a folder of code that you (and others) can install with <code>pip install</code>. This chapter walks you through the smallest possible example, end to end, in about 30 minutes. Once that works, the rest of the chapter is a short reference you can come back to.</p>
+<p>By the end you will be able to do the following.</p>
+<ol type="1">
+<li>Create a small package called <code>geohello-yourname</code>.</li>
+<li>Add one function to it.</li>
+<li>Build it on your own machine.</li>
+<li>Install it locally and import it from another folder.</li>
+</ol>
+<p>Everything else, optional dependencies, advanced configuration, CI/CD, comes later. Today is about the minimum that works.</p>
 </section>
-<section id="why-this-approach" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-approach">Why this approach?</h2>
-<p>Although artificial intelligence has transformed how we learn, analyse data, and write code, reproducibility and sound practice in data science remain essential.</p>
-<p>Simply combining GIS and Python is no longer sufficient. This course therefore addresses broader and often overlooked questions:</p>
-<section id="why-do-we-use-git-and-how-does-it-support-reproducible-research" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Git provides a transparent and traceable record of how a project evolves over time. Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.</p>
-<p>Using <strong>Git encourages good research habits</strong>: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.</p>
-</div>
-</div>
+<section id="quick-start-in-five-steps" class="level2">
+<h2 class="anchored" data-anchor-id="quick-start-in-five-steps">Quick start in five steps</h2>
+<p>We will use <strong>uv</strong> for this. If you have already used uv earlier in the course, this should feel familiar.</p>
+<section id="step-1.-initialise" class="level3">
+<h3 class="anchored" data-anchor-id="step-1.-initialise">Step 1. Initialise</h3>
+<p>Pick a working folder and run the following.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--lib</span> geohello-yourname</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> geohello-yourname</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You will see a folder that looks like this.</p>
+<pre><code>geohello-yourname/
+├── src/
+│   └── geohello_yourname/
+│       ├── __init__.py
+│       └── py.typed
+├── tests/
+├── pyproject.toml
+└── README.md</code></pre>
 </section>
-<section id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Dashboards transform analytical outputs into interactive and interpretable artefacts. Rather than presenting static maps or tables, dashboards allow users to explore spatial patterns, filter scenarios, and ask their own questions. This is particularly important in applied geospatial work, where stakeholders may not be familiar with code but need to engage with evidence.</p>
-<p>By building dashboards, students learn how to bridge the gap between analysis and communication. Dashboards force careful thinking about what results matter, how uncertainty is presented, and how spatial information can be explored intuitively. These skills are essential when working with planners, policymakers, and industry partners who rely on clear, actionable insights rather than raw analytical outputs.</p>
-</div>
-</div>
+<section id="step-2.-write-one-function" class="level3">
+<h3 class="anchored" data-anchor-id="step-2.-write-one-function">Step 2. Write one function</h3>
+<p>Open <code>src/geohello_yourname/__init__.py</code> in your editor and replace it with the following.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""A simple geospatial greeting package."""</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>__version__ <span class="op">=</span> <span class="st">"0.1.0"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hello(place<span class="op">=</span><span class="st">"Auckland"</span>):</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return a greeting for a place."""</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f"Hello from </span><span class="sc">{</span>place<span class="sc">}</span><span class="ss">!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That is the entire package. One function, one docstring, one version string.</p>
 </section>
-<section id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Developing a Python package shifts the focus from writing one-off scripts to building reusable, maintainable software. Packaging requires students to structure code logically, define clear interfaces, and think about how others will use their work. This naturally introduces object-oriented programming concepts, such as abstraction, encapsulation, and modular design, in a context where they serve a practical purpose.</p>
-<p>In geospatial data science, packaging allows analytical workflows, spatial utilities, or modelling components to be shared, tested, and extended. The final package becomes a tangible output that can be included in a portfolio, reused in future projects, or published openly. This mirrors professional practice and helps students understand how geospatial tools are developed, maintained, and deployed in real-world environments.</p>
-</div>
-</div>
-<p>Each of these components is intentionally included to help students understand professional workflows and to produce outputs that can be shared beyond the university setting.</p>
-<p>The three modules in this book are designed to be complete, reusable, and ready to engage with society, forming a practical portfolio that reflects contemporary geospatial data science practice.</p>
+<section id="step-3.-look-at-pyproject.toml" class="level3">
+<h3 class="anchored" data-anchor-id="step-3.-look-at-pyproject.toml">Step 3. Look at <code>pyproject.toml</code></h3>
+<p><code>uv init --lib</code> already wrote a working <code>pyproject.toml</code> for you. Open it. It looks roughly like this.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[build-system]</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">"hatchling"</span><span class="op">]</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dt">build-backend</span> <span class="op">=</span> <span class="st">"hatchling.build"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">"geohello-yourname"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">"0.1.0"</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">"A simple geospatial greeting"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="dt">readme</span> <span class="op">=</span> <span class="st">"README.md"</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="dt">requires-python</span> <span class="op">=</span> <span class="st">"&gt;=3.10"</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You only need to know two things about this file right now. The <code>[project]</code> section describes what your package is. The <code>[build-system]</code> section tells uv how to build it. We will revisit the other fields in later chapters.</p>
 </section>
+<section id="step-4.-build-the-package" class="level3">
+<h3 class="anchored" data-anchor-id="step-4.-build-the-package">Step 4. Build the package</h3>
+<p>Run this in the project root.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You should see two new files inside a <code>dist/</code> folder.</p>
+<pre><code>dist/
+├── geohello_yourname-0.1.0-py3-none-any.whl
+└── geohello_yourname-0.1.0.tar.gz</code></pre>
+<p>The <code>.whl</code> file is the <strong>wheel</strong>, a pre-built file that installs quickly. The <code>.tar.gz</code> file is the <strong>source distribution</strong>, which contains the source code as a fallback. For a pure Python package like this, the wheel is what most people will install.</p>
 </section>
-<section id="running-the-code-yourself" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-code-yourself">Running the code yourself</h2>
-<p>You can install the following package versions and it should work:</p>
-<pre><code>polars
-pyarrow
-pandas
-geopandas
-numpy
-matplotlib
-seaborn
-statsmodels</code></pre>
-<p>Once saved, install the dependencies using one of the following methods.</p>
-<p><strong>Using pip</strong>:</p>
-<pre><code>pip install -r requirements.txt</code></pre>
-<p><strong>Using uv (recommended if you are working inside a uv-managed virtual environment)</strong>:</p>
-<pre><code>uv pip install -r requirements.txt
-"""
-This keeps the environment flexible and avoids version pinning unless it becomes necessary later for reproducibility or debugging.
-"""</code></pre>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
-<p>All the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in <a href="https://github.com/dataandcrowd/python-gis/tree/main/data">here</a> for posterity.</p>
+<section id="step-5.-try-it-locally" class="level3">
+<h3 class="anchored" data-anchor-id="step-5.-try-it-locally">Step 5. Try it locally</h3>
+<p>Two quick checks. Both should print <code>Hello from Auckland!</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the function directly with uv</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"from geohello_yourname import hello; print(hello())"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or open an interactive Python session</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> from <span class="ex">geohello_yourname</span> import hello</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> print<span class="kw">(</span><span class="fu">hello()</span><span class="kw">)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> from Auckland!</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> print<span class="kw">(</span><span class="ex">hello</span><span class="er">(</span><span class="st">"Tokyo"</span><span class="kw">))</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Hello</span> from Tokyo!</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>That is a complete package. You wrote one function, you built it, and you ran it.</p>
 </section>
 </section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>This course builds upon the excellent work of several open educational resources in geographic and geospatial data science.</p>
-<p>I am particularly grateful to stand on the shoulders of:</p>
+<section id="what-just-happened" class="level2">
+<h2 class="anchored" data-anchor-id="what-just-happened">What just happened</h2>
+<p>The <code>uv build</code> step did three things.</p>
+<ol type="1">
+<li>It read <code>pyproject.toml</code> and worked out the package name and version.</li>
+<li>It bundled the contents of <code>src/geohello_yourname/</code> into a wheel file.</li>
+<li>It produced a source distribution as a backup.</li>
+</ol>
+<p>Anyone with the wheel file can now install it with <code>pip install path/to/geohello_yourname-0.1.0-py3-none-any.whl</code>. In Week 10 we will upload this to TestPyPI so the install step becomes <code>pip install geohello-yourname</code> from anywhere.</p>
+</section>
+<section id="quick-reference-the-parts-of-a-package" class="level2">
+<h2 class="anchored" data-anchor-id="quick-reference-the-parts-of-a-package">Quick reference: the parts of a package</h2>
+<p>You do not need to memorise this. Use it later as a checklist.</p>
+<section id="module-vs-package" class="level3">
+<h3 class="anchored" data-anchor-id="module-vs-package">Module vs package</h3>
+<p>A <strong>module</strong> is a single Python file.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># metrics.py is a module</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_density(gdf):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A <strong>package</strong> is a folder of modules with an <code>__init__.py</code> file.</p>
+<pre><code>geohello_yourname/
+├── __init__.py
+├── data.py
+└── metrics.py</code></pre>
+</section>
+<section id="the-src-layout" class="level3">
+<h3 class="anchored" data-anchor-id="the-src-layout">The <code>src/</code> layout</h3>
+<p>Modern Python packaging puts the package inside an <code>src/</code> folder.</p>
+<pre><code>geohello-yourname/
+├── src/
+│   └── geohello_yourname/
+│       ├── __init__.py
+│       └── core.py
+├── tests/
+├── pyproject.toml
+└── README.md</code></pre>
+<p>Why bother with <code>src/</code>? It forces tests to use the installed package rather than accidentally importing from the local folder, which catches bugs earlier. You do not need to remember why right now. Just trust that <code>uv init --lib</code> does the right thing.</p>
+</section>
+<section id="naming-conventions" class="level3">
+<h3 class="anchored" data-anchor-id="naming-conventions">Naming conventions</h3>
+<p>There are two names to be aware of.</p>
 <ul>
-<li>The Geographic Data Science course developed by the Geographic Data Science Lab at the University of Liverpool https://gdsl-ul.github.io/gds/</li>
-<li>The Geospatial Data Science course from the Master of Urban Spatial Analytics (MUSA) programme at the University of Pennsylvania https://musa-550-fall-2023.github.io/</li>
-<li>The Geo-Python course from the University of Helsinki https://geo-python-site.readthedocs.io/en/latest/</li>
+<li>The <strong>PyPI name</strong> in <code>pyproject.toml</code>, written with hyphens (<code>geohello-yourname</code>).</li>
+<li>The <strong>Python package name</strong>, the folder under <code>src/</code>, written with underscores (<code>geohello_yourname</code>).</li>
 </ul>
-<p>These resources have been instrumental in shaping the structure, content, and pedagogical approach of this material. Their commitment to open education and sharing knowledge has made it possible to develop and deliver quality geographic data science education to students worldwide.</p>
+<pre class="text"><code>PyPI name      -&gt;  pip install geohello-yourname
+Python name    -&gt;  from geohello_yourname import hello</code></pre>
+<p><code>uv init --lib geohello-yourname</code> sets both of these correctly.</p>
 </section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>This book is free and open source, so please do <a href="https://github.com/dataandcrowd/python-gis/issues/new">open an issue</a> if you notice a problem!</p>
+<section id="what-goes-in-__init__.py" class="level3">
+<h3 class="anchored" data-anchor-id="what-goes-in-__init__.py">What goes in <code>__init__.py</code></h3>
+<p>The smallest version is a docstring and a version string.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""A simple geospatial greeting package."""</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>__version__ <span class="op">=</span> <span class="st">"0.1.0"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once your package has multiple modules, you can re-export the most common ones so users do not have to type long imports.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""A small Auckland GIS toolkit."""</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>__version__ <span class="op">=</span> <span class="st">"0.1.0"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> .data <span class="im">import</span> load_sa2</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> .metrics <span class="im">import</span> calculate_density</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="va">__all__</span> <span class="op">=</span> [<span class="st">"load_sa2"</span>, <span class="st">"calculate_density"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then a user can write <code>from your_package import load_sa2</code> rather than <code>from your_package.data import load_sa2</code>.</p>
+</section>
+</section>
+<section id="going-a-little-further-organising-modules" class="level2">
+<h2 class="anchored" data-anchor-id="going-a-little-further-organising-modules">Going a little further: organising modules</h2>
+<p>When your package grows beyond one function, split it into modules by purpose.</p>
+<pre><code>src/
+└── your_package/
+    ├── __init__.py
+    ├── data.py        # loading and validation
+    ├── metrics.py     # calculations
+    └── viz.py         # plotting</code></pre>
+<p>Each file should have one clear purpose. A common mistake is to call modules things like <code>utilities.py</code> or <code>helpers.py</code>, which tend to attract every leftover function and become impossible to navigate. Prefer names that describe the topic.</p>
+<section id="data-inside-packages" class="level3">
+<h3 class="anchored" data-anchor-id="data-inside-packages">Data inside packages</h3>
+<p>A small lookup table or schema (a few kilobytes) can live inside the package. Anything larger should live elsewhere (Zenodo, Figshare, GitHub releases) and be downloaded on first use. The real example we will look at in Week 10, <code>akl-ped-counts</code>, ships its CSV files inside the package because they are small and the package is the data product.</p>
+</section>
+</section>
+<section id="adding-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="adding-dependencies">Adding dependencies</h2>
+<p>If your function uses <code>geopandas</code>, you must list it in <code>pyproject.toml</code> so that <code>pip install</code> brings it in too.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geopandas&gt;=0.14.0"</span><span class="op">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pandas&gt;=2.0.0"</span><span class="op">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can also separate optional dependencies, which users only install if they want a particular feature. The <code>akl-ped-counts</code> package does this for plotting and mapping.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.optional-dependencies]</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">plot</span> <span class="op">=</span> <span class="op">[</span><span class="st">"matplotlib&gt;=3.7.0"</span><span class="op">,</span> <span class="st">"seaborn&gt;=0.13.0"</span><span class="op">]</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="dt">geo</span> <span class="op">=</span> <span class="op">[</span><span class="st">"folium&gt;=0.15.0"</span><span class="op">]</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="dt">all</span> <span class="op">=</span> <span class="op">[</span><span class="st">"akl-ped-counts[plot,geo]"</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A user can then choose <code>pip install your-package[plot]</code> rather than installing every dependency.</p>
+<p>You do not need any of this for <code>geohello-yourname</code>. We are listing it here so you know it exists when you start your real Assignment 3 package.</p>
+</section>
+<section id="common-build-issues-and-fixes" class="level2">
+<h2 class="anchored" data-anchor-id="common-build-issues-and-fixes">Common build issues and fixes</h2>
+<p><strong>ImportError: No module named your_package.</strong> Check that the folder under <code>src/</code> exists and contains an <code>__init__.py</code>. The folder name must match the import name (with underscores).</p>
+<p><strong>Wrong package name.</strong> The <code>name</code> field in <code>pyproject.toml</code> uses hyphens. The folder under <code>src/</code> uses underscores. They look different on purpose.</p>
+<p><strong>Missing dependencies at install time.</strong> Add the missing package to the <code>dependencies</code> list in <code>pyproject.toml</code> and rebuild.</p>
+<p>If something else goes wrong, run <code>uv build</code> again and read the first error message carefully. The most common fix is a small typo in <code>pyproject.toml</code>.</p>
+</section>
+<section id="week-9-lab" class="level2">
+<h2 class="anchored" data-anchor-id="week-9-lab">Week 9 lab</h2>
+<p>The Week 9 lab is essentially what you just did, but with screenshots, time limits, and a short reflection. Bring the <code>geohello-yourname</code> folder you created above and we will polish it together.</p>
+<p>In Week 10 you will add tests, write a README, and publish to TestPyPI. In Week 11 you will use the poster showcase to explain the design of your real Assignment 3 package. In Week 12 you will publish that real package to PyPI.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>You have learnt how to do the following.</p>
+<ol type="1">
+<li>Create a small package with <code>uv init --lib</code>.</li>
+<li>Add one function inside <code>src/your_package/__init__.py</code>.</li>
+<li>Build it with <code>uv build</code>.</li>
+<li>Install it locally and use it.</li>
+</ol>
+<p>You have also met the parts of <code>pyproject.toml</code> and the difference between PyPI and Python package names. That is enough to move on.</p>
+<p><strong>Next steps.</strong> In the next chapter on Testing and Code Quality, you will learn to test, document, and publish to TestPyPI.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li>Python Packaging Guide, https://packaging.python.org/</li>
+<li>PEP 621 (<code>pyproject.toml</code>), https://peps.python.org/pep-0621/</li>
+<li>uv documentation, https://docs.astral.sh/uv/</li>
+<li><code>src/</code> layout explanation, https://hynek.me/articles/testing-packaging/</li>
+<li>Semantic Versioning, https://semver.org/</li>
+</ul>
+</section>
+<section id="practise-exercises" class="level2">
+<h2 class="anchored" data-anchor-id="practise-exercises">Practise exercises</h2>
+<ol type="1">
+<li><strong>Rename your package.</strong> Change <code>geohello-yourname</code> to a name of your choice. Update <code>pyproject.toml</code> and the folder under <code>src/</code>. Rebuild and check it still works.</li>
+<li><strong>Add a second function.</strong> Write <code>bye(place="Auckland")</code> that returns <code>"Goodbye from Auckland!"</code>. Re-export it from <code>__init__.py</code> and try it.</li>
+<li><strong>Add a dependency.</strong> Add <code>pandas</code> to <code>dependencies</code> in <code>pyproject.toml</code>. Rebuild. Confirm <code>pandas</code> installs alongside your package.</li>
+<li><strong>Read a real one.</strong> Open the <code>akl-ped-counts</code> repo at https://github.com/dataandcrowd/akl-ped-counts and find its <code>pyproject.toml</code>. Compare it to yours. What is the same? What is different?</li>
+</ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -955,10 +1092,13 @@ This keeps the environment flexible and avoids version pinning unless it becomes
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./4.0.python-packaging.html" class="pagination-link" aria-label="Part 4. Python Package Development">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Part 4. Python Package Development</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./syllabus.html" class="pagination-link" aria-label="Syllabus (Semester 1, 2026)">
-        <span class="nav-page-text">Syllabus (Semester 1, 2026)</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./4.2.testing-and-quality.html" class="pagination-link" aria-label="4.2 Testing and code quality">
+        <span class="nav-page-text">4.2 Testing and code quality</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

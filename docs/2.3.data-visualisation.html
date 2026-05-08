@@ -314,8 +314,39 @@ div.csl-indent {
   </li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
-      <span class="sidebar-item-text sidebar-link text-start">
- <span class="menu-text">Part 4. Python Package Development</span></span>
+      <div class="sidebar-item-container"> 
+            <a href="./4.0.python-packaging.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Part 4. Python Package Development</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4.1.package-fundamentals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.1. Package Fundamentals: Structure, Configuration, and Building</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4.2.testing-and-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.2 Testing and Code Quality</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4.3.geospatial-package-example.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.3 Geospatial Package Example: Auckland GIS Toolkit</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4.4.publish-pypi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4.4 Publishing to PyPI</span></a>
+  </div>
+</li>
+      </ul>
   </li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
@@ -361,6 +392,12 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 06</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lab Week 07</span></a>
   </div>
 </li>
       </ul>
@@ -534,7 +571,7 @@ Which library should I use?
 </section>
 <section id="installation" class="level3">
 <h3 class="anchored" data-anchor-id="installation">Installation</h3>
-<div id="f3ceaf0c" class="cell" data-execution_count="1">
+<div id="9fd66794" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># matplotlib and pandas come with most Python installations</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -602,7 +639,7 @@ Common Confusion: Axes vs Axis
 <h3 class="anchored" data-anchor-id="two-ways-to-create-plots">Two Ways to Create Plots</h3>
 <p>There are two main approaches to creating matplotlib plots:</p>
 <p><strong>1. pyplot interface (implicit)</strong></p>
-<div id="16594ca5" class="cell" data-execution_count="2">
+<div id="f33beb49" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">9</span>])</span>
@@ -619,7 +656,7 @@ Common Confusion: Axes vs Axis
 </div>
 </div>
 <p><strong>2. Object-oriented interface (explicit) - RECOMMENDED</strong></p>
-<div id="26dd6756" class="cell" data-execution_count="3">
+<div id="9cf4da9e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()  <span class="co"># Create figure and axes explicitly</span></span>
@@ -1627,7 +1664,7 @@ Line Styles for Accessibility
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <p>This section has equipped you with the core data visualisation toolkit for Python. You have learned matplotlib’s three-layer architecture (backend, artist, and scripting layers) and how the Figure, Axes, and Artist hierarchy governs every plot you create. The object-oriented interface (<code>fig, ax = plt.subplots()</code>) provides explicit control and is the recommended approach for all but the simplest visualisations. You have worked through the fundamental plot types, including line plots for temporal trends, scatter plots for variable relationships, bar charts for categorical comparisons, and histograms for distributions, and you understand when each is appropriate. Through pandas integration, you can now produce quick exploratory plots directly from DataFrames, and through seaborn, you can create polished statistical graphics with minimal code.</p>
 <p>The practical skills of handling datetime data, creating multi-panel subplot figures, customising colours, legends, and annotations, and saving figures at publication-appropriate resolution complete your visualisation toolkit. The design principles and accessibility guidelines discussed at the end are not afterthoughts but essential professional practices, particularly in academic and policy contexts where your visualisations must be honest, readable, and inclusive.</p>
-<p>Six key principles should guide your practice. Always use the object-oriented interface for reproducible, explicit control. Choose plot types based on your data and analytical question, not habit. Label everything clearly, including units. Use colour thoughtfully and accessibly. Test your visualisations with others before finalising. Save figures at the appropriate resolution for their intended use. These skills form the foundation for the geospatial visualisation you will learn in the next section (<span class="quarto-unresolved-ref">?sec-geospatial</span>), where maps add a spatial dimension to the analytical graphics covered here.</p>
+<p>Six key principles should guide your practice. Always use the object-oriented interface for reproducible, explicit control. Choose plot types based on your data and analytical question, not habit. Label everything clearly, including units. Use colour thoughtfully and accessibly. Test your visualisations with others before finalising. Save figures at the appropriate resolution for their intended use. These skills form the foundation for the geospatial visualisation you will learn in the next section, where maps add a spatial dimension to the analytical graphics covered here.</p>
 </section>
 <section id="practice-exercises" class="level2">
 <h2 class="anchored" data-anchor-id="practice-exercises">Practice Exercises</h2>
@@ -1666,7 +1703,7 @@ Line Styles for Accessibility
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<p>Now that you understand general data visualisation in depth, you’re ready to tackle geospatial visualisation in <span class="quarto-unresolved-ref">?sec-geospatial</span>, where you’ll learn to create maps, choropleth plots, and spatial graphics using GeoPandas and other specialised tools.</p>
+<p>Now that you understand general data visualisation in depth, you’re ready to tackle geospatial visualisation in the next chapter, where you’ll learn to create maps, choropleth plots, and spatial graphics using GeoPandas and other specialised tools.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">

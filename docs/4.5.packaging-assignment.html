@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Hyesop Shin">
-<meta name="dcterms.date" content="2026-04-21">
 
-<title>Python GIS at UoA</title>
+<title>4.5 Assignment 3: package project briefs – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./syllabus.html" rel="next">
+<link href="./4.4.publish-pypi.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -83,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">GISCI 343 at UoA</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li><li class="breadcrumb-item"><a href="./4.5.packaging-assignment.html">4.5 Assignment 3: package project briefs</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GISCI 343 at UoA</span></a>
   </div>
 </li>
@@ -294,7 +292,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.5.packaging-assignment.html" class="sidebar-item-text sidebar-link">
+  <a href="./4.5.packaging-assignment.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">4.5 Assignment 3: package project briefs</span></a>
   </div>
 </li>
@@ -376,50 +374,36 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#gisci-343-at-uoa" id="toc-gisci-343-at-uoa" class="nav-link active" data-scroll-target="#gisci-343-at-uoa">GISCI 343 at UoA</a>
+  <li><a href="#how-this-assignment-works" id="toc-how-this-assignment-works" class="nav-link active" data-scroll-target="#how-this-assignment-works">How this assignment works</a></li>
+  <li><a href="#what-you-submit" id="toc-what-you-submit" class="nav-link" data-scroll-target="#what-you-submit">What you submit</a></li>
+  <li><a href="#fit-interview" id="toc-fit-interview" class="nav-link" data-scroll-target="#fit-interview">Fit interview</a></li>
+  <li><a href="#the-five-package-briefs" id="toc-the-five-package-briefs" class="nav-link" data-scroll-target="#the-five-package-briefs">The five package briefs</a>
   <ul class="collapse">
-  <li><a href="#who-is-this-for" id="toc-who-is-this-for" class="nav-link" data-scroll-target="#who-is-this-for">Who is this for?</a></li>
-  <li><a href="#why-this-approach" id="toc-why-this-approach" class="nav-link" data-scroll-target="#why-this-approach">Why this approach?</a>
-  <ul class="collapse">
-  <li><a href="#why-do-we-use-git-and-how-does-it-support-reproducible-research" id="toc-why-do-we-use-git-and-how-does-it-support-reproducible-research" class="nav-link" data-scroll-target="#why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</a></li>
-  <li><a href="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" id="toc-why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="nav-link" data-scroll-target="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</a></li>
-  <li><a href="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" id="toc-why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="nav-link" data-scroll-target="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</a></li>
+  <li><a href="#sec-pedestrian-exposure" id="toc-sec-pedestrian-exposure" class="nav-link" data-scroll-target="#sec-pedestrian-exposure"><code>pedestrian-exposure</code></a></li>
+  <li><a href="#sec-equitransport" id="toc-sec-equitransport" class="nav-link" data-scroll-target="#sec-equitransport"><code>equitransport</code></a></li>
+  <li><a href="#sec-gtfs-lite" id="toc-sec-gtfs-lite" class="nav-link" data-scroll-target="#sec-gtfs-lite"><code>gtfs-lite</code></a></li>
+  <li><a href="#sec-treecrown-nz" id="toc-sec-treecrown-nz" class="nav-link" data-scroll-target="#sec-treecrown-nz"><code>treecrown-nz</code></a></li>
+  <li><a href="#sec-pavescore" id="toc-sec-pavescore" class="nav-link" data-scroll-target="#sec-pavescore"><code>pavescore</code></a></li>
   </ul></li>
-  <li><a href="#running-the-code-yourself" id="toc-running-the-code-yourself" class="nav-link" data-scroll-target="#running-the-code-yourself">Running the code yourself</a>
-  <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  </ul></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  </ul></li>
+  <li><a href="#working-timeline" id="toc-working-timeline" class="nav-link" data-scroll-target="#working-timeline">Working timeline</a></li>
+  <li><a href="#common-mistakes-to-avoid" id="toc-common-mistakes-to-avoid" class="nav-link" data-scroll-target="#common-mistakes-to-avoid">Common mistakes to avoid</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4.0.python-packaging.html">Part 4. Python Package Development</a></li><li class="breadcrumb-item"><a href="./4.5.packaging-assignment.html">4.5 Assignment 3: package project briefs</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Python GIS at UoA</h1>
+<h1 class="title"><span id="sec-packaging-assignment" class="quarto-section-identifier">4.5 Assignment 3: package project briefs</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Hyesop Shin </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 21, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -429,128 +413,275 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="gisci-343-at-uoa" class="level1 unnumbered">
-<h1 class="unnumbered">GISCI 343 at UoA</h1>
-<p><strong>Welcome to the course!</strong></p>
-<p>This is an online workbook for the <span style="color:blue;"><strong>GISCI 343</strong></span> course called Geospatial Data Science, launched in 2026.</p>
-<p>This is course designed and delivered by <strong>Dr.&nbsp;Hyesop Shin</strong> from the School of Environment at the University of Auckland, New Zealand.</p>
-<p>Unlike conventional GIS coursework that focuses on tools or isolated techniques, this book goes beyond the standard GIS and Python combination. The emphasis is on building applied, production-oriented skills that reflect how geospatial data science is practised outside the classroom, particularly through dashboards and Python packaging.</p>
-<p>The book is organised into three main parts:</p>
-<p><strong>Part 1.</strong> Doing geospatial analysis using Python (Weeks 1-5)</p>
-<p><strong>Part 2.</strong> Creating geospatial dashboards (Weeks 6-8)</p>
-<p><strong>Part 3.</strong> Publishing Python packages with a geospatial focus (Weeks 9-12)</p>
-<p>Throughout the course, <strong>Positron</strong> is used as the primary development environment.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="positron.png" class="img-fluid figure-img" style="width:60.0%"></p>
-<figcaption>Visit https://positron.posit.co/download.html for download</figcaption>
-</figure>
-</div>
-<section id="who-is-this-for" class="level2">
-<h2 class="anchored" data-anchor-id="who-is-this-for">Who is this for?</h2>
-<p>This book is designed for students and learners who already have foundational GIS knowledge, such as introductory GIS or remote sensing courses, but who have limited exposure to programming.</p>
-<p>If you are familiar with any dataframe-based workflow, most examples should be approachable. Familiarity with Pandas will be particularly helpful, as all Polars examples are accompanied by equivalent Pandas implementations for comparison and learning.</p>
-<p>Reading <em>Modern Pandas</em> is not required, although it is a recommended resource for those who wish to deepen their understanding.</p>
+<section id="how-this-assignment-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-this-assignment-works">How this assignment works</h2>
+<p>You will work in <strong>pairs</strong>. Each pair is assigned one of the five packages described below. Your brief tells you what the package should do, which functions you must implement, and what dataset to use for the demonstration.</p>
+<p>Pairs and assignments are announced in the Week 9 lecture. Read your brief carefully before your Week 10 check-in. By Week 10 you should be able to explain the package’s purpose and your planned structure.</p>
 </section>
-<section id="why-this-approach" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-approach">Why this approach?</h2>
-<p>Although artificial intelligence has transformed how we learn, analyse data, and write code, reproducibility and sound practice in data science remain essential.</p>
-<p>Simply combining GIS and Python is no longer sufficient. This course therefore addresses broader and often overlooked questions:</p>
-<section id="why-do-we-use-git-and-how-does-it-support-reproducible-research" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Git provides a transparent and traceable record of how a project evolves over time. Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.</p>
-<p>Using <strong>Git encourages good research habits</strong>: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.</p>
-</div>
-</div>
-</section>
-<section id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Dashboards transform analytical outputs into interactive and interpretable artefacts. Rather than presenting static maps or tables, dashboards allow users to explore spatial patterns, filter scenarios, and ask their own questions. This is particularly important in applied geospatial work, where stakeholders may not be familiar with code but need to engage with evidence.</p>
-<p>By building dashboards, students learn how to bridge the gap between analysis and communication. Dashboards force careful thinking about what results matter, how uncertainty is presented, and how spatial information can be explored intuitively. These skills are essential when working with planners, policymakers, and industry partners who rely on clear, actionable insights rather than raw analytical outputs.</p>
-</div>
-</div>
-</section>
-<section id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Developing a Python package shifts the focus from writing one-off scripts to building reusable, maintainable software. Packaging requires students to structure code logically, define clear interfaces, and think about how others will use their work. This naturally introduces object-oriented programming concepts, such as abstraction, encapsulation, and modular design, in a context where they serve a practical purpose.</p>
-<p>In geospatial data science, packaging allows analytical workflows, spatial utilities, or modelling components to be shared, tested, and extended. The final package becomes a tangible output that can be included in a portfolio, reused in future projects, or published openly. This mirrors professional practice and helps students understand how geospatial tools are developed, maintained, and deployed in real-world environments.</p>
-</div>
-</div>
-<p>Each of these components is intentionally included to help students understand professional workflows and to produce outputs that can be shared beyond the university setting.</p>
-<p>The three modules in this book are designed to be complete, reusable, and ready to engage with society, forming a practical portfolio that reflects contemporary geospatial data science practice.</p>
-</section>
-</section>
-<section id="running-the-code-yourself" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-code-yourself">Running the code yourself</h2>
-<p>You can install the following package versions and it should work:</p>
-<pre><code>polars
-pyarrow
-pandas
-geopandas
-numpy
-matplotlib
-seaborn
-statsmodels</code></pre>
-<p>Once saved, install the dependencies using one of the following methods.</p>
-<p><strong>Using pip</strong>:</p>
-<pre><code>pip install -r requirements.txt</code></pre>
-<p><strong>Using uv (recommended if you are working inside a uv-managed virtual environment)</strong>:</p>
-<pre><code>uv pip install -r requirements.txt
-"""
-This keeps the environment flexible and avoids version pinning unless it becomes necessary later for reproducibility or debugging.
-"""</code></pre>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
-<p>All the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in <a href="https://github.com/dataandcrowd/python-gis/tree/main/data">here</a> for posterity.</p>
-</section>
-</section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>This course builds upon the excellent work of several open educational resources in geographic and geospatial data science.</p>
-<p>I am particularly grateful to stand on the shoulders of:</p>
+<section id="what-you-submit" class="level2">
+<h2 class="anchored" data-anchor-id="what-you-submit">What you submit</h2>
+<p>By the end of Week 12, every pair submits the following.</p>
 <ul>
-<li>The Geographic Data Science course developed by the Geographic Data Science Lab at the University of Liverpool https://gdsl-ul.github.io/gds/</li>
-<li>The Geospatial Data Science course from the Master of Urban Spatial Analytics (MUSA) programme at the University of Pennsylvania https://musa-550-fall-2023.github.io/</li>
-<li>The Geo-Python course from the University of Helsinki https://geo-python-site.readthedocs.io/en/latest/</li>
+<li>A <strong>TestPyPI</strong> release of the package (and ideally a production PyPI release).</li>
+<li>A <strong>GitHub repository</strong> with the source code, tests, and a working README.</li>
+<li>A <strong>demo notebook</strong> that loads the data, calls the package, and produces the requested visualisation.</li>
+<li>An <strong>A1 poster</strong> presented at the Week 11 showcase on Tuesday 25 May (B301-G10).</li>
+<li>A <strong>fit interview</strong> conducted in the Week 12 lab (about 5 to 10 minutes per person, see the next section).</li>
 </ul>
-<p>These resources have been instrumental in shaping the structure, content, and pedagogical approach of this material. Their commitment to open education and sharing knowledge has made it possible to develop and deliver quality geographic data science education to students worldwide.</p>
 </section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>This book is free and open source, so please do <a href="https://github.com/dataandcrowd/python-gis/issues/new">open an issue</a> if you notice a problem!</p>
+<section id="fit-interview" class="level2">
+<h2 class="anchored" data-anchor-id="fit-interview">Fit interview</h2>
+<p>Each pair member sits a short individual fit interview during the Week 12 lab. The aim is to confirm everyone understands the code their pair has shipped. Expect three short prompts.</p>
+<ol type="1">
+<li>Walk us through one function you wrote, line by line, and explain what it returns.</li>
+<li>Explain one design choice in your package. Why this CRS, why this filter, why this default? What did you reject and why?</li>
+<li>Answer one short technical question on the spot (for example, “what would happen if the input had a different CRS?”).</li>
+</ol>
+<p>The interview is not a test of memory. It is a quick check that you actually built and understand what you submitted. Bring your laptop with the package open.</p>
+</section>
+<section id="the-five-package-briefs" class="level2">
+<h2 class="anchored" data-anchor-id="the-five-package-briefs">The five package briefs</h2>
+<p>Each brief follows the same shape. A short rationale, the functions you must implement, the demonstration dataset, and notes on difficulty.</p>
+<hr>
+<section id="sec-pedestrian-exposure" class="level3">
+<h3 class="anchored" data-anchor-id="sec-pedestrian-exposure"><code>pedestrian-exposure</code></h3>
+<p><strong>Given a walking route and a set of environmental layers, calculate cumulative exposure along that path.</strong></p>
+<p>Pedestrians are not exposed to the same conditions along every part of a journey. A route through a busy arterial will accumulate more noise and air pollution than one through a park, even if the total distance is similar. This package makes that exposure measurable by joining environmental data layers to the edges of a walking route and summarising the result.</p>
+<p>Your package takes an OSMnx-derived route (expressed as a list of node IDs) and one or more spatial layers, such as traffic noise polygons, greenery fraction rasters, or air quality estimates, and returns per-edge exposure values alongside a route-level summary score. Think of it as a weighted integral along a path.</p>
+<p><strong>Functions to implement.</strong></p>
+<p><code>load_route(origin, destination, place)</code> fetches a walking route between two addresses using OSMnx and returns a GeoDataFrame of edges with geometries.</p>
+<p><code>add_exposure_layer(route_gdf, layer_gdf, column)</code> spatially joins an attribute from a polygon or raster layer onto each route edge, adding it as a new column.</p>
+<p><code>summarise_exposure(route_gdf)</code> returns a tidy DataFrame of per-edge scores and a single route-level weighted summary.</p>
+<p><strong>Demonstration dataset.</strong> Use pedestrian corridors from the Auckland hotcity.co.nz dataset as your route input, and NDVI derived from a Sentinel-2 image as a greenery exposure layer. Your demo notebook should show a map of a route coloured by exposure level.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Start with a simple point-in-polygon join before attempting raster sampling. Get the summary table working first, then add the map.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Difficulty level.</strong> Intermediate. The main challenge is handling coordinate reference system alignment across layers.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-equitransport" class="level3">
+<h3 class="anchored" data-anchor-id="sec-equitransport"><code>equitransport</code></h3>
+<p><strong>Break down transport accessibility by deprivation quintile and surface equity gaps.</strong></p>
+<p>Transport planning that looks only at average accessibility can obscure deep inequalities. A city might have good average PT coverage while the most deprived neighbourhoods remain poorly served. This package connects an accessibility metric to the New Zealand Index of Deprivation (NZDep2018) at SA2 level, then computes how that access is distributed across the population.</p>
+<p>Your package takes a GeoDataFrame of SA2 boundaries with an accessibility metric column (for example, the number of PT stops within 400 m walk) and joins it to NZDep2018 scores. It then computes quintile means and a Gini coefficient to quantify how unequally access is distributed.</p>
+<p><strong>Functions to implement.</strong></p>
+<p><code>load_nzdep(sa2_gdf)</code> joins NZDep2018 deprivation scores to an SA2-level GeoDataFrame by meshblock or SA2 code.</p>
+<p><code>compute_access(gdf, metric_col)</code> calculates the chosen accessibility metric per SA2 polygon.</p>
+<p><code>equity_summary(gdf)</code> returns a quintile breakdown table and a Gini coefficient, along with a choropleth-ready GeoDataFrame for mapping.</p>
+<p><strong>Demonstration dataset.</strong> Use Stats NZ SA2 boundaries for the Auckland region alongside a PT stop count derived from the Auckland Transport GTFS static feed. Your demo should produce both a summary table and a choropleth map coloured by deprivation quintile.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The NZDep2018 data is published by the University of Otago and is freely downloadable as a CSV. You can ship it as a small bundled data file inside your package rather than fetching it at runtime.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Difficulty level.</strong> Intermediate. The main challenge is correctly aggregating meshblock-level deprivation scores up to SA2 level.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-gtfs-lite" class="level3">
+<h3 class="anchored" data-anchor-id="sec-gtfs-lite"><code>gtfs-lite</code></h3>
+<p><strong>Read a GTFS feed into clean GeoPandas objects with one line of code.</strong></p>
+<p>The General Transit Feed Specification (GTFS) is the standard format for public transport schedules worldwide, but parsing it from scratch requires juggling multiple CSVs, handling coordinate systems, and joining several tables together. Existing Python packages for GTFS are either too heavy for introductory use or assume prior knowledge of the format. This package wraps just the most useful parts (stops, routes, and service frequency) into a clean GeoPandas-friendly interface.</p>
+<p>Your package reads a standard GTFS zip file and exposes stops, routes, and stop times as GeoDataFrames. It also provides a frequency method that tells you how many services per hour depart from a given stop. Real-time feeds (GTFS-RT) are explicitly out of scope for this package.</p>
+<p><strong>Functions to implement.</strong></p>
+<p><code>GTFSFeed(path)</code> is the main class. It loads and lightly validates a GTFS zip file on initialisation.</p>
+<p><code>feed.stops()</code> returns a GeoDataFrame of stop locations with Point geometries in EPSG:4326.</p>
+<p><code>feed.routes()</code> returns route geometries as LineStrings constructed from the shapes table.</p>
+<p><code>feed.frequency(stop_id, day)</code> returns the number of scheduled departures per hour for a given stop on a given day of the week.</p>
+<p><strong>Demonstration dataset.</strong> Use the Auckland Transport GTFS static feed, which is publicly available for download from the AT Developer Portal. Your demo notebook should map all bus routes in the Waitematā Local Board area and show a frequency table for three stops of your choice.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Build the class incrementally. Get <code>stops()</code> returning correct geometries before moving on to routes, and leave <code>frequency()</code> until both spatial methods are solid.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Difficulty level.</strong> Beginner-friendly. The data is well-structured and the main task is joining and converting existing tables rather than spatial analysis.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-treecrown-nz" class="level3">
+<h3 class="anchored" data-anchor-id="sec-treecrown-nz"><code>treecrown-nz</code></h3>
+<p><strong>Measure urban tree canopy coverage and shade along any Auckland street or area.</strong></p>
+<p>Urban tree canopy is increasingly recognised as critical infrastructure. It reduces heat stress, improves air quality, and makes walking more comfortable. Auckland Council has invested in LiDAR-derived canopy mapping, but using that data programmatically requires navigating the LINZ Data Service API, clipping geometries, and computing coverage statistics, steps that every researcher ends up writing from scratch. This package automates that workflow.</p>
+<p>Your package fetches canopy polygon data for a bounding box from LINZ, then computes coverage percentage for a user-supplied area or along a buffered walking route. The output is a per-polygon or per-segment summary suitable for mapping and further analysis.</p>
+<p><strong>Functions to implement.</strong></p>
+<p><code>load_canopy(bbox)</code> fetches the Auckland Council canopy layer from LINZ for a given bounding box and returns a GeoDataFrame of canopy polygons.</p>
+<p><code>canopy_coverage(area_gdf)</code> computes the percentage of each input polygon covered by canopy.</p>
+<p><code>route_shade(route_gdf, buffer_m)</code> buffers each edge of a route by a given distance (in metres) and returns the canopy fraction within that buffer, a proxy for pedestrian shade.</p>
+<p><strong>Demonstration dataset.</strong> Use the Auckland Council LiDAR-derived canopy layer available via the LINZ Data Service. Your demo notebook should compare canopy coverage across three Auckland suburbs and produce a map showing shade fraction along a walking route of your choice.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The LINZ API requires an API key. Register for a free account at data.linz.govt.nz and store your key in a <code>.env</code> file. Never hard-code it in your package source.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Difficulty level.</strong> Intermediate to ambitious. The LINZ API has some quirks around pagination and layer IDs. Budget time for getting the data access working before the analysis.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-pavescore" class="level3">
+<h3 class="anchored" data-anchor-id="sec-pavescore"><code>pavescore</code></h3>
+<p><strong>Pass in a pavement photo, get back a condition score and defect flags.</strong></p>
+<p>Pavement condition inspections are currently conducted manually by Auckland Council field staff, a slow and expensive process. Computer vision offers a path to scalable, consistent assessment from street-level imagery. This package takes a pavement photograph (from a file path or a Mapillary URL) and returns a structured condition assessment based on image analysis.</p>
+<p>A working basic version uses edge detection and texture analysis to detect surface degradation. A more ambitious version wraps a lightweight pre-trained image classifier. Either approach is valid for this assignment, provided your outputs are consistent and your methodology is clearly documented.</p>
+<p><strong>Functions to implement.</strong></p>
+<p><code>score_image(path_or_url)</code> takes a single image and returns a <code>PavementResult</code> dataclass containing an overall score (0 to 100, where 100 is perfect condition), binary defect flags for cracking, surface degradation, and obstruction, and a confidence value.</p>
+<p><code>score_batch(image_list)</code> processes a list of images and returns a summary DataFrame with one row per image.</p>
+<p><code>to_geodataframe(results, coords)</code> takes a list of <code>PavementResult</code> objects and a matching list of (lat, lon) tuples and returns a GeoDataFrame suitable for mapping.</p>
+<p><strong>Demonstration dataset.</strong> Use Mapillary images sampled along Dominion Road or Queen Street, Auckland. The Mapillary API is free for research use and returns image URLs that your package can consume directly. Your demo notebook should produce a map of scored locations coloured by condition category (good, fair, poor).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Focus on getting <code>score_image()</code> returning a consistent and sensible output before building the batch and spatial methods. A simple texture-based scorer that works reliably is better than an ambitious classifier that is fragile.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Image analysis can be computationally slow. Make sure your demo notebook includes a small pre-sampled set of images (10 to 20) rather than fetching hundreds at runtime during the presentation.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Difficulty level.</strong> Ambitious. This is the most open-ended brief of the five. You have more design freedom, which also means more decisions to justify in your poster and interview.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="working-timeline" class="level2">
+<h2 class="anchored" data-anchor-id="working-timeline">Working timeline</h2>
+<p>A suggested rhythm. Adjust as needed.</p>
+<p><strong>Week 9.</strong> Read your brief, set up the package skeleton in pairs, draft the public API as a list of function signatures, and implement one function end to end. The Week 9 lab walks you through this.</p>
+<p><strong>Week 10.</strong> Add tests, write the README, publish to TestPyPI, and start the demo notebook. The Week 10 lab covers pytest patterns, TestPyPI release, poster outlining, and a fit interview rehearsal.</p>
+<p><strong>Week 11.</strong> Polish the code, finish the demo notebook, and present the A1 poster at the Tuesday 25 May showcase (B301-G10).</p>
+<p><strong>Week 12.</strong> Publish to production PyPI once the TestPyPI install is fully confirmed. Sit the fit interview during the lab.</p>
+</section>
+<section id="common-mistakes-to-avoid" class="level2">
+<h2 class="anchored" data-anchor-id="common-mistakes-to-avoid">Common mistakes to avoid</h2>
+<p>These come up every year. None of them are fatal, but each one costs you time.</p>
+<p><strong>Hard-coded paths.</strong> Use <code>importlib.resources</code> or <code>pathlib</code> to find files relative to the package. Never write <code>'/Users/me/Desktop/...'</code> inside the package source.</p>
+<p><strong>No error handling on missing data.</strong> If a file does not exist or an API key is missing, raise a clear <code>FileNotFoundError</code> or <code>ValueError</code> rather than letting a deep <code>KeyError</code> surface later.</p>
+<p><strong>Print statements left in functions.</strong> Remove <code>print</code> calls from your final code. Use return values for outputs and let the user decide what to display.</p>
+<p><strong>Vague docstrings.</strong> Every public function needs a one-line summary, a Parameters section, and a Returns section. NumPy style is the convention. Look at <code>akl-ped-counts</code> for examples.</p>
+<p><strong>Tests that only check imports.</strong> A test that just confirms <code>from your_package import f</code> is not really a test. Write tests that exercise the function with real-shaped inputs and check the output shape and values.</p>
+<p><strong>Forgetting the demo notebook.</strong> The notebook is what convinces a reader that your package works on real data. Leave time for it. Run it from a clean kernel before submitting.</p>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ul>
+<li><code>akl-ped-counts</code> repository, https://github.com/dataandcrowd/akl-ped-counts</li>
+<li>Python Packaging Guide, https://packaging.python.org/</li>
+<li>uv documentation, https://docs.astral.sh/uv/</li>
+<li>pytest documentation, https://docs.pytest.org/</li>
+<li>Heart of the City pedestrian data, https://www.hotcity.co.nz/pedestrian-counts</li>
+<li>Auckland Transport Developer Portal, https://dev-portal.at.govt.nz/</li>
+<li>LINZ Data Service, https://data.linz.govt.nz/</li>
+<li>Stats NZ open data, https://datafinder.stats.govt.nz/</li>
+<li>NZDep2018, https://www.otago.ac.nz/wellington/departments/publichealth/research/hirp/otago020194.html</li>
+<li>Mapillary API, https://www.mapillary.com/developer/api-documentation</li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -955,11 +1086,11 @@ This keeps the environment flexible and avoids version pinning unless it becomes
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./4.4.publish-pypi.html" class="pagination-link" aria-label="4.4 Publishing to PyPI">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">4.4 Publishing to PyPI</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./syllabus.html" class="pagination-link" aria-label="Syllabus (Semester 1, 2026)">
-        <span class="nav-page-text">Syllabus (Semester 1, 2026)</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

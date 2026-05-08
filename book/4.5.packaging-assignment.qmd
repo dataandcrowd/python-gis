@@ -1,860 +1,219 @@
-# 4.5 Packaging Assignment Guide {.unnumbered #sec-packaging-assignment}
-
-## Story problem
-
-**A package that produces a map**
-
-- A marker installs your package in a clean environment.
-- They run one example script and get a Folium map output.
-- They read your docs and understand your assumptions.
-
-## What you will learn
-
-- Build a package that supports Auckland zones and one indicator.
-- Write tests and documentation pages.
-- Provide a small example that generates a Folium map.
-- Present your work professionally.
-
-## Assignment 3 Overview
-
-**Weight**: 30% of final grade
-
-**Due**: Thursday 5 June, 5pm (Week 12)
-
-**Task**: Create, test, document, and publish a Python package containing reusable urban analytics functions
-
-**Additional**: Poster Showcase on 5 June (10% of grade)
-
-## Deliverables
-
-### 1. Published PyPI Package (2%)
-
-**Requirement**: Package must be published to **production PyPI** (not TestPyPI)
-
-**Verification**:
-```bash
-pip install your-package-name
-python -c "import your_package; print('Success!')"
-```
-
-**Submit**: PyPI URL (e.g., `https://pypi.org/project/your-package-name/`)
-
-**Common issues to avoid:**
-- ❌ Forgotten to publish
-- ❌ Published to TestPyPI instead
-- ❌ Package name typo in submission
-- ❌ Dependencies missing from `pyproject.toml`
-
-### 2. GitHub Repository with Source Code
-
-**Required structure**:
-```
-your-package/
-├── .github/
-│   └── workflows/
-│       └── test.yml           # CI/CD (optional but encouraged)
-├── src/
-│   └── your_package/
-│       ├── __init__.py
-│       ├── module1.py         # At least 3 modules
-│       ├── module2.py
-│       └── module3.py
-├── tests/
-│   ├── test_module1.py        # At least 3 meaningful tests per module
-│   ├── test_module2.py
-│   └── test_module3.py
-├── examples/
-│   └── usage_example.ipynb    # Jupyter notebook
-├── docs/                       # Optional but recommended
-│   ├── index.md
-│   └── api-reference.md
-├── .gitignore
-├── LICENSE                     # MIT or similar
-├── pyproject.toml
-├── README.md                   # Comprehensive
-└── CHANGELOG.md                # Optional but good practice
-```
-
-**README Requirements**:
-- Project description
-- Installation instructions
-- Quick start example
-- Features list
-- Usage examples with code
-- Development setup
-- License information
-- Contact/contribution info
-
-### 3. Test Coverage >80% (8%)
-
-**Run coverage**:
-```bash
-uv run pytest --cov=your_package --cov-report=term-missing
-```
-
-**Target output**:
-```
------------ coverage: platform darwin, python 3.12.0 -----------
-Name                          Stmts   Miss  Cover   Missing
------------------------------------------------------------
-src/your_package/__init__.py      8      0   100%
-src/your_package/data.py         45      5    89%   78-82
-src/your_package/metrics.py     67      8    88%   134-141
-src/your_package/viz.py          34      2    94%   89-90
------------------------------------------------------------
-TOTAL                           154     15    90%
-```
-
-**Test quality matters**:
-- ✅ Test actual functionality, not just imports
-- ✅ Test edge cases (empty inputs, None values)
-- ✅ Test error handling
-- ✅ Test with realistic data
-- ❌ Don't write tests just to increase coverage
-
-### 4. Documentation (10%)
-
-**Docstrings** (NumPy style for all public functions):
-```python
-def calculate_accessibility(
-    origins_gdf,
-    destinations_gdf,
-    max_distance_m=800
-):
-    """
-    Calculate accessibility scores.
-    
-    Parameters
-    ----------
-    origins_gdf : GeoDataFrame
-        Origin locations
-    destinations_gdf : GeoDataFrame
-        Destination locations
-    max_distance_m : float, default 800
-        Maximum distance in metres
-    
-    Returns
-    -------
-    GeoDataFrame
-        Origins with accessibility scores
-    
-    Examples
-    --------
-    >>> homes = gpd.read_file('homes.gpkg')
-    >>> shops = gpd.read_file('shops.gpkg')
-    >>> result = calculate_accessibility(homes, shops)
-    >>> result['accessibility'].mean()
-    3.2
-    """
-    # Implementation
-```
-
-**README.md** must include:
-- What the package does
-- How to install
-- Basic usage example
-- Link to full documentation
-
-**Optional** (encouraged):
-- MkDocs documentation website
-- ReadTheDocs hosting
-- Tutorial notebooks
-- API reference
-
-### 5. Example Notebook
-
-**Jupyter notebook demonstrating**:
-- Installation verification
-- Basic usage
-- Real data analysis
-- Visualisation output
-- Clear narrative explaining what's happening
-
-**Example structure**:
-```markdown
-# Your Package Example
-
-## Installation
-
-...
-
-## Load Data
-
-...
-
-## Calculate Metrics
-
-...
-
-## Visualize Results
-
-...
-
-## Interpretation
-
-...
-```
-
-### 6. Brief Report (1-2 pages PDF)
-
-**Required sections**:
-
-1. **Package Overview**
-   - Name and purpose
-   - Key features (bullet points)
-   - Target users
-
-2. **Design Decisions**
-   - Why you structured it this way
-   - Trade-offs you made
-   - Assumptions in your code
-
-3. **Urban Analytics Application**
-   - What urban problem does it address?
-   - Example use cases
-   - Potential impact
-
-4. **Technical Challenges**
-   - What was difficult?
-   - How did you solve it?
-   - What would you do differently?
-
-5. **Future Development**
-   - Features you'd add next
-   - Known limitations
-   - Potential improvements
-
-**Format**: PDF, 1-2 pages (maximum 500 words)
-
-## Evaluation Rubric
-
-### Code Quality and Architecture (10%)
-
-**Excellent (9-10 points)**:
-- Clean, well-organized `src/` layout
-- Logical module separation
-- Functions are focused and reusable
-- Follows PEP 8 style
-- Type hints used appropriately
-- Proper error handling
-- No code duplication
-- Efficient algorithms
-
-**Good (7-8 points)**:
-- Clear structure with minor issues
-- Some functions too complex
-- Mostly follows PEP 8
-- Basic error handling
-- Some code duplication
-
-**Adequate (5-6 points)**:
-- Basic structure but disorganized
-- Functions do multiple things
-- Style inconsistencies
-- Minimal error handling
-- Significant code duplication
-
-**Poor (<5 points)**:
-- Flat layout or confusing structure
-- Code is hard to understand
-- No clear organization
-- No error handling
-- Major style violations
-
-### Documentation Completeness (10%)
-
-**Excellent (9-10 points)**:
-- All public functions have detailed docstrings
-- README is comprehensive and clear
-- Examples are thorough and working
-- Installation instructions tested
-- API documentation available
-- User guide or tutorials provided
-
-**Good (7-8 points)**:
-- Most functions documented
-- README has essential info
-- Examples work but basic
-- Installation instructions present
-
-**Adequate (5-6 points)**:
-- Some functions documented
-- README is minimal
-- Examples incomplete
-- Installation instructions unclear
-
-**Poor (<5 points)**:
-- Missing or poor docstrings
-- No README or very basic
-- Examples don't work
-- No installation guide
-
-### Test Coverage and Quality (8%)
-
-**Excellent (7-8 points)**:
-- Coverage >90%
-- Tests are meaningful and thorough
-- Edge cases tested
-- Error conditions tested
-- Geospatial operations tested correctly
-- CI/CD pipeline set up
-- Tests run fast
-
-**Good (5-6 points)**:
-- Coverage 80-90%
-- Tests cover main functionality
-- Some edge cases tested
-- Most tests meaningful
-
-**Adequate (3-4 points)**:
-- Coverage 70-80%
-- Basic tests present
-- Few edge cases
-- Some trivial tests
-
-**Poor (<3 points)**:
-- Coverage <70%
-- Only trivial tests
-- Tests don't work
-- No meaningful assertions
-
-### Successful PyPI Publication (2%)
-
-**Full credit (2 points)**:
-- Package published to production PyPI
-- Installable via `pip install package-name`
-- All dependencies specified correctly
-- Package works in fresh environment
-- Metadata accurate
-
-**Partial credit (1 point)**:
-- Published but with issues
-- Missing dependencies
-- Metadata incomplete
-
-**No credit (0 points)**:
-- Not published
-- Published to TestPyPI instead
-- Package doesn't install
-
-## Suggested Package Ideas
-
-### 1. Urban Accessibility Toolkit
-
-**Functionality**:
-```python
-from urban_access import (
-    calculate_isochrones,
-    fifteen_minute_city,
-    accessibility_score
-)
-
-# 10-minute walking isochrones
-isochrones = calculate_isochrones(origin_point, mode='walk', times=[5, 10, 15])
-
-# 15-minute city assessment
-score = fifteen_minute_city(residential_points, amenities_gdf)
-
-# Accessibility score
-access = accessibility_score(homes, ['shops', 'parks', 'schools'])
-```
-
-**Modules**:
-- `isochrones.py`: Time-distance polygons
-- `metrics.py`: Accessibility calculations
-- `viz.py`: Map generation
-
-**Data needs**: Street networks (OSMnx), amenity locations, residential points
-
-### 2. Pedestrian Flow Analysis
-
-**Functionality**:
-```python
-from pedestrian_analytics import (
-    load_sensor_data,
-    temporal_patterns,
-    hotspot_analysis
-)
-
-# Load and process
-data = load_sensor_data('counts_2024.csv')
-
-# Temporal patterns
-patterns = temporal_patterns(data, groupby=['hour', 'day_of_week'])
-
-# Hotspot detection
-hotspots = hotspot_analysis(sensor_locations, threshold='top_10_percent')
-```
-
-**Modules**:
-- `data.py`: Sensor data loading
-- `temporal.py`: Time series analysis
-- `spatial.py`: Spatial clustering
-
-**Data needs**: Pedestrian count sensors, locations, timestamps
-
-### 3. Micromobility Analytics (RECOMMENDED!)
-
-**Functionality**:
-```python
-from micromobility import (
-    process_trips,
-    geofence_validation,
-    od_flows,
-    mode_share
-)
-
-# Load e-scooter trips
-trips = process_trips('escooter_data.csv')
-
-# Validate geofencing
-violations = geofence_validation(trips, parking_zones_gdf)
-
-# Origin-destination flows
-flows = od_flows(trips, zones_gdf)
-
-# Calculate mode share
-shares = mode_share(trips, pt_data, bike_data)
-```
-
-**Modules**:
-- `trips.py`: Trip processing and cleaning
-- `geofencing.py`: Zone validation
-- `flows.py`: OD matrix generation
-- `viz.py`: Flow mapping
-
-**Data needs**: E-scooter trip data, zone boundaries, network data
-
-### 4. Street Network Metrics
-
-**Functionality**:
-```python
-from street_metrics import (
-    download_network,
-    connectivity_score,
-    walkability_index,
-    resilience_analysis
-)
-
-# Get street network
-G = download_network('Auckland CBD', network_type='walk')
-
-# Calculate metrics
-connectivity = connectivity_score(G)
-walkability = walkability_index(G, amenities_gdf)
-critical_nodes = resilience_analysis(G)
-```
-
-**Modules**:
-- `network.py`: OSMnx integration
-- `metrics.py`: Network measures
-- `resilience.py`: Vulnerability analysis
-
-**Data needs**: OSM networks, amenity data
-
-### 5. Urban Form Analysis
-
-**Functionality**:
-```python
-from urban_form import (
-    building_morphology,
-    street_patterns,
-    urban_grain
-)
-
-# Analyze building patterns
-morphology = building_morphology(buildings_gdf)
-
-# Street pattern classification
-patterns = street_patterns(street_network)
-
-# Calculate urban grain
-grain = urban_grain(parcels_gdf, measure='area')
-```
-
-**Modules**:
-- `buildings.py`: Building analysis
-- `streets.py`: Street patterns
-- `morphology.py`: Form metrics
-
-**Data needs**: Building footprints, parcels, street networks
-
-## Development Timeline
-
-### Weeks 9-10: Foundation (Build and Test)
-
-**Week 9**:
-- ✅ Choose topic and scope
-- ✅ Create package structure
-- ✅ Implement core functions (3-5)
-- ✅ Write basic tests
-- ✅ Publish to TestPyPI
-
-**Week 10**:
-- ✅ Add comprehensive tests (>80% coverage)
-- ✅ Write docstrings for all functions
-- ✅ Create example notebook
-- ✅ Improve README
-- ✅ Fix any TestPyPI issues
-
-### Week 11: Polish and Extend
-
-**Week 11**:
-- ⭐ Add advanced features
-- ⭐ Increase test coverage to 85%+
-- ⭐ Set up CI/CD (optional)
-- ⭐ Create documentation website (optional)
-- ⭐ **Design A1 poster**
-- ⭐ Publish to **real PyPI**
-
-### Week 12: Finalize
-
-**Week 12** (Final week):
-- 🎯 Final code refinement
-- 🎯 Complete documentation
-- 🎯 Write brief report
-- 🎯 Verify installation in fresh environment
-- 🎯 Print poster
-- 🎯 Prepare 2-minute pitch
-- 🎯 Submit all materials
-
-## Poster Showcase Requirements (10% of Grade)
-
-### Format
-
-**Size**: A1 (594mm × 841mm / 23.4" × 33.1")
-
-**Orientation**: Portrait (vertical)
-
-**File type**: PDF for printing
-
-### Content Requirements
-
-**Essential elements**:
-1. **Title**: Package name and tagline
-2. **Authors**: Your name and affiliation
-3. **Problem**: What urban challenge does it address?
-4. **Solution**: How does your package help?
-5. **Key Features**: Bullet points (3-5)
-6. **Code Example**: One clear usage example
-7. **Results**: Map, chart, or visualization
-8. **Impact**: Potential applications
-9. **Links**: QR code to PyPI/GitHub/docs
-10. **Contact**: Email or GitHub username
-
-**Design tips**:
-- Use large fonts (titles: 72pt+, body: 24pt+)
-- High contrast (dark text on light background)
-- Plenty of white space
-- One main message
-- Visual hierarchy clear
-- Professional color scheme
-
-### Example Poster Layout
-
-```
-┌─────────────────────────────────────────┐
-│  Micromobility Analytics Toolkit        │ ← Title (72pt)
-│  Your Name - University of Auckland     │ ← Author (36pt)
-├─────────────────────────────────────────┤
-│ THE PROBLEM                             │ ← Section (48pt)
-│ • E-scooters lack analysis tools        │
-│ • Trip data is messy and complex        │ ← Body (24pt)
-│ • Need standardised metrics             │
-├────────────────┬────────────────────────┤
-│  KEY FEATURES  │   CODE EXAMPLE         │
-│                │                        │
-│ • Trip process │ from micromobility...  │
-│ • Geofencing   │ trips = process_...    │
-│ • OD flows     │ flows = od_flows...    │
-│ • Viz tools    │                        │
-├────────────────┴────────────────────────┤
-│  [Large map visualization showing       │
-│   OD flows or geofencing results]       │
-│                                          │
-├──────────────────────────────────────────┤
-│ APPLICATIONS        LINKS                │
-│ • Urban planning   [QR code to PyPI]    │
-│ • Policy eval      [QR code to GitHub]  │
-│ • Research         your.email@auck...   │
-└──────────────────────────────────────────┘
-```
-
-### Printing
-
-**Recommended service**: University Print Centre
-- Website: printcentre.auckland.ac.nz
-- Cost: ~$25-30 for A1 color
-- Turnaround: 24-48 hours
-- **Print by**: 4 June (day before showcase)
-
-**Backup**: Bring PDF on USB drive to showcase
-
-### Presentation (2-minute pitch)
-
-**Structure**:
-1. **Hook** (15 sec): "E-scooters generate millions of trips, but how do we analyze them?"
-2. **Problem** (15 sec): What challenge does your package solve?
-3. **Solution** (30 sec): What does your package do?
-4. **Demo** (45 sec): Show one clear code example and result
-5. **Impact** (15 sec): Who benefits and how?
-
-**Tips**:
-- Practice timing (exactly 2 minutes)
-- Don't read from poster
-- Make eye contact
-- Show enthusiasm
-- Prepare for questions
-
-### Evaluation Criteria
-
-**Visual Design (4%)**
-- Professional appearance
-- Clear hierarchy
-- Readable from 2 metres away
-- Effective use of color and space
-
-**Content Quality (4%)**
-- Clear problem statement
-- Convincing solution
-- Accurate technical details
-- Appropriate visualizations
-
-**Communication (2%)**
-- Clear 2-minute pitch
-- Answers questions well
-- Engages with audience
-- Professional demeanor
-
-## Common Mistakes to Avoid
-
-### Code Quality
-
-❌ **Hardcoded paths**
-```python
-# Bad
-gdf = gpd.read_file('/Users/me/Desktop/data.gpkg')
-
-# Good
-from pathlib import Path
-data_dir = Path(__file__).parent / 'data'
-gdf = gpd.read_file(data_dir / 'boundaries.gpkg')
-```
-
-❌ **No error handling**
-```python
-# Bad
-def load_data(path):
-    return gpd.read_file(path)  # What if file doesn't exist?
-
-# Good
-def load_data(path):
-    if not Path(path).exists():
-        raise FileNotFoundError(f"Data file not found: {path}")
-    return gpd.read_file(path)
-```
-
-❌ **Print statements everywhere**
-```python
-# Bad
-def process(data):
-    print("Processing...")  # Remove debug prints
-    result = data.mean()
-    print(result)  # Remove debug prints
-    return result
-
-# Good
-def process(data):
-    return data.mean()
-```
-
-### Documentation
-
-❌ **Vague docstrings**
-```python
-# Bad
-def calculate(data):
-    """Calculates stuff."""
-    pass
-
-# Good
-def calculate_density(gdf, pop_col='population'):
-    """
-    Calculate population density per km².
-    
-    Parameters
-    ----------
-    gdf : GeoDataFrame
-        Areas with population data
-    pop_col : str, default 'population'
-        Column containing population values
-    
-    Returns
-    -------
-    GeoDataFrame
-        Input with added 'density' column
-    """
-    pass
-```
-
-❌ **No examples in README**
-```markdown
-<!-- Bad -->
-# My Package
-
-Install: pip install my-package
-
-<!-- Good -->
-# My Package
-
-## Quick Start
-
-```python
-from my_package import analyze
-
-data = analyze('input.gpkg')
-print(data.head())
-```
-```
-
-### Testing
-
-❌ **Only testing imports**
-```python
-# Bad - doesn't test functionality
-def test_import():
-    from my_package import function
-    assert function is not None
-
-# Good - tests actual behavior
-def test_calculate_density():
-    gdf = create_test_data()
-    result = calculate_density(gdf)
-    assert 'density' in result.columns
-    assert result['density'].min() >= 0
-```
-
-❌ **No edge case testing**
-```python
-# Bad - only tests happy path
-def test_function():
-    result = function(good_input)
-    assert result is not None
-
-# Good - tests edge cases
-def test_function_with_empty_input():
-    result = function(pd.DataFrame())
-    assert len(result) == 0
-
-def test_function_with_invalid_crs():
-    with pytest.raises(ValueError):
-        function(gdf_with_no_crs)
-```
-
-## Getting Help
-
-### Office Hours
-- **When**: Week 11-12 lab sessions
-- **Where**: Regular lab venue
-- **What**: Code review, debugging, publication issues, poster feedback
-
-### Discussion Forum
-- Post questions on Ed
-- Help classmates
-- Share resources
-
-### Example Packages
-Review these for inspiration:
-- OSMnx: https://github.com/gboeing/osmnx
-- momepy: https://github.com/pysal/momepy
-- r5py: https://github.com/r5py/r5py
-
-## Submission Checklist
-
-One week before submission, verify:
-
-### Code
-- [ ] Package published to PyPI (not TestPyPI!)
-- [ ] GitHub repository public
-- [ ] `src/` layout used
-- [ ] At least 3 meaningful functions
-- [ ] All functions have docstrings
-- [ ] Tests achieve >80% coverage
-- [ ] CI/CD passing (if implemented)
-- [ ] No hardcoded paths
-- [ ] Error handling implemented
-
-### Documentation
-- [ ] README complete with examples
-- [ ] Installation instructions tested
-- [ ] Example notebook works
-- [ ] LICENSE file present
-- [ ] CHANGELOG.md (optional but good)
-
-### Testing
-- [ ] All tests pass locally
-- [ ] Coverage report generated
-- [ ] Tested in fresh environment
-- [ ] Edge cases covered
-
-### Submission Files
-- [ ] PyPI URL
-- [ ] GitHub URL
-- [ ] Documentation URL (if applicable)
-- [ ] Brief report PDF (1-2 pages)
-- [ ] Example notebook (.ipynb)
-
-### Poster
-- [ ] A1 size (594mm × 841mm)
-- [ ] PDF exported
-- [ ] Printed (or ready to print)
-- [ ] 2-minute pitch practiced
-- [ ] QR codes tested
-
-## Final Tips
-
-**Start early**:
-- Week 9: Choose topic and create structure
-- Week 10: Build functionality and tests
-- Week 11: Polish and create poster
-- Week 12: Final refinements only
-
-**Keep it simple**:
-- 3-5 well-implemented functions beat 10 half-done ones
-- Focus on quality over quantity
-- Make one thing work really well
-
-**Test thoroughly**:
-- Write tests as you code, not at the end
-- Test edge cases and error conditions
-- Aim for 85%+ coverage
-
-**Document clearly**:
-- Imagine explaining to yourself in 6 months
-- Provide examples for every function
-- Show the "why", not just the "what"
-
-**Ask for help**:
-- Don't struggle alone
-- Use office hours
-- Post on discussion forum
-- Review classmates' work
-
-**Be proud**:
-- You're creating something real
-- It's published and accessible to anyone
-- This is a portfolio piece
-- Celebrate your achievement!
-
-## Summary
-
-Assignment 3 is your opportunity to demonstrate everything you've learned:
-- Package architecture and structure
-- Testing and quality assurance
-- Documentation and communication
-- Publication and deployment
-- Professional presentation
-
-This assignment showcases your technical skills, analytical thinking, and ability to create tools others can use. It's not just about passing the course—it's about building something you'll be proud to show future employers and collaborators.
-
-Good luck, and enjoy the process of creating your first published Python package!
+# 4.5 Assignment 3: package project briefs {.unnumbered #sec-packaging-assignment}
+
+## How this assignment works
+
+You will work in **pairs**. Each pair is assigned one of the five packages described below. Your brief tells you what the package should do, which functions you must implement, and what dataset to use for the demonstration.
+
+Pairs and assignments are announced in the Week 9 lecture. Read your brief carefully before your Week 10 check-in. By Week 10 you should be able to explain the package's purpose and your planned structure.
+
+## What you submit
+
+By the end of Week 12, every pair submits the following.
+
+* A **TestPyPI** release of the package (and ideally a production PyPI release).
+* A **GitHub repository** with the source code, tests, and a working README.
+* A **demo notebook** that loads the data, calls the package, and produces the requested visualisation.
+* An **A1 poster** presented at the Week 11 showcase on Tuesday 25 May (B301-G10).
+* A **fit interview** conducted in the Week 12 lab (about 5 to 10 minutes per person, see the next section).
+
+## Fit interview
+
+Each pair member sits a short individual fit interview during the Week 12 lab. The aim is to confirm everyone understands the code their pair has shipped. Expect three short prompts.
+
+1. Walk us through one function you wrote, line by line, and explain what it returns.
+2. Explain one design choice in your package. Why this CRS, why this filter, why this default? What did you reject and why?
+3. Answer one short technical question on the spot (for example, "what would happen if the input had a different CRS?").
+
+The interview is not a test of memory. It is a quick check that you actually built and understand what you submitted. Bring your laptop with the package open.
+
+## The five package briefs
+
+Each brief follows the same shape. A short rationale, the functions you must implement, the demonstration dataset, and notes on difficulty.
+
+---
+
+### `pedestrian-exposure` {#sec-pedestrian-exposure}
+
+**Given a walking route and a set of environmental layers, calculate cumulative exposure along that path.**
+
+Pedestrians are not exposed to the same conditions along every part of a journey. A route through a busy arterial will accumulate more noise and air pollution than one through a park, even if the total distance is similar. This package makes that exposure measurable by joining environmental data layers to the edges of a walking route and summarising the result.
+
+Your package takes an OSMnx-derived route (expressed as a list of node IDs) and one or more spatial layers, such as traffic noise polygons, greenery fraction rasters, or air quality estimates, and returns per-edge exposure values alongside a route-level summary score. Think of it as a weighted integral along a path.
+
+**Functions to implement.**
+
+`load_route(origin, destination, place)` fetches a walking route between two addresses using OSMnx and returns a GeoDataFrame of edges with geometries.
+
+`add_exposure_layer(route_gdf, layer_gdf, column)` spatially joins an attribute from a polygon or raster layer onto each route edge, adding it as a new column.
+
+`summarise_exposure(route_gdf)` returns a tidy DataFrame of per-edge scores and a single route-level weighted summary.
+
+**Demonstration dataset.** Use pedestrian corridors from the Auckland hotcity.co.nz dataset as your route input, and NDVI derived from a Sentinel-2 image as a greenery exposure layer. Your demo notebook should show a map of a route coloured by exposure level.
+
+::: {.callout-tip}
+Start with a simple point-in-polygon join before attempting raster sampling. Get the summary table working first, then add the map.
+:::
+
+::: {.callout-note}
+**Difficulty level.** Intermediate. The main challenge is handling coordinate reference system alignment across layers.
+:::
+
+---
+
+### `equitransport` {#sec-equitransport}
+
+**Break down transport accessibility by deprivation quintile and surface equity gaps.**
+
+Transport planning that looks only at average accessibility can obscure deep inequalities. A city might have good average PT coverage while the most deprived neighbourhoods remain poorly served. This package connects an accessibility metric to the New Zealand Index of Deprivation (NZDep2018) at SA2 level, then computes how that access is distributed across the population.
+
+Your package takes a GeoDataFrame of SA2 boundaries with an accessibility metric column (for example, the number of PT stops within 400 m walk) and joins it to NZDep2018 scores. It then computes quintile means and a Gini coefficient to quantify how unequally access is distributed.
+
+**Functions to implement.**
+
+`load_nzdep(sa2_gdf)` joins NZDep2018 deprivation scores to an SA2-level GeoDataFrame by meshblock or SA2 code.
+
+`compute_access(gdf, metric_col)` calculates the chosen accessibility metric per SA2 polygon.
+
+`equity_summary(gdf)` returns a quintile breakdown table and a Gini coefficient, along with a choropleth-ready GeoDataFrame for mapping.
+
+**Demonstration dataset.** Use Stats NZ SA2 boundaries for the Auckland region alongside a PT stop count derived from the Auckland Transport GTFS static feed. Your demo should produce both a summary table and a choropleth map coloured by deprivation quintile.
+
+::: {.callout-tip}
+The NZDep2018 data is published by the University of Otago and is freely downloadable as a CSV. You can ship it as a small bundled data file inside your package rather than fetching it at runtime.
+:::
+
+::: {.callout-note}
+**Difficulty level.** Intermediate. The main challenge is correctly aggregating meshblock-level deprivation scores up to SA2 level.
+:::
+
+---
+
+### `treecrown-nz` {#sec-treecrown-nz}
+
+**Measure urban tree canopy coverage and shade along any Auckland street or area.**
+
+Urban tree canopy is increasingly recognised as critical infrastructure. It reduces heat stress, improves air quality, and makes walking more comfortable. Auckland Council has invested in LiDAR-derived canopy mapping, but using that data programmatically requires navigating the LINZ Data Service API, clipping geometries, and computing coverage statistics, steps that every researcher ends up writing from scratch. This package automates that workflow.
+
+Your package fetches canopy polygon data for a bounding box from LINZ, then computes coverage percentage for a user-supplied area or along a buffered walking route. The output is a per-polygon or per-segment summary suitable for mapping and further analysis.
+
+**Functions to implement.**
+
+`load_canopy(bbox)` fetches the Auckland Council canopy layer from LINZ for a given bounding box and returns a GeoDataFrame of canopy polygons.
+
+`canopy_coverage(area_gdf)` computes the percentage of each input polygon covered by canopy.
+
+`route_shade(route_gdf, buffer_m)` buffers each edge of a route by a given distance (in metres) and returns the canopy fraction within that buffer, a proxy for pedestrian shade.
+
+**Demonstration dataset.** Use the Auckland Council LiDAR-derived canopy layer available via the LINZ Data Service. Your demo notebook should compare canopy coverage across three Auckland suburbs and produce a map showing shade fraction along a walking route of your choice.
+
+::: {.callout-tip}
+The LINZ API requires an API key. Register for a free account at data.linz.govt.nz and store your key in a `.env` file. Never hard-code it in your package source.
+:::
+
+::: {.callout-note}
+**Difficulty level.** Intermediate to ambitious. The LINZ API has some quirks around pagination and layer IDs. Budget time for getting the data access working before the analysis.
+:::
+
+---
+
+### `pavescore` {#sec-pavescore}
+
+**Pass in a pavement photo, get back a condition score and defect flags.**
+
+Pavement condition inspections are currently conducted manually by Auckland Council field staff, a slow and expensive process. Computer vision offers a path to scalable, consistent assessment from street-level imagery. This package takes a pavement photograph (from a file path or a Mapillary URL) and returns a structured condition assessment based on image analysis.
+
+A working basic version uses edge detection and texture analysis to detect surface degradation. A more ambitious version wraps a lightweight pre-trained image classifier. Either approach is valid for this assignment, provided your outputs are consistent and your methodology is clearly documented.
+
+**Functions to implement.**
+
+`score_image(path_or_url)` takes a single image and returns a `PavementResult` dataclass containing an overall score (0 to 100, where 100 is perfect condition), binary defect flags for cracking, surface degradation, and obstruction, and a confidence value.
+
+`score_batch(image_list)` processes a list of images and returns a summary DataFrame with one row per image.
+
+`to_geodataframe(results, coords)` takes a list of `PavementResult` objects and a matching list of (lat, lon) tuples and returns a GeoDataFrame suitable for mapping.
+
+**Demonstration dataset.** Use Mapillary images sampled along Dominion Road or Queen Street, Auckland. The Mapillary API is free for research use and returns image URLs that your package can consume directly. Your demo notebook should produce a map of scored locations coloured by condition category (good, fair, poor).
+
+::: {.callout-tip}
+Focus on getting `score_image()` returning a consistent and sensible output before building the batch and spatial methods. A simple texture-based scorer that works reliably is better than an ambitious classifier that is fragile.
+:::
+
+::: {.callout-warning}
+Image analysis can be computationally slow. Make sure your demo notebook includes a small pre-sampled set of images (10 to 20) rather than fetching hundreds at runtime during the presentation.
+:::
+
+::: {.callout-note}
+**Difficulty level.** Ambitious. This is the most open-ended brief of the five. You have more design freedom, which also means more decisions to justify in your poster and interview.
+:::
+
+---
+
+### `escooter-akl` {#sec-escooter-akl}
+
+**Turn raw e-scooter trip records into clean origin-destination flows and flag geofence violations.**
+
+E-scooter operators in Auckland (Beam, Lime, Neuron, and others) generate millions of trips, but the raw data is messy. Trips can have missing endpoints, occur during prohibited hours, or end inside no-parking zones. Cities and operators need clean OD flows for parking infrastructure decisions, equity audits, and integration with public transport planning. This package takes a raw trip log and turns it into something you can map and reason about.
+
+Your package reads a CSV of e-scooter trips with start and end coordinates and timestamps, snaps trips to a zone layer (such as Auckland SA2s), aggregates them into an origin-destination matrix, and checks each trip end against a no-parking polygon layer to flag violations.
+
+**Functions to implement.**
+
+`load_trips(path)` reads a trip CSV with columns for start and end latitude/longitude and a timestamp, and returns a GeoDataFrame of trip records with start and end Point geometries (in EPSG:2193 for spatial maths).
+
+`od_flows(trips_gdf, zones_gdf)` performs a spatial join from trip endpoints to zones, then aggregates trip counts into a tidy origin-destination DataFrame indexed by origin zone code and destination zone code.
+
+`geofence_violations(trips_gdf, no_park_gdf)` returns a GeoDataFrame of trips whose end point lies inside any of the supplied no-parking polygons, with the violated zone name attached for reporting.
+
+**Demonstration dataset.** Use a sample of Auckland CBD e-scooter trips supplied as a CSV in your demo notebook (live MDS feeds require operator agreements, so a sample is fine). Use Auckland SA2 boundaries from Stats NZ for zone aggregation, and a small no-parking polygon layer for the geofence check (Auckland Council CBD pedestrianised zones work as a proxy if formal no-park polygons are not available). Your demo notebook should produce an OD flow chord diagram or arrow map plus a count of geofence violations.
+
+::: {.callout-tip}
+Start with `load_trips()` and a tiny CSV of 20 to 50 rows you make by hand. Once `load_trips()` returns a clean GeoDataFrame, the other two functions are straightforward spatial joins.
+:::
+
+::: {.callout-note}
+**Difficulty level.** Intermediate. The main challenge is handling messy data (missing endpoints, mismatched timestamps) cleanly without dropping silently. Loud failure beats silent failure.
+:::
+
+---
+
+## Working timeline
+
+A suggested rhythm. Adjust as needed.
+
+**Week 9.** Read your brief, set up the package skeleton in pairs, draft the public API as a list of function signatures, and implement one function end to end. The Week 9 lab walks you through this.
+
+**Week 10.** Add tests, write the README, publish to TestPyPI, and start the demo notebook. The Week 10 lab covers pytest patterns, TestPyPI release, poster outlining, and a fit interview rehearsal.
+
+**Week 11.** Polish the code, finish the demo notebook, and present the A1 poster at the Tuesday 25 May showcase (B301-G10).
+
+**Week 12.** Publish to production PyPI once the TestPyPI install is fully confirmed. Sit the fit interview during the lab.
+
+## Common mistakes to avoid
+
+These come up every year. None of them are fatal, but each one costs you time.
+
+**Hard-coded paths.** Use `importlib.resources` or `pathlib` to find files relative to the package. Never write `'/Users/me/Desktop/...'` inside the package source.
+
+**No error handling on missing data.** If a file does not exist or an API key is missing, raise a clear `FileNotFoundError` or `ValueError` rather than letting a deep `KeyError` surface later.
+
+**Print statements left in functions.** Remove `print` calls from your final code. Use return values for outputs and let the user decide what to display.
+
+**Vague docstrings.** Every public function needs a one-line summary, a Parameters section, and a Returns section. NumPy style is the convention. Look at `akl-ped-counts` for examples.
+
+**Tests that only check imports.** A test that just confirms `from your_package import f` is not really a test. Write tests that exercise the function with real-shaped inputs and check the output shape and values.
+
+**Forgetting the demo notebook.** The notebook is what convinces a reader that your package works on real data. Leave time for it. Run it from a clean kernel before submitting.
+
+## Resources
+
+* `akl-ped-counts` repository, https://github.com/dataandcrowd/akl-ped-counts
+* Python Packaging Guide, https://packaging.python.org/
+* uv documentation, https://docs.astral.sh/uv/
+* pytest documentation, https://docs.pytest.org/
+* Heart of the City pedestrian data, https://www.hotcity.co.nz/pedestrian-counts
+* LINZ Data Service, https://data.linz.govt.nz/
+* Stats NZ open data, https://datafinder.stats.govt.nz/
+* NZDep2018, https://www.otago.ac.nz/wellington/departments/publichealth/research/hirp/otago020194.html
+* Mapillary API, https://www.mapillary.com/developer/api-documentation
+* Auckland Council micromobility information, https://www.aucklandcouncil.govt.nz/
+* Mobility Data Specification (MDS), https://github.com/openmobilityfoundation/mobility-data-specification

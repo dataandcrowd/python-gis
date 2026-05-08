@@ -1,884 +1,256 @@
-# 4.3 Geospatial Package Example: Auckland GIS Toolkit {.unnumbered #sec-geospatial-package-example}
+# 4.3 A real geospatial package: `akl-ped-counts` {.unnumbered #sec-geospatial-package-example}
 
-## Story problem
+## What this chapter is for
 
-**Auckland SA2 toolkit**
+So far we have built a tiny package (`geohello-yourname`) and added a handful of pytest tests. This chapter takes you through a real, working package so you can see what a finished one looks like before you start your own.
 
-- Load `auckland_sa2.gpkg` and confirm CRS.
-- Join `population.csv` by SA2 code and validate matches.
-- Compute a density field ready for choropleths.
+The package is **`akl-ped-counts`**, which ships hourly Heart of the City pedestrian counts for 21 Auckland CBD sensors from 2019 to 2025. It is published on PyPI and lives at https://github.com/dataandcrowd/akl-ped-counts.
 
-## What you will learn
+Rather than reinvent it here, we will read the repository together. By the end of this chapter you should be able to do the following.
 
-- Implement a small library for Auckland zone analysis.
-- Keep geometry in GeoPandas, summarise in Pandas or Polars.
-- Return tidy outputs that feed Folium maps and Shiny apps.
-- Set up CI/CD with GitHub Actions.
-- Apply production-quality packaging practices.
+1. Open the repo and find your way around.
+2. Recognise the same parts you met in Chapter 4.1 (the `src/` layout, `pyproject.toml`, the public API in `__init__.py`).
+3. Use the package in a notebook to load real Auckland footfall data.
+4. Use it as a model for your own Assignment 3 package.
 
-## Complete Package Example: `auckland-gis`
+## How to read along
 
-Let's build a complete, production-ready geospatial package step by step.
+Open the repo in your browser at https://github.com/dataandcrowd/akl-ped-counts and keep it visible while you read this chapter. The discussion below points at specific files. The aim is to demystify a real package, not to memorise it.
 
-### Package Overview
+You can also install it now and try it.
 
-**Purpose**: Reusable utilities for Auckland urban analytics
+```bash
+pip install akl-ped-counts
+```
 
-**Functionality**:
-- Load and validate Auckland SA2 boundaries
-- Process census data
-- Calculate urban metrics (density, accessibility)
-- Create standard visualisations
-- Export data for dashboards
+```python
+from akl_ped_counts import load_hourly, load_locations, list_sensors
 
-**Repository**: `github.com/yourusername/auckland-gis`
+print(len(list_sensors()))      # 21
+counts = load_hourly()
+print(counts.shape)              # (61367, 24)
+locations = load_locations()
+print(locations.head())
+```
 
-### Project Structure
+That is the whole user-facing API. Three functions, one short line each.
+
+## A tour of the repository
+
+The folder layout follows the patterns from Chapter 4.1.
 
 ```
-auckland-gis/
-├── .github/
-│   └── workflows/
-│       └── test.yml               # CI/CD workflow
-├── src/
-│   └── auckland_gis/
-│       ├── __init__.py            # Package initialization
-│       ├── data.py                # Data loading and validation
-│       ├── metrics.py             # Urban metrics calculations
-│       ├── viz.py                 # Visualisation utilities
-│       └── utils.py               # Helper functions
-├── tests/
-│   ├── __init__.py
-│   ├── test_data.py
-│   ├── test_metrics.py
-│   ├── test_viz.py
-│   └── fixtures/
-│       ├── sample_sa2.gpkg
-│       └── sample_census.csv
-├── docs/
-│   ├── index.md
-│   ├── quickstart.md
-│   ├── api-reference.md
-│   └── examples.md
-├── examples/
-│   ├── basic_usage.ipynb
-│   └── dashboard_integration.py
-├── .gitignore
-├── .pre-commit-config.yaml        # Code quality hooks
-├── LICENSE
+akl-ped-counts/
 ├── pyproject.toml
-└── README.md
+├── README.md
+├── LICENSE
+├── CONTRIBUTING.md
+├── examples/
+│   ├── march_trajectories.py
+│   ├── march_trajectories.png
+│   ├── heatmap_hour_dow.png
+│   ├── above_below_average.png
+│   └── sensor_map.html
+└── src/
+    └── akl_ped_counts/
+        ├── __init__.py
+        ├── loader.py
+        ├── polars_loader.py
+        ├── py.typed
+        └── data/
+            ├── hourly_counts.csv
+            ├── locations.csv
+            └── missing_data_report.json
 ```
 
-## Suggested functions
+Three things to notice.
 
-### Data Module (`data.py`)
+* **`src/akl_ped_counts/`** is the Python package. The folder name uses underscores (Python identifier), while the package name on PyPI uses a hyphen (`akl-ped-counts`).
+* **`src/akl_ped_counts/data/`** ships the CSV files inside the package because they are small (around 8 MB). For larger datasets you would download on first use instead.
+* **`examples/`** holds standalone scripts and image outputs that show what the package can do.
 
-**Function 1: `load_sa2()`**
+## A look at `pyproject.toml`
 
-```python
-"""Data loading and validation functions."""
+The configuration file is short. Open it in the repo. The important fields, with light commentary, look like this.
 
-import geopandas as gpd
-from pathlib import Path
-from typing import Optional
-import warnings
+```toml
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-def load_sa2(path: Optional[str] = None, validate: bool = True) -> gpd.GeoDataFrame:
-    """
-    Load Auckland SA2 boundaries.
-    
-    Parameters
-    ----------
-    path : str, optional
-        Path to SA2 GeoPackage file. If None, downloads from
-        data repository.
-    validate : bool, default True
-        Whether to validate CRS and geometry
-    
-    Returns
-    -------
-    GeoDataFrame
-        SA2 boundaries in NZTM (EPSG:2193)
-    
-    Raises
-    ------
-    FileNotFoundError
-        If path provided but file doesn't exist
-    ValueError
-        If validation fails
-    
-    Examples
-    --------
-    >>> gdf = load_sa2()
-    >>> gdf.crs
-    CRS.from_epsg(2193)
-    >>> len(gdf)
-    104  # Number of SA2 areas in Auckland
-    """
-    if path is None:
-        path = _download_sa2_boundaries()
-    
-    path = Path(path)
-    if not path.exists():
-        raise FileNotFoundError(f"SA2 file not found: {path}")
-    
-    gdf = gpd.read_file(path)
-    
-    if validate:
-        gdf = _validate_sa2(gdf)
-    
-    return gdf
-
-def _download_sa2_boundaries() -> Path:
-    """Download SA2 boundaries if not cached."""
-    cache_dir = Path.home() / '.auckland_gis' / 'data'
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    
-    local_path = cache_dir / 'auckland_sa2.gpkg'
-    
-    if local_path.exists():
-        return local_path
-    
-    # Download from repository
-    url = "https://example.com/data/auckland_sa2.gpkg"
-    import urllib.request
-    
-    print(f"Downloading SA2 boundaries to {local_path}...")
-    urllib.request.urlretrieve(url, local_path)
-    
-    return local_path
-
-def _validate_sa2(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
-    """Validate SA2 GeoDataFrame."""
-    # Check CRS
-    if gdf.crs is None:
-        raise ValueError("GeoDataFrame has no CRS defined")
-    
-    if gdf.crs != 'EPSG:2193':
-        warnings.warn(
-            f"Converting from {gdf.crs} to EPSG:2193 (NZTM)",
-            UserWarning
-        )
-        gdf = gdf.to_crs('EPSG:2193')
-    
-    # Check required columns
-    required = ['SA2_code', 'SA2_name', 'geometry']
-    missing = set(required) - set(gdf.columns)
-    if missing:
-        raise ValueError(f"Missing required columns: {missing}")
-    
-    # Check geometry validity
-    invalid = ~gdf.geometry.is_valid
-    if invalid.any():
-        warnings.warn(
-            f"Found {invalid.sum()} invalid geometries. "
-            "Consider using .make_valid()",
-            UserWarning
-        )
-    
-    return gdf
-```
-
-**Function 2: `validate_join()`**
-
-```python
-from typing import Tuple, Dict, Any
-import pandas as pd
-
-def validate_join(
-    gdf: gpd.GeoDataFrame,
-    df: pd.DataFrame,
-    key: str,
-    how: str = 'left'
-) -> Tuple[gpd.GeoDataFrame, Dict[str, Any]]:
-    """
-    Join DataFrames with validation reporting.
-    
-    Performs a spatial join and reports on match quality,
-    helping detect data issues before they cause silent failures.
-    
-    Parameters
-    ----------
-    gdf : GeoDataFrame
-        Left DataFrame (typically boundaries)
-    df : DataFrame
-        Right DataFrame (typically attributes)
-    key : str
-        Column name to join on (must exist in both)
-    how : str, default 'left'
-        Type of join ('left', 'right', 'inner', 'outer')
-    
-    Returns
-    -------
-    result : GeoDataFrame
-        Joined GeoDataFrame
-    report : dict
-        Validation report with keys:
-        - all_matched: bool, True if all records matched
-        - unmatched_count: int, number of unmatched records
-        - unmatched_keys: list, keys that didn't match
-        - duplicate_keys: list, any duplicate keys found
-    
-    Raises
-    ------
-    ValueError
-        If key column missing or if duplicates found in right DataFrame
-    
-    Examples
-    --------
-    >>> boundaries = load_sa2()
-    >>> census = pd.read_csv('census_2023.csv')
-    >>> result, report = validate_join(boundaries, census, key='SA2_code')
-    >>> if not report['all_matched']:
-    ...     print(f"Warning: {report['unmatched_count']} zones missing data")
-    """
-    # Validate inputs
-    if key not in gdf.columns:
-        raise ValueError(f"Key '{key}' not in GeoDataFrame columns")
-    if key not in df.columns:
-        raise ValueError(f"Key '{key}' not in DataFrame columns")
-    
-    # Check for duplicates in df (common issue!)
-    duplicates = df[key].duplicated()
-    if duplicates.any():
-        dup_keys = df.loc[duplicates, key].tolist()
-        raise ValueError(
-            f"Duplicate keys found in right DataFrame: {dup_keys[:5]}..."
-        )
-    
-    # Store original keys for reporting
-    left_keys = set(gdf[key].unique())
-    right_keys = set(df[key].unique())
-    
-    # Perform join
-    result = gdf.merge(df, on=key, how=how)
-    
-    # Generate report
-    unmatched = left_keys - right_keys
-    report = {
-        'all_matched': len(unmatched) == 0,
-        'unmatched_count': len(unmatched),
-        'unmatched_keys': sorted(list(unmatched)),
-        'left_count': len(gdf),
-        'right_count': len(df),
-        'result_count': len(result),
-    }
-    
-    return result, report
-```
-
-### Metrics Module (`metrics.py`)
-
-**Function 3: `calculate_density()`**
-
-```python
-"""Urban metrics calculations."""
-
-import geopandas as gpd
-import numpy as np
-from typing import Optional
-
-def calculate_density(
-    gdf: gpd.GeoDataFrame,
-    value_col: str = 'population',
-    area_col: Optional[str] = None
-) -> gpd.GeoDataFrame:
-    """
-    Calculate density (value per km²).
-    
-    Parameters
-    ----------
-    gdf : GeoDataFrame
-        Input geodata, must be in projected CRS (metres)
-    value_col : str, default 'population'
-        Column containing values to calculate density for
-    area_col : str, optional
-        Column containing area in km². If None, calculates from geometry.
-    
-    Returns
-    -------
-    GeoDataFrame
-        Input GDF with added 'density' column
-    
-    Raises
-    ------
-    ValueError
-        If CRS is not projected (must be in metres)
-    
-    Examples
-    --------
-    >>> sa2 = load_sa2()
-    >>> census = pd.read_csv('population.csv')
-    >>> joined, _ = validate_join(sa2, census, 'SA2_code')
-    >>> result = calculate_density(joined, value_col='population')
-    >>> result['density'].describe()
-    count    104.0
-    mean     2156.3
-    std      2891.5
-    min         12.1
-    max     14205.8
-    """
-    result = gdf.copy()
-    
-    # Validate CRS
-    if result.crs is None:
-        raise ValueError("GeoDataFrame must have CRS defined")
-    
-    if result.crs.is_geographic:
-        raise ValueError(
-            "CRS must be projected (in metres), not geographic. "
-            "Use gdf.to_crs('EPSG:2193') first."
-        )
-    
-    # Calculate area if not provided
-    if area_col is None:
-        result['area_km2'] = result.geometry.area / 1_000_000
-        area_col = 'area_km2'
-    
-    # Calculate density, handling division by zero
-    result['density'] = np.where(
-        result[area_col] > 0,
-        result[value_col] / result[area_col],
-        0
-    )
-    
-    return result
-```
-
-**Function 4: `calculate_accessibility()`**
-
-```python
-def calculate_accessibility(
-    origins_gdf: gpd.GeoDataFrame,
-    destinations_gdf: gpd.GeoDataFrame,
-    max_distance_m: float = 800,
-    id_col: str = 'id'
-) -> gpd.GeoDataFrame:
-    """
-    Calculate accessibility as count of nearby destinations.
-    
-    For each origin, counts destinations within walking distance.
-    Uses Euclidean distance (for network-based, use r5py instead).
-    
-    Parameters
-    ----------
-    origins_gdf : GeoDataFrame
-        Point locations (e.g., homes, offices)
-    destinations_gdf : GeoDataFrame
-        Point locations (e.g., shops, parks)
-    max_distance_m : float, default 800
-        Maximum distance in metres (default: 10 min walk)
-    id_col : str, default 'id'
-        Column name for origin IDs
-    
-    Returns
-    -------
-    GeoDataFrame
-        Origins with 'accessibility_score' column
-    
-    Examples
-    --------
-    >>> homes = gpd.read_file('residential_points.gpkg')
-    >>> supermarkets = gpd.read_file('supermarkets.gpkg')
-    >>> access = calculate_accessibility(homes, supermarkets, max_distance_m=1600)
-    >>> access['accessibility_score'].mean()
-    2.4  # Average 2.4 supermarkets within 1.6km
-    """
-    # Ensure both in same CRS
-    if origins_gdf.crs != destinations_gdf.crs:
-        destinations_gdf = destinations_gdf.to_crs(origins_gdf.crs)
-    
-    # Create buffer around each origin
-    origins_buffered = origins_gdf.copy()
-    origins_buffered['geometry'] = origins_buffered.geometry.buffer(max_distance_m)
-    
-    # Spatial join to count destinations within buffer
-    joined = gpd.sjoin(
-        origins_buffered,
-        destinations_gdf,
-        how='left',
-        predicate='intersects'
-    )
-    
-    # Count destinations per origin
-    counts = joined.groupby(id_col).size()
-    
-    # Add to original origins
-    result = origins_gdf.copy()
-    result['accessibility_score'] = result[id_col].map(counts).fillna(0).astype(int)
-    
-    return result
-```
-
-### Visualisation Module (`viz.py`)
-
-**Function 5: `create_choropleth()`**
-
-```python
-"""Visualisation utilities."""
-
-import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-from typing import Optional, Tuple
-
-def create_choropleth(
-    gdf: gpd.GeoDataFrame,
-    column: str,
-    title: Optional[str] = None,
-    cmap: str = 'YlOrRd',
-    figsize: Tuple[int, int] = (12, 10),
-    scheme: Optional[str] = None,
-    k: int = 5,
-    legend_kwds: Optional[dict] = None
-) -> Tuple[plt.Figure, plt.Axes]:
-    """
-    Create standardised choropleth map.
-    
-    Parameters
-    ----------
-    gdf : GeoDataFrame
-        Data to plot
-    column : str
-        Column to visualise
-    title : str, optional
-        Map title. If None, uses column name.
-    cmap : str, default 'YlOrRd'
-        Matplotlib colormap name
-    figsize : tuple, default (12, 10)
-        Figure size in inches
-    scheme : str, optional
-        Classification scheme: 'quantiles', 'equal_interval', 
-        'natural_breaks'. If None, uses continuous scale.
-    k : int, default 5
-        Number of classes for classification
-    legend_kwds : dict, optional
-        Additional legend parameters
-    
-    Returns
-    -------
-    fig : Figure
-        Matplotlib figure
-    ax : Axes
-        Matplotlib axes
-    
-    Examples
-    --------
-    >>> sa2_density = calculate_density(sa2_census)
-    >>> fig, ax = create_choropleth(
-    ...     sa2_density,
-    ...     column='density',
-    ...     title='Population Density (per km²)',
-    ...     scheme='quantiles'
-    ... )
-    >>> plt.savefig('density_map.png', dpi=300, bbox_inches='tight')
-    """
-    fig, ax = plt.subplots(figsize=figsize)
-    
-    # Set defaults
-    if title is None:
-        title = column.replace('_', ' ').title()
-    
-    if legend_kwds is None:
-        legend_kwds = {}
-    
-    legend_kwds.setdefault('label', column.replace('_', ' ').title())
-    legend_kwds.setdefault('orientation', 'horizontal')
-    
-    # Plot
-    gdf.plot(
-        column=column,
-        ax=ax,
-        cmap=cmap,
-        scheme=scheme,
-        k=k,
-        legend=True,
-        edgecolor='black',
-        linewidth=0.5,
-        legend_kwds=legend_kwds
-    )
-    
-    ax.set_title(title, fontsize=16, fontweight='bold', pad=20)
-    ax.set_axis_off()
-    
-    # Add source note
-    ax.text(
-        0.99, 0.01,
-        'Source: Stats NZ, Census 2023',
-        transform=ax.transAxes,
-        ha='right',
-        va='bottom',
-        fontsize=8,
-        color='grey'
-    )
-    
-    plt.tight_layout()
-    
-    return fig, ax
-```
-
-### Complete Package Code
-
-**`__init__.py`**
-
-```python
-"""
-Auckland GIS Toolkit
-====================
-
-Reusable utilities for Auckland urban analytics.
-
-Modules
--------
-data : Data loading and validation
-metrics : Urban metrics calculations
-viz : Visualisation utilities
-
-Examples
---------
->>> from auckland_gis import load_sa2, calculate_density, create_choropleth
->>> sa2 = load_sa2()
->>> sa2_density = calculate_density(sa2)
->>> fig, ax = create_choropleth(sa2_density, column='density')
-"""
-
-__version__ = "0.2.0"
-
-from .data import load_sa2, validate_join
-from .metrics import calculate_density, calculate_accessibility
-from .viz import create_choropleth
-
-__all__ = [
-    "load_sa2",
-    "validate_join",
-    "calculate_density",
-    "calculate_accessibility",
-    "create_choropleth",
+[project]
+name = "akl-ped-counts"
+version = "0.1.1"
+description = "Hourly pedestrian count data from Heart of the City Auckland..."
+readme = "README.md"
+license = "CC-BY-4.0"
+requires-python = ">=3.9"
+authors = [
+    { name = "Hyesop Shin", email = "shinhyesop@gmail.com" },
+]
+dependencies = [
+    "pandas>=1.5.0",
 ]
 ```
 
-## CI/CD with GitHub Actions
+The runtime requirement is small, only `pandas`. Everything else is optional.
 
-### Why Continuous Integration?
-
-**CI/CD ensures:**
-- Tests run automatically on every commit
-- Code quality maintained
-- Breaking changes caught early
-- Confidence in package stability
-
-### GitHub Actions Workflow
-
-Create `.github/workflows/test.yml`:
-
-```yaml
-name: Tests
-
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
-
-jobs:
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.10', '3.11', '3.12']
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-    
-    - name: Install uv
-      run: pip install uv
-    
-    - name: Install dependencies
-      run: |
-        uv pip install -e ".[dev]"
-    
-    - name: Run tests with coverage
-      run: |
-        uv run pytest --cov=auckland_gis --cov-report=xml
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-${{ matrix.os }}-py${{ matrix.python-version }}
+```toml
+[project.optional-dependencies]
+polars = ["polars>=0.20.0"]
+plot = ["matplotlib>=3.5.0", "seaborn>=0.12.0"]
+geo = ["folium>=0.14.0"]
+all = ["polars>=0.20.0", "matplotlib>=3.5.0", "seaborn>=0.12.0", "folium>=0.14.0"]
 ```
 
-### Pre-commit Hooks
+A user who just wants the data installs `pip install akl-ped-counts`. Someone who also wants the plotting scripts installs `pip install "akl-ped-counts[plot]"`. Someone who wants everything installs `pip install "akl-ped-counts[all]"`. This pattern keeps the core install lightweight.
 
-Create `.pre-commit-config.yaml`:
+The hatch build target tells the build tool to bundle the CSV files in `data/` along with the Python code.
 
-```yaml
-repos:
-  - repo: https://github.com/psf/black
-    rev: 23.12.1
-    hooks:
-      - id: black
-        language_version: python3.12
-
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.13
-    hooks:
-      - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
-
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
-      - id: trailing-whitespace
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-added-large-files
-        args: ['--maxkb=5000']
+```toml
+[tool.hatch.build.targets.wheel]
+packages = ["src/akl_ped_counts"]
 ```
 
-Install:
+## A look at the public API in `__init__.py`
+
+The package re-exports its main functions so users can write `from akl_ped_counts import load_hourly` rather than `from akl_ped_counts.loader import load_hourly`. This is exactly the pattern shown in Chapter 4.1.
+
+## A look at one function in `loader.py`
+
+The simplest function is `list_sensors`. Open `src/akl_ped_counts/loader.py` in the repo and find it. It is roughly this.
+
+```python
+SENSORS: list[str] = [
+    "107 Quay Street",
+    "188 Quay Street Lower Albert (EW)",
+    # ... 19 more entries ...
+    "183 K Road",
+]
+
+
+def list_sensors() -> list[str]:
+    """Return the canonical list of all 21 sensor location names.
+
+    Returns
+    -------
+    list of str
+        Sensor location names in geographic order (north to south).
+
+    Examples
+    --------
+    >>> from akl_ped_counts import list_sensors
+    >>> sensors = list_sensors()
+    >>> len(sensors)
+    21
+    """
+    return SENSORS.copy()
+```
+
+The function does almost nothing. It returns a copy of a constant list. What makes it a good function to ship is the surrounding work.
+
+* The list itself is curated and corrected (for example, "59 High Stret" was fixed to "59 High Street").
+* The order is meaningful (north to south).
+* The docstring tells the user what to expect, including the count.
+* The return type is annotated.
+
+This is the level of polish to aim for in your own package.
+
+## A look at the data loading function
+
+`load_hourly` is the workhorse. It accepts optional filters for years and sensors, returns a clean pandas DataFrame, and uses `importlib.resources` to find the CSV file inside the installed package.
+
+```python
+def load_hourly(years=None, sensors=None, dropna=False):
+    """Load hourly pedestrian counts.
+
+    Returns a DataFrame with columns date, hour, year, plus one
+    column per sensor location.
+    """
+    path = _data_path("hourly_counts.csv")
+    df = pd.read_csv(path, parse_dates=["date"])
+
+    if years is not None:
+        df = df[df["year"].isin(years)]
+    if sensors is not None:
+        df = df[["date", "hour", "year"] + list(sensors)]
+    if dropna:
+        df = df.dropna()
+
+    return df
+```
+
+(See the actual code in the repo for the full version with type hints and validation.)
+
+Two patterns to copy.
+
+* **The defaults work without arguments.** A new user can run `load_hourly()` and get something useful.
+* **The same function handles common filters.** Years and sensors are common slices, so they live in the function rather than forcing every user to write the same boilerplate.
+
+## How the package is built and published
+
+The full instructions are in `CONTRIBUTING.md` in the repo. The short version, which mirrors what you will do in Lab Week 10 and Week 12.
+
 ```bash
-uv pip install pre-commit
-pre-commit install
+# 1. Build
+uv build
+# Produces dist/akl_ped_counts-X.Y.Z-py3-none-any.whl and a .tar.gz
+
+# 2. Publish to TestPyPI first
+uv publish --publish-url https://test.pypi.org/legacy/
+
+# 3. Verify the install in a clean environment
+uv venv /tmp/test-install
+source /tmp/test-install/bin/activate
+uv pip install \
+    --index-url https://test.pypi.org/simple/ \
+    --extra-index-url https://pypi.org/simple/ \
+    akl-ped-counts
+
+# 4. Once that works, publish to real PyPI
+uv publish
 ```
 
-Now code is automatically formatted before each commit!
+The two-step rehearsal (TestPyPI first, then PyPI) is the same pattern you should follow for Assignment 3.
 
-### README Badges
+## What to copy and what to adapt
 
-Add status badges to `README.md`:
+When you start your own package, the following parts of `akl-ped-counts` are worth copying directly.
 
-```markdown
-# Auckland GIS Toolkit
+* **The `src/` layout.** No surprises.
+* **The thin `__init__.py`** that re-exports the public functions.
+* **The optional dependencies pattern.** Keep the core install small.
+* **The README structure.** Install command, quick start, API reference, examples, data sources, and licence.
 
-[![Tests](https://github.com/yourusername/auckland-gis/workflows/Tests/badge.svg)](https://github.com/yourusername/auckland-gis/actions)
-[![codecov](https://codecov.io/gh/yourusername/auckland-gis/branch/main/graph/badge.svg)](https://codecov.io/gh/yourusername/auckland-gis)
-[![PyPI version](https://badge.fury.io/py/auckland-gis.svg)](https://badge.fury.io/py/auckland-gis)
-[![Python versions](https://img.shields.io/pypi/pyversions/auckland-gis.svg)](https://pypi.org/project/auckland-gis/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-```
+Things you will adapt for your own work include the following.
 
-## Production-Quality Practices
+* **The function set.** Your package will solve a different problem, so the functions will be different.
+* **The data.** If your data is large, download it on first use rather than shipping it inside the package.
+* **The licence.** `akl-ped-counts` uses CC BY 4.0 because it ships data. A package that ships only code typically uses MIT or BSD-3-Clause.
 
-### Semantic Versioning
+## A reading exercise
 
-Follow SemVer (MAJOR.MINOR.PATCH):
+Spend 20 minutes with the repo and answer these questions in your own notes.
 
-```
-1.2.3
-│ │ └─ Patch: Bug fixes, no breaking changes
-│ └─── Minor: New features, backwards compatible
-└───── Major: Breaking changes
-```
+1. What does the `[project.urls]` section in `pyproject.toml` do?
+2. Why does the data loading function use `importlib.resources` rather than a hard-coded file path?
+3. The `polars_loader.py` mirrors `loader.py` but returns Polars DataFrames. Why might you ship both?
+4. The README links a heatmap image (`examples/heatmap_hour_dow.png`). Where in the repo is the script that produced it, and what would you change to apply the same heatmap to a different sensor?
 
-Examples:
-- `0.1.0` → `0.1.1`: Fixed CRS validation bug
-- `0.1.1` → `0.2.0`: Added accessibility function
-- `0.2.0` → `1.0.0`: Changed API, breaking change
-
-### Changelog
-
-Maintain `CHANGELOG.md`:
-
-```markdown
-# Changelog
-
-All notable changes to this project will be documented in this file.
-
-## [0.2.0] - 2026-05-20
-
-### Added
-- `calculate_accessibility()` function for proximity analysis
-- Support for custom distance thresholds
-- Example notebook for accessibility analysis
-
-### Fixed
-- CRS validation now handles missing CRS gracefully
-- `validate_join()` reports duplicate keys correctly
-
-### Changed
-- `load_sa2()` now caches downloaded data
-
-## [0.1.0] - 2026-05-10
-
-### Added
-- Initial release
-- Basic SA2 loading functionality
-- Density calculation
-- Choropleth visualization
-```
-
-### Type Hints
-
-Use type hints for better IDE support:
-
-```python
-from typing import Optional, Tuple, Dict, Any
-import geopandas as gpd
-import pandas as pd
-
-def validate_join(
-    gdf: gpd.GeoDataFrame,
-    df: pd.DataFrame,
-    key: str,
-    how: str = 'left'
-) -> Tuple[gpd.GeoDataFrame, Dict[str, Any]]:
-    """Function with complete type hints."""
-    pass
-```
-
-### Error Messages
-
-Provide helpful error messages:
-
-```python
-# Bad
-raise ValueError("Invalid CRS")
-
-# Good
-raise ValueError(
-    f"CRS must be projected (in metres), not geographic. "
-    f"Current CRS: {gdf.crs}. "
-    f"Try: gdf.to_crs('EPSG:2193')"
-)
-```
-
-## Example Usage
-
-### Complete Workflow
-
-```python
-"""Example: Population density analysis."""
-
-from auckland_gis import (
-    load_sa2,
-    validate_join,
-    calculate_density,
-    create_choropleth
-)
-import pandas as pd
-
-# 1. Load boundaries
-print("Loading SA2 boundaries...")
-sa2 = load_sa2()
-print(f"Loaded {len(sa2)} SA2 areas")
-
-# 2. Load census data
-census = pd.read_csv('census_2023.csv')
-print(f"Loaded census data: {len(census)} records")
-
-# 3. Join with validation
-print("\nJoining data...")
-result, report = validate_join(sa2, census, key='SA2_code')
-
-if not report['all_matched']:
-    print(f"⚠️  Warning: {report['unmatched_count']} zones missing census data")
-    print(f"Unmatched: {report['unmatched_keys'][:5]}")
-else:
-    print("✓ All zones matched successfully")
-
-# 4. Calculate density
-print("\nCalculating density...")
-result = calculate_density(result, value_col='population')
-print(f"Mean density: {result['density'].mean():.1f} people/km²")
-
-# 5. Create map
-print("\nCreating map...")
-fig, ax = create_choropleth(
-    result,
-    column='density',
-    title='Auckland Population Density (2023)',
-    scheme='quantiles',
-    k=5
-)
-
-# 6. Save
-fig.savefig('density_map.png', dpi=300, bbox_inches='tight')
-print("✓ Map saved to density_map.png")
-
-# 7. Export for dashboard
-result.to_file('sa2_density.gpkg', driver='GPKG')
-print("✓ Data exported to sa2_density.gpkg")
-```
-
-### Integration with Shiny Dashboard
-
-```python
-"""Use auckland-gis in Shiny dashboard."""
-
-from shiny import App, ui, render
-from auckland_gis import load_sa2, calculate_density, create_choropleth
-import matplotlib.pyplot as plt
-
-# Load data once at startup
-sa2_data = load_sa2()
-
-app_ui = ui.page_fluid(
-    ui.h2("Auckland Density Explorer"),
-    ui.input_slider("min_density", "Minimum Density", 0, 10000, 0),
-    ui.output_plot("density_map")
-)
-
-def server(input, output, session):
-    @output
-    @render.plot
-    def density_map():
-        # Filter by user input
-        filtered = sa2_data[sa2_data['density'] >= input.min_density()]
-        
-        # Use auckland-gis plotting
-        fig, ax = create_choropleth(filtered, column='density')
-        return fig
-
-app = App(app_ui, server)
-```
-
-## Week 11 Focus
-
-Week 11 labs provide flexible time for:
-
-**Option A: Assignment 3 Development** (most students)
-- Apply patterns from this example
-- Build your own package functionality
-- Improve test coverage and documentation
-
-**Option B: CI/CD Setup** (advanced students)
-- Implement GitHub Actions workflow
-- Set up pre-commit hooks
-- Add badges to README
-
-**Option C: Real PyPI Publication** (ready students)
-- Final quality check
-- Publish to production PyPI
-- Prepare for showcase
-
-**Option D: Poster Design** (required for all)
-- Create A1 poster showing your package
-- Prepare 2-minute pitch
+These are the same questions you will face when designing your own package. Working through them on a real repo is faster than working through them in the abstract.
 
 ## Summary
 
-You've learned:
+You have walked through a real, published Python package. The patterns from Chapter 4.1 (the `src/` layout, `pyproject.toml`, a thin `__init__.py`) and from Chapter 4.2 (small, focused functions with docstrings) are all there.
 
-- **Complete package structure**: Real-world example with all components
-- **Production patterns**: Data loading, validation, metrics, viz
-- **CI/CD**: GitHub Actions, pre-commit hooks, automated testing
-- **Best practices**: Semantic versioning, type hints, error messages
-- **Integration**: Using packages in workflows and dashboards
+For your own Assignment 3, model your scope and structure on `akl-ped-counts`. Aim for one clear purpose, a small core, and a short README that someone can read in 30 seconds.
 
-**Next**: In @sec-publish-pypi, learn to publish to production PyPI and maintain your package.
+**Next.** In the next chapter on Publishing to PyPI, we walk through the production publication step in more detail.
 
-## Further Reading
+## Further reading
 
-- GitHub Actions: https://docs.github.com/en/actions
-- pre-commit: https://pre-commit.com/
-- Semantic Versioning: https://semver.org/
-- Type Hints: https://docs.python.org/3/library/typing.html
-- PEP 8 Style Guide: https://pep8.org/
+* `akl-ped-counts` source, https://github.com/dataandcrowd/akl-ped-counts
+* `akl-ped-counts` on PyPI, https://pypi.org/project/akl-ped-counts/
+* `CONTRIBUTING.md` (build and publish steps), https://github.com/dataandcrowd/akl-ped-counts/blob/main/CONTRIBUTING.md
+* Hatchling build backend, https://hatch.pypa.io/latest/
+* `importlib.resources`, https://docs.python.org/3/library/importlib.resources.html
