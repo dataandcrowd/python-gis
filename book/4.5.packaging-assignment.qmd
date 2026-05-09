@@ -14,17 +14,17 @@ By the end of Week 12, every pair submits the following.
 * A **GitHub repository** with the source code, tests, and a working README.
 * A **demo notebook** that loads the data, calls the package, and produces the requested visualisation.
 * An **A1 poster** presented at the Week 11 showcase on Tuesday 25 May (B301-G10).
-* A **fit interview** conducted in the Week 12 lab (about 5 to 10 minutes per person, see the next section).
+* A short **fit interview** conducted in the **Week 10 lab** (about 3 to 5 minutes per person, see the next section).
 
 ## Fit interview
 
-Each pair member sits a short individual fit interview during the Week 12 lab. The aim is to confirm everyone understands the code their pair has shipped. Expect three short prompts.
+Each pair member sits a short individual fit interview during the **Week 10 lab**. It is deliberately early, when the package skeleton is still taking shape, so that any uneven workload between partners can be caught and corrected before the final week. Expect three short prompts.
 
-1. Walk us through one function you wrote, line by line, and explain what it returns.
-2. Explain one design choice in your package. Why this CRS, why this filter, why this default? What did you reject and why?
+1. Walk us through one function you (personally) wrote so far, and explain what it returns.
+2. Explain one design choice your pair has made. Why this CRS, why this filter, why this default? What did you reject and why?
 3. Answer one short technical question on the spot (for example, "what would happen if the input had a different CRS?").
 
-The interview is not a test of memory. It is a quick check that you actually built and understand what you submitted. Bring your laptop with the package open.
+The interview is not a test of memory and it is not a final exam. It is a quick check that both partners are actually contributing and understand the code their name is on. Bring your laptop with the package open. The interview is run during the Week 10 lab in pair-on-pair format with a demonstrator listening in.
 
 ## The five package briefs
 
@@ -34,28 +34,38 @@ Each brief follows the same shape. A short rationale, the functions you must imp
 
 ### `pedestrian-exposure` {#sec-pedestrian-exposure}
 
-**Given a walking route and a set of environmental layers, calculate cumulative exposure along that path.**
+**For a walking route, calculate cumulative exposure to three environmental factors: noise, air pollution, and green space.**
 
-Pedestrians are not exposed to the same conditions along every part of a journey. A route through a busy arterial will accumulate more noise and air pollution than one through a park, even if the total distance is similar. This package makes that exposure measurable by joining environmental data layers to the edges of a walking route and summarising the result.
+Pedestrians do not experience the same conditions along every part of a journey. A route along a busy arterial accumulates more traffic noise and roadside air pollution than one through a park, even if the total distance is the same. The same route also passes through varying levels of greenery, which is associated with comfort, perceived safety, and lower stress. This package turns those qualitative differences into quantitative per-edge and route-level exposure scores.
 
-Your package takes an OSMnx-derived route (expressed as a list of node IDs) and one or more spatial layers, such as traffic noise polygons, greenery fraction rasters, or air quality estimates, and returns per-edge exposure values alongside a route-level summary score. Think of it as a weighted integral along a path.
+Your package takes an OSMnx-derived walking route, joins three environmental layers (noise, air quality, and greenness) to each edge, and returns a tidy table plus a single weighted summary score for the whole route. The three exposures are kept side by side so that students and decision-makers can see, for example, that the quietest route is not always the greenest.
 
 **Functions to implement.**
 
-`load_route(origin, destination, place)` fetches a walking route between two addresses using OSMnx and returns a GeoDataFrame of edges with geometries.
+`load_route(origin, destination, place)` fetches a walking route between two addresses using OSMnx and returns a GeoDataFrame of edges with `LineString` geometries in EPSG:2193.
 
-`add_exposure_layer(route_gdf, layer_gdf, column)` spatially joins an attribute from a polygon or raster layer onto each route edge, adding it as a new column.
+`add_exposure(route_gdf, layer, kind)` joins one of three named exposure layers onto each route edge. The `kind` argument must be one of `"noise"`, `"air_quality"`, or `"green"`. The function adds a column named `noise_exposure`, `air_exposure`, or `green_exposure` to the route GeoDataFrame depending on the kind. Polygon layers are spatially joined; raster layers (such as an NDVI image) are sampled along each edge.
 
-`summarise_exposure(route_gdf)` returns a tidy DataFrame of per-edge scores and a single route-level weighted summary.
+`summarise_exposure(route_gdf, weights=None)` returns a tidy DataFrame of per-edge values for all three exposures and a single route-level weighted summary. Weights default to edge length, so a long busy edge counts more than a short one.
 
-**Demonstration dataset.** Use pedestrian corridors from the Auckland hotcity.co.nz dataset as your route input, and NDVI derived from a Sentinel-2 image as a greenery exposure layer. Your demo notebook should show a map of a route coloured by exposure level.
+**Demonstration dataset.** Use a walking route between two well-known Auckland CBD points (for example, Britomart to Karangahape Road) loaded via OSMnx. For the three exposure layers, use the following.
+
+* **Noise**: a traffic-volume proxy from OSM `highway` tags (motorway, primary, secondary, residential) mapped to indicative noise levels, or a published noise polygon if you can locate one. Document your choice clearly.
+* **Air quality**: monitoring data from LAWA (https://www.lawa.org.nz/explore-data/air-quality) interpolated to your route, or NO2 modelled estimates if you can find a usable layer.
+* **Green**: NDVI derived from a Sentinel-2 image clipped to the Auckland CBD, sampled along each edge.
+
+Your demo notebook should produce a map of the route with edges coloured by total exposure, a small bar chart of the three component scores, and a one-table summary.
 
 ::: {.callout-tip}
-Start with a simple point-in-polygon join before attempting raster sampling. Get the summary table working first, then add the map.
+Build incrementally. Get `load_route()` and one of the three `add_exposure()` calls working end to end first. The remaining two exposures follow the same pattern. Leave the weighted summary until all three layers attach correctly.
+:::
+
+::: {.callout-tip}
+Coordinate reference systems are the most common source of bugs here. Reproject everything to EPSG:2193 (NZTM) before any spatial join. Write a tiny pytest that asserts the output CRS.
 :::
 
 ::: {.callout-note}
-**Difficulty level.** Intermediate. The main challenge is handling coordinate reference system alignment across layers.
+**Difficulty level.** Intermediate to ambitious. Three exposure types means three small spatial pipelines. Keep each one simple and consistent. The interesting result is the comparison across the three, not perfection in any one.
 :::
 
 ---
@@ -182,11 +192,11 @@ A suggested rhythm. Adjust as needed.
 
 **Week 9.** Read your brief, set up the package skeleton in pairs, draft the public API as a list of function signatures, and implement one function end to end. The Week 9 lab walks you through this.
 
-**Week 10.** Add tests, write the README, publish to TestPyPI, and start the demo notebook. The Week 10 lab covers pytest patterns, TestPyPI release, poster outlining, and a fit interview rehearsal.
+**Week 10.** Add tests, write the README, publish to TestPyPI, start the demo notebook, and **sit the short fit interview** with your partner. The Week 10 lab covers pytest patterns, TestPyPI release, poster outlining, and the fit interview itself.
 
 **Week 11.** Polish the code, finish the demo notebook, and present the A1 poster at the Tuesday 25 May showcase (B301-G10).
 
-**Week 12.** Publish to production PyPI once the TestPyPI install is fully confirmed. Sit the fit interview during the lab.
+**Week 12.** Publish to production PyPI once the TestPyPI install is fully confirmed.
 
 ## Common mistakes to avoid
 

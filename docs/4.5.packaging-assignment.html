@@ -381,9 +381,9 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#sec-pedestrian-exposure" id="toc-sec-pedestrian-exposure" class="nav-link" data-scroll-target="#sec-pedestrian-exposure"><code>pedestrian-exposure</code></a></li>
   <li><a href="#sec-equitransport" id="toc-sec-equitransport" class="nav-link" data-scroll-target="#sec-equitransport"><code>equitransport</code></a></li>
-  <li><a href="#sec-gtfs-lite" id="toc-sec-gtfs-lite" class="nav-link" data-scroll-target="#sec-gtfs-lite"><code>gtfs-lite</code></a></li>
   <li><a href="#sec-treecrown-nz" id="toc-sec-treecrown-nz" class="nav-link" data-scroll-target="#sec-treecrown-nz"><code>treecrown-nz</code></a></li>
   <li><a href="#sec-pavescore" id="toc-sec-pavescore" class="nav-link" data-scroll-target="#sec-pavescore"><code>pavescore</code></a></li>
+  <li><a href="#sec-escooter-akl" id="toc-sec-escooter-akl" class="nav-link" data-scroll-target="#sec-escooter-akl"><code>escooter-akl</code></a></li>
   </ul></li>
   <li><a href="#working-timeline" id="toc-working-timeline" class="nav-link" data-scroll-target="#working-timeline">Working timeline</a></li>
   <li><a href="#common-mistakes-to-avoid" id="toc-common-mistakes-to-avoid" class="nav-link" data-scroll-target="#common-mistakes-to-avoid">Common mistakes to avoid</a></li>
@@ -426,18 +426,18 @@ ul.task-list li input[type="checkbox"] {
 <li>A <strong>GitHub repository</strong> with the source code, tests, and a working README.</li>
 <li>A <strong>demo notebook</strong> that loads the data, calls the package, and produces the requested visualisation.</li>
 <li>An <strong>A1 poster</strong> presented at the Week 11 showcase on Tuesday 25 May (B301-G10).</li>
-<li>A <strong>fit interview</strong> conducted in the Week 12 lab (about 5 to 10 minutes per person, see the next section).</li>
+<li>A short <strong>fit interview</strong> conducted in the <strong>Week 10 lab</strong> (about 3 to 5 minutes per person, see the next section).</li>
 </ul>
 </section>
 <section id="fit-interview" class="level2">
 <h2 class="anchored" data-anchor-id="fit-interview">Fit interview</h2>
-<p>Each pair member sits a short individual fit interview during the Week 12 lab. The aim is to confirm everyone understands the code their pair has shipped. Expect three short prompts.</p>
+<p>Each pair member sits a short individual fit interview during the <strong>Week 10 lab</strong>. It is deliberately early, when the package skeleton is still taking shape, so that any uneven workload between partners can be caught and corrected before the final week. Expect three short prompts.</p>
 <ol type="1">
-<li>Walk us through one function you wrote, line by line, and explain what it returns.</li>
-<li>Explain one design choice in your package. Why this CRS, why this filter, why this default? What did you reject and why?</li>
+<li>Walk us through one function you (personally) wrote so far, and explain what it returns.</li>
+<li>Explain one design choice your pair has made. Why this CRS, why this filter, why this default? What did you reject and why?</li>
 <li>Answer one short technical question on the spot (for example, “what would happen if the input had a different CRS?”).</li>
 </ol>
-<p>The interview is not a test of memory. It is a quick check that you actually built and understand what you submitted. Bring your laptop with the package open.</p>
+<p>The interview is not a test of memory and it is not a final exam. It is a quick check that both partners are actually contributing and understand the code their name is on. Bring your laptop with the package open. The interview is run during the Week 10 lab in pair-on-pair format with a demonstrator listening in.</p>
 </section>
 <section id="the-five-package-briefs" class="level2">
 <h2 class="anchored" data-anchor-id="the-five-package-briefs">The five package briefs</h2>
@@ -445,14 +445,20 @@ ul.task-list li input[type="checkbox"] {
 <hr>
 <section id="sec-pedestrian-exposure" class="level3">
 <h3 class="anchored" data-anchor-id="sec-pedestrian-exposure"><code>pedestrian-exposure</code></h3>
-<p><strong>Given a walking route and a set of environmental layers, calculate cumulative exposure along that path.</strong></p>
-<p>Pedestrians are not exposed to the same conditions along every part of a journey. A route through a busy arterial will accumulate more noise and air pollution than one through a park, even if the total distance is similar. This package makes that exposure measurable by joining environmental data layers to the edges of a walking route and summarising the result.</p>
-<p>Your package takes an OSMnx-derived route (expressed as a list of node IDs) and one or more spatial layers, such as traffic noise polygons, greenery fraction rasters, or air quality estimates, and returns per-edge exposure values alongside a route-level summary score. Think of it as a weighted integral along a path.</p>
+<p><strong>For a walking route, calculate cumulative exposure to three environmental factors: noise, air pollution, and green space.</strong></p>
+<p>Pedestrians do not experience the same conditions along every part of a journey. A route along a busy arterial accumulates more traffic noise and roadside air pollution than one through a park, even if the total distance is the same. The same route also passes through varying levels of greenery, which is associated with comfort, perceived safety, and lower stress. This package turns those qualitative differences into quantitative per-edge and route-level exposure scores.</p>
+<p>Your package takes an OSMnx-derived walking route, joins three environmental layers (noise, air quality, and greenness) to each edge, and returns a tidy table plus a single weighted summary score for the whole route. The three exposures are kept side by side so that students and decision-makers can see, for example, that the quietest route is not always the greenest.</p>
 <p><strong>Functions to implement.</strong></p>
-<p><code>load_route(origin, destination, place)</code> fetches a walking route between two addresses using OSMnx and returns a GeoDataFrame of edges with geometries.</p>
-<p><code>add_exposure_layer(route_gdf, layer_gdf, column)</code> spatially joins an attribute from a polygon or raster layer onto each route edge, adding it as a new column.</p>
-<p><code>summarise_exposure(route_gdf)</code> returns a tidy DataFrame of per-edge scores and a single route-level weighted summary.</p>
-<p><strong>Demonstration dataset.</strong> Use pedestrian corridors from the Auckland hotcity.co.nz dataset as your route input, and NDVI derived from a Sentinel-2 image as a greenery exposure layer. Your demo notebook should show a map of a route coloured by exposure level.</p>
+<p><code>load_route(origin, destination, place)</code> fetches a walking route between two addresses using OSMnx and returns a GeoDataFrame of edges with <code>LineString</code> geometries in EPSG:2193.</p>
+<p><code>add_exposure(route_gdf, layer, kind)</code> joins one of three named exposure layers onto each route edge. The <code>kind</code> argument must be one of <code>"noise"</code>, <code>"air_quality"</code>, or <code>"green"</code>. The function adds a column named <code>noise_exposure</code>, <code>air_exposure</code>, or <code>green_exposure</code> to the route GeoDataFrame depending on the kind. Polygon layers are spatially joined; raster layers (such as an NDVI image) are sampled along each edge.</p>
+<p><code>summarise_exposure(route_gdf, weights=None)</code> returns a tidy DataFrame of per-edge values for all three exposures and a single route-level weighted summary. Weights default to edge length, so a long busy edge counts more than a short one.</p>
+<p><strong>Demonstration dataset.</strong> Use a walking route between two well-known Auckland CBD points (for example, Britomart to Karangahape Road) loaded via OSMnx. For the three exposure layers, use the following.</p>
+<ul>
+<li><strong>Noise</strong>: a traffic-volume proxy from OSM <code>highway</code> tags (motorway, primary, secondary, residential) mapped to indicative noise levels, or a published noise polygon if you can locate one. Document your choice clearly.</li>
+<li><strong>Air quality</strong>: monitoring data from LAWA (https://www.lawa.org.nz/explore-data/air-quality) interpolated to your route, or NO2 modelled estimates if you can find a usable layer.</li>
+<li><strong>Green</strong>: NDVI derived from a Sentinel-2 image clipped to the Auckland CBD, sampled along each edge.</li>
+</ul>
+<p>Your demo notebook should produce a map of the route with edges coloured by total exposure, a small bar chart of the three component scores, and a one-table summary.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -463,7 +469,20 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Start with a simple point-in-polygon join before attempting raster sampling. Get the summary table working first, then add the map.</p>
+<p>Build incrementally. Get <code>load_route()</code> and one of the three <code>add_exposure()</code> calls working end to end first. The remaining two exposures follow the same pattern. Leave the weighted summary until all three layers attach correctly.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Coordinate reference systems are the most common source of bugs here. Reproject everything to EPSG:2193 (NZTM) before any spatial join. Write a tiny pytest that asserts the output CRS.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -476,7 +495,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Difficulty level.</strong> Intermediate. The main challenge is handling coordinate reference system alignment across layers.</p>
+<p><strong>Difficulty level.</strong> Intermediate to ambitious. Three exposure types means three small spatial pipelines. Keep each one simple and consistent. The interesting result is the comparison across the three, not perfection in any one.</p>
 </div>
 </div>
 <hr>
@@ -515,45 +534,6 @@ Note
 </div>
 <div class="callout-body-container callout-body">
 <p><strong>Difficulty level.</strong> Intermediate. The main challenge is correctly aggregating meshblock-level deprivation scores up to SA2 level.</p>
-</div>
-</div>
-<hr>
-</section>
-<section id="sec-gtfs-lite" class="level3">
-<h3 class="anchored" data-anchor-id="sec-gtfs-lite"><code>gtfs-lite</code></h3>
-<p><strong>Read a GTFS feed into clean GeoPandas objects with one line of code.</strong></p>
-<p>The General Transit Feed Specification (GTFS) is the standard format for public transport schedules worldwide, but parsing it from scratch requires juggling multiple CSVs, handling coordinate systems, and joining several tables together. Existing Python packages for GTFS are either too heavy for introductory use or assume prior knowledge of the format. This package wraps just the most useful parts (stops, routes, and service frequency) into a clean GeoPandas-friendly interface.</p>
-<p>Your package reads a standard GTFS zip file and exposes stops, routes, and stop times as GeoDataFrames. It also provides a frequency method that tells you how many services per hour depart from a given stop. Real-time feeds (GTFS-RT) are explicitly out of scope for this package.</p>
-<p><strong>Functions to implement.</strong></p>
-<p><code>GTFSFeed(path)</code> is the main class. It loads and lightly validates a GTFS zip file on initialisation.</p>
-<p><code>feed.stops()</code> returns a GeoDataFrame of stop locations with Point geometries in EPSG:4326.</p>
-<p><code>feed.routes()</code> returns route geometries as LineStrings constructed from the shapes table.</p>
-<p><code>feed.frequency(stop_id, day)</code> returns the number of scheduled departures per hour for a given stop on a given day of the week.</p>
-<p><strong>Demonstration dataset.</strong> Use the Auckland Transport GTFS static feed, which is publicly available for download from the AT Developer Portal. Your demo notebook should map all bus routes in the Waitematā Local Board area and show a frequency table for three stops of your choice.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Build the class incrementally. Get <code>stops()</code> returning correct geometries before moving on to routes, and leave <code>frequency()</code> until both spatial methods are solid.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Difficulty level.</strong> Beginner-friendly. The data is well-structured and the main task is joining and converting existing tables rather than spatial analysis.</p>
 </div>
 </div>
 <hr>
@@ -647,14 +627,52 @@ Note
 </div>
 <hr>
 </section>
+<section id="sec-escooter-akl" class="level3">
+<h3 class="anchored" data-anchor-id="sec-escooter-akl"><code>escooter-akl</code></h3>
+<p><strong>Turn raw e-scooter trip records into clean origin-destination flows and flag geofence violations.</strong></p>
+<p>E-scooter operators in Auckland (Beam, Lime, Neuron, and others) generate millions of trips, but the raw data is messy. Trips can have missing endpoints, occur during prohibited hours, or end inside no-parking zones. Cities and operators need clean OD flows for parking infrastructure decisions, equity audits, and integration with public transport planning. This package takes a raw trip log and turns it into something you can map and reason about.</p>
+<p>Your package reads a CSV of e-scooter trips with start and end coordinates and timestamps, snaps trips to a zone layer (such as Auckland SA2s), aggregates them into an origin-destination matrix, and checks each trip end against a no-parking polygon layer to flag violations.</p>
+<p><strong>Functions to implement.</strong></p>
+<p><code>load_trips(path)</code> reads a trip CSV with columns for start and end latitude/longitude and a timestamp, and returns a GeoDataFrame of trip records with start and end Point geometries (in EPSG:2193 for spatial maths).</p>
+<p><code>od_flows(trips_gdf, zones_gdf)</code> performs a spatial join from trip endpoints to zones, then aggregates trip counts into a tidy origin-destination DataFrame indexed by origin zone code and destination zone code.</p>
+<p><code>geofence_violations(trips_gdf, no_park_gdf)</code> returns a GeoDataFrame of trips whose end point lies inside any of the supplied no-parking polygons, with the violated zone name attached for reporting.</p>
+<p><strong>Demonstration dataset.</strong> Use a sample of Auckland CBD e-scooter trips supplied as a CSV in your demo notebook (live MDS feeds require operator agreements, so a sample is fine). Use Auckland SA2 boundaries from Stats NZ for zone aggregation, and a small no-parking polygon layer for the geofence check (Auckland Council CBD pedestrianised zones work as a proxy if formal no-park polygons are not available). Your demo notebook should produce an OD flow chord diagram or arrow map plus a count of geofence violations.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Start with <code>load_trips()</code> and a tiny CSV of 20 to 50 rows you make by hand. Once <code>load_trips()</code> returns a clean GeoDataFrame, the other two functions are straightforward spatial joins.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Difficulty level.</strong> Intermediate. The main challenge is handling messy data (missing endpoints, mismatched timestamps) cleanly without dropping silently. Loud failure beats silent failure.</p>
+</div>
+</div>
+<hr>
+</section>
 </section>
 <section id="working-timeline" class="level2">
 <h2 class="anchored" data-anchor-id="working-timeline">Working timeline</h2>
 <p>A suggested rhythm. Adjust as needed.</p>
 <p><strong>Week 9.</strong> Read your brief, set up the package skeleton in pairs, draft the public API as a list of function signatures, and implement one function end to end. The Week 9 lab walks you through this.</p>
-<p><strong>Week 10.</strong> Add tests, write the README, publish to TestPyPI, and start the demo notebook. The Week 10 lab covers pytest patterns, TestPyPI release, poster outlining, and a fit interview rehearsal.</p>
+<p><strong>Week 10.</strong> Add tests, write the README, publish to TestPyPI, start the demo notebook, and <strong>sit the short fit interview</strong> with your partner. The Week 10 lab covers pytest patterns, TestPyPI release, poster outlining, and the fit interview itself.</p>
 <p><strong>Week 11.</strong> Polish the code, finish the demo notebook, and present the A1 poster at the Tuesday 25 May showcase (B301-G10).</p>
-<p><strong>Week 12.</strong> Publish to production PyPI once the TestPyPI install is fully confirmed. Sit the fit interview during the lab.</p>
+<p><strong>Week 12.</strong> Publish to production PyPI once the TestPyPI install is fully confirmed.</p>
 </section>
 <section id="common-mistakes-to-avoid" class="level2">
 <h2 class="anchored" data-anchor-id="common-mistakes-to-avoid">Common mistakes to avoid</h2>
@@ -674,11 +692,12 @@ Note
 <li>uv documentation, https://docs.astral.sh/uv/</li>
 <li>pytest documentation, https://docs.pytest.org/</li>
 <li>Heart of the City pedestrian data, https://www.hotcity.co.nz/pedestrian-counts</li>
-<li>Auckland Transport Developer Portal, https://dev-portal.at.govt.nz/</li>
 <li>LINZ Data Service, https://data.linz.govt.nz/</li>
 <li>Stats NZ open data, https://datafinder.stats.govt.nz/</li>
 <li>NZDep2018, https://www.otago.ac.nz/wellington/departments/publichealth/research/hirp/otago020194.html</li>
 <li>Mapillary API, https://www.mapillary.com/developer/api-documentation</li>
+<li>Auckland Council micromobility information, https://www.aucklandcouncil.govt.nz/</li>
+<li>Mobility Data Specification (MDS), https://github.com/openmobilityfoundation/mobility-data-specification</li>
 </ul>
 
 

@@ -20,7 +20,7 @@ This lab is your first hands-on session for **Assignment 3**. You will be workin
 
 ::: {.callout-note}
 ## Pair work, in plain language
-Both partners commit code to the shared repo. Both partners must be able to explain every part of the package by Week 12 (this matters for the fit interview). Split the work, but review each other's commits.
+Both partners commit code to the shared repo. Both partners must be able to explain every part of the package by **Week 10** (this matters for the fit interview held in next week's lab). Split the work, but review each other's commits.
 :::
 
 ## Part 1. Read the brief together (10 minutes)
@@ -112,6 +112,10 @@ You now pick **one** of the three functions and make it work end to end. Choose 
 
 12. Open the file where the function should live (often `__init__.py` for a small package, or a dedicated module like `loader.py`). Write the function. Add a NumPy-style docstring.
 
+::: {.callout-tip}
+**If your function loads data**, decide now whether to bundle a small file inside the package or fetch from an API. Chapter [4.1, "Where does the data live?"](../4.1.package-fundamentals.qmd) walks through both patterns with code: `importlib.resources` for bundling, and the Stats NZ WFS pattern with caching for fetching. For most A3 briefs, you will use the fetch pattern.
+:::
+
 13. Try the function in an interactive session.
 
 ```bash
@@ -165,7 +169,8 @@ Before you leave the lab, both partners write **one paragraph together** that an
 1. What problem does the package solve, in one sentence?
 2. What are the three functions and what does each return?
 3. What is one design decision you have already made (for example, which CRS, which file format, which optional dependency)?
-4. What is the next function you will implement?
+4. **Where does your data live?** Is it bundled inside the package (small reference data), fetched from an API on first use (Stats NZ, LINZ, OSMnx), or both?
+5. What is the next function you will implement?
 
 Save it as `DESIGN.md` in the repo root. Commit and push.
 
@@ -175,7 +180,7 @@ git commit -m "add initial design statement"
 git push
 ```
 
-This file will grow as your package grows, and you will refer back to it during the Week 12 fit interview.
+This file will grow as your package grows, and you will refer back to it during the Week 10 fit interview.
 
 ## Part 7. Wrap up (5 minutes)
 

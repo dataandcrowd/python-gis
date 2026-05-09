@@ -427,9 +427,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#naming-conventions" id="toc-naming-conventions" class="nav-link" data-scroll-target="#naming-conventions">Naming conventions</a></li>
   <li><a href="#what-goes-in-__init__.py" id="toc-what-goes-in-__init__.py" class="nav-link" data-scroll-target="#what-goes-in-__init__.py">What goes in <code>__init__.py</code></a></li>
   </ul></li>
-  <li><a href="#going-a-little-further-organising-modules" id="toc-going-a-little-further-organising-modules" class="nav-link" data-scroll-target="#going-a-little-further-organising-modules">Going a little further: organising modules</a>
+  <li><a href="#going-a-little-further-organising-modules" id="toc-going-a-little-further-organising-modules" class="nav-link" data-scroll-target="#going-a-little-further-organising-modules">Going a little further: organising modules</a></li>
+  <li><a href="#where-does-the-data-live" id="toc-where-does-the-data-live" class="nav-link" data-scroll-target="#where-does-the-data-live">Where does the data live?</a>
   <ul class="collapse">
-  <li><a href="#data-inside-packages" id="toc-data-inside-packages" class="nav-link" data-scroll-target="#data-inside-packages">Data inside packages</a></li>
+  <li><a href="#pattern-1-bundling-small-data" id="toc-pattern-1-bundling-small-data" class="nav-link" data-scroll-target="#pattern-1-bundling-small-data">Pattern 1: bundling small data</a></li>
+  <li><a href="#pattern-2-fetching-from-the-stats-nz-api" id="toc-pattern-2-fetching-from-the-stats-nz-api" class="nav-link" data-scroll-target="#pattern-2-fetching-from-the-stats-nz-api">Pattern 2: fetching from the Stats NZ API</a></li>
+  <li><a href="#choosing-the-pattern-for-your-a3-brief" id="toc-choosing-the-pattern-for-your-a3-brief" class="nav-link" data-scroll-target="#choosing-the-pattern-for-your-a3-brief">Choosing the pattern for your A3 brief</a></li>
   </ul></li>
   <li><a href="#adding-dependencies" id="toc-adding-dependencies" class="nav-link" data-scroll-target="#adding-dependencies">Adding dependencies</a></li>
   <li><a href="#common-build-issues-and-fixes" id="toc-common-build-issues-and-fixes" class="nav-link" data-scroll-target="#common-build-issues-and-fixes">Common build issues and fixes</a></li>
@@ -623,24 +626,151 @@ Python name    -&gt;  from geohello_yourname import hello</code></pre>
     ├── metrics.py     # calculations
     └── viz.py         # plotting</code></pre>
 <p>Each file should have one clear purpose. A common mistake is to call modules things like <code>utilities.py</code> or <code>helpers.py</code>, which tend to attract every leftover function and become impossible to navigate. Prefer names that describe the topic.</p>
-<section id="data-inside-packages" class="level3">
-<h3 class="anchored" data-anchor-id="data-inside-packages">Data inside packages</h3>
-<p>A small lookup table or schema (a few kilobytes) can live inside the package. Anything larger should live elsewhere (Zenodo, Figshare, GitHub releases) and be downloaded on first use. The real example we will look at in Week 10, <code>akl-ped-counts</code>, ships its CSV files inside the package because they are small and the package is the data product.</p>
+</section>
+<section id="where-does-the-data-live" class="level2">
+<h2 class="anchored" data-anchor-id="where-does-the-data-live">Where does the data live?</h2>
+<p>Almost every Assignment 3 package needs data. Real Auckland data, not synthetic toys. There are two patterns to choose from, and most packages will use both.</p>
+<p>The first is to <strong>bundle the data inside the package</strong>. This is what <code>akl-ped-counts</code> does with its 8 MB of pedestrian count CSVs. Good for small reference data, sensor lists, schemas, lookup tables, and anything under about 10 MB.</p>
+<p>The second is to <strong>fetch the data from an API</strong> on first use, then cache locally. This is what most A3 briefs will need for SA2 boundaries, NZDep scores, LINZ canopy layers, and similar Stats NZ or LINZ datasets that are too large to ship inside a wheel.</p>
+<section id="pattern-1-bundling-small-data" class="level3">
+<h3 class="anchored" data-anchor-id="pattern-1-bundling-small-data">Pattern 1: bundling small data</h3>
+<p>The convention is a <code>data/</code> folder <strong>inside the package</strong>, not at the top level of the repository.</p>
+<pre><code>your-package/
+├── pyproject.toml
+├── README.md
+└── src/
+    └── your_package/
+        ├── __init__.py
+        ├── loader.py
+        └── data/
+            ├── sensors.csv
+            └── zones.geojson</code></pre>
+<p>This is exactly where <code>akl-ped-counts</code> puts <code>hourly_counts.csv</code> and <code>locations.csv</code>. Same idea, same place.</p>
+<p>To find the file at runtime, use <code>importlib.resources</code> rather than a hard-coded path. The path of the data file changes when the package is installed (it ends up inside the user’s site-packages folder), so you cannot rely on <code>"data/sensors.csv"</code> working.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> importlib <span class="im">import</span> resources</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _data_path(filename: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Resolve a path to a bundled data file."""</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    ref <span class="op">=</span> resources.files(<span class="st">"your_package"</span>) <span class="op">/</span> <span class="st">"data"</span> <span class="op">/</span> filename</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">str</span>(ref)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_sensors():</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.read_csv(_data_path(<span class="st">"sensors.csv"</span>))</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_zones():</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.read_file(_data_path(<span class="st">"zones.geojson"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This works whether the package is installed from PyPI, from a wheel, or in editable mode (<code>uv pip install -e .</code>).</p>
+<p>There is one more step that catches almost everyone the first time. Bundled data does <strong>not</strong> ship by default. You must tell the build tool to include it. With hatchling (which <code>uv init --lib</code> configures by default), add the following to <code>pyproject.toml</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.hatch.build.targets.sdist]</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="dt">include</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"src/your_package/**"</span><span class="op">,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"README.md"</span><span class="op">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LICENSE"</span><span class="op">,</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.hatch.build.targets.wheel]</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="dt">packages</span> <span class="op">=</span> <span class="op">[</span><span class="st">"src/your_package"</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>**</code> glob picks up everything under <code>src/your_package/</code>, including the <code>data/</code> folder. Without these lines, your CSVs are missing from the wheel. <code>pip install</code> looks fine, but <code>load_sensors()</code> raises <code>FileNotFoundError</code> at runtime.</p>
+<p>After running <code>uv build</code>, sanity-check by unzipping the <code>.whl</code> file and confirming that the <code>data/</code> folder is inside.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> <span class="at">-l</span> dist/your_package-0.1.0-py3-none-any.whl</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Look for src/your_package/data/sensors.csv in the listing.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When to bundle, in plain language. <strong>Yes</strong>, bundle small reference data: sensor metadata, NZDep2018 scores (a few hundred KB), schema files, static lookup tables. <strong>Maybe</strong>, bundle a CSV under 10 MB that does not change between releases. <strong>No</strong>, do not bundle anything over 10 MB, especially SA2 boundary GeoPackages or LINZ shapefiles. Fetch those instead.</p>
+</section>
+<section id="pattern-2-fetching-from-the-stats-nz-api" class="level3">
+<h3 class="anchored" data-anchor-id="pattern-2-fetching-from-the-stats-nz-api">Pattern 2: fetching from the Stats NZ API</h3>
+<p>Stats NZ runs a Koordinates-based portal at https://datafinder.stats.govt.nz/. It exposes Web Feature Service (WFS) endpoints for vector layers, which means you can download a layer with a single HTTP call from your package.</p>
+<p>The trade-off is one API call on first use. The benefit is a tiny package and always-fresh data.</p>
+<p>You will need an API key. Sign up at the Datafinder, go to your profile, then “API keys”, and create one. The free tier is plenty for any A3 package.</p>
+<p>Never hard-code the key in your package source. Use an environment variable instead.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _get_api_key():</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    key <span class="op">=</span> os.getenv(<span class="st">"STATS_NZ_API_KEY"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> key <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">EnvironmentError</span>(</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Set STATS_NZ_API_KEY in your environment "</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"or .env file before calling this function."</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Users (and you) then run with the key set in the shell.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">STATS_NZ_API_KEY</span><span class="op">=</span>4f1a...</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python <span class="at">-c</span> <span class="st">"from your_package import load_sa2_auckland; load_sa2_auckland()"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The download itself is a single GET request to the WFS endpoint. The example below pulls Auckland SA2 boundaries for a CBD bounding box.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>WFS_URL <span class="op">=</span> (</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://datafinder.stats.govt.nz/services;"</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"key=</span><span class="sc">{key}</span><span class="st">/wfs"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_sa2_auckland(api_key<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Download Auckland SA2 boundaries from Stats NZ."""</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    api_key <span class="op">=</span> api_key <span class="kw">or</span> _get_api_key()</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    params <span class="op">=</span> {</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"service"</span>: <span class="st">"WFS"</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"version"</span>: <span class="st">"2.0.0"</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"request"</span>: <span class="st">"GetFeature"</span>,</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"typeNames"</span>: <span class="st">"layer-111228"</span>,       <span class="co"># SA2 2023 generalised</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"outputFormat"</span>: <span class="st">"json"</span>,</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"srsName"</span>: <span class="st">"EPSG:2193"</span>,</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"bbox"</span>: <span class="st">"1740000,5900000,1790000,5950000,EPSG:2193"</span>,</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> requests.get(</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>        WFS_URL.<span class="bu">format</span>(key<span class="op">=</span>api_key),</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>        params<span class="op">=</span>params,</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        timeout<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    response.raise_for_status()</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.read_file(BytesIO(response.content))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Calling this function once works. Calling it ten times is wasteful. Add a small cache so the API is only hit on first use.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>CACHE_DIR <span class="op">=</span> Path.home() <span class="op">/</span> <span class="st">".cache"</span> <span class="op">/</span> <span class="st">"your_package"</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_sa2_cached(api_key<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    CACHE_DIR.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    cache_file <span class="op">=</span> CACHE_DIR <span class="op">/</span> <span class="st">"sa2_auckland.gpkg"</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> cache_file.exists():</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gpd.read_file(cache_file)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> load_sa2_auckland(api_key)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    gdf.to_file(cache_file, driver<span class="op">=</span><span class="st">"GPKG"</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gdf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first call hits the API and writes a GeoPackage to <code>~/.cache/your_package/</code>. Every later call reads the local file. Your demo notebook stays fast and the user only needs network access once.</p>
+<p>The same pattern works for the LINZ Data Service (<code>https://data.linz.govt.nz/</code>) by changing the host and the layer ID.</p>
+</section>
+<section id="choosing-the-pattern-for-your-a3-brief" class="level3">
+<h3 class="anchored" data-anchor-id="choosing-the-pattern-for-your-a3-brief">Choosing the pattern for your A3 brief</h3>
+<p>Each brief leans towards one pattern, sometimes both.</p>
+<p><code>equitransport</code> benefits from bundling NZDep2018 scores (a few hundred KB) and fetching SA2 geometries from Stats NZ. <code>treecrown-nz</code> and <code>escooter-akl</code> will mostly fetch (LINZ canopy, e-scooter trip CSVs are too large to bundle). <code>pedestrian-exposure</code> will fetch routes from OSMnx and bundle a small fixture route for tests. <code>pavescore</code> will fetch images from Mapillary at runtime and bundle a single small fixture image for tests.</p>
+<p>The rule of thumb is to pick the lightest option that works. A package that ships 200 MB of shapefiles is a package nobody installs.</p>
 </section>
 </section>
 <section id="adding-dependencies" class="level2">
 <h2 class="anchored" data-anchor-id="adding-dependencies">Adding dependencies</h2>
 <p>If your function uses <code>geopandas</code>, you must list it in <code>pyproject.toml</code> so that <code>pip install</code> brings it in too.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geopandas&gt;=0.14.0"</span><span class="op">,</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pandas&gt;=2.0.0"</span><span class="op">,</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="dt">dependencies</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"geopandas&gt;=0.14.0"</span><span class="op">,</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pandas&gt;=2.0.0"</span><span class="op">,</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can also separate optional dependencies, which users only install if they want a particular feature. The <code>akl-ped-counts</code> package does this for plotting and mapping.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.optional-dependencies]</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="dt">plot</span> <span class="op">=</span> <span class="op">[</span><span class="st">"matplotlib&gt;=3.7.0"</span><span class="op">,</span> <span class="st">"seaborn&gt;=0.13.0"</span><span class="op">]</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="dt">geo</span> <span class="op">=</span> <span class="op">[</span><span class="st">"folium&gt;=0.15.0"</span><span class="op">]</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="dt">all</span> <span class="op">=</span> <span class="op">[</span><span class="st">"akl-ped-counts[plot,geo]"</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.optional-dependencies]</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="dt">plot</span> <span class="op">=</span> <span class="op">[</span><span class="st">"matplotlib&gt;=3.7.0"</span><span class="op">,</span> <span class="st">"seaborn&gt;=0.13.0"</span><span class="op">]</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="dt">geo</span> <span class="op">=</span> <span class="op">[</span><span class="st">"folium&gt;=0.15.0"</span><span class="op">]</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="dt">all</span> <span class="op">=</span> <span class="op">[</span><span class="st">"akl-ped-counts[plot,geo]"</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A user can then choose <code>pip install your-package[plot]</code> rather than installing every dependency.</p>
 <p>You do not need any of this for <code>geohello-yourname</code>. We are listing it here so you know it exists when you start your real Assignment 3 package.</p>
 </section>
@@ -649,6 +779,8 @@ Python name    -&gt;  from geohello_yourname import hello</code></pre>
 <p><strong>ImportError: No module named your_package.</strong> Check that the folder under <code>src/</code> exists and contains an <code>__init__.py</code>. The folder name must match the import name (with underscores).</p>
 <p><strong>Wrong package name.</strong> The <code>name</code> field in <code>pyproject.toml</code> uses hyphens. The folder under <code>src/</code> uses underscores. They look different on purpose.</p>
 <p><strong>Missing dependencies at install time.</strong> Add the missing package to the <code>dependencies</code> list in <code>pyproject.toml</code> and rebuild.</p>
+<p><strong><code>FileNotFoundError</code> on a bundled CSV after install.</strong> Your <code>data/</code> folder is missing from the wheel. Add the <code>[tool.hatch.build.targets.wheel]</code> and <code>[tool.hatch.build.targets.sdist]</code> blocks shown above and rebuild. Confirm by unzipping the <code>.whl</code> and looking for the file.</p>
+<p><strong><code>STATS_NZ_API_KEY</code> is None at runtime.</strong> The environment variable is not set in the shell that runs the function. Run <code>export STATS_NZ_API_KEY=...</code> before <code>uv run</code> (or use a <code>.env</code> file plus a loader like <code>python-dotenv</code>).</p>
 <p>If something else goes wrong, run <code>uv build</code> again and read the first error message carefully. The most common fix is a small typo in <code>pyproject.toml</code>.</p>
 </section>
 <section id="week-9-lab" class="level2">
@@ -676,6 +808,10 @@ Python name    -&gt;  from geohello_yourname import hello</code></pre>
 <li>uv documentation, https://docs.astral.sh/uv/</li>
 <li><code>src/</code> layout explanation, https://hynek.me/articles/testing-packaging/</li>
 <li>Semantic Versioning, https://semver.org/</li>
+<li><code>importlib.resources</code>, https://docs.python.org/3/library/importlib.resources.html</li>
+<li>Hatchling build configuration, https://hatch.pypa.io/latest/config/build/</li>
+<li>Stats NZ Datafinder, https://datafinder.stats.govt.nz/</li>
+<li>LINZ Data Service, https://data.linz.govt.nz/</li>
 </ul>
 </section>
 <section id="practise-exercises" class="level2">
@@ -684,7 +820,10 @@ Python name    -&gt;  from geohello_yourname import hello</code></pre>
 <li><strong>Rename your package.</strong> Change <code>geohello-yourname</code> to a name of your choice. Update <code>pyproject.toml</code> and the folder under <code>src/</code>. Rebuild and check it still works.</li>
 <li><strong>Add a second function.</strong> Write <code>bye(place="Auckland")</code> that returns <code>"Goodbye from Auckland!"</code>. Re-export it from <code>__init__.py</code> and try it.</li>
 <li><strong>Add a dependency.</strong> Add <code>pandas</code> to <code>dependencies</code> in <code>pyproject.toml</code>. Rebuild. Confirm <code>pandas</code> installs alongside your package.</li>
-<li><strong>Read a real one.</strong> Open the <code>akl-ped-counts</code> repo at https://github.com/dataandcrowd/akl-ped-counts and find its <code>pyproject.toml</code>. Compare it to yours. What is the same? What is different?</li>
+<li><strong>Bundle a small CSV.</strong> Add a <code>data/</code> folder under <code>src/your_package/</code> containing a tiny <code>sensors.csv</code> (3 to 5 rows). Add a <code>load_sensors()</code> function that uses <code>importlib.resources</code> to read it. Add the hatchling build targets shown in this chapter, rebuild, and confirm the CSV is inside the wheel.</li>
+<li><strong>Fetch from Stats NZ.</strong> Sign up at https://datafinder.stats.govt.nz/, generate an API key, and add a <code>load_sa2_auckland()</code> function based on the WFS example. Set <code>STATS_NZ_API_KEY</code> in your shell and confirm the function returns a sensible GeoDataFrame.</li>
+<li><strong>Add caching.</strong> Wrap your Stats NZ download with the cache pattern shown in this chapter. Run the function twice and confirm the second call is much faster.</li>
+<li><strong>Read a real one.</strong> Open the <code>akl-ped-counts</code> repo at https://github.com/dataandcrowd/akl-ped-counts and find its <code>pyproject.toml</code>. Compare it to yours. What is the same? What is different? Pay particular attention to the <code>[tool.hatch.build.targets]</code> blocks.</li>
 </ol>
 
 

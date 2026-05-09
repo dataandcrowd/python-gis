@@ -219,9 +219,179 @@ src/
 
 Each file should have one clear purpose. A common mistake is to call modules things like `utilities.py` or `helpers.py`, which tend to attract every leftover function and become impossible to navigate. Prefer names that describe the topic.
 
-### Data inside packages
+## Where does the data live?
 
-A small lookup table or schema (a few kilobytes) can live inside the package. Anything larger should live elsewhere (Zenodo, Figshare, GitHub releases) and be downloaded on first use. The real example we will look at in Week 10, `akl-ped-counts`, ships its CSV files inside the package because they are small and the package is the data product.
+Almost every Assignment 3 package needs data. Real Auckland data, not synthetic toys. There are two patterns to choose from, and most packages will use both.
+
+The first is to **bundle the data inside the package**. This is what `akl-ped-counts` does with its 8 MB of pedestrian count CSVs. Good for small reference data, sensor lists, schemas, lookup tables, and anything under about 10 MB.
+
+The second is to **fetch the data from an API** on first use, then cache locally. This is what most A3 briefs will need for SA2 boundaries, NZDep scores, LINZ canopy layers, and similar Stats NZ or LINZ datasets that are too large to ship inside a wheel.
+
+### Pattern 1: bundling small data
+
+The convention is a `data/` folder **inside the package**, not at the top level of the repository.
+
+```
+your-package/
+├── pyproject.toml
+├── README.md
+└── src/
+    └── your_package/
+        ├── __init__.py
+        ├── loader.py
+        └── data/
+            ├── sensors.csv
+            └── zones.geojson
+```
+
+This is exactly where `akl-ped-counts` puts `hourly_counts.csv` and `locations.csv`. Same idea, same place.
+
+To find the file at runtime, use `importlib.resources` rather than a hard-coded path. The path of the data file changes when the package is installed (it ends up inside the user's site-packages folder), so you cannot rely on `"data/sensors.csv"` working.
+
+```python
+from importlib import resources
+import geopandas as gpd
+import pandas as pd
+
+
+def _data_path(filename: str) -> str:
+    """Resolve a path to a bundled data file."""
+    ref = resources.files("your_package") / "data" / filename
+    return str(ref)
+
+
+def load_sensors():
+    return pd.read_csv(_data_path("sensors.csv"))
+
+
+def load_zones():
+    return gpd.read_file(_data_path("zones.geojson"))
+```
+
+This works whether the package is installed from PyPI, from a wheel, or in editable mode (`uv pip install -e .`).
+
+There is one more step that catches almost everyone the first time. Bundled data does **not** ship by default. You must tell the build tool to include it. With hatchling (which `uv init --lib` configures by default), add the following to `pyproject.toml`.
+
+```toml
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/your_package/**",
+    "README.md",
+    "LICENSE",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/your_package"]
+```
+
+The `**` glob picks up everything under `src/your_package/`, including the `data/` folder. Without these lines, your CSVs are missing from the wheel. `pip install` looks fine, but `load_sensors()` raises `FileNotFoundError` at runtime.
+
+After running `uv build`, sanity-check by unzipping the `.whl` file and confirming that the `data/` folder is inside.
+
+```bash
+unzip -l dist/your_package-0.1.0-py3-none-any.whl
+# Look for src/your_package/data/sensors.csv in the listing.
+```
+
+When to bundle, in plain language. **Yes**, bundle small reference data: sensor metadata, NZDep2018 scores (a few hundred KB), schema files, static lookup tables. **Maybe**, bundle a CSV under 10 MB that does not change between releases. **No**, do not bundle anything over 10 MB, especially SA2 boundary GeoPackages or LINZ shapefiles. Fetch those instead.
+
+### Pattern 2: fetching from the Stats NZ API
+
+Stats NZ runs a Koordinates-based portal at https://datafinder.stats.govt.nz/. It exposes Web Feature Service (WFS) endpoints for vector layers, which means you can download a layer with a single HTTP call from your package.
+
+The trade-off is one API call on first use. The benefit is a tiny package and always-fresh data.
+
+You will need an API key. Sign up at the Datafinder, go to your profile, then "API keys", and create one. The free tier is plenty for any A3 package.
+
+Never hard-code the key in your package source. Use an environment variable instead.
+
+```python
+import os
+
+
+def _get_api_key():
+    key = os.getenv("STATS_NZ_API_KEY")
+    if key is None:
+        raise EnvironmentError(
+            "Set STATS_NZ_API_KEY in your environment "
+            "or .env file before calling this function."
+        )
+    return key
+```
+
+Users (and you) then run with the key set in the shell.
+
+```bash
+export STATS_NZ_API_KEY=4f1a...
+uv run python -c "from your_package import load_sa2_auckland; load_sa2_auckland()"
+```
+
+The download itself is a single GET request to the WFS endpoint. The example below pulls Auckland SA2 boundaries for a CBD bounding box.
+
+```python
+import requests
+import geopandas as gpd
+from io import BytesIO
+
+WFS_URL = (
+    "https://datafinder.stats.govt.nz/services;"
+    "key={key}/wfs"
+)
+
+
+def load_sa2_auckland(api_key=None):
+    """Download Auckland SA2 boundaries from Stats NZ."""
+    api_key = api_key or _get_api_key()
+    params = {
+        "service": "WFS",
+        "version": "2.0.0",
+        "request": "GetFeature",
+        "typeNames": "layer-111228",       # SA2 2023 generalised
+        "outputFormat": "json",
+        "srsName": "EPSG:2193",
+        "bbox": "1740000,5900000,1790000,5950000,EPSG:2193",
+    }
+    response = requests.get(
+        WFS_URL.format(key=api_key),
+        params=params,
+        timeout=30,
+    )
+    response.raise_for_status()
+    return gpd.read_file(BytesIO(response.content))
+```
+
+Calling this function once works. Calling it ten times is wasteful. Add a small cache so the API is only hit on first use.
+
+```python
+from pathlib import Path
+import geopandas as gpd
+
+CACHE_DIR = Path.home() / ".cache" / "your_package"
+
+
+def load_sa2_cached(api_key=None):
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    cache_file = CACHE_DIR / "sa2_auckland.gpkg"
+
+    if cache_file.exists():
+        return gpd.read_file(cache_file)
+
+    gdf = load_sa2_auckland(api_key)
+    gdf.to_file(cache_file, driver="GPKG")
+    return gdf
+```
+
+The first call hits the API and writes a GeoPackage to `~/.cache/your_package/`. Every later call reads the local file. Your demo notebook stays fast and the user only needs network access once.
+
+The same pattern works for the LINZ Data Service (`https://data.linz.govt.nz/`) by changing the host and the layer ID.
+
+### Choosing the pattern for your A3 brief
+
+Each brief leans towards one pattern, sometimes both.
+
+`equitransport` benefits from bundling NZDep2018 scores (a few hundred KB) and fetching SA2 geometries from Stats NZ. `treecrown-nz` and `escooter-akl` will mostly fetch (LINZ canopy, e-scooter trip CSVs are too large to bundle). `pedestrian-exposure` will fetch routes from OSMnx and bundle a small fixture route for tests. `pavescore` will fetch images from Mapillary at runtime and bundle a single small fixture image for tests.
+
+The rule of thumb is to pick the lightest option that works. A package that ships 200 MB of shapefiles is a package nobody installs.
 
 ## Adding dependencies
 
@@ -256,6 +426,10 @@ You do not need any of this for `geohello-yourname`. We are listing it here so y
 
 **Missing dependencies at install time.** Add the missing package to the `dependencies` list in `pyproject.toml` and rebuild.
 
+**`FileNotFoundError` on a bundled CSV after install.** Your `data/` folder is missing from the wheel. Add the `[tool.hatch.build.targets.wheel]` and `[tool.hatch.build.targets.sdist]` blocks shown above and rebuild. Confirm by unzipping the `.whl` and looking for the file.
+
+**`STATS_NZ_API_KEY` is None at runtime.** The environment variable is not set in the shell that runs the function. Run `export STATS_NZ_API_KEY=...` before `uv run` (or use a `.env` file plus a loader like `python-dotenv`).
+
 If something else goes wrong, run `uv build` again and read the first error message carefully. The most common fix is a small typo in `pyproject.toml`.
 
 ## Week 9 lab
@@ -284,10 +458,17 @@ You have also met the parts of `pyproject.toml` and the difference between PyPI 
 * uv documentation, https://docs.astral.sh/uv/
 * `src/` layout explanation, https://hynek.me/articles/testing-packaging/
 * Semantic Versioning, https://semver.org/
+* `importlib.resources`, https://docs.python.org/3/library/importlib.resources.html
+* Hatchling build configuration, https://hatch.pypa.io/latest/config/build/
+* Stats NZ Datafinder, https://datafinder.stats.govt.nz/
+* LINZ Data Service, https://data.linz.govt.nz/
 
 ## Practise exercises
 
 1. **Rename your package.** Change `geohello-yourname` to a name of your choice. Update `pyproject.toml` and the folder under `src/`. Rebuild and check it still works.
 2. **Add a second function.** Write `bye(place="Auckland")` that returns `"Goodbye from Auckland!"`. Re-export it from `__init__.py` and try it.
 3. **Add a dependency.** Add `pandas` to `dependencies` in `pyproject.toml`. Rebuild. Confirm `pandas` installs alongside your package.
-4. **Read a real one.** Open the `akl-ped-counts` repo at https://github.com/dataandcrowd/akl-ped-counts and find its `pyproject.toml`. Compare it to yours. What is the same? What is different?
+4. **Bundle a small CSV.** Add a `data/` folder under `src/your_package/` containing a tiny `sensors.csv` (3 to 5 rows). Add a `load_sensors()` function that uses `importlib.resources` to read it. Add the hatchling build targets shown in this chapter, rebuild, and confirm the CSV is inside the wheel.
+5. **Fetch from Stats NZ.** Sign up at https://datafinder.stats.govt.nz/, generate an API key, and add a `load_sa2_auckland()` function based on the WFS example. Set `STATS_NZ_API_KEY` in your shell and confirm the function returns a sensible GeoDataFrame.
+6. **Add caching.** Wrap your Stats NZ download with the cache pattern shown in this chapter. Run the function twice and confirm the second call is much faster.
+7. **Read a real one.** Open the `akl-ped-counts` repo at https://github.com/dataandcrowd/akl-ped-counts and find its `pyproject.toml`. Compare it to yours. What is the same? What is different? Pay particular attention to the `[tool.hatch.build.targets]` blocks.

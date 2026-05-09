@@ -472,7 +472,7 @@ Pair work, in plain language
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Both partners commit code to the shared repo. Both partners must be able to explain every part of the package by Week 12 (this matters for the fit interview). Split the work, but review each other’s commits.</p>
+<p>Both partners commit code to the shared repo. Both partners must be able to explain every part of the package by <strong>Week 10</strong> (this matters for the fit interview held in next week’s lab). Split the work, but review each other’s commits.</p>
 </div>
 </div>
 </section>
@@ -554,8 +554,23 @@ Pair work, in plain language
 <li><code>pavescore</code>, start with <code>score_image</code>. Use a single sample image and a placeholder texture-based score.</li>
 </ul>
 <ol start="12" type="1">
-<li><p>Open the file where the function should live (often <code>__init__.py</code> for a small package, or a dedicated module like <code>loader.py</code>). Write the function. Add a NumPy-style docstring.</p></li>
-<li><p>Try the function in an interactive session.</p></li>
+<li>Open the file where the function should live (often <code>__init__.py</code> for a small package, or a dedicated module like <code>loader.py</code>). Write the function. Add a NumPy-style docstring.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>If your function loads data</strong>, decide now whether to bundle a small file inside the package or fetch from an API. Chapter <a href="../4.1.package-fundamentals.html">4.1, “Where does the data live?”</a> walks through both patterns with code: <code>importlib.resources</code> for bundling, and the Stats NZ WFS pattern with caching for fetching. For most A3 briefs, you will use the fetch pattern.</p>
+</div>
+</div>
+<ol start="13" type="1">
+<li>Try the function in an interactive session.</li>
 </ol>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> from <span class="ex">your_package_name</span> import function_one</span>
@@ -600,13 +615,14 @@ Pair work, in plain language
 <li>What problem does the package solve, in one sentence?</li>
 <li>What are the three functions and what does each return?</li>
 <li>What is one design decision you have already made (for example, which CRS, which file format, which optional dependency)?</li>
+<li><strong>Where does your data live?</strong> Is it bundled inside the package (small reference data), fetched from an API on first use (Stats NZ, LINZ, OSMnx), or both?</li>
 <li>What is the next function you will implement?</li>
 </ol>
 <p>Save it as <code>DESIGN.md</code> in the repo root. Commit and push.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add DESIGN.md</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"add initial design statement"</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This file will grow as your package grows, and you will refer back to it during the Week 12 fit interview.</p>
+<p>This file will grow as your package grows, and you will refer back to it during the Week 10 fit interview.</p>
 </section>
 <section id="part-7.-wrap-up-5-minutes" class="level2">
 <h2 class="anchored" data-anchor-id="part-7.-wrap-up-5-minutes">Part 7. Wrap up (5 minutes)</h2>
