@@ -313,15 +313,6 @@ Before the lab ends, confirm the following with the demonstrator.
 * One function runs and returns something sensible in an interactive session.
 * `design.qmd` renders without errors and shows both figures with numbered captions.
 
-## Reflection (after the lab)
-
-Each partner writes a short reflection (100 to 150 words).
-
-* What part of the brief is still unclear to you?
-* What did your partner do that you would not have thought of?
-* Which function are you personally going to own (with the other partner doing review)?
-
-Bring the reflection to next week.
 
 ## Further reading
 
