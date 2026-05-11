@@ -411,13 +411,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#part-1.-read-the-brief-together-10-minutes" id="toc-part-1.-read-the-brief-together-10-minutes" class="nav-link" data-scroll-target="#part-1.-read-the-brief-together-10-minutes">Part 1. Read the brief together (10 minutes)</a></li>
-  <li><a href="#part-2.-create-the-package-skeleton-together-15-minutes" id="toc-part-2.-create-the-package-skeleton-together-15-minutes" class="nav-link" data-scroll-target="#part-2.-create-the-package-skeleton-together-15-minutes">Part 2. Create the package skeleton together (15 minutes)</a></li>
-  <li><a href="#part-3.-sketch-the-public-api-15-minutes" id="toc-part-3.-sketch-the-public-api-15-minutes" class="nav-link" data-scroll-target="#part-3.-sketch-the-public-api-15-minutes">Part 3. Sketch the public API (15 minutes)</a></li>
-  <li><a href="#part-4.-implement-one-function-for-real-35-minutes" id="toc-part-4.-implement-one-function-for-real-35-minutes" class="nav-link" data-scroll-target="#part-4.-implement-one-function-for-real-35-minutes">Part 4. Implement one function for real (35 minutes)</a></li>
-  <li><a href="#part-5.-add-the-first-test-15-minutes" id="toc-part-5.-add-the-first-test-15-minutes" class="nav-link" data-scroll-target="#part-5.-add-the-first-test-15-minutes">Part 5. Add the first test (15 minutes)</a></li>
-  <li><a href="#part-6.-write-a-one-paragraph-design-statement-15-minutes" id="toc-part-6.-write-a-one-paragraph-design-statement-15-minutes" class="nav-link" data-scroll-target="#part-6.-write-a-one-paragraph-design-statement-15-minutes">Part 6. Write a one-paragraph design statement (15 minutes)</a></li>
-  <li><a href="#part-7.-wrap-up-5-minutes" id="toc-part-7.-wrap-up-5-minutes" class="nav-link" data-scroll-target="#part-7.-wrap-up-5-minutes">Part 7. Wrap up (5 minutes)</a></li>
+  <li><a href="#part-1.-read-the-brief-together" id="toc-part-1.-read-the-brief-together" class="nav-link" data-scroll-target="#part-1.-read-the-brief-together">Part 1. Read the brief together</a></li>
+  <li><a href="#part-2.-create-the-package-skeleton-together" id="toc-part-2.-create-the-package-skeleton-together" class="nav-link" data-scroll-target="#part-2.-create-the-package-skeleton-together">Part 2. Create the package skeleton together</a></li>
+  <li><a href="#part-3.-sketch-the-public-api" id="toc-part-3.-sketch-the-public-api" class="nav-link" data-scroll-target="#part-3.-sketch-the-public-api">Part 3. Sketch the public API</a></li>
+  <li><a href="#part-4.-implement-one-function-for-real" id="toc-part-4.-implement-one-function-for-real" class="nav-link" data-scroll-target="#part-4.-implement-one-function-for-real">Part 4. Implement one function for real</a></li>
+  <li><a href="#part-5.-write-the-design-report" id="toc-part-5.-write-the-design-report" class="nav-link" data-scroll-target="#part-5.-write-the-design-report">Part 5. Write the design report</a>
+  <ul class="collapse">
+  <li><a href="#quarto-starter-template" id="toc-quarto-starter-template" class="nav-link" data-scroll-target="#quarto-starter-template">Quarto starter template</a></li>
+  <li><a href="#how-figure-captions-and-references-work-in-quarto" id="toc-how-figure-captions-and-references-work-in-quarto" class="nav-link" data-scroll-target="#how-figure-captions-and-references-work-in-quarto">How figure captions and references work in Quarto</a></li>
+  <li><a href="#where-to-save-the-images" id="toc-where-to-save-the-images" class="nav-link" data-scroll-target="#where-to-save-the-images">Where to save the images</a></li>
+  <li><a href="#render-to-check" id="toc-render-to-check" class="nav-link" data-scroll-target="#render-to-check">Render to check</a></li>
+  </ul></li>
+  <li><a href="#part-6.-wrap-up" id="toc-part-6.-wrap-up" class="nav-link" data-scroll-target="#part-6.-wrap-up">Part 6. Wrap up</a></li>
   <li><a href="#reflection-after-the-lab" id="toc-reflection-after-the-lab" class="nav-link" data-scroll-target="#reflection-after-the-lab">Reflection (after the lab)</a></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
@@ -452,10 +457,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>A package skeleton on disk and on GitHub.</li>
 <li>A <code>pyproject.toml</code> that builds without errors.</li>
 <li>A first working function with a docstring.</li>
-<li>A first test that passes.</li>
-<li>A short written design statement (one paragraph) that you and your partner agree on.</li>
+<li>A <strong>design report</strong> (with images or diagrams) that you and your partner agree on.</li>
 </ol>
-<p><strong>Duration</strong>, approximately 110 minutes.</p>
 <p><strong>What you need.</strong></p>
 <ul>
 <li>The Assignment 3 brief assigned to your pair (see <a href="../4.5.packaging-assignment.html">4.5 Package project briefs</a>).</li>
@@ -476,8 +479,8 @@ Pair work, in plain language
 </div>
 </div>
 </section>
-<section id="part-1.-read-the-brief-together-10-minutes" class="level2">
-<h2 class="anchored" data-anchor-id="part-1.-read-the-brief-together-10-minutes">Part 1. Read the brief together (10 minutes)</h2>
+<section id="part-1.-read-the-brief-together" class="level2">
+<h2 class="anchored" data-anchor-id="part-1.-read-the-brief-together">Part 1. Read the brief together</h2>
 <ol type="1">
 <li>Open your assigned brief in <a href="../4.5.packaging-assignment.html">4.5</a>.</li>
 <li>Underline the three required functions. Write the signatures on a sheet of paper or in a shared document.</li>
@@ -485,15 +488,15 @@ Pair work, in plain language
 <li>Identify one part of the brief you are unsure about and ask the demonstrator before moving on.</li>
 </ol>
 </section>
-<section id="part-2.-create-the-package-skeleton-together-15-minutes" class="level2">
-<h2 class="anchored" data-anchor-id="part-2.-create-the-package-skeleton-together-15-minutes">Part 2. Create the package skeleton together (15 minutes)</h2>
+<section id="part-2.-create-the-package-skeleton-together" class="level2">
+<h2 class="anchored" data-anchor-id="part-2.-create-the-package-skeleton-together">Part 2. Create the package skeleton together</h2>
 <ol start="5" type="1">
 <li><p>One partner creates a new GitHub repository for your pair (private or public, your choice). Add the other partner as a collaborator.</p></li>
 <li><p>Clone it locally and run the following.</p></li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> your-package-name</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--lib</span> your-package-name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Replace <code>your-package-name</code> with a hyphenated name based on your brief (for example, <code>pedestrian-exposure-uoa</code>, <code>equitransport-akl</code>, <code>gtfs-lite-yourinitials</code>). Names on PyPI must be unique, so add initials or a suffix.</p>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> init <span class="at">--lib</span> your-package-name .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Replace <code>your-package-name</code> with a hyphenated name based on your brief (for example, <code>pedestrian-exposure-uoa</code>, <code>equitransport-akl</code>, <code>escooter-akl-yourinitials</code>). Names on PyPI must be unique, so add initials or a suffix.</p>
 <ol start="7" type="1">
 <li>Open <code>pyproject.toml</code>. Update the <code>name</code>, <code>description</code>, and <code>authors</code> fields. Both partners go in <code>authors</code>.</li>
 </ol>
@@ -510,31 +513,32 @@ Pair work, in plain language
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If the build fails, read the first error message carefully and fix it before continuing. Common causes include a missing <code>[project]</code> section or a name that does not match the folder under <code>src/</code>.</p>
 </section>
-<section id="part-3.-sketch-the-public-api-15-minutes" class="level2">
-<h2 class="anchored" data-anchor-id="part-3.-sketch-the-public-api-15-minutes">Part 3. Sketch the public API (15 minutes)</h2>
+<section id="part-3.-sketch-the-public-api" class="level2">
+<h2 class="anchored" data-anchor-id="part-3.-sketch-the-public-api">Part 3. Sketch the public API</h2>
 <ol start="9" type="1">
 <li>Open <code>src/your_package_name/__init__.py</code> (folder name uses underscores). Replace the contents with stubs for the three required functions.</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Your one-line package description."""</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> __future__ <span class="im">import</span> annotations</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>__version__ <span class="op">=</span> <span class="st">"0.1.0"</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>__version__ <span class="op">=</span> <span class="st">"0.1.0"</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_one(arg1, arg2):</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""One-line summary."""</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">NotImplementedError</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_one(arg1, arg2):</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""One-line summary."""</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">NotImplementedError</span></span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_two(arg1):</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""One-line summary."""</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">NotImplementedError</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_two(arg1):</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""One-line summary."""</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">NotImplementedError</span></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_three(arg1, arg2):</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""One-line summary."""</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">NotImplementedError</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> function_three(arg1, arg2):</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""One-line summary."""</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">NotImplementedError</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="10" type="1">
 <li><p>Replace <code>function_one</code>, <code>function_two</code>, <code>function_three</code> with the actual function names from your brief, and use the parameter names from the brief (for example, <code>load_route(origin, destination, place)</code> for <code>pedestrian-exposure</code>).</p></li>
 <li><p>Commit and push.</p></li>
@@ -543,19 +547,79 @@ Pair work, in plain language
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"scaffold package and stub public API"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="part-4.-implement-one-function-for-real-35-minutes" class="level2">
-<h2 class="anchored" data-anchor-id="part-4.-implement-one-function-for-real-35-minutes">Part 4. Implement one function for real (35 minutes)</h2>
+<section id="part-4.-implement-one-function-for-real" class="level2">
+<h2 class="anchored" data-anchor-id="part-4.-implement-one-function-for-real">Part 4. Implement one function for real</h2>
 <p>You now pick <strong>one</strong> of the three functions and make it work end to end. Choose the simplest one in your brief. Examples by brief.</p>
 <ul>
 <li><code>pedestrian-exposure</code>, start with <code>load_route</code>. It just calls OSMnx and returns a GeoDataFrame.</li>
 <li><code>equitransport</code>, start with <code>load_nzdep</code>. It joins one CSV.</li>
-<li><code>gtfs-lite</code>, start with <code>feed.stops()</code>. It reads one CSV and constructs Point geometries.</li>
 <li><code>treecrown-nz</code>, start with <code>load_canopy</code>. It calls the LINZ API for a small bbox.</li>
 <li><code>pavescore</code>, start with <code>score_image</code>. Use a single sample image and a placeholder texture-based score.</li>
+<li><code>escooter-akl</code>, start with <code>load_trips</code>. It reads a small CSV and constructs Point geometries.</li>
 </ul>
 <ol start="12" type="1">
 <li>Open the file where the function should live (often <code>__init__.py</code> for a small package, or a dedicated module like <code>loader.py</code>). Write the function. Add a NumPy-style docstring.</li>
 </ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Worked example: <code>load_route</code> for <code>pedestrian-exposure</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If your brief is <code>pedestrian-exposure</code>, a working first draft of <code>load_route</code> looks roughly like this. Copy it, run it, then adapt the addresses and the place name to whatever you need.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># src/pedestrian_exposure_uoa/loader.py</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> osmnx <span class="im">as</span> ox</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_route(origin, destination, place<span class="op">=</span><span class="st">"Auckland, New Zealand"</span>):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Fetch the shortest walking route between two addresses.</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    origin : str</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">        Starting address, e.g. "Britomart, Auckland".</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">    destination : str</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">        Ending address, e.g. "Karangahape Road, Auckland".</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">    place : str, default "Auckland, New Zealand"</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">        Place name used to scope the OSMnx graph download.</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">    geopandas.GeoDataFrame</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">        Edges of the shortest walking route in EPSG:2193 (NZTM).</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Download the walking network for the area</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> ox.graph_from_place(place, network_type<span class="op">=</span><span class="st">"walk"</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Geocode the two addresses to (lat, lon) tuples</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    o_lat, o_lon <span class="op">=</span> ox.geocoder.geocode(origin)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    d_lat, d_lon <span class="op">=</span> ox.geocoder.geocode(destination)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Snap each address to the nearest network node</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    orig_node <span class="op">=</span> ox.distance.nearest_nodes(G, o_lon, o_lat)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    dest_node <span class="op">=</span> ox.distance.nearest_nodes(G, d_lon, d_lat)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Shortest path, then convert the node list to a GeoDataFrame of edges</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    nodes <span class="op">=</span> ox.shortest_path(G, orig_node, dest_node, weight<span class="op">=</span><span class="st">"length"</span>)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    edges <span class="op">=</span> ox.routing.route_to_gdf(G, nodes)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5. Reproject to NZTM so all spatial maths are in metres</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> edges.to_crs(<span class="st">"EPSG:2193"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Try it in <code>uv run python</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> pedestrian_exposure_uoa <span class="im">import</span> load_route</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> edges <span class="op">=</span> load_route(<span class="st">"Britomart, Auckland"</span>, <span class="st">"Karangahape Road, Auckland"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> edges.shape</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>(<span class="dv">42</span>, <span class="dv">12</span>)   <span class="co"># something like this</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> edges.crs</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>Projected CRS: EPSG:<span class="dv">2193</span><span class="op">&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> edges[[<span class="st">"length"</span>, <span class="st">"highway"</span>]].head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the network download is slow, swap <code>graph_from_place</code> for <code>graph_from_bbox</code> with a small CBD bounding box. If geocoding fails for a casual address, pass an explicit (lat, lon) tuple instead and use <code>nearest_nodes</code> directly.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -572,68 +636,118 @@ Tip
 <ol start="13" type="1">
 <li>Try the function in an interactive session.</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> from <span class="ex">your_package_name</span> import function_one</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> result <span class="ex">=</span> function_one<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> result.head<span class="kw">()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> from <span class="ex">your_package_name</span> import function_one</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> result <span class="ex">=</span> function_one<span class="er">(</span><span class="ex">...</span><span class="kw">)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> result.head<span class="kw">()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="14" type="1">
 <li>Commit and push as soon as it works.</li>
 </ol>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-am</span> <span class="st">"implement function_one with a working example"</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-am</span> <span class="st">"implement function_one with a working example"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="part-5.-add-the-first-test-15-minutes" class="level2">
-<h2 class="anchored" data-anchor-id="part-5.-add-the-first-test-15-minutes">Part 5. Add the first test (15 minutes)</h2>
-<ol start="15" type="1">
-<li>Add <code>pytest</code> to your dev dependencies.</li>
-</ol>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add <span class="at">--dev</span> pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="16" type="1">
-<li>Create <code>tests/test_basic.py</code> and add one test that exercises the function you implemented.</li>
-</ol>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""First tests for your-package-name."""</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> your_package_name <span class="im">import</span> function_one</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_function_one_returns_expected_shape():</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> function_one(...)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> result <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(result) <span class="op">&gt;</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="17" type="1">
-<li>Run the test.</li>
-</ol>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pytest <span class="at">-v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ol start="18" type="1">
-<li>If it passes, commit and push. If it fails, fix the function or the test until both partners agree the test is correct, then commit.</li>
-</ol>
+<section id="part-5.-write-the-design-report" class="level2">
+<h2 class="anchored" data-anchor-id="part-5.-write-the-design-report">Part 5. Write the design report</h2>
+<p>The rest of the lab is the <strong>design report</strong>. This is the artefact you will refer back to in the Week 10 fit interview, when polishing the poster, and when writing the final README. Spend real time on it.</p>
+<p>Create a Quarto file called <code>design.qmd</code> in the repo root. Using Quarto (rather than plain Markdown) means you can render it to HTML or PDF later for the poster and final report, and it gives you proper figure captions and cross-references for free.</p>
+<section id="quarto-starter-template" class="level3">
+<h3 class="anchored" data-anchor-id="quarto-starter-template">Quarto starter template</h3>
+<p>Copy this into your <code>design.qmd</code> and fill in the placeholders.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Design report: your-package-name"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="an">authors:</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">  - Partner A</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - Partner B</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">    number-sections: true</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: "Figure"</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-prefix: "Figure"</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Problem statement</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>Two sentences. What problem does the package solve, and for whom? Avoid jargon.</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>A council planner or another GISCI 343 student should understand it.</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Pipeline diagram</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>The package takes <span class="co">[</span><span class="ot">input data</span><span class="co">]</span> and turns it into <span class="co">[</span><span class="ot">output deliverable</span><span class="co">]</span>.</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>@fig-pipeline shows the three functions and how data flows between them.</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="al">![Pipeline from input data through the three functions to the final deliverable.](docs/pipeline.png)</span>{#fig-pipeline width=80%}</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Expected output</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>@fig-output is the sketch of what the demo notebook will produce on the last cell.</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="al">![Sketch of the expected demo output (rough map of the route coloured by exposure).](docs/expected_output.png)</span>{#fig-output width=80%}</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>If you cannot sketch what your output looks like, you do not yet know what</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>your package does.</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## Key design choices</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**CRS**: we use EPSG:2193 (NZTM) because *(reason)*.</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Data pattern**: data is *(bundled / fetched / both)* because *(reason)*.</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Optional dependencies**: we keep *(library X)* as an optional extra because *(reason)*.</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Roles and next function</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>Partner A will own *(function name)* for the first draft. Partner B will own</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>*(function name)*. Both partners review all code.</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>Next function to implement after today's lab: *(function name)*.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="part-6.-write-a-one-paragraph-design-statement-15-minutes" class="level2">
-<h2 class="anchored" data-anchor-id="part-6.-write-a-one-paragraph-design-statement-15-minutes">Part 6. Write a one-paragraph design statement (15 minutes)</h2>
-<p>Before you leave the lab, both partners write <strong>one paragraph together</strong> that answers the following.</p>
+<section id="how-figure-captions-and-references-work-in-quarto" class="level3">
+<h3 class="anchored" data-anchor-id="how-figure-captions-and-references-work-in-quarto">How figure captions and references work in Quarto</h3>
+<p>A figure with a caption and a label looks like this.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Caption text goes here.](docs/pipeline.png)</span>{#fig-pipeline width=80%}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Three rules to remember.</p>
 <ol type="1">
-<li>What problem does the package solve, in one sentence?</li>
-<li>What are the three functions and what does each return?</li>
-<li>What is one design decision you have already made (for example, which CRS, which file format, which optional dependency)?</li>
-<li><strong>Where does your data live?</strong> Is it bundled inside the package (small reference data), fetched from an API on first use (Stats NZ, LINZ, OSMnx), or both?</li>
-<li>What is the next function you will implement?</li>
+<li>The text inside <code>![ ... ]</code> becomes the <strong>caption</strong> that appears under the figure.</li>
+<li>The <code>{#fig-name}</code> is the <strong>label</strong>. Labels for figures must start with <code>fig-</code>.</li>
+<li>Optional attributes go inside the same braces. <code>width=80%</code> makes the figure take 80% of the page width. You can also write <code>width=60%</code> or <code>width=4in</code>.</li>
 </ol>
-<p>Save it as <code>DESIGN.md</code> in the repo root. Commit and push.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add DESIGN.md</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"add initial design statement"</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This file will grow as your package grows, and you will refer back to it during the Week 10 fit interview.</p>
+<p>To reference a figure elsewhere in the text, use <code>@fig-name</code>. Quarto turns this into “Figure 1”, “Figure 2”, and so on, automatically numbered.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>@fig-pipeline shows the three functions and how data flows between them.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Renders as:</p>
+<blockquote class="blockquote">
+<p><strong>Figure 1</strong> shows the three functions and how data flows between them.</p>
+</blockquote>
 </section>
-<section id="part-7.-wrap-up-5-minutes" class="level2">
-<h2 class="anchored" data-anchor-id="part-7.-wrap-up-5-minutes">Part 7. Wrap up (5 minutes)</h2>
+<section id="where-to-save-the-images" class="level3">
+<h3 class="anchored" data-anchor-id="where-to-save-the-images">Where to save the images</h3>
+<p>Save your two PNGs in a <code>docs/</code> folder inside the repo.</p>
+<pre><code>your-package-name/
+├── design.qmd
+├── docs/
+│   ├── pipeline.png
+│   └── expected_output.png
+├── src/
+└── pyproject.toml</code></pre>
+<p>Hand-drawn is fine for both images. Photograph them on your phone, crop, then save as PNG. If you prefer digital tools, <a href="https://excalidraw.com">Excalidraw</a> and <a href="https://www.tldraw.com">tldraw</a> are good for quick architecture sketches.</p>
+</section>
+<section id="render-to-check" class="level3">
+<h3 class="anchored" data-anchor-id="render-to-check">Render to check</h3>
+<p>Before pushing, render the file once to confirm the captions and figures appear correctly.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render design.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Open the resulting <code>design.html</code> in a browser. Figures should be numbered (“Figure 1”, “Figure 2”) and the cross-references in the text should turn into clickable links.</p>
+<p>You will refer back to <code>design.qmd</code> next week during the fit interview.</p>
+</section>
+</section>
+<section id="part-6.-wrap-up" class="level2">
+<h2 class="anchored" data-anchor-id="part-6.-wrap-up">Part 6. Wrap up</h2>
 <p>Before the lab ends, confirm the following with the demonstrator.</p>
 <ul>
 <li>Your repo is on GitHub and both partners have push access.</li>
 <li><code>uv build</code> runs without errors.</li>
-<li><code>uv run pytest</code> shows at least one passing test.</li>
-<li><code>DESIGN.md</code> exists.</li>
+<li>One function runs and returns something sensible in an interactive session.</li>
+<li><code>design.qmd</code> renders without errors and shows both figures with numbered captions.</li>
 </ul>
-<p>Take a screenshot of the passing test for your own records. You will need it in next week’s lab.</p>
 </section>
 <section id="reflection-after-the-lab" class="level2">
 <h2 class="anchored" data-anchor-id="reflection-after-the-lab">Reflection (after the lab)</h2>
@@ -651,6 +765,7 @@ Tip
 <li>Chapter 4.1, Package fundamentals</li>
 <li><code>akl-ped-counts</code> source as a worked example, https://github.com/dataandcrowd/akl-ped-counts</li>
 <li>uv quick start, https://docs.astral.sh/uv/getting-started/</li>
+<li>Excalidraw, https://excalidraw.com</li>
 </ul>
 
 

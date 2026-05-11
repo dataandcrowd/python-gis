@@ -34,79 +34,76 @@ Each brief follows the same shape. A short rationale, the functions you must imp
 
 ### `pedestrian-exposure` {#sec-pedestrian-exposure}
 
-**For a walking route, calculate cumulative exposure to three environmental factors: noise, air pollution, and green space.**
+**Answer this question for a walker in Auckland: which route is healthier, and why?**
 
-Pedestrians do not experience the same conditions along every part of a journey. A route along a busy arterial accumulates more traffic noise and roadside air pollution than one through a park, even if the total distance is the same. The same route also passes through varying levels of greenery, which is associated with comfort, perceived safety, and lower stress. This package turns those qualitative differences into quantitative per-edge and route-level exposure scores.
+Pedestrians do not experience the same conditions along every part of a journey. A route along a busy arterial accumulates more traffic noise and roadside air pollution than one through a park, even if the total distance is the same. This package turns those qualitative differences into quantitative scores by joining three environmental layers to each edge of a walking route.
 
-Your package takes an OSMnx-derived walking route, joins three environmental layers (noise, air quality, and greenness) to each edge, and returns a tidy table plus a single weighted summary score for the whole route. The three exposures are kept side by side so that students and decision-makers can see, for example, that the quietest route is not always the greenest.
+* **What we expect to see**: a CBD walking route scored on three environmental factors (noise, air pollution, green space), mapped together so the trade-offs are obvious.
+* **The deliverable**: a map of the route with each edge coloured by total exposure, a small bar chart breaking out the three components, and a one-line summary score.
+* **The insight**: which streets are quietest? Which are the most polluted? Where does greenery actually offset the others?
+* **Key functions**: `add_exposure(route_gdf, layer, kind)` and `summarise_exposure(route_gdf)`.
+* **Demo dataset**: a CBD walking route via OSMnx, an OSM-based noise proxy, LAWA air quality, and Sentinel-2 NDVI sampled along each edge.
+* **Difficulty**: intermediate to ambitious (three small pipelines, kept consistent).
 
-**Functions to implement.**
+**Functions in brief.**
 
-`load_route(origin, destination, place)` fetches a walking route between two addresses using OSMnx and returns a GeoDataFrame of edges with `LineString` geometries in EPSG:2193.
+`load_route(origin, destination, place)` returns a GeoDataFrame of edges in EPSG:2193 (NZTM) from OSMnx.
 
-`add_exposure(route_gdf, layer, kind)` joins one of three named exposure layers onto each route edge. The `kind` argument must be one of `"noise"`, `"air_quality"`, or `"green"`. The function adds a column named `noise_exposure`, `air_exposure`, or `green_exposure` to the route GeoDataFrame depending on the kind. Polygon layers are spatially joined; raster layers (such as an NDVI image) are sampled along each edge.
+`add_exposure(route_gdf, layer, kind)` joins one named exposure layer onto each edge. `kind` is one of `"noise"`, `"air_quality"`, or `"green"`, and the function adds a `noise_exposure`, `air_exposure`, or `green_exposure` column accordingly. Polygon layers are spatially joined and raster layers are sampled.
 
-`summarise_exposure(route_gdf, weights=None)` returns a tidy DataFrame of per-edge values for all three exposures and a single route-level weighted summary. Weights default to edge length, so a long busy edge counts more than a short one.
-
-**Demonstration dataset.** Use a walking route between two well-known Auckland CBD points (for example, Britomart to Karangahape Road) loaded via OSMnx. For the three exposure layers, use the following.
-
-* **Noise**: a traffic-volume proxy from OSM `highway` tags (motorway, primary, secondary, residential) mapped to indicative noise levels, or a published noise polygon if you can locate one. Document your choice clearly.
-* **Air quality**: monitoring data from LAWA (https://www.lawa.org.nz/explore-data/air-quality) interpolated to your route, or NO2 modelled estimates if you can find a usable layer.
-* **Green**: NDVI derived from a Sentinel-2 image clipped to the Auckland CBD, sampled along each edge.
-
-Your demo notebook should produce a map of the route with edges coloured by total exposure, a small bar chart of the three component scores, and a one-table summary.
+`summarise_exposure(route_gdf, weights=None)` returns a tidy DataFrame plus a route-level weighted summary. Weights default to edge length.
 
 ::: {.callout-tip}
-Build incrementally. Get `load_route()` and one of the three `add_exposure()` calls working end to end first. The remaining two exposures follow the same pattern. Leave the weighted summary until all three layers attach correctly.
+Build incrementally. Get `load_route()` and one of the three `add_exposure()` calls working end to end first. The remaining two follow the same pattern. Leave the weighted summary until all three layers attach correctly.
 :::
 
 ::: {.callout-tip}
 Coordinate reference systems are the most common source of bugs here. Reproject everything to EPSG:2193 (NZTM) before any spatial join. Write a tiny pytest that asserts the output CRS.
 :::
 
-::: {.callout-note}
-**Difficulty level.** Intermediate to ambitious. Three exposure types means three small spatial pipelines. Keep each one simple and consistent. The interesting result is the comparison across the three, not perfection in any one.
-:::
-
 ---
 
 ### `equitransport` {#sec-equitransport}
 
-**Break down transport accessibility by deprivation quintile and surface equity gaps.**
+**Answer this question: does Auckland's public transport access reach the most deprived neighbourhoods?**
 
 Transport planning that looks only at average accessibility can obscure deep inequalities. A city might have good average PT coverage while the most deprived neighbourhoods remain poorly served. This package connects an accessibility metric to the New Zealand Index of Deprivation (NZDep2018) at SA2 level, then computes how that access is distributed across the population.
 
-Your package takes a GeoDataFrame of SA2 boundaries with an accessibility metric column (for example, the number of PT stops within 400 m walk) and joins it to NZDep2018 scores. It then computes quintile means and a Gini coefficient to quantify how unequally access is distributed.
+* **What we expect to see**: a single number (Gini coefficient) plus a five-row quintile table that turns an equity argument into evidence.
+* **The deliverable**: a choropleth of Auckland SA2s coloured by NZDep quintile and a parallel map of PT access (stops within 400 m walk).
+* **The insight**: do the most deprived quintiles get fewer stops per capita? By how much? Where are the worst gaps?
+* **Key functions**: `load_nzdep(sa2_gdf)` and `equity_summary(gdf)`.
+* **Demo dataset**: Stats NZ SA2 boundaries + Auckland Transport GTFS PT-stop counts + NZDep2018 scores from the University of Otago.
+* **Difficulty**: intermediate (meshblock-to-SA2 aggregation is the tricky bit).
 
-**Functions to implement.**
+**Functions in brief.**
 
 `load_nzdep(sa2_gdf)` joins NZDep2018 deprivation scores to an SA2-level GeoDataFrame by meshblock or SA2 code.
 
-`compute_access(gdf, metric_col)` calculates the chosen accessibility metric per SA2 polygon.
+`compute_access(gdf, metric_col)` calculates the chosen accessibility metric per SA2 polygon (for example, PT stops within 400 m walk).
 
 `equity_summary(gdf)` returns a quintile breakdown table and a Gini coefficient, along with a choropleth-ready GeoDataFrame for mapping.
 
-**Demonstration dataset.** Use Stats NZ SA2 boundaries for the Auckland region alongside a PT stop count derived from the Auckland Transport GTFS static feed. Your demo should produce both a summary table and a choropleth map coloured by deprivation quintile.
-
 ::: {.callout-tip}
-The NZDep2018 data is published by the University of Otago and is freely downloadable as a CSV. You can ship it as a small bundled data file inside your package rather than fetching it at runtime.
-:::
-
-::: {.callout-note}
-**Difficulty level.** Intermediate. The main challenge is correctly aggregating meshblock-level deprivation scores up to SA2 level.
+The NZDep2018 data is published by the University of Otago and is freely downloadable as a CSV. Ship it as a small bundled data file inside your package rather than fetching it at runtime.
 :::
 
 ---
 
 ### `treecrown-nz` {#sec-treecrown-nz}
 
-**Measure urban tree canopy coverage and shade along any Auckland street or area.**
+**Answer this question: which Auckland neighbourhoods are tree-rich, and how shaded is a typical walk?**
 
-Urban tree canopy is increasingly recognised as critical infrastructure. It reduces heat stress, improves air quality, and makes walking more comfortable. Auckland Council has invested in LiDAR-derived canopy mapping, but using that data programmatically requires navigating the LINZ Data Service API, clipping geometries, and computing coverage statistics, steps that every researcher ends up writing from scratch. This package automates that workflow.
+Urban tree canopy is increasingly recognised as critical infrastructure. It reduces heat stress, improves air quality, and makes walking more comfortable. Auckland Council has invested in LiDAR-derived canopy mapping, but using that data programmatically requires navigating the LINZ Data Service API, clipping geometries, and computing coverage statistics. This package automates that workflow.
 
-Your package fetches canopy polygon data for a bounding box from LINZ, then computes coverage percentage for a user-supplied area or along a buffered walking route. The output is a per-polygon or per-segment summary suitable for mapping and further analysis.
+* **What we expect to see**: a coverage number (% canopy) for each of three Auckland suburbs, and a route map coloured by overhead canopy fraction.
+* **The deliverable**: a side-by-side comparison plot for the three suburbs plus a "shaded walk" map for one chosen route.
+* **The insight**: which suburbs have invested in canopy? Which routes stay shaded on a summer afternoon? Where is the canopy gap worst?
+* **Key functions**: `canopy_coverage(area_gdf)` and `route_shade(route_gdf, buffer_m)`.
+* **Demo dataset**: the Auckland Council LiDAR-derived canopy layer available via the LINZ Data Service, compared across three Auckland suburbs of your choice.
+* **Difficulty**: intermediate to ambitious (the LINZ API has a learning curve).
 
-**Functions to implement.**
+**Functions in brief.**
 
 `load_canopy(bbox)` fetches the Auckland Council canopy layer from LINZ for a given bounding box and returns a GeoDataFrame of canopy polygons.
 
@@ -114,74 +111,70 @@ Your package fetches canopy polygon data for a bounding box from LINZ, then comp
 
 `route_shade(route_gdf, buffer_m)` buffers each edge of a route by a given distance (in metres) and returns the canopy fraction within that buffer, a proxy for pedestrian shade.
 
-**Demonstration dataset.** Use the Auckland Council LiDAR-derived canopy layer available via the LINZ Data Service. Your demo notebook should compare canopy coverage across three Auckland suburbs and produce a map showing shade fraction along a walking route of your choice.
-
 ::: {.callout-tip}
 The LINZ API requires an API key. Register for a free account at data.linz.govt.nz and store your key in a `.env` file. Never hard-code it in your package source.
-:::
-
-::: {.callout-note}
-**Difficulty level.** Intermediate to ambitious. The LINZ API has some quirks around pagination and layer IDs. Budget time for getting the data access working before the analysis.
 :::
 
 ---
 
 ### `pavescore` {#sec-pavescore}
 
-**Pass in a pavement photo, get back a condition score and defect flags.**
+**Answer this question: can a phone photo tell us which Auckland pavements need fixing?**
 
-Pavement condition inspections are currently conducted manually by Auckland Council field staff, a slow and expensive process. Computer vision offers a path to scalable, consistent assessment from street-level imagery. This package takes a pavement photograph (from a file path or a Mapillary URL) and returns a structured condition assessment based on image analysis.
+Pavement condition inspections are currently conducted manually by Auckland Council field staff, a slow and expensive process. Computer vision offers a path to scalable, consistent assessment from street-level imagery. This package takes a pavement photograph and returns a structured condition assessment based on image analysis. A working basic version uses edge detection and texture analysis. A more ambitious version wraps a lightweight pre-trained classifier. Either approach is valid if your outputs are consistent and your methodology is clearly documented.
 
-A working basic version uses edge detection and texture analysis to detect surface degradation. A more ambitious version wraps a lightweight pre-trained image classifier. Either approach is valid for this assignment, provided your outputs are consistent and your methodology is clearly documented.
+* **What we expect to see**: every input image scored on a 0-to-100 condition scale with binary flags for cracking, surface degradation, and obstruction.
+* **The deliverable**: a map of scored photo locations along Dominion Road or Queen Street, coloured good / fair / poor, plus a small table of the worst spots.
+* **The insight**: how does pavement quality vary along one street? Which segments are worst? Could a council prioritise repairs from this map?
+* **Key functions**: `score_image(path_or_url)` and `to_geodataframe(results, coords)`.
+* **Demo dataset**: Mapillary street-level images sampled along Dominion Road or Queen Street, Auckland. The Mapillary API is free for research use.
+* **Difficulty**: ambitious. The most open-ended brief of the five.
 
-**Functions to implement.**
+**Functions in brief.**
 
-`score_image(path_or_url)` takes a single image and returns a `PavementResult` dataclass containing an overall score (0 to 100, where 100 is perfect condition), binary defect flags for cracking, surface degradation, and obstruction, and a confidence value.
+`score_image(path_or_url)` returns a `PavementResult` dataclass containing an overall score (0 to 100, where 100 is perfect), binary defect flags for cracking, surface degradation, and obstruction, and a confidence value.
 
 `score_batch(image_list)` processes a list of images and returns a summary DataFrame with one row per image.
 
 `to_geodataframe(results, coords)` takes a list of `PavementResult` objects and a matching list of (lat, lon) tuples and returns a GeoDataFrame suitable for mapping.
 
-**Demonstration dataset.** Use Mapillary images sampled along Dominion Road or Queen Street, Auckland. The Mapillary API is free for research use and returns image URLs that your package can consume directly. Your demo notebook should produce a map of scored locations coloured by condition category (good, fair, poor).
-
 ::: {.callout-tip}
-Focus on getting `score_image()` returning a consistent and sensible output before building the batch and spatial methods. A simple texture-based scorer that works reliably is better than an ambitious classifier that is fragile.
+Focus on getting `score_image()` returning a consistent and sensible output before building the batch and spatial methods. A simple texture-based scorer that works reliably beats an ambitious classifier that breaks.
 :::
 
 ::: {.callout-warning}
-Image analysis can be computationally slow. Make sure your demo notebook includes a small pre-sampled set of images (10 to 20) rather than fetching hundreds at runtime during the presentation.
-:::
-
-::: {.callout-note}
-**Difficulty level.** Ambitious. This is the most open-ended brief of the five. You have more design freedom, which also means more decisions to justify in your poster and interview.
+Image analysis can be computationally slow. Pre-sample 10 to 20 images for the demo notebook rather than fetching hundreds at runtime during the presentation.
 :::
 
 ---
 
 ### `escooter-akl` {#sec-escooter-akl}
 
-**Turn raw e-scooter trip records into clean origin-destination flows and flag geofence violations.**
+**Answer this question: how do e-scooters move around the CBD, and where are operators failing to enforce parking rules?**
 
-E-scooter operators in Auckland (Beam, Lime, Neuron, and others) generate millions of trips, but the raw data is messy. Trips can have missing endpoints, occur during prohibited hours, or end inside no-parking zones. Cities and operators need clean OD flows for parking infrastructure decisions, equity audits, and integration with public transport planning. This package takes a raw trip log and turns it into something you can map and reason about.
+Flamingo operates a shared e-scooter fleet in Auckland and generates a stream of trip records. The raw data is messy. Trips can have missing endpoints, occur during prohibited hours, or end inside no-parking zones. Cities and operators need clean OD flows for parking infrastructure decisions, equity audits, and integration with public transport planning. This package takes a raw Flamingo trip log and turns it into something you can map and reason about.
 
-Your package reads a CSV of e-scooter trips with start and end coordinates and timestamps, snaps trips to a zone layer (such as Auckland SA2s), aggregates them into an origin-destination matrix, and checks each trip end against a no-parking polygon layer to flag violations.
+* **What we expect to see**: a clean origin-destination flow map plus a count of trips that ended inside no-parking zones.
+* **The deliverable**: an OD chord diagram or arrow map between SA2 zones plus a marker map of geofence violations with zone labels for reporting.
+* **The insight**: which CBD zones are origin-heavy versus destination-heavy? Where are violations concentrated? What story would you tell Auckland Council?
+* **Key functions**: `od_flows(trips_gdf, zones_gdf)` and `geofence_violations(trips_gdf, no_park_gdf)`.
+* **Demo dataset**: a sample CSV of Flamingo Auckland CBD trips + Stats NZ SA2 zones + Auckland Council CBD pedestrianised polygons as a no-park proxy.
+* **Difficulty**: intermediate (messy data; loud failure beats silent failure).
 
-**Functions to implement.**
+**Functions in brief.**
 
-`load_trips(path)` reads a trip CSV with columns for start and end latitude/longitude and a timestamp, and returns a GeoDataFrame of trip records with start and end Point geometries (in EPSG:2193 for spatial maths).
+`load_trips(path)` reads a Flamingo trip CSV with columns for start and end latitude/longitude and a timestamp, and returns a GeoDataFrame of trip records with start and end Point geometries in EPSG:2193 (NZTM).
 
 `od_flows(trips_gdf, zones_gdf)` performs a spatial join from trip endpoints to zones, then aggregates trip counts into a tidy origin-destination DataFrame indexed by origin zone code and destination zone code.
 
 `geofence_violations(trips_gdf, no_park_gdf)` returns a GeoDataFrame of trips whose end point lies inside any of the supplied no-parking polygons, with the violated zone name attached for reporting.
-
-**Demonstration dataset.** Use a sample of Auckland CBD e-scooter trips supplied as a CSV in your demo notebook (live MDS feeds require operator agreements, so a sample is fine). Use Auckland SA2 boundaries from Stats NZ for zone aggregation, and a small no-parking polygon layer for the geofence check (Auckland Council CBD pedestrianised zones work as a proxy if formal no-park polygons are not available). Your demo notebook should produce an OD flow chord diagram or arrow map plus a count of geofence violations.
 
 ::: {.callout-tip}
 Start with `load_trips()` and a tiny CSV of 20 to 50 rows you make by hand. Once `load_trips()` returns a clean GeoDataFrame, the other two functions are straightforward spatial joins.
 :::
 
 ::: {.callout-note}
-**Difficulty level.** Intermediate. The main challenge is handling messy data (missing endpoints, mismatched timestamps) cleanly without dropping silently. Loud failure beats silent failure.
+Live operator feeds typically require a data-sharing agreement. For the demo, use a sample CSV in the shape of a Flamingo trip log. The point is to show your pipeline works on realistic data, not to ship a live integration.
 :::
 
 ---
