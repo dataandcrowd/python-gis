@@ -22,8 +22,8 @@ We will use **uv** for this. If you have already used uv earlier in the course, 
 Pick a working folder and run the following.
 
 ```bash
-uv init --lib geohello-yourname
-cd geohello-yourname
+mkdir geohello-yourname
+uv init --lib --name geohello-yourname .
 ```
 
 You will see a folder that looks like this.
@@ -177,7 +177,7 @@ PyPI name      ->  pip install geohello-yourname
 Python name    ->  from geohello_yourname import hello
 ```
 
-`uv init --lib geohello-yourname` sets both of these correctly.
+`uv init --lib --name geohello-yourname .` sets both of these correctly.
 
 ### What goes in `__init__.py`
 
@@ -442,7 +442,7 @@ In Week 10 you will add tests, write a README, and publish to TestPyPI. In Week 
 
 You have learnt how to do the following.
 
-1. Create a small package with `uv init --lib`.
+1. Create a small package with `uv init --lib --name .`.
 2. Add one function inside `src/your_package/__init__.py`.
 3. Build it with `uv build`.
 4. Install it locally and use it.

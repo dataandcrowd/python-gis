@@ -35,7 +35,7 @@ Both partners commit code to the shared repo. Both partners must be able to expl
 
 ```bash
 cd your-package-name
-uv init --lib your-package-name .
+uv init --lib --name your-package-name .
 ```
 
 Replace `your-package-name` with a hyphenated name based on your brief (for example, `pedestrian-exposure-uoa`, `equitransport-akl`, `escooter-akl-yourinitials`). Names on PyPI must be unique, so add initials or a suffix.
