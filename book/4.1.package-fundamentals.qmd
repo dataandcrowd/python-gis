@@ -442,7 +442,7 @@ In Week 10 you will add tests, write a README, and publish to TestPyPI. In Week 
 
 You have learnt how to do the following.
 
-1. Create a small package with `uv init --lib --name .`.
+1. Create a small package with `uv init --lib --name geohello-yourname .`.
 2. Add one function inside `src/your_package/__init__.py`.
 3. Build it with `uv build`.
 4. Install it locally and use it.

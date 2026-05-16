@@ -412,11 +412,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#what-this-chapter-is-for" id="toc-what-this-chapter-is-for" class="nav-link active" data-scroll-target="#what-this-chapter-is-for">What this chapter is for</a></li>
   <li><a href="#what-is-pytest" id="toc-what-is-pytest" class="nav-link" data-scroll-target="#what-is-pytest">What is pytest?</a></li>
+  <li><a href="#a-simple-module-to-test" id="toc-a-simple-module-to-test" class="nav-link" data-scroll-target="#a-simple-module-to-test">A simple module to test</a></li>
+  <li><a href="#what-is-an-assertion" id="toc-what-is-an-assertion" class="nav-link" data-scroll-target="#what-is-an-assertion">What is an assertion?</a></li>
   <li><a href="#try-it-now-a-three-line-test" id="toc-try-it-now-a-three-line-test" class="nav-link" data-scroll-target="#try-it-now-a-three-line-test">Try it now: a three-line test</a>
   <ul class="collapse">
   <li><a href="#step-1.-install-pytest" id="toc-step-1.-install-pytest" class="nav-link" data-scroll-target="#step-1.-install-pytest">Step 1. Install pytest</a></li>
   <li><a href="#step-2.-write-one-test" id="toc-step-2.-write-one-test" class="nav-link" data-scroll-target="#step-2.-write-one-test">Step 2. Write one test</a></li>
   <li><a href="#step-3.-run-it" id="toc-step-3.-run-it" class="nav-link" data-scroll-target="#step-3.-run-it">Step 3. Run it</a></li>
+  <li><a href="#what-happens-when-a-test-fails" id="toc-what-happens-when-a-test-fails" class="nav-link" data-scroll-target="#what-happens-when-a-test-fails">What happens when a test fails?</a></li>
   </ul></li>
   <li><a href="#two-more-tests-slightly-more-interesting" id="toc-two-more-tests-slightly-more-interesting" class="nav-link" data-scroll-target="#two-more-tests-slightly-more-interesting">Two more tests, slightly more interesting</a></li>
   <li><a href="#why-this-matters-more-for-geospatial-code" id="toc-why-this-matters-more-for-geospatial-code" class="nav-link" data-scroll-target="#why-this-matters-more-for-geospatial-code">Why this matters more for geospatial code</a></li>
@@ -426,7 +429,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#real-world-example-how-akl-ped-counts-is-tested" id="toc-real-world-example-how-akl-ped-counts-is-tested" class="nav-link" data-scroll-target="#real-world-example-how-akl-ped-counts-is-tested">Real-world example: how <code>akl-ped-counts</code> is tested</a></li>
   <li><a href="#documenting-with-docstrings" id="toc-documenting-with-docstrings" class="nav-link" data-scroll-target="#documenting-with-docstrings">Documenting with docstrings</a></li>
   <li><a href="#a-short-readme" id="toc-a-short-readme" class="nav-link" data-scroll-target="#a-short-readme">A short README</a></li>
-  <li><a href="#common-publication-errors-and-how-to-fix-them" id="toc-common-publication-errors-and-how-to-fix-them" class="nav-link" data-scroll-target="#common-publication-errors-and-how-to-fix-them">Common publication errors and how to fix them</a></li>
+  <li><a href="#publishing-to-testpypi" id="toc-publishing-to-testpypi" class="nav-link" data-scroll-target="#publishing-to-testpypi">Publishing to TestPyPI</a>
+  <ul class="collapse">
+  <li><a href="#create-an-account-and-api-token" id="toc-create-an-account-and-api-token" class="nav-link" data-scroll-target="#create-an-account-and-api-token">Create an account and API token</a></li>
+  <li><a href="#build-and-publish" id="toc-build-and-publish" class="nav-link" data-scroll-target="#build-and-publish">Build and publish</a></li>
+  <li><a href="#verify-the-install" id="toc-verify-the-install" class="nav-link" data-scroll-target="#verify-the-install">Verify the install</a></li>
+  <li><a href="#common-publication-errors" id="toc-common-publication-errors" class="nav-link" data-scroll-target="#common-publication-errors">Common publication errors</a></li>
+  </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
@@ -475,30 +484,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you save that as <code>tests/test_basics.py</code> and run <code>uv run pytest</code>, you will see one passing test.</p>
 </section>
+<section id="a-simple-module-to-test" class="level2">
+<h2 class="anchored" data-anchor-id="a-simple-module-to-test">A simple module to test</h2>
+<p>Before writing tests, you need something worth testing. Open <code>src/geohello_yourname/__init__.py</code> and add the following function next to <code>hello()</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> filter_by_month(df, month: <span class="bu">int</span>):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Return rows for a given month (1-12)."""</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    dates <span class="op">=</span> pd.to_datetime(df[<span class="st">"Date"</span>], errors<span class="op">=</span><span class="st">"coerce"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df[dates.dt.month <span class="op">==</span> month]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>errors="coerce"</code> is important. Real-world CSV files often contain non-date values (such as <code>"Daylight Savings"</code> or blank rows). Without it, <code>pd.to_datetime</code> will crash on those rows instead of skipping them.</p>
+<p>Check that it works. Create a file called <code>demo_filter.py</code> in your project root.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># demo_filter.py</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geohello_yourname <span class="im">import</span> load_data, filter_by_month</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> load_data()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"All rows:"</span>, <span class="bu">len</span>(df))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"March only:"</span>, <span class="bu">len</span>(filter_by_month(df, month<span class="op">=</span><span class="dv">3</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run python demo_filter.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You now have two functions worth testing: <code>hello()</code> and <code>filter_by_month()</code>.</p>
+</section>
+<section id="what-is-an-assertion" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-an-assertion">What is an assertion?</h2>
+<p>An assertion confirms that a programme functions as intended by examining whether specific conditions are met during execution. Each test should have only one reason to fail or succeed.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">4</span>        <span class="co"># passes — condition is True</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">5</span>        <span class="co"># fails  — condition is False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If <code>assert</code> passes, nothing happens. If it fails, pytest reports exactly which line failed and what the values were.</p>
+</section>
 <section id="try-it-now-a-three-line-test" class="level2">
 <h2 class="anchored" data-anchor-id="try-it-now-a-three-line-test">Try it now: a three-line test</h2>
 <p>Let’s add this to your <code>geohello-yourname</code> package from Week 9.</p>
 <section id="step-1.-install-pytest" class="level3">
 <h3 class="anchored" data-anchor-id="step-1.-install-pytest">Step 1. Install pytest</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add <span class="at">--dev</span> pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This adds <code>pytest</code> to your development dependencies in <code>pyproject.toml</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add <span class="at">--dev</span> pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This adds <code>pytest</code> to your development dependencies in <code>pyproject.toml</code>. After running the command, open <code>pyproject.toml</code> and you will see a new section near the bottom.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[dependency-groups]</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">dev</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pytest&gt;=8.0"</span><span class="op">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>--dev</code> flag keeps pytest out of the main <code>[project.dependencies]</code> list. Users who install your package do not need pytest — only you (the developer) need it for running tests.</p>
 </section>
 <section id="step-2.-write-one-test" class="level3">
 <h3 class="anchored" data-anchor-id="step-2.-write-one-test">Step 2. Write one test</h3>
 <p>Create the file <code>tests/test_geohello.py</code> with this content.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Tests for geohello-yourname."""</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geohello_yourname <span class="im">import</span> hello</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_default():</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> hello()</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="st">"Auckland"</span> <span class="kw">in</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Tests for geohello-yourname."""</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geohello_yourname <span class="im">import</span> hello</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_default():</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> hello()</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="st">"Auckland"</span> <span class="kw">in</span> result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>from geohello_yourname import hello</code> line imports your function. The <code>assert</code> line checks that the result contains the word “Auckland”. That is the entire test.</p>
 </section>
 <section id="step-3.-run-it" class="level3">
 <h3 class="anchored" data-anchor-id="step-3.-run-it">Step 3. Run it</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pytest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You should see something like the following.</p>
 <pre><code>============================= test session starts ==============================
 collected 1 item
@@ -506,18 +545,34 @@ collected 1 item
 tests/test_geohello.py .                                                 [100%]
 
 ============================== 1 passed in 0.05s ===============================</code></pre>
-<p>A single dot <code>.</code> next to the file name means one passing test. If your test had failed, you would see an <code>F</code> instead, with a clear explanation of what was expected and what was returned.</p>
+<p>A single dot <code>.</code> next to the file name means one passing test. You can also run <code>uv run pytest -v</code> for verbose output, which shows each test name and its result instead of just a dot.</p>
+<pre><code>tests/test_geohello.py::test_hello_default PASSED                        [100%]</code></pre>
+<p><code>-v</code> stands for <strong>verbose</strong>. Use it so you can see exactly which test passed or failed.</p>
 <p>That is your first test. Everything else in this chapter is variations on this idea.</p>
+</section>
+<section id="what-happens-when-a-test-fails" class="level3">
+<h3 class="anchored" data-anchor-id="what-happens-when-a-test-fails">What happens when a test fails?</h3>
+<p>If your test had failed, you would see an <code>F</code> instead of a dot, with a clear explanation. For example:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_wrong_city():</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> hello()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="st">"Wellington"</span> <span class="kw">in</span> result   <span class="co"># wrong on purpose</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>FAILED test_geohello.py::test_hello_wrong_city
+
+    def test_hello_wrong_city():
+        result = hello()
+&gt;       assert "Wellington" in result
+E       AssertionError: assert 'Wellington' in 'Hello from Auckland!'</code></pre>
+<p>pytest shows the exact line, the expected value, and the actual value. No guessing.</p>
 </section>
 </section>
 <section id="two-more-tests-slightly-more-interesting" class="level2">
 <h2 class="anchored" data-anchor-id="two-more-tests-slightly-more-interesting">Two more tests, slightly more interesting</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_custom_place():</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> hello(<span class="st">"Tokyo"</span>) <span class="op">==</span> <span class="st">"Hello from Tokyo!"</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_returns_string():</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">isinstance</span>(hello(), <span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_custom_place():</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> hello(<span class="st">"Tokyo"</span>) <span class="op">==</span> <span class="st">"Hello from Tokyo!"</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_returns_string():</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">isinstance</span>(hello(), <span class="bu">str</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Add these to the same file and rerun <code>uv run pytest</code>. You should now see three dots and <code>3 passed</code>.</p>
 <p>Some informal guidance.</p>
 <ul>
@@ -530,65 +585,105 @@ tests/test_geohello.py .                                                 [100%]
 <h2 class="anchored" data-anchor-id="why-this-matters-more-for-geospatial-code">Why this matters more for geospatial code</h2>
 <p>Geospatial functions can fail in quiet, hard-to-spot ways. Three short examples.</p>
 <p><strong>A spatial join silently drops zones.</strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> gpd.sjoin(boundaries, census, predicate<span class="op">=</span><span class="st">'intersects'</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># len(boundaries) was 100, len(result) is 95.</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># No error is raised. You only notice when the map looks odd.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> gpd.sjoin(boundaries, census, predicate<span class="op">=</span><span class="st">'intersects'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># len(boundaries) was 100, len(result) is 95.</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># No error is raised. You only notice when the map looks odd.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>Distance is computed in the wrong CRS.</strong></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gdf_4326 <span class="op">=</span> boundaries.to_crs(<span class="st">'EPSG:4326'</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>distance <span class="op">=</span> gdf_4326.geometry[<span class="dv">0</span>].distance(gdf_4326.geometry[<span class="dv">1</span>])</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns 0.05 (degrees), not 5000 (metres).</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>gdf_4326 <span class="op">=</span> boundaries.to_crs(<span class="st">'EPSG:4326'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>distance <span class="op">=</span> gdf_4326.geometry[<span class="dv">0</span>].distance(gdf_4326.geometry[<span class="dv">1</span>])</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns 0.05 (degrees), not 5000 (metres).</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>A negative buffer produces an empty geometry.</strong></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>buffered <span class="op">=</span> point.<span class="bu">buffer</span>(<span class="op">-</span><span class="dv">100</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># buffered is empty. Downstream code computes zeros instead of failing.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>buffered <span class="op">=</span> point.<span class="bu">buffer</span>(<span class="op">-</span><span class="dv">100</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># buffered is empty. Downstream code computes zeros instead of failing.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Tests that you write once and run forever will catch these.</p>
 </section>
 <section id="three-small-geospatial-tests-you-might-write" class="level2">
 <h2 class="anchored" data-anchor-id="three-small-geospatial-tests-you-might-write">Three small geospatial tests you might write</h2>
 <p>You do not need to memorise these. They are templates you can copy when your package starts doing real spatial work.</p>
 <p><strong>A test that confirms the CRS.</strong></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_load_sa2_has_correct_crs():</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> load_sa2(<span class="st">'tests/fixtures/sample_sa2.gpkg'</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> gdf.crs <span class="op">==</span> <span class="st">'EPSG:2193'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_load_sa2_has_correct_crs():</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> load_sa2(<span class="st">'tests/fixtures/sample_sa2.gpkg'</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> gdf.crs <span class="op">==</span> <span class="st">'EPSG:2193'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>A test that confirms a join did not lose rows.</strong></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_join_keeps_all_zones():</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> validate_join(boundaries, census, key<span class="op">=</span><span class="st">'SA2_code'</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(result) <span class="op">==</span> <span class="bu">len</span>(boundaries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_join_keeps_all_zones():</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> validate_join(boundaries, census, key<span class="op">=</span><span class="st">'SA2_code'</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(result) <span class="op">==</span> <span class="bu">len</span>(boundaries)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>A test that uses <code>pytest.approx</code> for floating-point area.</strong></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_area_in_km2():</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    poly <span class="op">=</span> Polygon([(<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">1000</span>, <span class="dv">0</span>), (<span class="dv">1000</span>, <span class="dv">1000</span>), (<span class="dv">0</span>, <span class="dv">1000</span>)])</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> gpd.GeoDataFrame({<span class="st">'geometry'</span>: [poly]}, crs<span class="op">=</span><span class="st">'EPSG:2193'</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    area_km2 <span class="op">=</span> gdf.geometry.area[<span class="dv">0</span>] <span class="op">/</span> <span class="dv">1_000_000</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> area_km2 <span class="op">==</span> pytest.approx(<span class="fl">1.0</span>, rel<span class="op">=</span><span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_area_in_km2():</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    poly <span class="op">=</span> Polygon([(<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">1000</span>, <span class="dv">0</span>), (<span class="dv">1000</span>, <span class="dv">1000</span>), (<span class="dv">0</span>, <span class="dv">1000</span>)])</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> gpd.GeoDataFrame({<span class="st">'geometry'</span>: [poly]}, crs<span class="op">=</span><span class="st">'EPSG:2193'</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    area_km2 <span class="op">=</span> gdf.geometry.area[<span class="dv">0</span>] <span class="op">/</span> <span class="dv">1_000_000</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> area_km2 <span class="op">==</span> pytest.approx(<span class="fl">1.0</span>, rel<span class="op">=</span><span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Floating-point comparisons need <code>pytest.approx</code> because computers cannot represent decimals exactly.</p>
 </section>
 <section id="two-pytest-features-you-will-quickly-appreciate" class="level2">
 <h2 class="anchored" data-anchor-id="two-pytest-features-you-will-quickly-appreciate">Two pytest features you will quickly appreciate</h2>
-<p>You do not need these for your first test, but they are useful as your package grows.</p>
-<p><strong>Fixtures.</strong> Reusable test data, set up once and shared across tests.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.fixture</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> small_sa2():</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.GeoDataFrame(</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'SA2_code'</span>: [<span class="st">'001'</span>, <span class="st">'002'</span>]},</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        geometry<span class="op">=</span>[Point(<span class="dv">0</span>, <span class="dv">0</span>), Point(<span class="dv">1</span>, <span class="dv">1</span>)],</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        crs<span class="op">=</span><span class="st">'EPSG:2193'</span>,</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_count_zones(small_sa2):</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(small_sa2) <span class="op">==</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You do not need these for your first test, but they are useful as your package grows. Here is a quick guide to when each pattern is most useful.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 41%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pattern</th>
+<th>When to use</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>CRS guard</strong></td>
+<td>Your function loads or returns spatial data</td>
+<td>Check the output is in EPSG:2193</td>
+</tr>
+<tr class="even">
+<td><strong>Fixture</strong></td>
+<td>Multiple tests need the same input data</td>
+<td>Create a small DataFrame once, reuse in 5 tests</td>
+</tr>
+<tr class="odd">
+<td><strong>Parametrise</strong></td>
+<td>Same logic, different inputs</td>
+<td>Test <code>hello()</code> with Auckland, Tokyo, Wellington</td>
+</tr>
+</tbody>
+</table>
+<p>You pick the pattern after you know what your function takes in and gives back.</p>
+<p><strong>Fixtures.</strong> Reusable test data, set up once and shared across tests. Here is a fixture that creates a small DataFrame and uses it to test <code>filter_by_month()</code>.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geohello_yourname <span class="im">import</span> filter_by_month</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.fixture</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sample_df():</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame({</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Date"</span>: [<span class="st">"2024-01-15"</span>, <span class="st">"2024-01-20"</span>, <span class="st">"2024-03-10"</span>],</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Count"</span>: [<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">150</span>],</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_filter_returns_only_january(sample_df):</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> filter_by_month(sample_df, month<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(result) <span class="op">==</span> <span class="dv">2</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_filter_empty_month(sample_df):</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> filter_by_month(sample_df, month<span class="op">=</span><span class="dv">7</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(result) <span class="op">==</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When pytest sees <code>sample_df</code> as a parameter name, it looks for a fixture with that name and passes its return value into the test. You write the setup once and reuse it across as many tests as you like.</p>
 <p><strong>Parametrize.</strong> Run the same test with several inputs.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(<span class="st">"place,expected"</span>, [</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Auckland"</span>, <span class="st">"Hello from Auckland!"</span>),</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tokyo"</span>, <span class="st">"Hello from Tokyo!"</span>),</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Wellington"</span>, <span class="st">"Hello from Wellington!"</span>),</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_for_many_places(place, expected):</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> hello(place) <span class="op">==</span> expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(<span class="st">"place,expected"</span>, [</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Auckland"</span>, <span class="st">"Hello from Auckland!"</span>),</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Tokyo"</span>, <span class="st">"Hello from Tokyo!"</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Wellington"</span>, <span class="st">"Hello from Wellington!"</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_hello_for_many_places(place, expected):</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> hello(place) <span class="op">==</span> expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These are optional. Use them when they help, ignore them otherwise.</p>
 </section>
 <section id="where-the-lab-work-lives" class="level2">
@@ -608,36 +703,74 @@ tests/test_geohello.py .                                                 [100%]
 <section id="documenting-with-docstrings" class="level2">
 <h2 class="anchored" data-anchor-id="documenting-with-docstrings">Documenting with docstrings</h2>
 <p>Tests confirm that code works. Docstrings explain what it does. NumPy style is the most common in scientific Python.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_density(gdf, pop_column<span class="op">=</span><span class="st">'population'</span>):</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate population density per square kilometre.</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">    gdf : GeoDataFrame</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">        Must contain geometry in a projected CRS and a population column.</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">    pop_column : str, default 'population'</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">        Name of the column with population counts.</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">    GeoDataFrame</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">        The input with a new 'density' column (people per km²).</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_density(gdf, pop_column<span class="op">=</span><span class="st">'population'</span>):</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate population density per square kilometre.</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">    gdf : GeoDataFrame</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">        Must contain geometry in a projected CRS and a population column.</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">    pop_column : str, default 'population'</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">        Name of the column with population counts.</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">    -------</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">    GeoDataFrame</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">        The input with a new 'density' column (people per km²).</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Three short sections, parameters, returns, and a one-line summary. You can add <code>Examples</code>, <code>Raises</code>, and <code>Notes</code> later if useful.</p>
 </section>
 <section id="a-short-readme" class="level2">
 <h2 class="anchored" data-anchor-id="a-short-readme">A short README</h2>
 <p>Your package needs a short README that someone arriving from PyPI can read in 30 seconds. The minimum is the install command, a quick start, and one short paragraph describing the package. Look at <code>akl-ped-counts</code> for a longer example you can model yours on.</p>
 </section>
-<section id="common-publication-errors-and-how-to-fix-them" class="level2">
-<h2 class="anchored" data-anchor-id="common-publication-errors-and-how-to-fix-them">Common publication errors and how to fix them</h2>
-<p>You will hit these in the lab. They are listed here so the chapter is a useful reference.</p>
+<section id="publishing-to-testpypi" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-to-testpypi">Publishing to TestPyPI</h2>
+<p>TestPyPI is a safe practice version of the Python Package Index. Packages are deleted after six months, so mistakes do not matter. Do this before the real PyPI publish.</p>
+<section id="create-an-account-and-api-token" class="level3">
+<h3 class="anchored" data-anchor-id="create-an-account-and-api-token">Create an account and API token</h3>
+<ol type="1">
+<li>Register at <a href="https://test.pypi.org/account/register/">https://test.pypi.org/account/register/</a>.</li>
+<li>Verify your email.</li>
+<li>Log in and click your username (top right) → <strong>Account settings</strong>.</li>
+<li>Scroll to <strong>API tokens</strong> → click <strong>“Add API token”</strong>.</li>
+<li>Token name: <code>uv-publish</code> (or anything you like).</li>
+<li>Scope: <strong>“Entire account”</strong>.</li>
+<li>Click <strong>“Create token”</strong> and <strong>copy it immediately</strong> — it starts with <code>pypi-</code> and is shown only once.</li>
+</ol>
+</section>
+<section id="build-and-publish" class="level3">
+<h3 class="anchored" data-anchor-id="build-and-publish">Build and publish</h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Make sure the version in pyproject.toml is unique</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Build</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Publish — paste your token when prompted for password</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish <span class="at">--publish-url</span> https://test.pypi.org/legacy/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When prompted, enter <code>__token__</code> as the username and paste your <code>pypi-...</code> token as the password. Alternatively, set an environment variable to skip the prompt.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">UV_PUBLISH_TOKEN</span><span class="op">=</span>pypi-YOUR_TOKEN_HERE</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish <span class="at">--publish-url</span> https://test.pypi.org/legacy/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="verify-the-install" class="level3">
+<h3 class="anchored" data-anchor-id="verify-the-install">Verify the install</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv /tmp/test-install</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /tmp/test-install/bin/activate</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install <span class="dt">\</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--index-url</span> https://test.pypi.org/simple/ <span class="dt">\</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--extra-index-url</span> https://pypi.org/simple/ <span class="dt">\</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    geohello-yourname</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>--extra-index-url</code> is needed because dependencies like <code>pandas</code> and <code>geopandas</code> only live on real PyPI.</p>
+</section>
+<section id="common-publication-errors" class="level3">
+<h3 class="anchored" data-anchor-id="common-publication-errors">Common publication errors</h3>
 <ul>
 <li><strong>The name is already taken.</strong> Choose a unique name (add your initials to the <code>name</code> field in <code>pyproject.toml</code>).</li>
 <li><strong>File already exists.</strong> Increment <code>version</code> in <code>pyproject.toml</code>.</li>
 <li><strong>Invalid or expired token.</strong> Generate a new TestPyPI token and try again.</li>
-<li><strong>Could not find a version that satisfies the requirement.</strong> Some dependencies live only on real PyPI, not TestPyPI. Use <code>--extra-index-url https://pypi.org/simple/</code> when installing.</li>
+<li><strong>Could not find a version that satisfies the requirement.</strong> Add <code>--extra-index-url https://pypi.org/simple/</code> to the install command.</li>
 </ul>
+</section>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
@@ -656,10 +789,10 @@ tests/test_geohello.py .                                                 [100%]
 <h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
 <ul>
 <li>pytest documentation, https://docs.pytest.org/</li>
-<li>pytest-cov, https://pytest-cov.readthedocs.io/</li>
+<li>Setting up testing with pytest and uv, https://pydevtools.com/handbook/tutorial/setting-up-testing-with-pytest-and-uv/</li>
 <li>NumPy docstring guide, https://numpydoc.readthedocs.io/</li>
-<li><code>akl-ped-counts</code> source, https://github.com/dataandcrowd/akl-ped-counts</li>
 <li><code>uv publish</code> guide, https://docs.astral.sh/uv/guides/publish/</li>
+<li>TestPyPI, https://test.pypi.org/</li>
 </ul>
 
 

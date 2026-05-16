@@ -4517,7 +4517,7 @@
     "href": "4.1.package-fundamentals.html#summary",
     "title": "4.1 Package fundamentals: structure, configuration, and building",
     "section": "Summary",
-    "text": "Summary\nYou have learnt how to do the following.\n\nCreate a small package with uv init --lib --name ..\nAdd one function inside src/your_package/__init__.py.\nBuild it with uv build.\nInstall it locally and use it.\n\nYou have also met the parts of pyproject.toml and the difference between PyPI and Python package names. That is enough to move on.\nNext steps. In the next chapter on Testing and Code Quality, you will learn to test, document, and publish to TestPyPI.",
+    "text": "Summary\nYou have learnt how to do the following.\n\nCreate a small package with uv init --lib --name geohello-yourname ..\nAdd one function inside src/your_package/__init__.py.\nBuild it with uv build.\nInstall it locally and use it.\n\nYou have also met the parts of pyproject.toml and the difference between PyPI and Python package names. That is enough to move on.\nNext steps. In the next chapter on Testing and Code Quality, you will learn to test, document, and publish to TestPyPI.",
     "crumbs": [
       "Part 4. Python Package Development",
       "4.1 Package fundamentals: structure, configuration, and building"
@@ -4748,7 +4748,7 @@
     "href": "4.2.testing-and-quality.html#further-reading",
     "title": "4.2 Testing and code quality",
     "section": "Further reading",
-    "text": "Further reading\n\npytest documentation, https://docs.pytest.org/\npytest-cov, https://pytest-cov.readthedocs.io/\nNumPy docstring guide, https://numpydoc.readthedocs.io/\nakl-ped-counts source, https://github.com/dataandcrowd/akl-ped-counts\nuv publish guide, https://docs.astral.sh/uv/guides/publish/",
+    "text": "Further reading\n\npytest documentation, https://docs.pytest.org/\nSetting up testing with pytest and uv, https://pydevtools.com/handbook/tutorial/setting-up-testing-with-pytest-and-uv/\nNumPy docstring guide, https://numpydoc.readthedocs.io/\nuv publish guide, https://docs.astral.sh/uv/guides/publish/\nTestPyPI, https://test.pypi.org/",
     "crumbs": [
       "Part 4. Python Package Development",
       "4.2 Testing and code quality"
@@ -5228,7 +5228,7 @@
     "href": "4.2.testing-and-quality.html#try-it-now-a-three-line-test",
     "title": "4.2 Testing and code quality",
     "section": "Try it now: a three-line test",
-    "text": "Try it now: a three-line test\nLet’s add this to your geohello-yourname package from Week 9.\n\nStep 1. Install pytest\nuv add --dev pytest\nThis adds pytest to your development dependencies in pyproject.toml.\n\n\nStep 2. Write one test\nCreate the file tests/test_geohello.py with this content.\n\"\"\"Tests for geohello-yourname.\"\"\"\n\nfrom geohello_yourname import hello\n\n\ndef test_hello_default():\n    result = hello()\n    assert \"Auckland\" in result\nThe from geohello_yourname import hello line imports your function. The assert line checks that the result contains the word “Auckland”. That is the entire test.\n\n\nStep 3. Run it\nuv run pytest\nYou should see something like the following.\n============================= test session starts ==============================\ncollected 1 item\n\ntests/test_geohello.py .                                                 [100%]\n\n============================== 1 passed in 0.05s ===============================\nA single dot . next to the file name means one passing test. If your test had failed, you would see an F instead, with a clear explanation of what was expected and what was returned.\nThat is your first test. Everything else in this chapter is variations on this idea.",
+    "text": "Try it now: a three-line test\nLet’s add this to your geohello-yourname package from Week 9.\n\nStep 1. Install pytest\nuv add --dev pytest\nThis adds pytest to your development dependencies in pyproject.toml. After running the command, open pyproject.toml and you will see a new section near the bottom.\n[dependency-groups]\ndev = [\n    \"pytest&gt;=8.0\",\n]\nThe --dev flag keeps pytest out of the main [project.dependencies] list. Users who install your package do not need pytest — only you (the developer) need it for running tests.\n\n\nStep 2. Write one test\nCreate the file tests/test_geohello.py with this content.\n\"\"\"Tests for geohello-yourname.\"\"\"\n\nfrom geohello_yourname import hello\n\n\ndef test_hello_default():\n    result = hello()\n    assert \"Auckland\" in result\nThe from geohello_yourname import hello line imports your function. The assert line checks that the result contains the word “Auckland”. That is the entire test.\n\n\nStep 3. Run it\nuv run pytest\nYou should see something like the following.\n============================= test session starts ==============================\ncollected 1 item\n\ntests/test_geohello.py .                                                 [100%]\n\n============================== 1 passed in 0.05s ===============================\nA single dot . next to the file name means one passing test. You can also run uv run pytest -v for verbose output, which shows each test name and its result instead of just a dot.\ntests/test_geohello.py::test_hello_default PASSED                        [100%]\n-v stands for verbose. Use it so you can see exactly which test passed or failed.\nThat is your first test. Everything else in this chapter is variations on this idea.\n\n\nWhat happens when a test fails?\nIf your test had failed, you would see an F instead of a dot, with a clear explanation. For example:\ndef test_hello_wrong_city():\n    result = hello()\n    assert \"Wellington\" in result   # wrong on purpose\nFAILED test_geohello.py::test_hello_wrong_city\n\n    def test_hello_wrong_city():\n        result = hello()\n&gt;       assert \"Wellington\" in result\nE       AssertionError: assert 'Wellington' in 'Hello from Auckland!'\npytest shows the exact line, the expected value, and the actual value. No guessing.",
     "crumbs": [
       "Part 4. Python Package Development",
       "4.2 Testing and code quality"
@@ -5272,7 +5272,7 @@
     "href": "4.2.testing-and-quality.html#two-pytest-features-you-will-quickly-appreciate",
     "title": "4.2 Testing and code quality",
     "section": "Two pytest features you will quickly appreciate",
-    "text": "Two pytest features you will quickly appreciate\nYou do not need these for your first test, but they are useful as your package grows.\nFixtures. Reusable test data, set up once and shared across tests.\nimport pytest\n\n\n@pytest.fixture\ndef small_sa2():\n    return gpd.GeoDataFrame(\n        {'SA2_code': ['001', '002']},\n        geometry=[Point(0, 0), Point(1, 1)],\n        crs='EPSG:2193',\n    )\n\n\ndef test_count_zones(small_sa2):\n    assert len(small_sa2) == 2\nParametrize. Run the same test with several inputs.\n@pytest.mark.parametrize(\"place,expected\", [\n    (\"Auckland\", \"Hello from Auckland!\"),\n    (\"Tokyo\", \"Hello from Tokyo!\"),\n    (\"Wellington\", \"Hello from Wellington!\"),\n])\ndef test_hello_for_many_places(place, expected):\n    assert hello(place) == expected\nThese are optional. Use them when they help, ignore them otherwise.",
+    "text": "Two pytest features you will quickly appreciate\nYou do not need these for your first test, but they are useful as your package grows. Here is a quick guide to when each pattern is most useful.\n\n\n\n\n\n\n\n\nPattern\nWhen to use\nExample\n\n\n\n\nCRS guard\nYour function loads or returns spatial data\nCheck the output is in EPSG:2193\n\n\nFixture\nMultiple tests need the same input data\nCreate a small DataFrame once, reuse in 5 tests\n\n\nParametrise\nSame logic, different inputs\nTest hello() with Auckland, Tokyo, Wellington\n\n\n\nYou pick the pattern after you know what your function takes in and gives back.\nFixtures. Reusable test data, set up once and shared across tests. Here is a fixture that creates a small DataFrame and uses it to test filter_by_month().\nimport pytest\nimport pandas as pd\nfrom geohello_yourname import filter_by_month\n\n\n@pytest.fixture\ndef sample_df():\n    return pd.DataFrame({\n        \"Date\": [\"2024-01-15\", \"2024-01-20\", \"2024-03-10\"],\n        \"Count\": [100, 200, 150],\n    })\n\n\ndef test_filter_returns_only_january(sample_df):\n    result = filter_by_month(sample_df, month=1)\n    assert len(result) == 2\n\n\ndef test_filter_empty_month(sample_df):\n    result = filter_by_month(sample_df, month=7)\n    assert len(result) == 0\nWhen pytest sees sample_df as a parameter name, it looks for a fixture with that name and passes its return value into the test. You write the setup once and reuse it across as many tests as you like.\nParametrize. Run the same test with several inputs.\n@pytest.mark.parametrize(\"place,expected\", [\n    (\"Auckland\", \"Hello from Auckland!\"),\n    (\"Tokyo\", \"Hello from Tokyo!\"),\n    (\"Wellington\", \"Hello from Wellington!\"),\n])\ndef test_hello_for_many_places(place, expected):\n    assert hello(place) == expected\nThese are optional. Use them when they help, ignore them otherwise.",
     "crumbs": [
       "Part 4. Python Package Development",
       "4.2 Testing and code quality"
@@ -5716,6 +5716,39 @@
     "crumbs": [
       "Labs",
       "Lab Week 09"
+    ]
+  },
+  {
+    "objectID": "4.2.testing-and-quality.html#a-simple-module-to-test",
+    "href": "4.2.testing-and-quality.html#a-simple-module-to-test",
+    "title": "4.2 Testing and code quality",
+    "section": "A simple module to test",
+    "text": "A simple module to test\nBefore writing tests, you need something worth testing. Open src/geohello_yourname/__init__.py and add the following function next to hello().\ndef filter_by_month(df, month: int):\n    \"\"\"Return rows for a given month (1-12).\"\"\"\n    dates = pd.to_datetime(df[\"Date\"], errors=\"coerce\")\n    return df[dates.dt.month == month]\nThe errors=\"coerce\" is important. Real-world CSV files often contain non-date values (such as \"Daylight Savings\" or blank rows). Without it, pd.to_datetime will crash on those rows instead of skipping them.\nCheck that it works. Create a file called demo_filter.py in your project root.\n# demo_filter.py\nfrom geohello_yourname import load_data, filter_by_month\n\ndf = load_data()\nprint(\"All rows:\", len(df))\nprint(\"March only:\", len(filter_by_month(df, month=3)))\nuv run python demo_filter.py\nYou now have two functions worth testing: hello() and filter_by_month().",
+    "crumbs": [
+      "Part 4. Python Package Development",
+      "4.2 Testing and code quality"
+    ]
+  },
+  {
+    "objectID": "4.2.testing-and-quality.html#what-is-an-assertion",
+    "href": "4.2.testing-and-quality.html#what-is-an-assertion",
+    "title": "4.2 Testing and code quality",
+    "section": "What is an assertion?",
+    "text": "What is an assertion?\nAn assertion confirms that a programme functions as intended by examining whether specific conditions are met during execution. Each test should have only one reason to fail or succeed.\nassert 2 + 2 == 4        # passes — condition is True\nassert 2 + 2 == 5        # fails  — condition is False\nIf assert passes, nothing happens. If it fails, pytest reports exactly which line failed and what the values were.",
+    "crumbs": [
+      "Part 4. Python Package Development",
+      "4.2 Testing and code quality"
+    ]
+  },
+  {
+    "objectID": "4.2.testing-and-quality.html#publishing-to-testpypi",
+    "href": "4.2.testing-and-quality.html#publishing-to-testpypi",
+    "title": "4.2 Testing and code quality",
+    "section": "Publishing to TestPyPI",
+    "text": "Publishing to TestPyPI\nTestPyPI is a safe practice version of the Python Package Index. Packages are deleted after six months, so mistakes do not matter. Do this before the real PyPI publish.\n\nCreate an account and API token\n\nRegister at https://test.pypi.org/account/register/.\nVerify your email.\nLog in and click your username (top right) → Account settings.\nScroll to API tokens → click “Add API token”.\nToken name: uv-publish (or anything you like).\nScope: “Entire account”.\nClick “Create token” and copy it immediately — it starts with pypi- and is shown only once.\n\n\n\nBuild and publish\n# 1. Make sure the version in pyproject.toml is unique\n# 2. Build\nuv build\n\n# 3. Publish — paste your token when prompted for password\nuv publish --publish-url https://test.pypi.org/legacy/\nWhen prompted, enter __token__ as the username and paste your pypi-... token as the password. Alternatively, set an environment variable to skip the prompt.\nexport UV_PUBLISH_TOKEN=pypi-YOUR_TOKEN_HERE\nuv publish --publish-url https://test.pypi.org/legacy/\n\n\nVerify the install\nuv venv /tmp/test-install\nsource /tmp/test-install/bin/activate\n\nuv pip install \\\n    --index-url https://test.pypi.org/simple/ \\\n    --extra-index-url https://pypi.org/simple/ \\\n    geohello-yourname\nThe --extra-index-url is needed because dependencies like pandas and geopandas only live on real PyPI.\n\n\nCommon publication errors\n\nThe name is already taken. Choose a unique name (add your initials to the name field in pyproject.toml).\nFile already exists. Increment version in pyproject.toml.\nInvalid or expired token. Generate a new TestPyPI token and try again.\nCould not find a version that satisfies the requirement. Add --extra-index-url https://pypi.org/simple/ to the install command.",
+    "crumbs": [
+      "Part 4. Python Package Development",
+      "4.2 Testing and code quality"
     ]
   }
 ]

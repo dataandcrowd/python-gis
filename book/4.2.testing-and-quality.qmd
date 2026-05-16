@@ -28,6 +28,47 @@ def test_two_plus_two():
 
 If you save that as `tests/test_basics.py` and run `uv run pytest`, you will see one passing test.
 
+## A simple module to test
+
+Before writing tests, you need something worth testing. Open `src/geohello_yourname/__init__.py` and add the following function next to `hello()`.
+
+```python
+def filter_by_month(df, month: int):
+    """Return rows for a given month (1-12)."""
+    dates = pd.to_datetime(df["Date"], errors="coerce")
+    return df[dates.dt.month == month]
+```
+
+The `errors="coerce"` is important. Real-world CSV files often contain non-date values (such as `"Daylight Savings"` or blank rows). Without it, `pd.to_datetime` will crash on those rows instead of skipping them.
+
+Check that it works. Create a file called `demo_filter.py` in your project root.
+
+```python
+# demo_filter.py
+from geohello_yourname import load_data, filter_by_month
+
+df = load_data()
+print("All rows:", len(df))
+print("March only:", len(filter_by_month(df, month=3)))
+```
+
+```bash
+uv run python demo_filter.py
+```
+
+You now have two functions worth testing: `hello()` and `filter_by_month()`.
+
+## What is an assertion?
+
+An assertion confirms that a programme functions as intended by examining whether specific conditions are met during execution. Each test should have only one reason to fail or succeed.
+
+```python
+assert 2 + 2 == 4        # passes — condition is True
+assert 2 + 2 == 5        # fails  — condition is False
+```
+
+If `assert` passes, nothing happens. If it fails, pytest reports exactly which line failed and what the values were.
+
 ## Try it now: a three-line test
 
 Let's add this to your `geohello-yourname` package from Week 9.
@@ -38,7 +79,16 @@ Let's add this to your `geohello-yourname` package from Week 9.
 uv add --dev pytest
 ```
 
-This adds `pytest` to your development dependencies in `pyproject.toml`.
+This adds `pytest` to your development dependencies in `pyproject.toml`. After running the command, open `pyproject.toml` and you will see a new section near the bottom.
+
+```toml
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+```
+
+The `--dev` flag keeps pytest out of the main `[project.dependencies]` list. Users who install your package do not need pytest — only you (the developer) need it for running tests.
 
 ### Step 2. Write one test
 
@@ -74,9 +124,36 @@ tests/test_geohello.py .                                                 [100%]
 ============================== 1 passed in 0.05s ===============================
 ```
 
-A single dot `.` next to the file name means one passing test. If your test had failed, you would see an `F` instead, with a clear explanation of what was expected and what was returned.
+A single dot `.` next to the file name means one passing test. You can also run `uv run pytest -v` for verbose output, which shows each test name and its result instead of just a dot.
+
+```
+tests/test_geohello.py::test_hello_default PASSED                        [100%]
+```
+
+`-v` stands for **verbose**. Use it so you can see exactly which test passed or failed.
 
 That is your first test. Everything else in this chapter is variations on this idea.
+
+### What happens when a test fails?
+
+If your test had failed, you would see an `F` instead of a dot, with a clear explanation. For example:
+
+```python
+def test_hello_wrong_city():
+    result = hello()
+    assert "Wellington" in result   # wrong on purpose
+```
+
+```
+FAILED test_geohello.py::test_hello_wrong_city
+
+    def test_hello_wrong_city():
+        result = hello()
+>       assert "Wellington" in result
+E       AssertionError: assert 'Wellington' in 'Hello from Auckland!'
+```
+
+pytest shows the exact line, the expected value, and the actual value. No guessing.
 
 ## Two more tests, slightly more interesting
 
@@ -162,26 +239,43 @@ Floating-point comparisons need `pytest.approx` because computers cannot represe
 
 ## Two pytest features you will quickly appreciate
 
-You do not need these for your first test, but they are useful as your package grows.
+You do not need these for your first test, but they are useful as your package grows. Here is a quick guide to when each pattern is most useful.
 
-**Fixtures.** Reusable test data, set up once and shared across tests.
+| Pattern | When to use | Example |
+|---------|-------------|---------|
+| **CRS guard** | Your function loads or returns spatial data | Check the output is in EPSG:2193 |
+| **Fixture** | Multiple tests need the same input data | Create a small DataFrame once, reuse in 5 tests |
+| **Parametrise** | Same logic, different inputs | Test `hello()` with Auckland, Tokyo, Wellington |
+
+You pick the pattern after you know what your function takes in and gives back.
+
+**Fixtures.** Reusable test data, set up once and shared across tests. Here is a fixture that creates a small DataFrame and uses it to test `filter_by_month()`.
 
 ```python
 import pytest
+import pandas as pd
+from geohello_yourname import filter_by_month
 
 
 @pytest.fixture
-def small_sa2():
-    return gpd.GeoDataFrame(
-        {'SA2_code': ['001', '002']},
-        geometry=[Point(0, 0), Point(1, 1)],
-        crs='EPSG:2193',
-    )
+def sample_df():
+    return pd.DataFrame({
+        "Date": ["2024-01-15", "2024-01-20", "2024-03-10"],
+        "Count": [100, 200, 150],
+    })
 
 
-def test_count_zones(small_sa2):
-    assert len(small_sa2) == 2
+def test_filter_returns_only_january(sample_df):
+    result = filter_by_month(sample_df, month=1)
+    assert len(result) == 2
+
+
+def test_filter_empty_month(sample_df):
+    result = filter_by_month(sample_df, month=7)
+    assert len(result) == 0
 ```
+
+When pytest sees `sample_df` as a parameter name, it looks for a fixture with that name and passes its return value into the test. You write the setup once and reuse it across as many tests as you like.
 
 **Parametrize.** Run the same test with several inputs.
 
@@ -239,14 +333,58 @@ Three short sections, parameters, returns, and a one-line summary. You can add `
 
 Your package needs a short README that someone arriving from PyPI can read in 30 seconds. The minimum is the install command, a quick start, and one short paragraph describing the package. Look at `akl-ped-counts` for a longer example you can model yours on.
 
-## Common publication errors and how to fix them
+## Publishing to TestPyPI
 
-You will hit these in the lab. They are listed here so the chapter is a useful reference.
+TestPyPI is a safe practice version of the Python Package Index. Packages are deleted after six months, so mistakes do not matter. Do this before the real PyPI publish.
+
+### Create an account and API token
+
+1. Register at [https://test.pypi.org/account/register/](https://test.pypi.org/account/register/).
+2. Verify your email.
+3. Log in and click your username (top right) → **Account settings**.
+4. Scroll to **API tokens** → click **"Add API token"**.
+5. Token name: `uv-publish` (or anything you like).
+6. Scope: **"Entire account"**.
+7. Click **"Create token"** and **copy it immediately** — it starts with `pypi-` and is shown only once.
+
+### Build and publish
+
+```bash
+# 1. Make sure the version in pyproject.toml is unique
+# 2. Build
+uv build
+
+# 3. Publish — paste your token when prompted for password
+uv publish --publish-url https://test.pypi.org/legacy/
+```
+
+When prompted, enter `__token__` as the username and paste your `pypi-...` token as the password. Alternatively, set an environment variable to skip the prompt.
+
+```bash
+export UV_PUBLISH_TOKEN=pypi-YOUR_TOKEN_HERE
+uv publish --publish-url https://test.pypi.org/legacy/
+```
+
+### Verify the install
+
+```bash
+uv venv /tmp/test-install
+source /tmp/test-install/bin/activate
+
+uv pip install \
+    --index-url https://test.pypi.org/simple/ \
+    --extra-index-url https://pypi.org/simple/ \
+    geohello-yourname
+```
+
+The `--extra-index-url` is needed because dependencies like `pandas` and `geopandas` only live on real PyPI.
+
+### Common publication errors
 
 * **The name is already taken.** Choose a unique name (add your initials to the `name` field in `pyproject.toml`).
 * **File already exists.** Increment `version` in `pyproject.toml`.
 * **Invalid or expired token.** Generate a new TestPyPI token and try again.
-* **Could not find a version that satisfies the requirement.** Some dependencies live only on real PyPI, not TestPyPI. Use `--extra-index-url https://pypi.org/simple/` when installing.
+* **Could not find a version that satisfies the requirement.** Add `--extra-index-url https://pypi.org/simple/` to the install command.
 
 ## Summary
 
@@ -265,7 +403,7 @@ The full hands-on workflow, including TestPyPI publication, is in [Lab Week 10](
 ## Further reading
 
 * pytest documentation, https://docs.pytest.org/
-* pytest-cov, https://pytest-cov.readthedocs.io/
+* Setting up testing with pytest and uv, https://pydevtools.com/handbook/tutorial/setting-up-testing-with-pytest-and-uv/
 * NumPy docstring guide, https://numpydoc.readthedocs.io/
-* `akl-ped-counts` source, https://github.com/dataandcrowd/akl-ped-counts
 * `uv publish` guide, https://docs.astral.sh/uv/guides/publish/
+* TestPyPI, https://test.pypi.org/

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Week 10 deepens the work you started in Week 9. You will write a more substantial set of tests for your A3 package, publish a release to TestPyPI, draft your A1 poster, and rehearse the fit interview that takes place in Week 12.
+Week 10 deepens the work you started in Week 9. You will write a more substantial set of tests for your A3 package, publish a release to TestPyPI, draft your A1 poster, and **sit a short individual fit interview** with your partner.
 
 By the end of today you should have the following.
 
@@ -10,9 +10,9 @@ By the end of today you should have the following.
 2. A successful TestPyPI release of your package.
 3. A clean install of that release in a fresh virtual environment.
 4. A first-pass A1 poster outline (paper sketch is fine).
-5. A short rehearsal of the fit interview with your partner.
+5. The **short fit interview** completed for both partners (3 to 5 minutes per person).
 
-**Duration**, approximately 110 minutes.
+**Duration**, approximately 115 minutes.
 
 **What you need.**
 
@@ -22,7 +22,7 @@ By the end of today you should have the following.
 
 ::: {.callout-note}
 ## Pair work, in plain language
-Both partners commit code today. Both partners will sit the individual fit interview in Week 12, so neither of you can outsource a function entirely to the other. Aim for genuine pair work, not divided silos.
+Both partners commit code today. Both partners will sit the individual fit interview at the end of this lab, so neither of you can outsource a function entirely to the other. Aim for genuine pair work, not divided silos.
 :::
 
 ## Part 1. Plan today's tests (10 minutes)
@@ -189,25 +189,31 @@ The poster showcase is on **Tuesday 25 May (B301-G10)**. Today you sketch the la
 A1 posters are read from two metres away. Aim for titles at 72 pt or larger, body text at 24 pt or larger, and a single dominant figure. White space matters. Most weak posters have too much text.
 :::
 
-## Part 5. Fit interview rehearsal (10 minutes)
+## Part 5. Short fit interview (20 minutes)
 
-The Week 12 lab includes a short individual fit interview (5 to 10 minutes per person). Today is the rehearsal.
+This is the actual fit interview, not a rehearsal. Each person sits **3 to 5 minutes**, with a demonstrator floating between groups to listen in. The aim is a quick check that both partners understand the code their name is on.
 
-19. Pair up with **another pair** (so four people in a group). One person from your pair sits while the other observes.
+19. Cluster into **groups of four** (your pair plus another pair). Sit so both pairs can see each other's screens.
 
-20. The interviewer (a member of the other pair) asks three questions in sequence.
+20. One person sits, the other three listen. The interviewer asks the following three questions in sequence (the other pair's pair member is the interviewer; demonstrators may also conduct interviews directly).
 
-   * "Pick one function in your package and walk us through it line by line."
-   * "Why did you choose this CRS / this default / this optional dependency?"
-   * "What would happen if I passed an empty GeoDataFrame to this function?"
+   * "Pick one function you (personally) wrote and walk us through it. What does it return?"
+   * "Why did you choose this CRS, this default, or this optional dependency? What did you reject and why?"
+   * "What would happen if I passed an empty GeoDataFrame (or a missing key) to this function?"
 
-21. The observer notes one thing the answer did well and one thing that was unclear.
+21. The interviewee may look at the code, look at the docstring, or say "I do not know, but I would check..." All of those are fine. What we are listening for is whether you can describe and defend the work, not whether you have memorised it.
 
-22. Swap roles so all four people get a turn.
+22. Rotate so all four people in the group get a turn (about 5 minutes each, including a brief reset between people).
 
 ::: {.callout-note}
-## What we are looking for in the real interview
-Not memorisation. We want to see that you understand the code your name is on. Hesitating, looking at your screen, or saying "let me check the docstring" are all fine. Saying "my partner wrote that bit" is not.
+## What is and is not OK
+**Fine**: hesitating, looking at the docstring, saying "my partner did the first draft and I rewrote this part".
+**Not fine**: "my partner wrote that bit, I am not sure how it works".
+The interview catches uneven contribution early so we can address it before Week 12, not after.
+:::
+
+::: {.callout-tip}
+If you finish the rotation early, swap to the other pair's package and try interviewing each other on it. Hearing the same questions about a different package is the best preparation for explaining your own.
 :::
 
 ## Part 6. Wrap up (5 minutes)
@@ -217,7 +223,7 @@ Before leaving, confirm the following with your partner.
 * Tests pass and have been pushed to GitHub.
 * The TestPyPI page exists and the package installs in a clean environment.
 * The poster outline is on paper and the demonstrator has seen it.
-* Both partners have done one round of the fit interview rehearsal.
+* Both partners have completed the fit interview.
 
 ## Reflection (after the lab)
 
