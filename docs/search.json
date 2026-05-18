@@ -5750,5 +5750,104 @@
       "Part 4. Python Package Development",
       "4.2 Testing and code quality"
     ]
+  },
+  {
+    "objectID": "labs/lab-week10.html",
+    "href": "labs/lab-week10.html",
+    "title": "Lab Week 10",
+    "section": "",
+    "text": "Overview\nWeek 10 deepens the work you started in Week 9. You will write a more substantial set of tests for your A3 package, publish a release to TestPyPI, draft your A1 poster, and sit a short group fit interview with your partner.\nBy the end of today you should have the following.\nDuration, approximately 115 minutes.\nWhat you need.",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week10.html#overview",
+    "href": "labs/lab-week10.html#overview",
+    "title": "Lab Week 10",
+    "section": "",
+    "text": "At least four meaningful tests, including one that uses a fixture or pytest.parametrize.\nA successful TestPyPI release of your package.\nA clean install of that release in a fresh virtual environment.\nA first-pass A1 poster outline (paper sketch is fine).\nThe short fit interview completed for both partners (3 to 5 minutes per group).\n\n\n\n\nThe package you started in Week 9 (your A3 package).\nBoth partners present.\nA TestPyPI account (you will create this in Part 3 if you have not already).\n\n\n\n\n\n\n\nPair work, in plain language\n\n\n\nBoth partners commit code today. Both partners will sit the individual fit interview at the end of this lab, so neither of you can outsource a function entirely to the other. Aim for genuine pair work, not divided silos.",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week10.html#part-1.-plan-todays-tests-10-minutes",
+    "href": "labs/lab-week10.html#part-1.-plan-todays-tests-10-minutes",
+    "title": "Lab Week 10",
+    "section": "Part 1. Plan today’s tests (10 minutes)",
+    "text": "Part 1. Plan today’s tests (10 minutes)\n\nOpen the Chapter 4.2 testing summary. Skim the three small geospatial test patterns.\nWith your partner, list four tests you will add today.\n\nOne happy-path test that calls a function with realistic input and checks the output type or shape.\nOne CRS or coordinate test (relevant for every brief except pavescore).\nOne edge-case test (empty input, missing column, file not found).\nOne fixture or parametrize test (you choose).\n\nWrite these four down on paper before you start coding. This is the design step that almost everyone skips.",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week10.html#part-2.-add-the-tests-35-minutes",
+    "href": "labs/lab-week10.html#part-2.-add-the-tests-35-minutes",
+    "title": "Lab Week 10",
+    "section": "Part 2. Add the tests (35 minutes)",
+    "text": "Part 2. Add the tests (35 minutes)\n\nAdd or extend your test file from Week 9.\n\nimport pytest\nimport geopandas as gpd\nfrom shapely.geometry import Point\n\nfrom your_package_name import function_one, function_two\n\nCRS test. Confirm the function preserves or sets the expected CRS. For most A3 briefs this should be EPSG:2193 (NZTM) for spatial maths or EPSG:4326 (WGS 84) for input from raw lat/lon.\n\ndef test_output_has_correct_crs():\n    result = function_one(...)\n    assert result.crs.to_string() == \"EPSG:2193\"\n\nFixture test (option A). A reusable test sample shared across tests.\n\n@pytest.fixture\ndef small_sample():\n    return gpd.GeoDataFrame(\n        {\"id\": [1, 2]},\n        geometry=[Point(174.76, -36.85), Point(174.78, -36.86)],\n        crs=\"EPSG:4326\",\n    )\n\n\ndef test_function_with_fixture(small_sample):\n    result = function_two(small_sample)\n    assert len(result) == len(small_sample)\nOr, parametrize test (option B). The same test run on several inputs.\n@pytest.mark.parametrize(\"crs\", [\"EPSG:2193\", \"EPSG:4326\"])\ndef test_function_handles_either_crs(crs, small_sample):\n    sample = small_sample.to_crs(crs)\n    result = function_two(sample)\n    assert result is not None\n\nRun the tests.\n\nuv run pytest -v\n\n(Optional) Look at coverage to see what is still untested.\n\nuv add --dev pytest-cov\nuv run pytest --cov=your_package_name\nCommit and push when all four tests pass.",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week10.html#part-3.-publish-to-testpypi-30-minutes",
+    "href": "labs/lab-week10.html#part-3.-publish-to-testpypi-30-minutes",
+    "title": "Lab Week 10",
+    "section": "Part 3. Publish to TestPyPI (30 minutes)",
+    "text": "Part 3. Publish to TestPyPI (30 minutes)\nThis step rehearses what you will do for production PyPI in Week 12. Practise it now while there is no time pressure.\n\nCreate a TestPyPI account at https://test.pypi.org/account/register/. Verify your email and (recommended) enable two-factor authentication.\nGenerate an API token. Go to Account Settings, then API Tokens. Set the scope to “Entire account” for now. Copy the token (it starts with pypi-). Save it somewhere safe because you cannot view it again.\nBump the version in pyproject.toml. TestPyPI does not allow re-uploading the same version.\n\n[project]\nversion = \"0.1.1\"   # was 0.1.0\n\nBuild and publish.\n\nuv build\nuv publish --publish-url https://test.pypi.org/legacy/\nuv will prompt for credentials. Use __token__ as the username and paste the token as the password. Or set the token via environment variable.\nexport UV_PUBLISH_TOKEN=pypi-AgEI...\nuv publish --publish-url https://test.pypi.org/legacy/\n\nVerify the install in a clean environment. Do not skip this step. It catches missing files and broken metadata that pass locally.\n\nuv venv /tmp/test-install\nsource /tmp/test-install/bin/activate\n\nuv pip install \\\n    --index-url https://test.pypi.org/simple/ \\\n    --extra-index-url https://pypi.org/simple/ \\\n    your-package-name\n\npython -c \"from your_package_name import function_one; print(function_one(...))\"\n\ndeactivate\nThe --extra-index-url is needed because some dependencies (like pandas and geopandas) only live on real PyPI, not TestPyPI.",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week10.html#part-4.-poster-outline-20-minutes",
+    "href": "labs/lab-week10.html#part-4.-poster-outline-20-minutes",
+    "title": "Lab Week 10",
+    "section": "Part 4. Poster outline (20 minutes)",
+    "text": "Part 4. Poster outline (20 minutes)\nThe poster showcase is on Tuesday 25 May (B301-G10). Today you sketch the layout. The aim is to have something on paper, not a polished file.\n\nTake an A4 sheet and divide it into seven boxes (a poster has roughly this many regions).\nLabel each box and write one or two lines of content for each.\nTitle and authors. The package name and both your names.\nThe problem. Two sentences, no jargon. Why does this package exist?\nThe solution. One sentence stating what the package does.\nCode example. A six-line snippet showing the simplest use of one function.\nA figure. A draft of the map, chart, or table from your demo notebook.\nDesign choices. Three bullets explaining one CRS choice, one data choice, and one scope decision.\nLinks. TestPyPI URL, GitHub URL, contact email. (Replace with PyPI URLs after Week 12.)\nShow your sketch to the demonstrator before leaving.\n\n\n\n\n\n\n\nTip\n\n\n\nA2 posters are read from two metres away. Aim for titles at 50 pt or larger, body text at 20 pt or larger, and a single dominant figure. White space matters. Most weak posters have too much text.\n\n\nTake a look at the poster",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week10.html#part-5.-short-fit-interview-10-minutes",
+    "href": "labs/lab-week10.html#part-5.-short-fit-interview-10-minutes",
+    "title": "Lab Week 10",
+    "section": "Part 5. Short fit interview (10 minutes)",
+    "text": "Part 5. Short fit interview (10 minutes)\nThis is the actual fit interview, not a rehearsal. Each person sits 3 to 5 minutes, with a demonstrator floating between groups to listen in. The aim is a quick check that both partners understand the code their name is on.\n\nCluster into groups of four (your pair plus another pair). Sit so both pairs can see each other’s screens.\nOne person sits, the other three listen. The interviewer asks the following three questions in sequence (the other pair’s pair member is the interviewer; demonstrators may also conduct interviews directly).\n\n\n“Pick one function you (personally) wrote and walk us through it. What does it return?”\n“Why did you choose this CRS, this default, or this optional dependency? What did you reject and why?”\n“What would happen if I passed an empty GeoDataFrame (or a missing key) to this function?”\n\n\nThe interviewee may look at the code, look at the docstring, or say “I do not know, but I would check…” All of those are fine. What we are listening for is whether you can describe and defend the work, not whether you have memorised it.\nRotate so all four people in the group get a turn (about 5 minutes each, including a brief reset between people).\n\n\n\n\n\n\n\nWhat is and is not OK\n\n\n\nFine: hesitating, looking at the docstring, saying “my partner did the first draft and I rewrote this part”. Not fine: “my partner wrote that bit, I am not sure how it works”. The interview catches uneven contribution early so we can address it before Week 12, not after.\n\n\n\n\n\n\n\n\nTip\n\n\n\nIf you finish the rotation early, swap to the other pair’s package and try interviewing each other on it. Hearing the same questions about a different package is the best preparation for explaining your own.",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week10.html#part-6.-wrap-up-5-minutes",
+    "href": "labs/lab-week10.html#part-6.-wrap-up-5-minutes",
+    "title": "Lab Week 10",
+    "section": "Part 6. Wrap up (5 minutes)",
+    "text": "Part 6. Wrap up (5 minutes)\nBefore leaving, confirm the following with your partner.\n\nTests pass and have been pushed to GitHub.\nThe TestPyPI page exists and the package installs in a clean environment.\nThe poster outline is on paper and the demonstrator has seen it.\nBoth partners have completed the fit interview.",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
+  },
+  {
+    "objectID": "labs/lab-week10.html#further-reading",
+    "href": "labs/lab-week10.html#further-reading",
+    "title": "Lab Week 10",
+    "section": "Further reading",
+    "text": "Further reading\n\nChapter 4.2, Testing and code quality\nChapter 4.3, A real geospatial package: akl-ped-counts\nakl-ped-counts CONTRIBUTING.md for the build and publish steps, https://github.com/dataandcrowd/akl-ped-counts/blob/main/CONTRIBUTING.md\nuv publish guide, https://docs.astral.sh/uv/guides/publish/\nTestPyPI, https://test.pypi.org/",
+    "crumbs": [
+      "Labs",
+      "Lab Week 10"
+    ]
   }
 ]

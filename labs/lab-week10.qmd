@@ -1,1 +1,70 @@
 # Lab Week 10 {.unnumbered}
+
+## The poster showcase
+
+* **When**, Monday 25 May.
+* **Where**, B301-G10.
+* **What**, A2 portrait poster, printed.
+* **Format**, two-minute pitch from each pair, then circulating Q&A.
+
+Today you draft the layout on paper. Polish happens next week.
+
+## A2 size, in plain language
+
+A2 is **240 mm by 594 mm**. Read from two metres away.
+
+* Title text, **50 pt or larger**.
+* Body text, **20 pt or larger**.
+* One dominant figure, not five small ones.
+* Plenty of white space.
+* Most weak posters have **too much text**.
+
+## The seven-box rule
+
+Take an A4 sheet. Divide into seven labelled regions.
+
+| Box | Content |
+|-----|---------|
+| Title | Package name, both authors |
+| The problem | Two sentences, no jargon |
+| The solution | One sentence stating what the package does |
+| Code example | Six lines showing the simplest use |
+| Figure | Map, chart, or table from the demo notebook |
+| Design choices | Three bullets (CRS choice, data choice, scope) |
+| Links | TestPyPI URL, GitHub URL, contact |
+
+If you cannot fill a box, you do not yet know what goes there. That is the point.
+
+## A common failure mode
+
+Posters that try to **explain everything** look like dense walls of text. Nobody reads them.
+
+A working poster answers three questions in 30 seconds.
+
+* What problem does this solve?
+* What does the package look like in practice?
+* Where can I find it?
+
+Everything else is for the conversation, not the poster.
+
+## Installing from TestPyPI with `--extra-index-url`
+
+When installing your package from TestPyPI, use `--extra-index-url` instead of `-i`:
+
+```bash
+pip install your-package --extra-index-url https://test.pypi.org/simple/
+```
+
+### Why not `-i`?
+
+```bash
+# -i replaces the default index entirely — pip ONLY looks at TestPyPI
+pip install your-package -i https://test.pypi.org/simple/
+
+# --extra-index-url adds TestPyPI as a second index alongside PyPI
+pip install your-package --extra-index-url https://test.pypi.org/simple/
+```
+
+With `-i`, pip **only** looks at TestPyPI. If your package depends on `pandas` or `geopandas`, pip cannot find them because they are not on TestPyPI.
+
+With `--extra-index-url`, pip checks **both** TestPyPI (for your package) **and** PyPI (for everything else). Always prefer `--extra-index-url` when installing from a custom repository.

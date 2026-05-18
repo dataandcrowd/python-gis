@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Hyesop Shin">
-<meta name="dcterms.date" content="2026-04-21">
 
-<title>Python GIS at UoA</title>
+<title>Lab Week 10 – Python GIS at UoA</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,27 +20,63 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./syllabus.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../references.html" rel="next">
+<link href="../labs/lab-week09.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -83,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">GISCI 343 at UoA</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/labs.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/lab-week10.html">Lab Week 10</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -98,7 +132,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Python GIS at UoA</a> 
+      <a href="../">Python GIS at UoA</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -110,20 +144,20 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">GISCI 343 at UoA</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="../syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus (Semester 1, 2026)</span></a>
   </div>
 </li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./1.0.chapter1-setup.html" class="sidebar-item-text sidebar-link">
+            <a href="../1.0.chapter1-setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 1: Setup</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -132,31 +166,31 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1.1.installation.html" class="sidebar-item-text sidebar-link">
+  <a href="../1.1.installation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1.1 Installation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1.2.uv.html" class="sidebar-item-text sidebar-link">
+  <a href="../1.2.uv.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1.2 UV environments</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1.3.version-control.html" class="sidebar-item-text sidebar-link">
+  <a href="../1.3.version-control.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1.3 Version control with Git</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1.4.download-from-github.html" class="sidebar-item-text sidebar-link">
+  <a href="../1.4.download-from-github.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1.4. Download data from github</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./1.5.github-authentication.html" class="sidebar-item-text sidebar-link">
+  <a href="../1.5.github-authentication.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1.5 Authenticating with GitHub</span></a>
   </div>
 </li>
@@ -165,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
+            <a href="../2.0.chapter2-geospatial_python.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 2. Geospatial Python Programming</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -174,37 +208,37 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2.1.basic-python.html" class="sidebar-item-text sidebar-link">
+  <a href="../2.1.basic-python.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.1. Basic Python</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2.2.dataframes.html" class="sidebar-item-text sidebar-link">
+  <a href="../2.2.dataframes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.2. DataFrames and Pandas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2.3.data-visualisation.html" class="sidebar-item-text sidebar-link">
+  <a href="../2.3.data-visualisation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.3. Data Visualisation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2.4.geospatial.html" class="sidebar-item-text sidebar-link">
+  <a href="../2.4.geospatial.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.4. Geospatial Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2.5.creating-functions.html" class="sidebar-item-text sidebar-link">
+  <a href="../2.5.creating-functions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.5. Creating Functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./2.6.urban-analytics.html" class="sidebar-item-text sidebar-link">
+  <a href="../2.6.urban-analytics.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2.6 Urban analytics indicators</span></a>
   </div>
 </li>
@@ -213,7 +247,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./3.0.chapter3-shiny_python.html" class="sidebar-item-text sidebar-link">
+            <a href="../3.0.chapter3-shiny_python.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 3. Interactive Dashboards with Shiny for Python</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -222,37 +256,37 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.1.first-shiny-app.html" class="sidebar-item-text sidebar-link">
+  <a href="../3.1.first-shiny-app.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.1. Your First Shiny App</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.2.reactivity-in-action.html" class="sidebar-item-text sidebar-link">
+  <a href="../3.2.reactivity-in-action.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.2. Reactivity in Action</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.3.decorators-and-ui.html" class="sidebar-item-text sidebar-link">
+  <a href="../3.3.decorators-and-ui.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.3. Decorators and UI Polish</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.4.webgis-shinylive.html" class="sidebar-item-text sidebar-link">
+  <a href="../3.4.webgis-shinylive.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.4. Web GIS in the Browser with shinylive</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.5.mapping-open-data.html" class="sidebar-item-text sidebar-link">
+  <a href="../3.5.mapping-open-data.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.5. Mapping Auckland Open Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3.6.assignment-2.html" class="sidebar-item-text sidebar-link">
+  <a href="../3.6.assignment-2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3.6. Assignment 2: Your Dashboard</span></a>
   </div>
 </li>
@@ -261,7 +295,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./4.0.python-packaging.html" class="sidebar-item-text sidebar-link">
+            <a href="../4.0.python-packaging.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Part 4. Python Package Development</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -270,31 +304,31 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.1.package-fundamentals.html" class="sidebar-item-text sidebar-link">
+  <a href="../4.1.package-fundamentals.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4.1 Package fundamentals: structure, configuration, and building</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.2.testing-and-quality.html" class="sidebar-item-text sidebar-link">
+  <a href="../4.2.testing-and-quality.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4.2 Testing and code quality</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.3.geospatial-package-example.html" class="sidebar-item-text sidebar-link">
+  <a href="../4.3.geospatial-package-example.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4.3 A real geospatial package: <code>akl-ped-counts</code></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.4.publish-pypi.html" class="sidebar-item-text sidebar-link">
+  <a href="../4.4.publish-pypi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4.4 Publishing to PyPI</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4.5.packaging-assignment.html" class="sidebar-item-text sidebar-link">
+  <a href="../4.5.packaging-assignment.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4.5 Assignment 3: package project briefs</span></a>
   </div>
 </li>
@@ -303,7 +337,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./labs/labs.html" class="sidebar-item-text sidebar-link">
+            <a href="../labs/labs.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Labs</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -312,55 +346,55 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week01.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week01.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 01</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week02.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week02.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 02</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week03.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week03.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 03</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week03-GIS.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week03-GIS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 03 GIS</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week04.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 04</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week06.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week06.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 06</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week07.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week07.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 07</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week09.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week09.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lab Week 09</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./labs/lab-week10.html" class="sidebar-item-text sidebar-link">
+  <a href="../labs/lab-week10.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Lab Week 10</span></a>
   </div>
 </li>
@@ -368,7 +402,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -382,50 +416,30 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#gisci-343-at-uoa" id="toc-gisci-343-at-uoa" class="nav-link active" data-scroll-target="#gisci-343-at-uoa">GISCI 343 at UoA</a>
-  <ul class="collapse">
-  <li><a href="#who-is-this-for" id="toc-who-is-this-for" class="nav-link" data-scroll-target="#who-is-this-for">Who is this for?</a></li>
-  <li><a href="#why-this-approach" id="toc-why-this-approach" class="nav-link" data-scroll-target="#why-this-approach">Why this approach?</a>
-  <ul class="collapse">
-  <li><a href="#why-do-we-use-git-and-how-does-it-support-reproducible-research" id="toc-why-do-we-use-git-and-how-does-it-support-reproducible-research" class="nav-link" data-scroll-target="#why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</a></li>
-  <li><a href="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" id="toc-why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="nav-link" data-scroll-target="#why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</a></li>
-  <li><a href="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" id="toc-why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="nav-link" data-scroll-target="#why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</a></li>
-  </ul></li>
-  <li><a href="#running-the-code-yourself" id="toc-running-the-code-yourself" class="nav-link" data-scroll-target="#running-the-code-yourself">Running the code yourself</a>
-  <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  </ul></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  </ul></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#part-1.-plan-todays-tests-10-minutes" id="toc-part-1.-plan-todays-tests-10-minutes" class="nav-link" data-scroll-target="#part-1.-plan-todays-tests-10-minutes">Part 1. Plan today’s tests (10 minutes)</a></li>
+  <li><a href="#part-2.-add-the-tests-35-minutes" id="toc-part-2.-add-the-tests-35-minutes" class="nav-link" data-scroll-target="#part-2.-add-the-tests-35-minutes">Part 2. Add the tests (35 minutes)</a></li>
+  <li><a href="#part-3.-publish-to-testpypi-30-minutes" id="toc-part-3.-publish-to-testpypi-30-minutes" class="nav-link" data-scroll-target="#part-3.-publish-to-testpypi-30-minutes">Part 3. Publish to TestPyPI (30 minutes)</a></li>
+  <li><a href="#part-4.-poster-outline-20-minutes" id="toc-part-4.-poster-outline-20-minutes" class="nav-link" data-scroll-target="#part-4.-poster-outline-20-minutes">Part 4. Poster outline (20 minutes)</a></li>
+  <li><a href="#part-5.-short-fit-interview-10-minutes" id="toc-part-5.-short-fit-interview-10-minutes" class="nav-link" data-scroll-target="#part-5.-short-fit-interview-10-minutes">Part 5. Short fit interview (10 minutes)</a></li>
+  <li><a href="#part-6.-wrap-up-5-minutes" id="toc-part-6.-wrap-up-5-minutes" class="nav-link" data-scroll-target="#part-6.-wrap-up-5-minutes">Part 6. Wrap up (5 minutes)</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../labs/labs.html">Labs</a></li><li class="breadcrumb-item"><a href="../labs/lab-week10.html">Lab Week 10</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Python GIS at UoA</h1>
+<h1 class="title">Lab Week 10</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Hyesop Shin </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 21, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -435,128 +449,228 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="gisci-343-at-uoa" class="level1 unnumbered">
-<h1 class="unnumbered">GISCI 343 at UoA</h1>
-<p><strong>Welcome to the course!</strong></p>
-<p>This is an online workbook for the <span style="color:blue;"><strong>GISCI 343</strong></span> course called Geospatial Data Science, launched in 2026.</p>
-<p>This is course designed and delivered by <strong>Dr.&nbsp;Hyesop Shin</strong> from the School of Environment at the University of Auckland, New Zealand.</p>
-<p>Unlike conventional GIS coursework that focuses on tools or isolated techniques, this book goes beyond the standard GIS and Python combination. The emphasis is on building applied, production-oriented skills that reflect how geospatial data science is practised outside the classroom, particularly through dashboards and Python packaging.</p>
-<p>The book is organised into three main parts:</p>
-<p><strong>Part 1.</strong> Doing geospatial analysis using Python (Weeks 1-5)</p>
-<p><strong>Part 2.</strong> Creating geospatial dashboards (Weeks 6-8)</p>
-<p><strong>Part 3.</strong> Publishing Python packages with a geospatial focus (Weeks 9-12)</p>
-<p>Throughout the course, <strong>Positron</strong> is used as the primary development environment.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="positron.png" class="img-fluid figure-img" style="width:60.0%"></p>
-<figcaption>Visit https://positron.posit.co/download.html for download</figcaption>
-</figure>
-</div>
-<section id="who-is-this-for" class="level2">
-<h2 class="anchored" data-anchor-id="who-is-this-for">Who is this for?</h2>
-<p>This book is designed for students and learners who already have foundational GIS knowledge, such as introductory GIS or remote sensing courses, but who have limited exposure to programming.</p>
-<p>If you are familiar with any dataframe-based workflow, most examples should be approachable. Familiarity with Pandas will be particularly helpful, as all Polars examples are accompanied by equivalent Pandas implementations for comparison and learning.</p>
-<p>Reading <em>Modern Pandas</em> is not required, although it is a recommended resource for those who wish to deepen their understanding.</p>
-</section>
-<section id="why-this-approach" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-approach">Why this approach?</h2>
-<p>Although artificial intelligence has transformed how we learn, analyse data, and write code, reproducibility and sound practice in data science remain essential.</p>
-<p>Simply combining GIS and Python is no longer sufficient. This course therefore addresses broader and often overlooked questions:</p>
-<section id="why-do-we-use-git-and-how-does-it-support-reproducible-research" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-use-git-and-how-does-it-support-reproducible-research">Why do we use Git, and how does it support reproducible research?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Git provides a transparent and traceable record of how a project evolves over time. Every change to code, data processing logic, or documentation is recorded, allowing results to be reproduced, audited, and revisited. This is essential for geospatial data science, where analytical outcomes often depend on many interlinked steps, such as data cleaning, spatial joins, projections, and modelling assumptions.</p>
-<p>Using <strong>Git encourages good research habits</strong>: small, well-documented changes, clear reasoning behind decisions, and the ability to roll back or compare different analytical approaches. In collaborative settings, Git also enables multiple contributors to work on the same project without overwriting each other’s work, making it the backbone of reproducible and open geospatial research.</p>
-</div>
-</div>
-</section>
-<section id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-build-dashboards-and-how-do-they-help-communicate-results-to-practitioners-and-decision-makers">Why do we build dashboards, and how do they help communicate results to practitioners and decision makers?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Dashboards transform analytical outputs into interactive and interpretable artefacts. Rather than presenting static maps or tables, dashboards allow users to explore spatial patterns, filter scenarios, and ask their own questions. This is particularly important in applied geospatial work, where stakeholders may not be familiar with code but need to engage with evidence.</p>
-<p>By building dashboards, students learn how to bridge the gap between analysis and communication. Dashboards force careful thinking about what results matter, how uncertainty is presented, and how spatial information can be explored intuitively. These skills are essential when working with planners, policymakers, and industry partners who rely on clear, actionable insights rather than raw analytical outputs.</p>
-</div>
-</div>
-</section>
-<section id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance" class="level3">
-<h3 class="anchored" data-anchor-id="why-do-we-develop-python-packages-as-a-final-project-and-how-does-this-introduce-object-oriented-programming-with-a-clear-purpose-and-real-world-relevance">Why do we develop Python packages as a final project, and how does this introduce object-oriented programming with a clear purpose and real-world relevance?</h3>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Developing a Python package shifts the focus from writing one-off scripts to building reusable, maintainable software. Packaging requires students to structure code logically, define clear interfaces, and think about how others will use their work. This naturally introduces object-oriented programming concepts, such as abstraction, encapsulation, and modular design, in a context where they serve a practical purpose.</p>
-<p>In geospatial data science, packaging allows analytical workflows, spatial utilities, or modelling components to be shared, tested, and extended. The final package becomes a tangible output that can be included in a portfolio, reused in future projects, or published openly. This mirrors professional practice and helps students understand how geospatial tools are developed, maintained, and deployed in real-world environments.</p>
-</div>
-</div>
-<p>Each of these components is intentionally included to help students understand professional workflows and to produce outputs that can be shared beyond the university setting.</p>
-<p>The three modules in this book are designed to be complete, reusable, and ready to engage with society, forming a practical portfolio that reflects contemporary geospatial data science practice.</p>
-</section>
-</section>
-<section id="running-the-code-yourself" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-code-yourself">Running the code yourself</h2>
-<p>You can install the following package versions and it should work:</p>
-<pre><code>polars
-pyarrow
-pandas
-geopandas
-numpy
-matplotlib
-seaborn
-statsmodels</code></pre>
-<p>Once saved, install the dependencies using one of the following methods.</p>
-<p><strong>Using pip</strong>:</p>
-<pre><code>pip install -r requirements.txt</code></pre>
-<p><strong>Using uv (recommended if you are working inside a uv-managed virtual environment)</strong>:</p>
-<pre><code>uv pip install -r requirements.txt
-"""
-This keeps the environment flexible and avoids version pinning unless it becomes necessary later for reproducibility or debugging.
-"""</code></pre>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
-<p>All the data fetching code is included, but will eventually break as websites change or shut down. The smaller datasets have been checked in <a href="https://github.com/dataandcrowd/python-gis/tree/main/data">here</a> for posterity.</p>
-</section>
-</section>
-<section id="acknowledgements" class="level2">
-<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
-<p>This course builds upon the excellent work of several open educational resources in geographic and geospatial data science.</p>
-<p>I am particularly grateful to stand on the shoulders of:</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Week 10 deepens the work you started in Week 9. You will write a more substantial set of tests for your A3 package, publish a release to TestPyPI, draft your A1 poster, and <strong>sit a short group fit interview</strong> with your partner.</p>
+<p>By the end of today you should have the following.</p>
+<ol type="1">
+<li>At least four meaningful tests, including one that uses a fixture or <code>pytest.parametrize</code>.</li>
+<li>A successful TestPyPI release of your package.</li>
+<li>A clean install of that release in a fresh virtual environment.</li>
+<li>A first-pass A1 poster outline (paper sketch is fine).</li>
+<li>The <strong>short fit interview</strong> completed for both partners (3 to 5 minutes per group).</li>
+</ol>
+<p><strong>Duration</strong>, approximately 115 minutes.</p>
+<p><strong>What you need.</strong></p>
 <ul>
-<li>The Geographic Data Science course developed by the Geographic Data Science Lab at the University of Liverpool https://gdsl-ul.github.io/gds/</li>
-<li>The Geospatial Data Science course from the Master of Urban Spatial Analytics (MUSA) programme at the University of Pennsylvania https://musa-550-fall-2023.github.io/</li>
-<li>The Geo-Python course from the University of Helsinki https://geo-python-site.readthedocs.io/en/latest/</li>
+<li>The package you started in Week 9 (your A3 package).</li>
+<li>Both partners present.</li>
+<li>A TestPyPI account (you will create this in Part 3 if you have not already).</li>
 </ul>
-<p>These resources have been instrumental in shaping the structure, content, and pedagogical approach of this material. Their commitment to open education and sharing knowledge has made it possible to develop and deliver quality geographic data science education to students worldwide.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pair work, in plain language
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Both partners commit code today. Both partners will sit the individual fit interview at the end of this lab, so neither of you can outsource a function entirely to the other. Aim for genuine pair work, not divided silos.</p>
+</div>
+</div>
 </section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>This book is free and open source, so please do <a href="https://github.com/dataandcrowd/python-gis/issues/new">open an issue</a> if you notice a problem!</p>
+<section id="part-1.-plan-todays-tests-10-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-1.-plan-todays-tests-10-minutes">Part 1. Plan today’s tests (10 minutes)</h2>
+<ol type="1">
+<li><p>Open the <a href="../4.2.testing-and-quality.html">Chapter 4.2 testing summary</a>. Skim the three small geospatial test patterns.</p></li>
+<li><p>With your partner, list <strong>four tests</strong> you will add today.</p>
+<ul>
+<li>One <strong>happy-path</strong> test that calls a function with realistic input and checks the output type or shape.</li>
+<li>One <strong>CRS or coordinate</strong> test (relevant for every brief except <code>pavescore</code>).</li>
+<li>One <strong>edge-case</strong> test (empty input, missing column, file not found).</li>
+<li>One <strong>fixture</strong> or <strong>parametrize</strong> test (you choose).</li>
+</ul>
+<p>Write these four down on paper before you start coding. This is the design step that almost everyone skips.</p></li>
+</ol>
+</section>
+<section id="part-2.-add-the-tests-35-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-2.-add-the-tests-35-minutes">Part 2. Add the tests (35 minutes)</h2>
+<ol start="3" type="1">
+<li>Add or extend your test file from Week 9.</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> your_package_name <span class="im">import</span> function_one, function_two</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li><strong>CRS test.</strong> Confirm the function preserves or sets the expected CRS. For most A3 briefs this should be <code>EPSG:2193</code> (NZTM) for spatial maths or <code>EPSG:4326</code> (WGS 84) for input from raw lat/lon.</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_output_has_correct_crs():</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> function_one(...)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> result.crs.to_string() <span class="op">==</span> <span class="st">"EPSG:2193"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li><strong>Fixture test</strong> (option A). A reusable test sample shared across tests.</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.fixture</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> small_sample():</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gpd.GeoDataFrame(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"id"</span>: [<span class="dv">1</span>, <span class="dv">2</span>]},</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        geometry<span class="op">=</span>[Point(<span class="fl">174.76</span>, <span class="op">-</span><span class="fl">36.85</span>), Point(<span class="fl">174.78</span>, <span class="op">-</span><span class="fl">36.86</span>)],</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        crs<span class="op">=</span><span class="st">"EPSG:4326"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_function_with_fixture(small_sample):</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> function_two(small_sample)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(result) <span class="op">==</span> <span class="bu">len</span>(small_sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or, <strong>parametrize test</strong> (option B). The same test run on several inputs.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@pytest.mark.parametrize</span>(<span class="st">"crs"</span>, [<span class="st">"EPSG:2193"</span>, <span class="st">"EPSG:4326"</span>])</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_function_handles_either_crs(crs, small_sample):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    sample <span class="op">=</span> small_sample.to_crs(crs)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> function_two(sample)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> result <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="6" type="1">
+<li>Run the tests.</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pytest <span class="at">-v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="9" type="1">
+<li>(Optional) Look at coverage to see what is still untested.</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> add <span class="at">--dev</span> pytest-cov</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> run pytest <span class="at">--cov</span><span class="op">=</span>your_package_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Commit and push when all four tests pass.</p>
+</section>
+<section id="part-3.-publish-to-testpypi-30-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-3.-publish-to-testpypi-30-minutes">Part 3. Publish to TestPyPI (30 minutes)</h2>
+<p>This step rehearses what you will do for production PyPI in Week 12. Practise it now while there is no time pressure.</p>
+<ol start="10" type="1">
+<li><p><strong>Create a TestPyPI account</strong> at https://test.pypi.org/account/register/. Verify your email and (recommended) enable two-factor authentication.</p></li>
+<li><p><strong>Generate an API token.</strong> Go to Account Settings, then API Tokens. Set the scope to “Entire account” for now. Copy the token (it starts with <code>pypi-</code>). Save it somewhere safe because you cannot view it again.</p></li>
+<li><p><strong>Bump the version</strong> in <code>pyproject.toml</code>. TestPyPI does not allow re-uploading the same version.</p></li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">"0.1.1"</span>   <span class="co"># was 0.1.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="13" type="1">
+<li><strong>Build and publish.</strong></li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish <span class="at">--publish-url</span> https://test.pypi.org/legacy/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>uv</code> will prompt for credentials. Use <code>__token__</code> as the username and paste the token as the password. Or set the token via environment variable.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">UV_PUBLISH_TOKEN</span><span class="op">=</span>pypi-AgEI...</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> publish <span class="at">--publish-url</span> https://test.pypi.org/legacy/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="14" type="1">
+<li><strong>Verify the install in a clean environment.</strong> Do not skip this step. It catches missing files and broken metadata that pass locally.</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv /tmp/test-install</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> /tmp/test-install/bin/activate</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install <span class="dt">\</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--index-url</span> https://test.pypi.org/simple/ <span class="dt">\</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">--extra-index-url</span> https://pypi.org/simple/ <span class="dt">\</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    your-package-name</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-c</span> <span class="st">"from your_package_name import function_one; print(function_one(...))"</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="ex">deactivate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>--extra-index-url</code> is needed because some dependencies (like <code>pandas</code> and <code>geopandas</code>) only live on real PyPI, not TestPyPI.</p>
+</section>
+<section id="part-4.-poster-outline-20-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-4.-poster-outline-20-minutes">Part 4. Poster outline (20 minutes)</h2>
+<p>The poster showcase is on <strong>Tuesday 25 May (B301-G10)</strong>. Today you sketch the layout. The aim is to have something on paper, not a polished file.</p>
+<ol start="16" type="1">
+<li><p>Take an A4 sheet and divide it into seven boxes (a poster has roughly this many regions).</p></li>
+<li><p>Label each box and write one or two lines of content for each.</p></li>
+<li><p><strong>Title and authors.</strong> The package name and both your names.</p></li>
+<li><p><strong>The problem.</strong> Two sentences, no jargon. Why does this package exist?</p></li>
+<li><p><strong>The solution.</strong> One sentence stating what the package does.</p></li>
+<li><p><strong>Code example.</strong> A six-line snippet showing the simplest use of one function.</p></li>
+<li><p><strong>A figure.</strong> A draft of the map, chart, or table from your demo notebook.</p></li>
+<li><p><strong>Design choices.</strong> Three bullets explaining one CRS choice, one data choice, and one scope decision.</p></li>
+<li><p><strong>Links.</strong> TestPyPI URL, GitHub URL, contact email. (Replace with PyPI URLs after Week 12.)</p></li>
+<li><p>Show your sketch to the demonstrator before leaving.</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A2 posters are read from two metres away. Aim for titles at 50 pt or larger, body text at 20 pt or larger, and a single dominant figure. White space matters. Most weak posters have too much text.</p>
+</div>
+</div>
+<p><a href="data/poster-example-hshin.pdf">Take a look at the poster</a></p>
+</section>
+<section id="part-5.-short-fit-interview-10-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-5.-short-fit-interview-10-minutes">Part 5. Short fit interview (10 minutes)</h2>
+<p>This is the actual fit interview, not a rehearsal. Each person sits <strong>3 to 5 minutes</strong>, with a demonstrator floating between groups to listen in. The aim is a quick check that both partners understand the code their name is on.</p>
+<ol start="19" type="1">
+<li><p>Cluster into <strong>groups of four</strong> (your pair plus another pair). Sit so both pairs can see each other’s screens.</p></li>
+<li><p>One person sits, the other three listen. The interviewer asks the following three questions in sequence (the other pair’s pair member is the interviewer; demonstrators may also conduct interviews directly).</p></li>
+</ol>
+<ul>
+<li>“Pick one function you (personally) wrote and walk us through it. What does it return?”</li>
+<li>“Why did you choose this CRS, this default, or this optional dependency? What did you reject and why?”</li>
+<li>“What would happen if I passed an empty GeoDataFrame (or a missing key) to this function?”</li>
+</ul>
+<ol start="21" type="1">
+<li><p>The interviewee may look at the code, look at the docstring, or say “I do not know, but I would check…” All of those are fine. What we are listening for is whether you can describe and defend the work, not whether you have memorised it.</p></li>
+<li><p>Rotate so all four people in the group get a turn (about 5 minutes each, including a brief reset between people).</p></li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What is and is not OK
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Fine</strong>: hesitating, looking at the docstring, saying “my partner did the first draft and I rewrote this part”. <strong>Not fine</strong>: “my partner wrote that bit, I am not sure how it works”. The interview catches uneven contribution early so we can address it before Week 12, not after.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you finish the rotation early, swap to the other pair’s package and try interviewing each other on it. Hearing the same questions about a different package is the best preparation for explaining your own.</p>
+</div>
+</div>
+</section>
+<section id="part-6.-wrap-up-5-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="part-6.-wrap-up-5-minutes">Part 6. Wrap up (5 minutes)</h2>
+<p>Before leaving, confirm the following with your partner.</p>
+<ul>
+<li>Tests pass and have been pushed to GitHub.</li>
+<li>The TestPyPI page exists and the package installs in a clean environment.</li>
+<li>The poster outline is on paper and the demonstrator has seen it.</li>
+<li>Both partners have completed the fit interview.</li>
+</ul>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li>Chapter 4.2, Testing and code quality</li>
+<li>Chapter 4.3, A real geospatial package: <code>akl-ped-counts</code></li>
+<li><code>akl-ped-counts</code> <code>CONTRIBUTING.md</code> for the build and publish steps, https://github.com/dataandcrowd/akl-ped-counts/blob/main/CONTRIBUTING.md</li>
+<li><code>uv publish</code> guide, https://docs.astral.sh/uv/guides/publish/</li>
+<li>TestPyPI, https://test.pypi.org/</li>
+</ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -961,10 +1075,13 @@ This keeps the environment flexible and avoids version pinning unless it becomes
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../labs/lab-week09.html" class="pagination-link" aria-label="Lab Week 09">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lab Week 09</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./syllabus.html" class="pagination-link" aria-label="Syllabus (Semester 1, 2026)">
-        <span class="nav-page-text">Syllabus (Semester 1, 2026)</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

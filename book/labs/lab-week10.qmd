@@ -2,7 +2,7 @@
 
 ## Overview
 
-Week 10 deepens the work you started in Week 9. You will write a more substantial set of tests for your A3 package, publish a release to TestPyPI, draft your A1 poster, and **sit a short individual fit interview** with your partner.
+Week 10 deepens the work you started in Week 9. You will write a more substantial set of tests for your A3 package, publish a release to TestPyPI, draft your A1 poster, and **sit a short group fit interview** with your partner.
 
 By the end of today you should have the following.
 
@@ -10,7 +10,7 @@ By the end of today you should have the following.
 2. A successful TestPyPI release of your package.
 3. A clean install of that release in a fresh virtual environment.
 4. A first-pass A1 poster outline (paper sketch is fine).
-5. The **short fit interview** completed for both partners (3 to 5 minutes per person).
+5. The **short fit interview** completed for both partners (3 to 5 minutes per group).
 
 **Duration**, approximately 115 minutes.
 
@@ -38,7 +38,7 @@ Both partners commit code today. Both partners will sit the individual fit inter
 
    Write these four down on paper before you start coding. This is the design step that almost everyone skips.
 
-## Part 2. Add the four tests (35 minutes)
+## Part 2. Add the tests (35 minutes)
 
 3. Add or extend your test file from Week 9.
 
@@ -50,17 +50,8 @@ from shapely.geometry import Point
 from your_package_name import function_one, function_two
 ```
 
-4. **Happy-path test.** Real-shaped input, realistic call, check the output.
 
-```python
-def test_function_one_happy_path():
-    result = function_one(...)
-    assert isinstance(result, gpd.GeoDataFrame)
-    assert len(result) > 0
-    assert "geometry" in result.columns
-```
-
-5. **CRS test.** Confirm the function preserves or sets the expected CRS. For most A3 briefs this should be `EPSG:2193` (NZTM) for spatial maths or `EPSG:4326` (WGS 84) for input from raw lat/lon.
+4. **CRS test.** Confirm the function preserves or sets the expected CRS. For most A3 briefs this should be `EPSG:2193` (NZTM) for spatial maths or `EPSG:4326` (WGS 84) for input from raw lat/lon.
 
 ```python
 def test_output_has_correct_crs():
@@ -68,15 +59,8 @@ def test_output_has_correct_crs():
     assert result.crs.to_string() == "EPSG:2193"
 ```
 
-6. **Edge case test.** Use `pytest.raises` to confirm that bad input fails loudly.
 
-```python
-def test_function_one_raises_on_missing_file():
-    with pytest.raises(FileNotFoundError):
-        function_one("nonexistent.gpkg")
-```
-
-7. **Fixture test** (option A). A reusable test sample shared across tests.
+5. **Fixture test** (option A). A reusable test sample shared across tests.
 
 ```python
 @pytest.fixture
@@ -103,7 +87,7 @@ def test_function_handles_either_crs(crs, small_sample):
     assert result is not None
 ```
 
-8. Run the tests.
+6. Run the tests.
 
 ```bash
 uv run pytest -v
@@ -165,7 +149,7 @@ deactivate
 
 The `--extra-index-url` is needed because some dependencies (like `pandas` and `geopandas`) only live on real PyPI, not TestPyPI.
 
-15. Take a screenshot of the successful install and a working call. You will use it on the poster.
+
 
 ## Part 4. Poster outline (20 minutes)
 
@@ -186,10 +170,14 @@ The poster showcase is on **Tuesday 25 May (B301-G10)**. Today you sketch the la
 18. Show your sketch to the demonstrator before leaving.
 
 ::: {.callout-tip}
-A1 posters are read from two metres away. Aim for titles at 72 pt or larger, body text at 24 pt or larger, and a single dominant figure. White space matters. Most weak posters have too much text.
+A2 posters are read from two metres away. Aim for titles at 50 pt or larger, body text at 20 pt or larger, and a single dominant figure. White space matters. Most weak posters have too much text.
 :::
 
-## Part 5. Short fit interview (20 minutes)
+[Take a look at the poster](data/poster-example-hshin.pdf)
+
+
+
+## Part 5. Short fit interview (10 minutes)
 
 This is the actual fit interview, not a rehearsal. Each person sits **3 to 5 minutes**, with a demonstrator floating between groups to listen in. The aim is a quick check that both partners understand the code their name is on.
 
@@ -224,16 +212,6 @@ Before leaving, confirm the following with your partner.
 * The TestPyPI page exists and the package installs in a clean environment.
 * The poster outline is on paper and the demonstrator has seen it.
 * Both partners have completed the fit interview.
-
-## Reflection (after the lab)
-
-Each partner writes a short reflection (150 to 200 words).
-
-* Which test did you find hardest to write, and why?
-* Which TestPyPI error message taught you the most?
-* What is the single weakest part of your package right now, and what will you do about it next week?
-
-Bring the reflection to the Week 11 poster session.
 
 ## Further reading
 

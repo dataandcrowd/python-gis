@@ -68,7 +68,7 @@ book:
         - labs/lab-week07.qmd
         #- labs/lab-week08.qmd
         - labs/lab-week09.qmd
-        #- labs/lab-week10.qmd
+        - labs/lab-week10.qmd
 
     - references.qmd
 bibliography: references.bib
